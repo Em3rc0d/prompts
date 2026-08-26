@@ -1,0 +1,149 @@
+name: Build MK1 F4B Tested Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/receipts/f4/*.receipt.json'
+
+permissions:
+  contents: write
+
+jobs:
+  build-tested:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+
+      - name: Re-run F2 assembler characterization
+        run: python tools/test_mk1_f2.py
+
+      - name: Re-run F3 semantic critic characterization
+        run: python tools/test_mk1_f3.py
+
+      - name: Re-run F4 harness and promotion characterization
+        run: python tools/test_mk1_f4.py
+
+      - name: Validate incoming F4 receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=$(find mk1/receipts/f4 -maxdepth 1 -type f -name '*.receipt.json' | wc -l | tr -d ' ')
+          if [ "$count" -lt 1 ]; then
+            echo 'F4B requires at least one persisted real *.receipt.json.' >&2
+            exit 1
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          from mk1_behavioral_runner import load
+          from mk1_promote_tested import promote_tested
+
+          f2 = {}
+          for path in Path('mk1/candidates/f2').glob('*/artifact.json'):
+              artifact = load(path)
+              f2[artifact['id']] = artifact
+
+          for receipt_path in sorted(Path('mk1/receipts/f4').glob('*.receipt.json')):
+              receipt = load(receipt_path)
+              aid = receipt.get('artifact_id')
+              if aid not in f2:
+                  raise SystemExit(f'Unknown F2 artifact in receipt {receipt_path}: {aid}')
+              promoted = promote_tested(f2[aid], receipt)
+              assert promoted['state'] == 'TESTED', promoted
+              print(f"accepted {receipt_path}: {receipt['receipt_id']}")
+          PY
+
+      - name: Materialize TESTED artifacts
+        run: |
+          python tools/mk1_materialize_f4_tested.py \
+            --receipts mk1/receipts/f4 \
+            --source mk1/candidates/f2 \
+            --critics mk1/candidates/f3/reports \
+            --output mk1/candidates/f4 \
+            --require-at-least 1
+
+      - name: Validate generated TESTED bundles and schema
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import jsonschema
+
+          schema = json.loads(Path('mk1/specs/PROMPT_ARTIFACT.schema.json').read_text(encoding='utf-8'))
+          manifest = json.loads(Path('mk1/candidates/f4/manifest.json').read_text(encoding='utf-8'))
+          assert manifest['status'] == 'TESTED_ARTIFACTS_MATERIALIZED', manifest
+          assert manifest['tested_artifact_count'] >= 1, manifest
+
+          for row in manifest['artifacts']:
+              bundle = Path(row['bundle'])
+              artifact = json.loads((bundle / 'artifact.json').read_text(encoding='utf-8'))
+              receipt = json.loads((bundle / 'behavioral_receipt.json').read_text(encoding='utf-8'))
+              critic = json.loads((bundle / 'critic.json').read_text(encoding='utf-8'))
+              jsonschema.validate(artifact, schema)
+              assert artifact['state'] == 'TESTED', artifact
+              assert artifact['claims'] == ['engineered', 'tested'], artifact
+              assert artifact['evaluation']['receipt_id'] == receipt['receipt_id'], artifact
+              assert artifact['evaluation']['fixture_set_id'] == receipt['fixture_set_id'], artifact
+              assert artifact['evaluation']['baseline_id'] is None, artifact
+              assert artifact['evaluation']['rubric_score'] is None, artifact
+              assert receipt['status'] == 'BEHAVIORAL_PASS', receipt
+              assert receipt['eligible_for_tested'] is True, receipt
+              assert receipt['execution_mode'] in {'api', 'manual-observed'}, receipt
+              assert receipt['blocking_failures'] == [], receipt
+              assert receipt['unresolved_blocking_human_checks'] == 0, receipt
+              assert critic['status'] == 'PASS', critic
+              assert (bundle / 'prompt.txt').exists(), bundle
+              assert (bundle / 'architecture.json').exists(), bundle
+              assert (bundle / 'lint.json').exists(), bundle
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Validate persisted F4 evidence boundary
+        run: python tools/validate_mk1_f4_repository.py
+
+      - name: Commit TESTED artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add mk1/candidates/f4
+          if git diff --cached --quiet; then
+            echo 'No F4 TESTED artifact changes to commit.'
+            exit 0
+          fi
+          git commit -m 'mk1: materialize F4 behavioral TESTED artifacts'
+
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/validate_catalog.py
+            python tools/test_mk1_f1.py >/dev/null
+            python tools/test_mk1_f2.py >/dev/null
+            python tools/test_mk1_f3.py >/dev/null
+            python tools/test_mk1_f4.py >/dev/null
+            python tools/validate_mk1_f4_repository.py >/dev/null
+            if git push origin HEAD:main; then
+              echo 'Published MK1 F4 TESTED artifacts.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+
+          echo 'Failed to publish MK1 F4 TESTED artifacts after retries.' >&2
+          exit 1
