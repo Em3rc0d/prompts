@@ -27,6 +27,10 @@ jobs:
           set -e
           mkdir -p quarry/raw/alpacka-ai/surface
           python tools/ingest_web.py --url 'https://www.alpackaai.xyz/' --output quarry/raw/alpacka-ai/surface/root.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://www.alpackaai.xyz/prompts' --output quarry/raw/alpacka-ai/surface/prompts-index.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://www.alpackaai.xyz/skills' --output quarry/raw/alpacka-ai/surface/skills-index.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://www.alpackaai.xyz/generador' --output quarry/raw/alpacka-ai/surface/generator.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://www.alpackaai.xyz/blog' --output quarry/raw/alpacka-ai/surface/blog-index.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
           python tools/ingest_web.py --url 'https://alpackaai.xyz/terms' --output quarry/raw/alpacka-ai/surface/terms.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
           python tools/ingest_web.py --url 'https://alpackaai.xyz/privacy' --output quarry/raw/alpacka-ai/surface/privacy.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
           python tools/ingest_web.py --url 'https://alpackaai.xyz/pricing' --output quarry/raw/alpacka-ai/surface/pricing.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
