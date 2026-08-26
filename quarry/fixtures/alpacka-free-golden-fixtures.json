@@ -1,0 +1,685 @@
+{
+  "fixtures": [
+    {
+      "fixture_id": "fixture_14d9baa2-7a88-4d77-9f75-a07729817ee2",
+      "prompt_id": "alpacka_prompt_14d9baa2-7a88-4d77-9f75-a07729817ee2",
+      "uuid": "14d9baa2-7a88-4d77-9f75-a07729817ee2",
+      "title": "Encontrar precedentes legales",
+      "category": "Abogados",
+      "official_url": "https://www.alpackaai.xyz/prompts/14d9baa2-7a88-4d77-9f75-a07729817ee2",
+      "content_sha256": "sha256:daabc6e1c1a2225f7a8ac568744053af54c759835f7ef93536a840c15f25731c",
+      "content_length": 610,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "self-check",
+        "evidence-requirement"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+self-check+evidence-requirement",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 1,
+        "question_marks": 0,
+        "line_count": 7,
+        "paragraph_count": 4,
+        "characters": 610
+      },
+      "selection_reason": "signature:role-assignment+context-injection+variable-template+self-check+evidence-requirement (n=1)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_58f71fc1-aafe-4b21-a19d-17d40902b2d4",
+      "prompt_id": "alpacka_prompt_58f71fc1-aafe-4b21-a19d-17d40902b2d4",
+      "uuid": "58f71fc1-aafe-4b21-a19d-17d40902b2d4",
+      "title": "Redactar escrito de defensa",
+      "category": "Abogados",
+      "official_url": "https://www.alpackaai.xyz/prompts/58f71fc1-aafe-4b21-a19d-17d40902b2d4",
+      "content_sha256": "sha256:dba1a16fc5c600a2249bb3aba126b8a5d40d0eb35f3d16bffc4102861c4776ac",
+      "content_length": 650,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "tone-definition"
+      ],
+      "architecture_signature": "role-assignment+variable-template+tone-definition",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 1,
+        "question_marks": 0,
+        "line_count": 9,
+        "paragraph_count": 5,
+        "characters": 650
+      },
+      "selection_reason": "signature:role-assignment+variable-template+tone-definition (n=2)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_df6d3490-9934-4a00-b08b-d2f24010a7ca",
+      "prompt_id": "alpacka_prompt_df6d3490-9934-4a00-b08b-d2f24010a7ca",
+      "uuid": "df6d3490-9934-4a00-b08b-d2f24010a7ca",
+      "title": "Revisar contrato",
+      "category": "Abogados",
+      "official_url": "https://www.alpackaai.xyz/prompts/df6d3490-9934-4a00-b08b-d2f24010a7ca",
+      "content_sha256": "sha256:227680b571fdba338e2c05b89d409481c27ac26951867dac9a7934cf7a7312e8",
+      "content_length": 619,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "tone-definition",
+        "critique-revision",
+        "self-check"
+      ],
+      "architecture_signature": "role-assignment+variable-template+tone-definition+critique-revision+self-check",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 1,
+        "question_marks": 0,
+        "line_count": 9,
+        "paragraph_count": 5,
+        "characters": 619
+      },
+      "selection_reason": "category:Abogados; signature:role-assignment+variable-template+tone-definition+critique-revision+self-check (n=1)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_31b9b46b-6470-4561-b319-86d0c0b4368c",
+      "prompt_id": "alpacka_prompt_31b9b46b-6470-4561-b319-86d0c0b4368c",
+      "uuid": "31b9b46b-6470-4561-b319-86d0c0b4368c",
+      "title": "Generar horóscopo personalizado",
+      "category": "Astrología",
+      "official_url": "https://www.alpackaai.xyz/prompts/31b9b46b-6470-4561-b319-86d0c0b4368c",
+      "content_sha256": "sha256:7113bf5b8b997bc21daf8bb0d7c26e3dcba007d300d23a2ae2b61575e4c54efe",
+      "content_length": 843,
+      "techniques": [
+        "role-assignment",
+        "tone-definition",
+        "self-check",
+        "personalization"
+      ],
+      "architecture_signature": "role-assignment+tone-definition+self-check+personalization",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 0,
+        "question_marks": 0,
+        "line_count": 9,
+        "paragraph_count": 5,
+        "characters": 843
+      },
+      "selection_reason": "signature:role-assignment+tone-definition+self-check+personalization (n=1)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_6f00a5f3-3052-4598-a805-1a013a49cb3f",
+      "prompt_id": "alpacka_prompt_6f00a5f3-3052-4598-a805-1a013a49cb3f",
+      "uuid": "6f00a5f3-3052-4598-a805-1a013a49cb3f",
+      "title": "Interpretar carta natal",
+      "category": "Astrología",
+      "official_url": "https://www.alpackaai.xyz/prompts/6f00a5f3-3052-4598-a805-1a013a49cb3f",
+      "content_sha256": "sha256:c804d0d550b0cb3557d82c5c4b5d0749bca0ebfb2ee55ee2a0f3d2659cea8f34",
+      "content_length": 760,
+      "techniques": [
+        "role-assignment",
+        "personalization"
+      ],
+      "architecture_signature": "role-assignment+personalization",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 0,
+        "question_marks": 0,
+        "line_count": 9,
+        "paragraph_count": 5,
+        "characters": 760
+      },
+      "selection_reason": "signature:role-assignment+personalization (n=1)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_e55c9322-2a89-4547-a0a5-e412f2660850",
+      "prompt_id": "alpacka_prompt_e55c9322-2a89-4547-a0a5-e412f2660850",
+      "uuid": "e55c9322-2a89-4547-a0a5-e412f2660850",
+      "title": "Mi horóscopo del amor para hoy",
+      "category": "Astrología",
+      "official_url": "https://www.alpackaai.xyz/prompts/e55c9322-2a89-4547-a0a5-e412f2660850",
+      "content_sha256": "sha256:0aec2ae21949acea7f8c2d93b7d75cab14d1a60796203ee22a583d729e86d0c3",
+      "content_length": 799,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition",
+      "features": {
+        "numbered_steps": 4,
+        "bullet_lines": 6,
+        "variable_markers": 3,
+        "question_marks": 0,
+        "line_count": 22,
+        "paragraph_count": 5,
+        "characters": 799
+      },
+      "selection_reason": "category:Astrología",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_c2d6a5f6-94c8-4ebe-91af-18b3515d9708",
+      "prompt_id": "alpacka_prompt_c2d6a5f6-94c8-4ebe-91af-18b3515d9708",
+      "uuid": "c2d6a5f6-94c8-4ebe-91af-18b3515d9708",
+      "title": "Mi mayor talento oculto según mi carta",
+      "category": "Astrología",
+      "official_url": "https://www.alpackaai.xyz/prompts/c2d6a5f6-94c8-4ebe-91af-18b3515d9708",
+      "content_sha256": "sha256:31e2e824b1589f9d24fe3999fd70d156e7283f727121570119456ce37bf8b650",
+      "content_length": 843,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "stepwise-procedure",
+        "task-decomposition"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+stepwise-procedure+task-decomposition",
+      "features": {
+        "numbered_steps": 4,
+        "bullet_lines": 5,
+        "variable_markers": 2,
+        "question_marks": 0,
+        "line_count": 21,
+        "paragraph_count": 5,
+        "characters": 843
+      },
+      "selection_reason": "signature:role-assignment+context-injection+variable-template+stepwise-procedure+task-decomposition (n=4)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_fb14c08f-43a3-4fe3-a5b3-e196fe5e392a",
+      "prompt_id": "alpacka_prompt_fb14c08f-43a3-4fe3-a5b3-e196fe5e392a",
+      "uuid": "fb14c08f-43a3-4fe3-a5b3-e196fe5e392a",
+      "title": "Piedras y cristales para mi signo",
+      "category": "Astrología",
+      "official_url": "https://www.alpackaai.xyz/prompts/fb14c08f-43a3-4fe3-a5b3-e196fe5e392a",
+      "content_sha256": "sha256:1b120a487eed37973a345c61d3c9c878f64aacd64f81a427c981f3e3729adaa1",
+      "content_length": 800,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "stepwise-procedure",
+        "task-decomposition"
+      ],
+      "architecture_signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition",
+      "features": {
+        "numbered_steps": 4,
+        "bullet_lines": 5,
+        "variable_markers": 2,
+        "question_marks": 0,
+        "line_count": 21,
+        "paragraph_count": 5,
+        "characters": 800
+      },
+      "selection_reason": "signature:role-assignment+variable-template+stepwise-procedure+task-decomposition (n=2)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_66c149f2-200f-4158-9b6e-b1a4a0d6a704",
+      "prompt_id": "alpacka_prompt_66c149f2-200f-4158-9b6e-b1a4a0d6a704",
+      "uuid": "66c149f2-200f-4158-9b6e-b1a4a0d6a704",
+      "title": "Guiones para anuncios de video en redes sociales",
+      "category": "Copywriting",
+      "official_url": "https://www.alpackaai.xyz/prompts/66c149f2-200f-4158-9b6e-b1a4a0d6a704",
+      "content_sha256": "sha256:0678bcbde0943ce902e271dca2c391b6a559c59edc87e89dccce800274a78bbc",
+      "content_length": 1071,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "explicit-constraints",
+        "output-formatting",
+        "output-schema"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting+output-schema",
+      "features": {
+        "numbered_steps": 5,
+        "bullet_lines": 3,
+        "variable_markers": 3,
+        "question_marks": 0,
+        "line_count": 22,
+        "paragraph_count": 6,
+        "characters": 1071
+      },
+      "selection_reason": "technique:output-schema",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_df5493ee-d4d5-40fa-a892-5cd893d6549c",
+      "prompt_id": "alpacka_prompt_df5493ee-d4d5-40fa-a892-5cd893d6549c",
+      "uuid": "df5493ee-d4d5-40fa-a892-5cd893d6549c",
+      "title": "Redacción de páginas de venta que convencen",
+      "category": "Copywriting",
+      "official_url": "https://www.alpackaai.xyz/prompts/df5493ee-d4d5-40fa-a892-5cd893d6549c",
+      "content_sha256": "sha256:d6e6c0a407e3bd04029d45bd088cd01f54f9a3253fa98a338632ae9e1dbcdfc8",
+      "content_length": 1490,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "audience-definition",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "explicit-constraints",
+        "output-formatting"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+audience-definition+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting",
+      "features": {
+        "numbered_steps": 12,
+        "bullet_lines": 4,
+        "variable_markers": 5,
+        "question_marks": 0,
+        "line_count": 30,
+        "paragraph_count": 6,
+        "characters": 1490
+      },
+      "selection_reason": "category:Copywriting",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "prompt_id": "alpacka_prompt_9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "uuid": "9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "title": "Aprende cualquier tema en tiempo récord (Método 80/20)",
+      "category": "Educación",
+      "official_url": "https://www.alpackaai.xyz/prompts/9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "content_sha256": "sha256:d75ac843992a1928bb7f593e96b2e4642c20ee144e5790f95daf5795bd5e47ec",
+      "content_length": 1766,
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "output-formatting",
+        "examples-few-shot",
+        "temporal-plan",
+        "personalization"
+      ],
+      "architecture_signature": "context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition+output-formatting+examples-few-shot+temporal-plan+personalization",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 4,
+        "variable_markers": 4,
+        "question_marks": 0,
+        "line_count": 11,
+        "paragraph_count": 4,
+        "characters": 1766
+      },
+      "selection_reason": "category:Educación; technique:personalization",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_b2d3283b-f461-47fe-9881-1324d40e08b5",
+      "prompt_id": "alpacka_prompt_b2d3283b-f461-47fe-9881-1324d40e08b5",
+      "uuid": "b2d3283b-f461-47fe-9881-1324d40e08b5",
+      "title": " Construir currículum profesional",
+      "category": "Empleo",
+      "official_url": "https://www.alpackaai.xyz/prompts/b2d3283b-f461-47fe-9881-1324d40e08b5",
+      "content_sha256": "sha256:8dee97717a3b5ffb61dfb305d7e2c466164b8f5071b3b514b70a89c4f07738ce",
+      "content_length": 724,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "tone-definition",
+        "self-check"
+      ],
+      "architecture_signature": "role-assignment+variable-template+tone-definition+self-check",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 4,
+        "question_marks": 0,
+        "line_count": 11,
+        "paragraph_count": 6,
+        "characters": 724
+      },
+      "selection_reason": "signature:role-assignment+variable-template+tone-definition+self-check (n=2)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_099baa18-5b9e-471b-8bb4-f7f72fc03975",
+      "prompt_id": "alpacka_prompt_099baa18-5b9e-471b-8bb4-f7f72fc03975",
+      "uuid": "099baa18-5b9e-471b-8bb4-f7f72fc03975",
+      "title": "Megaprompt: Simulador de Entrevistas FAANG (Full Loop)",
+      "category": "Empleo",
+      "official_url": "https://www.alpackaai.xyz/prompts/099baa18-5b9e-471b-8bb4-f7f72fc03975",
+      "content_sha256": "sha256:111b0e8dc1633780361accb784da19807830c16986e618622244eed5f11a0b1e",
+      "content_length": 834,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "stepwise-procedure",
+        "task-decomposition",
+        "critique-revision"
+      ],
+      "architecture_signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition+critique-revision",
+      "features": {
+        "numbered_steps": 3,
+        "bullet_lines": 4,
+        "variable_markers": 1,
+        "question_marks": 1,
+        "line_count": 14,
+        "paragraph_count": 4,
+        "characters": 834
+      },
+      "selection_reason": "category:Empleo",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+      "prompt_id": "alpacka_prompt_95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+      "uuid": "95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+      "title": "Tu Rescate Financiero: plan de 90 días para ordenar tu dinero",
+      "category": "Finanzas Personales",
+      "official_url": "https://www.alpackaai.xyz/prompts/95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+      "content_sha256": "sha256:52fa05d443668685e1b39310560e76420d1131822dd90270170078bef7a863e6",
+      "content_length": 1853,
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "stepwise-procedure",
+        "explicit-constraints",
+        "output-formatting",
+        "comparison",
+        "temporal-plan"
+      ],
+      "architecture_signature": "context-injection+variable-template+stepwise-procedure+explicit-constraints+output-formatting+comparison+temporal-plan",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 4,
+        "variable_markers": 4,
+        "question_marks": 0,
+        "line_count": 11,
+        "paragraph_count": 4,
+        "characters": 1853
+      },
+      "selection_reason": "category:Finanzas Personales; technique:comparison",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_dd4a31ed-8ec2-4d66-9be2-1de842964fbf",
+      "prompt_id": "alpacka_prompt_dd4a31ed-8ec2-4d66-9be2-1de842964fbf",
+      "uuid": "dd4a31ed-8ec2-4d66-9be2-1de842964fbf",
+      "title": "Redacción Casual de Mensajes y Correos",
+      "category": "Idiomas",
+      "official_url": "https://www.alpackaai.xyz/prompts/dd4a31ed-8ec2-4d66-9be2-1de842964fbf",
+      "content_sha256": "sha256:37f006df31922116aaa8308403a471ca66bc40d9fd275d189ea491384f51707e",
+      "content_length": 1487,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "alternative-generation",
+        "critique-revision",
+        "evidence-requirement"
+      ],
+      "architecture_signature": "role-assignment+variable-template+tone-definition+stepwise-procedure+task-decomposition+alternative-generation+critique-revision+evidence-requirement",
+      "features": {
+        "numbered_steps": 4,
+        "bullet_lines": 4,
+        "variable_markers": 3,
+        "question_marks": 0,
+        "line_count": 22,
+        "paragraph_count": 6,
+        "characters": 1487
+      },
+      "selection_reason": "category:Idiomas; technique:critique-revision; technique:evidence-requirement",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_af6b2b79-42f5-4edc-a75c-d879332badf8",
+      "prompt_id": "alpacka_prompt_af6b2b79-42f5-4edc-a75c-d879332badf8",
+      "uuid": "af6b2b79-42f5-4edc-a75c-d879332badf8",
+      "title": "Supera el Miedo a Hablar",
+      "category": "Idiomas",
+      "official_url": "https://www.alpackaai.xyz/prompts/af6b2b79-42f5-4edc-a75c-d879332badf8",
+      "content_sha256": "sha256:73d2c38635ac5fca62f14a301d8b6777b1e46f639c4792f2ba9f7281994047aa",
+      "content_length": 1507,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition"
+      ],
+      "architecture_signature": "role-assignment+variable-template+tone-definition+stepwise-procedure+task-decomposition",
+      "features": {
+        "numbered_steps": 5,
+        "bullet_lines": 5,
+        "variable_markers": 3,
+        "question_marks": 0,
+        "line_count": 24,
+        "paragraph_count": 6,
+        "characters": 1507
+      },
+      "selection_reason": "signature:role-assignment+variable-template+tone-definition+stepwise-procedure+task-decomposition (n=2)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_89c574f6-2bd7-44f7-b1c7-981cfcd1115e",
+      "prompt_id": "alpacka_prompt_89c574f6-2bd7-44f7-b1c7-981cfcd1115e",
+      "uuid": "89c574f6-2bd7-44f7-b1c7-981cfcd1115e",
+      "title": "Analizar tendencias para Reels en un nicho",
+      "category": "IG reels",
+      "official_url": "https://www.alpackaai.xyz/prompts/89c574f6-2bd7-44f7-b1c7-981cfcd1115e",
+      "content_sha256": "sha256:044668eb54690b3274a21e8a30678d88b711519a0643e38d1a17409974ce792c",
+      "content_length": 904,
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "audience-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "output-formatting"
+      ],
+      "architecture_signature": "context-injection+variable-template+audience-definition+stepwise-procedure+task-decomposition+output-formatting",
+      "features": {
+        "numbered_steps": 5,
+        "bullet_lines": 0,
+        "variable_markers": 3,
+        "question_marks": 0,
+        "line_count": 7,
+        "paragraph_count": 2,
+        "characters": 904
+      },
+      "selection_reason": "category:IG reels",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_691734a1-a740-4547-8991-9cb61cfc7939",
+      "prompt_id": "alpacka_prompt_691734a1-a740-4547-8991-9cb61cfc7939",
+      "uuid": "691734a1-a740-4547-8991-9cb61cfc7939",
+      "title": "Nano Banana Pro",
+      "category": "Imagen",
+      "official_url": "https://www.alpackaai.xyz/prompts/691734a1-a740-4547-8991-9cb61cfc7939",
+      "content_sha256": "sha256:35ca459a4cb00653c8708c0eb84b7fb78042bcff6dcaf3505e3bb6bbe613f738",
+      "content_length": 3763,
+      "techniques": [],
+      "architecture_signature": "none",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 0,
+        "question_marks": 0,
+        "line_count": 127,
+        "paragraph_count": 13,
+        "characters": 3763
+      },
+      "selection_reason": "category:Imagen; signature:none (n=2)",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_8c21c2e7-bc0f-4aa8-98d7-e77b98362712",
+      "prompt_id": "alpacka_prompt_8c21c2e7-bc0f-4aa8-98d7-e77b98362712",
+      "uuid": "8c21c2e7-bc0f-4aa8-98d7-e77b98362712",
+      "title": "Estratega de contenido viral ",
+      "category": "Marketing",
+      "official_url": "https://www.alpackaai.xyz/prompts/8c21c2e7-bc0f-4aa8-98d7-e77b98362712",
+      "content_sha256": "sha256:c12fa911ebb93893cbe303cb150ce52451f681333c4c21fdd652e0f1f8a9b960",
+      "content_length": 2078,
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "variable-template",
+        "audience-definition",
+        "tone-definition",
+        "stepwise-procedure",
+        "task-decomposition",
+        "explicit-constraints",
+        "output-formatting",
+        "temporal-plan"
+      ],
+      "architecture_signature": "role-assignment+context-injection+variable-template+audience-definition+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting+temporal-plan",
+      "features": {
+        "numbered_steps": 20,
+        "bullet_lines": 9,
+        "variable_markers": 6,
+        "question_marks": 0,
+        "line_count": 50,
+        "paragraph_count": 9,
+        "characters": 2078
+      },
+      "selection_reason": "category:Marketing; technique:audience-definition; technique:context-injection; technique:explicit-constraints; technique:output-formatting; technique:role-assignment; technique:stepwise-procedure; technique:task-decomposition; technique:temporal-plan; technique:tone-definition; technique:variable-template",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_5f8d7e2e-b9ae-488c-a5c7-076a43a05414",
+      "prompt_id": "alpacka_prompt_5f8d7e2e-b9ae-488c-a5c7-076a43a05414",
+      "uuid": "5f8d7e2e-b9ae-488c-a5c7-076a43a05414",
+      "title": "Marketing en Reddit y comunidades: vende donde odian la publicidad",
+      "category": "Marketing",
+      "official_url": "https://www.alpackaai.xyz/prompts/5f8d7e2e-b9ae-488c-a5c7-076a43a05414",
+      "content_sha256": "sha256:9d8a25e037357247d30fef0bd8c1e8803430959f2014a62e1e4ad7d81f90fed3",
+      "content_length": 2355,
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "audience-definition",
+        "tone-definition",
+        "stepwise-procedure",
+        "explicit-constraints",
+        "output-formatting",
+        "examples-few-shot",
+        "temporal-plan"
+      ],
+      "architecture_signature": "context-injection+variable-template+audience-definition+tone-definition+stepwise-procedure+explicit-constraints+output-formatting+examples-few-shot+temporal-plan",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 4,
+        "question_marks": 0,
+        "line_count": 11,
+        "paragraph_count": 4,
+        "characters": 2355
+      },
+      "selection_reason": "technique:examples-few-shot",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_db657a82-733f-400b-9c8a-f9d2722c3a26",
+      "prompt_id": "alpacka_prompt_db657a82-733f-400b-9c8a-f9d2722c3a26",
+      "uuid": "db657a82-733f-400b-9c8a-f9d2722c3a26",
+      "title": "Idea de Negocio SaaS",
+      "category": "Negocios",
+      "official_url": "https://www.alpackaai.xyz/prompts/db657a82-733f-400b-9c8a-f9d2722c3a26",
+      "content_sha256": "sha256:e43a768f2950a09efb814d8f5412bd77360817496509d98ca3318554135db695",
+      "content_length": 175,
+      "techniques": [
+        "alternative-generation"
+      ],
+      "architecture_signature": "alternative-generation",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 0,
+        "question_marks": 0,
+        "line_count": 1,
+        "paragraph_count": 1,
+        "characters": 175
+      },
+      "selection_reason": "category:Negocios",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_3871245e-8dc3-43ef-af8d-22caffa0d5b2",
+      "prompt_id": "alpacka_prompt_3871245e-8dc3-43ef-af8d-22caffa0d5b2",
+      "uuid": "3871245e-8dc3-43ef-af8d-22caffa0d5b2",
+      "title": "La Fábrica de Hooks Virales: 30 ganchos que detienen el scroll",
+      "category": "Redes Sociales",
+      "official_url": "https://www.alpackaai.xyz/prompts/3871245e-8dc3-43ef-af8d-22caffa0d5b2",
+      "content_sha256": "sha256:a38e3b830b51281ae24070404312c895527d21873c7e3b63364d524076fe48e9",
+      "content_length": 1715,
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "audience-definition",
+        "stepwise-procedure",
+        "output-formatting",
+        "alternative-generation",
+        "self-check",
+        "personalization"
+      ],
+      "architecture_signature": "context-injection+variable-template+audience-definition+stepwise-procedure+output-formatting+alternative-generation+self-check+personalization",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 4,
+        "variable_markers": 4,
+        "question_marks": 0,
+        "line_count": 11,
+        "paragraph_count": 4,
+        "characters": 1715
+      },
+      "selection_reason": "category:Redes Sociales; technique:alternative-generation; technique:self-check",
+      "body_stored": false
+    },
+    {
+      "fixture_id": "fixture_a01c5e89-46a2-4ced-aa02-98cb54daa462",
+      "prompt_id": "alpacka_prompt_a01c5e89-46a2-4ced-aa02-98cb54daa462",
+      "uuid": "a01c5e89-46a2-4ced-aa02-98cb54daa462",
+      "title": "Planificador de nutrición y macros personalizado",
+      "category": "Salud",
+      "official_url": "https://www.alpackaai.xyz/prompts/a01c5e89-46a2-4ced-aa02-98cb54daa462",
+      "content_sha256": "sha256:ff874c757f55fadb7769429b2114a00f91e490d73380f044e503ce2fd23c0982",
+      "content_length": 558,
+      "techniques": [
+        "role-assignment",
+        "variable-template",
+        "explicit-constraints",
+        "output-formatting",
+        "evidence-requirement",
+        "temporal-plan"
+      ],
+      "architecture_signature": "role-assignment+variable-template+explicit-constraints+output-formatting+evidence-requirement+temporal-plan",
+      "features": {
+        "numbered_steps": 0,
+        "bullet_lines": 0,
+        "variable_markers": 2,
+        "question_marks": 0,
+        "line_count": 1,
+        "paragraph_count": 1,
+        "characters": 558
+      },
+      "selection_reason": "category:Salud",
+      "body_stored": false
+    }
+  ]
+}
