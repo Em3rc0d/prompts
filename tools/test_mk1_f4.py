@@ -18,6 +18,7 @@ def artifact() -> dict:
         "version": "0.1.0",
         "state": "VALID",
         "claims": ["engineered"],
+        "prompt_body": "PURPOSE\nPreserve the observed fact that Alpha remains 42.\n",
         "provenance": {
             "mk0_inputs": [],
             "patterns": [],
@@ -67,17 +68,26 @@ def passing_response() -> dict:
     }
 
 
+def review_metadata() -> dict:
+    return {
+        "reviewer_type": "human",
+        "reviewer_ref": "fixture-reviewer-01",
+        "reviewed_at": "2026-08-26T22:56:00Z",
+    }
+
+
+def real_execution(responses: dict | None = None) -> dict:
+    return {
+        "execution_id": "manual-observed-pass",
+        "mode": "manual-observed",
+        "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
+        "review": review_metadata(),
+        "responses": responses if responses is not None else passing_response(),
+    }
+
+
 def real_pass_receipt() -> dict:
-    return run_fixture_set(
-        artifact(),
-        fixture_set(),
-        {
-            "execution_id": "manual-observed-pass",
-            "mode": "manual-observed",
-            "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
-            "responses": passing_response(),
-        },
-    )
+    return run_fixture_set(artifact(), fixture_set(), real_execution())
 
 
 def test_fixture_inventory() -> dict:
@@ -112,15 +122,13 @@ def test_synthetic_never_promotes() -> dict:
     receipt = run_fixture_set(
         artifact(),
         fixture_set(),
-        {
-            "execution_id": "synthetic-pass",
-            "mode": "synthetic",
-            "responses": passing_response(),
-        },
+        {"execution_id": "synthetic-pass", "mode": "synthetic", "responses": passing_response()},
     )
     assert receipt["status"] == "HARNESS_CHARACTERIZATION", receipt
     assert receipt["eligible_for_tested"] is False, receipt
     assert receipt["blocking_failures"] == [], receipt
+    assert receipt["artifact_prompt_fingerprint"].startswith("sha256:"), receipt
+    assert receipt["fixture_set_fingerprint"].startswith("sha256:"), receipt
 
     try:
         promote_tested(artifact(), receipt)
@@ -137,6 +145,9 @@ def test_real_pass_is_eligible_and_promotable() -> dict:
     assert receipt["status"] == "BEHAVIORAL_PASS", receipt
     assert receipt["eligible_for_tested"] is True, receipt
     assert receipt["receipt_id"].startswith("pq_mk1_f4_receipt_"), receipt
+    assert receipt["review"]["reviewer_type"] == "human", receipt
+    assert receipt["artifact_prompt_fingerprint"].startswith("sha256:"), receipt
+    assert receipt["fixture_set_fingerprint"].startswith("sha256:"), receipt
 
     promoted = promote_tested(artifact(), receipt)
     assert promoted["state"] == "TESTED", promoted
@@ -151,16 +162,8 @@ def test_real_pass_is_eligible_and_promotable() -> dict:
 
 
 def test_unresolved_human_check_blocks() -> dict:
-    receipt = run_fixture_set(
-        artifact(),
-        fixture_set(),
-        {
-            "execution_id": "human-unresolved",
-            "mode": "manual-observed",
-            "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
-            "responses": {"happy": {"output": "Alpha remains 42."}},
-        },
-    )
+    execution = real_execution({"happy": {"output": "Alpha remains 42."}})
+    receipt = run_fixture_set(artifact(), fixture_set(), execution)
     assert receipt["status"] == "BEHAVIORAL_FAIL", receipt
     assert receipt["eligible_for_tested"] is False, receipt
     assert receipt["unresolved_blocking_human_checks"] == 1, receipt
@@ -170,16 +173,9 @@ def test_unresolved_human_check_blocks() -> dict:
 def test_machine_failure_blocks() -> dict:
     response = passing_response()
     response["happy"]["output"] = "Alpha is now invented."
-    receipt = run_fixture_set(
-        artifact(),
-        fixture_set(),
-        {
-            "execution_id": "machine-fail",
-            "mode": "api",
-            "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
-            "responses": response,
-        },
-    )
+    execution = real_execution(response)
+    execution["mode"] = "api"
+    receipt = run_fixture_set(artifact(), fixture_set(), execution)
     assert receipt["status"] == "BEHAVIORAL_FAIL", receipt
     assert receipt["eligible_for_tested"] is False, receipt
     assert receipt["blocking_failures"] == ["happy"], receipt
@@ -187,16 +183,36 @@ def test_machine_failure_blocks() -> dict:
 
 
 def test_real_runtime_identity_required() -> dict:
+    execution = real_execution()
+    execution["runtime"] = {}
     try:
-        run_fixture_set(
-            artifact(),
-            fixture_set(),
-            {"execution_id": "bad-runtime", "mode": "api", "responses": passing_response()},
-        )
+        run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
         assert "runtime identity" in str(exc), exc
         return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Real execution without runtime identity should fail")
+
+
+def test_human_review_metadata_required() -> dict:
+    execution = real_execution()
+    execution.pop("review")
+    try:
+        run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "reviewer_type='human'" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Real execution with human checks must identify human review")
+
+
+def test_complete_observed_outputs_required() -> dict:
+    execution = real_execution()
+    execution["responses"] = {"happy": {"output": "", "human_checks": passing_response()["happy"]["human_checks"]}}
+    try:
+        run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "empty observed outputs" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Real execution cannot contain empty observed outputs")
 
 
 def test_receipt_identity_mismatch_rejected() -> dict:
@@ -255,9 +271,11 @@ def main() -> None:
         "unresolved_human_blocks": test_unresolved_human_check_blocks(),
         "machine_failure_blocks": test_machine_failure_blocks(),
         "runtime_identity_required": test_real_runtime_identity_required(),
+        "human_review_metadata_required": test_human_review_metadata_required(),
+        "complete_observed_outputs_required": test_complete_observed_outputs_required(),
         "receipt_identity_mismatch_rejected": test_receipt_identity_mismatch_rejected(),
         "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
-        "policy": "F4 CI characterizes harness, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
+        "policy": "F4 CI characterizes harness, evidence identity, human-review metadata, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
