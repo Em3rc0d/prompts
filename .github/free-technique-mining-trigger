@@ -1,0 +1,5 @@
+triggered_at: 2026-08-26T16:37:00-05:00
+source: chatgpt
+mode: in-memory-technique-vectors
+scope: 52-public-free-prompts
+body_storage: false
