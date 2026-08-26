@@ -1,0 +1,97 @@
+# Classification Rules
+
+## Why type is explicit
+
+A long prompt is not automatically a skill, and a numbered prompt is not automatically a workflow. The repository classifies by intended reusable behavior, not superficial length.
+
+## Artifact types
+
+### `prompt`
+
+A direct instruction or instruction block intended to be submitted to a model.
+
+Typical signals:
+
+- a role or task instruction;
+- input placeholders;
+- output constraints;
+- one dominant invocation goal.
+
+### `skill`
+
+A reusable capability definition that teaches an agent/model how to perform a class of tasks, usually combining procedure, constraints, decision rules and sometimes examples/tools.
+
+A skill should remain useful across multiple invocations rather than representing one request only.
+
+### `workflow`
+
+An ordered process containing multiple stages or actions. A workflow may call several prompts, tools or skills and has meaningful sequencing/state transitions.
+
+### `template`
+
+A reusable shell whose primary value is parameterization. Templates make their variable slots explicit.
+
+### `pattern`
+
+A generalized technique derived from examples, such as role assignment, output contracts, critique-revision or source requirements. Patterns are our analysis, not necessarily source artifacts.
+
+### `guide`
+
+Educational or explanatory material teaching how to use prompts, skills, models or techniques.
+
+### `reference`
+
+Evidence useful to the quarry but not itself sufficiently verified as another artifact type. Collections and metadata-only discoveries often begin here.
+
+## Classification confidence
+
+Collectors and normalization may assign a candidate type with a confidence score. Candidate classification does not promote a record.
+
+Suggested interpretation:
+
+- `>= 0.90`: strong structural evidence;
+- `0.75–0.89`: probable;
+- `0.55–0.74`: ambiguous, review required;
+- `< 0.55`: keep as `reference` unless manually resolved.
+
+## Category model
+
+Categories describe **purpose/domain**. Techniques describe **prompt-engineering mechanics**.
+
+Example:
+
+```text
+Artifact: API architecture reviewer
+Type: prompt
+Categories: software/architecture, research/analysis
+Techniques: role-assignment, explicit-constraints, rubric-evaluation, output-schema
+```
+
+Do not use technique names as categories.
+
+## Multi-category rule
+
+An artifact may have several categories when each materially describes its purpose. Avoid keyword stuffing; categories must help retrieval.
+
+## Skills vs workflows
+
+Use this test:
+
+- **Skill:** “What capability does the agent know how to perform repeatedly?”
+- **Workflow:** “What ordered process should run from state A to state B?”
+
+A skill can contain a workflow internally, but its reusable identity is the capability. A workflow may orchestrate several skills.
+
+## Promotion checklist
+
+Before an artifact enters `library/`:
+
+- source URL known;
+- type reviewed;
+- useful title assigned;
+- categories reviewed;
+- techniques reviewed;
+- variables identified where possible;
+- duplicate relationship checked;
+- provenance preserved;
+- verification state accurately represents evidence.
