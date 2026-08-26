@@ -1,0 +1,48 @@
+name: Normalize Alpacka Generator Previews
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/generator-preview-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Normalize generator previews
+        run: |
+          python tools/normalize_generator_previews.py \
+            quarry/raw/alpacka-ai/surface/generator.jsonl \
+            --output quarry/normalized/alpacka-ai-generator-previews.jsonl \
+            --manifest quarry/normalized/alpacka-ai-generator-previews-manifest.json
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit normalized previews
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-generator-previews.jsonl quarry/normalized/alpacka-ai-generator-previews-manifest.json
+          if git diff --cached --quiet; then
+            echo 'No generator-preview changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: normalize Alpacka generator previews'
+          git pull --rebase origin main
+          python tools/validate_catalog.py
+          git push origin HEAD:main
