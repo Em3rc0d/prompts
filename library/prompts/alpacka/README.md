@@ -1,15 +1,17 @@
 # Alpacka public prompt reference index
 
-This directory is a provenance-first navigation layer over public Alpacka prompt metadata.
+This directory is a provenance-first navigation layer over public Alpacka prompt metadata plus a separate repository-authored reusable layer.
 
-It does **not** mirror premium prompt bodies. Premium entries remain metadata-only. Free prompt bodies are not stored either; they are processed in memory for fingerprints and structural features, then discarded.
+The source boundary remains explicit: the public detail RPC returns the original body for free records and `content: null` for premium records. Prompt Quarry does **not** claim to recover those private/premium bodies. Instead, every premium reference now has a separate non-empty repository-authored reconstruction under `derived-premium/`.
 
-- Total prompt references: **530**
-- Free: **52**
-- Premium metadata-only: **478**
+- Total source prompt references: **530**
+- Free source records: **52**
+- Premium source references: **478**
+- Premium repository-authored reconstructions: **478**
+- Derived premium records with empty content: **0**
 - Categories: **22**
 
-## Evidence ladder
+## Evidence and reuse ladder
 
 ```text
 PUBLIC DIRECTORY / RPC
@@ -22,10 +24,33 @@ STRUCTURE + TECHNIQUE MINING
         ↓
 GOLDEN FIXTURES
         ↓
-REPOSITORY-AUTHORED library/ ARTIFACTS
+        ├── promoted reusable patterns/templates
+        └── 478 derived-premium reconstructions
 ```
 
-The layers are intentionally separate: source observations are evidence; library artifacts are our reusable abstractions.
+The layers are intentionally separate: source observations are evidence; derived/library artifacts are our reusable work.
+
+## Premium usable layer
+
+Files:
+
+- `library/prompts/alpacka/derived-premium/catalog.jsonl`
+- `library/prompts/alpacka/derived-premium/manifest.json`
+- `library/prompts/alpacka/derived-premium/categories/*.jsonl`
+- `library/prompts/alpacka/derived-premium/README.md`
+
+Every derived record contains a non-empty `content` string and preserves:
+
+- source UUID
+- source URL
+- source title
+- source category
+- `source_body_status: not-public`
+- `content_origin: repository-authored-reconstruction`
+- `fidelity: metadata-derived-not-source-reproduction`
+- content fingerprint
+
+The reconstruction builder uses public title/category plus construction patterns mined from the 52 free prompts and the public Skills corpus. It selects procedures based on intent signals such as plan, checklist, simulation, audit, generation, writing, optimization and learning.
 
 ## Categories
 
@@ -85,4 +110,4 @@ These are repository-authored artifacts. Their catalog provenance points back to
 
 ## Provenance boundary
 
-Every record retains its official Alpacka URL. The quarry distinguishes source-observed metadata from repository-authored patterns/templates. Derived library artifacts must cite their source IDs and must not claim to reproduce premium prompt content.
+Every source record retains its official Alpacka URL. The quarry distinguishes source-observed metadata from repository-authored content. The 478 derived premium prompts are usable Prompt Quarry artifacts and must never be represented as recovered copies of Alpacka's premium source bodies.
