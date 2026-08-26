@@ -1,0 +1,49 @@
+name: Harvest Alpacka Blog Metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/blog-metadata-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Harvest metadata-only blog evidence
+        run: |
+          python tools/harvest_page_metadata.py \
+            'https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia' \
+            'https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude' \
+            --output quarry/normalized/alpacka-ai-blog-metadata.jsonl \
+            --manifest quarry/normalized/alpacka-ai-blog-metadata-manifest.json
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit blog metadata evidence
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-blog-metadata.jsonl quarry/normalized/alpacka-ai-blog-metadata-manifest.json
+          if git diff --cached --quiet; then
+            echo 'No blog metadata changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: harvest Alpacka blog metadata'
+          git pull --rebase origin main
+          python tools/validate_catalog.py
+          git push origin HEAD:main
