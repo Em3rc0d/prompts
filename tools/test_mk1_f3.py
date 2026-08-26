@@ -66,11 +66,14 @@ def test_clean_f2_candidates() -> list[dict]:
 def test_regressions() -> list[dict]:
     results = []
 
-    duplicate = base_valid_artifact()
+    # Start from a known clean F2 artifact so this fixture isolates only duplication.
+    duplicate, _, _ = assemble_candidate(load(Path("mk1/briefs/content/clear-rewrite.json")))
     duplicate["id"] = "pq_mk1_f3_duplicate_instruction"
+    duplicate_line = "- Comprueba que no agregaste hechos no respaldados."
     duplicate["prompt_body"] = duplicate["prompt_body"].replace(
-        "QUALITY GATE\n",
-        "QUALITY GATE\nBefore returning, verify that no factual meaning was added or removed.\n",
+        duplicate_line,
+        duplicate_line + "\n" + duplicate_line,
+        1,
     )
     report = critique_artifact(duplicate)
     assert_code(report, "duplicate-instruction", "WARN")
