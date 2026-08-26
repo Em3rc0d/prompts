@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'quarry/raw/alpacka-ai/surface/root-links.jsonl'
+      - '.github/analyze-surface-trigger'
 
 permissions:
   contents: write
