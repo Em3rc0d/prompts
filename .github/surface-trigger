@@ -1,4 +1,4 @@
-triggered_at: 2026-08-26T15:33:00-05:00
+triggered_at: 2026-08-26T15:50:00-05:00
 source: chatgpt
-mode: public-surface
-reason: concurrent-safe-persistence
+mode: expanded-public-surface
+reason: skills-prompts-generator-blog
