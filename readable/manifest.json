@@ -18,7 +18,7 @@
     "pattern": 3
   },
   "repository_markdown_txt_copies": 20,
-  "documentation_txt_copies": 4,
+  "documentation_txt_copies": 5,
   "source_map_txt_copies": 3,
   "prompt_category_counts": {
     "Marketing": 95,
@@ -52,5 +52,11 @@
     "DATOS": 1,
     "DESARROLLO": 1,
     "ESTUDIO": 1
+  },
+  "stage_document_txt_copies": 9,
+  "stage_document_counts": {
+    "MK0": 1,
+    "MK1": 4,
+    "MK2": 1
   }
 }

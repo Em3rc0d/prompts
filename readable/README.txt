@@ -50,7 +50,7 @@ catalog_type_counts:
   template: 7
   pattern: 3
 repository_markdown_txt_copies: 20
-documentation_txt_copies: 4
+documentation_txt_copies: 5
 source_map_txt_copies: 3
 prompt_category_counts:
   Marketing: 95
@@ -83,3 +83,13 @@ skill_category_counts:
   DATOS: 1
   DESARROLLO: 1
   ESTUDIO: 1
+
+STAGE ARCHITECTURE
+----------------------------------------------------------------------------------------
+10. stages/ROOT_OVERVIEW.txt        -> repository and MK0/MK1/MK2 overview
+11. stages/ROADMAP.txt              -> roadmap and stage gates
+12. stages/ARCHITECTURE.txt         -> full cross-stage architecture
+13. stages/mk0/                     -> Knowledge Quarry documentation
+14. stages/mk1/                     -> Prompt Forge contracts, rubric and fixtures
+15. stages/mk2/                     -> future Prompt Engine boundary
+

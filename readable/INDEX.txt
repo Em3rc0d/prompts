@@ -6,6 +6,14 @@ Generator previews: 3
 Blog references: 2
 Canonical catalog records: 21
 Repository Markdown copies: 20
-Documentation/source-map copies: 7
+Documentation/source-map copies: 8
 
 See README.txt for how to navigate this directory.
+
+STAGES
+----------------------------------------------------------------------------------------
+MK0 documents: 1
+MK1 documents: 4
+MK2 documents: 1
+Start with stages/ROOT_OVERVIEW.txt or stages/ROADMAP.txt.
+

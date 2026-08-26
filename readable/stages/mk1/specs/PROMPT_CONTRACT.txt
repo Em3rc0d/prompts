@@ -1,0 +1,215 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1
+SOURCE REPOSITORY FILE: mk1/specs/PROMPT_CONTRACT.md
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+
+# MK1 Prompt Artifact Contract
+
+This document defines the minimum contract for a Prompt Quarry engineered prompt.
+
+The contract has two purposes:
+
+1. make every MK1 prompt understandable without reverse-engineering its text;
+2. make every quality claim testable and versionable.
+
+## Canonical machine record
+
+An MK1 prompt record should contain at least:
+
+```yaml
+id: pq_mk1_<stable-id>
+version: 1.0.0
+state: DRAFT | VALID | TESTED | CANDIDATE | CERTIFIED | REJECTED | DEPRECATED
+artifact_type: prompt
+
+title: human-readable title
+domain: canonical domain/category
+intent: concrete task intent
+language: es | en | mixed
+model_targets: [model-agnostic]
+
+purpose: why this prompt exists
+success_criteria:
+  - observable desired behavior
+
+inputs:
+  required: []
+  optional: []
+
+architecture:
+  role: true
+  context: true
+  intake: true
+  assumptions: true
+  process: true
+  constraints: true
+  output_contract: true
+  quality_gate: true
+  fallback: true
+
+techniques: []
+
+prompt_body: |
+  ...
+
+provenance:
+  mk0_inputs: []
+  patterns: []
+  fixtures: []
+  source_families: []
+
+evaluation:
+  baseline_id: null
+  fixture_set_id: null
+  receipt_id: null
+  rubric_score: null
+  blocking_failures: []
+
+created_at: null
+updated_at: null
+```
+
+The exact serialized schema may evolve, but these semantic responsibilities must remain visible.
+
+## Human-readable artifact
+
+Every MK1 prompt must also be readable directly by a person.
+
+Recommended TXT/Markdown structure:
+
+```text
+TITLE
+STATUS / VERSION
+WHAT THIS PROMPT DOES
+WHEN TO USE IT
+WHEN NOT TO USE IT
+REQUIRED INPUTS
+OPTIONAL INPUTS
+PROMPT TO USE
+EXPECTED OUTPUT
+TEST / CERTIFICATION STATUS
+PROVENANCE
+CHANGE NOTES
+```
+
+The human-readable layer is not generated as decoration. It is part of the product contract.
+
+## Prompt-body construction blocks
+
+### PURPOSE
+
+Defines the outcome to optimize for.
+
+Bad:
+
+> Help me with marketing.
+
+Better:
+
+> Produce three testable acquisition experiments for a B2B SaaS with a fixed monthly budget and rank them by expected learning value.
+
+### ROLE
+
+Use a role only when it constrains useful expertise, perspective or behavior.
+
+A decorative role such as "You are the world's greatest genius" is not considered architecture.
+
+### CONTEXT
+
+Contains task-relevant facts and boundaries. Context should not be used as a dumping ground for unrelated background.
+
+### INTAKE
+
+Defines missing information that materially changes the answer.
+
+MK1 should prefer **minimal necessary intake** over interrogating the user about everything.
+
+### ASSUMPTIONS
+
+Defines what the model may infer and how those inferences must be labeled.
+
+### PROCESS
+
+Describes decomposition or method only when process improves reliability. Do not force chain-like ceremony into simple tasks.
+
+### RULES / CONSTRAINTS
+
+Defines invariants, exclusions, truth boundaries and domain-specific restrictions.
+
+### OUTPUT CONTRACT
+
+Specifies what the answer must contain and, when useful, its ordering/schema.
+
+A strong output contract reduces downstream interpretation cost.
+
+### QUALITY GATE
+
+Defines checks the model should perform before returning the result.
+
+Typical examples:
+
+- unsupported facts;
+- missing required fields;
+- contradiction against inputs;
+- duplicate recommendations;
+- unhandled assumptions;
+- failure to satisfy requested format.
+
+### FALLBACK / UNCERTAINTY BEHAVIOR
+
+Defines what to do when evidence or required input is insufficient.
+
+For example:
+
+- ask a targeted question;
+- label uncertainty;
+- provide bounded alternatives;
+- refuse to invent missing evidence.
+
+## Required semantic invariants
+
+Every MK1 engineered prompt must satisfy these rules regardless of formatting:
+
+1. **Clear task.** A competent reader can say what the prompt is supposed to accomplish.
+2. **Input clarity.** Required information is distinguishable from optional context.
+3. **No fake knowledge.** The prompt must not instruct the model to fabricate facts, evidence or unavailable source material.
+4. **Output clarity.** Success is observable in the output.
+5. **Uncertainty behavior.** Missing critical input has an explicit path.
+6. **No provenance laundering.** MK0 inspiration must never be represented as original source wording when it is not.
+7. **Testability.** At least one meaningful fixture can be defined for the prompt.
+
+## Versioning
+
+Use semantic intent for versions:
+
+- PATCH: wording/format change with no expected behavioral change;
+- MINOR: additive behavior or expanded supported inputs without breaking the old contract;
+- MAJOR: changed task semantics, required inputs or output contract.
+
+A certified artifact that changes behavior must produce a new evaluation receipt.
+
+## Stable identity
+
+Prompt ID should identify the task contract, not the exact wording.
+
+Rewriting sentences should not create a new identity if purpose, inputs and output semantics remain the same.
+
+## Baseline contract
+
+Before claiming an MK1 prompt is "improved", record:
+
+- baseline prompt ID/version;
+- same fixture set;
+- same evaluation dimensions;
+- candidate and baseline scores;
+- material differences;
+- regressions, if any.
+
+Without this receipt, use language such as:
+
+- `engineered`;
+- `revised`;
+- `candidate`.
+
+Do not claim `improved` or `better` as a measured result.

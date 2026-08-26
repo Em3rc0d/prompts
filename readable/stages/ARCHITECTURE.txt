@@ -1,7 +1,9 @@
 PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
-SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/docs/ARCHITECTURE.md
-CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+STAGE / DOCUMENT     : CROSS-STAGE ARCHITECTURE
+SOURCE REPOSITORY FILE: docs/ARCHITECTURE.md
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+
 # Prompt Quarry Architecture
 
 ## Goal
