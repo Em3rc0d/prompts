@@ -26,9 +26,8 @@ quarry/indexes/ + quarry/analysis/
   ↓
 quarry/fixtures/
   ↓
-quarry/promotions/
-  ↓
-catalog/ + library/
+  ├── quarry/promotions/ → catalog + reviewed library artifacts
+  └── repository-authored derivation → reusable library datasets
 ```
 
 See `quarry/README.md` for the complete evidence contract.
@@ -44,6 +43,7 @@ prompts/
 │   └── taxonomy.yaml
 ├── library/
 │   ├── prompts/
+│   │   └── alpacka/derived-premium/   # 478 usable reconstructions
 │   ├── skills/
 │   ├── workflows/
 │   ├── templates/
@@ -66,31 +66,9 @@ prompts/
 └── .github/workflows/
 ```
 
-## Canonical catalog record
-
-Each catalog entry is designed to answer:
-
-- What is the artifact type?
-- What is it useful for?
-- Where did it come from?
-- Which source URL was observed?
-- Was a body observed, summarized, fingerprinted or only indexed?
-- Which models/tools does it target?
-- Which prompt-engineering techniques does it use?
-- What is source-observed versus repository-authored?
-
-The schema is defined in `catalog/schema.json`.
-
 ## First characterized source family: Alpacka AI
 
-Tracked public surfaces include:
-
-- Threads: `https://www.threads.com/@alpacka.ai`
-- Website: `https://www.alpackaai.xyz`
-- Public prompt directory and detail routes
-- Public Skills surface
-- Public generator previews
-- Blog/index surfaces
+Tracked public surfaces include Threads, the website, public prompt directory/detail routes, Skills, generator previews and blog/index surfaces.
 
 Alpacka is treated as a **source family**, never as the repository taxonomy.
 
@@ -99,12 +77,28 @@ Alpacka is treated as a **source family**, never as the repository taxonomy.
 - **530** public prompt UUID references
 - **22** source-observed categories
 - **52** free records whose public detail RPC returned content
-- **478** premium records whose public detail RPC returned `content: null`
+- **478** premium source records whose public detail RPC returned `content: null`
 - **0** category mismatches between public directory cards and the detail RPC in the certified harvest
 
-Prompt bodies are not persisted by the RPC harvester. Free bodies are processed in memory for hashes, variables and structural/technique features and then discarded.
+The `null` value above is a source-access observation. It no longer means our reusable library is empty for those records.
 
-Navigation: `library/prompts/alpacka/README.md`.
+### Premium reusable reconstruction layer
+
+Prompt Quarry now contains **478/478 non-empty repository-authored reconstructions** for the premium references, with **0 empty `content` records**.
+
+Files:
+
+- `library/prompts/alpacka/derived-premium/catalog.jsonl`
+- `library/prompts/alpacka/derived-premium/manifest.json`
+- `library/prompts/alpacka/derived-premium/categories/*.jsonl`
+
+Each record explicitly states:
+
+- `source_body_status: not-public`
+- `content_origin: repository-authored-reconstruction`
+- `fidelity: metadata-derived-not-source-reproduction`
+
+This preserves the evidence boundary while keeping the dataset useful.
 
 ### Technique mining
 
@@ -131,13 +125,7 @@ This evidence contributed to the repository-authored **RIRO — Role–Intake–
 
 ### Generator previews
 
-**3** public preview references are normalized as source evidence for:
-
-- growth strategy planning
-- lead-magnet ideation
-- writing-style specification
-
-Their source bodies remain in the raw evidence layer only; normalized records use fingerprints/features.
+**3** public preview references are normalized as source evidence for growth strategy planning, lead-magnet ideation and writing-style specification.
 
 ## Golden Dataset
 
@@ -163,36 +151,22 @@ Current examples include:
 - `library/templates/content/style-profile-extractor.md`
 - `library/patterns/content/humanization-stack.md`
 
-These artifacts remain traceable to their inspiration/evidence families while their bodies are explicitly repository-authored.
-
-## Artifact types
-
-| Type | Meaning |
-|---|---|
-| `prompt` | Direct instruction intended for an AI model |
-| `skill` | Reusable capability containing instructions, context and/or procedures |
-| `workflow` | Ordered multi-step process, potentially combining prompts/tools |
-| `template` | Parameterized shell intended to be filled with variables |
-| `pattern` | Generalized prompt-engineering technique extracted from observations |
-| `guide` | Educational/explanatory material |
-| `reference` | Useful source evidence that is not itself a prompt |
-
 ## Current status
 
 **MK0 — source characterization and reusable-pattern extraction**
 
-Completed evidence gates:
+Completed evidence gates now include:
 
 - public Alpacka prompt directory mapped
 - 530/530 detail metadata harvested
 - free/premium access boundary characterized
 - category indexes generated
-- free-prompt structural mining generated
-- deep technique vectors generated
+- free-prompt structural and technique mining generated
 - public skills normalized and structurally characterized
 - public generator previews normalized
 - Golden Dataset fixture selection operational
-- catalog promotion workflow is schema-gated and idempotent
+- **478/478 premium references converted into non-null repository-authored reusable prompts**
+- catalog promotion workflow schema-gated and idempotent
 
 Still open before treating the quarry as broadly mature:
 
