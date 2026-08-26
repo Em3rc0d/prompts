@@ -1,14 +1,28 @@
 {
   "records": 530,
   "categories_observed": {
+    "Marketing": 95,
+    "Idiomas": 51,
     "Astrología": 47,
+    "Abogados": 45,
+    "Ideas de Negocio": 45,
     "Educación": 36,
+    "Ganar Dinero": 30,
     "Salud": 23,
+    "Empleo": 16,
     "Negocios": 15,
+    "Copywriting": 15,
+    "Crear logos": 15,
     "Imagen": 12,
+    "Programación": 12,
+    "Desarrollo Personal": 12,
     "Productividad": 12,
     "Finanzas Personales": 11,
-    "Redes Sociales": 11
+    "Redes Sociales": 11,
+    "E-commerce": 10,
+    "IG reels": 9,
+    "Profesores": 6,
+    "Ingeniería": 2
   },
   "access_observed": {
     "premium": 478,
@@ -17,10 +31,11 @@
   "models_observed": {
     "Cualquier modelo": 530
   },
-  "unclassified_category": 363,
+  "unclassified_category": 0,
   "source": "quarry/raw/alpacka-ai/surface/root-links.jsonl",
   "notes": [
     "Entries are public directory-card references, not verified prompt bodies.",
+    "Categories are source-observed directory labels, not repository-invented classifications.",
     "card_text_observed preserves the public title/description text as one field until a detail-page metadata contract is verified.",
     "Premium content is indexed by public metadata only; no paid access is bypassed."
   ]
