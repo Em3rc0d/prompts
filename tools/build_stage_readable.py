@@ -17,7 +17,7 @@ def write_copy(source: Path, target: Path, label: str) -> None:
                 RULE,
                 f"STAGE / DOCUMENT     : {label}",
                 f"SOURCE REPOSITORY FILE: {source.as_posix()}",
-                "CONTENT ORIGIN       : REPOSITORY DOCUMENTATION",
+                "CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT",
                 "",
                 body.rstrip(),
                 "",
@@ -27,12 +27,31 @@ def write_copy(source: Path, target: Path, label: str) -> None:
     )
 
 
+def copy_mk1_candidate_prompts(out: Path) -> int:
+    root = Path("mk1/candidates")
+    if not root.exists():
+        return 0
+
+    count = 0
+    for prompt in sorted(root.rglob("prompt.txt")):
+        rel_dir = prompt.parent.relative_to(root)
+        target = out / "stages" / "mk1" / "candidates" / rel_dir.with_suffix(".txt")
+        write_copy(prompt, target, "MK1 ENGINEERED CANDIDATE — HUMAN PROMPT")
+        count += 1
+
+    for index in sorted(root.rglob("INDEX.txt")):
+        rel = index.relative_to(root)
+        target = out / "stages" / "mk1" / "candidates" / rel
+        write_copy(index, target, "MK1 CANDIDATE INDEX")
+
+    return count
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="readable")
     args = parser.parse_args()
 
-    repo = Path(".")
     out = Path(args.output)
     if not out.exists():
         raise SystemExit("Readable layer must be built before stage materialization.")
@@ -60,10 +79,13 @@ def main() -> None:
     if Path("README.md").exists():
         write_copy(Path("README.md"), out / "stages" / "ROOT_OVERVIEW.txt", "REPOSITORY OVERVIEW")
 
+    candidate_prompt_copies = copy_mk1_candidate_prompts(out)
+
     manifest_path = out / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["stage_document_txt_copies"] = sum(stage_counts.values()) + 3
     manifest["stage_document_counts"] = stage_counts
+    manifest["mk1_candidate_prompt_txt_copies"] = candidate_prompt_copies
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     readme_path = out / "README.txt"
@@ -77,7 +99,8 @@ def main() -> None:
         + "12. stages/ARCHITECTURE.txt         -> full cross-stage architecture\n"
         + "13. stages/mk0/                     -> Knowledge Quarry documentation\n"
         + "14. stages/mk1/                     -> Prompt Forge contracts, rubric and fixtures\n"
-        + "15. stages/mk2/                     -> future Prompt Engine boundary\n"
+        + "15. stages/mk1/candidates/          -> human copies of current MK1 engineered prompts\n"
+        + "16. stages/mk2/                     -> future Prompt Engine boundary\n"
     )
     readme_path.write_text(readme + "\n", encoding="utf-8")
 
@@ -89,12 +112,23 @@ def main() -> None:
         + "\n"
         + f"MK0 documents: {stage_counts['MK0']}\n"
         + f"MK1 documents: {stage_counts['MK1']}\n"
+        + f"MK1 candidate prompt copies: {candidate_prompt_copies}\n"
         + f"MK2 documents: {stage_counts['MK2']}\n"
         + "Start with stages/ROOT_OVERVIEW.txt or stages/ROADMAP.txt.\n"
+        + "Current MK1 prompt candidates are under stages/mk1/candidates/.\n"
     )
     index_path.write_text(index + "\n", encoding="utf-8")
 
-    print(json.dumps({"stage_document_counts": stage_counts}, ensure_ascii=False, indent=2))
+    print(
+        json.dumps(
+            {
+                "stage_document_counts": stage_counts,
+                "mk1_candidate_prompt_txt_copies": candidate_prompt_copies,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+    )
 
 
 if __name__ == "__main__":
