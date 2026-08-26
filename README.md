@@ -1,95 +1,169 @@
 # Prompt Quarry
 
-Private research repository for collecting, classifying, studying and reusing AI prompts, skills and prompt-engineering patterns with full provenance.
+Private research repository for collecting, classifying, characterizing and reusing AI prompts, skills and prompt-engineering patterns with explicit provenance.
 
 ## Principles
 
-1. **Source first.** Every artifact keeps its original source URL whenever available.
-2. **Raw != normalized.** We preserve source evidence separately from derived analysis.
-3. **Provenance survives deduplication.** Duplicate content may collapse into one normalized record, but every discovered source remains attached.
-4. **Prompt != skill != workflow.** Artifact type is explicit, never inferred from folder alone.
-5. **Evidence before claims.** Unknown metadata stays `null`/`unknown`; it is never invented.
-6. **No access-control bypass.** Collectors stop on authentication, CAPTCHA, paywalls or rate-limit blocks.
-7. **Private research orientation.** Third-party material keeps attribution and source links; derived summaries/pattern analysis are stored separately from source evidence.
+1. **Source first.** Every source observation keeps an original/official URL whenever available.
+2. **Raw != normalized != derived.** Evidence, cleaned metadata, analysis and repository-authored artifacts live in different layers.
+3. **Provenance survives deduplication.** Duplicate or related observations may converge analytically, but source history remains traceable.
+4. **Prompt != skill != workflow.** Artifact type is explicit.
+5. **Evidence before claims.** Unknown metadata stays unknown; runtime observations are not generalized beyond their receipts.
+6. **No access-control bypass.** Collectors stop at authentication, CAPTCHA, paywalls or changed authorization boundaries.
+7. **Minimize third-party body duplication.** Prefer URLs, metadata, fingerprints, structural features and repository-authored abstractions.
+8. **Promotion is gated.** `library/` artifacts enter the canonical catalog only after schema validation.
+
+## Evidence pipeline
+
+```text
+SOURCE
+  ↓
+quarry/raw/
+  ↓
+quarry/normalized/
+  ↓
+quarry/indexes/ + quarry/analysis/
+  ↓
+quarry/fixtures/
+  ↓
+quarry/promotions/
+  ↓
+catalog/ + library/
+```
+
+See `quarry/README.md` for the complete evidence contract.
 
 ## Repository map
 
 ```text
 prompts/
-├── README.md
 ├── catalog/
-│   ├── catalog.jsonl          # canonical machine-readable index
-│   ├── sources.jsonl          # source registry
-│   └── taxonomy.yaml          # controlled vocabulary
+│   ├── catalog.jsonl
+│   ├── sources.jsonl
+│   ├── schema.json
+│   └── taxonomy.yaml
 ├── library/
-│   ├── prompts/               # normalized prompt records
-│   ├── skills/                # reusable multi-step capabilities
-│   ├── workflows/             # chained procedures / pipelines
-│   ├── templates/             # reusable prompt shells
-│   └── patterns/              # extracted prompt-engineering patterns
+│   ├── prompts/
+│   ├── skills/
+│   ├── workflows/
+│   ├── templates/
+│   └── patterns/
 ├── quarry/
-│   ├── raw/                   # source observations / manifests
-│   ├── normalized/            # cleaned records before promotion
-│   └── fixtures/              # regression fixtures for ingestion
+│   ├── raw/
+│   ├── normalized/
+│   ├── indexes/
+│   ├── analysis/
+│   ├── fixtures/
+│   └── promotions/
 ├── sources/
-│   └── alpacka-ai/            # first source family
+│   └── alpacka-ai/
 ├── tools/
-│   ├── ingest_threads.py
-│   ├── ingest_web.py
-│   ├── normalize.py
-│   └── validate_catalog.py
-└── docs/
-    ├── ARCHITECTURE.md
-    ├── CLASSIFICATION.md
-    └── PROVENANCE.md
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── CLASSIFICATION.md
+│   ├── PROVENANCE.md
+│   └── GOLDEN_DATASET.md
+└── .github/workflows/
 ```
 
-## Canonical record
+## Canonical catalog record
 
 Each catalog entry is designed to answer:
 
-- What is this artifact?
+- What is the artifact type?
 - What is it useful for?
 - Where did it come from?
-- What exact official/source URL was observed?
-- Was the body captured, summarized, or only indexed?
-- Which model/tool is it intended for?
+- Which source URL was observed?
+- Was a body observed, summarized, fingerprinted or only indexed?
+- Which models/tools does it target?
 - Which prompt-engineering techniques does it use?
-- Is it duplicated elsewhere?
-- What was derived by us versus observed at source?
+- What is source-observed versus repository-authored?
 
-Example:
+The schema is defined in `catalog/schema.json`.
 
-```json
-{
-  "id": "pq_alpacka_threads_DPwn67yDrZK",
-  "artifact_type": "prompt",
-  "title": "Rompe límites financieros",
-  "source_id": "src_alpacka_threads",
-  "source_url": "https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK/...",
-  "official_post_url": "https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK/...",
-  "raw_url": null,
-  "capture_mode": "indexed-reference",
-  "language": "es",
-  "categories": ["personal-development", "finance"],
-  "tags": ["beliefs", "reflection"],
-  "techniques": ["structured-reflection"],
-  "body": null,
-  "summary": "Prompt-oriented post about identifying limiting money beliefs.",
-  "provenance": [],
-  "verification": "source-url-observed"
-}
-```
+## First characterized source family: Alpacka AI
 
-## First quarry: Alpacka AI
-
-Tracked source surfaces:
+Tracked public surfaces include:
 
 - Threads: `https://www.threads.com/@alpacka.ai`
 - Website: `https://www.alpackaai.xyz`
-- Prompt bank: `https://alpackaai.xyz/bank-prompts`
+- Public prompt directory and detail routes
+- Public Skills surface
+- Public generator previews
+- Blog/index surfaces
 
-The website identifies itself as a Spanish AI prompt bank with 1,000+ prompts for ChatGPT, Claude and Gemini. The repository treats Alpacka as a **source**, not as the repository taxonomy.
+Alpacka is treated as a **source family**, never as the repository taxonomy.
+
+### Prompt directory — certified harvest
+
+- **530** public prompt UUID references
+- **22** source-observed categories
+- **52** free records whose public detail RPC returned content
+- **478** premium records whose public detail RPC returned `content: null`
+- **0** category mismatches between public directory cards and the detail RPC in the certified harvest
+
+Prompt bodies are not persisted by the RPC harvester. Free bodies are processed in memory for hashes, variables and structural/technique features and then discarded.
+
+Navigation: `library/prompts/alpacka/README.md`.
+
+### Technique mining
+
+Across the 52 public free prompt bodies, the current heuristic mining pass detected **18 reusable construction techniques**. High-frequency observations include variable templates, role assignment, stepwise procedure, task decomposition, context injection and tone definition.
+
+Files:
+
+- `quarry/analysis/alpacka-ai-free-technique-vectors.jsonl`
+- `quarry/analysis/alpacka-ai-free-technique-matrix.json`
+
+### Skills
+
+**12** public skill references are normalized separately from prompts.
+
+Aggregate observations:
+
+- role definition: 12/12
+- intake/question behavior: 12/12
+- explicit rules: 12/12
+- output contract: 9/12
+- explicit process: 4/12
+
+This evidence contributed to the repository-authored **RIRO — Role–Intake–Rules–Output** pattern.
+
+### Generator previews
+
+**3** public preview references are normalized as source evidence for:
+
+- growth strategy planning
+- lead-magnet ideation
+- writing-style specification
+
+Their source bodies remain in the raw evidence layer only; normalized records use fingerprints/features.
+
+## Golden Dataset
+
+The current free-prompt golden set contains **23 reference fixtures** selected deterministically from the 52-public-prompt source pool.
+
+Coverage:
+
+- **18** observed techniques
+- **13** source categories represented in the free corpus
+- **10** frequent architecture signatures
+
+Fixtures contain source references, hashes and feature vectors rather than prompt bodies.
+
+See `docs/GOLDEN_DATASET.md`.
+
+## Repository-authored promoted artifacts
+
+Current examples include:
+
+- `library/patterns/skill-design/role-intake-rules-output.md`
+- `library/templates/business/growth-90-day-system.md`
+- `library/templates/content/lead-magnet-design-system.md`
+- `library/templates/content/style-profile-extractor.md`
+- `library/patterns/content/humanization-stack.md`
+
+These artifacts remain traceable to their inspiration/evidence families while their bodies are explicitly repository-authored.
 
 ## Artifact types
 
@@ -99,12 +173,31 @@ The website identifies itself as a Spanish AI prompt bank with 1,000+ prompts fo
 | `skill` | Reusable capability containing instructions, context and/or procedures |
 | `workflow` | Ordered multi-step process, potentially combining prompts/tools |
 | `template` | Parameterized shell intended to be filled with variables |
-| `pattern` | Generalized prompt-engineering technique extracted from examples |
+| `pattern` | Generalized prompt-engineering technique extracted from observations |
 | `guide` | Educational/explanatory material |
 | `reference` | Useful source evidence that is not itself a prompt |
 
-## Status
+## Current status
 
-`MK0 — quarry bootstrap`
+**MK0 — source characterization and reusable-pattern extraction**
 
-Current work: source registry, controlled taxonomy, collectors, provenance contract and first Alpacka evidence records.
+Completed evidence gates:
+
+- public Alpacka prompt directory mapped
+- 530/530 detail metadata harvested
+- free/premium access boundary characterized
+- category indexes generated
+- free-prompt structural mining generated
+- deep technique vectors generated
+- public skills normalized and structurally characterized
+- public generator previews normalized
+- Golden Dataset fixture selection operational
+- catalog promotion workflow is schema-gated and idempotent
+
+Still open before treating the quarry as broadly mature:
+
+- expand primary Threads ingestion when official access is configured
+- add more independent source families
+- improve technique detector characterization against hand-reviewed fixtures
+- add deduplication/semantic-near-duplicate benchmarks
+- continue source-driven promotion into original reusable library artifacts
