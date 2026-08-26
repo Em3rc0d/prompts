@@ -1,0 +1,27 @@
+{
+  "brief_id": "content_clear_rewrite",
+  "title": "Reescritura clara sin cambiar significado",
+  "intent": "rewrite",
+  "domain": "general",
+  "risk": "low",
+  "complexity": "simple",
+  "goal": "Reescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.",
+  "inputs": {
+    "required": ["text"],
+    "optional": ["tone", "audience"]
+  },
+  "success_criteria": [
+    "El significado material del texto se conserva",
+    "La versión resultante es más clara y natural",
+    "No se introducen hechos nuevos"
+  ],
+  "interaction": "one-shot",
+  "constraints": [],
+  "output_needs": {
+    "structured": false,
+    "alternatives": 1,
+    "evidence": false,
+    "citations": false
+  },
+  "model_targets": ["model-agnostic"]
+}
