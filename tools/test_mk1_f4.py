@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from pathlib import Path
 
 from mk1_behavioral_runner import run_fixture_set
+from mk1_materialize_f4_tested import materialize
 from mk1_promote_tested import promote_tested
 
 
@@ -208,6 +210,42 @@ def test_receipt_identity_mismatch_rejected() -> dict:
     raise AssertionError("Mismatched receipt version must be rejected")
 
 
+def test_materializer_requires_real_receipt_and_builds_tested_bundle() -> dict:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        receipts = root / "receipts"
+        source = root / "f2"
+        critics = root / "critics"
+        output = root / "f4"
+        receipts.mkdir()
+        critics.mkdir()
+        bundle = source / "test_behavior"
+        bundle.mkdir(parents=True)
+
+        (bundle / "artifact.json").write_text(json.dumps(artifact()), encoding="utf-8")
+        (bundle / "prompt.txt").write_text("PROMPT", encoding="utf-8")
+        (bundle / "architecture.json").write_text("{}", encoding="utf-8")
+        (bundle / "lint.json").write_text('{"status":"PASS"}', encoding="utf-8")
+        (critics / "test_behavior.critic.json").write_text('{"status":"PASS"}', encoding="utf-8")
+
+        empty = materialize(receipts, source, critics, output)
+        assert empty["status"] == "NO_REAL_RECEIPTS", empty
+        assert empty["tested_artifact_count"] == 0, empty
+
+        receipt = real_pass_receipt()
+        (receipts / "observed.receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
+        built = materialize(receipts, source, critics, output, require_at_least=1)
+        assert built["tested_artifact_count"] == 1, built
+        tested_path = output / "test_behavior" / "artifact.json"
+        tested = json.loads(tested_path.read_text(encoding="utf-8"))
+        assert tested["state"] == "TESTED", tested
+        assert tested["evaluation"]["receipt_id"] == receipt["receipt_id"], tested
+        assert (output / "test_behavior" / "behavioral_receipt.json").exists()
+        assert (output / "test_behavior" / "critic.json").exists()
+
+        return {"empty_status": empty["status"], "built_count": built["tested_artifact_count"], "state": tested["state"]}
+
+
 def main() -> None:
     result = {
         "mk1_f4": "PASS",
@@ -218,7 +256,8 @@ def main() -> None:
         "machine_failure_blocks": test_machine_failure_blocks(),
         "runtime_identity_required": test_real_runtime_identity_required(),
         "receipt_identity_mismatch_rejected": test_receipt_identity_mismatch_rejected(),
-        "policy": "F4 CI characterizes harness and state-transition guardrails only. No real prompt execution or TESTED artifact is claimed by this test suite.",
+        "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
+        "policy": "F4 CI characterizes harness, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
