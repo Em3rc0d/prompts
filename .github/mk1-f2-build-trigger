@@ -1,4 +1,4 @@
 triggered_at: 2026-08-26
 source: chatgpt
-mode: materialize-mk1-f2-valid-candidates
+mode: rebuild-mk1-f2-after-f3-static-quality-fixes
 policy: engineered-valid-not-tested-certified-improved
