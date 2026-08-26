@@ -10,7 +10,7 @@ from pathlib import Path
 from mk1_prompt_linter import lint_artifact
 
 
-CRITIC_VERSION = "1.0.0"
+CRITIC_VERSION = "1.0.1"
 
 HEADING_NAMES = {
     "purpose", "propósito", "proposito", "objetivo",
@@ -25,7 +25,11 @@ CONTRADICTION_RULES = [
     (
         "questions-required-vs-forbidden",
         [r"\b(pregunta|pregunte|ask)\b", r"\b(solicita|solicite|request)\b"],
-        [r"\b(no|nunca|never)\b.{0,35}\b(pregunt|ask|question)"],
+        [
+            r"\bno\s+(?:hagas|formules|realices|uses)\s+preguntas\b",
+            r"\bnunca\s+(?:hagas|formules|realices)?\s*preguntas\b",
+            r"\b(?:never|do not|don't)\s+ask\s+(?:any\s+)?questions?\b",
+        ],
         "The prompt both enables/requests clarification and forbids questions.",
     ),
     (
@@ -72,12 +76,13 @@ def _fold(value: str) -> str:
 
 def _meaningful_lines(body: str) -> list[tuple[int, str, str]]:
     rows = []
+    folded_headings = {_fold(x) for x in HEADING_NAMES}
     for idx, raw in enumerate(body.splitlines(), 1):
         text = raw.strip()
         if not text:
             continue
         folded = _fold(text.rstrip(":"))
-        if folded in {_fold(x) for x in HEADING_NAMES}:
+        if folded in folded_headings:
             continue
         if len(folded) < 18:
             continue
@@ -88,12 +93,13 @@ def _meaningful_lines(body: str) -> list[tuple[int, str, str]]:
 def _section(body: str, aliases: set[str]) -> str:
     lines = body.splitlines()
     normalized_aliases = {_fold(a) for a in aliases}
+    folded_headings = {_fold(x) for x in HEADING_NAMES}
     start = None
     collected = []
     for line in lines:
         stripped = line.strip().rstrip(":")
         folded = _fold(stripped)
-        if folded in {_fold(x) for x in HEADING_NAMES}:
+        if folded in folded_headings:
             if start is not None:
                 break
             if folded in normalized_aliases:
@@ -135,7 +141,6 @@ def critique_artifact(artifact: dict) -> dict:
             {"errors": lint["error_count"], "blockers": lint["blocking_count"]},
         )
 
-    # 1. Exact instruction redundancy.
     meaningful = _meaningful_lines(body)
     counter = Counter(row[2] for row in meaningful)
     duplicates = {text for text, count in counter.items() if count > 1}
@@ -150,7 +155,6 @@ def critique_artifact(artifact: dict) -> dict:
             matches,
         )
 
-    # 2. Near-duplicate lines after list/number prefix removal.
     normalized_rows = []
     for line, text, folded in meaningful:
         semantic = re.sub(r"^(?:[-*]|\d+[.)])\s*", "", folded).strip()
@@ -169,7 +173,6 @@ def critique_artifact(artifact: dict) -> dict:
                 matches,
             )
 
-    # 3. Contradictory instruction families.
     for code, positive_patterns, negative_patterns, message in CONTRADICTION_RULES:
         positive = any(re.search(pattern, folded_body, re.IGNORECASE) for pattern in positive_patterns)
         negative = any(re.search(pattern, folded_body, re.IGNORECASE) for pattern in negative_patterns)
@@ -182,7 +185,6 @@ def critique_artifact(artifact: dict) -> dict:
                 "Choose one contract or explicitly scope when each behavior applies.",
             )
 
-    # 4. Output-contract specificity.
     output_text = _section(body, {"OUTPUT CONTRACT", "FORMATO DE SALIDA", "SALIDA", "ENTREGABLE"})
     if architecture.get("output_contract"):
         if len(output_text) < 40:
@@ -204,7 +206,6 @@ def critique_artifact(artifact: dict) -> dict:
                 output_text,
             )
 
-    # Intent-specific output discipline.
     intent_requirements = {
         "review": ["hallazgo", "finding", "severidad", "severity", "fix", "correcci", "verific"],
         "audit": ["hallazgo", "finding", "severidad", "severity", "riesgo", "risk", "accion", "action"],
@@ -224,7 +225,6 @@ def critique_artifact(artifact: dict) -> dict:
                 {"matched_signals": hits, "required_signal_family": intent_requirements[intent]},
             )
 
-    # 5. Assumption discipline.
     assumption_text = _section(body, {"ASSUMPTIONS", "SUPUESTOS"})
     unsupported_matches = []
     for pattern in UNSUPPORTED_ASSUMPTION_PATTERNS:
@@ -248,7 +248,6 @@ def critique_artifact(artifact: dict) -> dict:
             assumption_text,
         )
 
-    # 6. Provenance laundering.
     for pattern in PROVENANCE_LAUNDERING_PATTERNS:
         if re.search(pattern, body, re.IGNORECASE):
             _add(
@@ -260,7 +259,6 @@ def critique_artifact(artifact: dict) -> dict:
                 pattern,
             )
 
-    # 7. High-stakes critic supplement (deeper than linter presence checks).
     if risk == "high-stakes":
         fallback_text = _section(body, {"FALLBACK", "SI FALTA INFORMACIÓN", "SI FALTA INFORMACION", "INCERTIDUMBRE"})
         constraints_text = _section(body, {"CONSTRAINTS", "RESTRICCIONES", "REGLAS"})
@@ -277,7 +275,6 @@ def critique_artifact(artifact: dict) -> dict:
                 "Add domain-relevant uncertainty, missing-evidence, jurisdiction/data and escalation behavior.",
             )
 
-    # 8. Excessive architecture relative to simple tasks.
     enabled_count = sum(1 for value in architecture.values() if value)
     if artifact.get("intent") in {"rewrite", "summarize", "answer"} and artifact.get("risk") == "low" and enabled_count >= 8:
         _add(
