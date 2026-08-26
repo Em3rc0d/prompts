@@ -4,6 +4,13 @@ This directory is reserved for observed behavioral execution receipts.
 
 No file in this directory should be created from a synthetic harness run and then presented as evidence that a prompt is `TESTED`.
 
+Current repository state:
+
+```text
+real *.receipt.json files = 0
+TESTED artifacts = 0
+```
+
 ## Prepare an execution envelope
 
 Example:
@@ -21,6 +28,8 @@ python tools/mk1_prepare_f4_execution.py \
 
 The generated envelope contains the exact immutable fixture input, an empty observed-output field and every unresolved manual check.
 
+Execution envelopes live below `executions/` and **do not trigger TESTED artifact materialization**.
+
 ## Execute
 
 Run the exact F2 prompt artifact against every fixture input under the declared runtime conditions.
@@ -34,6 +43,8 @@ If a fixture needs correction, version the fixture set and execute again.
 Resolve every declared human check as `PASS` or `FAIL` with a short evidence note.
 
 Unresolved blocking human checks prevent `TESTED` eligibility.
+
+A model-generated self-judgment is not silently relabeled as human review. If the declared check requires human review, preserve that boundary.
 
 ## Produce a receipt
 
@@ -54,7 +65,66 @@ status = BEHAVIORAL_PASS
 eligible_for_tested = true
 ```
 
-Only that receipt may support a copied/versioned F4 artifact whose state changes from `VALID` to `TESTED` and whose evaluation fields reference the exact fixture set and receipt.
+The root-level suffix is intentional:
+
+```text
+mk1/receipts/f4/*.receipt.json
+```
+
+Only these persisted receipt files trigger `.github/workflows/build-mk1-f4-tested.yml`.
+
+## Automatic F4B promotion
+
+When a root-level real receipt is committed, the F4B workflow:
+
+1. validates the canonical quarry;
+2. re-runs F1, F2, F3 and F4 characterization gates;
+3. rejects unknown artifact IDs or version mismatches;
+4. rejects synthetic/non-real receipts;
+5. rejects unresolved blocking checks or blocking fixture failures;
+6. materializes `mk1/candidates/f4/<artifact>/`;
+7. schema-validates the generated TESTED artifact;
+8. validates deterministic reconstruction from F2 source + receipt;
+9. commits the generated F4 bundle.
+
+Generated F4 bundles retain evidence layers:
+
+```text
+artifact.json
+behavioral_receipt.json
+source.json
+prompt.txt
+architecture.json
+lint.json
+critic.json
+```
+
+The resulting artifact is allowed to say:
+
+```text
+state = TESTED
+claims = [engineered, tested]
+```
+
+It is still required to say:
+
+```text
+baseline_id = null
+rubric_score = null
+```
+
+because baseline comparison is F5 and certification is F6.
+
+## Repository evidence guard
+
+`tools/validate_mk1_f4_repository.py` fails if a persisted TESTED artifact:
+
+- has no matching persisted real receipt;
+- references a receipt for another artifact/version;
+- cannot be reconstructed exactly through the canonical promotion function;
+- appears while no real F4 receipt exists.
+
+This makes `TESTED` a reproducible evidence state rather than a manually editable label.
 
 ## Evidence boundary
 
