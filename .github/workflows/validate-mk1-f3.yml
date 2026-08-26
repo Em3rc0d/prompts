@@ -1,0 +1,38 @@
+name: Validate MK1 F3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mk1/fixtures/f3/**'
+      - 'mk1/briefs/**'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'tools/test_mk1_f3.py'
+      - '.github/workflows/validate-mk1-f3.yml'
+  pull_request:
+    paths:
+      - 'mk1/fixtures/f3/**'
+      - 'mk1/briefs/**'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'tools/test_mk1_f3.py'
+
+jobs:
+  validate-f3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+      - name: Re-run F2 assembler characterization
+        run: python tools/test_mk1_f2.py
+      - name: Run F3 semantic critic characterization
+        run: python tools/test_mk1_f3.py
