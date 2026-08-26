@@ -1,4 +1,4 @@
-version: 0.1.0
+version: 0.2.0
 
 artifact_types:
   - prompt
@@ -69,6 +69,14 @@ categories:
     - operations
     - sales
     - marketing
+    - marketing-email
+    - marketing-influencer
+    - marketing-paid-ads
+    - marketing-social
+    - marketing-outreach
+    - marketing-growth
+    - marketing-psychology
+    - marketing-content-systems
     - finance
     - product-management
     - customer-research
@@ -80,6 +88,9 @@ categories:
     - seo
     - storytelling
     - copywriting
+    - conversion-copywriting
+    - blog-writing
+    - video-content
     - translation
     - summarization
   research:
@@ -100,6 +111,8 @@ categories:
     - planning
     - prioritization
     - learning
+    - accelerated-learning
+    - language-learning
     - study
     - meetings
     - documentation
@@ -140,6 +153,7 @@ techniques:
   - structured-reflection
   - assumption-audit
   - question-first
+  - pattern-detection
   - tool-use
   - retrieval-grounding
   - source-requirement
