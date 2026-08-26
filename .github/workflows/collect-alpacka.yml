@@ -1,0 +1,94 @@
+name: Harvest Alpacka Quarry
+
+on:
+  workflow_dispatch:
+    inputs:
+      collect_web:
+        description: Collect public Alpacka prompt-bank website
+        required: true
+        type: boolean
+        default: true
+      collect_threads:
+        description: Collect @alpacka.ai through official Threads API
+        required: true
+        type: boolean
+        default: false
+      commit_results:
+        description: Commit JSONL quarry results back to main
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    env:
+      THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+
+      - name: Collect website
+        if: ${{ inputs.collect_web }}
+        run: |
+          python tools/ingest_web.py \
+            --url "https://alpackaai.xyz/bank-prompts?utm_source=threads&utm_medium=social&utm_content=link_in_bio" \
+            --output quarry/raw/alpacka-ai/web/candidates.jsonl
+
+      - name: Collect Threads through official API
+        if: ${{ inputs.collect_threads }}
+        shell: bash
+        run: |
+          if [ -z "$THREADS_ACCESS_TOKEN" ]; then
+            echo "THREADS_ACCESS_TOKEN secret is not configured." >&2
+            exit 2
+          fi
+          python tools/ingest_threads.py \
+            --username alpacka.ai \
+            --output quarry/raw/alpacka-ai/threads/posts.jsonl
+
+      - name: Normalize collected candidates
+        shell: bash
+        run: |
+          files=()
+          [ -f quarry/raw/alpacka-ai/web/candidates.jsonl ] && files+=(quarry/raw/alpacka-ai/web/candidates.jsonl)
+          [ -f quarry/raw/alpacka-ai/threads/posts.jsonl ] && files+=(quarry/raw/alpacka-ai/threads/posts.jsonl)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No quarry JSONL files were produced." >&2
+            exit 3
+          fi
+          python tools/normalize.py "${files[@]}" --output quarry/normalized/alpacka-ai-candidates.jsonl
+
+      - name: Upload quarry artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: alpacka-quarry-${{ github.run_id }}
+          path: |
+            quarry/raw/alpacka-ai/**/*.jsonl
+            quarry/normalized/alpacka-ai-candidates.jsonl
+          if-no-files-found: error
+
+      - name: Commit quarry JSONL
+        if: ${{ inputs.commit_results }}
+        shell: bash
+        run: |
+          git config user.name "prompt-quarry-bot"
+          git config user.email "prompt-quarry-bot@users.noreply.github.com"
+          git add quarry/raw/alpacka-ai/**/*.jsonl quarry/normalized/alpacka-ai-candidates.jsonl || true
+          if git diff --cached --quiet; then
+            echo "No JSONL changes to commit."
+            exit 0
+          fi
+          git commit -m "data: harvest Alpacka quarry"
+          git push
