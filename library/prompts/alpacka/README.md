@@ -9,6 +9,24 @@ It does **not** mirror premium prompt bodies. Premium entries remain metadata-on
 - Premium metadata-only: **478**
 - Categories: **22**
 
+## Evidence ladder
+
+```text
+PUBLIC DIRECTORY / RPC
+        ↓
+quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+        ↓
+CATEGORY INDEXES
+        ↓
+STRUCTURE + TECHNIQUE MINING
+        ↓
+GOLDEN FIXTURES
+        ↓
+REPOSITORY-AUTHORED library/ ARTIFACTS
+```
+
+The layers are intentionally separate: source observations are evidence; library artifacts are our reusable abstractions.
+
 ## Categories
 
 | Category | Total | Free | Index |
@@ -38,8 +56,32 @@ It does **not** mirror premium prompt bodies. Premium entries remain metadata-on
 
 ## Structural mining
 
-Aggregate free-prompt structure is stored in `quarry/analysis/alpacka-ai-free-structure-report.json`.
-This includes common variable markers, role assignment, stepwise procedures, output contracts, clarification-first behavior and explicit constraints.
+Base aggregate structure:
+- `quarry/analysis/alpacka-ai-free-structure-report.json`
+
+Deeper technique vectors and category matrix:
+- `quarry/analysis/alpacka-ai-free-technique-vectors.jsonl`
+- `quarry/analysis/alpacka-ai-free-technique-matrix.json`
+
+The deeper pass classifies reusable construction techniques such as role assignment, variable templates, decomposition, explicit constraints, output formatting, self-checks, audience/tone definition and evidence requirements. Free prompt bodies are fetched from the public RPC, analyzed in memory and discarded.
+
+## Golden fixtures
+
+- `quarry/fixtures/alpacka-free-golden-fixtures.json`
+- `quarry/fixtures/alpacka-free-golden-fixtures-manifest.json`
+- `docs/GOLDEN_DATASET.md`
+
+The fixture set covers observed techniques, source categories and frequent architecture signatures without storing prompt bodies. It is intended for parser/classifier regression tests and future Prompt Engine evaluation.
+
+## Promoted repository artifacts
+
+Examples currently promoted from aggregate source observations include:
+- `library/patterns/skill-design/role-intake-rules-output.md`
+- `library/templates/business/growth-90-day-system.md`
+- `library/templates/content/lead-magnet-design-system.md`
+- `library/templates/content/style-profile-extractor.md`
+
+These are repository-authored artifacts. Their catalog provenance points back to the observed source family, but their wording and operating contracts are our own.
 
 ## Provenance boundary
 
