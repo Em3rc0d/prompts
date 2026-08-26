@@ -1,0 +1,38 @@
+name: Mine Alpacka Directory Categories
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/category-mining-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Mine category prefixes
+        run: |
+          python tools/mine_directory_categories.py \
+            quarry/normalized/alpacka-ai-public-prompt-directory.jsonl \
+            --output quarry/normalized/alpacka-ai-category-prefixes.json
+      - name: Commit mined category evidence
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-category-prefixes.json
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'data: mine Alpacka directory categories'
+          git pull --rebase origin main
+          git push origin HEAD:main
