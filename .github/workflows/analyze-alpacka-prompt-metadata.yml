@@ -1,0 +1,46 @@
+name: Analyze Alpacka Prompt Metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'quarry/normalized/alpacka-ai-prompt-metadata.jsonl'
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build structural analysis and indexes
+        run: |
+          python tools/analyze_prompt_metadata.py \
+            quarry/normalized/alpacka-ai-prompt-metadata.jsonl \
+            --analysis quarry/analysis/alpacka-ai-free-structure-report.json \
+            --index-dir quarry/indexes/alpacka-ai/categories \
+            --readme library/prompts/alpacka/README.md
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit analysis and indexes
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/analysis/alpacka-ai-free-structure-report.json quarry/indexes/alpacka-ai/categories/ library/prompts/alpacka/README.md
+          if git diff --cached --quiet; then
+            echo 'No analysis changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: analyze Alpacka prompt structures and indexes'
+          git pull --rebase origin main
+          git push origin HEAD:main
