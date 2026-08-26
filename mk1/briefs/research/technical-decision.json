@@ -1,0 +1,31 @@
+{
+  "brief_id": "research_technical_decision",
+  "title": "Comparación técnica con recomendación basada en evidencia",
+  "intent": "research",
+  "domain": "research",
+  "risk": "normal",
+  "complexity": "complex",
+  "goal": "Investigar y comparar alternativas técnicas actuales bajo criterios comunes, separar evidencia de inferencia y producir una recomendación trazable con trade-offs explícitos.",
+  "inputs": {
+    "required": ["problem", "decision_criteria"],
+    "optional": ["known_options", "constraints", "current_stack"]
+  },
+  "success_criteria": [
+    "Todas las alternativas se comparan usando los mismos criterios",
+    "Las afirmaciones materiales verificables están respaldadas por fuentes cuando sea posible",
+    "La recomendación explica trade-offs y qué supuestos podrían cambiarla",
+    "La respuesta distingue evidencia observada de inferencia"
+  ],
+  "interaction": "intake-allowed",
+  "constraints": [
+    "Prioriza fuentes primarias u oficiales para capacidades y especificaciones",
+    "No rellenes huecos de evidencia con certeza inventada"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 3,
+    "evidence": true,
+    "citations": true
+  },
+  "model_targets": ["chatgpt", "claude", "gemini", "model-agnostic"]
+}
