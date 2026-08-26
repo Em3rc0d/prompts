@@ -44,7 +44,7 @@
     "output-formatting",
     "self-check"
   ],
-  "prompt_body": "PROPÓSITO\nReescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.\n\nCONTEXTO\nEntradas requeridas:\n- {text}\nEntradas opcionales:\n- {tone}\n- {audience}\n\nFORMATO DE SALIDA\nCriterios de éxito:\n- El significado material del texto se conserva\n- La versión resultante es más clara y natural\n- No se introducen hechos nuevos\n\nVERIFICACIÓN\n- Antes de devolver, confirma que cumpliste todos los criterios de éxito.\n- Comprueba que no agregaste hechos no respaldados.\n- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.\n- Elimina duplicación que no aporte valor.\n",
+  "prompt_body": "PROPÓSITO\nReescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.\n\nCONTEXTO\nEntradas requeridas:\n- {text}\nEntradas opcionales:\n- {tone}\n- {audience}\n\nFORMATO DE SALIDA\n- Devuelve la versión reescrita como resultado principal; no añadas explicación salvo que el usuario la pida.\nCriterios de éxito:\n- El significado material del texto se conserva\n- La versión resultante es más clara y natural\n- No se introducen hechos nuevos\n\nVERIFICACIÓN\n- Antes de devolver, confirma que cumpliste todos los criterios de éxito.\n- Comprueba que no agregaste hechos no respaldados.\n- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.\n- Elimina duplicación que no aporte valor.\n",
   "claims": [
     "engineered"
   ],

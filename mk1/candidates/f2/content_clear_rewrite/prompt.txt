@@ -28,6 +28,7 @@ Entradas opcionales:
 - {audience}
 
 FORMATO DE SALIDA
+- Devuelve la versión reescrita como resultado principal; no añadas explicación salvo que el usuario la pida.
 Criterios de éxito:
 - El significado material del texto se conserva
 - La versión resultante es más clara y natural

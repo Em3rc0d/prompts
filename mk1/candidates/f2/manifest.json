@@ -24,7 +24,7 @@
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 675,
+      "prompt_length": 785,
       "bundle_path": "mk1/candidates/f2/content_clear_rewrite"
     },
     {
@@ -54,7 +54,7 @@
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 2581,
+      "prompt_length": 2533,
       "bundle_path": "mk1/candidates/f2/software_code_review"
     },
     {
@@ -87,7 +87,7 @@
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 2987,
+      "prompt_length": 2952,
       "bundle_path": "mk1/candidates/f2/research_technical_decision"
     }
   ],
