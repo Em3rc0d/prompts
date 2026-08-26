@@ -25,6 +25,9 @@ jobs:
       - name: Build readable TXT layer
         run: python tools/build_human_reading_layer.py --output readable
 
+      - name: Materialize MK stage documentation
+        run: python tools/build_stage_readable.py --output readable
+
       - name: Validate quarry
         run: python tools/validate_catalog.py
 
@@ -40,10 +43,16 @@ jobs:
           assert m['prompt_source_premium'] == 478, m
           assert m['premium_reader_reconstructions'] == 478, m
           assert m['skill_txt_records'] == 12, m
+          assert m['stage_document_counts']['MK0'] >= 1, m
+          assert m['stage_document_counts']['MK1'] >= 4, m
+          assert m['stage_document_counts']['MK2'] >= 1, m
           prompt_files = list(Path('readable/prompts/alpacka/categories').rglob('*.txt'))
           skill_files = list(Path('readable/skills/alpacka/categories').rglob('*.txt'))
           assert len([p for p in prompt_files if p.name != 'INDEX.txt']) == 530
           assert len(skill_files) == 12
+          assert Path('readable/stages/ROOT_OVERVIEW.txt').exists()
+          assert Path('readable/stages/ROADMAP.txt').exists()
+          assert Path('readable/stages/ARCHITECTURE.txt').exists()
           print(json.dumps(m, ensure_ascii=False, indent=2))
           PY
 
