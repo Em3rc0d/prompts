@@ -1,41 +1,98 @@
 # Prompt Quarry
 
-Private research repository for collecting, classifying, characterizing and reusing AI prompts, skills and prompt-engineering patterns with explicit provenance.
+Private research and engineering repository for collecting, characterizing and transforming prompt/skill knowledge into tested reusable AI artifacts with explicit provenance.
+
+## Product stages
+
+Prompt Quarry has three explicit maturity layers:
+
+```text
+MK0 — KNOWLEDGE QUARRY
+"What exists?"
+        │
+        ▼
+MK1 — PROMPT FORGE
+"Can we build better prompts from it?"
+        │
+        ▼
+MK2 — PROMPT ENGINE
+"Can the system automatically select,
+ compose, test and improve prompts
+ for a specific task?"
+```
+
+- **MK0** is everything built so far around evidence, source characterization, normalized metadata, technique mining, Golden Dataset, derived knowledge and the human-reading layer.
+- **MK1** is the engineering layer. It produces Prompt Quarry engineered candidates and only calls them `CERTIFIED` after fixtures, rubric evaluation and durable receipts.
+- **MK2** is the future orchestration engine. It will select/retrieve/compose/evaluate prompts automatically, but only after MK1 certification contracts are mature.
+
+Stage entry points:
+
+- `mk0/README.md`
+- `mk1/README.md`
+- `mk2/README.md`
+- `docs/ROADMAP.md`
 
 ## Principles
 
 1. **Source first.** Every source observation keeps an original/official URL whenever available.
-2. **Raw != normalized != derived.** Evidence, cleaned metadata, analysis and repository-authored artifacts live in different layers.
+2. **Raw != normalized != derived != engineered.** Evidence, cleaned metadata, analysis and repository-authored artifacts live in different semantic layers.
 3. **Provenance survives deduplication.** Duplicate or related observations may converge analytically, but source history remains traceable.
 4. **Prompt != skill != workflow.** Artifact type is explicit.
-5. **Evidence before claims.** Unknown metadata stays unknown; runtime observations are not generalized beyond their receipts.
+5. **Evidence before claims.** Unknown metadata stays unknown; generated != tested; tested != certified; engineered != improved without a baseline receipt.
 6. **No access-control bypass.** Collectors stop at authentication, CAPTCHA, paywalls or changed authorization boundaries.
 7. **Minimize third-party body duplication.** Prefer URLs, metadata, fingerprints, structural features and repository-authored abstractions.
-8. **Promotion is gated.** `library/` artifacts enter the canonical catalog only after schema validation.
+8. **Promotion is gated.** Canonical library/catalog promotion and future MK1 certification require validation evidence.
+9. **Human readability is a product requirement.** Machine JSON/JSONL remains canonical evidence, while `readable/` provides an additive TXT view for people.
 
-## Evidence pipeline
+## Architecture
 
 ```text
-SOURCE
-  ↓
-quarry/raw/
-  ↓
-quarry/normalized/
-  ↓
-quarry/indexes/ + quarry/analysis/
-  ↓
-quarry/fixtures/
-  ↓
-  ├── quarry/promotions/ → catalog + reviewed library artifacts
-  └── repository-authored derivation → reusable library datasets
+EXTERNAL SOURCES
+      │
+      ▼
+┌─────────────────────────────────────────┐
+│ MK0 — KNOWLEDGE QUARRY                  │
+│                                         │
+│ raw → normalized → indexes/analysis     │
+│              → fixtures / Golden Data   │
+│              → patterns/templates       │
+│              → readable TXT             │
+└──────────────────┬──────────────────────┘
+                   │ characterized knowledge
+                   ▼
+┌─────────────────────────────────────────┐
+│ MK1 — PROMPT FORGE                      │
+│                                         │
+│ brief → architecture → candidate        │
+│       → critic → fixtures               │
+│       → baseline → rubric → receipt     │
+│       → CERTIFIED / REJECTED            │
+└──────────────────┬──────────────────────┘
+                   │ certified artifacts
+                   ▼
+┌─────────────────────────────────────────┐
+│ MK2 — PROMPT ENGINE                     │
+│                                         │
+│ route → retrieve/compose → evaluate     │
+│       → select → execute → feedback     │
+└─────────────────────────────────────────┘
 ```
 
-See `quarry/README.md` for the complete evidence contract.
+See `docs/ARCHITECTURE.md` for the evidence-layer architecture and `docs/ROADMAP.md` for stage gates.
 
 ## Repository map
 
 ```text
 prompts/
+├── mk0/
+│   └── README.md                   # logical umbrella over the knowledge quarry
+├── mk1/
+│   ├── README.md
+│   ├── specs/
+│   ├── rubrics/
+│   └── fixtures/
+├── mk2/
+│   └── README.md
 ├── catalog/
 │   ├── catalog.jsonl
 │   ├── sources.jsonl
@@ -43,7 +100,7 @@ prompts/
 │   └── taxonomy.yaml
 ├── library/
 │   ├── prompts/
-│   │   └── alpacka/derived-premium/   # 478 usable reconstructions
+│   │   └── alpacka/derived-premium/   # MK0 derived/reconstructed knowledge
 │   ├── skills/
 │   ├── workflows/
 │   ├── templates/
@@ -55,123 +112,143 @@ prompts/
 │   ├── analysis/
 │   ├── fixtures/
 │   └── promotions/
+├── readable/                       # additive human TXT view
 ├── sources/
-│   └── alpacka-ai/
 ├── tools/
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── CLASSIFICATION.md
 │   ├── PROVENANCE.md
-│   └── GOLDEN_DATASET.md
+│   ├── GOLDEN_DATASET.md
+│   └── ROADMAP.md
 └── .github/workflows/
 ```
 
-## First characterized source family: Alpacka AI
+## MK0 — current characterized foundation
 
-Tracked public surfaces include Threads, the website, public prompt directory/detail routes, Skills, generator previews and blog/index surfaces.
+All current quarry/source-mining work belongs to MK0.
 
-Alpacka is treated as a **source family**, never as the repository taxonomy.
+### Alpacka prompt directory receipts
 
-### Prompt directory — certified harvest
+- **530** public prompt UUID references;
+- **22** source-observed categories;
+- **52** free records whose public detail RPC returned content;
+- **478** premium source records whose public detail RPC returned `content: null`;
+- **0** category mismatches in the certified detail harvest.
 
-- **530** public prompt UUID references
-- **22** source-observed categories
-- **52** free records whose public detail RPC returned content
-- **478** premium source records whose public detail RPC returned `content: null`
-- **0** category mismatches between public directory cards and the detail RPC in the certified harvest
-
-The `null` value above is a source-access observation. It no longer means our reusable library is empty for those records.
-
-### Premium reusable reconstruction layer
-
-Prompt Quarry now contains **478/478 non-empty repository-authored reconstructions** for the premium references, with **0 empty `content` records**.
+The source `null` is preserved as evidence. It does not make the repository unusable: MK0 also contains **478/478 non-empty repository-authored reconstructions** for those premium references, clearly labeled as derived rather than source reproductions.
 
 Files:
 
+- `quarry/normalized/alpacka-ai-prompt-metadata.jsonl`
 - `library/prompts/alpacka/derived-premium/catalog.jsonl`
 - `library/prompts/alpacka/derived-premium/manifest.json`
-- `library/prompts/alpacka/derived-premium/categories/*.jsonl`
-
-Each record explicitly states:
-
-- `source_body_status: not-public`
-- `content_origin: repository-authored-reconstruction`
-- `fidelity: metadata-derived-not-source-reproduction`
-
-This preserves the evidence boundary while keeping the dataset useful.
 
 ### Technique mining
 
-Across the 52 public free prompt bodies, the current heuristic mining pass detected **18 reusable construction techniques**. High-frequency observations include variable templates, role assignment, stepwise procedure, task decomposition, context injection and tone definition.
-
-Files:
+Across the 52 free prompt bodies observed by the public RPC and processed in memory, the current mining pass detected **18 construction techniques**. High-frequency signals include variable templates, role assignment, stepwise procedure, task decomposition, context injection and tone definition.
 
 - `quarry/analysis/alpacka-ai-free-technique-vectors.jsonl`
 - `quarry/analysis/alpacka-ai-free-technique-matrix.json`
 
 ### Skills
 
-**12** public skill references are normalized separately from prompts.
+**12** public Skill references are normalized separately from prompts.
 
-Aggregate observations:
+Aggregate observations include:
 
-- role definition: 12/12
-- intake/question behavior: 12/12
-- explicit rules: 12/12
-- output contract: 9/12
-- explicit process: 4/12
+- role definition: 12/12;
+- intake/question behavior: 12/12;
+- explicit rules: 12/12;
+- output contract: 9/12;
+- explicit process: 4/12.
 
-This evidence contributed to the repository-authored **RIRO — Role–Intake–Rules–Output** pattern.
+This contributed to the repository-authored **RIRO — Role–Intake–Rules–Output** pattern.
 
-### Generator previews
+### Generator + Blog
 
-**3** public preview references are normalized as source evidence for growth strategy planning, lead-magnet ideation and writing-style specification.
+MK0 also contains normalized generator preview references and public blog metadata/structure with direct provenance.
 
-## Golden Dataset
+### Golden Dataset
 
-The current free-prompt golden set contains **23 reference fixtures** selected deterministically from the 52-public-prompt source pool.
+The current free-prompt Golden Dataset contains **23 reference fixtures** selected deterministically from the 52-public-prompt source pool.
 
-Coverage:
+Coverage includes:
 
-- **18** observed techniques
-- **13** source categories represented in the free corpus
-- **10** frequent architecture signatures
-
-Fixtures contain source references, hashes and feature vectors rather than prompt bodies.
+- **18** observed techniques;
+- **13** source categories represented in the free corpus;
+- **10** frequent architecture signatures.
 
 See `docs/GOLDEN_DATASET.md`.
 
-## Repository-authored promoted artifacts
+### Human reading layer
 
-Current examples include:
+Open `readable/README.txt` when you want to read the repository without interpreting JSON.
 
-- `library/patterns/skill-design/role-intake-rules-output.md`
-- `library/templates/business/growth-90-day-system.md`
-- `library/templates/content/lead-magnet-design-system.md`
-- `library/templates/content/style-profile-extractor.md`
-- `library/patterns/content/humanization-stack.md`
+The reader layer currently materializes individual TXT views for prompts, Skills, generator references, blog references, catalog artifacts and repository documentation while leaving raw/JSON evidence intact.
 
-## Current status
+## MK1 — Prompt Forge status
 
-**MK0 — source characterization and reusable-pattern extraction**
+**F0 — contracts started. No prompt is being claimed as MK1 CERTIFIED yet.**
 
-Completed evidence gates now include:
+Initial MK1 contracts:
 
-- public Alpacka prompt directory mapped
-- 530/530 detail metadata harvested
-- free/premium access boundary characterized
-- category indexes generated
-- free-prompt structural and technique mining generated
-- public skills normalized and structurally characterized
-- public generator previews normalized
-- Golden Dataset fixture selection operational
-- **478/478 premium references converted into non-null repository-authored reusable prompts**
-- catalog promotion workflow schema-gated and idempotent
+- `mk1/specs/PROMPT_CONTRACT.md` — what an engineered prompt must contain;
+- `mk1/rubrics/PROMPT_QUALITY_RUBRIC.md` — how candidates are scored/certified;
+- `mk1/fixtures/README.md` — behavior-fixture strategy.
 
-Still open before treating the quarry as broadly mature:
+Canonical MK1 construction model:
 
-- expand primary Threads ingestion when official access is configured
-- add more independent source families
-- improve technique detector characterization against hand-reviewed fixtures
-- add deduplication/semantic-near-duplicate benchmarks
-- continue source-driven promotion into original reusable library artifacts
+```text
+PURPOSE
+↓
+ROLE
+↓
+CONTEXT
+↓
+INTAKE
+↓
+ASSUMPTIONS
+↓
+PROCESS
+↓
+RULES / CONSTRAINTS
+↓
+OUTPUT CONTRACT
+↓
+QUALITY GATE
+↓
+FALLBACK / UNCERTAINTY BEHAVIOR
+```
+
+Not every task needs every block. MK1 must select purposeful architecture rather than always producing a long ceremonial prompt.
+
+An MK1 candidate may only be called **improved** when a fair baseline comparison receipt supports that claim.
+
+## MK2 — Prompt Engine status
+
+**Architecture only — not implemented.**
+
+MK2 begins after MK1 can demonstrate stable contracts, versioned fixture sets, repeatable certification, multiple certified prompt families and deprecation/version semantics.
+
+See `mk2/README.md`.
+
+## Current program status
+
+```text
+MK0: ACTIVE / USABLE FOUNDATION
+MK1: F0 CONTRACTS — STARTED
+MK2: ARCHITECTURE — DEFERRED UNTIL MK1 GATE
+```
+
+Next MK1 engineering sequence:
+
+1. architecture selector;
+2. static prompt linter;
+3. deterministic candidate assembler;
+4. fixture runner;
+5. baseline comparator;
+6. certification receipts;
+7. first multi-domain certified prompt set.
+
+MK0 continues to grow in parallel as the knowledge foundation feeding those stages.
