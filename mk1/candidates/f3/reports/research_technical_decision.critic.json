@@ -1,0 +1,13 @@
+{
+  "critic_version": "1.0.1",
+  "artifact_id": "pq_mk1_research_technical_decision",
+  "status": "PASS",
+  "findings": [],
+  "counts": {
+    "blocking": 0,
+    "error": 0,
+    "warning": 0
+  },
+  "linter_status": "PASS",
+  "policy": "F3 critic is a static quality characterization layer. PASS does not imply behavioral testing or certification."
+}

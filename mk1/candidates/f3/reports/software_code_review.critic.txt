@@ -1,0 +1,28 @@
+PROMPT QUARRY — MK1 F3 STATIC CRITIC RECEIPT
+========================================================================================
+TITLE             : Revisión senior de código y pull requests
+ARTIFACT ID       : pq_mk1_software_code_review
+ARTIFACT STATE    : VALID
+CRITIC STATUS     : PASS
+CRITIC VERSION    : 1.0.1
+BLOCKING FINDINGS : 0
+ERROR FINDINGS    : 0
+WARNING FINDINGS  : 0
+SOURCE BUNDLE     : mk1/candidates/f2/software_code_review
+CLAIM             : static critic characterization only
+
+WHAT THIS MEANS
+----------------------------------------------------------------------------------------
+F3 reviews semantic/static quality beyond schema/lint: contradictions, duplicated instructions,
+output-contract specificity, assumptions, provenance wording and high-stakes boundaries.
+A PASS here does NOT mean runtime behavior was tested and does NOT certify or prove improvement.
+
+FINDINGS
+----------------------------------------------------------------------------------------
+No F3 static critic findings for this artifact.
+
+NEXT EVIDENCE REQUIRED
+----------------------------------------------------------------------------------------
+F4 must execute behavioral fixtures before this artifact may become TESTED.
+F5 must provide fair baseline comparison before any IMPROVED claim.
+F6 must apply the certification rubric/receipt before CERTIFIED.

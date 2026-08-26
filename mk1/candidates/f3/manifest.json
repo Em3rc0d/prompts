@@ -1,0 +1,46 @@
+{
+  "mk_stage": "MK1",
+  "phase": "F3",
+  "status": "STATIC_CRITIC_PASS",
+  "report_count": 3,
+  "reports": [
+    {
+      "artifact_id": "pq_mk1_content_clear_rewrite",
+      "title": "Reescritura clara sin cambiar significado",
+      "source_bundle": "mk1/candidates/f2/content_clear_rewrite",
+      "artifact_state": "VALID",
+      "critic_status": "PASS",
+      "blocking": 0,
+      "errors": 0,
+      "warnings": 0,
+      "critic_json": "mk1/candidates/f3/reports/content_clear_rewrite.critic.json",
+      "critic_txt": "mk1/candidates/f3/reports/content_clear_rewrite.critic.txt"
+    },
+    {
+      "artifact_id": "pq_mk1_research_technical_decision",
+      "title": "Comparación técnica con recomendación basada en evidencia",
+      "source_bundle": "mk1/candidates/f2/research_technical_decision",
+      "artifact_state": "VALID",
+      "critic_status": "PASS",
+      "blocking": 0,
+      "errors": 0,
+      "warnings": 0,
+      "critic_json": "mk1/candidates/f3/reports/research_technical_decision.critic.json",
+      "critic_txt": "mk1/candidates/f3/reports/research_technical_decision.critic.txt"
+    },
+    {
+      "artifact_id": "pq_mk1_software_code_review",
+      "title": "Revisión senior de código y pull requests",
+      "source_bundle": "mk1/candidates/f2/software_code_review",
+      "artifact_state": "VALID",
+      "critic_status": "PASS",
+      "blocking": 0,
+      "errors": 0,
+      "warnings": 0,
+      "critic_json": "mk1/candidates/f3/reports/software_code_review.critic.json",
+      "critic_txt": "mk1/candidates/f3/reports/software_code_review.critic.txt"
+    }
+  ],
+  "state_policy": "F3 critic PASS does not advance artifact state beyond VALID. Behavioral TESTED begins only in F4.",
+  "claim_policy": "No CERTIFIED or IMPROVED claim is produced by F3."
+}
