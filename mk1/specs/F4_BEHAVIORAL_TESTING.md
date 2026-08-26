@@ -12,7 +12,7 @@ static lint / critic PASS != behavioral TESTED
 
 ### F4A — harness characterization
 
-F4A proves that the fixture parser, assertion evaluator and receipt semantics behave deterministically.
+F4A proves that the fixture parser, assertion evaluator, receipt integrity rules and state-transition guardrails behave deterministically.
 
 It may use synthetic outputs in CI.
 
@@ -31,15 +31,19 @@ F4B executes an identified `VALID` artifact against a declared, versioned fixtur
 
 A real run records at minimum:
 
-- artifact id/version and prompt fingerprint;
+- artifact id/version;
+- SHA-256 fingerprint of the exact `prompt_body` executed;
 - fixture set id/version;
-- runtime provider/model/profile;
+- SHA-256 fingerprint of the exact fixture set;
+- runtime provider/model/time/profile where available;
+- unique execution id;
 - execution mode;
-- observed output per fixture;
+- observed output for every fixture;
 - machine assertion results;
-- unresolved human review checks;
+- explicit human-review results;
+- human reviewer reference and review time;
 - blocking failures;
-- durable receipt id.
+- content-derived durable receipt id.
 
 Only an F4B run may set:
 
@@ -47,6 +51,23 @@ Only an F4B run may set:
 status = BEHAVIORAL_PASS
 eligible_for_tested = true
 ```
+
+## Immutable evidence identity
+
+A receipt is bound to the exact executed evidence, not merely to friendly IDs.
+
+```text
+artifact_prompt_fingerprint = SHA-256(exact prompt_body)
+fixture_set_fingerprint      = SHA-256(canonical fixture set)
+receipt_id                   = SHA-256(canonical receipt content)
+```
+
+Consequences:
+
+- editing the prompt after execution invalidates the receipt for promotion;
+- editing fixture content without versioning invalidates repository validation;
+- editing runtime metadata, outputs, review results or any other receipt content without regenerating the receipt id fails integrity validation;
+- artifact id/version equality alone is not sufficient evidence.
 
 ## Fixture semantics
 
@@ -84,7 +105,23 @@ Some behaviors cannot be reliably inferred from substring assertions, for exampl
 
 Such checks remain explicit in `expected.human_checks`.
 
-A real execution with unresolved human checks may produce evidence, but it is **not eligible** to advance the artifact to `TESTED`.
+For a real run containing declared human checks, the execution must identify:
+
+```text
+review.reviewer_type = human
+review.reviewer_ref  = stable non-secret reviewer reference
+review.reviewed_at   = observed review timestamp
+```
+
+A model self-judgment is not silently relabeled as human review.
+
+Every blocking human check must be explicitly resolved `PASS`. A `FAIL`, absent decision or unsupported status prevents `TESTED` eligibility.
+
+## Completeness rule
+
+A real F4B execution must contain a non-empty observed output for every fixture in the selected fixture set.
+
+Missing fixture responses or empty outputs fail before behavioral promotion. This prevents an empty response from accidentally passing a negative-only machine assertion.
 
 ## Promotion rule
 
@@ -94,12 +131,18 @@ A candidate becomes `TESTED` only when all are true:
 2. F1 linter is `PASS`;
 3. F3 critic is `PASS`;
 4. fixture set is versioned and identifies the artifact;
-5. execution mode is real (`api` or `manual-observed`), never `synthetic`;
-6. runtime identity is present;
-7. every blocking machine assertion passes;
-8. every blocking human check is explicitly resolved PASS;
-9. receipt is persisted;
-10. artifact evaluation references that exact fixture set and receipt.
+5. prompt fingerprint matches the exact current source artifact;
+6. fixture fingerprint matches the exact current fixture-set version;
+7. execution mode is real (`api` or `manual-observed`), never `synthetic`;
+8. runtime identity is present;
+9. every fixture has a non-empty observed output;
+10. every blocking machine assertion passes;
+11. every blocking human check is explicitly resolved PASS;
+12. human review metadata is present where human checks exist;
+13. receipt integrity id matches the full receipt content;
+14. receipt is persisted under `mk1/receipts/f4/*.receipt.json`;
+15. artifact evaluation references that exact fixture set and receipt;
+16. the persisted TESTED artifact exactly equals deterministic reconstruction from its F2 source + receipt.
 
 ## State semantics
 
