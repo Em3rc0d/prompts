@@ -1,0 +1,31 @@
+{
+  "brief_id": "software_code_review",
+  "title": "Revisión senior de código y pull requests",
+  "intent": "review",
+  "domain": "software",
+  "risk": "normal",
+  "complexity": "moderate",
+  "goal": "Revisar código o un pull request para detectar problemas de corrección, seguridad, rendimiento, mantenibilidad y cobertura de pruebas, priorizando hallazgos accionables.",
+  "inputs": {
+    "required": ["code", "technical_context"],
+    "optional": ["tests", "acceptance_criteria", "known_constraints"]
+  },
+  "success_criteria": [
+    "Cada hallazgo material tiene severidad y evidencia concreta en el código proporcionado",
+    "Las recomendaciones incluyen una corrección o siguiente prueba verificable",
+    "No se inventa contexto del repositorio que no fue proporcionado",
+    "Los riesgos críticos aparecen antes que observaciones de estilo"
+  ],
+  "interaction": "intake-allowed",
+  "constraints": [
+    "No conviertas preferencias de estilo en errores críticos",
+    "Distingue bug confirmado, riesgo plausible y sugerencia de mantenibilidad"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 1,
+    "evidence": false,
+    "citations": false
+  },
+  "model_targets": ["codex", "model-agnostic"]
+}
