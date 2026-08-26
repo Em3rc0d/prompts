@@ -117,7 +117,7 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
     }
 
 
-def require_real_execution_evidence(fixture_set: dict, execution: dict) -> None:
+def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution: dict) -> None:
     runtime = execution.get("runtime") or {}
     missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
     if missing_runtime:
@@ -125,6 +125,23 @@ def require_real_execution_evidence(fixture_set: dict, execution: dict) -> None:
 
     if not execution.get("execution_id"):
         raise ValueError("Real F4 execution requires execution_id")
+
+    expected_prompt_fingerprint = sha256_text(artifact["prompt_body"])
+    expected_fixture_fingerprint = sha256_json(fixture_set)
+    identity_checks = {
+        "artifact_id": artifact["id"],
+        "artifact_version": artifact["version"],
+        "artifact_prompt_fingerprint": expected_prompt_fingerprint,
+        "fixture_set_id": fixture_set["fixture_set_id"],
+        "fixture_set_version": fixture_set.get("version", "1"),
+        "fixture_set_fingerprint": expected_fixture_fingerprint,
+    }
+    for key, expected in identity_checks.items():
+        observed = execution.get(key)
+        if observed != expected:
+            raise ValueError(
+                f"Real F4 execution envelope identity mismatch for {key}: expected {expected!r}, got {observed!r}"
+            )
 
     responses = execution.get("responses") or {}
     expected_ids = [fixture["fixture_id"] for fixture in fixture_set.get("cases", [])]
@@ -171,7 +188,7 @@ def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
     runtime = execution.get("runtime") or {}
     review = execution.get("review") or {}
     if mode in REAL_EXECUTION_MODES:
-        require_real_execution_evidence(fixture_set, execution)
+        require_real_execution_evidence(artifact, fixture_set, execution)
 
     responses = execution.get("responses") or {}
     results = []
