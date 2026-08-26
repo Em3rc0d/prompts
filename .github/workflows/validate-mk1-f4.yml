@@ -1,0 +1,40 @@
+name: Validate MK1 F4
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/specs/F4_BEHAVIORAL_TESTING.md'
+      - 'mk1/fixtures/f4/**'
+      - 'tools/mk1_behavioral_runner.py'
+      - 'tools/test_mk1_f4.py'
+      - '.github/workflows/validate-mk1-f4.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-f4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+
+      - name: Re-run F2 assembler characterization
+        run: python tools/test_mk1_f2.py
+
+      - name: Re-run F3 semantic critic characterization
+        run: python tools/test_mk1_f3.py
+
+      - name: Characterize F4 behavioral harness
+        run: python tools/test_mk1_f4.py
