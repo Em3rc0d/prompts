@@ -1,3 +1,4 @@
-triggered_at: 2026-08-26T12:20:00-05:00
+triggered_at: 2026-08-26T12:58:30-05:00
 source: chatgpt
 mode: web
+reason: classifier-hardening
