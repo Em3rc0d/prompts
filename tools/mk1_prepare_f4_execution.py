@@ -4,11 +4,12 @@ import argparse
 import json
 from pathlib import Path
 
-from mk1_behavioral_runner import find_fixture_set, load
+from mk1_behavioral_runner import find_fixture_set, load, sha256_json, sha256_text
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--artifact", required=True)
     parser.add_argument("--fixtures", default="mk1/fixtures/f4/fixture-sets.json")
     parser.add_argument("--fixture-set", required=True)
     parser.add_argument("--mode", choices=["api", "manual-observed", "synthetic"], required=True)
@@ -23,6 +24,15 @@ def main() -> None:
 
     document = load(Path(args.fixtures))
     fixture_set = find_fixture_set(document, args.fixture_set)
+    artifact = load(Path(args.artifact))
+
+    if artifact.get("id") != fixture_set.get("artifact_id"):
+        raise SystemExit("Artifact id does not match selected fixture set")
+    if artifact.get("version") != fixture_set.get("artifact_version"):
+        raise SystemExit("Artifact version does not match selected fixture set")
+    prompt_body = artifact.get("prompt_body")
+    if not isinstance(prompt_body, str) or not prompt_body.strip():
+        raise SystemExit("Artifact requires non-empty prompt_body")
 
     runtime = {}
     review = {}
@@ -54,17 +64,21 @@ def main() -> None:
         "mode": args.mode,
         "runtime": runtime,
         "review": review,
-        "artifact_id": fixture_set["artifact_id"],
-        "artifact_version": fixture_set["artifact_version"],
+        "artifact_id": artifact["id"],
+        "artifact_version": artifact["version"],
+        "artifact_prompt_fingerprint": sha256_text(prompt_body),
         "fixture_set_id": fixture_set["fixture_set_id"],
+        "fixture_set_version": fixture_set["version"],
+        "fixture_set_fingerprint": sha256_json(fixture_set),
         "responses": responses,
         "instructions": [
+            "This envelope is frozen to the exact artifact prompt fingerprint and fixture-set fingerprint recorded above.",
             "Replace each empty output with the actually observed model/runtime output.",
             "Resolve each declared human check explicitly as PASS or FAIL with an evidence note.",
             "For real executions, fill reviewer_ref and reviewed_at; reviewer_type must remain human.",
             "Do not substitute model self-judgment for declared human review.",
-            "Do not change fixture input after execution; create a new fixture-set version instead.",
-            "Synthetic envelopes characterize the harness only and can never support TESTED state.",
+            "Do not change prompt or fixture input after preparing/executing this envelope; version and prepare a new envelope instead.",
+            "Synthetic envelopes characterize the harness only and can never support TESTED state."
         ],
     }
 
