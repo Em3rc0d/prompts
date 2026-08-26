@@ -1,0 +1,48 @@
+name: Normalize Alpacka Public Skills
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'quarry/raw/alpacka-ai/surface/skills-index.jsonl'
+      - '.github/normalize-skills-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Normalize public skills
+        run: |
+          python tools/normalize_public_skills.py \
+            quarry/raw/alpacka-ai/surface/skills-index.jsonl \
+            --output quarry/normalized/alpacka-ai-skills-metadata.jsonl \
+            --manifest quarry/normalized/alpacka-ai-skills-metadata-manifest.json \
+            --analysis quarry/analysis/alpacka-ai-skill-structure-report.json \
+            --readme library/skills/alpacka/README.md
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit normalized skill evidence
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-skills-metadata.jsonl quarry/normalized/alpacka-ai-skills-metadata-manifest.json quarry/analysis/alpacka-ai-skill-structure-report.json library/skills/alpacka/README.md
+          if git diff --cached --quiet; then
+            echo 'No normalized skill changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: normalize Alpacka public skill metadata'
+          git pull --rebase origin main
+          git push origin HEAD:main
