@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+playwright-report/
+quarry/raw/**/snapshots/*.html
