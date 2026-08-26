@@ -1,0 +1,84 @@
+name: Build MK1 F2 Candidates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/mk1-f2-build-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+
+      - name: Re-run F2 assembler characterization
+        run: python tools/test_mk1_f2.py
+
+      - name: Build F2 candidate bundles
+        run: python tools/mk1_build_f2_candidates.py --output mk1/candidates/f2
+
+      - name: Validate generated candidate bundles
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('mk1/candidates/f2')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          assert manifest['candidate_count'] == 3, manifest
+          for row in manifest['candidates']:
+              bundle = Path(row['bundle_path'])
+              artifact = json.loads((bundle / 'artifact.json').read_text(encoding='utf-8'))
+              lint = json.loads((bundle / 'lint.json').read_text(encoding='utf-8'))
+              assert artifact['state'] == 'VALID', artifact
+              assert artifact['claims'] == ['engineered'], artifact
+              assert artifact['evaluation']['receipt_id'] is None, artifact
+              assert artifact['evaluation']['rubric_score'] is None, artifact
+              assert lint['status'] == 'PASS', lint
+              assert (bundle / 'prompt.txt').exists(), bundle
+              assert (bundle / 'architecture.json').exists(), bundle
+          print(json.dumps(manifest, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit F2 candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add mk1/candidates/f2
+          if git diff --cached --quiet; then
+            echo 'No F2 candidate changes to commit.'
+            exit 0
+          fi
+          git commit -m 'mk1: materialize F2 engineered candidates'
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/validate_catalog.py
+            python tools/test_mk1_f1.py >/dev/null
+            python tools/test_mk1_f2.py >/dev/null
+            if git push origin HEAD:main; then
+              echo 'Published MK1 F2 candidates.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+          echo 'Failed to publish MK1 F2 candidates after retries.' >&2
+          exit 1
