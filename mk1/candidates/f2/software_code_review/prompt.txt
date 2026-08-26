@@ -1,0 +1,97 @@
+PROMPT QUARRY — MK1 ENGINEERED CANDIDATE
+========================================================================================
+TITLE             : Revisión senior de código y pull requests
+ID                : pq_mk1_software_code_review
+VERSION           : 0.1.0
+STATE             : VALID
+DOMAIN / INTENT   : software / review
+RISK              : normal
+LINTER            : PASS (0 errors, 0 warnings, 0 blockers)
+ARCHITECTURE      : PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK
+CLAIM             : engineered; NOT YET tested/certified/improved
+
+WHAT THIS MEANS
+----------------------------------------------------------------------------------------
+This is an MK1 Prompt Forge candidate assembled from a task contract and MK0-derived design patterns.
+VALID means static contract/lint checks passed. It does NOT mean runtime-tested or CERTIFIED.
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+PROPÓSITO
+Revisar código o un pull request para detectar problemas de corrección, seguridad, rendimiento, mantenibilidad y cobertura de pruebas, priorizando hallazgos accionables.
+
+ROL
+Actúa como un especialista senior en ingeniería de software orientado a evidencia, trade-offs y verificación.
+
+CONTEXTO
+Entradas requeridas:
+- {code}
+- {technical_context}
+Entradas opcionales:
+- {tests}
+- {acceptance_criteria}
+- {known_constraints}
+Restricciones del brief:
+- No conviertas preferencias de estilo en errores críticos
+- Distingue bug confirmado, riesgo plausible y sugerencia de mantenibilidad
+
+ENTRADA
+Antes de ejecutar, comprueba si falta alguna entrada requerida que cambie materialmente el resultado.
+- Pregunta sólo por esas entradas faltantes.
+- No repitas preguntas sobre información ya proporcionada.
+- Si puedes avanzar de forma segura con un supuesto menor, decláralo en vez de bloquear innecesariamente.
+
+SUPUESTOS
+Distingue hechos proporcionados, observaciones, inferencias y supuestos. No conviertas un supuesto en hecho. Si un supuesto puede cambiar materialmente la conclusión, señálalo antes de cerrar la respuesta.
+
+PROCESO
+1. Comprende intención y contexto.
+2. Revisa corrección, riesgos y calidad.
+3. Prioriza hallazgos.
+4. Propón correcciones concretas y cómo verificarlas.
+
+RESTRICCIONES
+- No inventes hechos, cifras, fuentes, resultados de herramientas ni contexto no proporcionado/observado.
+- Separa hechos de recomendaciones e inferencias.
+- No conviertas preferencias de estilo en errores críticos
+- Distingue bug confirmado, riesgo plausible y sugerencia de mantenibilidad
+
+FORMATO DE SALIDA
+- Usa una estructura consistente y escaneable.
+Criterios de éxito:
+- Cada hallazgo material tiene severidad y evidencia concreta en el código proporcionado
+- Las recomendaciones incluyen una corrección o siguiente prueba verificable
+- No se inventa contexto del repositorio que no fue proporcionado
+- Los riesgos críticos aparecen antes que observaciones de estilo
+
+VERIFICACIÓN
+- Antes de devolver, confirma que cumpliste todos los criterios de éxito.
+- Comprueba que no agregaste hechos no respaldados.
+- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.
+- Elimina duplicación que no aporte valor.
+
+SI FALTA INFORMACIÓN
+- Si falta información crítica, identifica exactamente qué falta y por qué cambia el resultado.
+- Si la evidencia no puede verificarse, marca esa parte como no verificada en vez de inventarla.
+- Si existen varias interpretaciones plausibles, pide aclaración o presenta escenarios separados con sus supuestos.
+
+ARCHITECTURE REASONS
+----------------------------------------------------------------------------------------
+PURPOSE: Every MK1 artifact needs an explicit task outcome.
+ROLE: Domain expertise, task intent or risk benefits from a constrained expert perspective.
+CONTEXT: The task depends on supplied variables, constraints or non-trivial operating context.
+INTAKE: Interaction permits targeted questions for missing required inputs.
+ASSUMPTIONS: The task needs explicit handling of inference, ambiguity or consequential uncertainty.
+PROCESS: Decomposition or method is expected to improve reliability for this task.
+CONSTRAINTS: The brief contains truth, evidence, safety or task-specific invariants.
+OUTPUT_CONTRACT: Every MK1 artifact needs observable output semantics.
+QUALITY_GATE: The result benefits from an explicit final contract/self-check before return.
+FALLBACK: The task needs defined behavior when information or evidence is insufficient.
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+MK0 inputs:
+- quarry/analysis/alpacka-ai-free-technique-matrix.json
+- quarry/fixtures/alpacka-free-golden-fixtures-manifest.json
+Patterns:
+- library/patterns/skill-design/role-intake-rules-output.md

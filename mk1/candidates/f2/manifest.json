@@ -1,0 +1,95 @@
+{
+  "mk_stage": "MK1",
+  "phase": "F2",
+  "status": "VALID_CANDIDATES_ONLY",
+  "candidate_count": 3,
+  "candidates": [
+    {
+      "brief_path": "mk1/briefs/content/clear-rewrite.json",
+      "brief_id": "content_clear_rewrite",
+      "artifact_id": "pq_mk1_content_clear_rewrite",
+      "title": "Reescritura clara sin cambiar significado",
+      "domain": "general",
+      "intent": "rewrite",
+      "state": "VALID",
+      "claims": [
+        "engineered"
+      ],
+      "architecture_signature": "PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE",
+      "techniques": [
+        "context-injection",
+        "variable-template",
+        "output-formatting",
+        "self-check"
+      ],
+      "lint_status": "PASS",
+      "lint_warnings": 0,
+      "prompt_length": 675,
+      "bundle_path": "mk1/candidates/f2/content_clear_rewrite"
+    },
+    {
+      "brief_path": "mk1/briefs/software/code-review.json",
+      "brief_id": "software_code_review",
+      "artifact_id": "pq_mk1_software_code_review",
+      "title": "Revisión senior de código y pull requests",
+      "domain": "software",
+      "intent": "review",
+      "state": "VALID",
+      "claims": [
+        "engineered"
+      ],
+      "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "question-first",
+        "variable-template",
+        "assumption-audit",
+        "task-decomposition",
+        "stepwise-procedure",
+        "explicit-constraints",
+        "output-schema",
+        "self-check",
+        "fallback-behavior"
+      ],
+      "lint_status": "PASS",
+      "lint_warnings": 0,
+      "prompt_length": 2581,
+      "bundle_path": "mk1/candidates/f2/software_code_review"
+    },
+    {
+      "brief_path": "mk1/briefs/research/technical-decision.json",
+      "brief_id": "research_technical_decision",
+      "artifact_id": "pq_mk1_research_technical_decision",
+      "title": "Comparación técnica con recomendación basada en evidencia",
+      "domain": "research",
+      "intent": "research",
+      "state": "VALID",
+      "claims": [
+        "engineered"
+      ],
+      "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
+      "techniques": [
+        "role-assignment",
+        "context-injection",
+        "question-first",
+        "variable-template",
+        "assumption-audit",
+        "task-decomposition",
+        "stepwise-procedure",
+        "explicit-constraints",
+        "output-schema",
+        "alternative-generation",
+        "self-check",
+        "evidence-requirement",
+        "source-requirement",
+        "fallback-behavior"
+      ],
+      "lint_status": "PASS",
+      "lint_warnings": 0,
+      "prompt_length": 2987,
+      "bundle_path": "mk1/candidates/f2/research_technical_decision"
+    }
+  ],
+  "claim_policy": "F2 artifacts are engineered and statically VALID only. They are not TESTED, CERTIFIED or IMPROVED until later fixture/baseline/rubric receipts exist."
+}

@@ -1,0 +1,71 @@
+{
+  "id": "pq_mk1_content_clear_rewrite",
+  "version": "0.1.0",
+  "state": "VALID",
+  "artifact_type": "prompt",
+  "title": "Reescritura clara sin cambiar significado",
+  "domain": "general",
+  "intent": "rewrite",
+  "risk": "low",
+  "language": "es",
+  "model_targets": [
+    "model-agnostic"
+  ],
+  "purpose": "Reescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.",
+  "success_criteria": [
+    "El significado material del texto se conserva",
+    "La versión resultante es más clara y natural",
+    "No se introducen hechos nuevos"
+  ],
+  "inputs": {
+    "required": [
+      "text"
+    ],
+    "optional": [
+      "tone",
+      "audience"
+    ]
+  },
+  "architecture": {
+    "purpose": true,
+    "role": false,
+    "context": true,
+    "intake": false,
+    "assumptions": false,
+    "process": false,
+    "constraints": false,
+    "output_contract": true,
+    "quality_gate": true,
+    "fallback": false
+  },
+  "techniques": [
+    "context-injection",
+    "variable-template",
+    "output-formatting",
+    "self-check"
+  ],
+  "prompt_body": "PROPÓSITO\nReescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.\n\nCONTEXTO\nEntradas requeridas:\n- {text}\nEntradas opcionales:\n- {tone}\n- {audience}\n\nFORMATO DE SALIDA\nCriterios de éxito:\n- El significado material del texto se conserva\n- La versión resultante es más clara y natural\n- No se introducen hechos nuevos\n\nVERIFICACIÓN\n- Antes de devolver, confirma que cumpliste todos los criterios de éxito.\n- Comprueba que no agregaste hechos no respaldados.\n- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.\n- Elimina duplicación que no aporte valor.\n",
+  "claims": [
+    "engineered"
+  ],
+  "provenance": {
+    "mk0_inputs": [
+      "quarry/analysis/alpacka-ai-free-technique-matrix.json",
+      "quarry/fixtures/alpacka-free-golden-fixtures-manifest.json"
+    ],
+    "patterns": [],
+    "fixtures": [],
+    "source_families": [
+      "src_alpacka_web"
+    ]
+  },
+  "evaluation": {
+    "baseline_id": null,
+    "fixture_set_id": null,
+    "receipt_id": null,
+    "rubric_score": null,
+    "blocking_failures": []
+  },
+  "created_at": null,
+  "updated_at": null
+}

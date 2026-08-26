@@ -1,0 +1,45 @@
+{
+  "selector_version": "1.0.0",
+  "brief_id": "content_clear_rewrite",
+  "intent": "rewrite",
+  "domain": "general",
+  "risk": "low",
+  "complexity": "simple",
+  "selected_blocks": [
+    "PURPOSE",
+    "CONTEXT",
+    "OUTPUT_CONTRACT",
+    "QUALITY_GATE"
+  ],
+  "omitted_blocks": [
+    "ROLE",
+    "INTAKE",
+    "ASSUMPTIONS",
+    "PROCESS",
+    "CONSTRAINTS",
+    "FALLBACK"
+  ],
+  "architecture_signature": "PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE",
+  "techniques": [
+    "context-injection",
+    "variable-template",
+    "output-formatting",
+    "self-check"
+  ],
+  "reasons": {
+    "PURPOSE": [
+      "Every MK1 artifact needs an explicit task outcome."
+    ],
+    "OUTPUT_CONTRACT": [
+      "Every MK1 artifact needs observable output semantics."
+    ],
+    "CONTEXT": [
+      "The task depends on supplied variables, constraints or non-trivial operating context."
+    ],
+    "QUALITY_GATE": [
+      "The result benefits from an explicit final contract/self-check before return."
+    ]
+  },
+  "warnings": [],
+  "policy": "Select the smallest purposeful architecture. Section count is not a quality metric."
+}

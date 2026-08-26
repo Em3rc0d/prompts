@@ -1,0 +1,72 @@
+{
+  "selector_version": "1.0.0",
+  "brief_id": "research_technical_decision",
+  "intent": "research",
+  "domain": "research",
+  "risk": "normal",
+  "complexity": "complex",
+  "selected_blocks": [
+    "PURPOSE",
+    "ROLE",
+    "CONTEXT",
+    "INTAKE",
+    "ASSUMPTIONS",
+    "PROCESS",
+    "CONSTRAINTS",
+    "OUTPUT_CONTRACT",
+    "QUALITY_GATE",
+    "FALLBACK"
+  ],
+  "omitted_blocks": [],
+  "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
+  "techniques": [
+    "role-assignment",
+    "context-injection",
+    "question-first",
+    "variable-template",
+    "assumption-audit",
+    "task-decomposition",
+    "stepwise-procedure",
+    "explicit-constraints",
+    "output-schema",
+    "alternative-generation",
+    "self-check",
+    "evidence-requirement",
+    "source-requirement",
+    "fallback-behavior"
+  ],
+  "reasons": {
+    "PURPOSE": [
+      "Every MK1 artifact needs an explicit task outcome."
+    ],
+    "OUTPUT_CONTRACT": [
+      "Every MK1 artifact needs observable output semantics."
+    ],
+    "ROLE": [
+      "Domain expertise, task intent or risk benefits from a constrained expert perspective."
+    ],
+    "CONTEXT": [
+      "The task depends on supplied variables, constraints or non-trivial operating context."
+    ],
+    "INTAKE": [
+      "Interaction permits targeted questions for missing required inputs."
+    ],
+    "ASSUMPTIONS": [
+      "The task needs explicit handling of inference, ambiguity or consequential uncertainty."
+    ],
+    "PROCESS": [
+      "Decomposition or method is expected to improve reliability for this task."
+    ],
+    "CONSTRAINTS": [
+      "The brief contains truth, evidence, safety or task-specific invariants."
+    ],
+    "QUALITY_GATE": [
+      "The result benefits from an explicit final contract/self-check before return."
+    ],
+    "FALLBACK": [
+      "The task needs defined behavior when information or evidence is insufficient."
+    ]
+  },
+  "warnings": [],
+  "policy": "Select the smallest purposeful architecture. Section count is not a quality metric."
+}
