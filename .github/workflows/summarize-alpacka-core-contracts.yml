@@ -1,0 +1,52 @@
+name: Summarize Alpacka Core Contracts
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/core-contract-summary-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Summarize public data contracts
+        run: |
+          python tools/summarize_core_contracts.py \
+            quarry/fixtures/alpacka-core-dynamic-probe.json \
+            --output quarry/normalized/alpacka-ai-core-data-contracts.json
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit contract summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-core-data-contracts.json
+          if git diff --cached --quiet; then
+            echo 'No core contract changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: summarize Alpacka public core contracts'
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/validate_catalog.py
+            if git push origin HEAD:main; then exit 0; fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+          exit 1
