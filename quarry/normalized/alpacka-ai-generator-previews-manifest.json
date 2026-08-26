@@ -1,0 +1,10 @@
+{
+  "records": 3,
+  "purposes": [
+    "growth-strategy-planning",
+    "lead-magnet-ideation",
+    "writing-style-specification"
+  ],
+  "source": "quarry/raw/alpacka-ai/surface/generator.jsonl",
+  "policy": "Public preview bodies remain only in the raw capture layer. Normalized records retain provenance, hashes, variables and structural signals only."
+}
