@@ -144,8 +144,6 @@ artifact_state remains VALID
 
 Exit gate: **PASS**
 
-Static defects are characterized and cannot silently advance toward behavioral testing.
-
 ### Phase F4 — Behavioral fixture runner
 
 F4 is deliberately split into two lanes.
@@ -163,6 +161,9 @@ Delivered:
 - runtime identity contract;
 - durable receipt semantics;
 - execution-envelope generator;
+- guarded VALID → TESTED state transition;
+- deterministic TESTED-bundle materializer;
+- persisted-repository evidence validator;
 - dedicated `Validate MK1 F4` CI gate.
 
 Current fixture classes include:
@@ -184,27 +185,41 @@ The F4A characterization gate proves:
 - a real execution requires provider/model/time identity;
 - blocking machine failures prevent promotion;
 - unresolved blocking human checks prevent promotion;
-- only a real `BEHAVIORAL_PASS` receipt may become eligible for `TESTED`.
+- artifact/receipt version mismatches are rejected;
+- a persisted TESTED artifact must reconstruct exactly from its F2 source + persisted real receipt.
 
 Exit gate: **PASS FOR HARNESS / NOT A PROMPT TEST RECEIPT**
 
 #### F4B — Real behavioral execution
 
-Status: **READY — NOT YET EXECUTED**
+Status: **AUTOMATION COMPLETE — AWAITING FIRST REAL RECEIPT**
 
-Next deliverables:
+Delivered automation:
+
+- receipt suffix/trigger contract: `mk1/receipts/f4/*.receipt.json`;
+- `.github/workflows/build-mk1-f4-tested.yml`;
+- complete F1→F4 revalidation before promotion;
+- schema validation of materialized TESTED artifacts;
+- deterministic receipt/source reconstruction check;
+- automatic commit of eligible TESTED bundles.
+
+Current repository evidence:
+
+```text
+real F4 receipts = 0
+persisted TESTED artifacts = 0
+```
+
+That zero-state is valid and enforced. No TESTED artifact may exist without a matching real receipt.
+
+Remaining evidence work:
 
 - execute exact F2 prompts on exact versioned fixture inputs;
 - record actual outputs under an identified runtime;
-- resolve declared review checks;
-- persist F4 behavioral receipts;
-- produce versioned `TESTED` artifacts only for passing runs.
+- resolve declared blocking human checks;
+- persist one or more eligible F4 behavioral receipts.
 
-Until then:
-
-```text
-all three engineered prompt artifacts remain VALID
-```
+Once an eligible root-level receipt is committed, the F4B workflow owns materialization of the TESTED artifact.
 
 ### Phase F5 — Baseline comparator
 
@@ -311,8 +326,8 @@ MK1: F0 COMPLETE
      F2 COMPLETE / 3 VALID CANDIDATES
      F3 COMPLETE / 3 STATIC CRITIC PASS RECEIPTS
      F4A COMPLETE / BEHAVIORAL HARNESS CI PASS
-     F4B READY / REAL EXECUTION NEXT
-     F5 PLANNED / BLOCKED ON F4B
+     F4B AUTOMATION COMPLETE / 0 REAL RECEIPTS / 0 TESTED
+     F5 PLANNED / BLOCKED ON F4B EVIDENCE
      F6 PLANNED
 MK2: ARCHITECTURE ONLY / DEFERRED
 ```
