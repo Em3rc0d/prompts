@@ -226,6 +226,29 @@ def test_receipt_identity_mismatch_rejected() -> dict:
     raise AssertionError("Mismatched receipt version must be rejected")
 
 
+def test_prompt_fingerprint_mismatch_rejected() -> dict:
+    receipt = real_pass_receipt()
+    changed = artifact()
+    changed["prompt_body"] += "CHANGED AFTER EXECUTION\n"
+    try:
+        promote_tested(changed, receipt)
+    except ValueError as exc:
+        assert "artifact_prompt_fingerprint" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Prompt drift after execution must invalidate F4 promotion")
+
+
+def test_tampered_receipt_rejected() -> dict:
+    receipt = real_pass_receipt()
+    receipt["runtime"]["model"] = "tampered-model-id"
+    try:
+        promote_tested(artifact(), receipt)
+    except ValueError as exc:
+        assert "integrity check failed" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Receipt content modified after receipt_id generation must be rejected")
+
+
 def test_materializer_requires_real_receipt_and_builds_tested_bundle() -> dict:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -274,8 +297,10 @@ def main() -> None:
         "human_review_metadata_required": test_human_review_metadata_required(),
         "complete_observed_outputs_required": test_complete_observed_outputs_required(),
         "receipt_identity_mismatch_rejected": test_receipt_identity_mismatch_rejected(),
+        "prompt_fingerprint_mismatch_rejected": test_prompt_fingerprint_mismatch_rejected(),
+        "tampered_receipt_rejected": test_tampered_receipt_rejected(),
         "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
-        "policy": "F4 CI characterizes harness, evidence identity, human-review metadata, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
+        "policy": "F4 CI characterizes harness, immutable evidence identity, human-review metadata, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
