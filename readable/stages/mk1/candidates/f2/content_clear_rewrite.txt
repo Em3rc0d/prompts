@@ -1,0 +1,60 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1 ENGINEERED CANDIDATE — HUMAN PROMPT
+SOURCE REPOSITORY FILE: mk1/candidates/f2/content_clear_rewrite/prompt.txt
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
+
+PROMPT QUARRY — MK1 ENGINEERED CANDIDATE
+========================================================================================
+TITLE             : Reescritura clara sin cambiar significado
+ID                : pq_mk1_content_clear_rewrite
+VERSION           : 0.1.0
+STATE             : VALID
+DOMAIN / INTENT   : general / rewrite
+RISK              : low
+LINTER            : PASS (0 errors, 0 warnings, 0 blockers)
+ARCHITECTURE      : PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE
+CLAIM             : engineered; NOT YET tested/certified/improved
+
+WHAT THIS MEANS
+----------------------------------------------------------------------------------------
+This is an MK1 Prompt Forge candidate assembled from a task contract and MK0-derived design patterns.
+VALID means static contract/lint checks passed. It does NOT mean runtime-tested or CERTIFIED.
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+PROPÓSITO
+Reescribir un texto para mejorar claridad, naturalidad y legibilidad sin introducir hechos, conclusiones o intención que no existían en el original.
+
+CONTEXTO
+Entradas requeridas:
+- {text}
+Entradas opcionales:
+- {tone}
+- {audience}
+
+FORMATO DE SALIDA
+Criterios de éxito:
+- El significado material del texto se conserva
+- La versión resultante es más clara y natural
+- No se introducen hechos nuevos
+
+VERIFICACIÓN
+- Antes de devolver, confirma que cumpliste todos los criterios de éxito.
+- Comprueba que no agregaste hechos no respaldados.
+- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.
+- Elimina duplicación que no aporte valor.
+
+ARCHITECTURE REASONS
+----------------------------------------------------------------------------------------
+PURPOSE: Every MK1 artifact needs an explicit task outcome.
+CONTEXT: The task depends on supplied variables, constraints or non-trivial operating context.
+OUTPUT_CONTRACT: Every MK1 artifact needs observable output semantics.
+QUALITY_GATE: The result benefits from an explicit final contract/self-check before return.
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+MK0 inputs:
+- quarry/analysis/alpacka-ai-free-technique-matrix.json
+- quarry/fixtures/alpacka-free-golden-fixtures-manifest.json
+Patterns: (none explicitly selected)

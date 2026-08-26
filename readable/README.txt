@@ -91,5 +91,6 @@ STAGE ARCHITECTURE
 12. stages/ARCHITECTURE.txt         -> full cross-stage architecture
 13. stages/mk0/                     -> Knowledge Quarry documentation
 14. stages/mk1/                     -> Prompt Forge contracts, rubric and fixtures
-15. stages/mk2/                     -> future Prompt Engine boundary
+15. stages/mk1/candidates/          -> human copies of current MK1 engineered prompts
+16. stages/mk2/                     -> future Prompt Engine boundary
 

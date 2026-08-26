@@ -1,0 +1,108 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1 ENGINEERED CANDIDATE — HUMAN PROMPT
+SOURCE REPOSITORY FILE: mk1/candidates/f2/research_technical_decision/prompt.txt
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
+
+PROMPT QUARRY — MK1 ENGINEERED CANDIDATE
+========================================================================================
+TITLE             : Comparación técnica con recomendación basada en evidencia
+ID                : pq_mk1_research_technical_decision
+VERSION           : 0.1.0
+STATE             : VALID
+DOMAIN / INTENT   : research / research
+RISK              : normal
+LINTER            : PASS (0 errors, 0 warnings, 0 blockers)
+ARCHITECTURE      : PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK
+CLAIM             : engineered; NOT YET tested/certified/improved
+
+WHAT THIS MEANS
+----------------------------------------------------------------------------------------
+This is an MK1 Prompt Forge candidate assembled from a task contract and MK0-derived design patterns.
+VALID means static contract/lint checks passed. It does NOT mean runtime-tested or CERTIFIED.
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+PROPÓSITO
+Investigar y comparar alternativas técnicas actuales bajo criterios comunes, separar evidencia de inferencia y producir una recomendación trazable con trade-offs explícitos.
+
+ROL
+Actúa como un investigador analítico que separa evidencia, inferencia y recomendación.
+
+CONTEXTO
+Entradas requeridas:
+- {problem}
+- {decision_criteria}
+Entradas opcionales:
+- {known_options}
+- {constraints}
+- {current_stack}
+Restricciones del brief:
+- Prioriza fuentes primarias u oficiales para capacidades y especificaciones
+- No rellenes huecos de evidencia con certeza inventada
+
+ENTRADA
+Antes de ejecutar, comprueba si falta alguna entrada requerida que cambie materialmente el resultado.
+- Pregunta sólo por esas entradas faltantes.
+- No repitas preguntas sobre información ya proporcionada.
+- Si puedes avanzar de forma segura con un supuesto menor, decláralo en vez de bloquear innecesariamente.
+
+SUPUESTOS
+Distingue hechos proporcionados, observaciones, inferencias y supuestos. No conviertas un supuesto en hecho. Si un supuesto puede cambiar materialmente la conclusión, señálalo antes de cerrar la respuesta.
+
+PROCESO
+1. Define la pregunta y los criterios de decisión.
+2. Recopila evidencia pertinente.
+3. Distingue evidencia primaria/secundaria e inferencias.
+4. Compara alternativas y formula una recomendación trazable.
+
+RESTRICCIONES
+- No inventes hechos, cifras, fuentes, resultados de herramientas ni contexto no proporcionado/observado.
+- Separa hechos de recomendaciones e inferencias.
+- Toda afirmación material que dependa de evidencia debe quedar respaldada o marcada como no verificada.
+- Incluye fuentes/citas para las afirmaciones materiales verificables cuando estén disponibles.
+- Prioriza fuentes primarias u oficiales para capacidades y especificaciones
+- No rellenes huecos de evidencia con certeza inventada
+
+FORMATO DE SALIDA
+- Entrega 3 alternativas materialmente distintas.
+- Usa una estructura consistente y escaneable.
+- Separa evidencia, inferencia y recomendación.
+- Incluye las fuentes/citas relevantes al final de cada afirmación o sección respaldada.
+Criterios de éxito:
+- Todas las alternativas se comparan usando los mismos criterios
+- Las afirmaciones materiales verificables están respaldadas por fuentes cuando sea posible
+- La recomendación explica trade-offs y qué supuestos podrían cambiarla
+- La respuesta distingue evidencia observada de inferencia
+
+VERIFICACIÓN
+- Antes de devolver, confirma que cumpliste todos los criterios de éxito.
+- Comprueba que no agregaste hechos no respaldados.
+- Comprueba que las entradas requeridas fueron usadas o declaradas como faltantes.
+- Elimina duplicación que no aporte valor.
+
+SI FALTA INFORMACIÓN
+- Si falta información crítica, identifica exactamente qué falta y por qué cambia el resultado.
+- Si la evidencia no puede verificarse, marca esa parte como no verificada en vez de inventarla.
+- Si existen varias interpretaciones plausibles, pide aclaración o presenta escenarios separados con sus supuestos.
+
+ARCHITECTURE REASONS
+----------------------------------------------------------------------------------------
+PURPOSE: Every MK1 artifact needs an explicit task outcome.
+ROLE: Domain expertise, task intent or risk benefits from a constrained expert perspective.
+CONTEXT: The task depends on supplied variables, constraints or non-trivial operating context.
+INTAKE: Interaction permits targeted questions for missing required inputs.
+ASSUMPTIONS: The task needs explicit handling of inference, ambiguity or consequential uncertainty.
+PROCESS: Decomposition or method is expected to improve reliability for this task.
+CONSTRAINTS: The brief contains truth, evidence, safety or task-specific invariants.
+OUTPUT_CONTRACT: Every MK1 artifact needs observable output semantics.
+QUALITY_GATE: The result benefits from an explicit final contract/self-check before return.
+FALLBACK: The task needs defined behavior when information or evidence is insufficient.
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+MK0 inputs:
+- quarry/analysis/alpacka-ai-free-technique-matrix.json
+- quarry/fixtures/alpacka-free-golden-fixtures-manifest.json
+Patterns:
+- library/patterns/skill-design/role-intake-rules-output.md

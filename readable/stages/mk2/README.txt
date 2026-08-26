@@ -2,7 +2,7 @@ PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
 STAGE / DOCUMENT     : MK2
 SOURCE REPOSITORY FILE: mk2/README.md
-CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 # MK2 — Prompt Engine
 

@@ -2,7 +2,7 @@ PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
 STAGE / DOCUMENT     : CROSS-STAGE ARCHITECTURE
 SOURCE REPOSITORY FILE: docs/ARCHITECTURE.md
-CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 # Prompt Quarry Architecture
 

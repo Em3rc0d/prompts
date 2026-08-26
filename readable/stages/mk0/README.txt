@@ -2,7 +2,7 @@ PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
 STAGE / DOCUMENT     : MK0
 SOURCE REPOSITORY FILE: mk0/README.md
-CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 # MK0 — Knowledge Quarry
 

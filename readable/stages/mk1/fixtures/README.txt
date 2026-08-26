@@ -2,7 +2,7 @@ PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
 STAGE / DOCUMENT     : MK1
 SOURCE REPOSITORY FILE: mk1/fixtures/README.md
-CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 # MK1 Fixtures
 

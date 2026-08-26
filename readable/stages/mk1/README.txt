@@ -2,7 +2,7 @@ PROMPT QUARRY — HUMAN READING COPY
 ========================================================================================
 STAGE / DOCUMENT     : MK1
 SOURCE REPOSITORY FILE: mk1/README.md
-CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 # MK1 — Prompt Forge
 
@@ -10,7 +10,37 @@ CONTENT ORIGIN       : REPOSITORY DOCUMENTATION
 
 MK1 is the engineering layer of Prompt Quarry.
 
-It does not exist to reproduce a source collection. It exists to design, assemble, test, compare and certify **Prompt Quarry engineered** artifacts using MK0 as evidence and knowledge.
+It does not exist to reproduce a source collection. It exists to design, assemble, test, compare and eventually certify **Prompt Quarry engineered** artifacts using MK0 as evidence and knowledge.
+
+## Current status
+
+```text
+F0 — Contracts                         COMPLETE
+F1 — Architecture selector + linter    COMPLETE / CI PASS
+F2 — Candidate assembler               COMPLETE / 3 VALID CANDIDATES
+F3 — Deeper critic                     NEXT
+F4 — Behavioral fixture runner         PLANNED
+F5 — Baseline comparator               PLANNED
+F6 — Certification                     PLANNED
+```
+
+Current persisted F2 candidates:
+
+- `candidates/f2/content_clear_rewrite/`
+- `candidates/f2/software_code_review/`
+- `candidates/f2/research_technical_decision/`
+
+Each candidate currently satisfies:
+
+```text
+state = VALID
+claims = [engineered]
+lint = PASS
+receipt_id = null
+rubric_score = null
+```
+
+Therefore **no MK1 artifact is currently claimed as TESTED, CERTIFIED or IMPROVED**.
 
 ## Core rule
 
@@ -39,25 +69,25 @@ USER / PRODUCT BRIEF
 2. Retrieve MK0 evidence/patterns/fixtures
         │
         ▼
-3. Select prompt architecture
+3. Select prompt architecture          ← F1 COMPLETE
         │
         ▼
-4. Assemble candidate prompt
+4. Assemble candidate prompt           ← F2 COMPLETE
         │
         ▼
-5. Static lint / contract validation
+5. Static lint / contract validation   ← F1/F2 COMPLETE
         │
         ▼
-6. Critic pass
+6. Critic pass                         ← F3 NEXT
         │
         ▼
-7. Fixture evaluation
+7. Fixture evaluation                  ← F4
         │
         ▼
-8. Baseline comparison
+8. Baseline comparison                 ← F5
         │
         ▼
-9. Quality rubric
+9. Quality rubric                      ← F6
         │
    ┌────┴─────┐
    │          │
@@ -69,7 +99,7 @@ USER / PRODUCT BRIEF
 
 ## Candidate prompt architecture
 
-MK1 starts with the following canonical construction model:
+MK1 uses the following block vocabulary:
 
 ```text
 PURPOSE
@@ -93,23 +123,29 @@ QUALITY GATE
 FALLBACK / UNCERTAINTY BEHAVIOR
 ```
 
-Not every prompt needs every block. The Forge must justify omission rather than adding ceremonial sections that do not improve task performance.
+Not every prompt needs every block. The selector chooses the smallest purposeful architecture and records why each block was selected.
+
+Observed F1 examples:
+
+- simple rewrite → `PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE`;
+- code review/research → full reliability architecture;
+- high-stakes legal → full architecture plus safety/confidence/fallback techniques.
 
 ## MK1 artifact states
 
 A prompt moves through explicit states:
 
-- `DRAFT` — human- or system-authored candidate, untested;
-- `VALID` — satisfies the prompt contract and static rules;
-- `TESTED` — executed against its declared fixture set;
-- `CANDIDATE` — has a complete evaluation receipt and baseline comparison;
+- `DRAFT` — authored/assembled, not statically valid yet;
+- `VALID` — satisfies artifact schema and static lint rules;
+- `TESTED` — executed against a declared behavioral fixture set;
+- `CANDIDATE` — complete evaluation receipt and baseline comparison available;
 - `CERTIFIED` — passes the MK1 quality gate;
 - `REJECTED` — fails a blocking criterion;
 - `DEPRECATED` — previously certified but superseded or invalidated.
 
 `GENERATED` is not a quality state. Generation is an implementation event; a generated prompt can still be bad.
 
-## What MK1 may use from MK0
+## What MK1 consumes from MK0
 
 Preferred inputs:
 
@@ -121,63 +157,98 @@ Preferred inputs:
 - source metadata for intent/domain discovery;
 - human-review notes and regression incidents.
 
-Raw source bodies should not be treated as a hidden template library.
+Raw source bodies are not treated as a hidden template library.
 
-## MK1 output contract
+## F0 — Contract foundation
 
-Each engineered prompt must have both:
+Canonical contracts:
 
-1. a machine-readable record for evaluation/versioning;
-2. a human-readable prompt file that can be understood and used directly.
+- `specs/PROMPT_CONTRACT.md`
+- `specs/TASK_BRIEF.schema.json`
+- `specs/PROMPT_ARTIFACT.schema.json`
+- `rubrics/PROMPT_QUALITY_RUBRIC.md`
+- `fixtures/README.md`
 
-See `specs/PROMPT_CONTRACT.md`.
+These define state, provenance, versioning, task briefs, prompt artifacts, behavioral fixtures and certification semantics.
+
+## F1 — Architecture selector + linter
+
+Implementation:
+
+- `../tools/mk1_architecture_selector.py`
+- `../tools/mk1_prompt_linter.py`
+- `fixtures/f1/selector-cases.json`
+- `../tools/test_mk1_f1.py`
+- `../.github/workflows/validate-mk1-f1.yml`
+
+The F1 CI characterization gate passes:
+
+- 5/5 architecture selector fixtures;
+- 6/6 linter regression cases.
+
+Guardrails include:
+
+- undefined-variable rejection;
+- section/architecture mismatch detection;
+- high-stakes safety/fallback requirements;
+- unsupported `improved` claim rejection;
+- `CERTIFIED` score/receipt checks;
+- invalid `GENERATED` quality-state rejection.
+
+## F2 — Candidate assembler
+
+Implementation:
+
+- `../tools/mk1_candidate_assembler.py`
+- `../tools/test_mk1_f2.py`
+- `../tools/mk1_build_f2_candidates.py`
+- `../.github/workflows/validate-mk1-f2.yml`
+- `../.github/workflows/build-mk1-f2-candidates.yml`
+
+A Task Brief is transformed into:
+
+```text
+brief
+  ↓
+architecture.json
+  ↓
+artifact.json
+  ↓
+lint.json
+  ↓
+prompt.txt
+```
+
+The three current F2 bundles are deterministic, human-readable and statically valid. Their `prompt.txt` files explicitly say that `VALID` does not mean tested/certified/improved.
+
+## F3 — Next: deeper critic
+
+F3 extends beyond the existing linter into a richer quality critic.
+
+Planned checks:
+
+- semantic contradictions across sections;
+- vague or unverifiable output contracts;
+- repeated/redundant instructions;
+- unsupported assumptions;
+- provenance/truth-boundary risks;
+- high-stakes domain discipline;
+- severity and remediation suggestions;
+- regression fixtures for every meaningful defect.
 
 ## Certification principle
 
-A prompt is **not** called "improved" merely because it is longer, cleaner or more sophisticated-looking.
+A prompt is **not** called `improved` merely because it is longer, cleaner or more sophisticated-looking.
 
 An improvement claim requires:
 
 - an identified baseline;
-- an evaluation fixture set;
-- rubric scores;
-- no regression on blocking dimensions;
-- a concrete reason for the improvement claim.
+- the same evaluation fixture set;
+- rubric scores/deltas;
+- no hidden blocking regression;
+- a durable receipt explaining the claim.
 
-If there is no baseline receipt, the correct label is **engineered candidate**, not **improved prompt**.
-
-## Initial MK1 work packages
-
-### F1 — Contract
-
-- canonical prompt schema;
-- human-readable format;
-- version identity;
-- provenance back to MK0 inputs.
-
-### F2 — Architecture selector
-
-Given a task, choose the smallest useful set of blocks/techniques.
-
-### F3 — Assembler
-
-Build a candidate from selected architecture + task brief.
-
-### F4 — Static critic
-
-Detect contradictions, missing variables, vague output contracts, unsupported assumptions, unnecessary verbosity and unsafe high-stakes behavior.
-
-### F5 — Fixture runner
-
-Evaluate the candidate against declared MK0/MK1 fixtures.
-
-### F6 — Baseline comparator
-
-Compare candidate performance against a simpler/reference prompt under the same test conditions.
-
-### F7 — Certification gate
-
-Apply the quality rubric and produce a durable receipt.
+Without that receipt, the correct label remains **engineered candidate**.
 
 ## MK1 directories
 
@@ -185,20 +256,15 @@ Apply the quality rubric and produce a durable receipt.
 mk1/
 ├── README.md
 ├── specs/
-│   └── PROMPT_CONTRACT.md
 ├── rubrics/
-│   └── PROMPT_QUALITY_RUBRIC.md
 ├── fixtures/
-│   └── README.md
-├── candidates/        # future generated/test candidates
-├── certified/         # future certified prompt artifacts
-└── receipts/          # future evaluation receipts
+├── briefs/
+├── candidates/
+│   └── f2/                # 3 current VALID engineered candidates
+├── certified/             # future F6 artifacts
+└── receipts/              # future F4-F6 evaluation receipts
 ```
-
-Empty implementation directories are intentionally not pre-filled with fake outputs. MK1 documentation defines the contract before the Forge begins producing claims.
-
-## MK1 boundary
 
 MK1 ends when Prompt Quarry can reliably produce and certify reusable prompts for known tasks.
 
-Automatic task detection, dynamic retrieval, autonomous composition and continuous self-improvement belong to MK2.
+Automatic runtime task detection, retrieval, autonomous composition and adaptive selection belong to MK2.
