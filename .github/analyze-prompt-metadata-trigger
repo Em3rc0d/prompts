@@ -1,0 +1,4 @@
+triggered_at: 2026-08-26T16:15:00-05:00
+source: chatgpt
+mode: analyze-public-prompt-metadata
+policy: fingerprints-structure-indexes-only
