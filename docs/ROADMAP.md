@@ -51,7 +51,7 @@ Current receipts include:
 - more failure/regression fixtures;
 - source snapshot/version semantics for incremental sync.
 
-MK0 may continue evolving while MK1 begins. MK1 must reference the specific MK0 evidence/version used for a certification receipt.
+MK0 may continue evolving while MK1 advances. MK1 must reference the specific MK0 evidence/version used for a certification receipt.
 
 ---
 
@@ -63,60 +63,115 @@ Produce Prompt Quarry engineered prompts that are functional, understandable, te
 
 ### Phase F0 — Contracts
 
-Status: **STARTED**
+Status: **COMPLETE — CONTRACT FOUNDATION ESTABLISHED**
 
-Deliverables:
+Delivered:
 
 - `mk1/README.md`;
-- prompt artifact contract;
-- quality rubric;
-- fixture strategy;
-- state/version semantics.
+- `mk1/specs/PROMPT_CONTRACT.md`;
+- `mk1/specs/TASK_BRIEF.schema.json`;
+- `mk1/specs/PROMPT_ARTIFACT.schema.json`;
+- `mk1/rubrics/PROMPT_QUALITY_RUBRIC.md`;
+- `mk1/fixtures/README.md`;
+- explicit state/version semantics.
 
-Exit gate:
+Exit gate: **PASS**
 
-- a human and a machine can determine exactly what an MK1 candidate contains and what evidence is required for certification.
+A human and a machine can determine what an MK1 candidate contains, what each quality state means and what evidence is required before `TESTED`, `CERTIFIED` or `IMPROVED` may be claimed.
 
-### Phase F1 — First canonical architecture
+### Phase F1 — Architecture selector + static guardrails
 
-Deliverables:
+Status: **COMPLETE — CI CHARACTERIZATION PASS**
 
-- architecture/block selector;
+Delivered:
+
+- explainable architecture/block selector;
 - rules for when to use/omit PURPOSE, ROLE, CONTEXT, INTAKE, ASSUMPTIONS, PROCESS, CONSTRAINTS, OUTPUT, QUALITY and FALLBACK;
-- static prompt linter.
+- static prompt linter;
+- deterministic Task Brief schema;
+- 5 selector characterization fixtures;
+- 6 linter regression cases;
+- dedicated `Validate MK1 F1` CI gate.
 
-Exit gate:
+Observed gate receipts include:
 
-- architecture decisions are explainable and no longer equivalent to "always use the same long template".
+- simple one-shot rewrite remains compact:
+  `PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE`;
+- code review/research use the full reliability architecture;
+- high-stakes legal tasks add fallback, confidence labeling and safety boundary;
+- undefined variables fail;
+- unsupported `IMPROVED` claims fail;
+- `CERTIFIED` below the 85-point threshold fails;
+- `GENERATED` is rejected as a quality state.
+
+Exit gate: **PASS**
+
+Architecture decisions are explainable and no longer equivalent to "always use the same long template".
 
 ### Phase F2 — Candidate assembler
 
-Deliverables:
+Status: **COMPLETE — 3 VALID ENGINEERED CANDIDATES PERSISTED**
 
-- deterministic candidate assembly from a task brief + selected blocks;
-- stable prompt IDs/versioning;
-- machine + human-readable outputs.
+Delivered:
 
-Exit gate:
+- deterministic candidate assembly from Task Brief + selected architecture;
+- stable candidate IDs/versioning;
+- machine-readable `artifact.json`;
+- explainable `architecture.json`;
+- static `lint.json` receipt;
+- human-readable `prompt.txt`;
+- reproducible F2 build/materialization workflow;
+- three first candidate families:
+  - compact clear rewrite;
+  - senior code/pull-request review;
+  - evidence-backed technical research/decision comparison.
 
-- repeated generation from the same contract is traceable and structurally valid.
+Current candidate bundle root:
 
-### Phase F3 — Critic and static validation
+- `mk1/candidates/f2/`
 
-Deliverables:
+Current F2 contract:
 
-- contradiction detector;
-- undefined variable detector;
-- vague-output detector;
-- redundant-instruction detector;
+```text
+state = VALID
+claims = [engineered]
+lint = PASS
+receipt_id = null
+rubric_score = null
+```
+
+All three persisted candidates currently have zero linter warnings.
+
+Important: **VALID is not TESTED, CERTIFIED or IMPROVED.** F2 proves structural validity and deterministic construction only.
+
+Exit gate: **PASS**
+
+Repeated generation from the same task contract is traceable, structurally valid and human-readable.
+
+### Phase F3 — Critic and deeper static validation
+
+Status: **NEXT**
+
+Some foundational checks already exist in the F1 linter (undefined variables, unsupported quality claims, high-stakes safety requirements). F3 will deepen this into an explicit critic rather than merely duplicating those checks.
+
+Planned deliverables:
+
+- contradiction detector beyond simple intake conflicts;
+- vague/underspecified output-contract detector;
+- redundant/repeated-instruction detector;
+- unsupported-assumption detector;
 - provenance/truth-boundary checks;
-- high-stakes boundary checks.
+- high-stakes domain critic reports;
+- critic severity + remediation suggestions;
+- permanent regression fixtures for every meaningful defect found.
 
 Exit gate:
 
-- known static defects become test fixtures and cannot silently reach certification.
+- known static defects become fixtures and cannot silently advance toward behavioral testing.
 
 ### Phase F4 — Fixture runner
+
+Status: **PLANNED**
 
 Deliverables:
 
@@ -130,6 +185,8 @@ Exit gate:
 
 ### Phase F5 — Baseline comparator
 
+Status: **PLANNED**
+
 Deliverables:
 
 - baseline artifact declaration;
@@ -139,9 +196,11 @@ Deliverables:
 
 Exit gate:
 
-- "improved" becomes an evidence-backed label rather than aesthetic judgment.
+- `improved` becomes an evidence-backed label rather than aesthetic judgment.
 
 ### Phase F6 — Certification
+
+Status: **PLANNED**
 
 Deliverables:
 
@@ -163,12 +222,16 @@ Exit gate:
 
 Select or compose the right prompt for a task and evaluate that decision automatically.
 
+### Current status
+
+**ARCHITECTURE ONLY — DEFERRED UNTIL MK1 ENTRY GATE IS SATISFIED**
+
 ### Entry gate
 
 MK2 begins only after MK1 has:
 
 - stable contracts;
-- versioned fixtures;
+- versioned behavioral fixtures;
 - repeatable certification;
 - multiple certified prompt families;
 - baseline comparison receipts;
@@ -211,8 +274,20 @@ Use these labels precisely:
 - **source-observed** — directly supported by source evidence;
 - **derived** — inferred/aggregated from evidence;
 - **engineered** — repository-authored artifact designed from knowledge;
-- **tested** — executed against an identified fixture set;
-- **certified** — passes the declared MK1 gate;
+- **valid** — passes schema/static lint contract;
+- **tested** — executed against an identified behavioral fixture set;
+- **certified** — passes the declared MK1 certification gate;
 - **improved** — supported by a fair baseline comparison receipt.
 
 These words are part of the evidence contract, not interchangeable adjectives.
+
+## Current program snapshot
+
+```text
+MK0: ACTIVE / USABLE FOUNDATION
+MK1: F0 COMPLETE
+     F1 COMPLETE / CI PASS
+     F2 COMPLETE / 3 VALID CANDIDATES
+     F3 NEXT
+MK2: ARCHITECTURE ONLY / DEFERRED
+```
