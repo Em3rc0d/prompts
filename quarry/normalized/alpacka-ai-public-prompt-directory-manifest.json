@@ -1,0 +1,27 @@
+{
+  "records": 530,
+  "categories_observed": {
+    "Astrología": 47,
+    "Educación": 36,
+    "Salud": 23,
+    "Negocios": 15,
+    "Imagen": 12,
+    "Productividad": 12,
+    "Finanzas Personales": 11,
+    "Redes Sociales": 11
+  },
+  "access_observed": {
+    "premium": 478,
+    "gratis": 52
+  },
+  "models_observed": {
+    "Cualquier modelo": 530
+  },
+  "unclassified_category": 363,
+  "source": "quarry/raw/alpacka-ai/surface/root-links.jsonl",
+  "notes": [
+    "Entries are public directory-card references, not verified prompt bodies.",
+    "card_text_observed preserves the public title/description text as one field until a detail-page metadata contract is verified.",
+    "Premium content is indexed by public metadata only; no paid access is bypassed."
+  ]
+}
