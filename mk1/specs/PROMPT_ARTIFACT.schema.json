@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prompt-quarry.local/mk1/prompt-artifact.schema.json",
+  "title": "Prompt Quarry MK1 Engineered Prompt Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "state",
+    "artifact_type",
+    "title",
+    "domain",
+    "intent",
+    "risk",
+    "language",
+    "model_targets",
+    "purpose",
+    "success_criteria",
+    "inputs",
+    "architecture",
+    "techniques",
+    "prompt_body",
+    "provenance",
+    "evaluation"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^pq_mk1_[a-zA-Z0-9._-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["DRAFT", "VALID", "TESTED", "CANDIDATE", "CERTIFIED", "REJECTED", "DEPRECATED"]
+    },
+    "artifact_type": {
+      "const": "prompt"
+    },
+    "title": {"type": "string", "minLength": 3},
+    "domain": {"type": "string", "minLength": 2},
+    "intent": {
+      "type": "string",
+      "enum": [
+        "answer",
+        "analyze",
+        "audit",
+        "compare",
+        "decide",
+        "generate",
+        "plan",
+        "research",
+        "review",
+        "rewrite",
+        "summarize",
+        "teach",
+        "troubleshoot"
+      ]
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["low", "normal", "high-stakes"]
+    },
+    "language": {
+      "type": "string",
+      "enum": ["es", "en", "mixed"]
+    },
+    "model_targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["model-agnostic", "chatgpt", "claude", "gemini", "codex", "image-model"]
+      }
+    },
+    "purpose": {"type": "string", "minLength": 5},
+    "success_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 3}
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "optional"],
+      "properties": {
+        "required": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "optional": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "role",
+        "context",
+        "intake",
+        "assumptions",
+        "process",
+        "constraints",
+        "output_contract",
+        "quality_gate",
+        "fallback"
+      ],
+      "properties": {
+        "purpose": {"type": "boolean"},
+        "role": {"type": "boolean"},
+        "context": {"type": "boolean"},
+        "intake": {"type": "boolean"},
+        "assumptions": {"type": "boolean"},
+        "process": {"type": "boolean"},
+        "constraints": {"type": "boolean"},
+        "output_contract": {"type": "boolean"},
+        "quality_gate": {"type": "boolean"},
+        "fallback": {"type": "boolean"}
+      }
+    },
+    "techniques": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 2}
+    },
+    "prompt_body": {"type": "string", "minLength": 20},
+    "claims": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": ["engineered", "revised", "tested", "certified", "improved"]
+      },
+      "default": ["engineered"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mk0_inputs", "patterns", "fixtures", "source_families"],
+      "properties": {
+        "mk0_inputs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "patterns": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "fixtures": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "source_families": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseline_id", "fixture_set_id", "receipt_id", "rubric_score", "blocking_failures"],
+      "properties": {
+        "baseline_id": {"type": ["string", "null"]},
+        "fixture_set_id": {"type": ["string", "null"]},
+        "receipt_id": {"type": ["string", "null"]},
+        "rubric_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
+        "blocking_failures": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "created_at": {"type": ["string", "null"]},
+    "updated_at": {"type": ["string", "null"]}
+  }
+}
