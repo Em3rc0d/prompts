@@ -1,0 +1,11 @@
+{
+  "records": 2,
+  "http_statuses": {
+    "200": 2
+  },
+  "source_urls": [
+    "https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia",
+    "https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude"
+  ],
+  "body_storage_policy": "No article body is stored. The harvest retains page metadata, headings, links, sizes and fingerprints only."
+}
