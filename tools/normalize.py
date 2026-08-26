@@ -8,6 +8,28 @@ from pathlib import Path
 from common import canonicalize, read_jsonl, sha256_text, slugify, write_jsonl
 
 
+SALES_SIGNALS = (
+    "pago único",
+    "pago unico",
+    "obtener el pack",
+    "quiero los 500 prompts",
+    "acceso inmediato",
+    "garantía de 7 días",
+    "garantia de 7 dias",
+    "sin suscripción",
+    "sin suscripcion",
+    "actualizaciones de por vida",
+    "cómo lo recibes",
+    "como lo recibes",
+    "para quién es esto",
+    "para quien es esto",
+    "ya lo están usando",
+    "ya lo estan usando",
+    "la oferta",
+    "precio",
+)
+
+
 def classify(text: str) -> tuple[str, float, list[str], list[str]]:
     low = text.lower()
     techniques: list[str] = []
@@ -33,13 +55,37 @@ def classify(text: str) -> tuple[str, float, list[str], list[str]]:
     if any(token in low for token in ("investiga", "research", "analiza", "fuentes")):
         categories.append("research/analysis")
 
+    # Commercial/landing-page copy may mention the word "prompt" many times but is
+    # not itself an executable prompt. Detect it before instruction classification.
+    sales_hits = sum(signal in low for signal in SALES_SIGNALS)
+    currency_signal = bool(re.search(r"(?:\$\s*\d|\d+[,.]\d+\s*\$)", text))
+    if sales_hits >= 2 or (sales_hits >= 1 and currency_signal):
+        return "reference", 0.94, categories, techniques
+
     steps = len(re.findall(r"(?:^|\n)\s*(?:\d+[.)]|[-*])\s+", text))
-    prompt_signal = bool(re.search(r"\b(prompt|act[uú]a como|tu tarea|debes|genera|crea|analiza|reescribe)\b", low))
-    if steps >= 4 and len(text) > 500:
-        return "workflow", 0.72, categories, techniques
-    if prompt_signal:
-        return "prompt", 0.78, categories, techniques
-    return "reference", 0.45, categories, techniques
+    instruction_patterns = (
+        r"\bact[uú]a como\b",
+        r"\btu tarea(?: es)?\b",
+        r"\bdebes\b",
+        r"\bgenera\b",
+        r"\bcrea\b",
+        r"\banaliza\b",
+        r"\breescribe\b",
+        r"\bidentifica\b",
+        r"\bdevuelve\b",
+        r"\bresponde\b",
+        r"\bexplica\b",
+        r"\bdiseña\b",
+        r"\bdisena\b",
+    )
+    instruction_hits = sum(bool(re.search(pattern, low)) for pattern in instruction_patterns)
+    variable_signal = bool(re.search(r"\[[^\]]{1,80}\]", text))
+
+    if steps >= 4 and len(text) > 500 and instruction_hits >= 2:
+        return "workflow", 0.82, categories, techniques
+    if instruction_hits >= 2 or (instruction_hits >= 1 and variable_signal):
+        return "prompt", 0.86, categories, techniques
+    return "reference", 0.72, categories, techniques
 
 
 def normalize_record(raw: dict) -> dict:
