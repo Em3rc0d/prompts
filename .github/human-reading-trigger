@@ -1,4 +1,4 @@
 triggered_at: 2026-08-26
 source: chatgpt
-mode: certify-human-readable-mk1-f2-candidates
+mode: materialize-mk1-f3-f4-status-and-critic-receipts
 policy: additive-only-preserve-raw-json
