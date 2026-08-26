@@ -1,0 +1,4 @@
+triggered_at: 2026-08-26T17:34:00-05:00
+source: chatgpt
+mode: compact-public-contract-summary
+source_probe: quarry/fixtures/alpacka-core-dynamic-probe.json
