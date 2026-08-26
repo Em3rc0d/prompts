@@ -35,6 +35,7 @@ jobs:
       - name: Commit normalized blog records
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
           git add quarry/normalized/alpacka-ai-blog-articles.jsonl quarry/normalized/alpacka-ai-blog-articles-manifest.json
@@ -43,6 +44,19 @@ jobs:
             exit 0
           fi
           git commit -m 'data: normalize Alpacka blog article metadata'
-          git pull --rebase origin main
-          python tools/validate_catalog.py
-          git push origin HEAD:main
+
+          for attempt in 1 2 3 4 5; do
+            echo "Publish attempt ${attempt}/5"
+            git pull --rebase origin main
+            python tools/validate_catalog.py
+            if git push origin HEAD:main; then
+              echo 'Published normalized blog metadata.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then
+              sleep $((attempt * 2))
+            fi
+          done
+
+          echo 'Failed to publish after 5 concurrent-safe attempts.' >&2
+          exit 1
