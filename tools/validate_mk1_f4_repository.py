@@ -3,13 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from mk1_behavioral_runner import load
+from mk1_behavioral_runner import find_fixture_set, load, sha256_json
 from mk1_promote_tested import promote_tested
 
 
 RECEIPTS_ROOT = Path("mk1/receipts/f4")
 F2_ROOT = Path("mk1/candidates/f2")
 F4_ROOT = Path("mk1/candidates/f4")
+FIXTURE_DOCUMENT = Path("mk1/fixtures/f4/fixture-sets.json")
 
 
 def index_f2() -> dict[str, dict]:
@@ -22,6 +23,7 @@ def index_f2() -> dict[str, dict]:
 
 def main() -> None:
     f2 = index_f2()
+    fixture_document = load(FIXTURE_DOCUMENT)
     receipts = sorted(RECEIPTS_ROOT.glob("*.receipt.json")) if RECEIPTS_ROOT.exists() else []
     receipt_by_id: dict[str, dict] = {}
 
@@ -36,8 +38,22 @@ def main() -> None:
         if artifact_id not in f2:
             raise SystemExit(f"F4 receipt references unknown F2 artifact: {path} -> {artifact_id}")
 
+        try:
+            fixture_set = find_fixture_set(fixture_document, receipt.get("fixture_set_id"))
+        except KeyError as exc:
+            raise SystemExit(f"F4 receipt references unknown fixture set: {path}") from exc
+
+        if fixture_set.get("artifact_id") != artifact_id:
+            raise SystemExit(f"F4 receipt fixture set belongs to another artifact: {path}")
+        if receipt.get("fixture_set_version") != fixture_set.get("version"):
+            raise SystemExit(f"F4 receipt fixture_set_version mismatch: {path}")
+
+        expected_fixture_fingerprint = sha256_json(fixture_set)
+        if receipt.get("fixture_set_fingerprint") != expected_fixture_fingerprint:
+            raise SystemExit(f"F4 receipt fixture_set_fingerprint mismatch: {path}")
+
         # Reuse the promotion guard as the canonical proof that this receipt
-        # is sufficient for VALID -> TESTED.
+        # is sufficient for VALID -> TESTED and internally untampered.
         promote_tested(f2[artifact_id], receipt)
         receipt_by_id[rid] = receipt
 
@@ -83,7 +99,8 @@ def main() -> None:
         "mk1_f4_repository": "PASS",
         "real_receipts": len(receipts),
         "persisted_tested_artifacts": len(persisted_tested),
-        "evidence_boundary": "Every persisted TESTED artifact must deterministically reconstruct from a persisted real F4 receipt and its exact F2 source artifact.",
+        "fixture_fingerprints_verified": len(receipts),
+        "evidence_boundary": "Every persisted TESTED artifact must deterministically reconstruct from a persisted real F4 receipt, exact F2 prompt body and exact versioned fixture set.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
