@@ -22,10 +22,8 @@ analysis/
 fixtures/
      │ deterministic regression evidence
      ▼
-promotions/
-     │ reviewed staged knowledge
-     ▼
-catalog/ + library/
+     ├── promotions/ → catalog + reviewed library artifacts
+     └── derived library generation → reusable reconstructions
 ```
 
 ## `raw/`
@@ -45,7 +43,7 @@ Stable, machine-friendly records with source provenance and explicit access stat
 - **530** prompt UUID records
 - **22** source-observed categories
 - **52** free prompts whose public detail RPC returns content
-- **478** premium records whose public detail RPC returns `content: null`
+- **478** premium source records whose public detail RPC returns `content: null`
 - **0** category mismatches between directory cards and detail RPC during the certified harvest
 
 Key files:
@@ -53,6 +51,8 @@ Key files:
 - `alpacka-ai-public-prompt-directory.jsonl`
 - `alpacka-ai-prompt-metadata.jsonl`
 - `alpacka-ai-prompt-metadata-manifest.json`
+
+The `null` above describes the **source API fact**, not the usability of our repository. Prompt Quarry now generates a separate non-empty reconstruction for every premium reference under `library/prompts/alpacka/derived-premium/`.
 
 Free prompt bodies are never written by the metadata harvester. They are processed in memory for fingerprints and structural features and then discarded.
 
@@ -92,16 +92,7 @@ Base structure statistics for all 52 public free prompts.
 - `alpacka-ai-free-technique-vectors.jsonl`
 - `alpacka-ai-free-technique-matrix.json`
 
-The current deep pass detects 18 observed techniques. High-frequency signals include:
-
-- variable templates
-- role assignment
-- stepwise procedures
-- task decomposition
-- context injection
-- tone definition
-- output formatting
-- explicit constraints
+The current deep pass detects 18 observed techniques. High-frequency signals include variable templates, role assignment, stepwise procedures, task decomposition, context injection, tone definition, output formatting and explicit constraints.
 
 Technique detection is heuristic evidence, not a claim about author intent.
 
@@ -118,6 +109,24 @@ Across the 12 public skill references:
 - explicit multi-step process: 4/12
 
 This aggregate observation led to the repository-authored **RIRO** pattern under `library/patterns/skill-design/`.
+
+## Derived premium reusable layer
+
+The public premium bodies are not exposed, so they are not represented as source-observed content. Instead Prompt Quarry builds repository-authored reconstructions.
+
+Certified coverage:
+
+- premium references: **478**
+- derived reusable prompts: **478**
+- derived prompts with empty `content`: **0**
+
+Files:
+
+- `library/prompts/alpacka/derived-premium/catalog.jsonl`
+- `library/prompts/alpacka/derived-premium/manifest.json`
+- `library/prompts/alpacka/derived-premium/categories/*.jsonl`
+
+Each derived record explicitly carries `source_body_status: not-public` and `content_origin: repository-authored-reconstruction`.
 
 ## `fixtures/`
 
@@ -146,7 +155,8 @@ Sanitized network probes document how public dynamic surfaces load data while in
 Examples:
 
 - `alpacka-detail-network-probe.json`
-- `alpacka-blog-dynamic-probe.json` when available
+- `alpacka-blog-dynamic-probe.json`
+- `alpacka-core-dynamic-probe.json`
 
 ## `promotions/`
 
@@ -158,7 +168,9 @@ Promotion manifests are appended to `catalog/catalog.jsonl` through an idempoten
 
 The quarry follows the source's public access boundary.
 
-For Alpacka prompt details, the public RPC currently exposes metadata for both free and premium records. It returns prompt content for free records and `null` for premium records. The quarry records this distinction and does not attempt to authenticate, subscribe, bypass paywalls or recover premium bodies.
+For Alpacka prompt details, the public RPC currently exposes metadata for both free and premium records. It returns prompt content for free records and `null` for premium records. The quarry does not attempt to authenticate, subscribe, bypass paywalls or recover hidden premium bodies.
+
+That restriction does **not** require leaving our reusable layer empty: premium source references are transformed into clearly labeled repository-authored reconstructions instead.
 
 ## Provenance rule
 
@@ -166,4 +178,4 @@ For Alpacka prompt details, the public RPC currently exposes metadata for both f
 SOURCE OBSERVATION ≠ LIBRARY ARTIFACT
 ```
 
-Every promoted artifact must remain traceable to its evidence, while its body must be clearly repository-authored or otherwise legitimately reusable.
+Every reusable artifact remains traceable to evidence, while its body is clearly identified as source-observed or repository-authored.
