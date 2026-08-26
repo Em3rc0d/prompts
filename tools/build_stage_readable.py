@@ -27,24 +27,32 @@ def write_copy(source: Path, target: Path, label: str) -> None:
     )
 
 
-def copy_mk1_candidate_prompts(out: Path) -> int:
+def copy_mk1_candidate_prompts(out: Path) -> tuple[int, int]:
     root = Path("mk1/candidates")
     if not root.exists():
-        return 0
+        return 0, 0
 
-    count = 0
+    prompt_count = 0
+    receipt_count = 0
+
     for prompt in sorted(root.rglob("prompt.txt")):
         rel_dir = prompt.parent.relative_to(root)
         target = out / "stages" / "mk1" / "candidates" / rel_dir.with_suffix(".txt")
         write_copy(prompt, target, "MK1 ENGINEERED CANDIDATE — HUMAN PROMPT")
-        count += 1
+        prompt_count += 1
 
     for index in sorted(root.rglob("INDEX.txt")):
         rel = index.relative_to(root)
         target = out / "stages" / "mk1" / "candidates" / rel
         write_copy(index, target, "MK1 CANDIDATE INDEX")
 
-    return count
+    for receipt in sorted(root.rglob("*.critic.txt")):
+        rel = receipt.relative_to(root)
+        target = out / "stages" / "mk1" / "candidates" / rel
+        write_copy(receipt, target, "MK1 F3 STATIC CRITIC RECEIPT")
+        receipt_count += 1
+
+    return prompt_count, receipt_count
 
 
 def main() -> None:
@@ -79,13 +87,14 @@ def main() -> None:
     if Path("README.md").exists():
         write_copy(Path("README.md"), out / "stages" / "ROOT_OVERVIEW.txt", "REPOSITORY OVERVIEW")
 
-    candidate_prompt_copies = copy_mk1_candidate_prompts(out)
+    candidate_prompt_copies, candidate_receipt_copies = copy_mk1_candidate_prompts(out)
 
     manifest_path = out / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["stage_document_txt_copies"] = sum(stage_counts.values()) + 3
     manifest["stage_document_counts"] = stage_counts
     manifest["mk1_candidate_prompt_txt_copies"] = candidate_prompt_copies
+    manifest["mk1_candidate_receipt_txt_copies"] = candidate_receipt_copies
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     readme_path = out / "README.txt"
@@ -99,7 +108,7 @@ def main() -> None:
         + "12. stages/ARCHITECTURE.txt         -> full cross-stage architecture\n"
         + "13. stages/mk0/                     -> Knowledge Quarry documentation\n"
         + "14. stages/mk1/                     -> Prompt Forge contracts, rubric and fixtures\n"
-        + "15. stages/mk1/candidates/          -> human copies of current MK1 engineered prompts\n"
+        + "15. stages/mk1/candidates/          -> human copies of current MK1 prompts and critic receipts\n"
         + "16. stages/mk2/                     -> future Prompt Engine boundary\n"
     )
     readme_path.write_text(readme + "\n", encoding="utf-8")
@@ -113,9 +122,10 @@ def main() -> None:
         + f"MK0 documents: {stage_counts['MK0']}\n"
         + f"MK1 documents: {stage_counts['MK1']}\n"
         + f"MK1 candidate prompt copies: {candidate_prompt_copies}\n"
+        + f"MK1 critic receipt copies: {candidate_receipt_copies}\n"
         + f"MK2 documents: {stage_counts['MK2']}\n"
         + "Start with stages/ROOT_OVERVIEW.txt or stages/ROADMAP.txt.\n"
-        + "Current MK1 prompt candidates are under stages/mk1/candidates/.\n"
+        + "Current MK1 prompt candidates and receipts are under stages/mk1/candidates/.\n"
     )
     index_path.write_text(index + "\n", encoding="utf-8")
 
@@ -124,6 +134,7 @@ def main() -> None:
             {
                 "stage_document_counts": stage_counts,
                 "mk1_candidate_prompt_txt_copies": candidate_prompt_copies,
+                "mk1_candidate_receipt_txt_copies": candidate_receipt_copies,
             },
             ensure_ascii=False,
             indent=2,
