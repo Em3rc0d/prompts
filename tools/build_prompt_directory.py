@@ -5,11 +5,32 @@ import json
 import re
 from collections import Counter
 from pathlib import Path
-from urllib.parse import urlparse
 
 KNOWN_CATEGORIES = [
+    # Categories observed directly in the current rendered directory.
     "Finanzas Personales",
     "Redes Sociales",
+    "Ideas de Negocio",
+    "Desarrollo Personal",
+    "Ganar Dinero",
+    "Crear logos",
+    "IG reels",
+    "E-commerce",
+    "Marketing",
+    "Idiomas",
+    "Abogados",
+    "Programación",
+    "Copywriting",
+    "Profesores",
+    "Ingeniería",
+    "Empleo",
+    "Productividad",
+    "Educación",
+    "Negocios",
+    "Imagen",
+    "Astrología",
+    "Salud",
+    # Historical/other source-family labels retained for compatibility.
     "Creación de Contenido",
     "Canal de YouTube Sin Rostro",
     "Crecimiento Personal",
@@ -20,14 +41,8 @@ KNOWN_CATEGORIES = [
     "Aprender Francés",
     "Vibe Coding",
     "Copywriting y Contenido",
-    "Productividad",
-    "Educación",
-    "Negocios",
-    "Imagen",
     "Creatividad",
-    "Astrología",
     "Fitness",
-    "Salud",
 ]
 
 
@@ -150,6 +165,7 @@ def main() -> None:
         "source": str(args.input),
         "notes": [
             "Entries are public directory-card references, not verified prompt bodies.",
+            "Categories are source-observed directory labels, not repository-invented classifications.",
             "card_text_observed preserves the public title/description text as one field until a detail-page metadata contract is verified.",
             "Premium content is indexed by public metadata only; no paid access is bypassed.",
         ],
