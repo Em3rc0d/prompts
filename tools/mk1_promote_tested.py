@@ -5,7 +5,7 @@ import copy
 import json
 from pathlib import Path
 
-from mk1_behavioral_runner import REAL_EXECUTION_MODES, load
+from mk1_behavioral_runner import REAL_EXECUTION_MODES, load, receipt_id, sha256_text
 
 
 def promote_tested(artifact: dict, receipt: dict) -> dict:
@@ -17,8 +17,22 @@ def promote_tested(artifact: dict, receipt: dict) -> dict:
         raise ValueError("Receipt artifact_id does not match source artifact")
     if receipt.get("artifact_version") != artifact.get("version"):
         raise ValueError("Receipt artifact_version does not match source artifact")
+
+    prompt_body = artifact.get("prompt_body")
+    if not isinstance(prompt_body, str) or not prompt_body.strip():
+        raise ValueError("Source artifact requires non-empty prompt_body")
+    expected_prompt_fingerprint = sha256_text(prompt_body)
+    if receipt.get("artifact_prompt_fingerprint") != expected_prompt_fingerprint:
+        raise ValueError("Receipt artifact_prompt_fingerprint does not match exact source prompt_body")
+
+    fixture_fingerprint = receipt.get("fixture_set_fingerprint")
+    if not isinstance(fixture_fingerprint, str) or not fixture_fingerprint.startswith("sha256:"):
+        raise ValueError("F4 receipt requires fixture_set_fingerprint")
+
     if receipt.get("execution_mode") not in REAL_EXECUTION_MODES:
         raise ValueError("Synthetic/non-real F4 receipts cannot promote an artifact")
+    if not receipt.get("execution_id"):
+        raise ValueError("F4 receipt execution_id is required")
     if receipt.get("status") != "BEHAVIORAL_PASS":
         raise ValueError(f"F4 receipt status must be BEHAVIORAL_PASS; got {receipt.get('status')!r}")
     if receipt.get("eligible_for_tested") is not True:
@@ -36,6 +50,19 @@ def promote_tested(artifact: dict, receipt: dict) -> dict:
     missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
     if missing_runtime:
         raise ValueError(f"F4 receipt missing runtime identity: {missing_runtime}")
+
+    review = receipt.get("review") or {}
+    if review.get("reviewer_type") != "human":
+        raise ValueError("F4 TESTED promotion requires human review metadata")
+    missing_review = [key for key in ("reviewer_ref", "reviewed_at") if not review.get(key)]
+    if missing_review:
+        raise ValueError(f"F4 receipt missing human review metadata: {missing_review}")
+
+    receipt_payload = copy.deepcopy(receipt)
+    observed_receipt_id = receipt_payload.pop("receipt_id")
+    expected_receipt_id = receipt_id(receipt_payload)
+    if observed_receipt_id != expected_receipt_id:
+        raise ValueError("F4 receipt integrity check failed: receipt_id does not match receipt content")
 
     promoted = copy.deepcopy(artifact)
     promoted["state"] = "TESTED"
