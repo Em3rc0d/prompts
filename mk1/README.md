@@ -14,8 +14,8 @@ F1 — Architecture selector + linter    COMPLETE / CI PASS
 F2 — Candidate assembler               COMPLETE / 3 VALID CANDIDATES
 F3 — Semantic/static critic            COMPLETE / 3 PASS RECEIPTS
 F4A — Behavioral harness               COMPLETE / CI CHARACTERIZATION PASS
-F4B — Real behavioral execution        READY / NOT YET EXECUTED
-F5 — Baseline comparator               PLANNED
+F4B — Real behavioral execution        PIPELINE COMPLETE / REAL RECEIPT REQUIRED
+F5 — Baseline comparator               PLANNED / BLOCKED ON F4B
 F6 — Certification                     PLANNED
 ```
 
@@ -41,7 +41,14 @@ errors = 0
 warnings = 0
 ```
 
-The underlying prompt artifacts still satisfy:
+Current F4B repository evidence:
+
+```text
+real *.receipt.json files = 0
+persisted TESTED artifacts = 0
+```
+
+The underlying prompt artifacts therefore still satisfy:
 
 ```text
 state = VALID
@@ -92,10 +99,10 @@ USER / PRODUCT BRIEF
 6. Semantic/static critic              ← F3 COMPLETE
         │
         ▼
-7. Behavioral fixture evaluation       ← F4A HARNESS READY / F4B NEXT
+7. Behavioral fixture evaluation       ← F4A COMPLETE / F4B REAL RUN NEXT
         │
         ▼
-8. Baseline comparison                 ← F5
+8. Baseline comparison                 ← F5 BLOCKED ON F4B
         │
         ▼
 9. Quality rubric                      ← F6
@@ -247,16 +254,7 @@ Implementation:
 - `../.github/workflows/build-mk1-f3-critic-reports.yml`
 - `candidates/f3/`
 
-F3 checks include:
-
-- semantic contradictions across sections;
-- vague or unverifiable output contracts;
-- repeated/redundant instructions;
-- unsupported assumptions;
-- provenance/truth-boundary risks;
-- high-stakes boundary quality;
-- architecture overfit;
-- severity and remediation suggestions.
+F3 checks include semantic contradictions, vague output contracts, duplicate instructions, unsupported assumptions, provenance/truth-boundary risks, high-stakes boundary quality and architecture overfit.
 
 Current materialized F3 baseline: 3 reports, all PASS with zero blockers/errors/warnings.
 
@@ -276,6 +274,9 @@ Implementation:
 - `fixtures/f4/fixture-sets.json`
 - `../tools/mk1_behavioral_runner.py`
 - `../tools/mk1_prepare_f4_execution.py`
+- `../tools/mk1_promote_tested.py`
+- `../tools/mk1_materialize_f4_tested.py`
+- `../tools/validate_mk1_f4_repository.py`
 - `../tools/test_mk1_f4.py`
 - `../.github/workflows/validate-mk1-f4.yml`
 - `receipts/f4/README.md`
@@ -296,25 +297,58 @@ classes:
   regression
 ```
 
-The F4A gate proves the harness semantics:
+The F4A gate proves the harness and state-transition semantics:
 
 - synthetic PASS can never promote state;
 - runtime identity is required for real execution;
 - machine assertion failure blocks promotion;
 - unresolved blocking human review blocks promotion;
-- only a real `BEHAVIORAL_PASS` receipt may become eligible for `TESTED`.
+- artifact/receipt version mismatch is rejected;
+- only a real `BEHAVIORAL_PASS` receipt may become eligible for `TESTED`;
+- a persisted `TESTED` artifact must exactly equal the deterministic promotion of its F2 source + persisted receipt.
 
 ### F4B — real behavioral execution
 
-Status: **READY / NOT YET EXECUTED**
+Status: **PIPELINE COMPLETE / AWAITING FIRST REAL RECEIPT**
 
-The next evidence-producing step is to run each exact F2 prompt artifact against its exact fixture set under an identified real runtime, persist observed outputs, resolve the declared review checks and produce durable F4 receipts.
+Automation:
 
-Until that happens:
+- `../.github/workflows/build-mk1-f4-tested.yml`
+
+The workflow is triggered only by root-level:
 
 ```text
-state = VALID
-not TESTED
+mk1/receipts/f4/*.receipt.json
+```
+
+Execution envelopes or documentation do not trigger TESTED materialization.
+
+The workflow requires at least one receipt and re-runs F1 → F4 gates before materializing. Every generated `artifact.json` is schema-validated and must retain:
+
+```text
+state = TESTED
+claims = [engineered, tested]
+baseline_id = null
+rubric_score = null
+```
+
+The repository evidence validator also fails if a TESTED artifact exists without a matching persisted real receipt or if it differs from deterministic reconstruction.
+
+The next evidence-producing step is therefore narrow and explicit:
+
+1. choose the exact F2 artifact + fixture set;
+2. execute it under an identified real runtime;
+3. record actual outputs verbatim;
+4. resolve every declared blocking human check;
+5. generate the F4 receipt;
+6. persist `<run>.receipt.json` under `mk1/receipts/f4/`;
+7. let the F4B workflow materialize the TESTED bundle.
+
+Until step 6 happens:
+
+```text
+all three prompt artifacts remain VALID
+TESTED count = 0
 ```
 
 ## Certification principle
@@ -344,10 +378,11 @@ mk1/
 ├── briefs/
 ├── candidates/
 │   ├── f2/                # 3 current VALID engineered candidates
-│   └── f3/                # persisted static critic receipts
+│   ├── f3/                # persisted static critic receipts
+│   └── f4/                # generated only from eligible real F4 receipts
 ├── certified/             # future F6 artifacts
 └── receipts/
-    └── f4/                # future observed behavioral receipts
+    └── f4/                # observed behavioral receipts; currently none
 ```
 
 MK1 ends when Prompt Quarry can reliably produce and certify reusable prompts for known tasks.
