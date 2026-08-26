@@ -9,7 +9,7 @@ from mk1_architecture_selector import select_architecture, validate_brief
 from mk1_prompt_linter import lint_artifact
 
 
-ASSEMBLER_VERSION = "1.0.0"
+ASSEMBLER_VERSION = "1.1.0"
 
 DOMAIN_ROLES_ES = {
     "software": "un especialista senior en ingeniería de software orientado a evidencia, trade-offs y verificación",
@@ -61,6 +61,38 @@ PROCESS_EN = {
     "troubleshoot": ["Define the symptom and expected state.", "Separate observed evidence from hypotheses.", "Prioritize hypotheses by likelihood and verification cost.", "Propose minimal tests and pass/fail criteria for each cause."],
 }
 
+INTENT_OUTPUT_ES = {
+    "answer": ["- Entrega primero la respuesta directa; añade detalle sólo cuando mejore la utilidad."],
+    "analyze": ["- Presenta criterios, hallazgos, evidencia/supuestos y conclusión priorizada."],
+    "audit": ["- Para cada hallazgo indica severidad, evidencia, impacto y acción recomendada."],
+    "compare": ["- Usa una tabla o estructura común por criterio y cierra con trade-offs + recomendación."],
+    "decide": ["- Expón opciones, criterios, trade-offs, recomendación y qué dato podría cambiar la decisión."],
+    "generate": ["- Diferencia claramente cada alternativa y explica en una línea por qué encaja con el objetivo."],
+    "plan": ["- Devuelve fases/hitos, prioridades, dependencias, riesgos, métricas y primeros pasos."],
+    "research": ["- Separa por alternativa: evidencia/fuentes, ventajas, límites, trade-offs y nivel de confianza; cierra con recomendación."],
+    "review": ["- Para cada hallazgo usa: severidad, tipo, evidencia concreta, impacto, corrección sugerida y cómo verificarla."],
+    "rewrite": ["- Devuelve la versión reescrita como resultado principal; no añadas explicación salvo que el usuario la pida."],
+    "summarize": ["- Separa ideas clave, evidencia/decisiones materiales y pendientes cuando existan."],
+    "teach": ["- Estructura explicación, ejemplo/práctica y comprobación de comprensión."],
+    "troubleshoot": ["- Para cada hipótesis indica evidencia a favor/en contra, prueba mínima y criterio PASS/FAIL."],
+}
+
+INTENT_OUTPUT_EN = {
+    "answer": ["- Return the direct answer first; add detail only when it improves usefulness."],
+    "analyze": ["- Present criteria, findings, evidence/assumptions, and a prioritized conclusion."],
+    "audit": ["- For each finding include severity, evidence, impact, and recommended action."],
+    "compare": ["- Use a shared per-criterion structure and close with trade-offs plus recommendation."],
+    "decide": ["- Show options, criteria, trade-offs, recommendation, and what evidence could change the decision."],
+    "generate": ["- Clearly differentiate each alternative and give one line explaining its fit to the goal."],
+    "plan": ["- Return phases/milestones, priorities, dependencies, risks, metrics, and first actions."],
+    "research": ["- For each alternative separate evidence/sources, advantages, limitations, trade-offs, and confidence; close with a recommendation."],
+    "review": ["- For each finding include severity, type, concrete evidence, impact, suggested fix, and verification method."],
+    "rewrite": ["- Return the rewritten version as the primary result; do not add explanation unless requested."],
+    "summarize": ["- Separate key ideas, material evidence/decisions, and open items when present."],
+    "teach": ["- Structure explanation, example/practice, and a comprehension check."],
+    "troubleshoot": ["- For each hypothesis include supporting/contradicting evidence, minimal test, and PASS/FAIL criterion."],
+}
+
 
 def clean_id(value: str) -> str:
     value = re.sub(r"[^a-zA-Z0-9._-]+", "-", value.strip()).strip("-")
@@ -103,14 +135,12 @@ def _sections(brief: dict, selection: dict) -> list[tuple[str, str]]:
 
     if "PURPOSE" in selected:
         heading = "PROPÓSITO" if es else "PURPOSE"
-        body = brief["goal"]
-        sections.append((heading, body))
+        sections.append((heading, brief["goal"]))
 
     if "ROLE" in selected:
         heading = "ROL" if es else "ROLE"
         role = _role(brief["domain"], language)
-        body = f"Actúa como {role}." if es else f"Act as {role}."
-        sections.append((heading, body))
+        sections.append((heading, f"Actúa como {role}." if es else f"Act as {role}."))
 
     if "CONTEXT" in selected:
         heading = "CONTEXTO" if es else "CONTEXT"
@@ -121,9 +151,8 @@ def _sections(brief: dict, selection: dict) -> list[tuple[str, str]]:
         if optional_inputs:
             lines.append("Entradas opcionales:" if es else "Optional inputs:")
             lines.extend(f"- {{{name}}}" for name in optional_inputs)
-        if brief.get("constraints"):
-            lines.append("Restricciones del brief:" if es else "Brief constraints:")
-            lines.extend(f"- {item}" for item in brief["constraints"])
+        # Task constraints belong only to CONSTRAINTS. Keeping one authoritative owner
+        # prevents F3 duplicate-instruction regressions.
         sections.append((heading, "\n".join(lines)))
 
     if "INTAKE" in selected:
@@ -202,7 +231,7 @@ def _sections(brief: dict, selection: dict) -> list[tuple[str, str]]:
 
     if "OUTPUT_CONTRACT" in selected:
         heading = "FORMATO DE SALIDA" if es else "OUTPUT CONTRACT"
-        lines = []
+        lines = list((INTENT_OUTPUT_ES if es else INTENT_OUTPUT_EN).get(brief["intent"], []))
         if output["alternatives"] > 1:
             lines.append(
                 f"- Entrega {output['alternatives']} alternativas materialmente distintas." if es
