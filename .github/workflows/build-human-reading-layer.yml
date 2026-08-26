@@ -44,12 +44,15 @@ jobs:
           assert m['premium_reader_reconstructions'] == 478, m
           assert m['skill_txt_records'] == 12, m
           assert m['stage_document_counts']['MK0'] >= 1, m
-          assert m['stage_document_counts']['MK1'] >= 4, m
+          assert m['stage_document_counts']['MK1'] >= 5, m
           assert m['stage_document_counts']['MK2'] >= 1, m
+          assert m['mk1_candidate_prompt_txt_copies'] == 3, m
           prompt_files = list(Path('readable/prompts/alpacka/categories').rglob('*.txt'))
           skill_files = list(Path('readable/skills/alpacka/categories').rglob('*.txt'))
+          candidate_files = list(Path('readable/stages/mk1/candidates').rglob('*.txt'))
           assert len([p for p in prompt_files if p.name != 'INDEX.txt']) == 530
           assert len(skill_files) == 12
+          assert len([p for p in candidate_files if p.name != 'INDEX.txt']) == 3
           assert Path('readable/stages/ROOT_OVERVIEW.txt').exists()
           assert Path('readable/stages/ROADMAP.txt').exists()
           assert Path('readable/stages/ARCHITECTURE.txt').exists()
