@@ -1,0 +1,23 @@
+name: Probe Alpacka Prompt Metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/probe-prompts-trigger'
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Probe one free and one premium public prompt page
+        run: |
+          python tools/probe_public_prompt.py \
+            'https://www.alpackaai.xyz/prompts/9a1ca7e1-1693-419b-a64c-589d48b65a10' \
+            'https://www.alpackaai.xyz/prompts/26a97f02-f44a-4af2-bf8b-9bcc5770d115'
