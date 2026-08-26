@@ -1,0 +1,49 @@
+name: Harvest Alpacka Prompt Metadata
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/harvest-prompt-metadata-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+
+      - name: Harvest public prompt metadata
+        run: |
+          python tools/harvest_prompt_metadata.py \
+            quarry/normalized/alpacka-ai-public-prompt-directory.jsonl \
+            --output quarry/normalized/alpacka-ai-prompt-metadata.jsonl \
+            --manifest quarry/normalized/alpacka-ai-prompt-metadata-manifest.json \
+            --delay-ms 150
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Commit metadata evidence
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/normalized/alpacka-ai-prompt-metadata.jsonl quarry/normalized/alpacka-ai-prompt-metadata-manifest.json
+          if git diff --cached --quiet; then
+            echo 'No prompt metadata changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: harvest Alpacka public prompt metadata'
+          git pull --rebase origin main
+          git push origin HEAD:main
