@@ -1,0 +1,73 @@
+name: Build Human Reading Layer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/human-reading-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Build readable TXT layer
+        run: python tools/build_human_reading_layer.py --output readable
+
+      - name: Validate quarry
+        run: python tools/validate_catalog.py
+
+      - name: Validate readable coverage
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('readable/manifest.json').read_text(encoding='utf-8'))
+          assert m['prompt_txt_records'] == 530, m
+          assert m['prompt_source_free'] == 52, m
+          assert m['prompt_source_premium'] == 478, m
+          assert m['premium_reader_reconstructions'] == 478, m
+          assert m['skill_txt_records'] == 12, m
+          prompt_files = list(Path('readable/prompts/alpacka/categories').rglob('*.txt'))
+          skill_files = list(Path('readable/skills/alpacka/categories').rglob('*.txt'))
+          assert len([p for p in prompt_files if p.name != 'INDEX.txt']) == 530
+          assert len(skill_files) == 12
+          print(json.dumps(m, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Commit human-readable layer
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add readable
+          if git diff --cached --quiet; then
+            echo 'No readable-layer changes to commit.'
+            exit 0
+          fi
+          git commit -m 'docs: materialize human-readable TXT library'
+          for attempt in 1 2 3 4 5; do
+            echo "Publish attempt ${attempt}/5"
+            git pull --rebase origin main
+            python tools/validate_catalog.py
+            if git push origin HEAD:main; then
+              echo 'Published human-readable TXT library.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+          echo 'Failed to publish readable layer after retries.' >&2
+          exit 1
