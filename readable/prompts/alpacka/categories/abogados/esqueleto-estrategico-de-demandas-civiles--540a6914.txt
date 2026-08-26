@@ -1,0 +1,85 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Esqueleto Estratégico de Demandas Civiles
+TYPE               : Prompt
+CATEGORY           : Abogados
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 540a6914-c000-4e1a-ba8b-78ef28fbfea6
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/540a6914-c000-4e1a-ba8b-78ef28fbfea6
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:c7d504d019cc455517bb69381cf0ae48f4bb039ecd5379c7e3280d890076f777
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- jurisdicción
+- hechos relevantes
+- objetivo
+- documentos/evidencia disponibles
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un analista jurídico cuidadoso y orientado a evidencia.
+
+OBJETIVO
+Esqueleto Estratégico de Demandas Civiles.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {jurisdicción}
+- {hechos relevantes}
+- {objetivo}
+- {documentos/evidencia disponibles}
+
+PROCESO
+1. Aclara el contexto y el resultado esperado.
+2. Descompón el problema en partes manejables.
+3. Resuelve cada parte con supuestos explícitos.
+4. Entrega una recomendación accionable y una verificación final.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+- Distingue información educativa/general de asesoría profesional individual y señala cuándo hace falta un profesional cualificado.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/540a6914-c000-4e1a-ba8b-78ef28fbfea6
+Source record ID: alpacka_prompt_540a6914-c000-4e1a-ba8b-78ef28fbfea6
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

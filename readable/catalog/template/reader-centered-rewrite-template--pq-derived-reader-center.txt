@@ -1,0 +1,57 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Reader-Centered Rewrite Template
+TYPE            : template
+ID              : pq_derived_reader_centered_rewrite_template
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Parameterized rewrite template that optimizes the reading experience while preserving facts, terminology and intent.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- reader-centered
+- rewrite
+- template
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- audience-definition
+- explicit-constraints
+- tone-definition
+- critique-revision
+- self-check
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- audience
+- purpose
+- voice
+- constraints
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Generalized from the reader-centered behavior observed in the source family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/content/reader-centered-rewrite.md
+derived_body_original: True

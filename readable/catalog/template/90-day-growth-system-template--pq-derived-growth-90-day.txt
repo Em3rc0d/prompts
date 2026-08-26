@@ -1,0 +1,64 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : 90-Day Growth System Template
+TYPE            : template
+ID              : pq_derived_growth_90_day_system
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.alpackaai.xyz/generador
+OFFICIAL POST   : None
+RAW URL         : None
+VERIFICATION    : metadata-only
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Original execution-oriented growth template that turns a 90-day strategy into measurable channel experiments, phases, kill criteria and a week-one execution board.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- business/marketing-growth
+- business/strategy
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- growth
+- experiments
+- 90-day-plan
+- channels
+- metrics
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- context-injection
+- task-decomposition
+- stepwise-procedure
+- output-formatting
+- variable-template
+- evidence-requirement
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- product
+- audience
+- goal
+- baseline
+- constraints
+- resources
+- geography
+- channels_already_used
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.alpackaai.xyz/generador
+  relation: derived-from
+  note: Theme and structural family observed on the public generator preview; repository wording and experiment architecture are original.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/business/growth-90-day-system.md
+derived_body_original: True

@@ -1,0 +1,34 @@
+PROMPTS — Negocios
+========================================================================================
+Total: 15
+
+[PREMIUM] Architect de Agencia de IA
+          architect-de-agencia-de-ia--4bc64b98.txt
+[PREMIUM] Consultor de Growth Marketing para SaaS
+          consultor-de-growth-marketing-para-saas--2dc2c721.txt
+[PREMIUM] Consultor de Tokenización y Web3
+          consultor-de-tokenizacion-y-web3--e4518243.txt
+[PREMIUM] Contrata sin equivocarte: perfil, entrevista y prueba del candidato
+          contrata-sin-equivocarte-perfil-entrevista-y-prueba-del-candidato--5ca83817.txt
+[PREMIUM] El Cerrador de Ventas B2B: descubrimiento, demo y cierre consultivo
+          el-cerrador-de-ventas-b2b-descubrimiento-demo-y-cierre-consultivo--81e6603a.txt
+[PREMIUM] El Comité de Crisis: decide bien cuando el negocio tiembla
+          el-comite-de-crisis-decide-bien-cuando-el-negocio-tiembla--20ea4a88.txt
+[PREMIUM] El Estratega de Precios B2B: propuestas y cotizaciones que se aprueban
+          el-estratega-de-precios-b2b-propuestas-y-cotizaciones-que-se-aprueban--5e45aebe.txt
+[PREMIUM] Estratega de Airbnb Arbitrage
+          estratega-de-airbnb-arbitrage--f33445b3.txt
+[PREMIUM] Experto en Flipping de Dominios y Sitios
+          experto-en-flipping-de-dominios-y-sitios--0f0e771d.txt
+[PREMIUM] Fideliza a tus Clientes B2B: renovaciones y cuentas que crecen
+          fideliza-a-tus-clientes-b2b-renovaciones-y-cuentas-que-crecen--23f5edd3.txt
+[PREMIUM] Headhunter Digital Premium (IT)
+          headhunter-digital-premium-it--5558d1bf.txt
+[FREE   ] Idea de Negocio SaaS
+          idea-de-negocio-saas--db657a82.txt
+[PREMIUM] Manual de Operaciones: documenta tu negocio para que funcione sin ti
+          manual-de-operaciones-documenta-tu-negocio-para-que-funcione-sin-ti--af05de3a.txt
+[PREMIUM] Pitch Deck Perfecto: las 12 diapositivas que piden los inversores
+          pitch-deck-perfecto-las-12-diapositivas-que-piden-los-inversores--26a97f02.txt
+[PREMIUM] Plan de Negocio en una página: del humo a los números
+          plan-de-negocio-en-una-pagina-del-humo-a-los-numeros--9285c1aa.txt

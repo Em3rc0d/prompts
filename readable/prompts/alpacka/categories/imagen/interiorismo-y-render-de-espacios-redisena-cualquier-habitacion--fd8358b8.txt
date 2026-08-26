@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Interiorismo y Render de Espacios: rediseña cualquier habitación
+TYPE               : Prompt
+CATEGORY           : Imagen
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : fd8358b8-d5c8-42f2-83b6-ce97fd2421bc
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/fd8358b8-d5c8-42f2-83b6-ce97fd2421bc
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:50152f8cf4300845283c360ac40dbdefd3538f79890dbd8d4c86a00ea9147b7a
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- sujeto
+- estilo
+- composición
+- iluminación
+- formato
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un director creativo especializado en generación de imágenes.
+
+OBJETIVO
+Interiorismo y Render de Espacios: rediseña cualquier habitación.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {sujeto}
+- {estilo}
+- {composición}
+- {iluminación}
+- {formato}
+
+PROCESO
+1. Aclara el contexto y el resultado esperado.
+2. Descompón el problema en partes manejables.
+3. Resuelve cada parte con supuestos explícitos.
+4. Entrega una recomendación accionable y una verificación final.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/fd8358b8-d5c8-42f2-83b6-ce97fd2421bc
+Source record ID: alpacka_prompt_fd8358b8-d5c8-42f2-83b6-ce97fd2421bc
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

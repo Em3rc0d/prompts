@@ -1,0 +1,73 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Rompe límites — creencias sobre el dinero
+TYPE            : prompt
+ID              : pq_alpacka_threads_DPwn67yDrZK
+AUTHOR          : @alpacka.ai
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK/rompe-l%C3%ADmitesidentifica-3-creencias-limitantes-que-probablemente-tenga-sobre-el-
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK/rompe-l%C3%ADmitesidentifica-3-creencias-limitantes-que-probablemente-tenga-sobre-el-
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : indexed-reference
+LANGUAGE        : es
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Reflection-oriented prompt about identifying three limiting beliefs related to money and examining their effect on personal financial behavior.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- personal/finance
+- personal/reflection
+- productivity/personal-development
+
+TAGS
+----------------------------------------------------------------------------------------
+- limiting-beliefs
+- money
+- reflection
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- structured-reflection
+- question-first
+
+VARIABLES
+----------------------------------------------------------------------------------------
+(none)
+
+USABLE REPOSITORY VERSION
+----------------------------------------------------------------------------------------
+Actúa como un especialista orientado al objetivo descrito abajo.
+
+OBJETIVO
+Reflection-oriented prompt about identifying three limiting beliefs related to money and examining their effect on personal financial behavior.
+
+ENTRADA
+- {contexto del usuario}
+
+INSTRUCCIONES
+1. Conserva la intención descrita en el objetivo.
+2. Pide contexto faltante sólo cuando cambie materialmente la respuesta.
+3. Evita inventar hechos o atribuir al autor wording no observado.
+4. Entrega una versión clara, útil y directamente aplicable.
+
+TÉCNICAS OBSERVADAS / ASOCIADAS
+- structured-reflection
+- question-first
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK/rompe-l%C3%ADmitesidentifica-3-creencias-limitantes-que-probablemente-tenga-sobre-el-
+  relation: primary
+  note: Official Threads URL surfaced in a public reference list.
+-
+  url: https://mutadatabase.org/p/la-psicologia-del-dinero-superando-creencias-limitantes/
+  relation: secondary
+  note: Public page citing the Threads post as a reference.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+primary_body_status: not-directly-retrieved

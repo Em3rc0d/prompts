@@ -1,0 +1,54 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Pattern-Breaking Rewrite Template
+TYPE            : template
+ID              : pq_derived_pattern_breaking_rewrite_template
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Template that first identifies formulaic structural patterns and then minimally rewrites the draft without changing factual meaning.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- pattern-breaking
+- rewrite
+- template
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- critique-revision
+- explicit-constraints
+- iterative-refinement
+- self-check
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- audience
+- facts
+- tone
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Generalized from the pattern-breaking behavior observed in the source family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/content/pattern-breaking-rewrite.md
+derived_body_original: True

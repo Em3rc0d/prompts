@@ -1,0 +1,28 @@
+PROMPTS — Programación
+========================================================================================
+Total: 12
+
+[PREMIUM] Arquitecto de Bases de Datos: diseña el esquema antes del desastre
+          arquitecto-de-bases-de-datos-disena-el-esquema-antes-del-desastre--a95b3fe6.txt
+[PREMIUM] Constructor de APIs REST: diseño profesional de endpoints
+          constructor-de-apis-rest-diseno-profesional-de-endpoints--1103efce.txt
+[PREMIUM] Del Excel al Script: automatiza tu tarea manual con Python
+          del-excel-al-script-automatiza-tu-tarea-manual-con-python--1cdba764.txt
+[PREMIUM] Depurador Sistemático: encuentra el bug con método, no con suerte
+          depurador-sistematico-encuentra-el-bug-con-metodo-no-con-suerte--7319cc72.txt
+[PREMIUM] Documentación que no da pereza: README, comentarios y decisiones
+          documentacion-que-no-da-pereza-readme-comentarios-y-decisiones--bec8cf06.txt
+[PREMIUM] El Revisor de Código Senior: code review despiadado de tu PR
+          el-revisor-de-codigo-senior-code-review-despiadado-de-tu-pr--bac39e36.txt
+[PREMIUM] El Traductor de Código Legacy: entiende y refactoriza sin romper nada
+          el-traductor-de-codigo-legacy-entiende-y-refactoriza-sin-romper-nada--2f379961.txt
+[PREMIUM] Generador de Código Python
+          generador-de-codigo-python--c0aecaae.txt
+[PREMIUM] Megaprompt: Master de React & Arquitectura Frontend
+          megaprompt-master-de-react-arquitectura-frontend--0b465957.txt
+[PREMIUM] Tests que valen la pena: estrategia de testing para tu proyecto
+          tests-que-valen-la-pena-estrategia-de-testing-para-tu-proyecto--564dbdca.txt
+[PREMIUM] Tu Profesor de SQL: de SELECT básico a consultas de entrevista
+          tu-profesor-de-sql-de-select-basico-a-consultas-de-entrevista--c1683388.txt
+[PREMIUM] Vibe Coding con seguridad: especifica tu app para que la IA la construya bien
+          vibe-coding-con-seguridad-especifica-tu-app-para-que-la-ia-la-construya-bien--3be075c0.txt

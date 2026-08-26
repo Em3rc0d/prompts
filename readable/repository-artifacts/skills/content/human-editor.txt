@@ -1,0 +1,63 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/library/skills/content/human-editor.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# Human Editor Skill
+
+**Artifact type:** skill  
+**Status:** derived-analysis  
+**Primary inspiration:** Alpacka AI Threads collection `DURUbidDrA5`  
+**Official source:** https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+
+## Purpose
+
+Turn a mechanically written or AI-assisted draft into prose that reads naturally while preserving meaning, factual claims, intent and audience fit.
+
+This is a **derived reusable skill**, not a verbatim copy of the source prompts.
+
+## Inputs
+
+- `draft`: text to review
+- `audience`: who will read it
+- `intent`: what the text must accomplish
+- `voice`: desired voice or existing author voice
+- `constraints`: facts, terminology, formatting or claims that must not change
+
+## Procedure
+
+1. **Preserve truth first.** Identify statements, numbers, names and commitments that must remain unchanged.
+2. **Detect mechanical patterns.** Flag repetitive sentence shapes, generic transitions, symmetrical paragraphs, unnecessary restatement and over-explanation.
+3. **Repair rhythm.** Vary sentence length and paragraph density where it improves readability.
+4. **Restore voice.** Prefer concrete language and phrasing appropriate to the specified audience and author voice.
+5. **Remove artificial polish.** Delete filler, inflated claims and formulaic conclusions that do not add meaning.
+6. **Reader pass.** Read the draft as the target reader and repair confusing transitions or unnatural phrasing.
+7. **Final integrity check.** Confirm no facts, requirements or intended meaning were lost during rewriting.
+
+## Output contract
+
+Return:
+
+1. `revised_text`
+2. `material_changes` — short list of the most important edits
+3. `preserved_constraints` — facts/requirements intentionally kept intact
+4. `remaining_risks` — anything that still needs human verification
+
+## Guardrails
+
+- Do not invent personal anecdotes, facts or citations to make text appear more human.
+- Do not intentionally introduce spelling or factual errors.
+- Do not optimize for defeating AI-detection systems; optimize for readable, authentic communication.
+- Preserve domain terminology when simplification would change technical meaning.
+
+## Techniques
+
+- role-assignment
+- tone-definition
+- audience-definition
+- critique-revision
+- iterative-refinement
+- self-check
+
+## Provenance
+
+Derived from patterns publicly attributed to Alpacka AI's humanization/editing collection. Exact primary Threads body remains pending direct API capture; this skill generalizes the observed technique family rather than reproducing source text.

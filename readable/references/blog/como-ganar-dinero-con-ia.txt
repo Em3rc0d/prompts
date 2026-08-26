@@ -1,0 +1,33 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Cómo ganar dinero con ayuda de la IA: 6 ideas reales y los prompts para empezar
+TYPE            : Blog / Reference
+CATEGORY        : Negocios
+OFFICIAL SOURCE : https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia
+PUBLISHED       : True
+CREATED         : 2026-07-16T14:50:30.360515+00:00
+UPDATED         : 2026-07-16T14:50:30.360515+00:00
+CONTENT LENGTH  : 8016
+CONTENT HASH    : sha256:dd718a0de2637639
+MACHINE RECORD  : quarry/normalized/alpacka-ai-blog-articles.jsonl
+
+ARTICLE OUTLINE
+----------------------------------------------------------------------------------------
+H1
+- Cómo ganar dinero con ayuda de la IA: 6 ideas reales y los prompts para empezar
+H2
+- 1. Servicios freelance potenciados con IA
+- 2. Gestión de contenido para negocios locales
+- 3. Productos digitales: plantillas, guías y ebooks
+- 4. Consultoría de IA para pymes
+- 5. E-commerce: fichas, anuncios y atención al cliente
+- 6. Micro-herramientas y automatizaciones
+- Los tres errores que matan estos proyectos
+- Cómo empezar esta semana
+- El multiplicador: saber pedirle bien las cosas a la IA
+- ¿Quieres resultados así con tu IA?
+
+NOTE
+----------------------------------------------------------------------------------------
+The article body is not mirrored here. This TXT preserves the readable source map, outline,
+metadata, hashes and direct official URL while the quarry keeps the machine-readable record.

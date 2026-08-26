@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Guiones de TikTok/Reels con estructura viral: gancho, ritmo y loop
+TYPE               : Prompt
+CATEGORY           : Redes Sociales
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : f3187516-0545-4b48-9dfe-18269286e98c
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/f3187516-0545-4b48-9dfe-18269286e98c
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:a39763cc5b9584f2b14619da26cdca2be4fa790b665b8db8385b92e63bb9a89f
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- nicho
+- audiencia
+- plataforma
+- objetivo
+- tono
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de contenido y crecimiento en redes sociales.
+
+OBJETIVO
+Guiones de TikTok/Reels con estructura viral: gancho, ritmo y loop.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {nicho}
+- {audiencia}
+- {plataforma}
+- {objetivo}
+- {tono}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/f3187516-0545-4b48-9dfe-18269286e98c
+Source record ID: alpacka_prompt_f3187516-0545-4b48-9dfe-18269286e98c
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

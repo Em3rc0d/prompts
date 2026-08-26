@@ -1,0 +1,34 @@
+ALPACKA PROMPTS — HUMAN INDEX
+========================================================================================
+Total prompts: 530
+Free source records: 52
+Premium source records: 478
+
+Every prompt has one TXT file. Premium source bodies remain non-public, but each has a
+repository-authored usable reconstruction. Free exact source wording is not mirrored here; each
+free record has a repository-authored reader/use version plus its official URL and source hash.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- Marketing: 95  -> categories/marketing/INDEX.txt
+- Idiomas: 51  -> categories/idiomas/INDEX.txt
+- Astrología: 47  -> categories/astrologia/INDEX.txt
+- Abogados: 45  -> categories/abogados/INDEX.txt
+- Ideas de Negocio: 45  -> categories/ideas-de-negocio/INDEX.txt
+- Educación: 36  -> categories/educacion/INDEX.txt
+- Ganar Dinero: 30  -> categories/ganar-dinero/INDEX.txt
+- Salud: 23  -> categories/salud/INDEX.txt
+- Empleo: 16  -> categories/empleo/INDEX.txt
+- Copywriting: 15  -> categories/copywriting/INDEX.txt
+- Crear logos: 15  -> categories/crear-logos/INDEX.txt
+- Negocios: 15  -> categories/negocios/INDEX.txt
+- Desarrollo Personal: 12  -> categories/desarrollo-personal/INDEX.txt
+- Imagen: 12  -> categories/imagen/INDEX.txt
+- Productividad: 12  -> categories/productividad/INDEX.txt
+- Programación: 12  -> categories/programacion/INDEX.txt
+- Finanzas Personales: 11  -> categories/finanzas-personales/INDEX.txt
+- Redes Sociales: 11  -> categories/redes-sociales/INDEX.txt
+- E-commerce: 10  -> categories/e-commerce/INDEX.txt
+- IG reels: 9  -> categories/ig-reels/INDEX.txt
+- Profesores: 6  -> categories/profesores/INDEX.txt
+- Ingeniería: 2  -> categories/ingenieria/INDEX.txt

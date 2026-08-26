@@ -1,0 +1,62 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Money Belief Audit Template
+TYPE            : template
+ID              : pq_derived_money_belief_audit_template
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Evidence-aware reflection template that asks clarifying questions before identifying candidate money beliefs and proposes small reversible experiments.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- personal/finance
+- personal/reflection
+- productivity/personal-development
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- money
+- beliefs
+- reflection
+- template
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- question-first
+- structured-reflection
+- assumption-audit
+- evidence-requirement
+- confidence-labeling
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- goal
+- situation
+- background
+- decisions
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+  relation: derived-from
+  note: Generalized from the topic and structure publicly associated with this post.
+-
+  url: https://mutadatabase.org/p/la-psicologia-del-dinero-superando-creencias-limitantes/
+  relation: secondary
+  note: Secondary discovery source resolving the official Threads reference.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/personal/money-belief-audit.md
+derived_body_original: True

@@ -1,0 +1,53 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Question-First Reflection Pattern
+TYPE            : pattern
+ID              : pq_derived_question_first_reflection_pattern
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Pattern for reflective prompts that asks before inferring, labels interpretations as hypotheses and pairs each hypothesis with evidence and counter-evidence.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- personal/reflection
+- productivity/personal-development
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- question-first
+- reflection
+- pattern
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- question-first
+- structured-reflection
+- assumption-audit
+- evidence-requirement
+- confidence-labeling
+
+VARIABLES
+----------------------------------------------------------------------------------------
+(none)
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+  relation: derived-from
+  note: Safety-strengthened abstraction of the reflection pattern.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/patterns/personal/question-first-reflection.md
+derived_body_original: True

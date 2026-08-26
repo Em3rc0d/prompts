@@ -1,0 +1,22 @@
+PROMPTS — IG reels
+========================================================================================
+Total: 9
+
+[PREMIUM] Agregar humor a un video
+          agregar-humor-a-un-video--ab485789.txt
+[FREE   ] Analizar tendencias para Reels en un nicho
+          analizar-tendencias-para-reels-en-un-nicho--89c574f6.txt
+[PREMIUM] Crear serie temática para Reels
+          crear-serie-tematica-para-reels--01c42643.txt
+[PREMIUM] Escribir caption para Reel de Instagram
+          escribir-caption-para-reel-de-instagram--8ad4bef9.txt
+[PREMIUM] Escribir guion para Reel de Instagram
+          escribir-guion-para-reel-de-instagram--f75c30fa.txt
+[FREE   ] Ganchos virales para Reels y TikTok
+          ganchos-virales-para-reels-y-tiktok--43aac772.txt
+[FREE   ] Generador de temas para publicar
+          generador-de-temas-para-publicar--f6927330.txt
+[PREMIUM] Generar ideas para videos (Instagram Reel)
+          generar-ideas-para-videos-instagram-reel--d4345ead.txt
+[PREMIUM] Mejorar el engagement de la audiencia
+          mejorar-el-engagement-de-la-audiencia--811161f4.txt

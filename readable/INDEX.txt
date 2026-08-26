@@ -1,0 +1,11 @@
+READABLE ARTIFACT INDEX
+========================================================================================
+Prompts: 530
+Skills: 12
+Generator previews: 3
+Blog references: 2
+Canonical catalog records: 21
+Repository Markdown copies: 20
+Documentation/source-map copies: 7
+
+See README.txt for how to navigate this directory.
