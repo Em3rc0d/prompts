@@ -15,6 +15,8 @@ def main() -> None:
     parser.add_argument("--provider")
     parser.add_argument("--model")
     parser.add_argument("--run-at")
+    parser.add_argument("--reviewer-ref")
+    parser.add_argument("--reviewed-at")
     parser.add_argument("--execution-id", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
@@ -23,11 +25,17 @@ def main() -> None:
     fixture_set = find_fixture_set(document, args.fixture_set)
 
     runtime = {}
+    review = {}
     if args.mode != "synthetic":
         runtime = {
             "provider": args.provider,
             "model": args.model,
             "run_at": args.run_at,
+        }
+        review = {
+            "reviewer_type": "human",
+            "reviewer_ref": args.reviewer_ref or "",
+            "reviewed_at": args.reviewed_at or "",
         }
 
     responses = {}
@@ -45,13 +53,16 @@ def main() -> None:
         "execution_id": args.execution_id,
         "mode": args.mode,
         "runtime": runtime,
+        "review": review,
         "artifact_id": fixture_set["artifact_id"],
         "artifact_version": fixture_set["artifact_version"],
         "fixture_set_id": fixture_set["fixture_set_id"],
         "responses": responses,
         "instructions": [
             "Replace each empty output with the actually observed model/runtime output.",
-            "Resolve each human check explicitly as PASS or FAIL with a note.",
+            "Resolve each declared human check explicitly as PASS or FAIL with an evidence note.",
+            "For real executions, fill reviewer_ref and reviewed_at; reviewer_type must remain human.",
+            "Do not substitute model self-judgment for declared human review.",
             "Do not change fixture input after execution; create a new fixture-set version instead.",
             "Synthetic envelopes characterize the harness only and can never support TESTED state.",
         ],
