@@ -1,0 +1,212 @@
+{
+  "version": "0.1.0",
+  "fixture_sets": [
+    {
+      "fixture_set_id": "pq_mk1_fs_content_clear_rewrite_v1",
+      "artifact_id": "pq_mk1_content_clear_rewrite",
+      "artifact_version": "0.1.0",
+      "cases": [
+        {
+          "fixture_id": "rewrite_happy_01",
+          "class": "happy-path",
+          "name": "Preserve measurable facts while improving clarity",
+          "severity": "blocking",
+          "input": {"variables": {"text": "El sistema usa 3 servidores y respondió en 14 ms durante la prueba.", "tone": "neutral"}},
+          "expected": {
+            "machine_assertions": [
+              {"type": "contains_all", "values": ["3", "14 ms"]},
+              {"type": "not_contains_any", "values": ["4 servidores", "9 ms"]}
+            ],
+            "human_checks": ["Material meaning is preserved", "The rewrite is clearer and natural"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "rewrite_minimal_01",
+          "class": "minimal",
+          "name": "Required text only is enough",
+          "severity": "blocking",
+          "input": {"variables": {"text": "El pago se procesó el viernes."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_all", "values": ["pago", "viernes"]}],
+            "human_checks": ["The assistant does not demand optional tone or audience"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "rewrite_missing_01",
+          "class": "missing-critical",
+          "name": "Missing source text must not be invented",
+          "severity": "blocking",
+          "input": {"variables": {}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["texto", "text", "falta", "proporciona"]}],
+            "human_checks": ["The response asks only for the missing required text and does not fabricate it"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": ["f1-undefined-variable-boundary"]}
+        },
+        {
+          "fixture_id": "rewrite_ambiguous_01",
+          "class": "ambiguous",
+          "name": "Ambiguous referent is surfaced instead of silently rewritten as fact",
+          "severity": "blocking",
+          "input": {"variables": {"text": "Cuando Ana habló con Lucía, ella dijo que el informe estaba mal."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["ambig", "no está claro", "no queda claro", "¿"]}],
+            "human_checks": ["The assistant does not choose who 'ella' refers to without labeling the assumption"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "rewrite_noise_01",
+          "class": "noise",
+          "name": "Irrelevant context does not leak into the rewrite",
+          "severity": "blocking",
+          "input": {"variables": {"text": "La API respondió en 200 ms. Nota irrelevante: mañana es el cumpleaños de Pedro."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_all", "values": ["API", "200 ms"]}],
+            "human_checks": ["The rewrite preserves the original information without amplifying irrelevant context"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        }
+      ]
+    },
+    {
+      "fixture_set_id": "pq_mk1_fs_software_code_review_v1",
+      "artifact_id": "pq_mk1_software_code_review",
+      "artifact_version": "0.1.0",
+      "cases": [
+        {
+          "fixture_id": "code_review_happy_01",
+          "class": "happy-path",
+          "name": "Detect concrete empty-list division risk",
+          "severity": "blocking",
+          "input": {"variables": {"code": "def average(items):\n    return sum(items) / len(items)", "technical_context": "Python 3 API helper; empty lists are valid input."}},
+          "expected": {
+            "machine_assertions": [
+              {"type": "contains_any", "values": ["ZeroDivision", "división", "cero", "len(items)"]},
+              {"type": "contains_any", "values": ["verificar", "test", "prueba"]}
+            ],
+            "human_checks": ["The finding is tied to provided code and context", "Severity is proportionate"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "code_review_missing_context_01",
+          "class": "missing-critical",
+          "name": "Missing technical context triggers targeted intake",
+          "severity": "blocking",
+          "input": {"variables": {"code": "return cache.get(key)"}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["contexto", "context", "falta"]}],
+            "human_checks": ["The response asks for technical_context rather than inventing repository behavior"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "code_review_contradictory_01",
+          "class": "contradictory",
+          "name": "Conflicting requirements are surfaced",
+          "severity": "blocking",
+          "input": {"variables": {"code": "def parse(value):\n    if value is None:\n        raise ValueError()", "technical_context": "Library code", "acceptance_criteria": "Invalid input must raise an exception.", "known_constraints": "Public API must never raise exceptions."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["conflict", "contradic", "incompatib"]}],
+            "human_checks": ["The assistant does not silently choose one requirement"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "code_review_style_regression_01",
+          "class": "regression",
+          "name": "Style preference is not escalated to critical bug",
+          "severity": "blocking",
+          "input": {"variables": {"code": "def add(a,b): return a+b", "technical_context": "Internal utility; formatting is handled by an automated formatter."}},
+          "expected": {
+            "machine_assertions": [{"type": "not_contains_any", "values": ["crítico por formato", "critical formatting bug", "vulnerabilidad crítica"]}],
+            "human_checks": ["Style-only observations are not presented as critical defects"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": ["f1-style-vs-critical-guardrail"]}
+        },
+        {
+          "fixture_id": "code_review_noise_01",
+          "class": "noise",
+          "name": "Security issue remains prioritized despite irrelevant context",
+          "severity": "blocking",
+          "input": {"variables": {"code": "query = \"SELECT * FROM users WHERE name='\" + name + \"'\"", "technical_context": "Python web handler. The team also discussed changing the logo color."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["inyección SQL", "SQL injection", "parametr"]}],
+            "human_checks": ["The code risk is prioritized over irrelevant product context"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        }
+      ]
+    },
+    {
+      "fixture_set_id": "pq_mk1_fs_research_technical_decision_v1",
+      "artifact_id": "pq_mk1_research_technical_decision",
+      "artifact_version": "0.1.0",
+      "cases": [
+        {
+          "fixture_id": "research_happy_01",
+          "class": "happy-path",
+          "name": "Compare options under common criteria with evidence discipline",
+          "severity": "blocking",
+          "input": {"variables": {"problem": "Choose a relational database for a transactional SaaS product.", "decision_criteria": "transactions, operational maturity, ecosystem, hosting flexibility", "known_options": "PostgreSQL, MySQL"}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["PostgreSQL", "MySQL"]}, {"type": "contains_any", "values": ["trade-off", "criterio", "recomend"]}],
+            "human_checks": ["Both options are compared using the same criteria", "Material factual claims are distinguishable from inference"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "research_missing_criteria_01",
+          "class": "missing-critical",
+          "name": "Missing decision criteria triggers intake",
+          "severity": "blocking",
+          "input": {"variables": {"problem": "Choose a message broker."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["criterio", "criteria", "falta"]}],
+            "human_checks": ["The assistant asks for decision criteria rather than fabricating priorities"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "research_contradictory_01",
+          "class": "contradictory",
+          "name": "Mutually exclusive deployment constraints are surfaced",
+          "severity": "blocking",
+          "input": {"variables": {"problem": "Choose an application platform.", "decision_criteria": "deployment model and operational control", "constraints": "Must be fully managed public-cloud only and must run exclusively on-premises with no external control plane."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["conflict", "contradic", "incompatib", "mutuamente"]}],
+            "human_checks": ["The recommendation is withheld or scenario-split until the contradiction is resolved"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        },
+        {
+          "fixture_id": "research_unverified_01",
+          "class": "edge",
+          "name": "Unsupported performance claim stays unverified",
+          "severity": "blocking",
+          "input": {"variables": {"problem": "Evaluate whether Option A is faster than Option B.", "decision_criteria": "latency and throughput", "known_options": "Option A, Option B", "constraints": "A stakeholder claims Option A is always 10x faster but supplied no benchmark or source."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["no verific", "evidencia", "benchmark", "fuente"]}],
+            "human_checks": ["The 10x claim is not repeated as established fact"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": ["evidence-before-claims"]}
+        },
+        {
+          "fixture_id": "research_noise_01",
+          "class": "noise",
+          "name": "Irrelevant organizational trivia does not drive the recommendation",
+          "severity": "blocking",
+          "input": {"variables": {"problem": "Choose between SQLite and PostgreSQL for a multi-user web service.", "decision_criteria": "concurrency, operations, deployment complexity", "known_options": "SQLite, PostgreSQL", "current_stack": "Python. The office coffee machine was replaced yesterday."}},
+          "expected": {
+            "machine_assertions": [{"type": "contains_any", "values": ["SQLite", "PostgreSQL"]}],
+            "human_checks": ["Irrelevant trivia is not used as a decision factor"]
+          },
+          "provenance": {"mk0_fixture_ids": [], "incident_ids": []}
+        }
+      ]
+    }
+  ]
+}
