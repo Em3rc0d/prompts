@@ -1,0 +1,45 @@
+name: Crawl Alpacka Public Surface
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/surface-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+
+      - name: Crawl public routes
+        shell: bash
+        run: |
+          set -e
+          mkdir -p quarry/raw/alpacka-ai/surface
+          python tools/ingest_web.py --url 'https://www.alpackaai.xyz/' --output quarry/raw/alpacka-ai/surface/root.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://alpackaai.xyz/terms' --output quarry/raw/alpacka-ai/surface/terms.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://alpackaai.xyz/privacy' --output quarry/raw/alpacka-ai/surface/privacy.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+          python tools/ingest_web.py --url 'https://alpackaai.xyz/pricing' --output quarry/raw/alpacka-ai/surface/pricing.jsonl --snapshot-dir quarry/raw/alpacka-ai/surface/snapshots
+
+      - name: Commit public surface evidence
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/raw/alpacka-ai/surface/**/*.jsonl quarry/raw/alpacka-ai/surface/*.jsonl || true
+          if git diff --cached --quiet; then
+            echo 'No public surface changes to commit.'
+            exit 0
+          fi
+          git commit -m 'data: crawl Alpacka public surface'
+          git push
