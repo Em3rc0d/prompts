@@ -1,4 +1,4 @@
-triggered_at: 2026-08-26T16:49:00-05:00
+triggered_at: 2026-08-26
 source: chatgpt
-mode: materialize-human-readable-txt-layer
+mode: materialize-human-readable-txt-layer-with-mk-stages
 policy: additive-only-preserve-raw-json
