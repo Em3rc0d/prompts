@@ -18,6 +18,11 @@ on:
         required: true
         type: boolean
         default: true
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/harvest-trigger'
 
 permissions:
   contents: write
@@ -40,14 +45,14 @@ jobs:
       - run: python -m playwright install --with-deps chromium
 
       - name: Collect website
-        if: ${{ inputs.collect_web }}
+        if: ${{ github.event_name == 'push' || inputs.collect_web }}
         run: |
           python tools/ingest_web.py \
             --url "https://alpackaai.xyz/bank-prompts?utm_source=threads&utm_medium=social&utm_content=link_in_bio" \
             --output quarry/raw/alpacka-ai/web/candidates.jsonl
 
       - name: Collect Threads through official API
-        if: ${{ inputs.collect_threads }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.collect_threads }}
         shell: bash
         run: |
           if [ -z "$THREADS_ACCESS_TOKEN" ]; then
@@ -80,7 +85,7 @@ jobs:
           if-no-files-found: error
 
       - name: Commit quarry JSONL
-        if: ${{ inputs.commit_results }}
+        if: ${{ github.event_name == 'push' || inputs.commit_results }}
         shell: bash
         run: |
           git config user.name "prompt-quarry-bot"
