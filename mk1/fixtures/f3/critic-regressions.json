@@ -1,0 +1,38 @@
+[
+  {
+    "id": "f3_duplicate_instruction",
+    "defect": "duplicate-instruction",
+    "severity": "warning",
+    "description": "A task constraint appears verbatim in CONTEXT and again in CONSTRAINTS. The critic must detect the duplication so the assembler owns each instruction in one authoritative block."
+  },
+  {
+    "id": "f3_questions_contradiction",
+    "defect": "questions-required-vs-forbidden",
+    "severity": "error",
+    "description": "A prompt asks the model to request missing information while also forbidding questions."
+  },
+  {
+    "id": "f3_vague_output",
+    "defect": "vague-output-contract",
+    "severity": "error",
+    "description": "An enabled OUTPUT_CONTRACT contains no observable deliverable semantics."
+  },
+  {
+    "id": "f3_provenance_laundering",
+    "defect": "provenance-laundering-language",
+    "severity": "blocking",
+    "description": "A derived prompt falsely claims to reproduce an original premium/source prompt verbatim."
+  },
+  {
+    "id": "f3_high_stakes_generic_boundary",
+    "defect": "high-stakes-boundary-too-generic",
+    "severity": "blocking",
+    "description": "High-stakes structural blocks exist but fail to establish domain-relevant uncertainty/professional boundaries."
+  },
+  {
+    "id": "f3_architecture_overfit",
+    "defect": "architecture-overfit",
+    "severity": "warning",
+    "description": "A low-risk simple rewrite uses almost every architecture block despite not needing them."
+  }
+]
