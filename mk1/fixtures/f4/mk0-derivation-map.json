@@ -1,0 +1,108 @@
+{
+  "version": "0.1.0",
+  "mk0_golden_dataset": {
+    "fixtures_path": "quarry/fixtures/alpacka-free-golden-fixtures.json",
+    "manifest_path": "quarry/fixtures/alpacka-free-golden-fixtures-manifest.json",
+    "expected_fixture_records": 23,
+    "role": "Structural and technique evidence foundation. MK0 golden fixtures are not relabeled as MK1 behavioral test cases."
+  },
+  "mappings": [
+    {
+      "derivation_id": "pq_mk1_f4_basis_clear_rewrite_v1",
+      "f4_fixture_set_id": "pq_mk1_fs_content_clear_rewrite_v1",
+      "artifact_id": "pq_mk1_content_clear_rewrite",
+      "relationship": "architecture-evidence-not-behavioral-copy",
+      "mk0_fixture_refs": [
+        {
+          "fixture_id": "fixture_dd4a31ed-8ec2-4d66-9be2-1de842964fbf",
+          "title": "Redacción Casual de Mensajes y Correos",
+          "supports": [
+            "variable-template",
+            "tone-definition",
+            "stepwise-procedure",
+            "task-decomposition",
+            "critique-revision",
+            "evidence-requirement"
+          ]
+        }
+      ],
+      "mk0_principles_carried_forward": [
+        "preserve observed facts",
+        "explicit variables",
+        "critique/revision and evidence discipline"
+      ],
+      "mk1_behavioral_case_origin": "authored-in-mk1",
+      "note": "The F4 rewrite cases test behavior such as missing input, ambiguity and fact preservation. Those cases are new MK1 tests; the MK0 fixture contributes structural/technique evidence only."
+    },
+    {
+      "derivation_id": "pq_mk1_f4_basis_code_review_v1",
+      "f4_fixture_set_id": "pq_mk1_fs_software_code_review_v1",
+      "artifact_id": "pq_mk1_software_code_review",
+      "relationship": "architecture-evidence-not-behavioral-copy",
+      "mk0_fixture_refs": [
+        {
+          "fixture_id": "fixture_df6d3490-9934-4a00-b08b-d2f24010a7ca",
+          "title": "Revisar contrato",
+          "supports": [
+            "role-assignment",
+            "variable-template",
+            "critique-revision",
+            "self-check"
+          ]
+        }
+      ],
+      "mk0_principles_carried_forward": [
+        "critique against supplied evidence",
+        "self-check before return",
+        "do not invent unsupported facts"
+      ],
+      "mk1_behavioral_case_origin": "authored-in-mk1",
+      "note": "The MK0 exemplar is cross-domain review evidence, not a software-review test. MK1 authors software-specific behavioral fixtures and preserves the provenance boundary."
+    },
+    {
+      "derivation_id": "pq_mk1_f4_basis_research_decision_v1",
+      "f4_fixture_set_id": "pq_mk1_fs_research_technical_decision_v1",
+      "artifact_id": "pq_mk1_research_technical_decision",
+      "relationship": "architecture-evidence-not-behavioral-copy",
+      "mk0_fixture_refs": [
+        {
+          "fixture_id": "fixture_14d9baa2-7a88-4d77-9f75-a07729817ee2",
+          "title": "Encontrar precedentes legales",
+          "supports": [
+            "role-assignment",
+            "context-injection",
+            "variable-template",
+            "self-check",
+            "evidence-requirement"
+          ]
+        },
+        {
+          "fixture_id": "fixture_95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+          "title": "Tu Rescate Financiero: plan de 90 días para ordenar tu dinero",
+          "supports": [
+            "context-injection",
+            "variable-template",
+            "stepwise-procedure",
+            "explicit-constraints",
+            "output-formatting",
+            "comparison",
+            "temporal-plan"
+          ]
+        }
+      ],
+      "mk0_principles_carried_forward": [
+        "evidence before claims",
+        "compare alternatives under declared criteria",
+        "distinguish evidence from inference"
+      ],
+      "mk1_behavioral_case_origin": "authored-in-mk1",
+      "note": "MK0 contributes separate evidence-requirement and comparison exemplars. MK1 composes those learned patterns into technical-decision behavior and tests new contradictory/unverified/noise cases."
+    }
+  ],
+  "policy": {
+    "direct_lineage": "Use per-case mk0_fixture_ids only when a behavioral case is actually derived from a specific MK0 fixture. Empty direct-lineage arrays are valid and must not be filled cosmetically.",
+    "cross_stage_derivation": "Every F4 fixture set must have a mapping to existing MK0 evidence or an explicit documented reason why no MK0 evidence applies.",
+    "copyright_boundary": "The bridge references MK0 fixture metadata/fingerprints and techniques; it does not reproduce source prompt bodies.",
+    "evidence_boundary": "MK0 evidence can justify architecture/pattern selection. It cannot by itself prove MK1 behavioral success."
+  }
+}
