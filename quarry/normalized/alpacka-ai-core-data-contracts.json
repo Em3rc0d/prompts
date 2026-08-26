@@ -1,0 +1,88 @@
+{
+  "source_probe": "quarry/fixtures/alpacka-core-dynamic-probe.json",
+  "surface_count": 3,
+  "unique_endpoint_names": [
+    "get_prompts_list"
+  ],
+  "endpoint_observation_counts": {
+    "get_prompts_list": 1
+  },
+  "surfaces": [
+    {
+      "surface_url": "https://www.alpackaai.xyz/",
+      "final_url": "https://www.alpackaai.xyz/",
+      "title": "Alpacka.ai · Directorio de prompts para ChatGPT, Claude y Gemini",
+      "navigation_status": 200,
+      "h1": [
+        "El directorio de prompts de Alpacka"
+      ],
+      "rendered_counters": [
+        "Todos (530)",
+        "Gratis (52)",
+        "Premium (478)",
+        "Nuevos (0)"
+      ],
+      "visible_text_length": 14954,
+      "visible_text_sha256_prefix": "d44dedc4c1d052bf",
+      "public_data_endpoints": [
+        {
+          "name": "get_prompts_list",
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompts_list",
+          "method": "POST",
+          "status": 200,
+          "resource_type": "fetch",
+          "content_type": "application/json; charset=utf-8",
+          "response_shape": {
+            "shape_type": "array",
+            "captured_sample_items": 50,
+            "item_keys": [
+              "ai_tool",
+              "category",
+              "created_at",
+              "description",
+              "id",
+              "image_url",
+              "is_premium",
+              "title"
+            ],
+            "sample_item": {
+              "id": "9a1ca7e1-1693-419b-a64c-589d48b65a10",
+              "title": "Aprende cualquier tema en tiempo récord (Método 80/20)",
+              "category": "Educación",
+              "is_premium": false,
+              "created_at": "2026-07-30T05:07:34.070949+00:00",
+              "ai_tool": "cualquier-modelo"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "surface_url": "https://www.alpackaai.xyz/skills",
+      "final_url": "https://www.alpackaai.xyz/skills",
+      "title": "Banco de Prompts de IA · +1.000 prompts para ChatGPT, Claude y Gemini | Alpacka",
+      "navigation_status": 200,
+      "h1": [
+        "Skills listas para copiar. Claude, con superpoderes."
+      ],
+      "rendered_counters": [],
+      "visible_text_length": 3093,
+      "visible_text_sha256_prefix": "38a8539b0a112347",
+      "public_data_endpoints": []
+    },
+    {
+      "surface_url": "https://www.alpackaai.xyz/generador",
+      "final_url": "https://www.alpackaai.xyz/generador",
+      "title": "Banco de Prompts de IA · +1.000 prompts para ChatGPT, Claude y Gemini | Alpacka",
+      "navigation_status": 200,
+      "h1": [
+        "Genera tus prompts de IAen un solo clic"
+      ],
+      "rendered_counters": [],
+      "visible_text_length": 3805,
+      "visible_text_sha256_prefix": "0add76e4b55651cb",
+      "public_data_endpoints": []
+    }
+  ],
+  "policy": "Compact contract summary derived from sanitized browser/network evidence. Credentials, headers and long source bodies are not stored."
+}
