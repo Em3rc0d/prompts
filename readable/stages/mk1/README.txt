@@ -18,8 +18,9 @@ It does not exist to reproduce a source collection. It exists to design, assembl
 F0 — Contracts                         COMPLETE
 F1 — Architecture selector + linter    COMPLETE / CI PASS
 F2 — Candidate assembler               COMPLETE / 3 VALID CANDIDATES
-F3 — Deeper critic                     NEXT
-F4 — Behavioral fixture runner         PLANNED
+F3 — Semantic/static critic            COMPLETE / 3 PASS RECEIPTS
+F4A — Behavioral harness               COMPLETE / CI CHARACTERIZATION PASS
+F4B — Real behavioral execution        READY / NOT YET EXECUTED
 F5 — Baseline comparator               PLANNED
 F6 — Certification                     PLANNED
 ```
@@ -30,7 +31,23 @@ Current persisted F2 candidates:
 - `candidates/f2/software_code_review/`
 - `candidates/f2/research_technical_decision/`
 
-Each candidate currently satisfies:
+Current persisted F3 receipts:
+
+- `candidates/f3/manifest.json`
+- `candidates/f3/INDEX.txt`
+- `candidates/f3/reports/*.critic.json`
+- `candidates/f3/reports/*.critic.txt`
+
+All three F3 receipts currently report:
+
+```text
+critic_status = PASS
+blocking = 0
+errors = 0
+warnings = 0
+```
+
+The underlying prompt artifacts still satisfy:
 
 ```text
 state = VALID
@@ -40,7 +57,7 @@ receipt_id = null
 rubric_score = null
 ```
 
-Therefore **no MK1 artifact is currently claimed as TESTED, CERTIFIED or IMPROVED**.
+Therefore **no MK1 artifact is currently claimed as TESTED, CANDIDATE, CERTIFIED or IMPROVED**.
 
 ## Core rule
 
@@ -78,10 +95,10 @@ USER / PRODUCT BRIEF
 5. Static lint / contract validation   ← F1/F2 COMPLETE
         │
         ▼
-6. Critic pass                         ← F3 NEXT
+6. Semantic/static critic              ← F3 COMPLETE
         │
         ▼
-7. Fixture evaluation                  ← F4
+7. Behavioral fixture evaluation       ← F4A HARNESS READY / F4B NEXT
         │
         ▼
 8. Baseline comparison                 ← F5
@@ -137,7 +154,7 @@ A prompt moves through explicit states:
 
 - `DRAFT` — authored/assembled, not statically valid yet;
 - `VALID` — satisfies artifact schema and static lint rules;
-- `TESTED` — executed against a declared behavioral fixture set;
+- `TESTED` — executed against a declared behavioral fixture set under an identified runtime, with required reviews resolved;
 - `CANDIDATE` — complete evaluation receipt and baseline comparison available;
 - `CERTIFIED` — passes the MK1 quality gate;
 - `REJECTED` — fails a blocking criterion;
@@ -221,20 +238,90 @@ prompt.txt
 
 The three current F2 bundles are deterministic, human-readable and statically valid. Their `prompt.txt` files explicitly say that `VALID` does not mean tested/certified/improved.
 
-## F3 — Next: deeper critic
+F3 found a real assembler defect: some brief constraints were duplicated in both CONTEXT and CONSTRAINTS. The assembler was corrected, output contracts were strengthened by intent, and the duplicate-instruction case became a regression fixture rather than an accepted warning.
 
-F3 extends beyond the existing linter into a richer quality critic.
+## F3 — Semantic/static critic
 
-Planned checks:
+Status: **COMPLETE — RECEIPTS PERSISTED**
+
+Implementation:
+
+- `../tools/mk1_prompt_critic.py`
+- `../tools/test_mk1_f3.py`
+- `../tools/mk1_build_f3_critic_reports.py`
+- `../.github/workflows/validate-mk1-f3.yml`
+- `../.github/workflows/build-mk1-f3-critic-reports.yml`
+- `candidates/f3/`
+
+F3 checks include:
 
 - semantic contradictions across sections;
 - vague or unverifiable output contracts;
 - repeated/redundant instructions;
 - unsupported assumptions;
 - provenance/truth-boundary risks;
-- high-stakes domain discipline;
-- severity and remediation suggestions;
-- regression fixtures for every meaningful defect.
+- high-stakes boundary quality;
+- architecture overfit;
+- severity and remediation suggestions.
+
+Current materialized F3 baseline: 3 reports, all PASS with zero blockers/errors/warnings.
+
+Important: **F3 remains static evidence. It does not change artifact state beyond VALID.**
+
+## F4 — Behavioral fixtures and execution
+
+F4 is split deliberately into two lanes.
+
+### F4A — harness characterization
+
+Status: **COMPLETE — CI PASS**
+
+Implementation:
+
+- `specs/F4_BEHAVIORAL_TESTING.md`
+- `fixtures/f4/fixture-sets.json`
+- `../tools/mk1_behavioral_runner.py`
+- `../tools/mk1_prepare_f4_execution.py`
+- `../tools/test_mk1_f4.py`
+- `../.github/workflows/validate-mk1-f4.yml`
+- `receipts/f4/README.md`
+
+Current fixture inventory:
+
+```text
+3 versioned fixture sets
+15 behavioral fixtures
+classes:
+  happy-path
+  minimal
+  missing-critical
+  ambiguous
+  contradictory
+  edge
+  noise
+  regression
+```
+
+The F4A gate proves the harness semantics:
+
+- synthetic PASS can never promote state;
+- runtime identity is required for real execution;
+- machine assertion failure blocks promotion;
+- unresolved blocking human review blocks promotion;
+- only a real `BEHAVIORAL_PASS` receipt may become eligible for `TESTED`.
+
+### F4B — real behavioral execution
+
+Status: **READY / NOT YET EXECUTED**
+
+The next evidence-producing step is to run each exact F2 prompt artifact against its exact fixture set under an identified real runtime, persist observed outputs, resolve the declared review checks and produce durable F4 receipts.
+
+Until that happens:
+
+```text
+state = VALID
+not TESTED
+```
 
 ## Certification principle
 
@@ -258,11 +345,15 @@ mk1/
 ├── specs/
 ├── rubrics/
 ├── fixtures/
+│   ├── f1/
+│   └── f4/
 ├── briefs/
 ├── candidates/
-│   └── f2/                # 3 current VALID engineered candidates
+│   ├── f2/                # 3 current VALID engineered candidates
+│   └── f3/                # persisted static critic receipts
 ├── certified/             # future F6 artifacts
-└── receipts/              # future F4-F6 evaluation receipts
+└── receipts/
+    └── f4/                # future observed behavioral receipts
 ```
 
 MK1 ends when Prompt Quarry can reliably produce and certify reusable prompts for known tasks.

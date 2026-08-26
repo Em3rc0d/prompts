@@ -37,9 +37,6 @@ Entradas opcionales:
 - {known_options}
 - {constraints}
 - {current_stack}
-Restricciones del brief:
-- Prioriza fuentes primarias u oficiales para capacidades y especificaciones
-- No rellenes huecos de evidencia con certeza inventada
 
 ENTRADA
 Antes de ejecutar, comprueba si falta alguna entrada requerida que cambie materialmente el resultado.
@@ -65,6 +62,7 @@ RESTRICCIONES
 - No rellenes huecos de evidencia con certeza inventada
 
 FORMATO DE SALIDA
+- Separa por alternativa: evidencia/fuentes, ventajas, límites, trade-offs y nivel de confianza; cierra con recomendación.
 - Entrega 3 alternativas materialmente distintas.
 - Usa una estructura consistente y escaneable.
 - Separa evidencia, inferencia y recomendación.

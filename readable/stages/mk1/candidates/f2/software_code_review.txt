@@ -37,9 +37,6 @@ Entradas opcionales:
 - {tests}
 - {acceptance_criteria}
 - {known_constraints}
-Restricciones del brief:
-- No conviertas preferencias de estilo en errores críticos
-- Distingue bug confirmado, riesgo plausible y sugerencia de mantenibilidad
 
 ENTRADA
 Antes de ejecutar, comprueba si falta alguna entrada requerida que cambie materialmente el resultado.
@@ -63,6 +60,7 @@ RESTRICCIONES
 - Distingue bug confirmado, riesgo plausible y sugerencia de mantenibilidad
 
 FORMATO DE SALIDA
+- Para cada hallazgo usa: severidad, tipo, evidencia concreta, impacto, corrección sugerida y cómo verificarla.
 - Usa una estructura consistente y escaneable.
 Criterios de éxito:
 - Cada hallazgo material tiene severidad y evidencia concreta en el código proporcionado
