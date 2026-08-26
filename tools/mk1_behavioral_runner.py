@@ -20,6 +20,14 @@ def canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
+def sha256_text(value: str) -> str:
+    return "sha256:" + hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
+def sha256_json(value: Any) -> str:
+    return sha256_text(canonical_json(value))
+
+
 def receipt_id(payload: dict) -> str:
     digest = hashlib.sha256(canonical_json(payload).encode("utf-8")).hexdigest()[:16]
     return f"pq_mk1_f4_receipt_{digest}"
@@ -109,6 +117,42 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
     }
 
 
+def require_real_execution_evidence(fixture_set: dict, execution: dict) -> None:
+    runtime = execution.get("runtime") or {}
+    missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
+    if missing_runtime:
+        raise ValueError(f"Real F4 execution missing runtime identity: {missing_runtime}")
+
+    if not execution.get("execution_id"):
+        raise ValueError("Real F4 execution requires execution_id")
+
+    responses = execution.get("responses") or {}
+    expected_ids = [fixture["fixture_id"] for fixture in fixture_set.get("cases", [])]
+    missing_responses = [fixture_id for fixture_id in expected_ids if fixture_id not in responses]
+    if missing_responses:
+        raise ValueError(f"Real F4 execution missing fixture responses: {missing_responses}")
+
+    empty_outputs = [
+        fixture_id
+        for fixture_id in expected_ids
+        if not str((responses.get(fixture_id) or {}).get("output", "")).strip()
+    ]
+    if empty_outputs:
+        raise ValueError(f"Real F4 execution contains empty observed outputs: {empty_outputs}")
+
+    human_review_required = any(
+        fixture.get("expected", {}).get("human_checks")
+        for fixture in fixture_set.get("cases", [])
+    )
+    if human_review_required:
+        review = execution.get("review") or {}
+        if review.get("reviewer_type") != "human":
+            raise ValueError("Real F4 execution with human checks requires reviewer_type='human'")
+        missing_review = [key for key in ("reviewer_ref", "reviewed_at") if not review.get(key)]
+        if missing_review:
+            raise ValueError(f"Real F4 execution missing human review metadata: {missing_review}")
+
+
 def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
     mode = execution.get("mode")
     if mode not in ALL_EXECUTION_MODES:
@@ -120,11 +164,14 @@ def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
     if fixture_set.get("artifact_version") != artifact.get("version"):
         raise ValueError("Fixture set artifact_version does not match artifact version")
 
+    prompt_body = artifact.get("prompt_body")
+    if not isinstance(prompt_body, str) or not prompt_body.strip():
+        raise ValueError("F4 source artifact requires non-empty prompt_body for fingerprinting")
+
     runtime = execution.get("runtime") or {}
+    review = execution.get("review") or {}
     if mode in REAL_EXECUTION_MODES:
-        missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
-        if missing_runtime:
-            raise ValueError(f"Real F4 execution missing runtime identity: {missing_runtime}")
+        require_real_execution_evidence(fixture_set, execution)
 
     responses = execution.get("responses") or {}
     results = []
@@ -158,11 +205,14 @@ def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
         "phase": "F4",
         "artifact_id": artifact["id"],
         "artifact_version": artifact["version"],
+        "artifact_prompt_fingerprint": sha256_text(prompt_body),
         "fixture_set_id": fixture_set["fixture_set_id"],
         "fixture_set_version": fixture_set.get("version", "1"),
+        "fixture_set_fingerprint": sha256_json(fixture_set),
         "execution_id": execution.get("execution_id"),
         "execution_mode": mode,
         "runtime": runtime,
+        "review": review,
         "status": status,
         "eligible_for_tested": eligible,
         "blocking_failures": blocking_failures,
