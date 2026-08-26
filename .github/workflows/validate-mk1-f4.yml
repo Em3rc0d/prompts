@@ -6,9 +6,16 @@ on:
     paths:
       - 'mk1/specs/F4_BEHAVIORAL_TESTING.md'
       - 'mk1/fixtures/f4/**'
+      - 'mk1/receipts/f4/**'
+      - 'mk1/candidates/f4/**'
       - 'tools/mk1_behavioral_runner.py'
+      - 'tools/mk1_prepare_f4_execution.py'
+      - 'tools/mk1_promote_tested.py'
+      - 'tools/mk1_materialize_f4_tested.py'
+      - 'tools/validate_mk1_f4_repository.py'
       - 'tools/test_mk1_f4.py'
       - '.github/workflows/validate-mk1-f4.yml'
+      - '.github/workflows/build-mk1-f4-tested.yml'
 
 permissions:
   contents: read
@@ -38,3 +45,6 @@ jobs:
 
       - name: Characterize F4 behavioral harness
         run: python tools/test_mk1_f4.py
+
+      - name: Validate persisted F4 evidence boundary
+        run: python tools/validate_mk1_f4_repository.py
