@@ -1,0 +1,66 @@
+name: Patch MK1 Critic Certainty Rule
+
+on:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - '.github/workflows/patch-mk1-critic-certainty.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Narrow certainty contradiction and add regression coverage
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          critic = Path('tools/mk1_prompt_critic.py')
+          text = critic.read_text(encoding='utf-8')
+          old = '''        [r"\\b(debes asegurar|garantiza|guarantee|be certain|certainty)\\b"],'''
+          new = '''        [
+            r"\\b(debes asegurar|garantiza|guarantee|be certain|must be certain)\\b",
+            r"\\b(state|present|answer|respond)\\b.{0,20}\\b(with certainty|with absolute certainty)\\b",
+            r"\\b(presenta|responde|afirma)\\b.{0,20}\\b(con certeza|con certeza absoluta)\\b",
+        ],'''
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one critic certainty rule, found {text.count(old)}')
+          critic.write_text(text.replace(old, new, 1), encoding='utf-8')
+
+          test = Path('tools/test_mk1_f3.py')
+          text = test.read_text(encoding='utf-8')
+          anchor = '''    report = critique_artifact(contradiction)\n    assert_code(report, "questions-required-vs-forbidden", "FAIL")\n    results.append({"case": "questions-required-vs-forbidden", "status": report["status"]})\n\n'''
+          insertion = '''    report = critique_artifact(contradiction)\n    assert_code(report, "questions-required-vs-forbidden", "FAIL")\n    results.append({"case": "questions-required-vs-forbidden", "status": report["status"]})\n\n    anti_certainty = copy.deepcopy(code_review)\n    anti_certainty["id"] = "pq_mk1_f3_anti_certainty_language"\n    anti_certainty["prompt_body"] += "\\nDo not invent unsupported certainty.\\n"\n    report = critique_artifact(anti_certainty)\n    if "certainty-vs-uncertainty" in codes(report):\n        raise AssertionError(\n            "Anti-certainty wording must not be interpreted as an absolute-certainty instruction: "\n            + json.dumps(report, ensure_ascii=False, indent=2)\n        )\n    results.append({"case": "anti-certainty-no-false-positive", "status": report["status"]})\n\n    absolute_certainty = copy.deepcopy(code_review)\n    absolute_certainty["id"] = "pq_mk1_f3_absolute_certainty_conflict"\n    absolute_certainty["prompt_body"] += "\\nYou must be certain even when evidence is unverified.\\n"\n    report = critique_artifact(absolute_certainty)\n    assert_code(report, "certainty-vs-uncertainty", "FAIL")\n    results.append({"case": "certainty-vs-uncertainty", "status": report["status"]})\n\n'''
+          if text.count(anchor) != 1:
+              raise SystemExit(f'Expected one F3 test insertion anchor, found {text.count(anchor)}')
+          test.write_text(text.replace(anchor, insertion, 1), encoding='utf-8')
+
+          workflow = Path('.github/workflows/test-mk1-prompt-generator-v0.yml')
+          text = workflow.read_text(encoding='utf-8')
+          old = '''          python tools/test_mk1_f1.py\n          python tools/test_mk1_f2.py\n'''
+          new = '''          python tools/test_mk1_f1.py\n          python tools/test_mk1_f2.py\n          python tools/test_mk1_f3.py\n'''
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected one F1/F2 CI block, found {text.count(old)}')
+          workflow.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+          git diff --check
+          git diff -- tools/mk1_prompt_critic.py tools/test_mk1_f3.py .github/workflows/test-mk1-prompt-generator-v0.yml
+
+      - name: Commit critic fix
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add tools/mk1_prompt_critic.py tools/test_mk1_f3.py .github/workflows/test-mk1-prompt-generator-v0.yml
+          git commit -m 'fix(mk1): avoid anti-certainty critic false positive'
+          git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
