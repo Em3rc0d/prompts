@@ -1,0 +1,48 @@
+name: Validate MK1 F5
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/specs/F5_BASELINE_BENCHMARKING.md'
+      - 'mk1/baselines/f5/**'
+      - 'mk1/fixtures/f4/**'
+      - 'mk1/receipts/f5/**'
+      - 'tools/mk1_f5_benchmark.py'
+      - 'tools/test_mk1_f5.py'
+      - '.github/workflows/validate-mk1-f5.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-f5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+
+      - name: Re-run F2 assembly characterization
+        run: python tools/test_mk1_f2.py
+
+      - name: Re-run F3 semantic critic characterization
+        run: python tools/test_mk1_f3.py
+
+      - name: Re-run MK0 to F4 provenance validation
+        run: python tools/validate_mk1_fixture_provenance.py
+
+      - name: Re-run F4 behavioral harness characterization
+        run: python tools/test_mk1_f4.py
+
+      - name: Characterize F5 paired superiority gate
+        run: python tools/test_mk1_f5.py
