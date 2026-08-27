@@ -1,0 +1,150 @@
+# MK1 observed execution protocol
+
+This protocol closes the gap between a green harness and real prompt evidence.
+
+## Non-negotiable boundary
+
+CI can validate schemas, hashes, state transitions and synthetic characterization. CI alone does not prove prompt behavior.
+
+A real promotion requires:
+
+- a provider execution observed through an identified runtime,
+- retained raw response evidence,
+- complete human review where the gate requires human checks,
+- deterministic receipt generation only after review,
+- no synthetic substitution for missing evidence.
+
+## Runtime providers
+
+The observed executor supports provider-neutral REST adapters for:
+
+- OpenAI — `OPENAI_API_KEY`
+- Anthropic — `ANTHROPIC_API_KEY`
+- Google Gemini — `GEMINI_API_KEY`
+
+The exact model id and runtime-family label are workflow inputs. They are never silently replaced by a `latest` alias in repository code.
+
+## Deterministic prompt materialization
+
+The frozen `prompt_body` is fingerprinted before execution. Template variables are materialized deterministically.
+
+A provided value replaces its `{name}` placeholder. A missing, `null` or blank string becomes:
+
+`[NOT PROVIDED: name]`
+
+This makes missing-input fixtures exercise the prompt's explicit fallback behavior rather than relying on an unresolved template accident.
+
+## Raw runtime evidence
+
+Every provider call writes an observation containing:
+
+- provider/model/family,
+- start/completion timestamps,
+- SHA-256 of the rendered prompt,
+- non-secret transport metadata such as request id when exposed,
+- raw provider response,
+- observed output,
+- integrity SHA-256.
+
+Preparation aggregates those observations into a runtime evidence manifest.
+
+Preparation evidence is staging only. It cannot support a durable receipt.
+
+After complete human review, the finalizer copies raw observations into:
+
+`mk1/evidence/runtime/<execution_id>/`
+
+It rebuilds the evidence manifest with canonical repository paths and updates `runtime.identity_evidence_ref` before the F4/F5 receipt is generated.
+
+## F4 observed run
+
+`tools/mk1_prepare_experiment.py --stage f4` executes every blocking fixture against the exact VALID engineered prompt.
+
+It outputs:
+
+- `execution.unreviewed.json`
+- `review-packet.json`
+- `runtime-evidence-manifest.json`
+- raw provider observations.
+
+The review packet contains blank human checks. Preparation is forbidden from producing a receipt.
+
+A real human supplies, for every human check:
+
+- `status`: exactly `PASS` or `FAIL`
+- a non-empty evidence note.
+
+`tools/mk1_finalize_experiment.py --stage f4` rejects incomplete review, persists the runtime evidence, and then evaluates the canonical execution.
+
+Only `BEHAVIORAL_PASS` may support `VALID -> TESTED`.
+
+## F5 blinded A/B run
+
+F5 requires a TESTED artifact.
+
+For each fixture and repeat, the same runtime executes:
+
+- the exact engineered prompt,
+- the exact task-equivalent baseline.
+
+Minimum repeats: 3.
+
+Preparation randomly maps the two outputs to `A` and `B`. The reviewer packet contains no engineered/baseline labels.
+
+The private deblind map is stored only in staging / the workflow artifact and is excluded from git by default.
+
+The human reviewer must:
+
+1. complete every human check for A,
+2. complete every human check for B,
+3. choose `A`, `B` or `tie`,
+4. provide a concrete preference note.
+
+Only after this is complete does finalization deblind the packet and generate the canonical F5 execution.
+
+F5 improvement still requires:
+
+- 100% engineered blocking pass,
+- zero regressions,
+- zero unresolved engineered human checks,
+- zero baseline A/B wins,
+- at least 30% engineered blind wins,
+- at least 3 repeats.
+
+## F6 independent certification
+
+F6 consumes real F5 improvement receipts only.
+
+`CERTIFIED` requires the exact same prompt/baseline/fixture lineage to preserve the F5 gate across at least:
+
+- 3 distinct normalized runtime families,
+- 3 distinct normalized providers,
+- 3 distinct execution ids,
+- 3 distinct blind randomization refs,
+- 3 distinct runtime identity-evidence refs.
+
+This is scoped cross-runtime certification, not universal correctness.
+
+## GitHub Actions
+
+Manual workflow:
+
+`.github/workflows/run-mk1-observed-experiment.yml`
+
+It never runs on push because provider calls have cost and must be intentional.
+
+The workflow refuses to run when the selected provider secret is absent. It also fails if preparation pre-fills a human PASS/FAIL or creates a receipt.
+
+The generated staging bundle is uploaded as an Actions artifact for human review.
+
+## Secret handling
+
+API keys belong in GitHub repository Actions secrets or the local environment. Never place API keys in source files, execution JSON, review packets, receipts, chat messages or committed evidence.
+
+## Claim policy
+
+A green observed-experiment harness means the experiment machinery is ready.
+
+It does not mean any prompt is TESTED, IMPROVED or CERTIFIED.
+
+Those claims exist only when the required real receipts are present and reconstructable.
