@@ -40,7 +40,11 @@ CONTRADICTION_RULES = [
     ),
     (
         "certainty-vs-uncertainty",
-        [r"\b(debes asegurar|garantiza|guarantee|be certain|certainty)\b"],
+        [
+            r"\b(debes asegurar|garantiza|guarantee|be certain|must be certain)\b",
+            r"\b(state|present|answer|respond)\b.{0,20}\b(with certainty|with absolute certainty)\b",
+            r"\b(presenta|responde|afirma)\b.{0,20}\b(con certeza|con certeza absoluta)\b",
+        ],
         [r"\b(no verificada|unverified|incertidumbre|uncertainty|supuesto|assumption)\b"],
         "The prompt mixes absolute-certainty instructions with explicit uncertainty handling.",
     ),
