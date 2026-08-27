@@ -1,0 +1,29 @@
+name: MK0 Path Audit
+
+on:
+  push:
+    branches:
+      - refactor/mk0-physical-boundary-20260827
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Report legacy MK0 root-path consumers
+        shell: bash
+        run: |
+          set -uo pipefail
+          echo "Scanning executable/shared surfaces for legacy MK0 root paths..."
+          paths=(README.md docs tools .github mk0 mk1 mk2)
+          pattern='(^|[^A-Za-z0-9_-])(catalog|quarry|library|sources|readable)/'
+          if git grep -nE "$pattern" -- "${paths[@]}" > /tmp/mk0-legacy-paths.txt; then
+            cat /tmp/mk0-legacy-paths.txt
+            echo "legacy_reference_count=$(wc -l < /tmp/mk0-legacy-paths.txt)" >> "$GITHUB_STEP_SUMMARY"
+            echo "Legacy MK0 root-path references remain."
+            exit 1
+          fi
+          echo "legacy_reference_count=0" >> "$GITHUB_STEP_SUMMARY"
+          echo "No legacy MK0 root-path references found."
