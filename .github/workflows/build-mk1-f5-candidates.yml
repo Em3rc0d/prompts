@@ -1,0 +1,94 @@
+name: Build MK1 F5 Improved Candidates
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/receipts/f5/*.receipt.json'
+
+permissions:
+  contents: write
+
+jobs:
+  build-improved:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Re-run F1
+        run: python tools/test_mk1_f1.py
+      - name: Re-run F2
+        run: python tools/test_mk1_f2.py
+      - name: Re-run F3
+        run: python tools/test_mk1_f3.py
+      - name: Validate MK0 provenance
+        run: python tools/validate_mk1_fixture_provenance.py
+      - name: Re-run F4
+        run: python tools/test_mk1_f4.py
+      - name: Validate persisted F4 TESTED boundary
+        run: python tools/validate_mk1_f4_repository.py
+      - name: Re-run F5 superiority characterization
+        run: python tools/test_mk1_f5.py
+
+      - name: Require real F5 receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=$(find mk1/receipts/f5 -maxdepth 1 -type f -name '*.receipt.json' | wc -l | tr -d ' ')
+          if [ "$count" -lt 1 ]; then
+            echo 'F5 build requires at least one persisted real *.receipt.json.' >&2
+            exit 1
+          fi
+
+      - name: Materialize CANDIDATE/improved bundles
+        run: |
+          python tools/mk1_materialize_f5_candidates.py \
+            --receipts mk1/receipts/f5 \
+            --source mk1/candidates/f4 \
+            --baselines mk1/baselines/f5/task-equivalent-minimal.json \
+            --output mk1/candidates/f5 \
+            --require-at-least 1
+
+      - name: Validate durable F5 evidence boundary
+        run: python tools/validate_mk1_f5_repository.py
+
+      - name: Commit improved candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add mk1/candidates/f5
+          if git diff --cached --quiet; then
+            echo 'No F5 candidate changes to commit.'
+            exit 0
+          fi
+          git commit -m 'mk1: materialize F5 improved candidates'
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/validate_catalog.py >/dev/null
+            python tools/test_mk1_f1.py >/dev/null
+            python tools/test_mk1_f2.py >/dev/null
+            python tools/test_mk1_f3.py >/dev/null
+            python tools/validate_mk1_fixture_provenance.py >/dev/null
+            python tools/test_mk1_f4.py >/dev/null
+            python tools/validate_mk1_f4_repository.py >/dev/null
+            python tools/test_mk1_f5.py >/dev/null
+            python tools/validate_mk1_f5_repository.py >/dev/null
+            if git push origin HEAD:main; then
+              echo 'Published MK1 F5 improved candidates.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+          echo 'Failed to publish MK1 F5 candidates after retries.' >&2
+          exit 1
