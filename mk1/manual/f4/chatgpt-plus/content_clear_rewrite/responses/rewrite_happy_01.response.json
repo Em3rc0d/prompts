@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_happy_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T21:57:00-05:00",
+  "source_reference": "mk1/manual/f4/chatgpt-plus/content_clear_rewrite/evidence/rewrite_happy_01.md",
   "rendered_prompt_sha256": "sha256:42c7fd80d8dfa02bc4fa73909fe4e89ead65a4db5c6834d9f0a613616b253a7c",
-  "output": null
+  "output": "Durante la prueba, el sistema utilizó 3 servidores y respondió en 14 ms."
 }
