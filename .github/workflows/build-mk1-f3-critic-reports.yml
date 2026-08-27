@@ -36,37 +36,8 @@ jobs:
       - name: Build F3 critic receipts
         run: python tools/mk1_build_f3_critic_reports.py --source mk1/candidates/f2 --output mk1/candidates/f3
 
-      - name: Validate F3 receipt bundle
-        shell: bash
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          root = Path('mk1/candidates/f3')
-          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
-          assert manifest['mk_stage'] == 'MK1', manifest
-          assert manifest['phase'] == 'F3', manifest
-          assert manifest['status'] == 'STATIC_CRITIC_PASS', manifest
-          assert manifest['report_count'] == 3, manifest
-          assert 'does not advance artifact state beyond VALID' in manifest['state_policy'], manifest
-          assert (root / 'INDEX.txt').exists(), root
-
-          for row in manifest['reports']:
-              assert row['artifact_state'] == 'VALID', row
-              assert row['critic_status'] == 'PASS', row
-              assert row['blocking'] == 0, row
-              assert row['errors'] == 0, row
-              assert Path(row['critic_json']).exists(), row
-              assert Path(row['critic_txt']).exists(), row
-
-              critic = json.loads(Path(row['critic_json']).read_text(encoding='utf-8'))
-              assert critic['status'] == 'PASS', critic
-              assert critic['counts']['blocking'] == 0, critic
-              assert critic['counts']['error'] == 0, critic
-
-          print(json.dumps(manifest, ensure_ascii=False, indent=2))
-          PY
+      - name: Validate exact F3 receipt binding
+        run: python tools/validate_mk1_f3_repository.py
 
       - name: Validate canonical quarry
         run: python tools/validate_catalog.py
@@ -85,10 +56,11 @@ jobs:
           git commit -m 'mk1: materialize F3 static critic receipts'
           for attempt in 1 2 3 4 5; do
             git pull --rebase origin main
-            python tools/validate_catalog.py
+            python tools/validate_catalog.py >/dev/null
             python tools/test_mk1_f1.py >/dev/null
             python tools/test_mk1_f2.py >/dev/null
             python tools/test_mk1_f3.py >/dev/null
+            python tools/validate_mk1_f3_repository.py >/dev/null
             if git push origin HEAD:main; then
               echo 'Published MK1 F3 critic receipts.'
               exit 0
