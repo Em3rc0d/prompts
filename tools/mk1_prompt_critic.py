@@ -10,7 +10,7 @@ from pathlib import Path
 from mk1_prompt_linter import lint_artifact
 
 
-CRITIC_VERSION = "1.0.1"
+CRITIC_VERSION = "1.1.0"
 
 HEADING_NAMES = {
     "purpose", "propósito", "proposito", "objetivo",
@@ -111,12 +111,7 @@ def _section(body: str, aliases: set[str]) -> str:
 
 
 def _add(findings: list[dict], severity: str, code: str, message: str, remediation: str, evidence=None) -> None:
-    record = {
-        "severity": severity,
-        "code": code,
-        "message": message,
-        "remediation": remediation,
-    }
+    record = {"severity": severity, "code": code, "message": message, "remediation": remediation}
     if evidence is not None:
         record["evidence"] = evidence
     findings.append(record)
@@ -132,28 +127,14 @@ def critique_artifact(artifact: dict) -> dict:
     risk = artifact.get("risk")
 
     if lint["status"] != "PASS":
-        _add(
-            findings,
-            "error",
-            "linter-not-pass",
-            "The artifact has not passed the MK1 structural linter.",
-            "Resolve linter errors/blockers before interpreting critic results as a quality pass.",
-            {"errors": lint["error_count"], "blockers": lint["blocking_count"]},
-        )
+        _add(findings, "error", "linter-not-pass", "The artifact has not passed the MK1 structural linter.", "Resolve linter errors/blockers before interpreting critic results as a quality pass.", {"errors": lint["error_count"], "blockers": lint["blocking_count"]})
 
     meaningful = _meaningful_lines(body)
     counter = Counter(row[2] for row in meaningful)
     duplicates = {text for text, count in counter.items() if count > 1}
     for duplicate in sorted(duplicates):
         matches = [{"line": line, "text": text} for line, text, folded in meaningful if folded == duplicate]
-        _add(
-            findings,
-            "warning",
-            "duplicate-instruction",
-            "The same non-trivial instruction appears multiple times.",
-            "Keep the instruction in the block that owns the responsibility and remove repeated copies elsewhere.",
-            matches,
-        )
+        _add(findings, "warning", "duplicate-instruction", "The same non-trivial instruction appears multiple times.", "Keep the instruction in the block that owns the responsibility and remove repeated copies elsewhere.", matches)
 
     normalized_rows = []
     for line, text, folded in meaningful:
@@ -164,47 +145,20 @@ def critique_artifact(artifact: dict) -> dict:
     for duplicate, count in semantic_counter.items():
         if count > 1 and duplicate not in duplicates:
             matches = [{"line": line, "text": text} for line, text, semantic in normalized_rows if semantic == duplicate]
-            _add(
-                findings,
-                "warning",
-                "near-duplicate-instruction",
-                "Semantically equivalent instruction lines appear more than once.",
-                "Consolidate repeated constraints/context into one authoritative section.",
-                matches,
-            )
+            _add(findings, "warning", "near-duplicate-instruction", "Semantically equivalent instruction lines appear more than once.", "Consolidate repeated constraints/context into one authoritative section.", matches)
 
     for code, positive_patterns, negative_patterns, message in CONTRADICTION_RULES:
         positive = any(re.search(pattern, folded_body, re.IGNORECASE) for pattern in positive_patterns)
         negative = any(re.search(pattern, folded_body, re.IGNORECASE) for pattern in negative_patterns)
         if positive and negative:
-            _add(
-                findings,
-                "error",
-                code,
-                message,
-                "Choose one contract or explicitly scope when each behavior applies.",
-            )
+            _add(findings, "error", code, message, "Choose one contract or explicitly scope when each behavior applies.")
 
     output_text = _section(body, {"OUTPUT CONTRACT", "FORMATO DE SALIDA", "SALIDA", "ENTREGABLE"})
     if architecture.get("output_contract"):
         if len(output_text) < 40:
-            _add(
-                findings,
-                "error",
-                "vague-output-contract",
-                "OUTPUT_CONTRACT is present but too weak to make success observable.",
-                "Specify required fields/sections, number of alternatives, ordering, decision criteria, or other verifiable deliverables.",
-                output_text,
-            )
+            _add(findings, "error", "vague-output-contract", "OUTPUT_CONTRACT is present but too weak to make success observable.", "Specify required fields/sections, number of alternatives, ordering, decision criteria, or other verifiable deliverables.", output_text)
         elif any(term in _fold(output_text) for term in {_fold(t) for t in VAGUE_OUTPUT_TERMS}) and not re.search(r"(^|\n)\s*[-*\d]", output_text):
-            _add(
-                findings,
-                "warning",
-                "generic-output-language",
-                "The output contract relies on generic quality adjectives without enough verifiable structure.",
-                "Replace generic adjectives with observable deliverables or evaluation criteria.",
-                output_text,
-            )
+            _add(findings, "warning", "generic-output-language", "The output contract relies on generic quality adjectives without enough verifiable structure.", "Replace generic adjectives with observable deliverables or evaluation criteria.", output_text)
 
     intent_requirements = {
         "review": ["hallazgo", "finding", "severidad", "severity", "fix", "correcci", "verific"],
@@ -216,74 +170,46 @@ def critique_artifact(artifact: dict) -> dict:
     if intent in intent_requirements and output_text:
         hits = sum(1 for token in intent_requirements[intent] if token in _fold(output_text))
         if hits < 2:
-            _add(
-                findings,
-                "warning",
-                "intent-output-under-specified",
-                f"The {intent} output contract does not expose enough intent-specific fields/criteria.",
-                "Make the deliverable encode the core decision/review fields instead of relying only on general success criteria.",
-                {"matched_signals": hits, "required_signal_family": intent_requirements[intent]},
-            )
+            _add(findings, "warning", "intent-output-under-specified", f"The {intent} output contract does not expose enough intent-specific fields/criteria.", "Make the deliverable encode the core decision/review fields instead of relying only on general success criteria.", {"matched_signals": hits, "required_signal_family": intent_requirements[intent]})
 
     assumption_text = _section(body, {"ASSUMPTIONS", "SUPUESTOS"})
     unsupported_matches = []
     for pattern in UNSUPPORTED_ASSUMPTION_PATTERNS:
         unsupported_matches.extend(match.group(0) for match in re.finditer(pattern, body, re.IGNORECASE))
     if unsupported_matches and not architecture.get("assumptions"):
-        _add(
-            findings,
-            "error",
-            "assumption-without-contract",
-            "The prompt instructs assumptions but has no ASSUMPTIONS architecture block.",
-            "Add explicit assumption handling or remove the assumption instruction.",
-            unsupported_matches,
-        )
+        _add(findings, "error", "assumption-without-contract", "The prompt instructs assumptions but has no ASSUMPTIONS architecture block.", "Add explicit assumption handling or remove the assumption instruction.", unsupported_matches)
     if architecture.get("assumptions") and len(assumption_text) < 40:
-        _add(
-            findings,
-            "warning",
-            "weak-assumption-contract",
-            "ASSUMPTIONS exists but does not clearly define how inference should be labeled/handled.",
-            "State what may be inferred, what must be labeled, and when missing information must stop or branch execution.",
-            assumption_text,
-        )
+        _add(findings, "warning", "weak-assumption-contract", "ASSUMPTIONS exists but does not clearly define how inference should be labeled/handled.", "State what may be inferred, what must be labeled, and when missing information must stop or branch execution.", assumption_text)
 
     for pattern in PROVENANCE_LAUNDERING_PATTERNS:
         if re.search(pattern, body, re.IGNORECASE):
-            _add(
-                findings,
-                "blocking",
-                "provenance-laundering-language",
-                "Prompt wording implies access to exact/original source content without an evidence contract proving that wording is available.",
-                "Remove the source-reproduction claim or attach explicit source-body provenance that justifies it.",
-                pattern,
-            )
+            _add(findings, "blocking", "provenance-laundering-language", "Prompt wording implies access to exact/original source content without an evidence contract proving that wording is available.", "Remove the source-reproduction claim or attach explicit source-body provenance that justifies it.", pattern)
 
     if risk == "high-stakes":
         fallback_text = _section(body, {"FALLBACK", "SI FALTA INFORMACIÓN", "SI FALTA INFORMACION", "INCERTIDUMBRE"})
         constraints_text = _section(body, {"CONSTRAINTS", "RESTRICCIONES", "REGLAS"})
-        high_stakes_signals = [
-            "profesional", "professional", "jurisdic", "uncertainty", "incertid", "no verificada", "unverified",
-        ]
+        high_stakes_signals = ["profesional", "professional", "jurisdic", "uncertainty", "incertid", "no verificada", "unverified"]
         combined = _fold(fallback_text + "\n" + constraints_text)
         if sum(1 for token in high_stakes_signals if token in combined) < 2:
-            _add(
-                findings,
-                "blocking",
-                "high-stakes-boundary-too-generic",
-                "High-stakes blocks exist, but their wording is too generic to establish a consequential uncertainty/professional boundary.",
-                "Add domain-relevant uncertainty, missing-evidence, jurisdiction/data and escalation behavior.",
-            )
+            _add(findings, "blocking", "high-stakes-boundary-too-generic", "High-stakes blocks exist, but their wording is too generic to establish a consequential uncertainty/professional boundary.", "Add domain-relevant uncertainty, missing-evidence, jurisdiction/data and escalation behavior.")
 
+    # Overfit is about unjustified ceremony, not raw section count. A simple rewrite may
+    # legitimately need intake/assumptions/fallback when its brief explicitly permits intake
+    # and contains semantic-fidelity / untrusted-input constraints. ROLE + PROCESS are the
+    # strongest ceremony signals for a low-risk simple transformation; near-full vocabulary
+    # remains suspicious regardless of exact ordering.
     enabled_count = sum(1 for value in architecture.values() if value)
-    if artifact.get("intent") in {"rewrite", "summarize", "answer"} and artifact.get("risk") == "low" and enabled_count >= 8:
+    simple_transform = intent in {"rewrite", "summarize", "answer"} and risk == "low"
+    ceremony_blocks = [name for name in ("role", "process") if architecture.get(name)]
+    near_full_vocabulary = enabled_count >= 9
+    if simple_transform and enabled_count >= 8 and (near_full_vocabulary or len(ceremony_blocks) == 2):
         _add(
             findings,
             "warning",
             "architecture-overfit",
-            "A low-risk simple intent uses nearly the full architecture vocabulary.",
-            "Remove blocks that do not materially improve task reliability; section count is not a quality metric.",
-            {"enabled_blocks": enabled_count},
+            "A low-risk simple intent uses near-full architecture or adds both ROLE and PROCESS ceremony.",
+            "Remove blocks that do not materially improve task reliability; keep reliability blocks only when the brief or failure modes justify them.",
+            {"enabled_blocks": enabled_count, "ceremony_blocks": ceremony_blocks},
         )
 
     severity_counts = Counter(f["severity"] for f in findings)
@@ -294,11 +220,7 @@ def critique_artifact(artifact: dict) -> dict:
         "artifact_id": artifact.get("id"),
         "status": status,
         "findings": findings,
-        "counts": {
-            "blocking": severity_counts["blocking"],
-            "error": severity_counts["error"],
-            "warning": severity_counts["warning"],
-        },
+        "counts": {"blocking": severity_counts["blocking"], "error": severity_counts["error"], "warning": severity_counts["warning"]},
         "linter_status": lint["status"],
         "policy": "F3 critic is a static quality characterization layer. PASS does not imply behavioral testing or certification.",
     }
@@ -309,7 +231,6 @@ def main() -> None:
     parser.add_argument("artifact")
     parser.add_argument("--output")
     args = parser.parse_args()
-
     artifact = json.loads(Path(args.artifact).read_text(encoding="utf-8"))
     result = critique_artifact(artifact)
     rendered = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
