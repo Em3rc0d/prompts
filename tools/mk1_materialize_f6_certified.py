@@ -7,10 +7,12 @@ from pathlib import Path
 
 from mk1_f5_benchmark import find_fixture_set, load
 from mk1_f6_certify import (
-    MIN_RUNTIME_FAMILIES,
+    MIN_INDEPENDENT_F5_RECEIPTS,
     build_certification_receipt,
+    normalize_identity,
+    normalized_runtime_target,
     promote_certified,
-    validate_cross_runtime_f5_receipt,
+    validate_target_runtime_f5_receipt,
 )
 
 
@@ -36,31 +38,53 @@ def supplemental_receipts(root: Path) -> list[dict]:
     return [load(path) for path in sorted(root.rglob("*.receipt.json"))]
 
 
-def validate_evidence_inventory(receipts: list[dict]) -> list[str]:
+def validate_evidence_inventory(receipts: list[dict]) -> dict:
     receipt_ids: set[str] = set()
     execution_ids: set[str] = set()
     randomization_refs: set[str] = set()
-    families: dict[str, str] = {}
+    identity_evidence_refs: set[str] = set()
+    target: tuple[str, str, str] | None = None
+    target_display: dict | None = None
+
     for receipt in receipts:
-        receipt_id = receipt.get("receipt_id")
-        execution_id = receipt.get("execution_id")
+        receipt_id = str(receipt.get("receipt_id") or "")
+        execution_id = str(receipt.get("execution_id") or "")
         review = receipt.get("review") or {}
-        randomization_ref = review.get("randomization_ref")
-        family = str((receipt.get("runtime") or {}).get("family", "")).strip()
-        normalized = family.casefold()
+        runtime = receipt.get("runtime") or {}
+        randomization_ref = str(review.get("randomization_ref") or "")
+        identity_evidence_ref = str(runtime.get("identity_evidence_ref") or "")
+        observed_target = normalized_runtime_target(runtime)
+
         if receipt_id in receipt_ids:
             raise ValueError(f"Duplicate F6 evidence receipt_id: {receipt_id}")
         if execution_id in execution_ids:
             raise ValueError(f"Duplicate F6 evidence execution_id: {execution_id}")
         if randomization_ref in randomization_refs:
             raise ValueError(f"Duplicate F6 blind randomization_ref: {randomization_ref}")
-        if normalized in families:
-            raise ValueError(f"Duplicate F6 runtime family: {family!r} conflicts with {families[normalized]!r}")
+        if identity_evidence_ref in identity_evidence_refs:
+            raise ValueError(f"Duplicate F6 runtime identity evidence: {identity_evidence_ref}")
+        if target is None:
+            target = observed_target
+            target_display = {
+                "provider": runtime.get("provider"),
+                "model": runtime.get("model"),
+                "family": runtime.get("family"),
+            }
+        elif observed_target != target:
+            raise ValueError(
+                "F6 receipt inventory mixes target runtimes: "
+                f"expected={target}, got={observed_target}"
+            )
+
         receipt_ids.add(receipt_id)
         execution_ids.add(execution_id)
         randomization_refs.add(randomization_ref)
-        families[normalized] = family
-    return sorted(families.values())
+        identity_evidence_refs.add(identity_evidence_ref)
+
+    return {
+        "receipt_count": len(receipt_ids),
+        "target_runtime": target_display,
+    }
 
 
 def copy_if_exists(source: Path, target: Path) -> None:
@@ -98,21 +122,29 @@ def materialize(
         fixture_set = find_fixture_set(fixture_document, artifact_id)
 
         evidence = [primary_receipt] + [row for row in supplements if row.get("artifact_id") == artifact_id]
+        primary_target = None
         for receipt in evidence:
-            validate_cross_runtime_f5_receipt(receipt, candidate, source_tested, baseline, fixture_set)
-        families = validate_evidence_inventory(evidence)
+            primary_target = validate_target_runtime_f5_receipt(
+                receipt,
+                candidate,
+                source_tested,
+                baseline,
+                fixture_set,
+                primary_target,
+            )
+        inventory = validate_evidence_inventory(evidence)
         if primary_receipt.get("receipt_id") != (candidate.get("evaluation") or {}).get("receipt_id"):
             raise ValueError(f"F6 candidate bundle primary F5 receipt mismatch: {artifact_id}")
 
-        if len(families) < MIN_RUNTIME_FAMILIES:
+        if inventory["receipt_count"] < MIN_INDEPENDENT_F5_RECEIPTS:
             pending_rows.append({
                 "artifact_id": artifact_id,
                 "artifact_version": candidate["version"],
                 "state": candidate["state"],
-                "runtime_family_count": len(families),
-                "runtime_families": families,
-                "required_runtime_families": MIN_RUNTIME_FAMILIES,
-                "missing_runtime_families": MIN_RUNTIME_FAMILIES - len(families),
+                "independent_f5_receipt_count": inventory["receipt_count"],
+                "required_independent_f5_receipts": MIN_INDEPENDENT_F5_RECEIPTS,
+                "missing_independent_f5_receipts": MIN_INDEPENDENT_F5_RECEIPTS - inventory["receipt_count"],
+                "target_runtime": inventory["target_runtime"],
                 "source_bundle": source_bundle.as_posix(),
             })
             continue
@@ -124,15 +156,16 @@ def materialize(
         bundle.mkdir(parents=True, exist_ok=True)
         (bundle / "artifact.json").write_text(json.dumps(certified, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (bundle / "certification_receipt.json").write_text(json.dumps(certification_receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        (bundle / "cross_runtime_f5_receipts.json").write_text(json.dumps({"receipts": evidence}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (bundle / "certification_f5_receipts.json").write_text(json.dumps({"receipts": evidence}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (bundle / "source_candidate_artifact.json").write_text(json.dumps(candidate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (bundle / "source_tested_artifact.json").write_text(json.dumps(source_tested, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (bundle / "baseline.json").write_text(json.dumps(baseline, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         (bundle / "source.json").write_text(json.dumps({
             "source_f5_bundle": source_bundle.as_posix(),
             "primary_f5_receipt": (source_bundle / "benchmark_receipt.json").as_posix(),
-            "supplemental_f5_evidence_root": evidence_root.as_posix(),
+            "supplemental_same_runtime_f5_evidence_root": evidence_root.as_posix(),
             "state_transition": "CANDIDATE -> CERTIFIED",
+            "portability_stage": "F7",
         }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         for name in ("prompt.txt", "architecture.json", "lint.json", "critic.json", "behavioral_receipt.json", "benchmark_receipt.json"):
             copy_if_exists(source_bundle / name, bundle / name)
@@ -142,8 +175,8 @@ def materialize(
             "artifact_version": certified["version"],
             "state": certified["state"],
             "receipt_id": certification_receipt["receipt_id"],
-            "runtime_family_count": certification_receipt["runtime_family_count"],
-            "runtime_families": certification_receipt["runtime_families"],
+            "independent_f5_receipt_count": certification_receipt["independent_f5_receipt_count"],
+            "target_runtime": certification_receipt["target_runtime"],
             "certified_at": certification_receipt["certified_at"],
             "bundle": bundle.as_posix(),
         })
@@ -154,7 +187,7 @@ def materialize(
     if certified_rows:
         status = "CERTIFIED_ARTIFACTS_MATERIALIZED"
     elif candidates:
-        status = "PENDING_RUNTIME_EVIDENCE"
+        status = "PENDING_INDEPENDENT_RUNTIME_REPETITIONS"
     else:
         status = "NO_F5_CANDIDATES"
 
@@ -166,9 +199,9 @@ def materialize(
         "pending_count": len(pending_rows),
         "artifacts": certified_rows,
         "pending": pending_rows,
-        "minimum_runtime_families": MIN_RUNTIME_FAMILIES,
-        "state_policy": "Only exact F5 CANDIDATE artifacts with valid F5 IMPROVEMENT_PASS evidence across at least three distinct declared runtime families may materialize as CERTIFIED.",
-        "claim_policy": "CERTIFIED is scoped evidence of cross-runtime behavioral/superiority performance under the frozen protocol; it is not universal correctness.",
+        "minimum_independent_f5_receipts": MIN_INDEPENDENT_F5_RECEIPTS,
+        "state_policy": "Only exact F5 CANDIDATE artifacts with at least three independent real F5 IMPROVEMENT_PASS receipts on the same provider/model/family may materialize as CERTIFIED.",
+        "claim_policy": "CERTIFIED is scoped evidence of repeatable behavioral/superiority performance on a declared target runtime. Cross-provider evidence is tracked separately as F7 PORTABLE.",
     }
     (output_root / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return manifest
