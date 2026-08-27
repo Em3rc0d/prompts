@@ -50,10 +50,11 @@ def _ref_filename(value: str) -> str:
 
 
 def persist_runtime_evidence(execution: dict, source_execution_path: Path, evidence_root: Path) -> None:
-    """Move a reviewed execution from ephemeral staging references to durable repository evidence.
+    """Persist reviewed runtime evidence exactly once before issuing an F4/F5 receipt.
 
     Raw observation JSON is copied byte-for-byte. The execution manifest is rebuilt because its
-    observation paths change. The canonical receipt is generated only after these durable refs exist.
+    observation paths change. Existing durable evidence is immutable: reusing an execution_id is
+    rejected rather than silently replacing evidence that may already support a receipt.
     """
     execution_id = str(execution.get("execution_id") or "").strip()
     if not execution_id:
@@ -67,49 +68,64 @@ def persist_runtime_evidence(execution: dict, source_execution_path: Path, evide
     destination = evidence_root / execution_id
     destination_raw = destination / "raw"
     if destination.exists():
-        shutil.rmtree(destination)
-    destination_raw.mkdir(parents=True, exist_ok=True)
+        raise ValueError(f"Durable runtime evidence already exists for execution_id={execution_id!r}; evidence is immutable")
+    destination_raw.mkdir(parents=True, exist_ok=False)
 
-    manifest = load(source_manifest)
-    observations = manifest.get("observations") or []
-    canonical_refs: dict[str, str] = {}
-    for row in observations:
-        old_ref = str(row.get("evidence_ref") or "")
-        filename = _ref_filename(old_ref)
-        source_file = source_raw / filename
-        if not source_file.is_file():
-            raise ValueError(f"Missing raw observation evidence: {source_file}")
-        raw = load(source_file)
-        declared_hash = str(raw.get("evidence_sha256") or "")
-        core = dict(raw)
-        core.pop("evidence_sha256", None)
-        expected_hash = sha256_json(core)
-        if declared_hash != expected_hash:
-            raise ValueError(f"Runtime observation evidence integrity mismatch: {source_file}")
-        target = destination_raw / filename
-        shutil.copyfile(source_file, target)
-        canonical_ref = f"{target.as_posix()}#{declared_hash}"
-        canonical_refs[old_ref] = canonical_ref
-        row["evidence_ref"] = canonical_ref
+    try:
+        manifest = load(source_manifest)
+        observations = manifest.get("observations") or []
+        if not observations:
+            raise ValueError("Observed execution manifest contains no runtime observations")
+        canonical_refs: dict[str, str] = {}
+        seen_files: set[str] = set()
+        for row in observations:
+            old_ref = str(row.get("evidence_ref") or "")
+            filename = _ref_filename(old_ref)
+            if filename in seen_files:
+                raise ValueError(f"Duplicate raw observation filename in evidence manifest: {filename}")
+            seen_files.add(filename)
+            source_file = source_raw / filename
+            if not source_file.is_file():
+                raise ValueError(f"Missing raw observation evidence: {source_file}")
+            raw = load(source_file)
+            declared_hash = str(raw.get("evidence_sha256") or "")
+            core = dict(raw)
+            core.pop("evidence_sha256", None)
+            expected_hash = sha256_json(core)
+            if declared_hash != expected_hash:
+                raise ValueError(f"Runtime observation evidence integrity mismatch: {source_file}")
+            target = destination_raw / filename
+            shutil.copyfile(source_file, target)
+            canonical_ref = f"{target.as_posix()}#{declared_hash}"
+            canonical_refs[old_ref] = canonical_ref
+            row["evidence_ref"] = canonical_ref
 
-    manifest.pop("manifest_sha256", None)
-    manifest["manifest_sha256"] = sha256_json(manifest)
-    canonical_manifest = destination / "runtime-evidence-manifest.json"
-    write(canonical_manifest, manifest)
-    execution["runtime"]["identity_evidence_ref"] = f"{canonical_manifest.as_posix()}#{manifest['manifest_sha256']}"
+        manifest.pop("manifest_sha256", None)
+        manifest["manifest_sha256"] = sha256_json(manifest)
+        canonical_manifest = destination / "runtime-evidence-manifest.json"
+        write(canonical_manifest, manifest)
+        execution["runtime"]["identity_evidence_ref"] = f"{canonical_manifest.as_posix()}#{manifest['manifest_sha256']}"
 
-    if execution.get("mode") == "api" and "responses" in execution:
-        for response in (execution.get("responses") or {}).values():
-            old = response.get("observation_evidence_ref")
-            if old:
-                response["observation_evidence_ref"] = canonical_refs.get(old) or f"{(destination_raw / _ref_filename(old)).as_posix()}#{str(old).split('#', 1)[-1]}"
-    for repeat in execution.get("repeats") or []:
-        for pair in (repeat.get("pairs") or {}).values():
-            for role in ("engineered", "baseline"):
-                response = pair.get(role) or {}
+        if execution.get("mode") == "api" and "responses" in execution:
+            for response in (execution.get("responses") or {}).values():
                 old = response.get("observation_evidence_ref")
                 if old:
-                    response["observation_evidence_ref"] = canonical_refs.get(old) or f"{(destination_raw / _ref_filename(old)).as_posix()}#{str(old).split('#', 1)[-1]}"
+                    if old not in canonical_refs:
+                        raise ValueError(f"F4 response references evidence absent from manifest: {old}")
+                    response["observation_evidence_ref"] = canonical_refs[old]
+        for repeat in execution.get("repeats") or []:
+            for pair in (repeat.get("pairs") or {}).values():
+                for role in ("engineered", "baseline"):
+                    response = pair.get(role) or {}
+                    old = response.get("observation_evidence_ref")
+                    if old:
+                        if old not in canonical_refs:
+                            raise ValueError(f"F5 response references evidence absent from manifest: {old}")
+                        response["observation_evidence_ref"] = canonical_refs[old]
+    except Exception:
+        if destination.exists():
+            shutil.rmtree(destination)
+        raise
 
 
 def finalize_f4(args: argparse.Namespace) -> None:
@@ -196,7 +212,7 @@ def finalize_f5(args: argparse.Namespace) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Finalize observed MK1 experiments only after complete human review and durable evidence persistence.")
+    parser = argparse.ArgumentParser(description="Finalize observed MK1 experiments only after complete human review and durable immutable evidence persistence.")
     parser.add_argument("--stage", required=True, choices=["f4", "f5"])
     parser.add_argument("--artifact", required=True)
     parser.add_argument("--fixtures", default="mk1/fixtures/f4/fixture-sets.json")
