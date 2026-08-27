@@ -60,7 +60,13 @@ def real_execution(responses: dict | None = None) -> dict:
     return {
         "execution_id": "manual-observed-pass",
         "mode": "manual-observed",
-        "runtime": {"provider": "test-provider", "model": "test-model", "family": "test-family-a", "run_at": "2026-08-26T22:55:00Z"},
+        "runtime": {
+            "provider": "test-provider",
+            "model": "test-model",
+            "family": "test-family-a",
+            "run_at": "2026-08-26T22:55:00Z",
+            "identity_evidence_ref": "runtime-proof-f4-001",
+        },
         "review": review_metadata(),
         **frozen_identity(),
         "responses": responses if responses is not None else passing_response(),
@@ -77,14 +83,11 @@ def test_fixture_inventory() -> dict:
     assert len(sets) == 3, sets
     assert sum(len(item["cases"]) for item in sets) == 30, sets
     assert all(len(item["cases"]) == 10 for item in sets), sets
-
     expected_ids = {"pq_mk1_fs_content_clear_rewrite_v1", "pq_mk1_fs_software_code_review_v1", "pq_mk1_fs_research_technical_decision_v1"}
     assert {item["fixture_set_id"] for item in sets} == expected_ids
-
     observed_classes = {case["class"] for item in sets for case in item["cases"]}
     required_classes = {"happy-path", "minimal", "missing-critical", "ambiguous", "contradictory", "edge", "noise", "regression", "injection", "scope"}
     assert required_classes <= observed_classes, observed_classes
-
     fixture_ids = []
     for item in sets:
         assert item["artifact_id"].startswith("pq_mk1_"), item
@@ -95,7 +98,6 @@ def test_fixture_inventory() -> dict:
             assert case["expected"]["machine_assertions"], case
             assert case["expected"]["human_checks"], case
     assert len(fixture_ids) == len(set(fixture_ids)), "F4 fixture IDs must be globally unique"
-
     return {"fixture_sets": len(sets), "fixtures": 30, "blocking_fixtures": 30, "classes": sorted(observed_classes)}
 
 
@@ -122,6 +124,7 @@ def test_real_pass_is_eligible_and_promotable() -> dict:
     assert receipt["receipt_id"].startswith("pq_mk1_f4_receipt_"), receipt
     assert receipt["review"]["reviewer_type"] == "human", receipt
     assert receipt["runtime"]["family"] == "test-family-a", receipt
+    assert receipt["runtime"]["identity_evidence_ref"] == "runtime-proof-f4-001", receipt
     promoted = promote_tested(artifact(), receipt)
     assert promoted["state"] == "TESTED", promoted
     assert "tested" in promoted["claims"], promoted
@@ -141,10 +144,8 @@ def test_unresolved_human_check_blocks() -> dict:
 
 
 def test_machine_failure_blocks() -> dict:
-    response = passing_response()
-    response["happy"]["output"] = "Alpha is now invented."
-    execution = real_execution(response)
-    execution["mode"] = "api"
+    response = passing_response(); response["happy"]["output"] = "Alpha is now invented."
+    execution = real_execution(response); execution["mode"] = "api"
     receipt = run_fixture_set(artifact(), fixture_set(), execution)
     assert receipt["status"] == "BEHAVIORAL_FAIL", receipt
     assert receipt["eligible_for_tested"] is False, receipt
@@ -153,102 +154,82 @@ def test_machine_failure_blocks() -> dict:
 
 
 def test_real_runtime_identity_required() -> dict:
-    execution = real_execution()
-    execution["runtime"] = {}
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+    execution = real_execution(); execution["runtime"] = {}
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "runtime identity" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "runtime identity" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Real execution without runtime identity should fail")
 
 
 def test_runtime_family_required() -> dict:
-    execution = real_execution()
-    execution["runtime"].pop("family")
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+    execution = real_execution(); execution["runtime"].pop("family")
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "runtime identity" in str(exc) and "family" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "runtime identity" in str(exc) and "family" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("F4 real execution must identify runtime family")
 
 
-def test_human_review_metadata_required() -> dict:
-    execution = real_execution()
-    execution.pop("review")
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+def test_runtime_identity_evidence_required() -> dict:
+    execution = real_execution(); execution["runtime"].pop("identity_evidence_ref")
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "reviewer_type='human'" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "runtime identity" in str(exc) and "identity_evidence_ref" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("F4 real execution must bind runtime identity evidence")
+
+
+def test_human_review_metadata_required() -> dict:
+    execution = real_execution(); execution.pop("review")
+    try: run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "reviewer_type='human'" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Real execution with human checks must identify human review")
 
 
 def test_complete_observed_outputs_required() -> dict:
-    execution = real_execution()
-    execution["responses"] = {"happy": {"output": "", "human_checks": passing_response()["happy"]["human_checks"]}}
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+    execution = real_execution(); execution["responses"] = {"happy": {"output": "", "human_checks": passing_response()["happy"]["human_checks"]}}
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "empty observed outputs" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "empty observed outputs" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Real execution cannot contain empty observed outputs")
 
 
 def test_pre_execution_prompt_identity_drift_rejected() -> dict:
-    execution = real_execution()
-    execution["artifact_prompt_fingerprint"] = sha256_text("different prompt")
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+    execution = real_execution(); execution["artifact_prompt_fingerprint"] = sha256_text("different prompt")
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "artifact_prompt_fingerprint" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "artifact_prompt_fingerprint" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Prepared execution must reject prompt identity drift")
 
 
 def test_pre_execution_fixture_identity_drift_rejected() -> dict:
-    execution = real_execution()
-    execution["fixture_set_fingerprint"] = sha256_json({"changed": True})
-    try:
-        run_fixture_set(artifact(), fixture_set(), execution)
+    execution = real_execution(); execution["fixture_set_fingerprint"] = sha256_json({"changed": True})
+    try: run_fixture_set(artifact(), fixture_set(), execution)
     except ValueError as exc:
-        assert "fixture_set_fingerprint" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "fixture_set_fingerprint" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Prepared execution must reject fixture-set identity drift")
 
 
 def test_receipt_identity_mismatch_rejected() -> dict:
-    receipt = real_pass_receipt()
-    receipt["artifact_version"] = "9.9.9"
-    try:
-        promote_tested(artifact(), receipt)
+    receipt = real_pass_receipt(); receipt["artifact_version"] = "9.9.9"
+    try: promote_tested(artifact(), receipt)
     except ValueError as exc:
-        assert "artifact_version" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "artifact_version" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Mismatched receipt version must be rejected")
 
 
 def test_prompt_fingerprint_mismatch_rejected() -> dict:
-    receipt = real_pass_receipt()
-    changed = artifact()
-    changed["prompt_body"] += "CHANGED AFTER EXECUTION\n"
-    try:
-        promote_tested(changed, receipt)
+    receipt = real_pass_receipt(); changed = artifact(); changed["prompt_body"] += "CHANGED AFTER EXECUTION\n"
+    try: promote_tested(changed, receipt)
     except ValueError as exc:
-        assert "artifact_prompt_fingerprint" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "artifact_prompt_fingerprint" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Prompt drift after execution must invalidate F4 promotion")
 
 
 def test_tampered_receipt_rejected() -> dict:
-    receipt = real_pass_receipt()
-    receipt["runtime"]["model"] = "tampered-model-id"
-    try:
-        promote_tested(artifact(), receipt)
+    receipt = real_pass_receipt(); receipt["runtime"]["model"] = "tampered-model-id"
+    try: promote_tested(artifact(), receipt)
     except ValueError as exc:
-        assert "integrity check failed" in str(exc), exc
-        return {"rejected": True, "reason": str(exc)}
+        assert "integrity check failed" in str(exc), exc; return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Receipt content modified after receipt_id generation must be rejected")
 
 
@@ -265,8 +246,7 @@ def test_materializer_requires_real_receipt_and_builds_tested_bundle() -> dict:
         empty = materialize(receipts, source, critics, output)
         assert empty["status"] == "NO_REAL_RECEIPTS", empty
         assert empty["tested_artifact_count"] == 0, empty
-        receipt = real_pass_receipt()
-        (receipts / "observed.receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
+        receipt = real_pass_receipt(); (receipts / "observed.receipt.json").write_text(json.dumps(receipt), encoding="utf-8")
         built = materialize(receipts, source, critics, output, require_at_least=1)
         tested = json.loads((output / "test_behavior" / "artifact.json").read_text(encoding="utf-8"))
         assert built["tested_artifact_count"] == 1 and tested["state"] == "TESTED"
@@ -284,6 +264,7 @@ def main() -> None:
         "machine_failure_blocks": test_machine_failure_blocks(),
         "runtime_identity_required": test_real_runtime_identity_required(),
         "runtime_family_required": test_runtime_family_required(),
+        "runtime_identity_evidence_required": test_runtime_identity_evidence_required(),
         "human_review_metadata_required": test_human_review_metadata_required(),
         "complete_observed_outputs_required": test_complete_observed_outputs_required(),
         "pre_execution_prompt_drift_rejected": test_pre_execution_prompt_identity_drift_rejected(),
@@ -292,7 +273,7 @@ def main() -> None:
         "prompt_fingerprint_mismatch_rejected": test_prompt_fingerprint_mismatch_rejected(),
         "tampered_receipt_rejected": test_tampered_receipt_rejected(),
         "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
-        "policy": "F4 requires a 30-case all-blocking adversarial matrix and explicit runtime family for real evidence. CI characterizes harness and evidence integrity only; no real prompt execution or TESTED artifact is claimed by this suite."
+        "policy": "F4 requires a 30-case all-blocking adversarial matrix and evidenced runtime identity for real executions. CI characterizes harness and evidence integrity only; no real prompt execution or TESTED artifact is claimed by this suite."
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
