@@ -1,0 +1,9 @@
+MK1 F4 CHATGPT PLUS — Revisión senior de código y pull requests
+
+Artifact: pq_mk1_software_code_review v0.1.0
+Fixture set: pq_mk1_fs_software_code_review_v1
+Cases: 10 (all blocking: 10)
+
+Run cases in numeric order. Each case must use a fresh ChatGPT conversation.
+Store the full answer in the matching responses/*.response.json file.
+Do not edit the frozen case prompt or its SHA-256.

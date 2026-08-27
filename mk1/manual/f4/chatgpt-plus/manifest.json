@@ -1,0 +1,34 @@
+{
+  "schema": "mk1-plus-f4-wave-manifest-v1",
+  "mk_stage": "MK1",
+  "phase": "F4",
+  "execution_mode": "manual-observed",
+  "target_product": "ChatGPT Plus",
+  "artifact_count": 3,
+  "case_count": 30,
+  "blocking_case_count": 30,
+  "artifacts": [
+    {
+      "slug": "content_clear_rewrite",
+      "artifact_id": "pq_mk1_content_clear_rewrite",
+      "manifest": "content_clear_rewrite/manifest.json",
+      "index": "content_clear_rewrite/INDEX.txt",
+      "cases": 10
+    },
+    {
+      "slug": "software_code_review",
+      "artifact_id": "pq_mk1_software_code_review",
+      "manifest": "software_code_review/manifest.json",
+      "index": "software_code_review/INDEX.txt",
+      "cases": 10
+    },
+    {
+      "slug": "research_technical_decision",
+      "artifact_id": "pq_mk1_research_technical_decision",
+      "manifest": "research_technical_decision/manifest.json",
+      "index": "research_technical_decision/INDEX.txt",
+      "cases": 10
+    }
+  ],
+  "state_policy": "Packet generation does not promote state. Only completed manual observations plus human review may produce BEHAVIORAL_PASS receipts and TESTED artifacts."
+}

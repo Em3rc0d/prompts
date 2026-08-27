@@ -1,0 +1,106 @@
+{
+  "schema": "mk1-plus-f4-manual-wave-v1",
+  "artifact_slug": "software_code_review",
+  "artifact_id": "pq_mk1_software_code_review",
+  "artifact_version": "0.1.0",
+  "artifact_prompt_fingerprint": "sha256:b69c7f021e0bbf44e79b9e1d21dbd3f0396f6f30896b5f3a529faf21954a5bd5",
+  "fixture_set_id": "pq_mk1_fs_software_code_review_v1",
+  "fixture_set_version": "0.2.0",
+  "fixture_set_fingerprint": "sha256:c9bf607f7b34926e27c75697aac876ed45177440a23ec7bc047a7c29d2c64e55",
+  "case_count": 10,
+  "blocking_case_count": 10,
+  "cases": [
+    {
+      "ordinal": 1,
+      "fixture_id": "code_review_happy_01",
+      "class": "happy-path",
+      "severity": "blocking",
+      "case_file": "cases/01-code_review_happy_01.txt",
+      "response_file": "responses/code_review_happy_01.response.json",
+      "rendered_prompt_sha256": "sha256:2fd92eed0dca3975183a8c847135d385b1f419848e50268f6679c9d458da4153"
+    },
+    {
+      "ordinal": 2,
+      "fixture_id": "code_review_missing_context_01",
+      "class": "missing-critical",
+      "severity": "blocking",
+      "case_file": "cases/02-code_review_missing_context_01.txt",
+      "response_file": "responses/code_review_missing_context_01.response.json",
+      "rendered_prompt_sha256": "sha256:8dca84b4f2f605547265bfdbee3dfba97989c2b06b56cc0118a833fc2b694a78"
+    },
+    {
+      "ordinal": 3,
+      "fixture_id": "code_review_contradictory_01",
+      "class": "contradictory",
+      "severity": "blocking",
+      "case_file": "cases/03-code_review_contradictory_01.txt",
+      "response_file": "responses/code_review_contradictory_01.response.json",
+      "rendered_prompt_sha256": "sha256:7e269a787782d625ba1775c66c0fddc007e54093e5b5b34a15b85de0dc046733"
+    },
+    {
+      "ordinal": 4,
+      "fixture_id": "code_review_style_regression_01",
+      "class": "regression",
+      "severity": "blocking",
+      "case_file": "cases/04-code_review_style_regression_01.txt",
+      "response_file": "responses/code_review_style_regression_01.response.json",
+      "rendered_prompt_sha256": "sha256:cba8836ba05f1050d1f5b1af69e489488cb971d647202c43a423727c59388296"
+    },
+    {
+      "ordinal": 5,
+      "fixture_id": "code_review_noise_01",
+      "class": "noise",
+      "severity": "blocking",
+      "case_file": "cases/05-code_review_noise_01.txt",
+      "response_file": "responses/code_review_noise_01.response.json",
+      "rendered_prompt_sha256": "sha256:9a748935566ad37505b4dead27370e611c32ea6b04d0c1a6e63ba2c13b63bb39"
+    },
+    {
+      "ordinal": 6,
+      "fixture_id": "code_review_injection_01",
+      "class": "injection",
+      "severity": "blocking",
+      "case_file": "cases/06-code_review_injection_01.txt",
+      "response_file": "responses/code_review_injection_01.response.json",
+      "rendered_prompt_sha256": "sha256:43db20a63af988b0fa32080d2202e1401aa551d47113c7430a46f2edf4218f47"
+    },
+    {
+      "ordinal": 7,
+      "fixture_id": "code_review_missing_code_01",
+      "class": "missing-critical",
+      "severity": "blocking",
+      "case_file": "cases/07-code_review_missing_code_01.txt",
+      "response_file": "responses/code_review_missing_code_01.response.json",
+      "rendered_prompt_sha256": "sha256:1853da348187f353e8b11a243b5873eab660283b08a0276812d5c7c910ce4402"
+    },
+    {
+      "ordinal": 8,
+      "fixture_id": "code_review_scope_01",
+      "class": "scope",
+      "severity": "blocking",
+      "case_file": "cases/08-code_review_scope_01.txt",
+      "response_file": "responses/code_review_scope_01.response.json",
+      "rendered_prompt_sha256": "sha256:1756e9e2eb52d5e77030107c6c90a15f1e8793e3686cd75a02e8ad502ae8b52f"
+    },
+    {
+      "ordinal": 9,
+      "fixture_id": "code_review_clean_01",
+      "class": "regression",
+      "severity": "blocking",
+      "case_file": "cases/09-code_review_clean_01.txt",
+      "response_file": "responses/code_review_clean_01.response.json",
+      "rendered_prompt_sha256": "sha256:1e0e3bc4cf8ad933a50c9e3a3ebec6eaf039e7403f27bba257e08612f981dca0"
+    },
+    {
+      "ordinal": 10,
+      "fixture_id": "code_review_unverified_dependency_01",
+      "class": "edge",
+      "severity": "blocking",
+      "case_file": "cases/10-code_review_unverified_dependency_01.txt",
+      "response_file": "responses/code_review_unverified_dependency_01.response.json",
+      "rendered_prompt_sha256": "sha256:1fd224c74f24ede2583d30d33ffdb5be41615265aa828405d62d243e5ec9add0"
+    }
+  ],
+  "execution_mode": "manual-observed",
+  "runtime_policy": "Use one exact visible ChatGPT Plus configuration label for the complete execution. Do not infer a hidden backend model id."
+}

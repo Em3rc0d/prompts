@@ -1,0 +1,13 @@
+PROMPT QUARRY — MK1 F4 CHATGPT PLUS CERTIFICATION WAVE
+
+This directory is a frozen manual-observed execution packet.
+Execute every case in a fresh ChatGPT Plus conversation.
+Do not use the current Prompt Quarry project conversation as evidence.
+
+- content_clear_rewrite: 10 cases → content_clear_rewrite/INDEX.txt
+- software_code_review: 10 cases → software_code_review/INDEX.txt
+- research_technical_decision: 10 cases → research_technical_decision/INDEX.txt
+
+TOTAL: 3 artifacts / 30 blocking observations.
+
+A generated packet is not evidence and does not change any artifact state.

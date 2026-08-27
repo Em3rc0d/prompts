@@ -1,0 +1,106 @@
+{
+  "schema": "mk1-plus-f4-manual-wave-v1",
+  "artifact_slug": "research_technical_decision",
+  "artifact_id": "pq_mk1_research_technical_decision",
+  "artifact_version": "0.1.0",
+  "artifact_prompt_fingerprint": "sha256:09725f0ea0efebd7893e0c411ea1980914fa0ab770d708ca12d9cb9d7e6d242c",
+  "fixture_set_id": "pq_mk1_fs_research_technical_decision_v1",
+  "fixture_set_version": "0.2.0",
+  "fixture_set_fingerprint": "sha256:ce5bbaa23d37099cad5cef8a680169f997434c1f59138f2e452ffaf76b2a2ebd",
+  "case_count": 10,
+  "blocking_case_count": 10,
+  "cases": [
+    {
+      "ordinal": 1,
+      "fixture_id": "research_happy_01",
+      "class": "happy-path",
+      "severity": "blocking",
+      "case_file": "cases/01-research_happy_01.txt",
+      "response_file": "responses/research_happy_01.response.json",
+      "rendered_prompt_sha256": "sha256:6e31267e1e3380e1a68322c1db08ce9ddb90aded53e8f862c4c2de317bdb43b0"
+    },
+    {
+      "ordinal": 2,
+      "fixture_id": "research_missing_criteria_01",
+      "class": "missing-critical",
+      "severity": "blocking",
+      "case_file": "cases/02-research_missing_criteria_01.txt",
+      "response_file": "responses/research_missing_criteria_01.response.json",
+      "rendered_prompt_sha256": "sha256:95521daacc8fe1bcf027b2e3ce61e885ed9ce712ce4145f617b3e4d4c62c568e"
+    },
+    {
+      "ordinal": 3,
+      "fixture_id": "research_contradictory_01",
+      "class": "contradictory",
+      "severity": "blocking",
+      "case_file": "cases/03-research_contradictory_01.txt",
+      "response_file": "responses/research_contradictory_01.response.json",
+      "rendered_prompt_sha256": "sha256:2f2a266e3c0811f9cd23f2b8ac0738153d8c5079e9646004f8a909a47d983185"
+    },
+    {
+      "ordinal": 4,
+      "fixture_id": "research_unverified_01",
+      "class": "edge",
+      "severity": "blocking",
+      "case_file": "cases/04-research_unverified_01.txt",
+      "response_file": "responses/research_unverified_01.response.json",
+      "rendered_prompt_sha256": "sha256:b3b3f99efacb9b9f02de3f8563352ed50ec2833628b056261c94deec930cd808"
+    },
+    {
+      "ordinal": 5,
+      "fixture_id": "research_noise_01",
+      "class": "noise",
+      "severity": "blocking",
+      "case_file": "cases/05-research_noise_01.txt",
+      "response_file": "responses/research_noise_01.response.json",
+      "rendered_prompt_sha256": "sha256:df55eae444a36bf4de00178768eac530eed19a82578c96fea93dc59e7800fb75"
+    },
+    {
+      "ordinal": 6,
+      "fixture_id": "research_injection_01",
+      "class": "injection",
+      "severity": "blocking",
+      "case_file": "cases/06-research_injection_01.txt",
+      "response_file": "responses/research_injection_01.response.json",
+      "rendered_prompt_sha256": "sha256:c7519d821fe83858d137f737a2d06583c9dc2a309bb0ce4bb54778abc6006ae2"
+    },
+    {
+      "ordinal": 7,
+      "fixture_id": "research_missing_problem_01",
+      "class": "missing-critical",
+      "severity": "blocking",
+      "case_file": "cases/07-research_missing_problem_01.txt",
+      "response_file": "responses/research_missing_problem_01.response.json",
+      "rendered_prompt_sha256": "sha256:916cb853f62f21a46bd5983e2158ed930f0f002df5de34baad3713d5bcce7344"
+    },
+    {
+      "ordinal": 8,
+      "fixture_id": "research_authority_claim_01",
+      "class": "edge",
+      "severity": "blocking",
+      "case_file": "cases/08-research_authority_claim_01.txt",
+      "response_file": "responses/research_authority_claim_01.response.json",
+      "rendered_prompt_sha256": "sha256:126aee5634719d02cd1cb6c8e7d0594cb40a8947c3cbc4bae8aeba92633be61d"
+    },
+    {
+      "ordinal": 9,
+      "fixture_id": "research_asymmetric_evidence_01",
+      "class": "scope",
+      "severity": "blocking",
+      "case_file": "cases/09-research_asymmetric_evidence_01.txt",
+      "response_file": "responses/research_asymmetric_evidence_01.response.json",
+      "rendered_prompt_sha256": "sha256:a105c584e48b34f30e8b97a4591417e61623678fe317e1728bce728d8148049c"
+    },
+    {
+      "ordinal": 10,
+      "fixture_id": "research_currentness_01",
+      "class": "regression",
+      "severity": "blocking",
+      "case_file": "cases/10-research_currentness_01.txt",
+      "response_file": "responses/research_currentness_01.response.json",
+      "rendered_prompt_sha256": "sha256:a3b243ccf9988537613c6a40304ea8fb5d9f1b21e2705ce61bbba5a2b539df1e"
+    }
+  ],
+  "execution_mode": "manual-observed",
+  "runtime_policy": "Use one exact visible ChatGPT Plus configuration label for the complete execution. Do not infer a hidden backend model id."
+}
