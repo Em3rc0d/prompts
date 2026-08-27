@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 from pathlib import Path
 from typing import Any
 
-from mk1_behavioral_runner import find_fixture_set, load as load_path, run_fixture_set
+from mk1_behavioral_runner import find_fixture_set, run_fixture_set, sha256_json
 from mk1_f5_benchmark import find_baseline, run_benchmark
 
 
@@ -40,11 +41,83 @@ def checks_to_map(checks: list[dict], context: str) -> dict:
     return result
 
 
+def _ref_filename(value: str) -> str:
+    path_part = str(value or "").split("#", 1)[0]
+    name = Path(path_part).name
+    if not name:
+        raise ValueError(f"Invalid evidence ref: {value!r}")
+    return name
+
+
+def persist_runtime_evidence(execution: dict, source_execution_path: Path, evidence_root: Path) -> None:
+    """Move a reviewed execution from ephemeral staging references to durable repository evidence.
+
+    Raw observation JSON is copied byte-for-byte. The execution manifest is rebuilt because its
+    observation paths change. The canonical receipt is generated only after these durable refs exist.
+    """
+    execution_id = str(execution.get("execution_id") or "").strip()
+    if not execution_id:
+        raise ValueError("Cannot persist runtime evidence without execution_id")
+    source_dir = source_execution_path.parent
+    source_raw = source_dir / "raw"
+    source_manifest = source_dir / "runtime-evidence-manifest.json"
+    if not source_raw.is_dir() or not source_manifest.is_file():
+        raise ValueError("Observed execution is missing its raw evidence directory or manifest")
+
+    destination = evidence_root / execution_id
+    destination_raw = destination / "raw"
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination_raw.mkdir(parents=True, exist_ok=True)
+
+    manifest = load(source_manifest)
+    observations = manifest.get("observations") or []
+    canonical_refs: dict[str, str] = {}
+    for row in observations:
+        old_ref = str(row.get("evidence_ref") or "")
+        filename = _ref_filename(old_ref)
+        source_file = source_raw / filename
+        if not source_file.is_file():
+            raise ValueError(f"Missing raw observation evidence: {source_file}")
+        raw = load(source_file)
+        declared_hash = str(raw.get("evidence_sha256") or "")
+        core = dict(raw)
+        core.pop("evidence_sha256", None)
+        expected_hash = sha256_json(core)
+        if declared_hash != expected_hash:
+            raise ValueError(f"Runtime observation evidence integrity mismatch: {source_file}")
+        target = destination_raw / filename
+        shutil.copyfile(source_file, target)
+        canonical_ref = f"{target.as_posix()}#{declared_hash}"
+        canonical_refs[old_ref] = canonical_ref
+        row["evidence_ref"] = canonical_ref
+
+    manifest.pop("manifest_sha256", None)
+    manifest["manifest_sha256"] = sha256_json(manifest)
+    canonical_manifest = destination / "runtime-evidence-manifest.json"
+    write(canonical_manifest, manifest)
+    execution["runtime"]["identity_evidence_ref"] = f"{canonical_manifest.as_posix()}#{manifest['manifest_sha256']}"
+
+    if execution.get("mode") == "api" and "responses" in execution:
+        for response in (execution.get("responses") or {}).values():
+            old = response.get("observation_evidence_ref")
+            if old:
+                response["observation_evidence_ref"] = canonical_refs.get(old) or f"{(destination_raw / _ref_filename(old)).as_posix()}#{str(old).split('#', 1)[-1]}"
+    for repeat in execution.get("repeats") or []:
+        for pair in (repeat.get("pairs") or {}).values():
+            for role in ("engineered", "baseline"):
+                response = pair.get(role) or {}
+                old = response.get("observation_evidence_ref")
+                if old:
+                    response["observation_evidence_ref"] = canonical_refs.get(old) or f"{(destination_raw / _ref_filename(old)).as_posix()}#{str(old).split('#', 1)[-1]}"
+
+
 def finalize_f4(args: argparse.Namespace) -> None:
     artifact = load(args.artifact)
     fixture_document = load(args.fixtures)
     fixture_set = find_fixture_set(fixture_document, args.fixture_set)
-    execution = load(args.execution)
+    execution_path = Path(args.execution)
+    execution = load(execution_path)
     review = load(args.review)
     reviewer_ref, reviewed_at = require_review_header(review)
     if review.get("execution_id") != execution.get("execution_id"):
@@ -57,11 +130,12 @@ def finalize_f4(args: argparse.Namespace) -> None:
     for fixture_id in expected_ids:
         execution["responses"][fixture_id]["human_checks"] = checks_to_map(reviewed_cases[fixture_id].get("human_checks") or [], fixture_id)
     execution["review"] = {"reviewer_type": "human", "reviewer_ref": reviewer_ref, "reviewed_at": reviewed_at}
+    persist_runtime_evidence(execution, execution_path, Path(args.evidence_root))
 
     receipt = run_fixture_set(artifact, fixture_set, execution)
     write(Path(args.output_execution), execution)
     write(Path(args.output_receipt), receipt)
-    print(json.dumps({"status": receipt["status"], "eligible_for_tested": receipt["eligible_for_tested"], "receipt_id": receipt["receipt_id"]}, indent=2))
+    print(json.dumps({"status": receipt["status"], "eligible_for_tested": receipt["eligible_for_tested"], "receipt_id": receipt["receipt_id"], "runtime_evidence": execution["runtime"]["identity_evidence_ref"]}, indent=2))
 
 
 def finalize_f5(args: argparse.Namespace) -> None:
@@ -69,7 +143,8 @@ def finalize_f5(args: argparse.Namespace) -> None:
     fixture_document = load(args.fixtures)
     fixture_set = find_fixture_set(fixture_document, args.fixture_set)
     baseline = find_baseline(load(args.baselines), artifact["id"])
-    execution = load(args.execution)
+    execution_path = Path(args.execution)
+    execution = load(execution_path)
     review = load(args.review)
     deblind = load(args.deblind_map)
     reviewer_ref, reviewed_at = require_review_header(review)
@@ -113,14 +188,15 @@ def finalize_f5(args: argparse.Namespace) -> None:
         "blinded": True,
         "randomization_ref": randomization_ref,
     }
+    persist_runtime_evidence(execution, execution_path, Path(args.evidence_root))
     receipt = run_benchmark(artifact, baseline, fixture_set, execution)
     write(Path(args.output_execution), execution)
     write(Path(args.output_receipt), receipt)
-    print(json.dumps({"status": receipt["status"], "eligible_for_improved": receipt["eligible_for_improved"], "receipt_id": receipt["receipt_id"], "preference": receipt["preference"]}, indent=2))
+    print(json.dumps({"status": receipt["status"], "eligible_for_improved": receipt["eligible_for_improved"], "receipt_id": receipt["receipt_id"], "preference": receipt["preference"], "runtime_evidence": execution["runtime"]["identity_evidence_ref"]}, indent=2))
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Finalize observed MK1 experiments only after complete human review.")
+    parser = argparse.ArgumentParser(description="Finalize observed MK1 experiments only after complete human review and durable evidence persistence.")
     parser.add_argument("--stage", required=True, choices=["f4", "f5"])
     parser.add_argument("--artifact", required=True)
     parser.add_argument("--fixtures", default="mk1/fixtures/f4/fixture-sets.json")
@@ -129,6 +205,7 @@ def main() -> None:
     parser.add_argument("--review", required=True)
     parser.add_argument("--output-execution", required=True)
     parser.add_argument("--output-receipt", required=True)
+    parser.add_argument("--evidence-root", default="mk1/evidence/runtime")
     parser.add_argument("--baselines", default="mk1/baselines/f5/task-equivalent-minimal.json")
     parser.add_argument("--deblind-map")
     args = parser.parse_args()
