@@ -25,97 +25,42 @@
     "evaluation"
   ],
   "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^pq_mk1_[a-zA-Z0-9._-]+$"
-    },
-    "version": {
-      "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-    },
+    "id": {"type": "string", "pattern": "^pq_mk1_[a-zA-Z0-9._-]+$"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
     "state": {
       "type": "string",
-      "enum": ["DRAFT", "VALID", "TESTED", "CANDIDATE", "CERTIFIED", "REJECTED", "DEPRECATED"]
+      "enum": ["DRAFT", "VALID", "TESTED", "CANDIDATE", "CERTIFIED", "PORTABLE", "REJECTED", "DEPRECATED"]
     },
-    "artifact_type": {
-      "const": "prompt"
-    },
+    "artifact_type": {"const": "prompt"},
     "title": {"type": "string", "minLength": 3},
     "domain": {"type": "string", "minLength": 2},
     "intent": {
       "type": "string",
-      "enum": [
-        "answer",
-        "analyze",
-        "audit",
-        "compare",
-        "decide",
-        "generate",
-        "plan",
-        "research",
-        "review",
-        "rewrite",
-        "summarize",
-        "teach",
-        "troubleshoot"
-      ]
+      "enum": ["answer", "analyze", "audit", "compare", "decide", "generate", "plan", "research", "review", "rewrite", "summarize", "teach", "troubleshoot"]
     },
-    "risk": {
-      "type": "string",
-      "enum": ["low", "normal", "high-stakes"]
-    },
-    "language": {
-      "type": "string",
-      "enum": ["es", "en", "mixed"]
-    },
+    "risk": {"type": "string", "enum": ["low", "normal", "high-stakes"]},
+    "language": {"type": "string", "enum": ["es", "en", "mixed"]},
     "model_targets": {
       "type": "array",
       "minItems": 1,
       "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "enum": ["model-agnostic", "chatgpt", "claude", "gemini", "codex", "image-model"]
-      }
+      "items": {"type": "string", "enum": ["model-agnostic", "chatgpt", "claude", "gemini", "codex", "image-model"]}
     },
     "purpose": {"type": "string", "minLength": 5},
-    "success_criteria": {
-      "type": "array",
-      "minItems": 1,
-      "uniqueItems": true,
-      "items": {"type": "string", "minLength": 3}
-    },
+    "success_criteria": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 3}},
     "inputs": {
       "type": "object",
       "additionalProperties": false,
       "required": ["required", "optional"],
       "properties": {
-        "required": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {"type": "string", "minLength": 1}
-        },
-        "optional": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {"type": "string", "minLength": 1}
-        }
+        "required": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "optional": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
       }
     },
     "architecture": {
       "type": "object",
       "additionalProperties": false,
-      "required": [
-        "purpose",
-        "role",
-        "context",
-        "intake",
-        "assumptions",
-        "process",
-        "constraints",
-        "output_contract",
-        "quality_gate",
-        "fallback"
-      ],
+      "required": ["purpose", "role", "context", "intake", "assumptions", "process", "constraints", "output_contract", "quality_gate", "fallback"],
       "properties": {
         "purpose": {"type": "boolean"},
         "role": {"type": "boolean"},
@@ -129,19 +74,12 @@
         "fallback": {"type": "boolean"}
       }
     },
-    "techniques": {
-      "type": "array",
-      "uniqueItems": true,
-      "items": {"type": "string", "minLength": 2}
-    },
+    "techniques": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 2}},
     "prompt_body": {"type": "string", "minLength": 20},
     "claims": {
       "type": "array",
       "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "enum": ["engineered", "revised", "tested", "certified", "improved"]
-      },
+      "items": {"type": "string", "enum": ["engineered", "revised", "tested", "certified", "improved", "portable"]},
       "default": ["engineered"]
     },
     "provenance": {
@@ -164,10 +102,7 @@
         "fixture_set_id": {"type": ["string", "null"]},
         "receipt_id": {"type": ["string", "null"]},
         "rubric_score": {"type": ["number", "null"], "minimum": 0, "maximum": 100},
-        "blocking_failures": {
-          "type": "array",
-          "items": {"type": "string"}
-        }
+        "blocking_failures": {"type": "array", "items": {"type": "string"}}
       }
     },
     "created_at": {"type": ["string", "null"]},
