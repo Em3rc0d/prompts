@@ -4,7 +4,13 @@ import json
 from pathlib import Path
 
 from mk1_f5_benchmark import find_fixture_set, load
-from mk1_f6_certify import build_certification_receipt, promote_certified, validate_certification_receipt_integrity, validate_cross_runtime_f5_receipt
+from mk1_f6_certify import (
+    MIN_INDEPENDENT_F5_RECEIPTS,
+    build_certification_receipt,
+    promote_certified,
+    validate_certification_receipt_integrity,
+    validate_target_runtime_f5_receipt,
+)
 from mk1_materialize_f6_certified import index_candidates, supplemental_receipts, validate_evidence_inventory
 from mk1_prompt_linter import lint_artifact
 
@@ -39,7 +45,7 @@ def main() -> None:
         raise AssertionError(f"F6 evidence has no F5 candidate source: {unknown}")
 
     expected: dict[str, tuple[dict, dict, list[dict]]] = {}
-    pending: dict[str, list[str]] = {}
+    pending: dict[str, dict] = {}
     for artifact_id, source_bundle in sorted(candidates.items()):
         candidate = load(source_bundle / "artifact.json")
         source_tested = load(source_bundle / "source_tested_artifact.json")
@@ -47,14 +53,19 @@ def main() -> None:
         primary = load(source_bundle / "benchmark_receipt.json")
         fixture_set = find_fixture_set(fixture_document, artifact_id)
         evidence = [primary] + [row for row in supplements if row.get("artifact_id") == artifact_id]
+
+        target = None
         for receipt in evidence:
-            validate_cross_runtime_f5_receipt(receipt, candidate, source_tested, baseline, fixture_set)
-        families = validate_evidence_inventory(evidence)
+            target = validate_target_runtime_f5_receipt(
+                receipt, candidate, source_tested, baseline, fixture_set, target
+            )
+        inventory = validate_evidence_inventory(evidence)
         if primary.get("receipt_id") != (candidate.get("evaluation") or {}).get("receipt_id"):
             raise AssertionError(f"F6 primary F5 receipt mismatch: {artifact_id}")
-        if len(families) < 3:
-            pending[artifact_id] = families
+        if inventory["receipt_count"] < MIN_INDEPENDENT_F5_RECEIPTS:
+            pending[artifact_id] = inventory
             continue
+
         certification = build_certification_receipt(candidate, source_tested, baseline, fixture_set, evidence)
         expected[artifact_id] = (promote_certified(candidate, certification), certification, evidence)
 
@@ -65,13 +76,17 @@ def main() -> None:
     if not manifest_path.exists():
         raise AssertionError("Missing F6 manifest")
     manifest = load(manifest_path)
-    expected_status = "CERTIFIED_ARTIFACTS_MATERIALIZED" if expected else ("PENDING_RUNTIME_EVIDENCE" if candidates else "NO_F5_CANDIDATES")
+    expected_status = (
+        "CERTIFIED_ARTIFACTS_MATERIALIZED"
+        if expected
+        else ("PENDING_INDEPENDENT_RUNTIME_REPETITIONS" if candidates else "NO_F5_CANDIDATES")
+    )
     if manifest.get("status") != expected_status:
         raise AssertionError(f"F6 manifest status mismatch: expected {expected_status}, got {manifest.get('status')}")
     if manifest.get("certified_count") != len(expected) or manifest.get("pending_count") != len(pending):
         raise AssertionError("F6 manifest counts mismatch")
-    if manifest.get("minimum_runtime_families") != 3:
-        raise AssertionError("F6 manifest minimum runtime-family policy drifted")
+    if manifest.get("minimum_independent_f5_receipts") != MIN_INDEPENDENT_F5_RECEIPTS:
+        raise AssertionError("F6 manifest independent-run policy drifted")
 
     for artifact_id, (reconstructed, certification, evidence) in expected.items():
         bundle = persisted[artifact_id]
@@ -82,7 +97,7 @@ def main() -> None:
         validate_certification_receipt_integrity(persisted_receipt)
         if persisted_receipt != certification:
             raise AssertionError(f"F6 certification receipt cannot be deterministically reconstructed: {artifact_id}")
-        evidence_doc = load(bundle / "cross_runtime_f5_receipts.json")
+        evidence_doc = load(bundle / "certification_f5_receipts.json")
         if evidence_doc.get("receipts") != evidence:
             raise AssertionError(f"F6 persisted F5 evidence inventory mismatch: {artifact_id}")
         if observed.get("state") != "CERTIFIED" or observed.get("claims") != ["engineered", "tested", "improved", "certified"]:
@@ -97,6 +112,7 @@ def main() -> None:
         "certified": len(expected),
         "pending": len(pending),
         "state": expected_status,
+        "minimum_independent_f5_receipts": MIN_INDEPENDENT_F5_RECEIPTS,
     }, ensure_ascii=False, indent=2))
 
 
