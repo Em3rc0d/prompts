@@ -1,0 +1,12 @@
+{
+  "evidence_schema": "mk1-manual-source-note-v1",
+  "stage": "F4",
+  "artifact_id": "pq_mk1_content_clear_rewrite",
+  "fixture_id": "rewrite_minimal_01",
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T21:57-05:00",
+  "source_kind": "user-transcribed-chatgpt-plus-output",
+  "visual_evidence": false,
+  "provenance_note": "The user supplied the full observed ChatGPT Plus output in the certification conversation. No additional screenshot was supplied for this case. Runtime label High is carried forward from the immediately preceding evidenced case under the user's instruction to keep the same visible configuration for the whole wave.",
+  "observed_output": "El viernes se procesó el pago."
+}
