@@ -15,6 +15,7 @@ def main() -> None:
     parser.add_argument("--mode", choices=["api", "manual-observed", "synthetic"], required=True)
     parser.add_argument("--provider")
     parser.add_argument("--model")
+    parser.add_argument("--family")
     parser.add_argument("--run-at")
     parser.add_argument("--reviewer-ref")
     parser.add_argument("--reviewed-at")
@@ -40,6 +41,7 @@ def main() -> None:
         runtime = {
             "provider": args.provider,
             "model": args.model,
+            "family": args.family,
             "run_at": args.run_at,
         }
         review = {
@@ -75,7 +77,7 @@ def main() -> None:
             "This envelope is frozen to the exact artifact prompt fingerprint and fixture-set fingerprint recorded above.",
             "Replace each empty output with the actually observed model/runtime output.",
             "Resolve each declared human check explicitly as PASS or FAIL with an evidence note.",
-            "For real executions, fill reviewer_ref and reviewed_at; reviewer_type must remain human.",
+            "For real executions, fill provider, model, family, run_at, reviewer_ref and reviewed_at; reviewer_type must remain human.",
             "Do not substitute model self-judgment for declared human review.",
             "Do not change prompt or fixture input after preparing/executing this envelope; version and prepare a new envelope instead.",
             "Synthetic envelopes characterize the harness only and can never support TESTED state."
