@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptquarry.local/mk0/harvester/CANDIDATE_RECORD.schema.json",
+  "title": "Prompt Quarry Harvester Candidate Record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "candidate_id",
+    "source_id",
+    "candidate_fingerprint",
+    "artifact_type",
+    "stage",
+    "classification",
+    "techniques",
+    "architecture",
+    "confidence",
+    "quality",
+    "critical_flags",
+    "route",
+    "policy_version",
+    "created_at"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-candidate-record-v1"},
+    "candidate_id": {"type": "string", "pattern": "^cand-[a-z0-9][a-z0-9-]{5,80}$"},
+    "source_id": {"type": "string", "pattern": "^src-[a-z0-9][a-z0-9-]{5,80}$"},
+    "candidate_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "artifact_type": {"enum": ["prompt", "skill", "agent", "instruction-markdown", "capability", "workflow", "technique-pattern", "other"]},
+    "stage": {"enum": ["CHARACTERIZED", "SCORED", "GOLDEN_CANDIDATE", "HUMAN_REVIEW_REQUIRED", "HOLD", "REJECTED"]},
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "intent", "family"],
+      "properties": {
+        "domain": {"type": "string", "minLength": 1},
+        "intent": {"type": "string", "minLength": 1},
+        "family": {"type": "string", "minLength": 1},
+        "language": {"type": ["string", "null"]}
+      }
+    },
+    "techniques": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "architecture": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "technique_extraction", "architecture_mapping", "deduplication", "aggregate"],
+      "properties": {
+        "classification": {"type": "number", "minimum": 0, "maximum": 1},
+        "technique_extraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "architecture_mapping": {"type": "number", "minimum": 0, "maximum": 1},
+        "deduplication": {"type": "number", "minimum": 0, "maximum": 1},
+        "aggregate": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structural_quality", "novelty", "coverage_value", "golden_value"],
+      "properties": {
+        "structural_quality": {"type": "number", "minimum": 0, "maximum": 1},
+        "novelty": {"type": "number", "minimum": 0, "maximum": 1},
+        "coverage_value": {"type": "number", "minimum": 0, "maximum": 1},
+        "golden_value": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "duplicate_of": {"type": ["string", "null"], "pattern": "^cand-[a-z0-9][a-z0-9-]{5,80}$"},
+    "critical_flags": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "route": {"enum": ["GOLDEN_CANDIDATE", "HUMAN_REVIEW_REQUIRED", "HOLD", "REJECTED"]},
+    "route_reasons": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "policy_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "source_record_ref": {"type": ["string", "null"]},
+    "characterization_ref": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}
