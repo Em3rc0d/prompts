@@ -1,0 +1,30 @@
+{
+  "version": "0.1.0",
+  "policy": "Task-equivalent minimal baselines express the goal and required variables without copying MK1 reliability architecture.",
+  "baselines": [
+    {
+      "baseline_id": "pq_f5_baseline_content_clear_rewrite_minimal_v1",
+      "task_artifact_id": "pq_mk1_content_clear_rewrite",
+      "artifact_version": "0.1.0",
+      "prompt_body": "Reescribe {text} para mejorar claridad, naturalidad y legibilidad sin cambiar su significado ni añadir hechos. Si se proporcionan tone o audience, úsalos sólo cuando no cambien el contenido. Devuelve la versión reescrita.",
+      "required_inputs": ["text"],
+      "source": "deterministic-task-brief-baseline"
+    },
+    {
+      "baseline_id": "pq_f5_baseline_software_code_review_minimal_v1",
+      "task_artifact_id": "pq_mk1_software_code_review",
+      "artifact_version": "0.1.0",
+      "prompt_body": "Revisa el siguiente código en su contexto técnico y señala problemas de corrección, seguridad, rendimiento, mantenibilidad y pruebas. Prioriza los hallazgos importantes y sugiere correcciones. Código: {code}\nContexto técnico: {technical_context}",
+      "required_inputs": ["code", "technical_context"],
+      "source": "deterministic-task-brief-baseline"
+    },
+    {
+      "baseline_id": "pq_f5_baseline_research_technical_decision_minimal_v1",
+      "task_artifact_id": "pq_mk1_research_technical_decision",
+      "artifact_version": "0.1.0",
+      "prompt_body": "Analiza el problema {problem} y compara las alternativas relevantes usando estos criterios: {decision_criteria}. Explica ventajas y desventajas y recomienda una opción con sus trade-offs. Usa evidencia y fuentes cuando estén disponibles.",
+      "required_inputs": ["problem", "decision_criteria"],
+      "source": "deterministic-task-brief-baseline"
+    }
+  ]
+}
