@@ -72,17 +72,23 @@ jobs:
       - name: Test generator v0
         id: generator_tests
         continue-on-error: true
-        run: python tools/test_mk1_prompt_generator_v0.py
+        shell: bash
+        run: |
+          set -o pipefail
+          python tools/test_mk1_prompt_generator_v0.py 2>&1 | tee /tmp/mk1-generator-tests.log
 
       - name: Execute example generation
         id: example
         continue-on-error: true
+        shell: bash
         run: |
-          rm -rf /tmp/pq-generator-demo
-          python tools/mk1_prompt_generator_v0.py \
-            mk1/generator/examples/software-review.request.json \
-            --output-dir /tmp/pq-generator-demo
-          python - <<'PY'
+          set -o pipefail
+          {
+            rm -rf /tmp/pq-generator-demo
+            python tools/mk1_prompt_generator_v0.py \
+              mk1/generator/examples/software-review.request.json \
+              --output-dir /tmp/pq-generator-demo
+            python - <<'PY'
           import json
           from pathlib import Path
           root = Path('/tmp/pq-generator-demo')
@@ -97,6 +103,7 @@ jobs:
           assert (root / 'prompt.txt').stat().st_size > 100
           print(json.dumps(generation, ensure_ascii=False, indent=2))
           PY
+          } 2>&1 | tee /tmp/mk1-generator-example.log
 
       - name: Persist validation receipt on feature branch
         if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
@@ -130,15 +137,18 @@ jobs:
               'gates': gates,
               'claim_boundary': 'CI validates static generator behavior only; it does not establish F4/F5 behavioral superiority or certification.',
           }
-          path = Path('.ci/mk1-prompt-generator-v0/latest.json')
-          path.parent.mkdir(parents=True, exist_ok=True)
-          path.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          root = Path('.ci/mk1-prompt-generator-v0')
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'latest.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
           print(json.dumps(receipt, indent=2))
           PY
 
+          cp /tmp/mk1-generator-tests.log .ci/mk1-prompt-generator-v0/generator-tests.log 2>/dev/null || true
+          cp /tmp/mk1-generator-example.log .ci/mk1-prompt-generator-v0/example-generation.log 2>/dev/null || true
+
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
-          git add .ci/mk1-prompt-generator-v0/latest.json
+          git add .ci/mk1-prompt-generator-v0/
           if git diff --cached --quiet; then
             echo 'Validation receipt unchanged.'
           else
