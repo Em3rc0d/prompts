@@ -7,7 +7,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 
-SELECTOR_VERSION = "1.0.0"
+SELECTOR_VERSION = "1.1.0"
 
 BLOCK_ORDER = [
     "PURPOSE",
@@ -39,6 +39,16 @@ DOMAIN_EXPERTISE_INTENTS = {
     "research",
     "review",
     "teach",
+    "troubleshoot",
+}
+
+AMBIGUITY_SENSITIVE_INTENTS = {
+    "analyze",
+    "audit",
+    "compare",
+    "decide",
+    "research",
+    "rewrite",
     "troubleshoot",
 }
 
@@ -109,14 +119,7 @@ def select_architecture(brief: dict) -> dict:
             "Interaction permits targeted questions for missing required inputs.",
         )
 
-    if risk == "high-stakes" or complexity != "simple" or intent in {
-        "analyze",
-        "audit",
-        "compare",
-        "decide",
-        "research",
-        "troubleshoot",
-    }:
+    if risk == "high-stakes" or complexity != "simple" or intent in AMBIGUITY_SENSITIVE_INTENTS:
         _add(
             selected,
             reasons,
