@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_internal_conflict_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:28:08-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/content_clear_rewrite/batch_06_10.json#rewrite_internal_conflict_01",
   "rendered_prompt_sha256": "sha256:aaad6d224c0850206123d7691f466f9640d8f52a6c84da6378b15a419dce2d84",
-  "output": null
+  "output": "Existe una inconsistencia: la primera sección indica que el contrato vence el 3 de mayo, mientras que la sección final señala que vence el 5 de mayo."
 }
