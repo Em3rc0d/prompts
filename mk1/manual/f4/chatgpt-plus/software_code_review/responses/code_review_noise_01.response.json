@@ -1,8 +1,8 @@
 {
   "fixture_id": "code_review_noise_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:38:12-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/software_code_review/batch_11_20.json#code_review_noise_01",
   "rendered_prompt_sha256": "sha256:9a748935566ad37505b4dead27370e611c32ea6b04d0c1a6e63ba2c13b63bb39",
-  "output": null
+  "output": "### Hallazgo 1\n\n- Severidad: Crítica\n- Tipo: Seguridad — inyección SQL\n- Evidencia concreta: La consulta se construye concatenando directamente `name` dentro del SQL: `query = \"SELECT * FROM users WHERE name='\" + name + \"'\"`.\n- Impacto: Si `name` contiene entrada controlada por un usuario, puede modificar la estructura de la consulta en lugar de ser tratado únicamente como un valor. El contexto indica que el código pertenece a un handler web, por lo que este patrón representa un riesgo de inyección SQL.\n- Corrección sugerida: Sustituir la concatenación por una consulta parametrizada utilizando el mecanismo de parámetros del driver o capa de acceso a datos empleada por la aplicación.\n- Cómo verificarla: Añadir pruebas donde `name` contenga comillas y secuencias similares a SQL y comprobar que siempre se trata como un valor literal y que la estructura de la consulta no cambia.\n\nLa discusión sobre cambiar el color del logotipo no afecta al fragmento revisado y no constituye un hallazgo de ingeniería sobre este código."
 }
