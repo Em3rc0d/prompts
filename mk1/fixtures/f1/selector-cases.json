@@ -1,6 +1,6 @@
 [
   {
-    "name": "simple one-shot rewrite stays compact",
+    "name": "simple one-shot rewrite stays compact but ambiguity-aware",
     "brief": {
       "brief_id": "f1_rewrite_simple",
       "title": "Rewrite a paragraph clearly",
@@ -9,26 +9,15 @@
       "risk": "low",
       "complexity": "simple",
       "goal": "Rewrite supplied text more clearly without changing meaning.",
-      "inputs": {
-        "required": ["text"],
-        "optional": ["tone"]
-      },
-      "success_criteria": [
-        "Meaning is preserved",
-        "Output is clearer than the input"
-      ],
+      "inputs": {"required": ["text"], "optional": ["tone"]},
+      "success_criteria": ["Meaning is preserved", "Output is clearer than the input"],
       "interaction": "one-shot",
       "constraints": [],
-      "output_needs": {
-        "structured": false,
-        "alternatives": 1,
-        "evidence": false,
-        "citations": false
-      },
+      "output_needs": {"structured": false, "alternatives": 1, "evidence": false, "citations": false},
       "model_targets": ["model-agnostic"]
     },
-    "expected_selected": ["PURPOSE", "CONTEXT", "OUTPUT_CONTRACT", "QUALITY_GATE"],
-    "expected_omitted": ["ROLE", "INTAKE", "ASSUMPTIONS", "PROCESS", "CONSTRAINTS", "FALLBACK"]
+    "expected_selected": ["PURPOSE", "CONTEXT", "ASSUMPTIONS", "OUTPUT_CONTRACT", "QUALITY_GATE"],
+    "expected_omitted": ["ROLE", "INTAKE", "PROCESS", "CONSTRAINTS", "FALLBACK"]
   },
   {
     "name": "code review receives full reliability architecture",
@@ -40,36 +29,14 @@
       "risk": "normal",
       "complexity": "moderate",
       "goal": "Find correctness, security, performance and maintainability problems in supplied code.",
-      "inputs": {
-        "required": ["code", "context"],
-        "optional": ["tests", "constraints"]
-      },
-      "success_criteria": [
-        "Problems are prioritized by severity",
-        "Every major finding includes a concrete fix"
-      ],
+      "inputs": {"required": ["code", "context"], "optional": ["tests", "constraints"]},
+      "success_criteria": ["Problems are prioritized by severity", "Every major finding includes a concrete fix"],
       "interaction": "intake-allowed",
       "constraints": ["Do not invent repository context that was not supplied"],
-      "output_needs": {
-        "structured": true,
-        "alternatives": 1,
-        "evidence": false,
-        "citations": false
-      },
+      "output_needs": {"structured": true, "alternatives": 1, "evidence": false, "citations": false},
       "model_targets": ["codex", "model-agnostic"]
     },
-    "expected_selected": [
-      "PURPOSE",
-      "ROLE",
-      "CONTEXT",
-      "INTAKE",
-      "ASSUMPTIONS",
-      "PROCESS",
-      "CONSTRAINTS",
-      "OUTPUT_CONTRACT",
-      "QUALITY_GATE",
-      "FALLBACK"
-    ],
+    "expected_selected": ["PURPOSE", "ROLE", "CONTEXT", "INTAKE", "ASSUMPTIONS", "PROCESS", "CONSTRAINTS", "OUTPUT_CONTRACT", "QUALITY_GATE", "FALLBACK"],
     "expected_omitted": []
   },
   {
@@ -82,22 +49,11 @@
       "risk": "normal",
       "complexity": "simple",
       "goal": "Generate five materially different campaign concepts for a defined offer and audience.",
-      "inputs": {
-        "required": ["offer", "audience"],
-        "optional": ["channel", "tone"]
-      },
-      "success_criteria": [
-        "Five distinct concepts are produced",
-        "Each concept is relevant to the offer and audience"
-      ],
+      "inputs": {"required": ["offer", "audience"], "optional": ["channel", "tone"]},
+      "success_criteria": ["Five distinct concepts are produced", "Each concept is relevant to the offer and audience"],
       "interaction": "one-shot",
       "constraints": ["Avoid repeating the same angle with different wording"],
-      "output_needs": {
-        "structured": true,
-        "alternatives": 5,
-        "evidence": false,
-        "citations": false
-      },
+      "output_needs": {"structured": true, "alternatives": 5, "evidence": false, "citations": false},
       "model_targets": ["model-agnostic"]
     },
     "expected_selected": ["PURPOSE", "ROLE", "CONTEXT", "CONSTRAINTS", "OUTPUT_CONTRACT"],
@@ -113,36 +69,14 @@
       "risk": "normal",
       "complexity": "complex",
       "goal": "Compare current approaches and recommend one using source-backed evidence.",
-      "inputs": {
-        "required": ["problem", "decision_criteria"],
-        "optional": ["known_options", "constraints"]
-      },
-      "success_criteria": [
-        "Recommendation is tied to declared decision criteria",
-        "Material factual claims have supporting sources"
-      ],
+      "inputs": {"required": ["problem", "decision_criteria"], "optional": ["known_options", "constraints"]},
+      "success_criteria": ["Recommendation is tied to declared decision criteria", "Material factual claims have supporting sources"],
       "interaction": "intake-allowed",
       "constraints": ["Separate observed evidence from inference"],
-      "output_needs": {
-        "structured": true,
-        "alternatives": 3,
-        "evidence": true,
-        "citations": true
-      },
+      "output_needs": {"structured": true, "alternatives": 3, "evidence": true, "citations": true},
       "model_targets": ["chatgpt", "claude", "gemini"]
     },
-    "expected_selected": [
-      "PURPOSE",
-      "ROLE",
-      "CONTEXT",
-      "INTAKE",
-      "ASSUMPTIONS",
-      "PROCESS",
-      "CONSTRAINTS",
-      "OUTPUT_CONTRACT",
-      "QUALITY_GATE",
-      "FALLBACK"
-    ],
+    "expected_selected": ["PURPOSE", "ROLE", "CONTEXT", "INTAKE", "ASSUMPTIONS", "PROCESS", "CONSTRAINTS", "OUTPUT_CONTRACT", "QUALITY_GATE", "FALLBACK"],
     "expected_omitted": []
   },
   {
@@ -155,40 +89,14 @@
       "risk": "high-stakes",
       "complexity": "complex",
       "goal": "Identify contractual risk areas without inventing jurisdiction-specific conclusions.",
-      "inputs": {
-        "required": ["contract_text", "jurisdiction", "user_goal"],
-        "optional": ["negotiation_context"]
-      },
-      "success_criteria": [
-        "Risks are separated from assumptions",
-        "Jurisdiction uncertainty is explicit",
-        "Output does not masquerade as individualized legal advice"
-      ],
+      "inputs": {"required": ["contract_text", "jurisdiction", "user_goal"], "optional": ["negotiation_context"]},
+      "success_criteria": ["Risks are separated from assumptions", "Jurisdiction uncertainty is explicit", "Output does not masquerade as individualized legal advice"],
       "interaction": "intake-allowed",
-      "constraints": [
-        "Do not invent legal authorities",
-        "Escalate jurisdiction-specific uncertainty"
-      ],
-      "output_needs": {
-        "structured": true,
-        "alternatives": 1,
-        "evidence": true,
-        "citations": false
-      },
+      "constraints": ["Do not invent legal authorities", "Escalate jurisdiction-specific uncertainty"],
+      "output_needs": {"structured": true, "alternatives": 1, "evidence": true, "citations": false},
       "model_targets": ["model-agnostic"]
     },
-    "expected_selected": [
-      "PURPOSE",
-      "ROLE",
-      "CONTEXT",
-      "INTAKE",
-      "ASSUMPTIONS",
-      "PROCESS",
-      "CONSTRAINTS",
-      "OUTPUT_CONTRACT",
-      "QUALITY_GATE",
-      "FALLBACK"
-    ],
+    "expected_selected": ["PURPOSE", "ROLE", "CONTEXT", "INTAKE", "ASSUMPTIONS", "PROCESS", "CONSTRAINTS", "OUTPUT_CONTRACT", "QUALITY_GATE", "FALLBACK"],
     "expected_omitted": []
   }
 ]
