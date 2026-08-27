@@ -107,16 +107,58 @@ jobs:
           OUT='${{ steps.resolve.outputs.out }}'
           test -f "$OUT/execution.unreviewed.json"
           test -f "$OUT/review-packet.json"
-          if grep -R '"status": "PASS"\|"status": "FAIL"' "$OUT/review-packet.json"; then
+          if grep -E '"status"[[:space:]]*:[[:space:]]*"(PASS|FAIL)"' "$OUT/review-packet.json"; then
             echo 'Preparation must never pre-fill human judgments.' >&2
             exit 4
           fi
           test ! -e "$OUT/receipt.json" || { echo 'Preparation must never create a receipt.' >&2; exit 4; }
 
-      - name: Upload observed evidence and human-review packet
+      - name: Build isolated reviewer bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT='${{ steps.resolve.outputs.out }}'
+          REVIEW="$RUNNER_TEMP/mk1-review-only"
+          rm -rf "$REVIEW"
+          mkdir -p "$REVIEW"
+          cp "$OUT/review-packet.json" "$REVIEW/review-packet.json"
+          test ! -e "$REVIEW/deblind-map.private.json"
+          test ! -e "$REVIEW/execution.unreviewed.json"
+          if grep -R 'engineered\|baseline' "$REVIEW"; then
+            if [[ '${{ inputs.stage }}' == 'f5' ]]; then
+              echo 'F5 reviewer artifact leaks engineered/baseline identity.' >&2
+              exit 5
+            fi
+          fi
+
+      - name: Build isolated operator evidence bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT='${{ steps.resolve.outputs.out }}'
+          OPERATOR="$RUNNER_TEMP/mk1-operator"
+          rm -rf "$OPERATOR"
+          mkdir -p "$OPERATOR"
+          cp "$OUT/execution.unreviewed.json" "$OPERATOR/execution.unreviewed.json"
+          cp "$OUT/runtime-evidence-manifest.json" "$OPERATOR/runtime-evidence-manifest.json"
+          cp -R "$OUT/raw" "$OPERATOR/raw"
+          if [[ -f "$OUT/deblind-map.private.json" ]]; then
+            cp "$OUT/deblind-map.private.json" "$OPERATOR/deblind-map.private.json"
+          fi
+          test ! -e "$OPERATOR/review-packet.json"
+
+      - name: Upload reviewer-only packet
         uses: actions/upload-artifact@v4
         with:
-          name: mk1-${{ inputs.stage }}-${{ inputs.provider }}-${{ inputs.artifact_slug }}-${{ github.run_id }}
-          path: ${{ steps.resolve.outputs.out }}
+          name: mk1-${{ inputs.stage }}-review-${{ inputs.provider }}-${{ inputs.artifact_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/mk1-review-only
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload private operator evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-${{ inputs.stage }}-operator-${{ inputs.provider }}-${{ inputs.artifact_slug }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/mk1-operator
           if-no-files-found: error
           retention-days: 30
