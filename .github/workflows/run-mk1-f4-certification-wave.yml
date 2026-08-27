@@ -1,0 +1,96 @@
+name: Run MK1 F4 Certification Wave
+
+on:
+  push:
+    paths:
+      - '.github/mk1-certification-wave-trigger'
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        artifact_slug:
+          - content_clear_rewrite
+          - software_code_review
+          - research_technical_decision
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      MK1_PROVIDER: openai
+      MK1_MODEL: gpt-5.6-luna
+      MK1_FAMILY: openai-gpt-5.6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install runtime dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify OpenAI credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}" || {
+            echo 'BLOCKED: OPENAI_API_KEY is not configured in GitHub Actions secrets.' >&2
+            exit 3
+          }
+
+      - name: Execute frozen F4 experiment
+        shell: bash
+        run: |
+          set -euo pipefail
+          SLUG='${{ matrix.artifact_slug }}'
+          ARTIFACT="mk1/candidates/f2/$SLUG/artifact.json"
+          FIXTURE_SET="pq_mk1_fs_${SLUG}_v1"
+          EXECUTION_ID="mk1-f4-${MK1_PROVIDER}-${SLUG}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          OUT="mk1/staging/f4/${MK1_PROVIDER}/${SLUG}/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test -f "$ARTIFACT"
+          python tools/mk1_prepare_experiment.py \
+            --stage f4 \
+            --artifact "$ARTIFACT" \
+            --fixture-set "$FIXTURE_SET" \
+            --provider "$MK1_PROVIDER" \
+            --model "$MK1_MODEL" \
+            --family "$MK1_FAMILY" \
+            --execution-id "$EXECUTION_ID" \
+            --output-dir "$OUT"
+          echo "OUT=$OUT" >> "$GITHUB_ENV"
+
+      - name: Guard unresolved human review boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$OUT/execution.unreviewed.json"
+          test -f "$OUT/review-packet.json"
+          test ! -e "$OUT/receipt.json"
+          if grep -E '"status"[[:space:]]*:[[:space:]]*"(PASS|FAIL)"' "$OUT/review-packet.json"; then
+            echo 'Preparation illegally pre-filled human judgment.' >&2
+            exit 4
+          fi
+
+      - name: Upload reviewer packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-f4-review-openai-${{ matrix.artifact_slug }}-${{ github.run_id }}
+          path: ${{ env.OUT }}/review-packet.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload operator evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-f4-evidence-openai-${{ matrix.artifact_slug }}-${{ github.run_id }}
+          path: |
+            ${{ env.OUT }}/execution.unreviewed.json
+            ${{ env.OUT }}/runtime-evidence-manifest.json
+            ${{ env.OUT }}/raw/
+          if-no-files-found: error
+          retention-days: 30
