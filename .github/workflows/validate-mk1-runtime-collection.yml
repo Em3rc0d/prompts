@@ -1,0 +1,36 @@
+name: Validate MK1 Runtime Collection
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/mk1_runtime_collect.py'
+      - 'tools/test_mk1_runtime_collect.py'
+      - 'tools/mk1_behavioral_runner.py'
+      - 'tools/mk1_prepare_f4_execution.py'
+      - 'tools/test_mk1_f4.py'
+      - 'mk1/fixtures/f4/**'
+      - '.github/workflows/validate-mk1-runtime-collection.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runtime-collection:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Characterize F4 evidence gate
+        run: python tools/test_mk1_f4.py
+      - name: Characterize provider collector without network
+        run: python tools/test_mk1_runtime_collect.py
+      - name: Validate persisted F4 evidence boundary
+        run: python tools/validate_mk1_f4_repository.py
