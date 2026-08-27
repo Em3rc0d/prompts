@@ -117,8 +117,13 @@ def _detect_domain(text: str) -> str:
             scored.append((score, domain))
     if not scored:
         return "general"
-    scored.sort(key=lambda row: (-row[0], row[1]))
-    return scored[0][1]
+
+    # Research is a transversal task mode in v0. When a concrete domain is
+    # also detectable, preserve that domain and let intent carry "research".
+    concrete = [row for row in scored if row[1] != "research"]
+    candidates = concrete or scored
+    candidates.sort(key=lambda row: (-row[0], row[1]))
+    return candidates[0][1]
 
 
 def _detect_risk(text: str, domain: str) -> str:

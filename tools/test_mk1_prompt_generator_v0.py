@@ -65,6 +65,18 @@ def test_high_stakes_boundary() -> None:
     assert result["lint"]["status"] == "PASS"
 
 
+def test_research_domain_fallback() -> None:
+    request = {
+        "request_id": "test_research_domain",
+        "request": "Research the available evidence, benchmark results, papers, and studies for this question.",
+    }
+    _, classification = classify_request(request)
+
+    assert classification["intent"] == "research"
+    assert classification["domain"] == "research"
+    assert classification["risk"] == "normal"
+
+
 def test_explicit_overrides_win() -> None:
     request = {
         "request_id": "test_override",
@@ -136,6 +148,7 @@ def main() -> None:
         test_software_review_generation,
         test_mk0_teaches_but_does_not_force_frequency,
         test_high_stakes_boundary,
+        test_research_domain_fallback,
         test_explicit_overrides_win,
         test_retrieval_has_no_source_bodies,
         test_bundle_is_traceable,
