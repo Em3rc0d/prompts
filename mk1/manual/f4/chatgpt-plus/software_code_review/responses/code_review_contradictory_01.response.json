@@ -1,8 +1,8 @@
 {
   "fixture_id": "code_review_contradictory_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:38:12-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/software_code_review/batch_11_20.json#code_review_contradictory_01",
   "rendered_prompt_sha256": "sha256:7e269a787782d625ba1775c66c0fddc007e54093e5b5b34a15b85de0dc046733",
-  "output": null
+  "output": "Existe un conflicto material entre los requisitos proporcionados:\n\n- `Invalid input must raise an exception.`\n- `Public API must never raise exceptions.`\n\nEl código observado:\n\n`def parse(value):`\n`    if value is None:`\n`        raise ValueError()`\n\nconfirma que `None` provoca una excepción, pero no se proporcionó información que permita determinar si `parse` es directamente la API pública o una función interna detrás de una capa que transforma esa excepción.\n\nNo es posible recomendar correctamente eliminar o conservar el `raise` sin resolver ese conflicto, porque elegir una opción silenciosamente violaría uno de los requisitos.\n\nSe necesita aclarar cómo deben coexistir ambos criterios; por ejemplo, si la función interna puede lanzar excepciones que posteriormente son capturadas por la API pública."
 }
