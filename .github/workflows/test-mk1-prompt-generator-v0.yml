@@ -1,0 +1,82 @@
+name: Test MK1 Prompt Generator v0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'tools/mk1_prompt_generator_v0.py'
+      - 'tools/test_mk1_prompt_generator_v0.py'
+      - 'tools/mk1_architecture_selector.py'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'mk0/MANIFEST.json'
+      - 'mk0/analysis/**'
+      - 'mk0/golden-dataset/**'
+      - 'mk0/library/**'
+      - 'mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json'
+      - 'mk1/specs/TASK_BRIEF.schema.json'
+      - 'mk1/specs/PROMPT_ARTIFACT.schema.json'
+      - 'mk1/generator/**'
+      - '.github/workflows/test-mk1-prompt-generator-v0.yml'
+  pull_request:
+    paths:
+      - 'tools/mk1_prompt_generator_v0.py'
+      - 'tools/test_mk1_prompt_generator_v0.py'
+      - 'tools/mk1_architecture_selector.py'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'mk0/**'
+      - 'mk1/specs/**'
+      - 'mk1/generator/**'
+
+jobs:
+  generator-v0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Compile generator surfaces
+        run: |
+          python -m py_compile \
+            tools/mk1_prompt_generator_v0.py \
+            tools/test_mk1_prompt_generator_v0.py
+
+      - name: Preserve F1/F2 contracts
+        run: |
+          python tools/test_mk1_f1.py
+          python tools/test_mk1_f2.py
+
+      - name: Test generator v0
+        run: python tools/test_mk1_prompt_generator_v0.py
+
+      - name: Execute example generation
+        run: |
+          rm -rf /tmp/pq-generator-demo
+          python tools/mk1_prompt_generator_v0.py \
+            mk1/generator/examples/software-review.request.json \
+            --output-dir /tmp/pq-generator-demo
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('/tmp/pq-generator-demo')
+          generation = json.loads((root / 'generation.json').read_text(encoding='utf-8'))
+          artifact = json.loads((root / 'artifact.json').read_text(encoding='utf-8'))
+          retrieval = json.loads((root / 'mk0-retrieval.json').read_text(encoding='utf-8'))
+          assert generation['generator_status'] in {'VALID_STATIC', 'WARN_STATIC'}, generation
+          assert artifact['state'] == 'VALID', artifact
+          assert artifact['claims'] == ['engineered'], artifact
+          assert retrieval['technique_matrix']['observed_records'] == 52, retrieval
+          assert retrieval['golden_dataset']['fixture_records'] == 23, retrieval
+          assert (root / 'prompt.txt').stat().st_size > 100
+          print(json.dumps(generation, ensure_ascii=False, indent=2))
+          PY
