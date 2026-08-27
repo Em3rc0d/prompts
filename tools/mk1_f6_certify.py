@@ -10,8 +10,7 @@ from mk1_f5_benchmark import validate_receipt_integrity
 
 
 REAL_MODES = {"api", "manual-observed"}
-MIN_RUNTIME_FAMILIES = 3
-MIN_RUNTIME_PROVIDERS = 3
+MIN_INDEPENDENT_F5_RECEIPTS = 3
 RUNTIME_IDENTITY_FIELDS = ("provider", "model", "family", "run_at", "identity_evidence_ref")
 
 
@@ -26,6 +25,14 @@ def certification_receipt_id(core: dict) -> str:
 
 def normalize_identity(value: object) -> str:
     return " ".join(str(value or "").strip().casefold().split())
+
+
+def normalized_runtime_target(runtime: dict) -> tuple[str, str, str]:
+    return (
+        normalize_identity(runtime.get("provider")),
+        normalize_identity(runtime.get("model")),
+        normalize_identity(runtime.get("family")),
+    )
 
 
 def _require_candidate(candidate: dict, source_tested: dict, baseline: dict, fixture_set: dict) -> None:
@@ -47,55 +54,77 @@ def _require_candidate(candidate: dict, source_tested: dict, baseline: dict, fix
         raise ValueError("F6 candidate must descend from an F5 improvement receipt")
 
 
-def validate_cross_runtime_f5_receipt(
+def validate_f5_evidence_receipt(
     receipt: dict,
     candidate: dict,
     source_tested: dict,
     baseline: dict,
     fixture_set: dict,
 ) -> None:
+    """Validate one real F5 superiority receipt without imposing F6/F7 runtime topology."""
     validate_receipt_integrity(receipt)
     if receipt.get("execution_mode") not in REAL_MODES:
-        raise ValueError("F6 accepts only real F5 execution receipts")
+        raise ValueError("Certification evidence accepts only real F5 execution receipts")
     if receipt.get("status") != "IMPROVEMENT_PASS" or receipt.get("eligible_for_improved") is not True:
-        raise ValueError("Every F6 runtime must independently satisfy F5 IMPROVEMENT_PASS")
+        raise ValueError("Every certification evidence receipt must independently satisfy F5 IMPROVEMENT_PASS")
     if receipt.get("artifact_id") != candidate.get("id") or receipt.get("artifact_version") != candidate.get("version"):
-        raise ValueError("F6 F5 evidence artifact identity mismatch")
+        raise ValueError("F5 evidence artifact identity mismatch")
     if receipt.get("engineered_prompt_fingerprint") != sha256_text(candidate.get("prompt_body", "")):
-        raise ValueError("F6 F5 evidence prompt fingerprint mismatch")
+        raise ValueError("F5 evidence prompt fingerprint mismatch")
     if receipt.get("baseline_id") != baseline.get("baseline_id"):
-        raise ValueError("F6 F5 evidence baseline id mismatch")
+        raise ValueError("F5 evidence baseline id mismatch")
     if receipt.get("baseline_prompt_fingerprint") != sha256_text(baseline.get("prompt_body", "")):
-        raise ValueError("F6 F5 evidence baseline fingerprint mismatch")
+        raise ValueError("F5 evidence baseline fingerprint mismatch")
     if receipt.get("fixture_set_id") != fixture_set.get("fixture_set_id"):
-        raise ValueError("F6 F5 evidence fixture-set id mismatch")
+        raise ValueError("F5 evidence fixture-set id mismatch")
     if receipt.get("fixture_set_version") != fixture_set.get("version"):
-        raise ValueError("F6 F5 evidence fixture-set version mismatch")
+        raise ValueError("F5 evidence fixture-set version mismatch")
     if receipt.get("fixture_set_fingerprint") != sha256_json(fixture_set):
-        raise ValueError("F6 F5 evidence fixture-set fingerprint mismatch")
+        raise ValueError("F5 evidence fixture-set fingerprint mismatch")
     if receipt.get("parent_f4_receipt_id") != (source_tested.get("evaluation") or {}).get("receipt_id"):
-        raise ValueError("F6 F5 evidence does not descend from the same F4 TESTED receipt")
+        raise ValueError("F5 evidence does not descend from the same F4 TESTED receipt")
     if receipt.get("engineered_blocking_pass_rate") != 1.0 or receipt.get("rubric_score") != 100.0:
-        raise ValueError("F6 requires 100% blocking pass and rubric score 100 on every runtime")
+        raise ValueError("Certification evidence requires 100% blocking pass and rubric score 100")
     if receipt.get("engineered_failures") or receipt.get("regressions") or receipt.get("unresolved_engineered_human_checks"):
-        raise ValueError("F6 runtime evidence retains blocking failures/regressions/unresolved human checks")
+        raise ValueError("Certification evidence retains blocking failures/regressions/unresolved human checks")
 
     preference = receipt.get("preference") or {}
     if preference.get("baseline", 0) != 0:
-        raise ValueError("F6 runtime evidence cannot contain a baseline A/B win")
+        raise ValueError("Certification evidence cannot contain a baseline A/B win")
     if preference.get("engineered", 0) < preference.get("required_engineered_wins", 1):
-        raise ValueError("F6 runtime evidence lacks material engineered blind wins")
+        raise ValueError("Certification evidence lacks material engineered blind wins")
 
     runtime = receipt.get("runtime") or {}
     for key in RUNTIME_IDENTITY_FIELDS:
         if not str(runtime.get(key, "")).strip():
-            raise ValueError(f"F6 runtime evidence missing {key}")
+            raise ValueError(f"Certification runtime evidence missing {key}")
     review = receipt.get("review") or {}
     if review.get("reviewer_type") != "human" or review.get("blinded") is not True:
-        raise ValueError("F6 requires blinded human review for every runtime")
+        raise ValueError("Certification evidence requires blinded human review")
     for key in ("reviewer_ref", "reviewed_at", "randomization_ref"):
         if not str(review.get(key, "")).strip():
-            raise ValueError(f"F6 runtime review missing {key}")
+            raise ValueError(f"Certification review missing {key}")
+
+
+def validate_target_runtime_f5_receipt(
+    receipt: dict,
+    candidate: dict,
+    source_tested: dict,
+    baseline: dict,
+    fixture_set: dict,
+    target_runtime: tuple[str, str, str] | None = None,
+) -> tuple[str, str, str]:
+    validate_f5_evidence_receipt(receipt, candidate, source_tested, baseline, fixture_set)
+    runtime = receipt.get("runtime") or {}
+    observed = normalized_runtime_target(runtime)
+    if not all(observed):
+        raise ValueError("F6 target runtime requires provider, model and family")
+    if target_runtime is not None and observed != target_runtime:
+        raise ValueError(
+            "F6 certification requires the same target runtime for every independent F5 receipt "
+            f"(expected provider/model/family={target_runtime}, got {observed})"
+        )
+    return observed
 
 
 def build_certification_receipt(
@@ -106,47 +135,48 @@ def build_certification_receipt(
     f5_receipts: list[dict],
 ) -> dict:
     _require_candidate(candidate, source_tested, baseline, fixture_set)
-    if len(f5_receipts) < MIN_RUNTIME_FAMILIES:
-        raise ValueError(f"F6 requires at least {MIN_RUNTIME_FAMILIES} real F5 receipts")
+    if len(f5_receipts) < MIN_INDEPENDENT_F5_RECEIPTS:
+        raise ValueError(f"F6 requires at least {MIN_INDEPENDENT_F5_RECEIPTS} independent real F5 receipts")
+
+    source_f5_receipt_id = (candidate.get("evaluation") or {}).get("receipt_id")
+    primary = next((row for row in f5_receipts if row.get("receipt_id") == source_f5_receipt_id), None)
+    if primary is None:
+        raise ValueError("F6 evidence must include the exact F5 receipt that created the CANDIDATE")
+
+    target_runtime = validate_target_runtime_f5_receipt(
+        primary, candidate, source_tested, baseline, fixture_set, None
+    )
 
     receipt_ids: set[str] = set()
     execution_ids: set[str] = set()
     randomization_refs: set[str] = set()
     identity_evidence_refs: set[str] = set()
-    normalized_families: set[str] = set()
-    normalized_providers: set[str] = set()
     evidence: list[dict] = []
 
     for receipt in f5_receipts:
-        validate_cross_runtime_f5_receipt(receipt, candidate, source_tested, baseline, fixture_set)
-        receipt_id = receipt["receipt_id"]
-        execution_id = receipt.get("execution_id")
+        validate_target_runtime_f5_receipt(
+            receipt, candidate, source_tested, baseline, fixture_set, target_runtime
+        )
+        receipt_id = str(receipt.get("receipt_id") or "")
+        execution_id = str(receipt.get("execution_id") or "")
         review = receipt.get("review") or {}
         runtime = receipt.get("runtime") or {}
-        randomization_ref = review.get("randomization_ref")
-        identity_evidence_ref = str(runtime.get("identity_evidence_ref", "")).strip()
-        family = str(runtime.get("family", "")).strip()
-        provider = str(runtime.get("provider", "")).strip()
-        normalized_family = normalize_identity(family)
-        normalized_provider = normalize_identity(provider)
+        randomization_ref = str(review.get("randomization_ref") or "")
+        identity_evidence_ref = str(runtime.get("identity_evidence_ref") or "").strip()
 
         if receipt_id in receipt_ids:
             raise ValueError(f"Duplicate F5 receipt in F6 evidence: {receipt_id}")
         if execution_id in execution_ids:
             raise ValueError(f"Duplicate execution_id in F6 evidence: {execution_id}")
         if randomization_ref in randomization_refs:
-            raise ValueError(f"F6 requires a distinct blind randomization_ref per runtime: {randomization_ref}")
+            raise ValueError(f"F6 requires a distinct blind randomization_ref per independent run: {randomization_ref}")
         if identity_evidence_ref in identity_evidence_refs:
-            raise ValueError(f"F6 requires distinct runtime identity evidence per runtime: {identity_evidence_ref}")
-        if normalized_family in normalized_families:
-            raise ValueError(f"F6 requires distinct runtime families; duplicate family={family!r}")
+            raise ValueError(f"F6 requires distinct runtime identity evidence per independent run: {identity_evidence_ref}")
 
         receipt_ids.add(receipt_id)
         execution_ids.add(execution_id)
         randomization_refs.add(randomization_ref)
         identity_evidence_refs.add(identity_evidence_ref)
-        normalized_families.add(normalized_family)
-        normalized_providers.add(normalized_provider)
         evidence.append({
             "receipt_id": receipt_id,
             "execution_id": execution_id,
@@ -161,16 +191,17 @@ def build_certification_receipt(
             "ties": receipt["preference"]["tie"],
         })
 
-    source_f5_receipt_id = (candidate.get("evaluation") or {}).get("receipt_id")
-    if source_f5_receipt_id not in receipt_ids:
-        raise ValueError("F6 evidence must include the exact F5 receipt that created the CANDIDATE")
-    if len(normalized_families) < MIN_RUNTIME_FAMILIES:
-        raise ValueError(f"F6 requires {MIN_RUNTIME_FAMILIES} distinct runtime families")
-    if len(normalized_providers) < MIN_RUNTIME_PROVIDERS:
-        raise ValueError(f"F6 requires {MIN_RUNTIME_PROVIDERS} distinct runtime providers for independent diversity")
+    if len(evidence) < MIN_INDEPENDENT_F5_RECEIPTS:
+        raise ValueError(f"F6 requires {MIN_INDEPENDENT_F5_RECEIPTS} independent F5 receipts")
 
-    evidence.sort(key=lambda row: (normalize_identity(row["runtime"]["provider"]), normalize_identity(row["runtime"]["family"]), row["receipt_id"]))
+    evidence.sort(key=lambda row: (str(row["reviewed_at"]), row["receipt_id"]))
     certified_at = max(str(row["reviewed_at"]) for row in evidence)
+    primary_runtime = primary.get("runtime") or {}
+    target_runtime_doc = {
+        "provider": primary_runtime["provider"],
+        "model": primary_runtime["model"],
+        "family": primary_runtime["family"],
+    }
     core = {
         "mk_stage": "MK1",
         "phase": "F6",
@@ -184,17 +215,15 @@ def build_certification_receipt(
         "fixture_set_fingerprint": sha256_json(fixture_set),
         "parent_f4_receipt_id": (source_tested.get("evaluation") or {}).get("receipt_id"),
         "source_candidate_f5_receipt_id": source_f5_receipt_id,
-        "f5_evidence_count": len(evidence),
-        "runtime_family_count": len(normalized_families),
-        "runtime_provider_count": len(normalized_providers),
-        "runtime_families": sorted({row["runtime"]["family"] for row in evidence}, key=normalize_identity),
-        "runtime_providers": sorted({row["runtime"]["provider"] for row in evidence}, key=normalize_identity),
+        "target_runtime": target_runtime_doc,
+        "independent_f5_receipt_count": len(evidence),
+        "minimum_independent_f5_receipts": MIN_INDEPENDENT_F5_RECEIPTS,
         "f5_evidence": evidence,
         "certified_at": certified_at,
         "status": "CERTIFICATION_PASS",
         "eligible_for_certified": True,
-        "state_policy": "Only this exact CANDIDATE may advance to CERTIFIED, and only while all bound F5 runtime evidence remains valid.",
-        "claim_policy": "CERTIFIED means the exact prompt passed the declared blocking/superiority protocol across at least three distinct runtime families and three distinct providers, each with bound runtime identity evidence. It is not a universal correctness claim.",
+        "state_policy": "Only this exact CANDIDATE may advance to CERTIFIED, and only while all bound same-target-runtime F5 evidence remains valid.",
+        "claim_policy": "CERTIFIED means the exact prompt repeatedly preserved 100% blocking pass and F5 superiority on the declared target provider/model/family across at least three independent blinded benchmark executions. Cross-provider portability is a separate F7 claim.",
     }
     core["receipt_id"] = certification_receipt_id(core)
     return core
@@ -221,10 +250,11 @@ def promote_certified(candidate: dict, receipt: dict) -> dict:
         raise ValueError("F6 certification receipt does not descend from the candidate's F5 receipt")
     if receipt.get("status") != "CERTIFICATION_PASS" or receipt.get("eligible_for_certified") is not True:
         raise ValueError("F6 receipt is not eligible for CERTIFIED promotion")
-    if int(receipt.get("runtime_family_count") or 0) < MIN_RUNTIME_FAMILIES:
-        raise ValueError("F6 certification receipt lacks required runtime-family diversity")
-    if int(receipt.get("runtime_provider_count") or 0) < MIN_RUNTIME_PROVIDERS:
-        raise ValueError("F6 certification receipt lacks required provider diversity")
+    if int(receipt.get("independent_f5_receipt_count") or 0) < MIN_INDEPENDENT_F5_RECEIPTS:
+        raise ValueError("F6 certification receipt lacks required independent same-runtime repetitions")
+    target_runtime = receipt.get("target_runtime") or {}
+    if not all(str(target_runtime.get(key, "")).strip() for key in ("provider", "model", "family")):
+        raise ValueError("F6 certification receipt lacks target runtime identity")
 
     promoted = copy.deepcopy(candidate)
     promoted["state"] = "CERTIFIED"
