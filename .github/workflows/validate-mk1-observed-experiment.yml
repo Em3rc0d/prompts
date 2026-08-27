@@ -1,0 +1,37 @@
+name: Validate MK1 Observed Experiment
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/mk1_runtime_executor.py'
+      - 'tools/mk1_prepare_experiment.py'
+      - 'tools/mk1_finalize_experiment.py'
+      - 'tools/test_mk1_experiment_pipeline.py'
+      - '.github/workflows/run-mk1-observed-experiment.yml'
+      - '.github/workflows/validate-mk1-observed-experiment.yml'
+  pull_request:
+    paths:
+      - 'tools/mk1_runtime_executor.py'
+      - 'tools/mk1_prepare_experiment.py'
+      - 'tools/mk1_finalize_experiment.py'
+      - 'tools/test_mk1_experiment_pipeline.py'
+      - '.github/workflows/run-mk1-observed-experiment.yml'
+      - '.github/workflows/validate-mk1-observed-experiment.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Compile observed experiment tools
+        run: python -m py_compile tools/mk1_runtime_executor.py tools/mk1_prepare_experiment.py tools/mk1_finalize_experiment.py tools/test_mk1_experiment_pipeline.py
+      - name: Run observed experiment regressions
+        run: PYTHONPATH=tools python tools/test_mk1_experiment_pipeline.py
