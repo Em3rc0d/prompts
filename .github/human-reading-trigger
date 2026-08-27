@@ -1,4 +1,4 @@
 triggered_at: 2026-08-27
 source: chatgpt
-mode: materialize-mk1-certified-portable-split
+mode: materialize-mk1-chatgpt-plus-certification-lane
 policy: additive-only-preserve-raw-json
