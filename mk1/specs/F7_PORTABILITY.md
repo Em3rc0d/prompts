@@ -1,0 +1,90 @@
+# MK1 F7 — Portability
+
+F7 is an optional capability gate above certification.
+
+It answers a different question from F6:
+
+- F6: **Is this exact prompt repeatedly certified on its declared target runtime?**
+- F7: **Does that certified behavior/superiority survive across independent provider/runtime families?**
+
+F7 is not required for MK1 `CERTIFIED`.
+
+## Source state
+
+F7 accepts only an exact F6 `CERTIFIED` artifact carrying:
+
+- `engineered`
+- `tested`
+- `improved`
+- `certified`
+
+The prompt body, baseline, fixture set and parent F4 evidence remain frozen.
+
+## Portability evidence
+
+F7 reuses the real F5 evidence already bound into the F6 certification bundle and may add supplemental real F5 IMPROVEMENT_PASS receipts under:
+
+`mk1/receipts/f7/`
+
+Every receipt must independently preserve:
+
+- exact prompt/baseline/fixture identity;
+- 100% blocking pass;
+- rubric score 100;
+- zero regressions;
+- zero baseline blind A/B wins;
+- material engineered blind wins;
+- complete runtime identity evidence;
+- blinded human review.
+
+## Diversity gate
+
+`PORTABLE` requires at least:
+
+- **three distinct runtime providers**, and
+- **three distinct runtime families**.
+
+The F6 target runtime counts as one provider/family. Additional F7 evidence supplies the remaining independent environments.
+
+Repeated F6 receipts on the same target runtime improve certification confidence but count only once toward portability diversity.
+
+Across the full accepted evidence inventory, F7 rejects duplicate:
+
+- F5 receipt ids;
+- execution ids;
+- blind randomization references;
+- runtime identity-evidence references.
+
+Provider/family identities are normalized for case and whitespace before diversity is counted.
+
+## State transition
+
+```text
+CERTIFIED
+    ↓ F7
+PORTABLE
+```
+
+A portable artifact carries exactly:
+
+- `engineered`
+- `tested`
+- `improved`
+- `certified`
+- `portable`
+
+## Meaning of PORTABLE
+
+`PORTABLE` means:
+
+> The exact already-certified prompt preserved the declared F5 behavioral/superiority contract across at least three distinct providers and three distinct runtime families, with bound real execution evidence and blinded human review.
+
+It does **not** mean universal compatibility, future-model guarantees or correctness outside the frozen benchmark scope.
+
+## Zero/partial evidence states
+
+F7 may remain green without inventing portability:
+
+- `NO_F6_CERTIFIED_ARTIFACTS`
+- `PENDING_PORTABILITY_EVIDENCE`
+- `PORTABLE_ARTIFACTS_MATERIALIZED`
