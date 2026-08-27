@@ -8,9 +8,12 @@ PROMPT QUARRY — MK1 F3 STATIC CRITIC RECEIPT
 ========================================================================================
 TITLE             : Comparación técnica con recomendación basada en evidencia
 ARTIFACT ID       : pq_mk1_research_technical_decision
+ARTIFACT VERSION  : 0.1.0
 ARTIFACT STATE    : VALID
+PROMPT SHA-256    : sha256:09725f0ea0efebd7893e0c411ea1980914fa0ab770d708ca12d9cb9d7e6d242c
+ARTIFACT SHA-256  : sha256:d9f8073d9fb0935b4780418be8b4447c917e3702d3e15a5fdc5efdd7dfa6785f
 CRITIC STATUS     : PASS
-CRITIC VERSION    : 1.0.1
+CRITIC VERSION    : 1.1.0
 BLOCKING FINDINGS : 0
 ERROR FINDINGS    : 0
 WARNING FINDINGS  : 0
@@ -21,6 +24,7 @@ WHAT THIS MEANS
 ----------------------------------------------------------------------------------------
 F3 reviews semantic/static quality beyond schema/lint: contradictions, duplicated instructions,
 output-contract specificity, assumptions, provenance wording and high-stakes boundaries.
+The receipt is cryptographically bound to the exact F2 prompt and artifact reviewed.
 A PASS here does NOT mean runtime behavior was tested and does NOT certify or prove improvement.
 
 FINDINGS
@@ -31,4 +35,4 @@ NEXT EVIDENCE REQUIRED
 ----------------------------------------------------------------------------------------
 F4 must execute behavioral fixtures before this artifact may become TESTED.
 F5 must provide fair baseline comparison before any IMPROVED claim.
-F6 must apply the certification rubric/receipt before CERTIFIED.
+F6 must provide cross-runtime evidence before CERTIFIED.

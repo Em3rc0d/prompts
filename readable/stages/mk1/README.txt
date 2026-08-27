@@ -8,56 +8,53 @@ CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
 
 > **Question:** Can we build better prompts from the knowledge characterized in MK0?
 
-MK1 is the engineering layer of Prompt Quarry.
+MK1 is the engineering layer of Prompt Quarry. It designs, assembles, tests, compares and certifies **Prompt Quarry engineered** artifacts using MK0 as evidence and knowledge.
 
-It does not exist to reproduce a source collection. It exists to design, assemble, test, compare and eventually certify **Prompt Quarry engineered** artifacts using MK0 as evidence and knowledge.
+MK1 does not reproduce a source collection and does not use provider diversity as a shortcut for quality.
 
-## Current status
-
-```text
-F0 — Contracts                         COMPLETE
-F1 — Architecture selector + linter    COMPLETE / CI PASS
-F2 — Candidate assembler               COMPLETE / 3 VALID CANDIDATES
-F3 — Semantic/static critic            COMPLETE / 3 PASS RECEIPTS
-F4A — Behavioral harness               COMPLETE / CI CHARACTERIZATION PASS
-F4B — Real behavioral execution        READY / NOT YET EXECUTED
-F5 — Baseline comparator               PLANNED
-F6 — Certification                     PLANNED
-```
-
-Current persisted F2 candidates:
-
-- `candidates/f2/content_clear_rewrite/`
-- `candidates/f2/software_code_review/`
-- `candidates/f2/research_technical_decision/`
-
-Current persisted F3 receipts:
-
-- `candidates/f3/manifest.json`
-- `candidates/f3/INDEX.txt`
-- `candidates/f3/reports/*.critic.json`
-- `candidates/f3/reports/*.critic.txt`
-
-All three F3 receipts currently report:
+## Canonical quality ladder
 
 ```text
-critic_status = PASS
-blocking = 0
-errors = 0
-warnings = 0
+DRAFT
+  ↓
+VALID
+  ↓ F4 real behavioral evidence
+TESTED
+  ↓ F5 paired/blind baseline superiority
+CANDIDATE / IMPROVED
+  ↓ F6 repeated evidence on one declared target runtime
+CERTIFIED
+  ↓ F7 optional cross-provider evidence
+PORTABLE
 ```
 
-The underlying prompt artifacts still satisfy:
+The key distinction is intentional:
+
+- **CERTIFIED** = repeatedly proven on the declared target provider/model/family.
+- **PORTABLE** = the already-certified prompt also preserves that contract across multiple providers/families.
+
+Claude/Gemini/other providers are therefore **not required** to certify an OpenAI-targeted prompt. They are relevant only to F7 portability.
+
+## Current infrastructure status
 
 ```text
-state = VALID
-claims = [engineered]
-lint = PASS
-receipt_id = null
-rubric_score = null
+F0 — Contracts                              COMPLETE
+F1 — Architecture selector + linter         COMPLETE / CI CHARACTERIZED
+F2 — Candidate assembler                    COMPLETE / 3 VALID CANDIDATES
+F3 — Semantic/static critic                 COMPLETE / PASS RECEIPTS
+F4 — Behavioral fixtures + real runner      INFRASTRUCTURE COMPLETE / REAL RECEIPTS REQUIRED
+F5 — Paired blind baseline comparator       INFRASTRUCTURE COMPLETE / REAL RECEIPTS REQUIRED
+F6 — Target-runtime certification           INFRASTRUCTURE COMPLETE / REAL F5 REPETITIONS REQUIRED
+F7 — Cross-provider portability             INFRASTRUCTURE COMPLETE / OPTIONAL AFTER CERTIFICATION
 ```
 
-Therefore **no MK1 artifact is currently claimed as TESTED, CANDIDATE, CERTIFIED or IMPROVED**.
+Current foundational prompt families:
+
+- `content_clear_rewrite`
+- `software_code_review`
+- `research_technical_decision`
+
+Current real evidence boundary remains strict: no artifact may advance merely because CI characterized the harness.
 
 ## Core rule
 
@@ -69,160 +66,46 @@ MK1 =
 + domain/task requirements
 + explicit architecture
 + constraints and output contracts
-+ tests
-+ critique
-+ measurable comparison
++ behavioral fixtures
++ semantic critique
++ fair baseline comparison
++ durable execution evidence
 ```
 
-## Prompt Forge pipeline
+## Prompt architecture vocabulary
 
-```text
-USER / PRODUCT BRIEF
-        │
-        ▼
-1. Intent + domain classification
-        │
-        ▼
-2. Retrieve MK0 evidence/patterns/fixtures
-        │
-        ▼
-3. Select prompt architecture          ← F1 COMPLETE
-        │
-        ▼
-4. Assemble candidate prompt           ← F2 COMPLETE
-        │
-        ▼
-5. Static lint / contract validation   ← F1/F2 COMPLETE
-        │
-        ▼
-6. Semantic/static critic              ← F3 COMPLETE
-        │
-        ▼
-7. Behavioral fixture evaluation       ← F4A HARNESS READY / F4B NEXT
-        │
-        ▼
-8. Baseline comparison                 ← F5
-        │
-        ▼
-9. Quality rubric                      ← F6
-        │
-   ┌────┴─────┐
-   │          │
- REJECT     CERTIFY
-   │          │
-   └─revise   ▼
-         MK1 CERTIFIED LIBRARY
-```
-
-## Candidate prompt architecture
-
-MK1 uses the following block vocabulary:
+MK1 selects the smallest purposeful subset of:
 
 ```text
 PURPOSE
-↓
 ROLE
-↓
 CONTEXT
-↓
 INTAKE
-↓
 ASSUMPTIONS
-↓
 PROCESS
-↓
 RULES / CONSTRAINTS
-↓
 OUTPUT CONTRACT
-↓
 QUALITY GATE
-↓
 FALLBACK / UNCERTAINTY BEHAVIOR
 ```
 
-Not every prompt needs every block. The selector chooses the smallest purposeful architecture and records why each block was selected.
+A larger prompt is not automatically better. Architecture blocks must be justified by task/risk/failure modes.
 
-Observed F1 examples:
+## F1 — Static architecture and guardrails
 
-- simple rewrite → `PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE`;
-- code review/research → full reliability architecture;
-- high-stakes legal → full architecture plus safety/confidence/fallback techniques.
+F1 provides:
 
-## MK1 artifact states
-
-A prompt moves through explicit states:
-
-- `DRAFT` — authored/assembled, not statically valid yet;
-- `VALID` — satisfies artifact schema and static lint rules;
-- `TESTED` — executed against a declared behavioral fixture set under an identified runtime, with required reviews resolved;
-- `CANDIDATE` — complete evaluation receipt and baseline comparison available;
-- `CERTIFIED` — passes the MK1 quality gate;
-- `REJECTED` — fails a blocking criterion;
-- `DEPRECATED` — previously certified but superseded or invalidated.
-
-`GENERATED` is not a quality state. Generation is an implementation event; a generated prompt can still be bad.
-
-## What MK1 consumes from MK0
-
-Preferred inputs:
-
-- Golden Fixtures;
-- technique vectors and aggregate architecture statistics;
-- reviewed patterns such as RIRO;
-- repository-authored templates;
-- canonical taxonomy;
-- source metadata for intent/domain discovery;
-- human-review notes and regression incidents.
-
-Raw source bodies are not treated as a hidden template library.
-
-## F0 — Contract foundation
-
-Canonical contracts:
-
-- `specs/PROMPT_CONTRACT.md`
-- `specs/TASK_BRIEF.schema.json`
-- `specs/PROMPT_ARTIFACT.schema.json`
-- `rubrics/PROMPT_QUALITY_RUBRIC.md`
-- `fixtures/README.md`
-
-These define state, provenance, versioning, task briefs, prompt artifacts, behavioral fixtures and certification semantics.
-
-## F1 — Architecture selector + linter
-
-Implementation:
-
-- `../tools/mk1_architecture_selector.py`
-- `../tools/mk1_prompt_linter.py`
-- `fixtures/f1/selector-cases.json`
-- `../tools/test_mk1_f1.py`
-- `../.github/workflows/validate-mk1-f1.yml`
-
-The F1 CI characterization gate passes:
-
-- 5/5 architecture selector fixtures;
-- 6/6 linter regression cases.
-
-Guardrails include:
-
+- explainable architecture selection;
+- schema validation;
 - undefined-variable rejection;
-- section/architecture mismatch detection;
+- section/architecture consistency checks;
 - high-stakes safety/fallback requirements;
-- unsupported `improved` claim rejection;
-- `CERTIFIED` score/receipt checks;
-- invalid `GENERATED` quality-state rejection.
+- state/claim evidence guardrails;
+- `PORTABLE` semantics above `CERTIFIED`.
 
-## F2 — Candidate assembler
+## F2 — Engineered candidates
 
-Implementation:
-
-- `../tools/mk1_candidate_assembler.py`
-- `../tools/test_mk1_f2.py`
-- `../tools/mk1_build_f2_candidates.py`
-- `../.github/workflows/validate-mk1-f2.yml`
-- `../.github/workflows/build-mk1-f2-candidates.yml`
-
-A Task Brief is transformed into:
+F2 deterministically transforms a Task Brief into:
 
 ```text
 brief
@@ -236,126 +119,122 @@ lint.json
 prompt.txt
 ```
 
-The three current F2 bundles are deterministic, human-readable and statically valid. Their `prompt.txt` files explicitly say that `VALID` does not mean tested/certified/improved.
-
-F3 found a real assembler defect: some brief constraints were duplicated in both CONTEXT and CONSTRAINTS. The assembler was corrected, output contracts were strengthened by intent, and the duplicate-instruction case became a regression fixture rather than an accepted warning.
+The current candidates remain human-readable and provenance-bound.
 
 ## F3 — Semantic/static critic
 
-Status: **COMPLETE — RECEIPTS PERSISTED**
+F3 checks semantic contradictions, vague output contracts, duplicate instructions, unsupported assumptions, provenance laundering, high-stakes boundaries and unjustified architecture.
 
-Implementation:
+Static success never promotes beyond `VALID`.
 
-- `../tools/mk1_prompt_critic.py`
-- `../tools/test_mk1_f3.py`
-- `../tools/mk1_build_f3_critic_reports.py`
-- `../.github/workflows/validate-mk1-f3.yml`
-- `../.github/workflows/build-mk1-f3-critic-reports.yml`
-- `candidates/f3/`
+## F4 — Behavioral execution
 
-F3 checks include:
+F4 contains the adversarial behavioral matrix and observed execution machinery.
 
-- semantic contradictions across sections;
-- vague or unverifiable output contracts;
-- repeated/redundant instructions;
-- unsupported assumptions;
-- provenance/truth-boundary risks;
-- high-stakes boundary quality;
-- architecture overfit;
-- severity and remediation suggestions.
+Current matrix: **30 blocking adversarial fixtures** across the three foundational prompt families. Coverage includes happy/minimal/missing/ambiguous/contradictory/noise/regression plus prompt injection, number/negation preservation, scope extrapolation, fabricated evidence and authority/currentness failure modes.
 
-Current materialized F3 baseline: 3 reports, all PASS with zero blockers/errors/warnings.
+A prompt reaches `TESTED` only from a real execution receipt with:
 
-Important: **F3 remains static evidence. It does not change artifact state beyond VALID.**
+- exact artifact/fixture fingerprints;
+- identified runtime;
+- durable raw evidence;
+- all blocking assertions resolved;
+- required human review resolved.
 
-## F4 — Behavioral fixtures and execution
+Synthetic harness passes never promote state.
 
-F4 is split deliberately into two lanes.
+## F5 — Baseline superiority
 
-### F4A — harness characterization
+F5 runs the exact TESTED prompt against a task-equivalent baseline under the same fixture/runtime/evaluation contract.
 
-Status: **COMPLETE — CI PASS**
+The benchmark is paired and blind. A real F5 improvement receipt requires, among other gates:
 
-Implementation:
+- 100% engineered blocking pass;
+- at least three benchmark repeats;
+- zero engineered regressions;
+- zero baseline A/B wins;
+- no unresolved human checks;
+- material engineered blind wins.
 
-- `specs/F4_BEHAVIORAL_TESTING.md`
-- `fixtures/f4/fixture-sets.json`
-- `../tools/mk1_behavioral_runner.py`
-- `../tools/mk1_prepare_f4_execution.py`
-- `../tools/test_mk1_f4.py`
-- `../.github/workflows/validate-mk1-f4.yml`
-- `receipts/f4/README.md`
+Only then may the artifact carry `improved` and advance to `CANDIDATE`.
 
-Current fixture inventory:
+## F6 — Target-runtime certification
 
-```text
-3 versioned fixture sets
-15 behavioral fixtures
-classes:
-  happy-path
-  minimal
-  missing-critical
-  ambiguous
-  contradictory
-  edge
-  noise
-  regression
-```
+Canonical spec: `specs/F6_TARGET_RUNTIME_CERTIFICATION.md`.
 
-The F4A gate proves the harness semantics:
+F6 no longer means cross-provider testing.
 
-- synthetic PASS can never promote state;
-- runtime identity is required for real execution;
-- machine assertion failure blocks promotion;
-- unresolved blocking human review blocks promotion;
-- only a real `BEHAVIORAL_PASS` receipt may become eligible for `TESTED`.
+An exact F5 CANDIDATE becomes `CERTIFIED` only after at least **three independent real F5 IMPROVEMENT_PASS receipts on the same normalized provider + exact model + family**.
 
-### F4B — real behavioral execution
+Every independent receipt must preserve the complete F5 gate and have distinct:
 
-Status: **READY / NOT YET EXECUTED**
+- receipt id;
+- execution id;
+- blind randomization reference;
+- runtime identity-evidence reference.
 
-The next evidence-producing step is to run each exact F2 prompt artifact against its exact fixture set under an identified real runtime, persist observed outputs, resolve the declared review checks and produce durable F4 receipts.
-
-Until that happens:
+Each F5 benchmark itself already contains multiple repeats, so F6 establishes repeatability at both sample and independent-experiment levels.
 
 ```text
-state = VALID
-not TESTED
+CANDIDATE
+   ↓ 3+ independent F5 passes, same target runtime
+CERTIFIED
 ```
 
-## Certification principle
+`CERTIFIED` is scoped evidence for that target runtime. It is not a universal correctness or portability claim.
 
-A prompt is **not** called `improved` merely because it is longer, cleaner or more sophisticated-looking.
+## F7 — Portability
 
-An improvement claim requires:
+Canonical spec: `specs/F7_PORTABILITY.md`.
 
-- an identified baseline;
-- the same evaluation fixture set;
-- rubric scores/deltas;
-- no hidden blocking regression;
-- a durable receipt explaining the claim.
+F7 is optional and begins only after F6 certification.
 
-Without that receipt, the correct label remains **engineered candidate**.
+It combines the F6-bound F5 evidence with supplemental real F5 receipts from other environments. `PORTABLE` requires at least:
 
-## MK1 directories
+- 3 distinct providers;
+- 3 distinct runtime families;
+- exact prompt/baseline/fixture lineage;
+- every receipt independently satisfying F5 superiority.
+
+```text
+CERTIFIED
+   ↓ cross-provider/family reproduction
+PORTABLE
+```
+
+A prompt may be permanently `CERTIFIED` without being `PORTABLE`.
+
+## Evidence directories
 
 ```text
 mk1/
-├── README.md
 ├── specs/
-├── rubrics/
+│   ├── F6_TARGET_RUNTIME_CERTIFICATION.md
+│   └── F7_PORTABILITY.md
 ├── fixtures/
-│   ├── f1/
-│   └── f4/
 ├── briefs/
 ├── candidates/
-│   ├── f2/                # 3 current VALID engineered candidates
-│   └── f3/                # persisted static critic receipts
-├── certified/             # future F6 artifacts
+│   ├── f2/       # VALID
+│   ├── f3/       # static critic evidence
+│   ├── f4/       # TESTED only from real F4 receipts
+│   ├── f5/       # CANDIDATE/IMPROVED only from real F5 receipts
+│   ├── f6/       # CERTIFIED only from repeated same-runtime F5 evidence
+│   └── f7/       # PORTABLE only from optional cross-provider evidence
 └── receipts/
-    └── f4/                # future observed behavioral receipts
+    ├── f4/
+    ├── f5/
+    ├── f6/
+    └── f7/
 ```
 
-MK1 ends when Prompt Quarry can reliably produce and certify reusable prompts for known tasks.
+## What MK1 consumes from MK0
 
-Automatic runtime task detection, retrieval, autonomous composition and adaptive selection belong to MK2.
+Preferred inputs include Golden Fixtures, technique vectors, architecture statistics, reviewed patterns such as RIRO, repository-authored templates, canonical taxonomy, source metadata and regression incidents.
+
+Raw source bodies are not treated as a hidden template library.
+
+## Product boundary
+
+MK1 ends when Prompt Quarry can reliably build and certify reusable prompts for known tasks on declared target runtimes.
+
+Cross-provider portability is an additional MK1 quality property. Automatic runtime task detection, retrieval, autonomous composition and adaptive selection remain MK2 responsibilities.

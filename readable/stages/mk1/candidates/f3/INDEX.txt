@@ -8,23 +8,33 @@ PROMPT QUARRY — MK1 F3 STATIC CRITIC INDEX
 ========================================================================================
 
 F3 adds semantic/static quality receipts to the existing F2 VALID candidates.
+Each receipt is frozen to the exact prompt/artifact identity shown below.
 These are NOT behavioral test receipts and do not change candidate state to TESTED.
 
 TITLE        : Reescritura clara sin cambiar significado
 ARTIFACT ID  : pq_mk1_content_clear_rewrite
+VERSION      : 0.1.0
 STATE        : VALID
+PROMPT SHA   : sha256:b2cf7c0a718171d50d7f0ab4597f7edc2163c284bd61ca32fa8f03be7dc1c291
+ARTIFACT SHA : sha256:d3103a73d8a38ed6523b0163b74fcce942bc2961af4a527281c7745e03e6758a
 CRITIC       : PASS (0 warnings)
 HUMAN REPORT : mk1/candidates/f3/reports/content_clear_rewrite.critic.txt
 ----------------------------------------------------------------------------------------
 TITLE        : Comparación técnica con recomendación basada en evidencia
 ARTIFACT ID  : pq_mk1_research_technical_decision
+VERSION      : 0.1.0
 STATE        : VALID
+PROMPT SHA   : sha256:09725f0ea0efebd7893e0c411ea1980914fa0ab770d708ca12d9cb9d7e6d242c
+ARTIFACT SHA : sha256:d9f8073d9fb0935b4780418be8b4447c917e3702d3e15a5fdc5efdd7dfa6785f
 CRITIC       : PASS (0 warnings)
 HUMAN REPORT : mk1/candidates/f3/reports/research_technical_decision.critic.txt
 ----------------------------------------------------------------------------------------
 TITLE        : Revisión senior de código y pull requests
 ARTIFACT ID  : pq_mk1_software_code_review
+VERSION      : 0.1.0
 STATE        : VALID
+PROMPT SHA   : sha256:b69c7f021e0bbf44e79b9e1d21dbd3f0396f6f30896b5f3a529faf21954a5bd5
+ARTIFACT SHA : sha256:87502e8b920ba648ff6d5e79d03ece04b438e4619ffee6fd88e41a09c51e62ad
 CRITIC       : PASS (0 warnings)
 HUMAN REPORT : mk1/candidates/f3/reports/software_code_review.critic.txt
 ----------------------------------------------------------------------------------------

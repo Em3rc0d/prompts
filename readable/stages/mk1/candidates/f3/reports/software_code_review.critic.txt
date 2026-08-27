@@ -8,9 +8,12 @@ PROMPT QUARRY — MK1 F3 STATIC CRITIC RECEIPT
 ========================================================================================
 TITLE             : Revisión senior de código y pull requests
 ARTIFACT ID       : pq_mk1_software_code_review
+ARTIFACT VERSION  : 0.1.0
 ARTIFACT STATE    : VALID
+PROMPT SHA-256    : sha256:b69c7f021e0bbf44e79b9e1d21dbd3f0396f6f30896b5f3a529faf21954a5bd5
+ARTIFACT SHA-256  : sha256:87502e8b920ba648ff6d5e79d03ece04b438e4619ffee6fd88e41a09c51e62ad
 CRITIC STATUS     : PASS
-CRITIC VERSION    : 1.0.1
+CRITIC VERSION    : 1.1.0
 BLOCKING FINDINGS : 0
 ERROR FINDINGS    : 0
 WARNING FINDINGS  : 0
@@ -21,6 +24,7 @@ WHAT THIS MEANS
 ----------------------------------------------------------------------------------------
 F3 reviews semantic/static quality beyond schema/lint: contradictions, duplicated instructions,
 output-contract specificity, assumptions, provenance wording and high-stakes boundaries.
+The receipt is cryptographically bound to the exact F2 prompt and artifact reviewed.
 A PASS here does NOT mean runtime behavior was tested and does NOT certify or prove improvement.
 
 FINDINGS
@@ -31,4 +35,4 @@ NEXT EVIDENCE REQUIRED
 ----------------------------------------------------------------------------------------
 F4 must execute behavioral fixtures before this artifact may become TESTED.
 F5 must provide fair baseline comparison before any IMPROVED claim.
-F6 must apply the certification rubric/receipt before CERTIFIED.
+F6 must provide cross-runtime evidence before CERTIFIED.
