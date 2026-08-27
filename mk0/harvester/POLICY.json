@@ -1,0 +1,74 @@
+{
+  "schema": "prompt-quarry-harvester-policy-v1",
+  "policy_version": "1.0.0",
+  "routing": {
+    "auto_candidate_min_confidence": 0.95,
+    "human_review_min_confidence": 0.90,
+    "human_review_max_confidence_exclusive": 0.95,
+    "below_human_review_default": "HOLD",
+    "golden_requires_governed_promotion": true
+  },
+  "critical_overrides": {
+    "force_human_review": [
+      "conflicting_classifiers",
+      "unusual_architecture",
+      "high_novelty_ambiguous_mapping",
+      "source_identity_ambiguity",
+      "content_observation_ambiguity"
+    ],
+    "block_auto_candidate": [
+      "license_unknown_for_redistribution",
+      "access_boundary_uncertain",
+      "provenance_incomplete",
+      "body_unavailable_but_reconstructed",
+      "hash_missing_for_observed_body"
+    ],
+    "force_reject": [
+      "access_control_bypass_required",
+      "known_nonpermitted_acquisition",
+      "source_integrity_failure"
+    ]
+  },
+  "non_probabilistic_facts": [
+    "license_status",
+    "access_status",
+    "source_identity",
+    "body_observation_status",
+    "canonical_url",
+    "content_hash"
+  ],
+  "confidence_dimensions": [
+    "classification",
+    "technique_extraction",
+    "architecture_mapping",
+    "deduplication"
+  ],
+  "quality_dimensions": [
+    "structural_quality",
+    "novelty",
+    "coverage_value",
+    "golden_value"
+  ],
+  "aggregate_confidence": {
+    "method": "minimum_required_dimension",
+    "required_dimensions": [
+      "classification",
+      "technique_extraction",
+      "architecture_mapping",
+      "deduplication"
+    ],
+    "reason": "A high average must not hide a weak critical classification dimension."
+  },
+  "human_sampling": {
+    "enabled_for_auto_candidates": true,
+    "initial_calibration_window": 200,
+    "initial_sample_rate": 0.20,
+    "target_human_agreement": 0.98
+  },
+  "truth_boundary": {
+    "unknown_remains_unknown": true,
+    "confidence_is_not_quality": true,
+    "quality_is_not_evidence": true,
+    "human_approval_is_not_behavioral_certification": true
+  }
+}
