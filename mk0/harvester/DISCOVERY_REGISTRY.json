@@ -1,0 +1,72 @@
+{
+  "schema": "prompt-quarry-discovery-registry-v1",
+  "version": "1.0.0",
+  "network_policy": {
+    "user_agent": "PromptQuarry/0.6 (+public research; provenance-first)",
+    "timeout_seconds": 20,
+    "max_response_bytes": 2000000,
+    "per_host_delay_seconds": 1.0,
+    "respect_robots_txt": true,
+    "follow_redirects": true,
+    "allowed_schemes": ["https"],
+    "allowed_content_types": [
+      "text/html",
+      "text/plain",
+      "text/markdown",
+      "application/json"
+    ]
+  },
+  "sources": [
+    {
+      "source_key": "prompting-guide",
+      "adapter": "web_seed",
+      "url": "https://www.promptingguide.ai/",
+      "source_type": "documentation",
+      "enabled": true,
+      "license_status": "UNKNOWN"
+    },
+    {
+      "source_key": "awesome-chatgpt-prompts",
+      "adapter": "web_seed",
+      "url": "https://github.com/f/awesome-chatgpt-prompts",
+      "source_type": "repository",
+      "enabled": true,
+      "license_status": "UNKNOWN"
+    },
+    {
+      "source_key": "prompt-engineering-guide",
+      "adapter": "web_seed",
+      "url": "https://github.com/dair-ai/Prompt-Engineering-Guide",
+      "source_type": "repository",
+      "enabled": true,
+      "license_status": "UNKNOWN"
+    },
+    {
+      "source_key": "github-skill-markdowns",
+      "adapter": "github_code_search",
+      "query": "filename:SKILL.md prompt OR agent OR capability",
+      "source_type": "skill",
+      "enabled": true,
+      "max_results": 25,
+      "license_status": "UNKNOWN"
+    },
+    {
+      "source_key": "github-agent-instructions",
+      "adapter": "github_code_search",
+      "query": "filename:AGENTS.md instructions",
+      "source_type": "instruction-markdown",
+      "enabled": true,
+      "max_results": 25,
+      "license_status": "UNKNOWN"
+    },
+    {
+      "source_key": "github-prompt-markdowns",
+      "adapter": "github_code_search",
+      "query": "extension:md prompt engineering system prompt",
+      "source_type": "prompt",
+      "enabled": true,
+      "max_results": 25,
+      "license_status": "UNKNOWN"
+    }
+  ]
+}
