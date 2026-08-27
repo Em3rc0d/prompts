@@ -1,4 +1,4 @@
-name: Run MK1 F4 Certification Wave
+name: Run MK1 F4 Target Runtime Wave
 
 on:
   push:
@@ -34,7 +34,7 @@ jobs:
       - name: Install runtime dependencies
         run: pip install -r requirements.txt
 
-      - name: Verify OpenAI credential exists
+      - name: Verify target-runtime credential exists
         shell: bash
         run: |
           set -euo pipefail
@@ -43,7 +43,7 @@ jobs:
             exit 3
           }
 
-      - name: Execute frozen F4 experiment
+      - name: Execute frozen F4 target-runtime experiment
         shell: bash
         run: |
           set -euo pipefail
