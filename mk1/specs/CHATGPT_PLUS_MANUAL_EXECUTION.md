@@ -20,13 +20,13 @@ CANDIDATE / IMPROVED
 CERTIFIED
 ```
 
-`manual-observed` is already a real execution mode in the F4/F5 contracts. It is not synthetic and it is not an exemption from review/evidence requirements.
+`manual-observed` is a real execution mode in the F4/F5 contracts. It is not synthetic and it is not an exemption from review/evidence requirements.
 
 ## Declared runtime identity
 
 For ChatGPT Plus, record only what is actually observable in the UI. Do not invent a hidden backend model id.
 
-Recommended identity:
+Canonical identity:
 
 ```text
 provider = openai-chatgpt
@@ -43,7 +43,7 @@ F6 requires the same normalized provider + model/configuration label + family ac
 Every observed prompt execution used as evidence must:
 
 1. use a fresh ChatGPT conversation with no task-specific prior context;
-2. use the same declared visible ChatGPT model/configuration for the whole benchmark;
+2. use the same declared visible ChatGPT model/configuration for the whole benchmark execution;
 3. paste the frozen rendered prompt exactly as prepared by the repository;
 4. record the full observed answer without rewriting it;
 5. retain an evidence reference for that observation;
@@ -52,9 +52,148 @@ Every observed prompt execution used as evidence must:
 
 A project/chat containing prior Prompt Quarry discussion is not a clean evaluation context unless the fixture explicitly requires that context.
 
+## F4 — materialized Plus certification wave
+
+The repository materializes the current foundational F4 wave at:
+
+```text
+mk1/manual/f4/chatgpt-plus/
+├── INDEX.txt
+├── manifest.json
+├── content_clear_rewrite/
+├── software_code_review/
+└── research_technical_decision/
+```
+
+The current wave contains:
+
+```text
+3 foundational artifacts
+10 blocking fixtures per artifact
+30 blocking observations total
+```
+
+Each artifact directory contains:
+
+```text
+INDEX.txt
+manifest.json
+cases/*.txt
+responses/*.response.json
+```
+
+The case TXT contains the exact frozen prompt to paste into a new ChatGPT conversation plus the rendered prompt SHA-256. Expected assertions/checks appear only after the frozen prompt block and must not be shown to the evaluated chat.
+
+Builder:
+
+```text
+tools/mk1_build_plus_f4_wave.py
+```
+
+Collector after all response templates are completed:
+
+```text
+tools/mk1_collect_plus_f4_wave.py
+```
+
+The collector rejects:
+
+- empty outputs/evidence references;
+- prompt SHA drift;
+- fixture identity drift;
+- mixed visible ChatGPT configuration labels inside one execution;
+- overwrite of an existing evidence output directory.
+
+It produces raw manual observations, a hashed runtime-evidence manifest and `execution.unreviewed.json` with `mode=manual-observed`.
+
+Human review then uses the normal immutable F4 review pipeline:
+
+```text
+tools/mk1_f4_review.py
+```
+
+Only the normal F4 behavioral runner may issue a `BEHAVIORAL_PASS` receipt and support `VALID → TESTED`.
+
+## F5 — manual paired/blind benchmark
+
+F5 cannot be materialized until its source artifact is genuinely `TESTED` with a real F4 receipt.
+
+Builder:
+
+```text
+tools/mk1_build_plus_f5_wave.py
+```
+
+For the current 10-fixture set and minimum 3 repeats, one F5 benchmark produces:
+
+```text
+3 repeats
+× 10 fixtures
+= 30 A/B pairs
+= 60 fresh ChatGPT Plus observations
+```
+
+The builder creates:
+
+```text
+manifest.json
+INDEX.txt
+operator/repeat-*/<fixture>.A.txt
+operator/repeat-*/<fixture>.B.txt
+operator/responses/*.response.json
+blind-key.private.json
+```
+
+`blind-key.private.json` is private until review completion. It contains the semantic A/B mapping and must never be given to the blind reviewer.
+
+After the operator completes all 60 response records:
+
+```text
+tools/mk1_collect_plus_f5_wave.py
+```
+
+produces:
+
+```text
+observation.json
+review-packet.json
+blind-key.private.json
+runtime-evidence-manifest.json
+raw/*.json
+```
+
+The reviewer receives **only `review-packet.json`**. It contains A/B outputs and human checks but not the semantic side assignment.
+
+### Independent reviewer rule
+
+For manual F5, the person who executed/handled the A/B prompt packets is considered an operator and is recorded through `operator_ref`.
+
+To preserve a defensible blind benchmark, the final reviewer must be independent from all recorded manual operators. The manual finalizer rejects a reviewer whose `reviewer_ref` matches an `operator_ref`:
+
+```text
+tools/mk1_finalize_plus_f5_review.py
+```
+
+This is stricter than merely hiding the JSON mapping: a manual operator may recognize structural differences between the engineered prompt and the baseline even without seeing `blind-key.private.json`.
+
+After independent blind review, the ordinary F5 benchmark still decides whether the prompt is improved. No rule is waived:
+
+- at least 3 repeats;
+- 100% engineered blocking pass;
+- zero engineered regressions;
+- zero baseline A/B wins;
+- zero unresolved human checks;
+- material engineered blind wins.
+
+## F6 — certification
+
+F6 still requires at least three independent real F5 `IMPROVEMENT_PASS` receipts on the same declared ChatGPT Plus runtime identity. Each F5 benchmark contains its own internal repeats.
+
+Therefore API access is **not** a certification requirement. Reproducible observed evidence is the requirement.
+
 ## Observation evidence
 
-Manual observation evidence must be durable enough to audit later. Each raw observation record should bind:
+Manual observation evidence binds:
 
 - execution id;
 - observation id;
@@ -63,28 +202,25 @@ Manual observation evidence must be durable enough to audit later. Each raw obse
 - full observed output;
 - output SHA-256;
 - observed-at timestamp;
-- a human-supplied source reference such as an exported transcript path, repository evidence note, or other retained record.
+- human-supplied source reference;
+- operator provenance for manual F5.
 
 Screenshots may supplement evidence but should not replace text output when text can be preserved directly.
 
-## F4
+## CI characterization
 
-F4 uses the same behavioral fixtures and human checks as API execution. A real ChatGPT Plus observation may promote `VALID → TESTED` only if the normal F4 runner produces `BEHAVIORAL_PASS`.
+Manual-lane regressions are defined in:
 
-## F5
+```text
+tools/test_mk1_plus_manual_lane.py
+tools/test_mk1_plus_f5_manual_lane.py
+.github/workflows/validate-mk1-plus-manual-lane.yml
+```
 
-F5 still requires at least three repeats. Candidate and baseline outputs must be presented to the reviewer as randomized `A` / `B` pairs. The blind mapping remains private until review completion.
-
-No baseline win, unresolved blocking human check, regression, or engineered blocking failure is waived for ChatGPT Plus.
-
-## F6
-
-F6 still requires at least three independent real F5 `IMPROVEMENT_PASS` receipts on the same declared ChatGPT Plus runtime identity. Each benchmark also retains its own internal repeats.
-
-Therefore API access is **not** a certification requirement. Reproducible observed evidence is the requirement.
+The tests characterize packet inventory, frozen hashes, runtime-label consistency, evidence manifests, blind mapping, 3×10/60-observation F5 structure and independent-review enforcement. Synthetic test data characterizes tooling only and never promotes artifact state.
 
 ## Automation boundary
 
-`.github/workflows/run-mk1-observed-experiment.yml` remains the automated API lane because it executes provider HTTP APIs and requires provider secrets.
+`.github/workflows/run-mk1-observed-experiment.yml` is explicitly the automated **API** lane because it executes provider HTTP APIs and requires provider secrets.
 
-ChatGPT Plus uses a separate manual-observed collection lane. Do not add browser/session scraping, cookie extraction, private ChatGPT endpoints, or other attempts to turn a Plus web session into an unofficial API.
+ChatGPT Plus uses the manual-observed collection lane above. Do not add browser/session scraping, cookie extraction, private ChatGPT endpoints, or other attempts to turn a Plus web session into an unofficial API.
