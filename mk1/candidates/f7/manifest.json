@@ -1,0 +1,13 @@
+{
+  "mk_stage": "MK1",
+  "phase": "F7",
+  "status": "NO_F6_CERTIFIED_ARTIFACTS",
+  "portable_count": 0,
+  "pending_count": 0,
+  "artifacts": [],
+  "pending": [],
+  "minimum_runtime_providers": 3,
+  "minimum_runtime_families": 3,
+  "state_policy": "PORTABLE is optional and may only descend from exact F6 CERTIFIED artifacts with valid cross-provider F5 evidence.",
+  "claim_policy": "PORTABLE is cross-provider evidence, not a prerequisite for CERTIFIED and not a universal compatibility claim."
+}
