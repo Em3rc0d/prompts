@@ -15,16 +15,20 @@
       "claims": [
         "engineered"
       ],
-      "architecture_signature": "PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE",
+      "architecture_signature": "PURPOSE+CONTEXT+INTAKE+ASSUMPTIONS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
       "techniques": [
         "context-injection",
+        "question-first",
         "variable-template",
+        "assumption-audit",
+        "explicit-constraints",
         "output-formatting",
-        "self-check"
+        "self-check",
+        "fallback-behavior"
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 785,
+      "prompt_length": 2647,
       "bundle_path": "mk1/candidates/f2/content_clear_rewrite"
     },
     {
@@ -54,7 +58,7 @@
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 2533,
+      "prompt_length": 3155,
       "bundle_path": "mk1/candidates/f2/software_code_review"
     },
     {
@@ -87,7 +91,7 @@
       ],
       "lint_status": "PASS",
       "lint_warnings": 0,
-      "prompt_length": 2952,
+      "prompt_length": 3750,
       "bundle_path": "mk1/candidates/f2/research_technical_decision"
     }
   ],

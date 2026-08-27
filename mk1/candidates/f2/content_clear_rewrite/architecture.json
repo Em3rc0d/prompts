@@ -1,5 +1,5 @@
 {
-  "selector_version": "1.0.0",
+  "selector_version": "1.1.0",
   "brief_id": "content_clear_rewrite",
   "intent": "rewrite",
   "domain": "general",
@@ -8,23 +8,27 @@
   "selected_blocks": [
     "PURPOSE",
     "CONTEXT",
+    "INTAKE",
+    "ASSUMPTIONS",
+    "CONSTRAINTS",
     "OUTPUT_CONTRACT",
-    "QUALITY_GATE"
+    "QUALITY_GATE",
+    "FALLBACK"
   ],
   "omitted_blocks": [
     "ROLE",
-    "INTAKE",
-    "ASSUMPTIONS",
-    "PROCESS",
-    "CONSTRAINTS",
-    "FALLBACK"
+    "PROCESS"
   ],
-  "architecture_signature": "PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE",
+  "architecture_signature": "PURPOSE+CONTEXT+INTAKE+ASSUMPTIONS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
   "techniques": [
     "context-injection",
+    "question-first",
     "variable-template",
+    "assumption-audit",
+    "explicit-constraints",
     "output-formatting",
-    "self-check"
+    "self-check",
+    "fallback-behavior"
   ],
   "reasons": {
     "PURPOSE": [
@@ -36,8 +40,20 @@
     "CONTEXT": [
       "The task depends on supplied variables, constraints or non-trivial operating context."
     ],
+    "INTAKE": [
+      "Interaction permits targeted questions for missing required inputs."
+    ],
+    "ASSUMPTIONS": [
+      "The task needs explicit handling of inference, ambiguity or consequential uncertainty."
+    ],
+    "CONSTRAINTS": [
+      "The brief contains truth, evidence, safety or task-specific invariants."
+    ],
     "QUALITY_GATE": [
       "The result benefits from an explicit final contract/self-check before return."
+    ],
+    "FALLBACK": [
+      "The task needs defined behavior when information or evidence is insufficient."
     ]
   },
   "warnings": [],
