@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 
 from mk1_behavioral_runner import sha256_json, sha256_text
-from mk1_f5_benchmark import find_baseline, find_fixture_set, load, promote_improved, validate_receipt_integrity
+from mk1_f5_benchmark import RUNTIME_IDENTITY_FIELDS, find_baseline, find_fixture_set, load, promote_improved, validate_receipt_integrity
 
 
 RECEIPTS = Path("mk1/receipts/f5")
@@ -79,8 +79,8 @@ def validate_receipt(receipt: dict, source_artifact: dict, baseline: dict, fixtu
     for key in ("reviewer_ref", "reviewed_at", "randomization_ref"):
         if not review.get(key):
             raise AssertionError(f"F5 review missing {key}")
-    for key in ("provider", "model", "family", "run_at"):
-        if not runtime.get(key):
+    for key in RUNTIME_IDENTITY_FIELDS:
+        if not str(runtime.get(key, "")).strip():
             raise AssertionError(f"F5 runtime missing {key}")
 
 
