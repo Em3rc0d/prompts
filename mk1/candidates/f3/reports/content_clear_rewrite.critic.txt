@@ -4,7 +4,7 @@ TITLE             : Reescritura clara sin cambiar significado
 ARTIFACT ID       : pq_mk1_content_clear_rewrite
 ARTIFACT STATE    : VALID
 CRITIC STATUS     : PASS
-CRITIC VERSION    : 1.0.1
+CRITIC VERSION    : 1.1.0
 BLOCKING FINDINGS : 0
 ERROR FINDINGS    : 0
 WARNING FINDINGS  : 0
