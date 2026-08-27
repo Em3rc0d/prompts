@@ -15,6 +15,7 @@ ALL_MODES = REAL_MODES | {"synthetic"}
 WINNERS = {"engineered", "baseline", "tie"}
 MIN_REPEATS = 3
 MIN_ENGINEERED_WIN_FRACTION = 0.30
+RUNTIME_IDENTITY_FIELDS = ("provider", "model", "family", "run_at", "identity_evidence_ref")
 
 
 def load(path: str | Path) -> Any:
@@ -81,7 +82,7 @@ def _require_participant_human_evidence(fixture: dict, response: dict, label: st
 
 def _require_real_execution(execution: dict, fixture_set: dict) -> None:
     runtime = execution.get("runtime") or {}
-    missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
+    missing_runtime = [key for key in RUNTIME_IDENTITY_FIELDS if not str(runtime.get(key, "")).strip()]
     if missing_runtime:
         raise ValueError(f"Real F5 benchmark missing runtime identity: {missing_runtime}")
     if not execution.get("execution_id"):
@@ -219,7 +220,7 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
         "eligible_for_improved": eligible,
         "results": rows,
         "state_policy": "Only a real IMPROVEMENT_PASS receipt may support TESTED -> CANDIDATE and claim improved.",
-        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and runtime family. Both sides of every blind pair require complete human evidence. It is not universal or cross-runtime certification.",
+        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and evidenced runtime family. Both sides of every blind pair require complete human evidence. It is not universal or cross-runtime certification.",
     }
     core["receipt_id"] = benchmark_receipt_id(core)
     return core
@@ -247,8 +248,8 @@ def promote_improved(tested_artifact: dict, receipt: dict) -> dict:
     if receipt.get("execution_mode") not in REAL_MODES:
         raise ValueError("Synthetic F5 receipt cannot promote")
     runtime = receipt.get("runtime") or {}
-    if not all(runtime.get(key) for key in ("provider", "model", "family", "run_at")):
-        raise ValueError("F5 improvement receipt lacks complete runtime family identity")
+    if not all(str(runtime.get(key, "")).strip() for key in RUNTIME_IDENTITY_FIELDS):
+        raise ValueError("F5 improvement receipt lacks complete evidenced runtime family identity")
     if receipt.get("status") != "IMPROVEMENT_PASS" or receipt.get("eligible_for_improved") is not True:
         raise ValueError("F5 receipt cannot promote: improvement gate did not pass")
     if receipt.get("engineered_blocking_pass_rate") != 1.0:
