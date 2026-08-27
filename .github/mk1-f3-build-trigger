@@ -1,5 +1,6 @@
-triggered_at: 2026-08-26T19:24:00-05:00
+triggered_at: 2026-08-26T19:29:00-05:00
 source: chatgpt
-mode: rematerialize-mk1-f3-after-f2-hardening
+mode: rematerialize-mk1-f3-after-critic-architecture-fix
 policy: static-evidence-only-no-tested-certified-improved
 source_f2_commit: 0083a47317f560c0232afd1ea00b0d4361e0d01b
+critic_version: 1.1.0
