@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_missing_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-27T02:57:00Z",
+  "source_reference": "mk1/evidence/manual/chatgpt-plus/f4/content_clear_rewrite/rewrite_missing_01-source.json",
   "rendered_prompt_sha256": "sha256:b2cf7c0a718171d50d7f0ab4597f7edc2163c284bd61ca32fa8f03be7dc1c291",
-  "output": null
+  "output": "Falta la entrada requerida **`{text}`**: el texto que quieres reescribir. Sin ese contenido no puedo realizar la reescritura sin inventar información."
 }
