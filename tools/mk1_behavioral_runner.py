@@ -117,8 +117,8 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
     }
 
 
-def _validate_human_evidence(fixture_set: dict, responses: dict) -> None:
-    incomplete: list[str] = []
+def _validate_human_evidence_notes(fixture_set: dict, responses: dict) -> None:
+    missing_notes: list[str] = []
     for fixture in fixture_set.get("cases", []):
         response = responses.get(fixture["fixture_id"]) or {}
         declared = response.get("human_checks") or {}
@@ -126,12 +126,15 @@ def _validate_human_evidence(fixture_set: dict, responses: dict) -> None:
             value = declared.get(check)
             status = value.get("status") if isinstance(value, dict) else value
             note = value.get("note") if isinstance(value, dict) else None
-            if status not in HUMAN_STATUSES or not str(note or "").strip():
-                incomplete.append(f"{fixture['fixture_id']}::{check}")
-    if incomplete:
+            # UNRESOLVED is allowed to flow into a BEHAVIORAL_FAIL receipt.  But
+            # once a human asserts PASS or FAIL, that judgment must carry an
+            # evidence note; a bare label is not review evidence.
+            if status in HUMAN_STATUSES and not str(note or "").strip():
+                missing_notes.append(f"{fixture['fixture_id']}::{check}")
+    if missing_notes:
         raise ValueError(
-            "Real F4 execution requires every declared human check to have PASS/FAIL plus a non-empty evidence note; incomplete="
-            + repr(incomplete)
+            "Real F4 human PASS/FAIL judgments require a non-empty evidence note; missing="
+            + repr(missing_notes)
         )
 
 
@@ -186,7 +189,7 @@ def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution
         missing_review = [key for key in ("reviewer_ref", "reviewed_at") if not review.get(key)]
         if missing_review:
             raise ValueError(f"Real F4 execution missing human review metadata: {missing_review}")
-        _validate_human_evidence(fixture_set, responses)
+        _validate_human_evidence_notes(fixture_set, responses)
 
 
 def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
