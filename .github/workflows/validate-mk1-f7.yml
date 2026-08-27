@@ -1,0 +1,53 @@
+name: Validate MK1 F7
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/specs/F7_PORTABILITY.md'
+      - 'mk1/receipts/f7/**'
+      - 'mk1/candidates/f6/**'
+      - 'mk1/candidates/f7/**'
+      - 'mk1/fixtures/f4/**'
+      - 'tools/mk1_f7_portable.py'
+      - 'tools/mk1_materialize_f7_portable.py'
+      - 'tools/validate_mk1_f7_repository.py'
+      - 'tools/test_mk1_f7.py'
+      - 'tools/mk1_f6_certify.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'mk1/specs/PROMPT_ARTIFACT.schema.json'
+      - '.github/workflows/validate-mk1-f7.yml'
+      - '.github/workflows/build-mk1-f7-portable.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-f7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Re-run F1-F5 contract chain
+        run: |
+          python tools/test_mk1_f1.py
+          python tools/test_mk1_f2.py
+          python tools/test_mk1_f3.py
+          python tools/test_mk1_f4.py
+          python tools/test_mk1_f5.py
+      - name: Re-run F6 target-runtime certification
+        run: python tools/test_mk1_f6.py
+      - name: Validate persisted F6 boundary
+        run: python tools/validate_mk1_f6_repository.py
+      - name: Characterize F7 portability gate
+        run: python tools/test_mk1_f7.py
+      - name: Materialize zero/current F7 state
+        run: python tools/mk1_materialize_f7_portable.py
+      - name: Validate F7 persisted portability boundary
+        run: python tools/validate_mk1_f7_repository.py
