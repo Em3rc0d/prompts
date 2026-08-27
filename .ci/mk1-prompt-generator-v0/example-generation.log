@@ -1,11 +1,35 @@
 {
   "generator_version": "0.1.0",
-  "generator_status": "REJECTED_STATIC",
+  "generator_status": "VALID_STATIC",
   "artifact_id": "pq_mk1_generator_v0_software_review_example",
   "state": "VALID",
   "intent": "review",
   "domain": "software",
   "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
-  "critic_status": "FAIL",
+  "critic_status": "PASS",
   "output_dir": "/tmp/pq-generator-demo"
+}
+{
+  "generator_version": "0.1.0",
+  "generator_status": "VALID_STATIC",
+  "artifact_id": "pq_mk1_generator_v0_software_review_example",
+  "artifact_state": "VALID",
+  "lint_status": "PASS",
+  "critic_status": "PASS",
+  "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
+  "claim_boundary": "Generated/VALID_STATIC is not TESTED, IMPROVED, CERTIFIED, or PORTABLE.",
+  "files": [
+    "architecture.json",
+    "artifact.json",
+    "classification.json",
+    "critic.json",
+    "evaluation-plan.json",
+    "generation.json",
+    "lint.json",
+    "mk0-retrieval.json",
+    "prompt.txt",
+    "request.json",
+    "task-brief.json",
+    "technique-selection.json"
+  ]
 }

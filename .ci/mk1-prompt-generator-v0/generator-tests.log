@@ -1,9 +1,11 @@
+PASS test_software_review_generation
+PASS test_mk0_teaches_but_does_not_force_frequency
 Traceback (most recent call last):
   File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 150, in <module>
     main()
   File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 144, in main
     test()
-  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 23, in test_software_review_generation
-    assert result["critic"]["status"] in {"PASS", "WARN"}
+  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 60, in test_high_stakes_boundary
+    assert result["classification"]["domain"] == "health"
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError
