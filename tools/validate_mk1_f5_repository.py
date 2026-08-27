@@ -79,7 +79,7 @@ def validate_receipt(receipt: dict, source_artifact: dict, baseline: dict, fixtu
     for key in ("reviewer_ref", "reviewed_at", "randomization_ref"):
         if not review.get(key):
             raise AssertionError(f"F5 review missing {key}")
-    for key in ("provider", "model", "run_at"):
+    for key in ("provider", "model", "family", "run_at"):
         if not runtime.get(key):
             raise AssertionError(f"F5 runtime missing {key}")
 
