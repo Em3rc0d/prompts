@@ -1,0 +1,69 @@
+name: Build MK1 F7 Portable Artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/mk1-f7-build-trigger'
+      - 'mk1/receipts/f7/**/*.receipt.json'
+      - 'mk1/candidates/f6/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build-portable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Re-run F6 certification gate
+        run: |
+          python tools/test_mk1_f6.py
+          python tools/validate_mk1_f6_repository.py
+      - name: Re-run F7 portability characterization
+        run: python tools/test_mk1_f7.py
+      - name: Materialize F7 state
+        run: |
+          python tools/mk1_materialize_f7_portable.py \
+            --source mk1/candidates/f6 \
+            --evidence mk1/receipts/f7 \
+            --fixtures mk1/fixtures/f4/fixture-sets.json \
+            --output mk1/candidates/f7
+      - name: Validate durable F7 boundary
+        run: python tools/validate_mk1_f7_repository.py
+      - name: Commit F7 state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add mk1/candidates/f7
+          if git diff --cached --quiet; then
+            echo 'No F7 state changes to commit.'
+            exit 0
+          fi
+          git commit -m 'mk1: materialize F7 portability state'
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/validate_catalog.py >/dev/null
+            python tools/test_mk1_f6.py >/dev/null
+            python tools/validate_mk1_f6_repository.py >/dev/null
+            python tools/test_mk1_f7.py >/dev/null
+            python tools/validate_mk1_f7_repository.py >/dev/null
+            if git push origin HEAD:main; then
+              echo 'Published MK1 F7 portability state.'
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then sleep $((attempt * 2)); fi
+          done
+          echo 'Failed to publish MK1 F7 state after retries.' >&2
+          exit 1
