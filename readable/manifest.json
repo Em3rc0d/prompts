@@ -53,10 +53,10 @@
     "DESARROLLO": 1,
     "ESTUDIO": 1
   },
-  "stage_document_txt_copies": 21,
+  "stage_document_txt_copies": 22,
   "stage_document_counts": {
     "MK0": 1,
-    "MK1": 16,
+    "MK1": 17,
     "MK2": 1
   },
   "mk1_candidate_prompt_txt_copies": 3,
