@@ -119,7 +119,7 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
 
 def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution: dict) -> None:
     runtime = execution.get("runtime") or {}
-    missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
+    missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
     if missing_runtime:
         raise ValueError(f"Real F4 execution missing runtime identity: {missing_runtime}")
 
