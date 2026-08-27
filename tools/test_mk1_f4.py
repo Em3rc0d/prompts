@@ -60,7 +60,7 @@ def real_execution(responses: dict | None = None) -> dict:
     return {
         "execution_id": "manual-observed-pass",
         "mode": "manual-observed",
-        "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
+        "runtime": {"provider": "test-provider", "model": "test-model", "family": "test-family-a", "run_at": "2026-08-26T22:55:00Z"},
         "review": review_metadata(),
         **frozen_identity(),
         "responses": responses if responses is not None else passing_response(),
@@ -121,6 +121,7 @@ def test_real_pass_is_eligible_and_promotable() -> dict:
     assert receipt["eligible_for_tested"] is True, receipt
     assert receipt["receipt_id"].startswith("pq_mk1_f4_receipt_"), receipt
     assert receipt["review"]["reviewer_type"] == "human", receipt
+    assert receipt["runtime"]["family"] == "test-family-a", receipt
     promoted = promote_tested(artifact(), receipt)
     assert promoted["state"] == "TESTED", promoted
     assert "tested" in promoted["claims"], promoted
@@ -128,7 +129,7 @@ def test_real_pass_is_eligible_and_promotable() -> dict:
     assert promoted["evaluation"]["receipt_id"] == receipt["receipt_id"], promoted
     assert promoted["evaluation"]["baseline_id"] is None, promoted
     assert promoted["evaluation"]["rubric_score"] is None, promoted
-    return {"status": receipt["status"], "eligible": receipt["eligible_for_tested"], "promoted_state": promoted["state"]}
+    return {"status": receipt["status"], "eligible": receipt["eligible_for_tested"], "promoted_state": promoted["state"], "family": receipt["runtime"]["family"]}
 
 
 def test_unresolved_human_check_blocks() -> dict:
@@ -160,6 +161,17 @@ def test_real_runtime_identity_required() -> dict:
         assert "runtime identity" in str(exc), exc
         return {"rejected": True, "reason": str(exc)}
     raise AssertionError("Real execution without runtime identity should fail")
+
+
+def test_runtime_family_required() -> dict:
+    execution = real_execution()
+    execution["runtime"].pop("family")
+    try:
+        run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "runtime identity" in str(exc) and "family" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("F4 real execution must identify runtime family")
 
 
 def test_human_review_metadata_required() -> dict:
@@ -271,6 +283,7 @@ def main() -> None:
         "unresolved_human_blocks": test_unresolved_human_check_blocks(),
         "machine_failure_blocks": test_machine_failure_blocks(),
         "runtime_identity_required": test_real_runtime_identity_required(),
+        "runtime_family_required": test_runtime_family_required(),
         "human_review_metadata_required": test_human_review_metadata_required(),
         "complete_observed_outputs_required": test_complete_observed_outputs_required(),
         "pre_execution_prompt_drift_rejected": test_pre_execution_prompt_identity_drift_rejected(),
@@ -279,7 +292,7 @@ def main() -> None:
         "prompt_fingerprint_mismatch_rejected": test_prompt_fingerprint_mismatch_rejected(),
         "tampered_receipt_rejected": test_tampered_receipt_rejected(),
         "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
-        "policy": "F4 requires a 30-case all-blocking adversarial matrix. CI characterizes harness and evidence integrity only; no real prompt execution or TESTED artifact is claimed by this suite."
+        "policy": "F4 requires a 30-case all-blocking adversarial matrix and explicit runtime family for real evidence. CI characterizes harness and evidence integrity only; no real prompt execution or TESTED artifact is claimed by this suite."
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
