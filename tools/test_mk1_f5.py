@@ -4,6 +4,7 @@ import json
 
 from mk1_f5_benchmark import promote_improved, run_benchmark, sha256_json, sha256_text
 from mk1_prompt_linter import lint_artifact
+from validate_mk1_f5_repository import validate_receipt as validate_persisted_receipt
 
 
 def tested_artifact() -> dict:
@@ -118,6 +119,22 @@ def test_runtime_family_required() -> dict:
     raise AssertionError("F5 must identify an explicit runtime family")
 
 
+def test_persisted_runtime_family_required() -> dict:
+    receipt = run_benchmark(tested_artifact(), baseline(), fixture_set(), execution())
+    receipt["runtime"].pop("family")
+    # Recompute integrity to isolate the persistence contract from generic tamper detection.
+    from mk1_f5_benchmark import receipt_id
+    core = dict(receipt)
+    core.pop("receipt_id", None)
+    receipt["receipt_id"] = receipt_id(core)
+    try:
+        validate_persisted_receipt(receipt, tested_artifact(), baseline(), fixture_set())
+    except AssertionError as exc:
+        assert "runtime missing family" in str(exc)
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("F5 persisted evidence must identify an explicit runtime family")
+
+
 def test_frozen_identity_drift_rejected() -> dict:
     value = execution(); value["baseline_prompt_fingerprint"] = sha256_text("changed baseline")
     try: run_benchmark(tested_artifact(), baseline(), fixture_set(), value)
@@ -153,10 +170,11 @@ def main() -> None:
         "minimum_repeats": test_less_than_three_repeats_rejected(),
         "blind_review_required": test_unblinded_review_rejected(),
         "runtime_family_required": test_runtime_family_required(),
+        "persisted_runtime_family_required": test_persisted_runtime_family_required(),
         "frozen_identity": test_frozen_identity_drift_rejected(),
         "tampered_receipt": test_tampered_receipt_rejected(),
         "synthetic_never_promotes": test_synthetic_never_promotes(),
-        "policy": "F5 improvement requires 100% engineered blocking pass rate, zero regressions, zero baseline A/B wins, material blind wins, explicit runtime family, exact identity and a real observed benchmark."
+        "policy": "F5 improvement requires 100% engineered blocking pass rate, zero regressions, zero baseline A/B wins, material blind wins, explicit runtime family in execution and persisted evidence, exact identity and a real observed benchmark."
     }, ensure_ascii=False, indent=2))
 
 
