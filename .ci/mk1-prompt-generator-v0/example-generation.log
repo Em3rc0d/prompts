@@ -3,9 +3,9 @@
   "generator_status": "REJECTED_STATIC",
   "artifact_id": "pq_mk1_generator_v0_software_review_example",
   "state": "VALID",
-  "intent": "answer",
+  "intent": "review",
   "domain": "software",
-  "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+OUTPUT_CONTRACT+FALLBACK",
+  "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK",
   "critic_status": "FAIL",
   "output_dir": "/tmp/pq-generator-demo"
 }

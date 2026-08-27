@@ -3,7 +3,7 @@ Traceback (most recent call last):
     main()
   File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 144, in main
     test()
-  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 18, in test_software_review_generation
-    assert result["classification"]["intent"] == "review"
+  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 23, in test_software_review_generation
+    assert result["critic"]["status"] in {"PASS", "WARN"}
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError
