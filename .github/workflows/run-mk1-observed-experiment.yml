@@ -1,0 +1,122 @@
+name: Run MK1 Observed Experiment
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "Observed gate to prepare"
+        required: true
+        type: choice
+        options: [f4, f5]
+      artifact_slug:
+        description: "Engineered artifact"
+        required: true
+        type: choice
+        options: [content_clear_rewrite, software_code_review, research_technical_decision]
+      provider:
+        description: "Runtime provider"
+        required: true
+        type: choice
+        options: [openai, anthropic, gemini]
+      model:
+        description: "Exact provider model id"
+        required: true
+        type: string
+      family:
+        description: "Stable runtime family label"
+        required: true
+        type: string
+      repeats:
+        description: "F5 repeats (minimum 3; ignored by F4)"
+        required: false
+        default: "3"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install runtime dependencies
+        run: pip install -r requirements.txt
+
+      - name: Resolve frozen experiment inputs
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+          STAGE='${{ inputs.stage }}'
+          SLUG='${{ inputs.artifact_slug }}'
+          PROVIDER='${{ inputs.provider }}'
+          if [[ "$STAGE" == "f4" ]]; then
+            ARTIFACT="mk1/candidates/f2/$SLUG/artifact.json"
+          else
+            ARTIFACT="mk1/candidates/f4/$SLUG/artifact.json"
+          fi
+          FIXTURE_SET="pq_mk1_fs_${SLUG}_v1"
+          EXECUTION_ID="mk1-${STAGE}-${PROVIDER}-${SLUG}-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          OUT="mk1/staging/${STAGE}/${PROVIDER}/${SLUG}/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test -f "$ARTIFACT" || { echo "Required source artifact does not exist: $ARTIFACT" >&2; exit 2; }
+          echo "artifact=$ARTIFACT" >> "$GITHUB_OUTPUT"
+          echo "fixture_set=$FIXTURE_SET" >> "$GITHUB_OUTPUT"
+          echo "execution_id=$EXECUTION_ID" >> "$GITHUB_OUTPUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+
+      - name: Verify selected provider credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          case '${{ inputs.provider }}' in
+            openai)    test -n "${OPENAI_API_KEY:-}" || { echo 'OPENAI_API_KEY is not configured in Actions secrets.' >&2; exit 3; } ;;
+            anthropic) test -n "${ANTHROPIC_API_KEY:-}" || { echo 'ANTHROPIC_API_KEY is not configured in Actions secrets.' >&2; exit 3; } ;;
+            gemini)    test -n "${GEMINI_API_KEY:-}" || { echo 'GEMINI_API_KEY is not configured in Actions secrets.' >&2; exit 3; } ;;
+          esac
+
+      - name: Execute frozen experiment and prepare review packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/mk1_prepare_experiment.py \
+            --stage '${{ inputs.stage }}' \
+            --artifact '${{ steps.resolve.outputs.artifact }}' \
+            --fixture-set '${{ steps.resolve.outputs.fixture_set }}' \
+            --provider '${{ inputs.provider }}' \
+            --model '${{ inputs.model }}' \
+            --family '${{ inputs.family }}' \
+            --execution-id '${{ steps.resolve.outputs.execution_id }}' \
+            --repeats '${{ inputs.repeats }}' \
+            --output-dir '${{ steps.resolve.outputs.out }}'
+
+      - name: Guard against accidental reviewed evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT='${{ steps.resolve.outputs.out }}'
+          test -f "$OUT/execution.unreviewed.json"
+          test -f "$OUT/review-packet.json"
+          if grep -R '"status": "PASS"\|"status": "FAIL"' "$OUT/review-packet.json"; then
+            echo 'Preparation must never pre-fill human judgments.' >&2
+            exit 4
+          fi
+          test ! -e "$OUT/receipt.json" || { echo 'Preparation must never create a receipt.' >&2; exit 4; }
+
+      - name: Upload observed evidence and human-review packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-${{ inputs.stage }}-${{ inputs.provider }}-${{ inputs.artifact_slug }}-${{ github.run_id }}
+          path: ${{ steps.resolve.outputs.out }}
+          if-no-files-found: error
+          retention-days: 30
