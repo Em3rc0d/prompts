@@ -9,5 +9,12 @@
     "warning": 0
   },
   "linter_status": "PASS",
-  "policy": "F3 critic is a static quality characterization layer. PASS does not imply behavioral testing or certification."
+  "policy": "F3 critic is a static quality characterization layer. PASS does not imply behavioral testing or certification.",
+  "source_identity": {
+    "artifact_id": "pq_mk1_software_code_review",
+    "artifact_version": "0.1.0",
+    "prompt_fingerprint": "sha256:b69c7f021e0bbf44e79b9e1d21dbd3f0396f6f30896b5f3a529faf21954a5bd5",
+    "artifact_fingerprint": "sha256:87502e8b920ba648ff6d5e79d03ece04b438e4619ffee6fd88e41a09c51e62ad",
+    "source_bundle": "mk1/candidates/f2/software_code_review"
+  }
 }

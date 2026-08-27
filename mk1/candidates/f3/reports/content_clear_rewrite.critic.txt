@@ -2,7 +2,10 @@ PROMPT QUARRY — MK1 F3 STATIC CRITIC RECEIPT
 ========================================================================================
 TITLE             : Reescritura clara sin cambiar significado
 ARTIFACT ID       : pq_mk1_content_clear_rewrite
+ARTIFACT VERSION  : 0.1.0
 ARTIFACT STATE    : VALID
+PROMPT SHA-256    : sha256:b2cf7c0a718171d50d7f0ab4597f7edc2163c284bd61ca32fa8f03be7dc1c291
+ARTIFACT SHA-256  : sha256:d3103a73d8a38ed6523b0163b74fcce942bc2961af4a527281c7745e03e6758a
 CRITIC STATUS     : PASS
 CRITIC VERSION    : 1.1.0
 BLOCKING FINDINGS : 0
@@ -15,6 +18,7 @@ WHAT THIS MEANS
 ----------------------------------------------------------------------------------------
 F3 reviews semantic/static quality beyond schema/lint: contradictions, duplicated instructions,
 output-contract specificity, assumptions, provenance wording and high-stakes boundaries.
+The receipt is cryptographically bound to the exact F2 prompt and artifact reviewed.
 A PASS here does NOT mean runtime behavior was tested and does NOT certify or prove improvement.
 
 FINDINGS
@@ -25,4 +29,4 @@ NEXT EVIDENCE REQUIRED
 ----------------------------------------------------------------------------------------
 F4 must execute behavioral fixtures before this artifact may become TESTED.
 F5 must provide fair baseline comparison before any IMPROVED claim.
-F6 must apply the certification rubric/receipt before CERTIFIED.
+F6 must provide cross-runtime evidence before CERTIFIED.
