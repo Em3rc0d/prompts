@@ -1,0 +1,11 @@
+{
+  "generator_version": "0.1.0",
+  "generator_status": "REJECTED_STATIC",
+  "artifact_id": "pq_mk1_generator_v0_software_review_example",
+  "state": "VALID",
+  "intent": "answer",
+  "domain": "software",
+  "architecture_signature": "PURPOSE+ROLE+CONTEXT+INTAKE+OUTPUT_CONTRACT+FALLBACK",
+  "critic_status": "FAIL",
+  "output_dir": "/tmp/pq-generator-demo"
+}
