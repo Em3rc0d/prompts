@@ -1,0 +1,39 @@
+name: MK0 Migration Preview
+
+on:
+  push:
+    branches:
+      - refactor/mk0-physical-boundary-20260827
+    paths:
+      - 'tools/migrate_mk0_physical_paths.py'
+      - '.github/workflows/mk0-migration-preview.yml'
+  workflow_dispatch:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply migration in working tree only
+        run: python tools/migrate_mk0_physical_paths.py
+
+      - name: Build migration patch
+        shell: bash
+        run: |
+          git diff --binary -- . \
+            ':(exclude).github/workflows/mk0-path-audit.yml' \
+            ':(exclude).github/workflows/mk0-migration-preview.yml' \
+            ':(exclude)tools/migrate_mk0_physical_paths.py' \
+            > /tmp/mk0-path-migration.patch
+          git diff --stat > /tmp/mk0-path-migration.stat
+          cat /tmp/mk0-path-migration.stat
+
+      - name: Upload migration preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk0-path-migration-preview
+          path: |
+            /tmp/mk0-path-migration.patch
+            /tmp/mk0-path-migration.stat
+          if-no-files-found: error
