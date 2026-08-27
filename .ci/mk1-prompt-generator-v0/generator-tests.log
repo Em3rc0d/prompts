@@ -1,11 +1,8 @@
 PASS test_software_review_generation
 PASS test_mk0_teaches_but_does_not_force_frequency
-Traceback (most recent call last):
-  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 150, in <module>
-    main()
-  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 144, in main
-    test()
-  File "/home/runner/work/prompts/prompts/tools/test_mk1_prompt_generator_v0.py", line 60, in test_high_stakes_boundary
-    assert result["classification"]["domain"] == "health"
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError
+PASS test_high_stakes_boundary
+PASS test_research_domain_fallback
+PASS test_explicit_overrides_win
+PASS test_retrieval_has_no_source_bodies
+PASS test_bundle_is_traceable
+PASS 7 MK1 Prompt Generator v0 tests

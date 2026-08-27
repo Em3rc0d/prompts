@@ -1,13 +1,13 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "mk1-prompt-generator-v0",
-  "source_commit": "8edb758cb94d1c423860c6ea89effe3d763147f1",
-  "status": "FAIL",
+  "source_commit": "e32f4be83f30c1b05c22b8878ede486f73190e36",
+  "status": "PASS",
   "gates": {
     "dependencies": "success",
     "compile": "success",
     "f1_f2_regression": "success",
-    "generator_v0_tests": "failure",
+    "generator_v0_tests": "success",
     "example_generation": "success"
   },
   "claim_boundary": "CI validates static generator behavior only; it does not establish F4/F5 behavioral superiority or certification."
