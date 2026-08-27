@@ -8,7 +8,7 @@ import math
 from pathlib import Path
 from typing import Any
 
-from mk1_behavioral_runner import evaluate_case, sha256_json, sha256_text
+from mk1_behavioral_runner import HUMAN_STATUSES, evaluate_case, sha256_json, sha256_text
 
 REAL_MODES = {"api", "manual-observed"}
 ALL_MODES = REAL_MODES | {"synthetic"}
@@ -63,6 +63,22 @@ def _require_source(tested_artifact: dict, baseline: dict, fixture_set: dict) ->
         raise ValueError("F5 baseline requires non-empty prompt_body")
 
 
+def _require_participant_human_evidence(fixture: dict, response: dict, label: str) -> None:
+    declared = response.get("human_checks") or {}
+    incomplete: list[str] = []
+    for check in fixture.get("expected", {}).get("human_checks", []):
+        value = declared.get(check)
+        status = value.get("status") if isinstance(value, dict) else value
+        note = value.get("note") if isinstance(value, dict) else None
+        if status not in HUMAN_STATUSES or not str(note or "").strip():
+            incomplete.append(check)
+    if incomplete:
+        raise ValueError(
+            f"F5 {label} human evidence incomplete for fixture {fixture['fixture_id']}: {incomplete}; "
+            "every side of the blind pair requires PASS/FAIL plus a non-empty evidence note"
+        )
+
+
 def _require_real_execution(execution: dict, fixture_set: dict) -> None:
     runtime = execution.get("runtime") or {}
     missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
@@ -84,7 +100,8 @@ def _require_real_execution(execution: dict, fixture_set: dict) -> None:
     if len(repeats) < MIN_REPEATS:
         raise ValueError(f"Real F5 benchmark requires at least {MIN_REPEATS} repeats; got {len(repeats)}")
 
-    expected_ids = {row["fixture_id"] for row in fixture_set.get("cases", [])}
+    fixtures = {row["fixture_id"]: row for row in fixture_set.get("cases", [])}
+    expected_ids = set(fixtures)
     repeat_ids = set()
     for repeat in repeats:
         repeat_id = repeat.get("repeat")
@@ -97,10 +114,13 @@ def _require_real_execution(execution: dict, fixture_set: dict) -> None:
             extra = sorted(set(pairs) - expected_ids)
             raise ValueError(f"F5 repeat {repeat_id!r} pair inventory mismatch; missing={missing} extra={extra}")
         for fixture_id, pair in pairs.items():
+            fixture = fixtures[fixture_id]
             for participant in ("engineered", "baseline"):
-                output = str((pair.get(participant) or {}).get("output", "")).strip()
+                response = pair.get(participant) or {}
+                output = str(response.get("output", "")).strip()
                 if not output:
                     raise ValueError(f"F5 repeat {repeat_id!r} fixture {fixture_id} missing {participant} output")
+                _require_participant_human_evidence(fixture, response, participant)
             preference = pair.get("preference") or {}
             if preference.get("winner") not in WINNERS:
                 raise ValueError(f"F5 repeat {repeat_id!r} fixture {fixture_id} missing valid blind preference")
@@ -199,7 +219,7 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
         "eligible_for_improved": eligible,
         "results": rows,
         "state_policy": "Only a real IMPROVEMENT_PASS receipt may support TESTED -> CANDIDATE and claim improved.",
-        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and runtime family. It is not universal or cross-runtime certification.",
+        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and runtime family. Both sides of every blind pair require complete human evidence. It is not universal or cross-runtime certification.",
     }
     core["receipt_id"] = benchmark_receipt_id(core)
     return core
