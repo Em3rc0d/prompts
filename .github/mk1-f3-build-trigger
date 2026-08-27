@@ -1,6 +1,8 @@
-triggered_at: 2026-08-26T19:29:00-05:00
+triggered_at: 2026-08-26
 source: chatgpt
-mode: rematerialize-mk1-f3-after-critic-architecture-fix
+mode: rematerialize-mk1-f3-with-exact-hash-binding
 policy: static-evidence-only-no-tested-certified-improved
 source_f2_commit: 0083a47317f560c0232afd1ea00b0d4361e0d01b
 critic_version: 1.1.0
+binding: artifact-version+prompt-sha256+artifact-sha256
+run_nonce: f3-exact-binding-01
