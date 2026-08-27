@@ -1,10 +1,10 @@
-name: Run MK1 Observed Experiment
+name: Run MK1 API Observed Experiment
 
 on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "Observed gate to prepare"
+        description: "Observed API gate to prepare"
         required: true
         type: choice
         options: [f4, f5]
@@ -14,12 +14,12 @@ on:
         type: choice
         options: [content_clear_rewrite, software_code_review, research_technical_decision]
       provider:
-        description: "Runtime provider"
+        description: "API runtime provider"
         required: true
         type: choice
         options: [openai, anthropic, gemini]
       model:
-        description: "Exact provider model id"
+        description: "Exact provider API model id"
         required: true
         type: string
       family:
