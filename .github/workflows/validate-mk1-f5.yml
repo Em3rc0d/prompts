@@ -8,9 +8,13 @@ on:
       - 'mk1/baselines/f5/**'
       - 'mk1/fixtures/f4/**'
       - 'mk1/receipts/f5/**'
+      - 'mk1/candidates/f5/**'
       - 'tools/mk1_f5_benchmark.py'
+      - 'tools/mk1_materialize_f5_candidates.py'
+      - 'tools/validate_mk1_f5_repository.py'
       - 'tools/test_mk1_f5.py'
       - '.github/workflows/validate-mk1-f5.yml'
+      - '.github/workflows/build-mk1-f5-candidates.yml'
 
 permissions:
   contents: read
@@ -28,21 +32,19 @@ jobs:
 
       - name: Validate canonical quarry
         run: python tools/validate_catalog.py
-
       - name: Re-run F1 guardrails
         run: python tools/test_mk1_f1.py
-
       - name: Re-run F2 assembly characterization
         run: python tools/test_mk1_f2.py
-
       - name: Re-run F3 semantic critic characterization
         run: python tools/test_mk1_f3.py
-
       - name: Re-run MK0 to F4 provenance validation
         run: python tools/validate_mk1_fixture_provenance.py
-
       - name: Re-run F4 behavioral harness characterization
         run: python tools/test_mk1_f4.py
-
+      - name: Validate F4 persisted evidence boundary
+        run: python tools/validate_mk1_f4_repository.py
       - name: Characterize F5 paired superiority gate
         run: python tools/test_mk1_f5.py
+      - name: Validate F5 persisted evidence boundary
+        run: python tools/validate_mk1_f5_repository.py
