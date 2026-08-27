@@ -1,0 +1,46 @@
+name: Test Product Manifest
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'product/**'
+      - 'tools/validate_product_manifest.py'
+      - 'tools/test_product_manifest.py'
+      - '.github/workflows/test-product-manifest.yml'
+  pull_request:
+    paths:
+      - 'product/**'
+      - 'tools/validate_product_manifest.py'
+      - 'tools/test_product_manifest.py'
+      - '.github/workflows/test-product-manifest.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  product-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile product contract tooling
+        run: |
+          python -m py_compile \
+            tools/validate_product_manifest.py \
+            tools/test_product_manifest.py
+
+      - name: Validate current Developer Pack draft
+        run: |
+          python tools/validate_product_manifest.py \
+            product/developer-pack-v1/MANIFEST.draft.json
+
+      - name: Run adversarial manifest tests
+        run: python tools/test_product_manifest.py
