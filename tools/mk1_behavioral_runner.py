@@ -10,6 +10,7 @@ from typing import Any
 REAL_EXECUTION_MODES = {"api", "manual-observed"}
 ALL_EXECUTION_MODES = REAL_EXECUTION_MODES | {"synthetic"}
 HUMAN_STATUSES = {"PASS", "FAIL"}
+RUNTIME_IDENTITY_FIELDS = ("provider", "model", "family", "run_at", "identity_evidence_ref")
 
 
 def load(path: Path) -> Any:
@@ -77,10 +78,7 @@ def evaluate_assertion(output: str, assertion: dict) -> dict:
 
 def evaluate_case(fixture: dict, response: dict) -> dict:
     output = str(response.get("output", ""))
-    machine_results = [
-        evaluate_assertion(output, assertion)
-        for assertion in fixture.get("expected", {}).get("machine_assertions", [])
-    ]
+    machine_results = [evaluate_assertion(output, assertion) for assertion in fixture.get("expected", {}).get("machine_assertions", [])]
 
     declared_human = response.get("human_checks", {}) or {}
     human_results = []
@@ -100,13 +98,11 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
 
     machine_pass = all(row["pass"] for row in machine_results)
     human_pass = not unresolved and not failed_human
-    passed = machine_pass and human_pass
-
     return {
         "fixture_id": fixture["fixture_id"],
         "class": fixture["class"],
         "severity": fixture.get("severity", "normal"),
-        "pass": passed,
+        "pass": machine_pass and human_pass,
         "machine_pass": machine_pass,
         "human_pass": human_pass,
         "machine_assertions": machine_results,
@@ -126,43 +122,33 @@ def _validate_human_evidence_notes(fixture_set: dict, responses: dict) -> None:
             value = declared.get(check)
             status = value.get("status") if isinstance(value, dict) else value
             note = value.get("note") if isinstance(value, dict) else None
-            # UNRESOLVED is allowed to flow into a BEHAVIORAL_FAIL receipt.  But
-            # once a human asserts PASS or FAIL, that judgment must carry an
-            # evidence note; a bare label is not review evidence.
             if status in HUMAN_STATUSES and not str(note or "").strip():
                 missing_notes.append(f"{fixture['fixture_id']}::{check}")
     if missing_notes:
-        raise ValueError(
-            "Real F4 human PASS/FAIL judgments require a non-empty evidence note; missing="
-            + repr(missing_notes)
-        )
+        raise ValueError("Real F4 human PASS/FAIL judgments require a non-empty evidence note; missing=" + repr(missing_notes))
 
 
 def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution: dict) -> None:
     runtime = execution.get("runtime") or {}
-    missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
+    missing_runtime = [key for key in RUNTIME_IDENTITY_FIELDS if not str(runtime.get(key, "")).strip()]
     if missing_runtime:
         raise ValueError(f"Real F4 execution missing runtime identity: {missing_runtime}")
 
     if not execution.get("execution_id"):
         raise ValueError("Real F4 execution requires execution_id")
 
-    expected_prompt_fingerprint = sha256_text(artifact["prompt_body"])
-    expected_fixture_fingerprint = sha256_json(fixture_set)
     identity_checks = {
         "artifact_id": artifact["id"],
         "artifact_version": artifact["version"],
-        "artifact_prompt_fingerprint": expected_prompt_fingerprint,
+        "artifact_prompt_fingerprint": sha256_text(artifact["prompt_body"]),
         "fixture_set_id": fixture_set["fixture_set_id"],
         "fixture_set_version": fixture_set.get("version", "1"),
-        "fixture_set_fingerprint": expected_fixture_fingerprint,
+        "fixture_set_fingerprint": sha256_json(fixture_set),
     }
     for key, expected in identity_checks.items():
         observed = execution.get(key)
         if observed != expected:
-            raise ValueError(
-                f"Real F4 execution envelope identity mismatch for {key}: expected {expected!r}, got {observed!r}"
-            )
+            raise ValueError(f"Real F4 execution envelope identity mismatch for {key}: expected {expected!r}, got {observed!r}")
 
     responses = execution.get("responses") or {}
     expected_ids = [fixture["fixture_id"] for fixture in fixture_set.get("cases", [])]
@@ -170,18 +156,11 @@ def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution
     if missing_responses:
         raise ValueError(f"Real F4 execution missing fixture responses: {missing_responses}")
 
-    empty_outputs = [
-        fixture_id
-        for fixture_id in expected_ids
-        if not str((responses.get(fixture_id) or {}).get("output", "")).strip()
-    ]
+    empty_outputs = [fixture_id for fixture_id in expected_ids if not str((responses.get(fixture_id) or {}).get("output", "")).strip()]
     if empty_outputs:
         raise ValueError(f"Real F4 execution contains empty observed outputs: {empty_outputs}")
 
-    human_review_required = any(
-        fixture.get("expected", {}).get("human_checks")
-        for fixture in fixture_set.get("cases", [])
-    )
+    human_review_required = any(fixture.get("expected", {}).get("human_checks") for fixture in fixture_set.get("cases", []))
     if human_review_required:
         review = execution.get("review") or {}
         if review.get("reviewer_type") != "human":
@@ -213,31 +192,16 @@ def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
         require_real_execution_evidence(artifact, fixture_set, execution)
 
     responses = execution.get("responses") or {}
-    results = []
-    for fixture in fixture_set.get("cases", []):
-        response = responses.get(fixture["fixture_id"], {})
-        results.append(evaluate_case(fixture, response))
-
-    blocking_failures = [
-        row["fixture_id"]
-        for row in results
-        if row["severity"] == "blocking" and not row["pass"]
-    ]
-    unresolved_human_checks = sum(
-        len(row["unresolved_human_checks"])
-        for row in results
-        if row["severity"] == "blocking"
-    )
+    results = [evaluate_case(fixture, responses.get(fixture["fixture_id"], {})) for fixture in fixture_set.get("cases", [])]
+    blocking_failures = [row["fixture_id"] for row in results if row["severity"] == "blocking" and not row["pass"]]
+    unresolved_human_checks = sum(len(row["unresolved_human_checks"]) for row in results if row["severity"] == "blocking")
 
     if mode == "synthetic":
-        status = "HARNESS_CHARACTERIZATION"
-        eligible = False
+        status, eligible = "HARNESS_CHARACTERIZATION", False
     elif blocking_failures or unresolved_human_checks:
-        status = "BEHAVIORAL_FAIL"
-        eligible = False
+        status, eligible = "BEHAVIORAL_FAIL", False
     else:
-        status = "BEHAVIORAL_PASS"
-        eligible = True
+        status, eligible = "BEHAVIORAL_PASS", True
 
     receipt_core = {
         "mk_stage": "MK1",
@@ -259,7 +223,7 @@ def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
         "fixture_count": len(results),
         "fixture_results": results,
         "state_policy": "Only real BEHAVIORAL_PASS receipts may support VALID -> TESTED. Synthetic runs never promote state.",
-        "claim_policy": "F4 does not establish baseline superiority, CERTIFIED, or IMPROVED claims.",
+        "claim_policy": "F4 proves scoped behavioral performance for the exact prompt/fixture/runtime identity evidenced by this receipt. It does not establish baseline superiority, CERTIFIED, or IMPROVED claims.",
     }
     receipt_core["receipt_id"] = receipt_id(receipt_core)
     return receipt_core
