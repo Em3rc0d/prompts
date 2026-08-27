@@ -17,6 +17,7 @@ def main() -> None:
     parser.add_argument("--model")
     parser.add_argument("--family")
     parser.add_argument("--run-at")
+    parser.add_argument("--identity-evidence-ref")
     parser.add_argument("--reviewer-ref")
     parser.add_argument("--reviewed-at")
     parser.add_argument("--execution-id", required=True)
@@ -38,12 +39,17 @@ def main() -> None:
     runtime = {}
     review = {}
     if args.mode != "synthetic":
-        runtime = {
+        required_runtime = {
             "provider": args.provider,
             "model": args.model,
             "family": args.family,
             "run_at": args.run_at,
+            "identity_evidence_ref": args.identity_evidence_ref,
         }
+        missing = [key for key, value in required_runtime.items() if not str(value or "").strip()]
+        if missing:
+            raise SystemExit(f"Real execution mode requires runtime identity fields: {missing}")
+        runtime = required_runtime
         review = {
             "reviewer_type": "human",
             "reviewer_ref": args.reviewer_ref or "",
@@ -77,7 +83,9 @@ def main() -> None:
             "This envelope is frozen to the exact artifact prompt fingerprint and fixture-set fingerprint recorded above.",
             "Replace each empty output with the actually observed model/runtime output.",
             "Resolve each declared human check explicitly as PASS or FAIL with an evidence note.",
-            "For real executions, fill provider, model, family, run_at, reviewer_ref and reviewed_at; reviewer_type must remain human.",
+            "For real executions, provider, model, family, run_at and identity_evidence_ref are mandatory runtime identity fields.",
+            "For manual-observed ChatGPT Plus runs, record only the visible product/model configuration; do not invent a hidden backend model id.",
+            "Fill reviewer_ref and reviewed_at only after a human actually completes the review.",
             "Do not substitute model self-judgment for declared human review.",
             "Do not change prompt or fixture input after preparing/executing this envelope; version and prepare a new envelope instead.",
             "Synthetic envelopes characterize the harness only and can never support TESTED state."
