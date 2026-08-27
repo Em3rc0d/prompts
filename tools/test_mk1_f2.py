@@ -49,9 +49,14 @@ def main() -> None:
         }
 
     rewrite_signature = results["rewrite"]["signature"]
-    expected_rewrite = "PURPOSE+CONTEXT+OUTPUT_CONTRACT+QUALITY_GATE"
+    expected_rewrite = "PURPOSE+CONTEXT+INTAKE+ASSUMPTIONS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK"
     if rewrite_signature != expected_rewrite:
-        raise AssertionError(f"Compact rewrite regressed: {rewrite_signature} != {expected_rewrite}")
+        raise AssertionError(f"Hardened rewrite architecture regressed: {rewrite_signature} != {expected_rewrite}")
+
+    rewrite_required = {"question-first", "assumption-audit", "explicit-constraints", "fallback-behavior", "self-check"}
+    missing_rewrite = sorted(rewrite_required - set(results["rewrite"]["techniques"]))
+    if missing_rewrite:
+        raise AssertionError(f"Rewrite candidate lost ambiguity/fallback hardening: {missing_rewrite}")
 
     full_signature = "PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK"
     if results["code_review"]["signature"] != full_signature:
@@ -64,18 +69,12 @@ def main() -> None:
     if "evidence-requirement" not in results["research"]["techniques"]:
         raise AssertionError("Research candidate must distinguish evidence requirements")
 
-    print(
-        json.dumps(
-            {
-                "mk1_f2": "PASS",
-                "candidates": len(results),
-                "results": results,
-                "policy": "F2 proves deterministic Task Brief -> architecture -> engineered prompt -> static lint -> VALID candidate assembly. VALID is not TESTED/CERTIFIED/IMPROVED."
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-    )
+    print(json.dumps({
+        "mk1_f2": "PASS",
+        "candidates": len(results),
+        "results": results,
+        "policy": "F2 proves deterministic Task Brief -> ambiguity-aware architecture -> engineered prompt -> static lint -> VALID candidate assembly. VALID is not TESTED/CERTIFIED/IMPROVED."
+    }, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
