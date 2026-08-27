@@ -10,7 +10,6 @@ from typing import Any
 
 from mk1_behavioral_runner import evaluate_case, sha256_json, sha256_text
 
-
 REAL_MODES = {"api", "manual-observed"}
 ALL_MODES = REAL_MODES | {"synthetic"}
 WINNERS = {"engineered", "baseline", "tie"}
@@ -56,21 +55,17 @@ def _require_source(tested_artifact: dict, baseline: dict, fixture_set: dict) ->
         raise ValueError("F5 source artifact must carry tested claim")
     if not tested_artifact.get("evaluation", {}).get("receipt_id"):
         raise ValueError("F5 source artifact must preserve a real parent F4 receipt_id")
-    if baseline.get("task_artifact_id") != tested_artifact.get("id"):
-        raise ValueError("F5 baseline task_artifact_id mismatch")
-    if baseline.get("artifact_version") != tested_artifact.get("version"):
-        raise ValueError("F5 baseline artifact_version mismatch")
-    if fixture_set.get("artifact_id") != tested_artifact.get("id"):
-        raise ValueError("F5 fixture-set artifact_id mismatch")
-    if fixture_set.get("artifact_version") != tested_artifact.get("version"):
-        raise ValueError("F5 fixture-set artifact_version mismatch")
+    if baseline.get("task_artifact_id") != tested_artifact.get("id") or baseline.get("artifact_version") != tested_artifact.get("version"):
+        raise ValueError("F5 baseline identity/version mismatch")
+    if fixture_set.get("artifact_id") != tested_artifact.get("id") or fixture_set.get("artifact_version") != tested_artifact.get("version"):
+        raise ValueError("F5 fixture-set identity/version mismatch")
     if not str(baseline.get("prompt_body", "")).strip():
         raise ValueError("F5 baseline requires non-empty prompt_body")
 
 
 def _require_real_execution(execution: dict, fixture_set: dict) -> None:
     runtime = execution.get("runtime") or {}
-    missing_runtime = [key for key in ("provider", "model", "run_at") if not runtime.get(key)]
+    missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
     if missing_runtime:
         raise ValueError(f"Real F5 benchmark missing runtime identity: {missing_runtime}")
     if not execution.get("execution_id"):
@@ -119,20 +114,17 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
     if mode not in ALL_MODES:
         raise ValueError(f"Unsupported F5 execution mode: {mode!r}")
 
-    engineered_prompt = tested_artifact["prompt_body"]
-    baseline_prompt = baseline["prompt_body"]
     frozen = {
         "artifact_id": tested_artifact["id"],
         "artifact_version": tested_artifact["version"],
-        "engineered_prompt_fingerprint": sha256_text(engineered_prompt),
+        "engineered_prompt_fingerprint": sha256_text(tested_artifact["prompt_body"]),
         "baseline_id": baseline["baseline_id"],
-        "baseline_prompt_fingerprint": sha256_text(baseline_prompt),
+        "baseline_prompt_fingerprint": sha256_text(baseline["prompt_body"]),
         "fixture_set_id": fixture_set["fixture_set_id"],
         "fixture_set_version": fixture_set.get("version", "1"),
         "fixture_set_fingerprint": sha256_json(fixture_set),
         "parent_f4_receipt_id": tested_artifact["evaluation"]["receipt_id"],
     }
-
     if mode in REAL_MODES:
         _require_real_execution(execution, fixture_set)
         for key, expected in frozen.items():
@@ -140,14 +132,11 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
                 raise ValueError(f"F5 frozen identity mismatch for {key}: expected {expected!r}, got {execution.get(key)!r}")
 
     fixtures = {row["fixture_id"]: row for row in fixture_set.get("cases", [])}
-    rows = []
-    engineered_failures = []
-    regressions = []
+    rows, engineered_failures, regressions = [], [], []
     unresolved = 0
     wins = {"engineered": 0, "baseline": 0, "tie": 0}
 
-    repeats = execution.get("repeats") or []
-    for repeat in repeats:
+    for repeat in execution.get("repeats") or []:
         repeat_id = repeat.get("repeat")
         pairs = repeat.get("pairs") or {}
         for fixture_id, fixture in fixtures.items():
@@ -181,20 +170,13 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
     required_wins = math.ceil(total_pairs * MIN_ENGINEERED_WIN_FRACTION) if total_pairs else 1
 
     if mode == "synthetic":
-        status = "BENCHMARK_CHARACTERIZATION"
-        eligible = False
-    elif engineered_failures or regressions or unresolved:
-        status = "IMPROVEMENT_FAIL"
-        eligible = False
-    elif wins["baseline"] > 0:
-        status = "IMPROVEMENT_FAIL"
-        eligible = False
+        status, eligible = "BENCHMARK_CHARACTERIZATION", False
+    elif engineered_failures or regressions or unresolved or wins["baseline"] > 0:
+        status, eligible = "IMPROVEMENT_FAIL", False
     elif wins["engineered"] < required_wins:
-        status = "NO_EVIDENCE_OF_IMPROVEMENT"
-        eligible = False
+        status, eligible = "NO_EVIDENCE_OF_IMPROVEMENT", False
     else:
-        status = "IMPROVEMENT_PASS"
-        eligible = True
+        status, eligible = "IMPROVEMENT_PASS", True
 
     core = {
         "mk_stage": "MK1",
@@ -204,7 +186,7 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
         "execution_mode": mode,
         "runtime": execution.get("runtime") or {},
         "review": execution.get("review") or {},
-        "repeat_count": len(repeats),
+        "repeat_count": len(execution.get("repeats") or []),
         "pair_count": total_pairs,
         "engineered_blocking_pass_rate": round(engineered_pass_rate, 6),
         "baseline_blocking_pass_rate": round(baseline_pass_rate, 6),
@@ -217,7 +199,7 @@ def run_benchmark(tested_artifact: dict, baseline: dict, fixture_set: dict, exec
         "eligible_for_improved": eligible,
         "results": rows,
         "state_policy": "Only a real IMPROVEMENT_PASS receipt may support TESTED -> CANDIDATE and claim improved.",
-        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and runtime. It is not universal or cross-runtime certification.",
+        "claim_policy": "F5 improvement is scoped to this exact baseline, fixture set and runtime family. It is not universal or cross-runtime certification.",
     }
     core["receipt_id"] = benchmark_receipt_id(core)
     return core
@@ -244,6 +226,9 @@ def promote_improved(tested_artifact: dict, receipt: dict) -> dict:
         raise ValueError("F5 receipt does not descend from the artifact's F4 receipt")
     if receipt.get("execution_mode") not in REAL_MODES:
         raise ValueError("Synthetic F5 receipt cannot promote")
+    runtime = receipt.get("runtime") or {}
+    if not all(runtime.get(key) for key in ("provider", "model", "family", "run_at")):
+        raise ValueError("F5 improvement receipt lacks complete runtime family identity")
     if receipt.get("status") != "IMPROVEMENT_PASS" or receipt.get("eligible_for_improved") is not True:
         raise ValueError("F5 receipt cannot promote: improvement gate did not pass")
     if receipt.get("engineered_blocking_pass_rate") != 1.0:
@@ -263,7 +248,7 @@ def promote_improved(tested_artifact: dict, receipt: dict) -> dict:
         "rubric_score": receipt["rubric_score"],
         "blocking_failures": [],
     }
-    promoted["updated_at"] = (receipt.get("runtime") or {}).get("run_at")
+    promoted["updated_at"] = runtime.get("run_at")
     return promoted
 
 
@@ -275,7 +260,6 @@ def main() -> None:
     parser.add_argument("--execution", required=True)
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
-
     artifact = load(args.artifact)
     baseline_doc = load(args.baselines)
     fixture_doc = load(args.fixtures)
