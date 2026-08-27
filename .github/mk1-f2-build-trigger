@@ -1,5 +1,5 @@
-triggered_at: 2026-08-26T19:15:00-05:00
+triggered_at: 2026-08-26T19:18:00-05:00
 source: chatgpt
-mode: rebuild-mk1-f2-after-adversarial-hardening
+mode: rebuild-mk1-f2-after-selector-regression-freeze
 policy: engineered-valid-not-tested-certified-improved
-changes: ambiguity-intake-untrusted-input-conflict-discipline
+changes: ambiguity-intake-untrusted-input-conflict-discipline-adversarial-matrix-v0.2
