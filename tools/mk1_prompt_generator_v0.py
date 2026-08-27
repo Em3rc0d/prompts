@@ -26,7 +26,7 @@ INTENT_PATTERNS = [
     ("summarize", ["summarize", "summary", "resume", "resumir", "resumen"]),
     ("troubleshoot", ["troubleshoot", "debug", "diagnose", "diagnostica", "diagnosticar", "why is", "por que falla", "por qué falla"]),
     ("audit", ["audit", "audita", "auditar", "compliance review"]),
-    ("review", ["code review", "review code", "review this", "revisa el codigo", "revisa el código", "revisar codigo", "revisar código", "pull request"]),
+    ("review", ["review", "code review", "review code", "review this", "revisa", "revisar", "revisa el codigo", "revisa el código", "revisar codigo", "revisar código", "pull request"]),
     ("research", ["research", "investiga", "investigar", "technical research", "state of the art"]),
     ("compare", ["compare", "comparison", "compara", "comparar", "versus", " vs "]),
     ("decide", ["decide", "choose", "select", "decidir", "elige", "elegir", "escoger", "recommend which"]),
