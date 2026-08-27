@@ -14,7 +14,7 @@ An MK1 prompt record should contain at least:
 ```yaml
 id: pq_mk1_<stable-id>
 version: 1.0.0
-state: DRAFT | VALID | TESTED | CANDIDATE | CERTIFIED | REJECTED | DEPRECATED
+state: DRAFT | VALID | TESTED | CANDIDATE | CERTIFIED | PORTABLE | REJECTED | DEPRECATED
 artifact_type: prompt
 
 title: human-readable title
@@ -82,7 +82,7 @@ REQUIRED INPUTS
 OPTIONAL INPUTS
 PROMPT TO USE
 EXPECTED OUTPUT
-TEST / CERTIFICATION STATUS
+TEST / CERTIFICATION / PORTABILITY STATUS
 PROVENANCE
 CHANGE NOTES
 ```
@@ -92,74 +92,34 @@ The human-readable layer is not generated as decoration. It is part of the produ
 ## Prompt-body construction blocks
 
 ### PURPOSE
-
 Defines the outcome to optimize for.
 
-Bad:
-
-> Help me with marketing.
-
-Better:
-
-> Produce three testable acquisition experiments for a B2B SaaS with a fixed monthly budget and rank them by expected learning value.
-
 ### ROLE
-
-Use a role only when it constrains useful expertise, perspective or behavior.
-
-A decorative role such as "You are the world's greatest genius" is not considered architecture.
+Use a role only when it constrains useful expertise, perspective or behavior. Decorative prestige language is not architecture.
 
 ### CONTEXT
-
 Contains task-relevant facts and boundaries. Context should not be used as a dumping ground for unrelated background.
 
 ### INTAKE
-
-Defines missing information that materially changes the answer.
-
-MK1 should prefer **minimal necessary intake** over interrogating the user about everything.
+Defines missing information that materially changes the answer. Prefer minimal necessary intake over interrogating the user about everything.
 
 ### ASSUMPTIONS
-
 Defines what the model may infer and how those inferences must be labeled.
 
 ### PROCESS
-
 Describes decomposition or method only when process improves reliability. Do not force chain-like ceremony into simple tasks.
 
 ### RULES / CONSTRAINTS
-
 Defines invariants, exclusions, truth boundaries and domain-specific restrictions.
 
 ### OUTPUT CONTRACT
-
 Specifies what the answer must contain and, when useful, its ordering/schema.
 
-A strong output contract reduces downstream interpretation cost.
-
 ### QUALITY GATE
-
-Defines checks the model should perform before returning the result.
-
-Typical examples:
-
-- unsupported facts;
-- missing required fields;
-- contradiction against inputs;
-- duplicate recommendations;
-- unhandled assumptions;
-- failure to satisfy requested format.
+Defines checks the model should perform before returning the result, such as unsupported facts, missing required fields, contradictions, duplicate recommendations or unhandled assumptions.
 
 ### FALLBACK / UNCERTAINTY BEHAVIOR
-
-Defines what to do when evidence or required input is insufficient.
-
-For example:
-
-- ask a targeted question;
-- label uncertainty;
-- provide bounded alternatives;
-- refuse to invent missing evidence.
+Defines what to do when evidence or required input is insufficient: ask a targeted question, label uncertainty, provide bounded alternatives or refuse to invent missing evidence.
 
 ## Required semantic invariants
 
@@ -173,6 +133,26 @@ Every MK1 engineered prompt must satisfy these rules regardless of formatting:
 6. **No provenance laundering.** MK0 inspiration must never be represented as original source wording when it is not.
 7. **Testability.** At least one meaningful fixture can be defined for the prompt.
 
+## State semantics
+
+```text
+DRAFT
+  ↓ static validity
+VALID
+  ↓ real behavioral evidence
+TESTED
+  ↓ fair baseline superiority evidence
+CANDIDATE / IMPROVED
+  ↓ repeated independent evidence on the declared target runtime
+CERTIFIED
+  ↓ optional cross-provider/family evidence
+PORTABLE
+```
+
+- `CERTIFIED` is a **target-runtime quality claim**. It does not require multiple providers.
+- `PORTABLE` is a **cross-provider capability claim** above certification.
+- An artifact may remain permanently `CERTIFIED` without ever becoming `PORTABLE`.
+
 ## Versioning
 
 Use semantic intent for versions:
@@ -181,17 +161,15 @@ Use semantic intent for versions:
 - MINOR: additive behavior or expanded supported inputs without breaking the old contract;
 - MAJOR: changed task semantics, required inputs or output contract.
 
-A certified artifact that changes behavior must produce a new evaluation receipt.
+A certified or portable artifact that changes behavior must produce new evaluation evidence.
 
 ## Stable identity
 
-Prompt ID should identify the task contract, not the exact wording.
-
-Rewriting sentences should not create a new identity if purpose, inputs and output semantics remain the same.
+Prompt ID should identify the task contract, not the exact wording. Rewriting sentences should not create a new identity if purpose, inputs and output semantics remain the same.
 
 ## Baseline contract
 
-Before claiming an MK1 prompt is "improved", record:
+Before claiming an MK1 prompt is `improved`, record:
 
 - baseline prompt ID/version;
 - same fixture set;
@@ -200,10 +178,12 @@ Before claiming an MK1 prompt is "improved", record:
 - material differences;
 - regressions, if any.
 
-Without this receipt, use language such as:
+Without this receipt, use language such as `engineered`, `revised` or `candidate`. Do not claim `improved` or `better` as a measured result.
 
-- `engineered`;
-- `revised`;
-- `candidate`.
+## Certification contract
 
-Do not claim `improved` or `better` as a measured result.
+Before claiming `certified`, the exact improved candidate must reproduce its F5 success in at least three independent real benchmark executions on the same declared provider/model/family, each with durable runtime evidence, distinct execution/randomization identities and resolved blinded human review.
+
+## Portability contract
+
+Before claiming `portable`, the exact already-certified artifact must preserve the same F5 behavioral/superiority contract across at least three distinct providers and three distinct runtime families. Portability is optional and never a prerequisite for certification.
