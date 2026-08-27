@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from mk1_f5_benchmark import promote_improved, run_benchmark, sha256_json, sha256_text
+from mk1_f5_benchmark import benchmark_receipt_id, promote_improved, run_benchmark, sha256_json, sha256_text
 from mk1_prompt_linter import lint_artifact
 from validate_mk1_f5_repository import validate_receipt as validate_persisted_receipt
 
@@ -123,10 +123,9 @@ def test_persisted_runtime_family_required() -> dict:
     receipt = run_benchmark(tested_artifact(), baseline(), fixture_set(), execution())
     receipt["runtime"].pop("family")
     # Recompute integrity to isolate the persistence contract from generic tamper detection.
-    from mk1_f5_benchmark import receipt_id
     core = dict(receipt)
     core.pop("receipt_id", None)
-    receipt["receipt_id"] = receipt_id(core)
+    receipt["receipt_id"] = benchmark_receipt_id(core)
     try:
         validate_persisted_receipt(receipt, tested_artifact(), baseline(), fixture_set())
     except AssertionError as exc:
