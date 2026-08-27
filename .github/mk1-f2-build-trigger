@@ -1,4 +1,5 @@
-triggered_at: 2026-08-26
+triggered_at: 2026-08-26T19:15:00-05:00
 source: chatgpt
-mode: rebuild-mk1-f2-after-f3-static-quality-fixes
+mode: rebuild-mk1-f2-after-adversarial-hardening
 policy: engineered-valid-not-tested-certified-improved
+changes: ambiguity-intake-untrusted-input-conflict-discipline
