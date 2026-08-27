@@ -1,0 +1,50 @@
+PROMPTS — Salud
+========================================================================================
+Total: 23
+
+[PREMIUM] Entrenamiento de Fuerza para una Longevidad Activa
+          entrenamiento-de-fuerza-para-una-longevidad-activa--36b6afcf.txt
+[PREMIUM] Entrenamiento de Suelo Pélvico y Core Profundo
+          entrenamiento-de-suelo-pelvico-y-core-profundo--0e01c978.txt
+[PREMIUM] Guía Definitiva de Preparación para un Sueño de Élite
+          guia-definitiva-de-preparacion-para-un-sueno-de-elite--2381b49b.txt
+[PREMIUM] Guía de Mindful Eating: Mejora tu Relación con la Comida
+          guia-de-mindful-eating-mejora-tu-relacion-con-la-comida--9d966547.txt
+[PREMIUM] Guía de Salud Intestinal y Microbiota
+          guia-de-salud-intestinal-y-microbiota--91d577e3.txt
+[PREMIUM] Guía de Suplementación Inteligente por Objetivos
+          guia-de-suplementacion-inteligente-por-objetivos--a585a4eb.txt
+[FREE   ] Guía de corrección postural y movilidad funcional
+          guia-de-correccion-postural-y-movilidad-funcional--3d6d5cf1.txt
+[FREE   ] Guía personalizada de comidas y nutrición
+          guia-personalizada-de-comidas-y-nutricion--4d0b63b3.txt
+[PREMIUM] Optimización Total del Ritmo Circadiano
+          optimizacion-total-del-ritmo-circadiano--e424745b.txt
+[FREE   ] Optimizador de rutinas de biohacking y recuperación
+          optimizador-de-rutinas-de-biohacking-y-recuperacion--46e9a055.txt
+[PREMIUM] Plan de Desintoxicación de Dopamina y Salud Cerebral
+          plan-de-desintoxicacion-de-dopamina-y-salud-cerebral--fa3fcd2a.txt
+[PREMIUM] Plan de Entrenamiento Personalizado
+          plan-de-entrenamiento-personalizado--6ed6ec76.txt
+[PREMIUM] Plan de Gestión de Cortisol y Estrés Crónico
+          plan-de-gestion-de-cortisol-y-estres-cronico--7dafbac0.txt
+[PREMIUM] Plan de Hidratación y Electrolitos para Alto Rendimiento
+          plan-de-hidratacion-y-electrolitos-para-alto-rendimiento--e83e2d7b.txt
+[PREMIUM] Plan maestro de alimentación y nutrición
+          plan-maestro-de-alimentacion-y-nutricion--b7f356b8.txt
+[FREE   ] Planificador de nutrición y macros personalizado
+          planificador-de-nutricion-y-macros-personalizado--a01c5e89.txt
+[PREMIUM] Prevención de Fatiga Visual y Salud Digital
+          prevencion-de-fatiga-visual-y-salud-digital--8783b015.txt
+[PREMIUM] Protocolo Anti-Inflamatorio Natural y Sistémico
+          protocolo-anti-inflamatorio-natural-y-sistemico--c60b81b1.txt
+[PREMIUM] Protocolo de Ayuno Intermitente Personalizado
+          protocolo-de-ayuno-intermitente-personalizado--0756b941.txt
+[PREMIUM] Protocolo de Recuperación Post-Entrenamiento de Élite
+          protocolo-de-recuperacion-post-entrenamiento-de-elite--36d9c64e.txt
+[FREE   ] Rutina de ejercicios rápida según tu tiempo
+          rutina-de-ejercicios-rapida-segun-tu-tiempo--4229771d.txt
+[FREE   ] Rutina para acabar con el cansancio y dormir profundo
+          rutina-para-acabar-con-el-cansancio-y-dormir-profundo--a54baccf.txt
+[PREMIUM] Salud Hormonal Femenina: Sincronización con el Ciclo
+          salud-hormonal-femenina-sincronizacion-con-el-ciclo--8b5c53fe.txt

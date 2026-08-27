@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Redactor de Reportes de Progreso Empáticos
+TYPE               : Prompt
+CATEGORY           : Educación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : eef4967a-a0eb-4b16-befe-8fc2f9341b30
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/eef4967a-a0eb-4b16-befe-8fc2f9341b30
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:9f7271efbb97234694f8c02da2d31e557e2cf0b361bc27e92089739b42af59a5
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- tema
+- nivel actual
+- objetivo
+- tiempo disponible
+- preferencias de aprendizaje
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un diseñador instruccional y tutor experto.
+
+OBJETIVO
+Redactor de Reportes de Progreso Empáticos.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {tema}
+- {nivel actual}
+- {objetivo}
+- {tiempo disponible}
+- {preferencias de aprendizaje}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/eef4967a-a0eb-4b16-befe-8fc2f9341b30
+Source record ID: alpacka_prompt_eef4967a-a0eb-4b16-befe-8fc2f9341b30
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Simula tu Entrevista de Trabajo
+TYPE               : Prompt
+CATEGORY           : Idiomas
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 456eaffb-cb9c-47a3-974b-cd1f5bbb77b5
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/456eaffb-cb9c-47a3-974b-cd1f5bbb77b5
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:48a33a63e8547d49b3948fd1521e27db0aaf3ef9bfe13dcb7122c560737369f3
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- idioma
+- nivel
+- objetivo
+- situación de uso
+- tiempo disponible
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un tutor de idiomas adaptativo.
+
+OBJETIVO
+Simula tu Entrevista de Trabajo.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {idioma}
+- {nivel}
+- {objetivo}
+- {situación de uso}
+- {tiempo disponible}
+
+PROCESO
+1. Define escenario y roles.
+2. Ejecuta la interacción por turnos.
+3. Después de cada bloque, señala oportunidades de mejora.
+4. Finaliza con evaluación y siguiente práctica.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/456eaffb-cb9c-47a3-974b-cd1f5bbb77b5
+Source record ID: alpacka_prompt_456eaffb-cb9c-47a3-974b-cd1f5bbb77b5
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

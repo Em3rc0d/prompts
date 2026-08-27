@@ -1,0 +1,62 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Lead Magnet Design System
+TYPE            : template
+ID              : pq_derived_lead_magnet_design_system
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.alpackaai.xyz/generador
+OFFICIAL POST   : None
+RAW URL         : None
+VERIFICATION    : metadata-only
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Original lead-magnet design template connecting audience problem, small win, format, lead qualification, next problem and paid offer instead of generating disconnected content ideas.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- business/marketing-content-systems
+- content/conversion-copywriting
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- lead-magnet
+- conversion
+- qualification
+- content-system
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- audience-definition
+- alternative-generation
+- variable-template
+- output-schema
+- explicit-constraints
+- comparison
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- audience
+- offer
+- urgent_problem
+- desired_outcome
+- channel
+- brand_voice
+- constraints
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.alpackaai.xyz/generador
+  relation: derived-from
+  note: Theme and structural family observed on the public generator preview; repository conversion architecture is original.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/content/lead-magnet-design-system.md
+derived_body_original: True

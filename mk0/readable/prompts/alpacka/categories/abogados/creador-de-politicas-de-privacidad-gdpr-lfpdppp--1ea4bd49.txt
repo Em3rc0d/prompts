@@ -1,0 +1,85 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Creador de Políticas de Privacidad (GDPR / LFPDPPP)
+TYPE               : Prompt
+CATEGORY           : Abogados
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 1ea4bd49-cb2a-419e-9265-dd2a793eb3c2
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/1ea4bd49-cb2a-419e-9265-dd2a793eb3c2
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:ccea6abee357180327916124fefecd22248224855812bd0257729566f7462ab7
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- jurisdicción
+- hechos relevantes
+- objetivo
+- documentos/evidencia disponibles
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un analista jurídico cuidadoso y orientado a evidencia.
+
+OBJETIVO
+Creador de Políticas de Privacidad (GDPR / LFPDPPP).
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {jurisdicción}
+- {hechos relevantes}
+- {objetivo}
+- {documentos/evidencia disponibles}
+
+PROCESO
+1. Aclara criterios antes de generar.
+2. Produce alternativas suficientemente distintas.
+3. Explica brevemente el razonamiento práctico de cada opción.
+4. Recomienda las mejores opciones según el objetivo.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+- Distingue información educativa/general de asesoría profesional individual y señala cuándo hace falta un profesional cualificado.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/1ea4bd49-cb2a-419e-9265-dd2a793eb3c2
+Source record ID: alpacka_prompt_1ea4bd49-cb2a-419e-9265-dd2a793eb3c2
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

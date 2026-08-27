@@ -1,0 +1,94 @@
+PROMPTS — Abogados
+========================================================================================
+Total: 45
+
+[PREMIUM]  Redactor profesional de escritos jurídicos
+          redactor-profesional-de-escritos-juridicos--b5622c77.txt
+[PREMIUM] Analista Criminológico de Cadena de Custodia
+          analista-criminologico-de-cadena-de-custodia--f1c59cec.txt
+[PREMIUM] Analista Técnico de Patentes Trolls y Propiedad Intelectual
+          analista-tecnico-de-patentes-trolls-y-propiedad-intelectual--92909166.txt
+[PREMIUM] Analista de Impuestos y Defensa Fiscal
+          analista-de-impuestos-y-defensa-fiscal--40a3972c.txt
+[PREMIUM] Analista de Riesgos en Cláusulas Contractuales
+          analista-de-riesgos-en-clausulas-contractuales--fdd1594a.txt
+[PREMIUM] Arquitecto de Planificación Sucesoria y Testamentos
+          arquitecto-de-planificacion-sucesoria-y-testamentos--81a6b9fd.txt
+[PREMIUM] Auditor de Plazos, Prescripción y Caducidad
+          auditor-de-plazos-prescripcion-y-caducidad--6d93630d.txt
+[PREMIUM] Borrador Clínico de Amparo / Tutela Fundamental
+          borrador-clinico-de-amparo-tutela-fundamental--f6602ed2.txt
+[PREMIUM] Buscador de 'Loop-holes' en Reglamentos
+          buscador-de-loop-holes-en-reglamentos--86a08e55.txt
+[PREMIUM] Checklist de Debida Diligencia (Due Diligence)
+          checklist-de-debida-diligencia-due-diligence--3d61cc24.txt
+[PREMIUM] Compilar hechos clave de un expediente
+          compilar-hechos-clave-de-un-expediente--af83f512.txt
+[PREMIUM] Constructor de Términos y Condiciones para E-commerce
+          constructor-de-terminos-y-condiciones-para-e-commerce--86725fe9.txt
+[PREMIUM] Creador de Políticas de Privacidad (GDPR / LFPDPPP)
+          creador-de-politicas-de-privacidad-gdpr-lfpdppp--1ea4bd49.txt
+[PREMIUM] Detector de Agravios para Apelación
+          detector-de-agravios-para-apelacion--3ee1eb55.txt
+[PREMIUM] Diseñador de Analogías Legales para Juicios con Jurado
+          disenador-de-analogias-legales-para-juicios-con-jurado--ffdb2ac2.txt
+[PREMIUM] Diseñador de Programas de Compliance Penal Corporativo
+          disenador-de-programas-de-compliance-penal-corporativo--b72a4be9.txt
+[FREE   ] Encontrar precedentes legales
+          encontrar-precedentes-legales--14d9baa2.txt
+[PREMIUM] Entrenador Anti-Objeciones (Objection Anticipator)
+          entrenador-anti-objeciones-objection-anticipator--b502b710.txt
+[PREMIUM] Esqueleto Estratégico de Demandas Civiles
+          esqueleto-estrategico-de-demandas-civiles--540a6914.txt
+[PREMIUM] Estratega Pragmático en Litigio Familiar
+          estratega-pragmatico-en-litigio-familiar--e846bf89.txt
+[PREMIUM] Estratega de Defensa contra Despidos (Materia Laboral)
+          estratega-de-defensa-contra-despidos-materia-laboral--28470516.txt
+[PREMIUM] Estratega de Juicios de Arrendamiento (Desahucios)
+          estratega-de-juicios-de-arrendamiento-desahucios--620d863a.txt
+[PREMIUM] Estratega de Mediación y Acuerdos
+          estratega-de-mediacion-y-acuerdos--750e76a9.txt
+[PREMIUM] Estratega de Preparación de Alegatos
+          estratega-de-preparacion-de-alegatos--5962bca4.txt
+[PREMIUM] Evaluador Técnico de Conflictos de Interés
+          evaluador-tecnico-de-conflictos-de-interes--3c43858a.txt
+[PREMIUM] Explicar conceptos legales a un cliente
+          explicar-conceptos-legales-a-un-cliente--78f0103e.txt
+[PREMIUM] Generador de 'Teoría del Caso' Estratégica
+          generador-de-teoria-del-caso-estrategica--5e688c1e.txt
+[PREMIUM] Investigador jurídico
+          investigador-juridico--e4f54911.txt
+[PREMIUM] Redactar contrato
+          redactar-contrato--c7edb3e8.txt
+[FREE   ] Redactar escrito de defensa
+          redactar-escrito-de-defensa--58f71fc1.txt
+[PREMIUM] Redactor de Cartas de Cese y Desista
+          redactor-de-cartas-de-cese-y-desista--0747c91a.txt
+[PREMIUM] Redactor de Contratos en Lenguaje Claro
+          redactor-de-contratos-en-lenguaje-claro--ac615a77.txt
+[PREMIUM] Redactor de Preguntas para Interrogatorio Directo
+          redactor-de-preguntas-para-interrogatorio-directo--848afa71.txt
+[PREMIUM] Resumidor de Gaceta / Diario Oficial
+          resumidor-de-gaceta-diario-oficial--efa374d2.txt
+[PREMIUM] Resumidor de Jurisprudencia y Casación
+          resumidor-de-jurisprudencia-y-casacion--f4c13161.txt
+[PREMIUM] Resumir textos legales
+          resumir-textos-legales--bafe15d9.txt
+[FREE   ] Revisar contrato
+          revisar-contrato--df6d3490.txt
+[PREMIUM] Simulador de Contrainterrogatorio
+          simulador-de-contrainterrogatorio--298dbc1e.txt
+[PREMIUM] Simulador de Examen de Grado (Derecho)
+          simulador-de-examen-de-grado-derecho--9161347c.txt
+[PREMIUM] Simulador de Negociación Contractual (Redlining)
+          simulador-de-negociacion-contractual-redlining--f11fe1ec.txt
+[PREMIUM] Sugerir argumentos legales
+          sugerir-argumentos-legales--80ecc6d9.txt
+[PREMIUM] Traductor Jurídico Transnacional (Common Law a Civil Law)
+          traductor-juridico-transnacional-common-law-a-civil-law--9c255d85.txt
+[PREMIUM] Traductor Sistemático de Jurisprudencia para Estudiantes
+          traductor-sistematico-de-jurisprudencia-para-estudiantes--c2598643.txt
+[PREMIUM] Traductor de "Legalese" a Lenguaje Civil
+          traductor-de-legalese-a-lenguaje-civil--b9af892a.txt
+[PREMIUM] Tutor Socrático de Análisis Jurisprudencial Constitucional
+          tutor-socratico-de-analisis-jurisprudencial-constitucional--710ec2ff.txt

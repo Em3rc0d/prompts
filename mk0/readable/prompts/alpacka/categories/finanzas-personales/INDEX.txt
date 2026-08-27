@@ -1,0 +1,26 @@
+PROMPTS — Finanzas Personales
+========================================================================================
+Total: 11
+
+[PREMIUM] Auditoría de Gastos Hormiga: recupera cientos al mes sin sufrir
+          auditoria-de-gastos-hormiga-recupera-cientos-al-mes-sin-sufrir--2da5c05a.txt
+[PREMIUM] El Detector de Malas Decisiones Financieras: analiza antes de firmar
+          el-detector-de-malas-decisiones-financieras-analiza-antes-de-firmar--c20de7dc.txt
+[PREMIUM] Finanzas en Pareja sin peleas: el sistema de cuentas y acuerdos
+          finanzas-en-pareja-sin-peleas-el-sistema-de-cuentas-y-acuerdos--a46e0437.txt
+[PREMIUM] Fondo de Emergencia Express: júntalo sin vivir miserable
+          fondo-de-emergencia-express-juntalo-sin-vivir-miserable--c728c59b.txt
+[PREMIUM] Impuestos para Freelancers: orden, deducciones y cero sustos
+          impuestos-para-freelancers-orden-deducciones-y-cero-sustos--72359c10.txt
+[PREMIUM] Operación Deuda Cero: tu plan de ataque para salir de deudas
+          operacion-deuda-cero-tu-plan-de-ataque-para-salir-de-deudas--0f8abea5.txt
+[PREMIUM] Planifica tu Libertad: cuánto necesitas para no depender de un sueldo
+          planifica-tu-libertad-cuanto-necesitas-para-no-depender-de-un-sueldo--20f22c35.txt
+[PREMIUM] Primeros Pasos en Inversión Indexada: entiende antes de invertir
+          primeros-pasos-en-inversion-indexada-entiende-antes-de-invertir--b68ec314.txt
+[PREMIUM] Sube tus Ingresos 30%: el mapa de opciones según tu perfil
+          sube-tus-ingresos-30-el-mapa-de-opciones-segun-tu-perfil--3cf4ec66.txt
+[PREMIUM] Tu CFO Personal: el presupuesto mensual que sí vas a cumplir
+          tu-cfo-personal-el-presupuesto-mensual-que-si-vas-a-cumplir--414b0dad.txt
+[FREE   ] Tu Rescate Financiero: plan de 90 días para ordenar tu dinero
+          tu-rescate-financiero-plan-de-90-dias-para-ordenar-tu-dinero--95989e18.txt

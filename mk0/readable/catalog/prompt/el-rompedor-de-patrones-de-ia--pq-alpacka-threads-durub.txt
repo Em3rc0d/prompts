@@ -1,0 +1,71 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : El Rompedor de Patrones de IA
+TYPE            : prompt
+ID              : pq_alpacka_threads_DURUbidDrA5_rompedor_patrones
+AUTHOR          : @alpacka.ai
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : indexed-reference
+LANGUAGE        : es
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Rewrite prompt intended to reduce predictable transition and explanation patterns and produce less mechanically balanced prose.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+
+TAGS
+----------------------------------------------------------------------------------------
+- pattern-breaking
+- rewrite
+- spontaneity
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- explicit-constraints
+- critique-revision
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- text
+
+USABLE REPOSITORY VERSION
+----------------------------------------------------------------------------------------
+Actúa como un especialista orientado al objetivo descrito abajo.
+
+OBJETIVO
+Rewrite prompt intended to reduce predictable transition and explanation patterns and produce less mechanically balanced prose.
+
+ENTRADA
+- {text}
+
+INSTRUCCIONES
+1. Conserva la intención descrita en el objetivo.
+2. Pide contexto faltante sólo cuando cambie materialmente la respuesta.
+3. Evita inventar hechos o atribuir al autor wording no observado.
+4. Entrega una versión clara, útil y directamente aplicable.
+
+TÉCNICAS OBSERVADAS / ASOCIADAS
+- explicit-constraints
+- critique-revision
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: primary
+  note: None
+-
+  url: https://hipertextual.com/inteligencia-artificial/trucos-chatgpt-gemini-escriban-como-humanos/
+  relation: secondary
+  note: Title and behavior observed through secondary coverage.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+parent_record: pq_alpacka_threads_DURUbidDrA5_collection

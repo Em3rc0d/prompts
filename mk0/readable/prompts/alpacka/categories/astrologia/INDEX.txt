@@ -1,0 +1,98 @@
+PROMPTS — Astrología
+========================================================================================
+Total: 47
+
+[PREMIUM] Analista de Carta Natal Evolutiva
+          analista-de-carta-natal-evolutiva--b09bad63.txt
+[PREMIUM] Analista de Ciclos Planetarios de Generación
+          analista-de-ciclos-planetarios-de-generacion--32a732cc.txt
+[PREMIUM] Analista de Retorno Solar (Mi Año)
+          analista-de-retorno-solar-mi-ano--e952af11.txt
+[PREMIUM] Arquitecto de Astroeconómica
+          arquitecto-de-astroeconomica--246aefe7.txt
+[FREE   ] Compatibilidad rápida entre dos signos
+          compatibilidad-rapida-entre-dos-signos--3c11d613.txt
+[PREMIUM] Consultor de Astrología Vocacional
+          consultor-de-astrologia-vocacional--8be7e04c.txt
+[PREMIUM] Consultor de Astrología de Negocios y Lanzamientos
+          consultor-de-astrologia-de-negocios-y-lanzamientos--1deb510c.txt
+[PREMIUM] Consultor de Relocalización (Astrocartografía)
+          consultor-de-relocalizacion-astrocartografia--2db1a4c2.txt
+[PREMIUM] Crear descripción detallada de un signo zodiacal
+          crear-descripcion-detallada-de-un-signo-zodiacal--6a3bfe2e.txt
+[PREMIUM] Cómo aprovechar la energía de Júpiter este año
+          como-aprovechar-la-energia-de-jupiter-este-ano--3e4dd93a.txt
+[PREMIUM] Cómo decorar mi casa según mi signo solar
+          como-decorar-mi-casa-segun-mi-signo-solar--1fa818ae.txt
+[PREMIUM] Cómo influye Mercurio Retrógrado en mi trabajo
+          como-influye-mercurio-retrogrado-en-mi-trabajo--8a8e716f.txt
+[FREE   ] Cómo me ven los demás (Mi Ascendente)
+          como-me-ven-los-demas-mi-ascendente--77ec3fa6.txt
+[FREE   ] Descifra tu lenguaje del amor (Venus)
+          descifra-tu-lenguaje-del-amor-venus--9b164dae.txt
+[PREMIUM] Entendiendo mi Saturno: el gran maestro
+          entendiendo-mi-saturno-el-gran-maestro--7c2922f3.txt
+[PREMIUM] Escribir horóscopos diarios, semanales o mensuales
+          escribir-horoscopos-diarios-semanales-o-mensuales--996dc332.txt
+[PREMIUM] Especialista en Tránsitos y Clima Astral
+          especialista-en-transitos-y-clima-astral--9258ab43.txt
+[PREMIUM] Estratega de Astrología Electiva (Fechas)
+          estratega-de-astrologia-electiva-fechas--5fa4234a.txt
+[PREMIUM] Estratega de Astrología Horaria
+          estratega-de-astrologia-horaria--c49e3586.txt
+[FREE   ] Generar horóscopo personalizado
+          generar-horoscopo-personalizado--31b9b46b.txt
+[PREMIUM] Generar reporte de compatibilidad
+          generar-reporte-de-compatibilidad--25c0d778.txt
+[PREMIUM] Guía de Arquetipos y Sombras Astrológicas
+          guia-de-arquetipos-y-sombras-astrologicas--2da26952.txt
+[PREMIUM] Guía de Astrología Médica y Vitalidad
+          guia-de-astrologia-medica-y-vitalidad--8b1ea09e.txt
+[PREMIUM] Guía de autoconocimiento por signo lunar
+          guia-de-autoconocimiento-por-signo-lunar--686a6251.txt
+[PREMIUM] Guía de salud y bienestar por elemento
+          guia-de-salud-y-bienestar-por-elemento--c810da93.txt
+[FREE   ] Interpretar carta natal
+          interpretar-carta-natal--6f00a5f3.txt
+[PREMIUM] Maestro de Astrología Dracónica (Contrato de Alma)
+          maestro-de-astrologia-draconica-contrato-de-alma--b6bba937.txt
+[PREMIUM] Maestro de Nodos Lunares y Destino
+          maestro-de-nodos-lunares-y-destino--59d3caf4.txt
+[PREMIUM] Maestro de Sinastría y Relaciones
+          maestro-de-sinastria-y-relaciones--ec263e2d.txt
+[FREE   ] Mi horóscopo del amor para hoy
+          mi-horoscopo-del-amor-para-hoy--e55c9322.txt
+[FREE   ] Mi mayor talento oculto según mi carta
+          mi-mayor-talento-oculto-segun-mi-carta--c2d6a5f6.txt
+[PREMIUM] Mi mejor momento para empezar un proyecto
+          mi-mejor-momento-para-empezar-un-proyecto--6f0950f4.txt
+[PREMIUM] Mi misión de vida según el Medio Cielo
+          mi-mision-de-vida-segun-el-medio-cielo--608c9543.txt
+[FREE   ] Mi misión del alma: Los Nodos Lunares
+          mi-mision-del-alma-los-nodos-lunares--78652c72.txt
+[PREMIUM] Mi perfil financiero según las estrellas
+          mi-perfil-financiero-segun-las-estrellas--1de1d076.txt
+[FREE   ] Mi próximo año: El Retorno Solar Lite
+          mi-proximo-ano-el-retorno-solar-lite--e3c80c8d.txt
+[FREE   ] Mi relación con el hogar y la familia (Casa 4)
+          mi-relacion-con-el-hogar-y-la-familia-casa-4--6ea4fa45.txt
+[FREE   ] Piedras y cristales para mi signo
+          piedras-y-cristales-para-mi-signo--fb14c08f.txt
+[PREMIUM] Planificador de viajes por regiones astrológicas
+          planificador-de-viajes-por-regiones-astrologicas--ef9a1e13.txt
+[PREMIUM] Predecir tendencias astrológicas
+          predecir-tendencias-astrologicas--ebfedcfa.txt
+[FREE   ] Predicción de carrera: Próximos 6 meses
+          prediccion-de-carrera-proximos-6-meses--97f6ccab.txt
+[PREMIUM] Ritual de Luna Llena para soltar y renovar
+          ritual-de-luna-llena-para-soltar-y-renovar--d973cb56.txt
+[PREMIUM] Sugerir cristales, rituales o prácticas
+          sugerir-cristales-rituales-o-practicas--9a01cd13.txt
+[PREMIUM] Superando crisis personales con los tránsitos de Plutón
+          superando-crisis-personales-con-los-transitos-de-pluton--2f52c878.txt
+[PREMIUM] Tips de crianza según el signo de mi hijo
+          tips-de-crianza-segun-el-signo-de-mi-hijo--dfb98adf.txt
+[PREMIUM] ¿Por qué me atrae este tipo de personas?
+          por-que-me-atrae-este-tipo-de-personas--fa9765aa.txt
+[PREMIUM] ¿Qué dice mi ascendente sobre mi imagen pública?
+          que-dice-mi-ascendente-sobre-mi-imagen-publica--53cb59bb.txt

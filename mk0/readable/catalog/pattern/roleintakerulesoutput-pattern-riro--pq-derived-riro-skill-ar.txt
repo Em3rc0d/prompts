@@ -1,0 +1,63 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Role–Intake–Rules–Output Pattern (RIRO)
+TYPE            : pattern
+ID              : pq_derived_riro_skill_architecture
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.alpackaai.xyz/skills
+OFFICIAL POST   : None
+RAW URL         : None
+VERIFICATION    : metadata-only
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Repository-authored reusable skill architecture separating responsibility, missing-context intake, invariant rules and deterministic output contracts; generalized from aggregate structure across 12 publicly revealed skills and the larger free-prompt sample.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- productivity/documentation
+- software/ai-agents
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- skill-design
+- riro
+- role
+- intake
+- rules
+- output-contract
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- explicit-constraints
+- output-schema
+- stepwise-procedure
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- domain responsibility
+- decision standard
+- required inputs
+- domain constraints
+- result sections
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.alpackaai.xyz/skills
+  relation: derived-from
+  note: Aggregate public skill structure: role, intake and rules observed in 12/12 references; explicit output contract in 9/12.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/patterns/skill-design/role-intake-rules-output.md
+analysis_paths:
+  - quarry/analysis/alpacka-ai-skill-structure-report.json
+  - quarry/analysis/alpacka-ai-free-structure-report.json
+derived_body_original: True

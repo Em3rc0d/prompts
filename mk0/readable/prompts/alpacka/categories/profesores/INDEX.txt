@@ -1,0 +1,16 @@
+PROMPTS — Profesores
+========================================================================================
+Total: 6
+
+[PREMIUM] Adaptador de Clases para Aulas Diversas (DUA)
+          adaptador-de-clases-para-aulas-diversas-dua--59595634.txt
+[PREMIUM] Arquitecto de Clases con Diseño Inverso (Backward Design)
+          arquitecto-de-clases-con-diseno-inverso-backward-design--91f6e3a6.txt
+[PREMIUM] Creador de Clase Completa Lista para Impartir
+          creador-de-clase-completa-lista-para-impartir--87a974bb.txt
+[PREMIUM] Generador de Exámenes por Taxonomía de Bloom
+          generador-de-examenes-por-taxonomia-de-bloom--69d2a09f.txt
+[PREMIUM] Rediseñador de Tareas a Prueba de IA
+          redisenador-de-tareas-a-prueba-de-ia--b8571470.txt
+[PREMIUM] Retroalimentación Personalizada en Lote
+          retroalimentacion-personalizada-en-lote--e7a4af26.txt
