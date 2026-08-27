@@ -1,0 +1,12 @@
+{
+  "mk_stage": "MK1",
+  "phase": "F6",
+  "status": "NO_F5_CANDIDATES",
+  "certified_count": 0,
+  "pending_count": 0,
+  "artifacts": [],
+  "pending": [],
+  "minimum_runtime_families": 3,
+  "state_policy": "Only exact F5 CANDIDATE artifacts with valid F5 IMPROVEMENT_PASS evidence across at least three distinct declared runtime families may materialize as CERTIFIED.",
+  "claim_policy": "CERTIFIED is scoped evidence of cross-runtime behavioral/superiority performance under the frozen protocol; it is not universal correctness."
+}
