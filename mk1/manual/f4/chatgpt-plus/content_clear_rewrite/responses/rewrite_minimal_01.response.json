@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_minimal_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T21:57-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/content_clear_rewrite/rewrite_minimal_01.json",
   "rendered_prompt_sha256": "sha256:234aa152ea8014e218ef15591baac4a65da7c8e54aa00b2a597b91590fd9d49b",
-  "output": null
+  "output": "El viernes se procesó el pago."
 }
