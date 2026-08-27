@@ -1,0 +1,31 @@
+{
+  "schema": "prompt-quarry-product-manifest-v1",
+  "product_id": "pq-developer-pack",
+  "product_name": "Prompt Quarry Developer Pack",
+  "version": "0.1.0-draft",
+  "release_status": "DRAFT",
+  "source_branch": "feat/mk1-prompt-generator-v0-20260827",
+  "source_commit": null,
+  "generator_v0": {
+    "bundled": false,
+    "gate": "canonical-static-ci-pass-required-before-bundling",
+    "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json"
+  },
+  "artifacts": [],
+  "forbidden_bundle_classes": [
+    "credentials",
+    "private-research-internals",
+    "raw-third-party-premium-bodies",
+    "unreviewed-source-harvest-data",
+    "synthetic-output-presented-as-real-runtime-evidence"
+  ],
+  "allowed_maturity_states": [
+    "DRAFT",
+    "VALID",
+    "TESTED",
+    "CANDIDATE",
+    "CERTIFIED",
+    "PORTABLE"
+  ],
+  "claim_boundary": "Commercial distribution does not promote MK1 maturity. TESTED requires F4 real evidence; IMPROVED/CANDIDATE requires F5 superiority; CERTIFIED requires F6 repeated same-target evidence; PORTABLE requires F7 cross-provider evidence."
+}
