@@ -12,18 +12,39 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Report legacy MK0 root-path consumers
+      - name: Build legacy MK0 root-path inventory
+        id: inventory
         shell: bash
         run: |
           set -uo pipefail
           echo "Scanning executable/shared surfaces for legacy MK0 root paths..."
           paths=(README.md docs tools .github mk0 mk1 mk2)
           pattern='(^|[^A-Za-z0-9_-])(catalog|quarry|library|sources|readable)/'
-          if git grep -nE "$pattern" -- "${paths[@]}" > /tmp/mk0-legacy-paths.txt; then
+          : > /tmp/mk0-legacy-paths.txt
+          git grep -nE "$pattern" -- "${paths[@]}" > /tmp/mk0-legacy-paths.txt || true
+          count=$(wc -l < /tmp/mk0-legacy-paths.txt | tr -d ' ')
+          echo "legacy_reference_count=$count" >> "$GITHUB_OUTPUT"
+          echo "legacy_reference_count=$count" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$count" -gt 0 ]; then
             cat /tmp/mk0-legacy-paths.txt
-            echo "legacy_reference_count=$(wc -l < /tmp/mk0-legacy-paths.txt)" >> "$GITHUB_STEP_SUMMARY"
-            echo "Legacy MK0 root-path references remain."
+          else
+            echo "No legacy MK0 root-path references found."
+          fi
+
+      - name: Upload legacy path inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk0-legacy-path-inventory
+          path: /tmp/mk0-legacy-paths.txt
+          if-no-files-found: error
+
+      - name: Enforce zero legacy root-path consumers
+        shell: bash
+        run: |
+          count='${{ steps.inventory.outputs.legacy_reference_count }}'
+          if [ "$count" -ne 0 ]; then
+            echo "Legacy MK0 root-path references remain: $count"
             exit 1
           fi
-          echo "legacy_reference_count=0" >> "$GITHUB_STEP_SUMMARY"
-          echo "No legacy MK0 root-path references found."
+          echo "MK0 path audit passed."
