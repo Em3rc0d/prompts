@@ -1,0 +1,59 @@
+name: Validate MK1 F6
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'mk1/specs/F6_CROSS_RUNTIME_CERTIFICATION.md'
+      - 'mk1/receipts/f6/**'
+      - 'mk1/candidates/f5/**'
+      - 'mk1/candidates/f6/**'
+      - 'mk1/baselines/f5/**'
+      - 'mk1/fixtures/f4/**'
+      - 'tools/mk1_f6_certify.py'
+      - 'tools/mk1_materialize_f6_certified.py'
+      - 'tools/validate_mk1_f6_repository.py'
+      - 'tools/test_mk1_f6.py'
+      - 'tools/validate_mk1_f3_repository.py'
+      - 'tools/validate_mk1_f5_repository.py'
+      - '.github/workflows/validate-mk1-f6.yml'
+      - '.github/workflows/build-mk1-f6-certified.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-f6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Validate canonical quarry
+        run: python tools/validate_catalog.py
+      - name: Re-run F1 guardrails
+        run: python tools/test_mk1_f1.py
+      - name: Re-run F2 assembly characterization
+        run: python tools/test_mk1_f2.py
+      - name: Re-run F3 semantic critic characterization
+        run: python tools/test_mk1_f3.py
+      - name: Validate F3 exact receipt binding
+        run: python tools/validate_mk1_f3_repository.py
+      - name: Validate MK0 to F4 provenance
+        run: python tools/validate_mk1_fixture_provenance.py
+      - name: Re-run F4 behavioral harness characterization
+        run: python tools/test_mk1_f4.py
+      - name: Validate F4 persisted evidence boundary
+        run: python tools/validate_mk1_f4_repository.py
+      - name: Re-run F5 paired superiority characterization
+        run: python tools/test_mk1_f5.py
+      - name: Validate F5 persisted evidence boundary
+        run: python tools/validate_mk1_f5_repository.py
+      - name: Characterize F6 cross-runtime certification gate
+        run: python tools/test_mk1_f6.py
+      - name: Validate F6 persisted certification boundary
+        run: python tools/validate_mk1_f6_repository.py
