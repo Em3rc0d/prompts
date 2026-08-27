@@ -1,8 +1,8 @@
 {
   "fixture_id": "code_review_unverified_dependency_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:38:12-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/software_code_review/batch_11_20.json#code_review_unverified_dependency_01",
   "rendered_prompt_sha256": "sha256:1fd224c74f24ede2583d30d33ffdb5be41615265aa828405d62d243e5ec9add0",
-  "output": null
+  "output": "### Hallazgo 1\n\n- Severidad: No determinable con la evidencia disponible\n- Tipo: Riesgo plausible dependiente de una dependencia no verificada\n- Evidencia concreta: El fragmento únicamente ejecuta `result = mystery_client.send(payload)`. El contexto indica explícitamente que no se proporcionaron la implementación de `mystery_client` ni sus semánticas de reintento.\n- Impacto: No puede determinarse si la llamada puede reintentarse, duplicar operaciones, lanzar excepciones, aplicar timeouts o manejar fallos de manera específica. Cualquiera de esos comportamientos dependería de información que no está disponible.\n- Corrección sugerida: No introducir lógica de reintento o manejo adicional basándose en suposiciones. Primero obtener el contrato o implementación de `mystery_client.send`, especialmente sus garantías de fallo, timeout, reintento e idempotencia.\n- Cómo verificarla: Revisar la documentación o implementación de la dependencia y ejecutar pruebas controladas de éxito, error y reintento conforme a ese contrato.\n\nNo existe evidencia suficiente para afirmar un bug concreto en la línea proporcionada."
 }
