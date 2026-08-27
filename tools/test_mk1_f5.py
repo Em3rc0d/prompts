@@ -58,7 +58,10 @@ def execution(winners: list[str] | None = None, engineered_outputs: list[str] | 
         }}})
     return {
         "execution_id": "f5-real-test", "mode": "manual-observed",
-        "runtime": {"provider": "test-provider", "model": "test-model", "family": "test-family-a", "run_at": "2026-08-26T23:30:00Z"},
+        "runtime": {
+            "provider": "test-provider", "model": "test-model", "family": "test-family-a",
+            "run_at": "2026-08-26T23:30:00Z", "identity_evidence_ref": "runtime-proof-test-001"
+        },
         "review": {"reviewer_type": "human", "reviewer_ref": "reviewer-01", "reviewed_at": "2026-08-26T23:35:00Z", "blinded": True, "randomization_ref": "blind-seed-001"},
         **frozen_identity(), "repeats": repeats
     }
@@ -69,6 +72,7 @@ def test_real_superiority_pass() -> dict:
     assert receipt["status"] == "IMPROVEMENT_PASS" and receipt["eligible_for_improved"] is True
     assert receipt["engineered_blocking_pass_rate"] == 1.0 and receipt["preference"]["baseline"] == 0
     assert receipt["runtime"]["family"] == "test-family-a"
+    assert receipt["runtime"]["identity_evidence_ref"] == "runtime-proof-test-001"
     promoted = promote_improved(tested_artifact(), receipt)
     assert promoted["state"] == "CANDIDATE" and promoted["claims"] == ["engineered", "tested", "improved"]
     assert promoted["evaluation"]["rubric_score"] == 100.0
@@ -119,10 +123,17 @@ def test_runtime_family_required() -> dict:
     raise AssertionError("F5 must identify an explicit runtime family")
 
 
+def test_runtime_identity_evidence_required() -> dict:
+    value = execution(); value["runtime"].pop("identity_evidence_ref")
+    try: run_benchmark(tested_artifact(), baseline(), fixture_set(), value)
+    except ValueError as exc:
+        assert "runtime identity" in str(exc) and "identity_evidence_ref" in str(exc); return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("F5 must bind runtime identity evidence")
+
+
 def test_persisted_runtime_family_required() -> dict:
     receipt = run_benchmark(tested_artifact(), baseline(), fixture_set(), execution())
     receipt["runtime"].pop("family")
-    # Recompute integrity to isolate the persistence contract from generic tamper detection.
     core = dict(receipt)
     core.pop("receipt_id", None)
     receipt["receipt_id"] = benchmark_receipt_id(core)
@@ -169,11 +180,12 @@ def main() -> None:
         "minimum_repeats": test_less_than_three_repeats_rejected(),
         "blind_review_required": test_unblinded_review_rejected(),
         "runtime_family_required": test_runtime_family_required(),
+        "runtime_identity_evidence_required": test_runtime_identity_evidence_required(),
         "persisted_runtime_family_required": test_persisted_runtime_family_required(),
         "frozen_identity": test_frozen_identity_drift_rejected(),
         "tampered_receipt": test_tampered_receipt_rejected(),
         "synthetic_never_promotes": test_synthetic_never_promotes(),
-        "policy": "F5 improvement requires 100% engineered blocking pass rate, zero regressions, zero baseline A/B wins, material blind wins, explicit runtime family in execution and persisted evidence, exact identity and a real observed benchmark."
+        "policy": "F5 improvement requires 100% engineered blocking pass rate, zero regressions, zero baseline A/B wins, material blind wins, evidenced runtime identity, exact frozen identity and a real observed benchmark."
     }, ensure_ascii=False, indent=2))
 
 
