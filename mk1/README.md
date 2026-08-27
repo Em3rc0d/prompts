@@ -50,6 +50,38 @@ Current foundational prompt families:
 
 Current real evidence boundary remains strict: no artifact may advance merely because CI characterized the harness.
 
+## Execution lanes
+
+MK1 has two legitimate real-execution transports:
+
+```text
+api
+manual-observed
+```
+
+The quality gate is the same for both.
+
+### API lane
+
+The automated provider runner calls supported HTTP APIs and therefore requires provider API credentials. ChatGPT Plus does **not** imply access to this lane.
+
+### ChatGPT Plus manual-observed lane
+
+Canonical spec: `specs/CHATGPT_PLUS_MANUAL_EXECUTION.md`.
+
+A ChatGPT Plus subscription can be used for real MK1 observations without an API key by executing frozen prompts in fresh ChatGPT conversations and preserving the observed outputs/evidence manually.
+
+For this lane:
+
+- use fresh conversations for independent observations;
+- record the exact visible ChatGPT model/configuration label rather than inventing a hidden backend model id;
+- preserve full outputs verbatim;
+- retain runtime/evidence references;
+- run the same human-review, blind-comparison and regression gates;
+- F6 still requires repeated independent F5 passes on the same declared ChatGPT configuration.
+
+`manual-observed` is a real evidence mode, not a synthetic shortcut.
+
 ## Core rule
 
 ```text
@@ -158,7 +190,7 @@ Canonical spec: `specs/F6_TARGET_RUNTIME_CERTIFICATION.md`.
 
 F6 no longer means cross-provider testing.
 
-An exact F5 CANDIDATE becomes `CERTIFIED` only after at least **three independent real F5 IMPROVEMENT_PASS receipts on the same normalized provider + exact model + family**.
+An exact F5 CANDIDATE becomes `CERTIFIED` only after at least **three independent real F5 IMPROVEMENT_PASS receipts on the same normalized provider + exact declared model/configuration + family**.
 
 Every independent receipt must preserve the complete F5 gate and have distinct:
 
@@ -203,6 +235,7 @@ A prompt may be permanently `CERTIFIED` without being `PORTABLE`.
 ```text
 mk1/
 ├── specs/
+│   ├── CHATGPT_PLUS_MANUAL_EXECUTION.md
 │   ├── F6_TARGET_RUNTIME_CERTIFICATION.md
 │   └── F7_PORTABILITY.md
 ├── fixtures/
