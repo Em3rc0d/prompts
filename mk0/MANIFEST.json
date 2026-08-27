@@ -14,7 +14,8 @@
     "promotions": "mk0/promotions",
     "library": "mk0/library",
     "sources": "mk0/sources",
-    "readable": "mk0/readable"
+    "readable": "mk0/readable",
+    "harvester": "mk0/harvester"
   },
   "shared_infrastructure": [
     "tools",
@@ -37,6 +38,15 @@
     "mk0-derived-knowledge",
     "mk1-engineered-artifact"
   ],
+  "harvester_contract": {
+    "policy": "mk0/harvester/POLICY.json",
+    "source_record_schema": "mk0/harvester/SOURCE_RECORD.schema.json",
+    "candidate_record_schema": "mk0/harvester/CANDIDATE_RECORD.schema.json",
+    "human_review_schema": "mk0/harvester/HUMAN_REVIEW.schema.json",
+    "auto_candidate_min_confidence": 0.95,
+    "human_review_min_confidence": 0.90,
+    "golden_requires_governed_promotion": true
+  },
   "mk1_preferred_inputs": [
     "mk0/golden-dataset",
     "mk0/analysis",
