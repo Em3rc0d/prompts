@@ -11,6 +11,8 @@ from mk1_f5_benchmark import validate_receipt_integrity
 
 REAL_MODES = {"api", "manual-observed"}
 MIN_RUNTIME_FAMILIES = 3
+MIN_RUNTIME_PROVIDERS = 3
+RUNTIME_IDENTITY_FIELDS = ("provider", "model", "family", "run_at", "identity_evidence_ref")
 
 
 def canonical_json(value: Any) -> str:
@@ -20,6 +22,10 @@ def canonical_json(value: Any) -> str:
 def certification_receipt_id(core: dict) -> str:
     digest = hashlib.sha256(canonical_json(core).encode("utf-8")).hexdigest()[:16]
     return f"pq_mk1_f6_receipt_{digest}"
+
+
+def normalize_identity(value: object) -> str:
+    return " ".join(str(value or "").strip().casefold().split())
 
 
 def _require_candidate(candidate: dict, source_tested: dict, baseline: dict, fixture_set: dict) -> None:
@@ -81,7 +87,7 @@ def validate_cross_runtime_f5_receipt(
         raise ValueError("F6 runtime evidence lacks material engineered blind wins")
 
     runtime = receipt.get("runtime") or {}
-    for key in ("provider", "model", "family", "run_at"):
+    for key in RUNTIME_IDENTITY_FIELDS:
         if not str(runtime.get(key, "")).strip():
             raise ValueError(f"F6 runtime evidence missing {key}")
     review = receipt.get("review") or {}
@@ -106,35 +112,48 @@ def build_certification_receipt(
     receipt_ids: set[str] = set()
     execution_ids: set[str] = set()
     randomization_refs: set[str] = set()
+    identity_evidence_refs: set[str] = set()
     normalized_families: set[str] = set()
+    normalized_providers: set[str] = set()
     evidence: list[dict] = []
 
     for receipt in f5_receipts:
         validate_cross_runtime_f5_receipt(receipt, candidate, source_tested, baseline, fixture_set)
         receipt_id = receipt["receipt_id"]
         execution_id = receipt.get("execution_id")
-        randomization_ref = (receipt.get("review") or {}).get("randomization_ref")
-        family = str((receipt.get("runtime") or {}).get("family", "")).strip()
-        normalized_family = family.casefold()
+        review = receipt.get("review") or {}
+        runtime = receipt.get("runtime") or {}
+        randomization_ref = review.get("randomization_ref")
+        identity_evidence_ref = str(runtime.get("identity_evidence_ref", "")).strip()
+        family = str(runtime.get("family", "")).strip()
+        provider = str(runtime.get("provider", "")).strip()
+        normalized_family = normalize_identity(family)
+        normalized_provider = normalize_identity(provider)
+
         if receipt_id in receipt_ids:
             raise ValueError(f"Duplicate F5 receipt in F6 evidence: {receipt_id}")
         if execution_id in execution_ids:
             raise ValueError(f"Duplicate execution_id in F6 evidence: {execution_id}")
         if randomization_ref in randomization_refs:
             raise ValueError(f"F6 requires a distinct blind randomization_ref per runtime: {randomization_ref}")
+        if identity_evidence_ref in identity_evidence_refs:
+            raise ValueError(f"F6 requires distinct runtime identity evidence per runtime: {identity_evidence_ref}")
         if normalized_family in normalized_families:
             raise ValueError(f"F6 requires distinct runtime families; duplicate family={family!r}")
+
         receipt_ids.add(receipt_id)
         execution_ids.add(execution_id)
         randomization_refs.add(randomization_ref)
+        identity_evidence_refs.add(identity_evidence_ref)
         normalized_families.add(normalized_family)
+        normalized_providers.add(normalized_provider)
         evidence.append({
             "receipt_id": receipt_id,
             "execution_id": execution_id,
             "execution_mode": receipt["execution_mode"],
-            "runtime": copy.deepcopy(receipt["runtime"]),
-            "reviewer_ref": receipt["review"]["reviewer_ref"],
-            "reviewed_at": receipt["review"]["reviewed_at"],
+            "runtime": copy.deepcopy(runtime),
+            "reviewer_ref": review["reviewer_ref"],
+            "reviewed_at": review["reviewed_at"],
             "randomization_ref": randomization_ref,
             "rubric_score": receipt["rubric_score"],
             "engineered_wins": receipt["preference"]["engineered"],
@@ -147,8 +166,10 @@ def build_certification_receipt(
         raise ValueError("F6 evidence must include the exact F5 receipt that created the CANDIDATE")
     if len(normalized_families) < MIN_RUNTIME_FAMILIES:
         raise ValueError(f"F6 requires {MIN_RUNTIME_FAMILIES} distinct runtime families")
+    if len(normalized_providers) < MIN_RUNTIME_PROVIDERS:
+        raise ValueError(f"F6 requires {MIN_RUNTIME_PROVIDERS} distinct runtime providers for independent diversity")
 
-    evidence.sort(key=lambda row: (row["runtime"]["family"].casefold(), row["receipt_id"]))
+    evidence.sort(key=lambda row: (normalize_identity(row["runtime"]["provider"]), normalize_identity(row["runtime"]["family"]), row["receipt_id"]))
     certified_at = max(str(row["reviewed_at"]) for row in evidence)
     core = {
         "mk_stage": "MK1",
@@ -165,13 +186,15 @@ def build_certification_receipt(
         "source_candidate_f5_receipt_id": source_f5_receipt_id,
         "f5_evidence_count": len(evidence),
         "runtime_family_count": len(normalized_families),
-        "runtime_families": sorted(row["runtime"]["family"] for row in evidence),
+        "runtime_provider_count": len(normalized_providers),
+        "runtime_families": sorted({row["runtime"]["family"] for row in evidence}, key=normalize_identity),
+        "runtime_providers": sorted({row["runtime"]["provider"] for row in evidence}, key=normalize_identity),
         "f5_evidence": evidence,
         "certified_at": certified_at,
         "status": "CERTIFICATION_PASS",
         "eligible_for_certified": True,
         "state_policy": "Only this exact CANDIDATE may advance to CERTIFIED, and only while all bound F5 runtime evidence remains valid.",
-        "claim_policy": "CERTIFIED means the exact prompt passed the declared blocking/superiority protocol across at least three distinct declared runtime families. It is not a universal correctness claim.",
+        "claim_policy": "CERTIFIED means the exact prompt passed the declared blocking/superiority protocol across at least three distinct runtime families and three distinct providers, each with bound runtime identity evidence. It is not a universal correctness claim.",
     }
     core["receipt_id"] = certification_receipt_id(core)
     return core
@@ -200,6 +223,8 @@ def promote_certified(candidate: dict, receipt: dict) -> dict:
         raise ValueError("F6 receipt is not eligible for CERTIFIED promotion")
     if int(receipt.get("runtime_family_count") or 0) < MIN_RUNTIME_FAMILIES:
         raise ValueError("F6 certification receipt lacks required runtime-family diversity")
+    if int(receipt.get("runtime_provider_count") or 0) < MIN_RUNTIME_PROVIDERS:
+        raise ValueError("F6 certification receipt lacks required provider diversity")
 
     promoted = copy.deepcopy(candidate)
     promoted["state"] = "CERTIFIED"
