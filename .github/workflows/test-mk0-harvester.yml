@@ -10,7 +10,10 @@ on:
       - mk0/harvester/**
       - tools/mk0_harvester_router.py
       - tools/test_mk0_harvester_router.py
+      - tools/mk0_discovery_harvester.py
+      - tools/test_mk0_discovery_harvester.py
       - mk0/MANIFEST.json
+      - requirements.txt
       - .github/workflows/test-mk0-harvester.yml
 
 jobs:
@@ -23,18 +26,36 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install Harvester dependencies
+        run: python -m pip install -r requirements.txt
+
       - name: Compile Harvester tooling
         run: |
-          python -m py_compile tools/mk0_harvester_router.py tools/test_mk0_harvester_router.py
+          python -m py_compile \
+            tools/mk0_harvester_router.py \
+            tools/test_mk0_harvester_router.py \
+            tools/mk0_discovery_harvester.py \
+            tools/test_mk0_discovery_harvester.py
 
-      - name: Validate policy JSON
+      - name: Validate Harvester contracts
         run: |
           python -m json.tool mk0/harvester/POLICY.json >/dev/null
+          python -m json.tool mk0/harvester/DISCOVERY_REGISTRY.json >/dev/null
           python -m json.tool mk0/harvester/SOURCE_RECORD.schema.json >/dev/null
           python -m json.tool mk0/harvester/CANDIDATE_RECORD.schema.json >/dev/null
           python -m json.tool mk0/harvester/HUMAN_REVIEW.schema.json >/dev/null
+
+      - name: Dry-run discovery adapter
+        env:
+          PYTHONPATH: tools
+        run: python tools/mk0_discovery_harvester.py --dry-run
 
       - name: Run routing boundary tests
         env:
           PYTHONPATH: tools
         run: python tools/test_mk0_harvester_router.py
+
+      - name: Run discovery adapter tests
+        env:
+          PYTHONPATH: tools
+        run: python tools/test_mk0_discovery_harvester.py
