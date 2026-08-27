@@ -1,0 +1,95 @@
+name: Build MK1 ChatGPT Plus F4 Wave
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/mk1_build_plus_f4_wave.py'
+      - 'tools/mk1_collect_plus_f4_wave.py'
+      - 'tools/test_mk1_plus_manual_lane.py'
+      - 'mk1/fixtures/f4/fixture-sets.json'
+      - 'mk1/candidates/f2/**/artifact.json'
+      - '.github/workflows/build-mk1-plus-f4-wave.yml'
+      - '.github/plus-f4-wave-trigger'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mk1-plus-f4-wave-main
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile manual-observed lane
+        run: |
+          python -m py_compile tools/mk1_build_plus_f4_wave.py
+          python -m py_compile tools/mk1_collect_plus_f4_wave.py
+          python -m py_compile tools/test_mk1_plus_manual_lane.py
+
+      - name: Characterize Plus manual-observed lane
+        run: python tools/test_mk1_plus_manual_lane.py
+
+      - name: Materialize frozen F4 Plus wave
+        run: python tools/mk1_build_plus_f4_wave.py --output mk1/manual/f4/chatgpt-plus
+
+      - name: Validate materialized inventory
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('mk1/manual/f4/chatgpt-plus')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          assert manifest['artifact_count'] == 3, manifest
+          assert manifest['case_count'] == 30, manifest
+          assert manifest['blocking_case_count'] == 30, manifest
+          assert manifest['execution_mode'] == 'manual-observed', manifest
+          for artifact in manifest['artifacts']:
+              sub = json.loads((root / artifact['manifest']).read_text(encoding='utf-8'))
+              assert sub['case_count'] == 10, sub
+              assert sub['blocking_case_count'] == 10, sub
+              assert len(sub['cases']) == 10, sub
+              for case in sub['cases']:
+                  assert (root / artifact['slug'] / case['case_file']).is_file(), case
+                  assert (root / artifact['slug'] / case['response_file']).is_file(), case
+          print('Materialized Plus F4 wave: PASS — 3 artifacts / 30 blocking observations')
+          PY
+
+      - name: Commit materialized wave
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add mk1/manual/f4/chatgpt-plus
+          if git diff --cached --quiet; then
+            echo 'Plus F4 wave already current.'
+            exit 0
+          fi
+          git commit -m 'mk1: materialize ChatGPT Plus F4 certification wave'
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase origin main
+            python tools/test_mk1_plus_manual_lane.py
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 5 ]; then
+              sleep $((attempt * 2))
+            fi
+          done
+          exit 1
