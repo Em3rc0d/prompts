@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'mk1/specs/F6_CROSS_RUNTIME_CERTIFICATION.md'
+      - 'mk1/specs/F6_TARGET_RUNTIME_CERTIFICATION.md'
       - 'mk1/receipts/f6/**'
       - 'mk1/candidates/f5/**'
       - 'mk1/candidates/f6/**'
@@ -14,8 +14,8 @@ on:
       - 'tools/mk1_materialize_f6_certified.py'
       - 'tools/validate_mk1_f6_repository.py'
       - 'tools/test_mk1_f6.py'
-      - 'tools/validate_mk1_f3_repository.py'
-      - 'tools/validate_mk1_f5_repository.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'mk1/specs/PROMPT_ARTIFACT.schema.json'
       - '.github/workflows/validate-mk1-f6.yml'
       - '.github/workflows/build-mk1-f6-certified.yml'
 
@@ -32,7 +32,6 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
-
       - name: Validate canonical quarry
         run: python tools/validate_catalog.py
       - name: Re-run F1 guardrails
@@ -53,7 +52,9 @@ jobs:
         run: python tools/test_mk1_f5.py
       - name: Validate F5 persisted evidence boundary
         run: python tools/validate_mk1_f5_repository.py
-      - name: Characterize F6 cross-runtime certification gate
+      - name: Characterize F6 target-runtime certification gate
         run: python tools/test_mk1_f6.py
+      - name: Materialize zero/current F6 state
+        run: python tools/mk1_materialize_f6_certified.py
       - name: Validate F6 persisted certification boundary
         run: python tools/validate_mk1_f6_repository.py
