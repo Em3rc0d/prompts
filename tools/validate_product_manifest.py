@@ -32,6 +32,12 @@ CLAIM_MIN_STATE = {
     "certified": "CERTIFIED",
     "portable": "PORTABLE",
 }
+STATE_EVIDENCE_PREFIX = {
+    "TESTED": "mk1/receipts/f4/",
+    "CANDIDATE": "mk1/receipts/f5/",
+    "CERTIFIED": "mk1/receipts/f6/",
+    "PORTABLE": "mk1/receipts/f7/",
+}
 
 
 def load_json(path: Path) -> dict:
@@ -50,6 +56,37 @@ def schema_errors(manifest: dict) -> list[str]:
         where = ".".join(str(x) for x in error.absolute_path) or "<root>"
         errors.append(f"schema:{where}: {error.message}")
     return errors
+
+
+def _dependency_cycle(by_id: dict[str, dict]) -> list[str] | None:
+    visiting: set[str] = set()
+    visited: set[str] = set()
+    stack: list[str] = []
+
+    def visit(node: str) -> list[str] | None:
+        if node in visited:
+            return None
+        if node in visiting:
+            start = stack.index(node)
+            return stack[start:] + [node]
+
+        visiting.add(node)
+        stack.append(node)
+        for dependency in by_id[node].get("dependencies", []):
+            if dependency in by_id:
+                cycle = visit(dependency)
+                if cycle:
+                    return cycle
+        stack.pop()
+        visiting.remove(node)
+        visited.add(node)
+        return None
+
+    for node in sorted(by_id):
+        cycle = visit(node)
+        if cycle:
+            return cycle
+    return None
 
 
 def semantic_errors(manifest: dict, repo_root: Path) -> list[str]:
@@ -83,6 +120,28 @@ def semantic_errors(manifest: dict, repo_root: Path) -> list[str]:
                     f"artifact[{index}]: claim {claim} requires >= {required}, got {state}"
                 )
 
+        required_prefix = STATE_EVIDENCE_PREFIX.get(state)
+        if required_prefix and not any(ref.startswith(required_prefix) for ref in artifact["evidence_refs"]):
+            errors.append(
+                f"artifact[{index}]: {state} requires evidence under {required_prefix}"
+            )
+
+        for evidence_ref in artifact["evidence_refs"]:
+            evidence_path = repo_root / evidence_ref
+            if not evidence_path.is_file():
+                errors.append(f"artifact[{index}]: evidence_ref does not exist: {evidence_ref}")
+
+        source_refs = artifact.get("source_refs", [])
+        if artifact["provenance_class"] in {"mk0-derived", "mk1-derived"} and not source_refs:
+            errors.append(
+                f"artifact[{index}]: {artifact['provenance_class']} requires non-empty source_refs"
+            )
+        for source_ref in source_refs:
+            if source_ref.startswith(("http://", "https://")):
+                continue
+            if not (repo_root / source_ref).exists():
+                errors.append(f"artifact[{index}]: source_ref does not exist: {source_ref}")
+
         if artifact["distribution"]["include"]:
             absolute = repo_root / path
             if not absolute.is_file():
@@ -94,17 +153,16 @@ def semantic_errors(manifest: dict, repo_root: Path) -> list[str]:
                         f"artifact[{index}]: sha256 mismatch for {path}: manifest={artifact['sha256']} observed={observed}"
                     )
 
-        if artifact["provenance_class"] in {"mk0-derived", "mk1-derived"} and not artifact.get("source_refs"):
-            errors.append(
-                f"artifact[{index}]: {artifact['provenance_class']} requires non-empty source_refs"
-            )
-
     for index, artifact in enumerate(manifest.get("artifacts", [])):
         for dependency in artifact.get("dependencies", []):
             if dependency not in by_id:
                 errors.append(f"artifact[{index}]: unknown dependency {dependency}")
             if dependency == artifact["artifact_id"]:
                 errors.append(f"artifact[{index}]: self dependency {dependency}")
+
+    cycle = _dependency_cycle(by_id)
+    if cycle:
+        errors.append("dependencies: cycle detected: " + " -> ".join(cycle))
 
     if manifest.get("generator_v0", {}).get("bundled"):
         receipt_path = repo_root / manifest["generator_v0"]["canonical_receipt"]
@@ -116,6 +174,8 @@ def semantic_errors(manifest: dict, repo_root: Path) -> list[str]:
                 errors.append("generator_v0: bundled while canonical receipt is not PASS")
             if receipt.get("source_commit") != manifest["generator_v0"].get("receipt_source_commit"):
                 errors.append("generator_v0: receipt_source_commit does not match canonical receipt")
+            if manifest["generator_v0"].get("receipt_status") != receipt.get("status"):
+                errors.append("generator_v0: receipt_status does not match canonical receipt")
 
     if manifest.get("release_status") in {"READY", "RELEASED"}:
         included = [a for a in manifest.get("artifacts", []) if a["distribution"]["include"]]
@@ -125,6 +185,14 @@ def semantic_errors(manifest: dict, repo_root: Path) -> list[str]:
             errors.append("release: READY/RELEASED cannot include DRAFT artifacts")
         if manifest.get("source_commit") is None:
             errors.append("release: READY/RELEASED requires source_commit")
+
+        pack_root = manifest.get("pack_root")
+        if pack_root:
+            for artifact in included:
+                if not artifact["path"].startswith(pack_root):
+                    errors.append(
+                        f"release: included artifact escapes pack_root {pack_root}: {artifact['path']}"
+                    )
 
     return errors
 
