@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptquarry.local/specs/PRODUCT_MANIFEST.schema.json",
+  "title": "Prompt Quarry Product Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "product_id",
+    "product_name",
+    "version",
+    "release_status",
+    "source_branch",
+    "source_commit",
+    "generator_v0",
+    "artifacts",
+    "forbidden_bundle_classes",
+    "claim_boundary"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-product-manifest-v1"},
+    "product_id": {"type": "string", "pattern": "^pq-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "product_name": {"type": "string", "minLength": 3, "maxLength": 120},
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z.-]+)?$"
+    },
+    "release_status": {"enum": ["DRAFT", "READY", "RELEASED", "WITHDRAWN"]},
+    "source_branch": {"type": "string", "minLength": 1},
+    "source_commit": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      ]
+    },
+    "generated_at": {"type": "string", "format": "date-time"},
+    "pack_root": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+/$"},
+    "generator_v0": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundled", "gate", "canonical_receipt", "receipt_status"],
+      "properties": {
+        "bundled": {"type": "boolean"},
+        "gate": {"const": "canonical-static-ci-pass-required-before-bundling"},
+        "canonical_receipt": {"const": ".ci/mk1-prompt-generator-v0/latest.json"},
+        "receipt_status": {"enum": ["UNKNOWN", "PASS", "FAIL"]},
+        "receipt_source_commit": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"bundled": {"const": true}}, "required": ["bundled"]},
+          "then": {
+            "properties": {"receipt_status": {"const": "PASS"}},
+            "required": ["receipt_source_commit"]
+          }
+        }
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/artifact"},
+      "uniqueItems": true
+    },
+    "forbidden_bundle_classes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "credentials",
+          "private-research-internals",
+          "raw-third-party-premium-bodies",
+          "unreviewed-source-harvest-data",
+          "synthetic-output-presented-as-real-runtime-evidence"
+        ]
+      }
+    },
+    "claim_boundary": {"type": "string", "minLength": 80},
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "archive_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "manifest_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "clean_room_receipt": {"type": "string", "minLength": 1},
+        "claims_review_receipt": {"type": "string", "minLength": 1},
+        "distribution_license": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"release_status": {"enum": ["READY", "RELEASED"]}},
+        "required": ["release_status"]
+      },
+      "then": {
+        "properties": {
+          "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "artifacts": {"minItems": 1}
+        },
+        "required": ["release", "generated_at", "pack_root"]
+      }
+    },
+    {
+      "if": {
+        "properties": {"release_status": {"const": "RELEASED"}},
+        "required": ["release_status"]
+      },
+      "then": {
+        "properties": {
+          "release": {
+            "required": [
+              "archive_sha256",
+              "manifest_sha256",
+              "clean_room_receipt",
+              "claims_review_receipt",
+              "distribution_license"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "path",
+        "artifact_type",
+        "authority",
+        "provenance_class",
+        "maturity_state",
+        "claims",
+        "evidence_refs",
+        "sha256",
+        "distribution"
+      ],
+      "properties": {
+        "artifact_id": {"type": "string", "pattern": "^pq-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]+$"
+        },
+        "artifact_type": {
+          "enum": [
+            "prompt-template",
+            "prompt-artifact",
+            "task-brief-example",
+            "prompt-request-example",
+            "methodology",
+            "checklist",
+            "example",
+            "generator-component",
+            "readme",
+            "quickstart"
+          ]
+        },
+        "prompt_family": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$"}
+          ]
+        },
+        "authority": {"enum": ["prompt-quarry"]},
+        "provenance_class": {
+          "enum": ["product-authored", "mk1-derived", "mk0-derived", "example"]
+        },
+        "maturity_state": {
+          "enum": ["DRAFT", "VALID", "TESTED", "CANDIDATE", "CERTIFIED", "PORTABLE"]
+        },
+        "claims": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["engineered", "valid", "tested", "improved", "certified", "portable"]
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "source_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "sha256": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+          ]
+        },
+        "media_type": {"type": "string", "minLength": 1},
+        "runtime_scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "provider": {"type": "string", "minLength": 1},
+            "model_or_configuration": {"type": "string", "minLength": 1},
+            "family": {"type": "string", "minLength": 1}
+          }
+        },
+        "dependencies": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^pq-[a-z0-9]+(?:-[a-z0-9]+)*$"}
+        },
+        "distribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["include", "customer_visible", "redistributable"],
+          "properties": {
+            "include": {"type": "boolean"},
+            "customer_visible": {"type": "boolean"},
+            "redistributable": {"type": "boolean"},
+            "notes": {"type": "string"}
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"maturity_state": {"const": "DRAFT"}}, "required": ["maturity_state"]},
+          "then": {"not": {"properties": {"claims": {"contains": {"enum": ["valid", "tested", "improved", "certified", "portable"]}}}}}
+        },
+        {
+          "if": {"properties": {"maturity_state": {"const": "VALID"}}, "required": ["maturity_state"]},
+          "then": {
+            "properties": {"claims": {"not": {"contains": {"enum": ["tested", "improved", "certified", "portable"]}}}}
+          }
+        },
+        {
+          "if": {"properties": {"maturity_state": {"const": "TESTED"}}, "required": ["maturity_state"]},
+          "then": {
+            "properties": {"claims": {"contains": {"const": "tested"}, "not": {"contains": {"enum": ["improved", "certified", "portable"]}}}},
+            "properties": {"evidence_refs": {"minItems": 1}}
+          }
+        },
+        {
+          "if": {"properties": {"maturity_state": {"const": "CANDIDATE"}}, "required": ["maturity_state"]},
+          "then": {
+            "properties": {
+              "claims": {"contains": {"const": "improved"}},
+              "evidence_refs": {"minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"maturity_state": {"const": "CERTIFIED"}}, "required": ["maturity_state"]},
+          "then": {
+            "properties": {
+              "claims": {"contains": {"const": "certified"}},
+              "evidence_refs": {"minItems": 1}
+            },
+            "required": ["runtime_scope"]
+          }
+        },
+        {
+          "if": {"properties": {"maturity_state": {"const": "PORTABLE"}}, "required": ["maturity_state"]},
+          "then": {
+            "properties": {
+              "claims": {"contains": {"const": "portable"}},
+              "evidence_refs": {"minItems": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"distribution": {"properties": {"include": {"const": true}}, "required": ["include"]}}, "required": ["distribution"]},
+          "then": {"properties": {"sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}}
+        }
+      ]
+    }
+  }
+}
