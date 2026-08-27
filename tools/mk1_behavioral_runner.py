@@ -117,6 +117,24 @@ def evaluate_case(fixture: dict, response: dict) -> dict:
     }
 
 
+def _validate_human_evidence(fixture_set: dict, responses: dict) -> None:
+    incomplete: list[str] = []
+    for fixture in fixture_set.get("cases", []):
+        response = responses.get(fixture["fixture_id"]) or {}
+        declared = response.get("human_checks") or {}
+        for check in fixture.get("expected", {}).get("human_checks", []):
+            value = declared.get(check)
+            status = value.get("status") if isinstance(value, dict) else value
+            note = value.get("note") if isinstance(value, dict) else None
+            if status not in HUMAN_STATUSES or not str(note or "").strip():
+                incomplete.append(f"{fixture['fixture_id']}::{check}")
+    if incomplete:
+        raise ValueError(
+            "Real F4 execution requires every declared human check to have PASS/FAIL plus a non-empty evidence note; incomplete="
+            + repr(incomplete)
+        )
+
+
 def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution: dict) -> None:
     runtime = execution.get("runtime") or {}
     missing_runtime = [key for key in ("provider", "model", "family", "run_at") if not runtime.get(key)]
@@ -168,6 +186,7 @@ def require_real_execution_evidence(artifact: dict, fixture_set: dict, execution
         missing_review = [key for key in ("reviewer_ref", "reviewed_at") if not review.get(key)]
         if missing_review:
             raise ValueError(f"Real F4 execution missing human review metadata: {missing_review}")
+        _validate_human_evidence(fixture_set, responses)
 
 
 def run_fixture_set(artifact: dict, fixture_set: dict, execution: dict) -> dict:
