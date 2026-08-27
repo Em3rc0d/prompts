@@ -1,0 +1,17 @@
+{
+  "schema": "mk1-f4-precheck-status-v1",
+  "artifact": "pq_mk1_research_technical_decision",
+  "artifact_version": "0.1.0",
+  "cases": "21-30",
+  "source_precheck_file": "mk1/evidence/manual/chatgpt-plus/f4/research_technical_decision/precheck_batch_21_30_v2.md",
+  "source_precheck_blob_sha": "384e54f272837da759671f7e9013076ad76be754",
+  "supplied_file_sha256": "sha256:733024479a2faf6117d319f0222a00214e969407080736c7bdae85d9e0e84165",
+  "status": "VERIFIED_PRECHECK",
+  "behavioral_status": "VERIFIED",
+  "behavioral_result": "10/10 PASS",
+  "protocol_valid": false,
+  "counts_as_real_f4_observation": false,
+  "eligible_for_f4_receipt": false,
+  "verified_at": "2026-08-26T22:59:00-05:00",
+  "verification_boundary": "Verified means the supplied outputs satisfy the behavioral precheck gates for cases 21-30. It does not assert that the ten cases were executed in ten independent clean ChatGPT conversations under the declared visible High configuration, so it cannot be counted as protocol-valid F4 evidence or used to promote TESTED."
+}
