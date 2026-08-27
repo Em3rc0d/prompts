@@ -4,7 +4,7 @@ import json
 import tempfile
 from pathlib import Path
 
-from mk1_behavioral_runner import run_fixture_set
+from mk1_behavioral_runner import run_fixture_set, sha256_json, sha256_text
 from mk1_materialize_f4_tested import materialize
 from mk1_promote_tested import promote_tested
 
@@ -76,12 +76,26 @@ def review_metadata() -> dict:
     }
 
 
+def frozen_identity() -> dict:
+    a = artifact()
+    fs = fixture_set()
+    return {
+        "artifact_id": a["id"],
+        "artifact_version": a["version"],
+        "artifact_prompt_fingerprint": sha256_text(a["prompt_body"]),
+        "fixture_set_id": fs["fixture_set_id"],
+        "fixture_set_version": fs["version"],
+        "fixture_set_fingerprint": sha256_json(fs),
+    }
+
+
 def real_execution(responses: dict | None = None) -> dict:
     return {
         "execution_id": "manual-observed-pass",
         "mode": "manual-observed",
         "runtime": {"provider": "test-provider", "model": "test-model", "run_at": "2026-08-26T22:55:00Z"},
         "review": review_metadata(),
+        **frozen_identity(),
         "responses": responses if responses is not None else passing_response(),
     }
 
@@ -215,6 +229,28 @@ def test_complete_observed_outputs_required() -> dict:
     raise AssertionError("Real execution cannot contain empty observed outputs")
 
 
+def test_pre_execution_prompt_identity_drift_rejected() -> dict:
+    execution = real_execution()
+    execution["artifact_prompt_fingerprint"] = sha256_text("different prompt")
+    try:
+        run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "artifact_prompt_fingerprint" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Prepared execution must reject prompt identity drift")
+
+
+def test_pre_execution_fixture_identity_drift_rejected() -> dict:
+    execution = real_execution()
+    execution["fixture_set_fingerprint"] = sha256_json({"changed": True})
+    try:
+        run_fixture_set(artifact(), fixture_set(), execution)
+    except ValueError as exc:
+        assert "fixture_set_fingerprint" in str(exc), exc
+        return {"rejected": True, "reason": str(exc)}
+    raise AssertionError("Prepared execution must reject fixture-set identity drift")
+
+
 def test_receipt_identity_mismatch_rejected() -> dict:
     receipt = real_pass_receipt()
     receipt["artifact_version"] = "9.9.9"
@@ -296,11 +332,13 @@ def main() -> None:
         "runtime_identity_required": test_real_runtime_identity_required(),
         "human_review_metadata_required": test_human_review_metadata_required(),
         "complete_observed_outputs_required": test_complete_observed_outputs_required(),
+        "pre_execution_prompt_drift_rejected": test_pre_execution_prompt_identity_drift_rejected(),
+        "pre_execution_fixture_drift_rejected": test_pre_execution_fixture_identity_drift_rejected(),
         "receipt_identity_mismatch_rejected": test_receipt_identity_mismatch_rejected(),
         "prompt_fingerprint_mismatch_rejected": test_prompt_fingerprint_mismatch_rejected(),
         "tampered_receipt_rejected": test_tampered_receipt_rejected(),
         "tested_materializer": test_materializer_requires_real_receipt_and_builds_tested_bundle(),
-        "policy": "F4 CI characterizes harness, immutable evidence identity, human-review metadata, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
+        "policy": "F4 CI characterizes harness, frozen pre-execution identity, immutable evidence identity, human-review metadata, promotion guardrails and materialization mechanics only. No real prompt execution or TESTED artifact is claimed by this test suite.",
     }
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
