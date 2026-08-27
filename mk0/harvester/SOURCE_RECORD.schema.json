@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptquarry.local/mk0/harvester/SOURCE_RECORD.schema.json",
+  "title": "Prompt Quarry Harvester Source Record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "source_id",
+    "canonical_url",
+    "source_type",
+    "access_status",
+    "body_observation_status",
+    "authority",
+    "license_status",
+    "observed_at",
+    "provenance"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-source-record-v1"},
+    "source_id": {"type": "string", "pattern": "^src-[a-z0-9][a-z0-9-]{5,80}$"},
+    "canonical_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "source_type": {
+      "enum": ["prompt", "skill", "agent", "instruction-markdown", "capability", "workflow", "documentation", "repository", "catalog", "other"]
+    },
+    "access_status": {"enum": ["PUBLIC", "AUTH_REQUIRED", "PAYWALLED", "BLOCKED", "UNKNOWN"]},
+    "body_observation_status": {"enum": ["OBSERVED", "PARTIAL", "UNAVAILABLE"]},
+    "authority": {"enum": ["third-party", "prompt-quarry", "unknown"]},
+    "license_status": {"enum": ["VERIFIED_REUSABLE", "VERIFIED_RESTRICTED", "UNKNOWN"]},
+    "title": {"type": ["string", "null"], "maxLength": 500},
+    "publisher": {"type": ["string", "null"], "maxLength": 300},
+    "language": {"type": ["string", "null"], "pattern": "^[a-z]{2,3}(?:-[A-Z]{2})?$"},
+    "content_sha256": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      ]
+    },
+    "observed_at": {"type": "string", "format": "date-time"},
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": {"enum": ["web", "github", "manual", "api", "import"]},
+        "http_status": {"type": ["integer", "null"], "minimum": 100, "maximum": 599},
+        "content_type": {"type": ["string", "null"]},
+        "robots_or_access_note": {"type": ["string", "null"]}
+      },
+      "required": ["method"]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_identity_status", "observation_class", "raw_record_ref"],
+      "properties": {
+        "source_identity_status": {"enum": ["VERIFIED", "AMBIGUOUS", "UNKNOWN"]},
+        "observation_class": {"enum": ["SOURCE_OBSERVATION", "REPOSITORY_AUTHORED_DERIVATION"]},
+        "raw_record_ref": {"type": ["string", "null"], "pattern": "^(mk0/raw/.*|)$"},
+        "parent_source_id": {"type": ["string", "null"], "pattern": "^src-[a-z0-9][a-z0-9-]{5,80}$"}
+      }
+    },
+    "notes": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"body_observation_status": {"const": "OBSERVED"}}, "required": ["body_observation_status"]},
+      "then": {"properties": {"content_sha256": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}}
+    },
+    {
+      "if": {"properties": {"body_observation_status": {"const": "UNAVAILABLE"}}, "required": ["body_observation_status"]},
+      "then": {"properties": {"content_sha256": {"type": "null"}}}
+    },
+    {
+      "if": {"properties": {"access_status": {"enum": ["AUTH_REQUIRED", "PAYWALLED", "BLOCKED"]}}, "required": ["access_status"]},
+      "then": {"not": {"properties": {"retrieval": {"properties": {"method": {"const": "web"}, "http_status": {"const": 200}}}}}}
+    }
+  ]
+}
