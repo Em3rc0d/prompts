@@ -8,7 +8,7 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 
-LINTER_VERSION = "1.0.0"
+LINTER_VERSION = "1.1.0"
 
 SECTION_ALIASES = {
     "purpose": ["PURPOSE", "PROPÓSITO", "PROPOSITO", "OBJETIVO"],
@@ -23,8 +23,8 @@ SECTION_ALIASES = {
     "fallback": ["FALLBACK", "INCERTIDUMBRE", "SI FALTA INFORMACIÓN", "SI FALTA INFORMACION"],
 }
 
-STATE_ORDER_REQUIRING_FIXTURES = {"TESTED", "CANDIDATE", "CERTIFIED"}
-STATE_ORDER_REQUIRING_RECEIPT = {"CANDIDATE", "CERTIFIED"}
+STATE_ORDER_REQUIRING_FIXTURES = {"TESTED", "CANDIDATE", "CERTIFIED", "PORTABLE"}
+STATE_ORDER_REQUIRING_RECEIPT = {"CANDIDATE", "CERTIFIED", "PORTABLE"}
 
 
 def load_json(path: str | Path) -> dict:
@@ -37,13 +37,7 @@ def _schema_errors(artifact: dict, schema_path: str | Path) -> list[dict]:
     findings: list[dict] = []
     for error in sorted(validator.iter_errors(artifact), key=lambda e: list(e.absolute_path)):
         where = ".".join(str(x) for x in error.absolute_path) or "<root>"
-        findings.append(
-            {
-                "severity": "error",
-                "code": "schema",
-                "message": f"{where}: {error.message}",
-            }
-        )
+        findings.append({"severity": "error", "code": "schema", "message": f"{where}: {error.message}"})
     return findings
 
 
@@ -53,10 +47,7 @@ def _has_heading(body: str, aliases: list[str]) -> bool:
     return any(line in normalized_aliases for line in lines)
 
 
-def lint_artifact(
-    artifact: dict,
-    schema_path: str | Path = "mk1/specs/PROMPT_ARTIFACT.schema.json",
-) -> dict:
+def lint_artifact(artifact: dict, schema_path: str | Path = "mk1/specs/PROMPT_ARTIFACT.schema.json") -> dict:
     findings = _schema_errors(artifact, schema_path)
     if findings:
         return {
@@ -108,8 +99,7 @@ def lint_artifact(
         add("error", "contradictory-intake", "INTAKE is enabled but the body also forbids asking questions.")
 
     if risk == "high-stakes":
-        required_blocks = ["assumptions", "constraints", "fallback", "quality_gate"]
-        for block in required_blocks:
+        for block in ["assumptions", "constraints", "fallback", "quality_gate"]:
             if not architecture[block]:
                 add("blocking", "high-stakes-missing-block", f"High-stakes prompt requires {block} architecture.")
         for technique_name in ["safety-boundary", "confidence-labeling"]:
@@ -128,20 +118,28 @@ def lint_artifact(
 
     if state in STATE_ORDER_REQUIRING_FIXTURES and not evaluation.get("fixture_set_id"):
         add("error", "state-without-fixtures", f"State {state} requires fixture_set_id.")
-
     if state in STATE_ORDER_REQUIRING_RECEIPT and not evaluation.get("receipt_id"):
         add("error", "state-without-receipt", f"State {state} requires receipt_id.")
 
-    if state == "CERTIFIED":
+    if state in {"CERTIFIED", "PORTABLE"}:
         score = evaluation.get("rubric_score")
         if score is None or score < 85:
-            add("blocking", "certified-score", "CERTIFIED requires rubric_score >= 85.")
+            add("blocking", "certified-score", f"{state} requires rubric_score >= 85.")
         if evaluation.get("blocking_failures"):
-            add("blocking", "certified-with-blockers", "CERTIFIED artifact cannot retain blocking_failures.")
+            add("blocking", "certified-with-blockers", f"{state} artifact cannot retain blocking_failures.")
         if "certified" not in claims:
-            add("warning", "certified-claim-missing", "State is CERTIFIED but claims does not include 'certified'.")
+            add("blocking", "certified-claim-missing", f"State {state} requires claim 'certified'.")
 
-    if "tested" in claims and state not in {"TESTED", "CANDIDATE", "CERTIFIED", "DEPRECATED"}:
+    if state == "PORTABLE":
+        required_claims = {"engineered", "tested", "improved", "certified", "portable"}
+        if claims != required_claims:
+            add("blocking", "portable-claims", "PORTABLE requires exactly engineered/tested/improved/certified/portable claims.")
+    elif "portable" in claims:
+        add("blocking", "portable-claim-state-mismatch", "Claim 'portable' is allowed only when state is PORTABLE.")
+
+    if "certified" in claims and state not in {"CERTIFIED", "PORTABLE", "DEPRECATED"}:
+        add("warning", "certified-claim-state-mismatch", "Claim 'certified' is present but state does not represent a certified artifact.")
+    if "tested" in claims and state not in {"TESTED", "CANDIDATE", "CERTIFIED", "PORTABLE", "DEPRECATED"}:
         add("warning", "tested-claim-state-mismatch", "Claim 'tested' is present but state does not represent a tested artifact.")
 
     provenance = artifact["provenance"]
@@ -152,7 +150,6 @@ def lint_artifact(
     warning_count = sum(1 for f in findings if f["severity"] == "warning")
     blocking_count = sum(1 for f in findings if f["severity"] == "blocking")
     status = "PASS" if error_count == 0 and blocking_count == 0 else "FAIL"
-
     return {
         "linter_version": LINTER_VERSION,
         "artifact_id": artifact["id"],
@@ -170,18 +167,15 @@ def main() -> None:
     parser.add_argument("--schema", default="mk1/specs/PROMPT_ARTIFACT.schema.json")
     parser.add_argument("--output")
     args = parser.parse_args()
-
     artifact = load_json(args.artifact)
     result = lint_artifact(artifact, args.schema)
     rendered = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
-
     if args.output:
         output = Path(args.output)
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_text(rendered, encoding="utf-8")
     else:
         print(rendered, end="")
-
     raise SystemExit(0 if result["status"] == "PASS" else 1)
 
 
