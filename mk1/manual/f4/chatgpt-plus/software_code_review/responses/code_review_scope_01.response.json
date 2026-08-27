@@ -1,8 +1,8 @@
 {
   "fixture_id": "code_review_scope_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:38:12-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/software_code_review/batch_11_20.json#code_review_scope_01",
   "rendered_prompt_sha256": "sha256:1756e9e2eb52d5e77030107c6c90a15f1e8793e3686cd75a02e8ad502ae8b52f",
-  "output": null
+  "output": "No se identifica ningún bug confirmado únicamente a partir del fragmento proporcionado:\n\n`def normalize(s):`\n`    return s.strip().lower()`\n\nEl comportamiento observado elimina espacios en los extremos y convierte el valor a minúsculas.\n\n### Riesgo plausible, no verificado\n\n- Severidad: Indeterminada con la evidencia disponible\n- Tipo: Corrección dependiente del contrato de entrada\n- Evidencia concreta: `strip()` y `lower()` presuponen un objeto que implemente esos métodos.\n- Impacto: Sólo existiría un problema si el contrato del repositorio permite valores que no soporten esas operaciones, como `None` u otros tipos. Ese contrato no fue proporcionado.\n- Corrección sugerida: No modificar el código basándose únicamente en esta hipótesis. Primero confirmar los tipos de entrada admitidos por este helper.\n- Cómo verificarla: Consultar sus contratos o tests en el repositorio privado y comprobar qué entradas son válidas; después añadir pruebas para esos casos.\n\nNo es posible inferir problemas adicionales del repositorio privado a partir de este helper aislado."
 }
