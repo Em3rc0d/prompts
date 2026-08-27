@@ -6,7 +6,7 @@
   "pending_count": 0,
   "artifacts": [],
   "pending": [],
-  "minimum_runtime_families": 3,
-  "state_policy": "Only exact F5 CANDIDATE artifacts with valid F5 IMPROVEMENT_PASS evidence across at least three distinct declared runtime families may materialize as CERTIFIED.",
-  "claim_policy": "CERTIFIED is scoped evidence of cross-runtime behavioral/superiority performance under the frozen protocol; it is not universal correctness."
+  "minimum_independent_f5_receipts": 3,
+  "state_policy": "Only exact F5 CANDIDATE artifacts with at least three independent real F5 IMPROVEMENT_PASS receipts on the same provider/model/family may materialize as CERTIFIED.",
+  "claim_policy": "CERTIFIED is scoped evidence of repeatable behavioral/superiority performance on a declared target runtime. Cross-provider evidence is tracked separately as F7 PORTABLE."
 }
