@@ -1,0 +1,46 @@
+name: Build MK1 ChatGPT Plus F4 Batches
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tools/mk1_build_plus_f4_batches.py'
+      - 'mk1/manual/f4/chatgpt-plus/manifest.json'
+      - 'mk1/manual/f4/chatgpt-plus/**/manifest.json'
+      - 'mk1/manual/f4/chatgpt-plus/**/cases/**'
+      - '.github/workflows/build-mk1-plus-f4-batches.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-batches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build operator batches
+        run: python tools/mk1_build_plus_f4_batches.py
+
+      - name: Verify batch inventory
+        run: |
+          test -f mk1/manual/f4/chatgpt-plus/batches/BATCH_01_10.txt
+          test -f mk1/manual/f4/chatgpt-plus/batches/BATCH_11_20.txt
+          test -f mk1/manual/f4/chatgpt-plus/batches/BATCH_21_30.txt
+          test -f mk1/manual/f4/chatgpt-plus/batches/INDEX.txt
+
+      - name: Commit generated batches
+        run: |
+          if git diff --quiet -- mk1/manual/f4/chatgpt-plus/batches; then
+            echo 'No batch changes to commit.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add mk1/manual/f4/chatgpt-plus/batches
+          git commit -m 'mk1: materialize ChatGPT Plus F4 operator batches'
+          git push
