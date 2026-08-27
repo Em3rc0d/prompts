@@ -1,0 +1,38 @@
+name: Probe MK1 Runtime Readiness
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/mk1-runtime-probe-trigger'
+      - '.github/workflows/probe-mk1-runtime-readiness.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      MK1_OPENAI_MODEL: ${{ vars.MK1_OPENAI_MODEL }}
+      MK1_ANTHROPIC_MODEL: ${{ vars.MK1_ANTHROPIC_MODEL }}
+      MK1_GEMINI_MODEL: ${{ vars.MK1_GEMINI_MODEL }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report readiness without exposing values
+        shell: bash
+        run: |
+          set -euo pipefail
+          present_or_missing() {
+            if [ -n "${1:-}" ]; then printf 'present'; else printf 'missing'; fi
+          }
+          echo "OPENAI_API_KEY=$(present_or_missing "$OPENAI_API_KEY")"
+          echo "ANTHROPIC_API_KEY=$(present_or_missing "$ANTHROPIC_API_KEY")"
+          echo "GEMINI_API_KEY=$(present_or_missing "$GEMINI_API_KEY")"
+          echo "MK1_OPENAI_MODEL=$(present_or_missing "$MK1_OPENAI_MODEL")"
+          echo "MK1_ANTHROPIC_MODEL=$(present_or_missing "$MK1_ANTHROPIC_MODEL")"
+          echo "MK1_GEMINI_MODEL=$(present_or_missing "$MK1_GEMINI_MODEL")"
+          echo 'No provider API request was made by this probe.'
