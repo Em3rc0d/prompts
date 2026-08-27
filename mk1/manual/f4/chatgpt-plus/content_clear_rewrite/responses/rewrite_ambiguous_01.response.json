@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_ambiguous_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:18:27-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/content_clear_rewrite/rewrite_ambiguous_01.json",
   "rendered_prompt_sha256": "sha256:1b30ab5a832adfcc48be86b29a65dc49c66dd327375bea2f7ff37d858b78e3a7",
-  "output": null
+  "output": "Cuando Ana habló con Lucía, una de las dos dijo que el informe estaba mal."
 }
