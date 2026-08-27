@@ -4,4 +4,5 @@ mode: materialize-f6-zero-state-and-validate-full-chain
 policy: no-synthetic-receipts-no-false-promotion
 minimum_runtime_families: 3
 expected_without_real_f5_candidates: NO_F5_CANDIDATES
-run_nonce: f6-zero-state-01
+head_intent: verify-f3-hash-binding+f5-persistence-family+f6-certification
+run_nonce: f6-zero-state-02
