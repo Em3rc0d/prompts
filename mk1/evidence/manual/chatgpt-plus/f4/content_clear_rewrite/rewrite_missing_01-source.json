@@ -1,0 +1,11 @@
+{
+  "evidence_schema": "mk1-chatgpt-plus-manual-source-note-v1",
+  "fixture_id": "rewrite_missing_01",
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-27T02:57:00Z",
+  "capture_mode": "user-transcribed-observed-output",
+  "visual_capture_available": false,
+  "output": "Falta la entrada requerida **`{text}`**: el texto que quieres reescribir. Sin ese contenido no puedo realizar la reescritura sin inventar información.",
+  "provenance_note": "The user returned this exact observed output after executing the frozen F4 Case 03 in a fresh ChatGPT conversation under the ongoing High-configuration wave. No screenshot was supplied for this case; do not represent this note as visual proof.",
+  "state_policy": "This source note is observation provenance only. It does not itself create an F4 receipt or promote TESTED state."
+}
