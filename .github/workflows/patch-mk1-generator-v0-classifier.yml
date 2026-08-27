@@ -1,0 +1,47 @@
+name: Patch MK1 Generator v0 Classifier
+
+on:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - '.github/workflows/patch-mk1-generator-v0-classifier.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Expand review intent signals
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tools/mk1_prompt_generator_v0.py')
+          text = path.read_text(encoding='utf-8')
+          old = '("review", ["code review", "review code", "review this", "revisa el codigo", "revisa el código", "revisar codigo", "revisar código", "pull request"]),'
+          new = '("review", ["review", "code review", "review code", "review this", "revisa", "revisar", "revisa el codigo", "revisa el código", "revisar codigo", "revisar código", "pull request"]),'
+          count = text.count(old)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one review intent pattern, found {count}')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+          git diff --check
+          git diff -- tools/mk1_prompt_generator_v0.py
+
+      - name: Commit classifier fix
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add tools/mk1_prompt_generator_v0.py
+          git commit -m 'fix(mk1): recognize direct review intent'
+          git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
