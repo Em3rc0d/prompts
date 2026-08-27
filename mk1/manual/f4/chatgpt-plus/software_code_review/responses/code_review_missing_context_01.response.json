@@ -1,8 +1,8 @@
 {
   "fixture_id": "code_review_missing_context_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:38:12-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/software_code_review/batch_11_20.json#code_review_missing_context_01",
   "rendered_prompt_sha256": "sha256:8dca84b4f2f605547265bfdbee3dfba97989c2b06b56cc0118a833fc2b694a78",
-  "output": null
+  "output": "Falta una entrada requerida: `{technical_context}`.\n\nEl fragmento `return cache.get(key)` por sí solo no permite determinar qué comportamiento se espera del caché, qué representa un fallo o un valor ausente, ni qué garantías debe cumplir esta operación. Ese contexto puede cambiar materialmente qué hallazgos serían bugs frente a comportamiento intencionado.\n\nProporciona el contexto técnico necesario para poder realizar la revisión sin inventar supuestos."
 }
