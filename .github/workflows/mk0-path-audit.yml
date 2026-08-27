@@ -17,8 +17,10 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          echo "Scanning executable/shared surfaces for legacy MK0 root paths..."
-          paths=(README.md docs tools .github mk0 mk1 mk2)
+          echo "Scanning active executable/documentation surfaces for legacy MK0 root paths..."
+          # Do not scan mk0/raw, mk0/normalized or other evidence payloads: historical
+          # provenance may legitimately contain the old repository paths and must not be rewritten.
+          paths=(README.md docs tools .github mk1 mk2 mk0/README.md mk0/MANIFEST.json)
           pattern='(^|[^A-Za-z0-9_-])(catalog|quarry|library|sources|readable)/'
           : > /tmp/mk0-legacy-paths.txt
           git grep -nE "$pattern" -- "${paths[@]}" > /tmp/mk0-legacy-paths.txt || true
@@ -28,7 +30,7 @@ jobs:
           if [ "$count" -gt 0 ]; then
             cat /tmp/mk0-legacy-paths.txt
           else
-            echo "No legacy MK0 root-path references found."
+            echo "No active legacy MK0 root-path references found."
           fi
 
       - name: Upload legacy path inventory
@@ -39,12 +41,12 @@ jobs:
           path: /tmp/mk0-legacy-paths.txt
           if-no-files-found: error
 
-      - name: Enforce zero legacy root-path consumers
+      - name: Enforce zero active legacy root-path consumers
         shell: bash
         run: |
           count='${{ steps.inventory.outputs.legacy_reference_count }}'
           if [ "$count" -ne 0 ]; then
-            echo "Legacy MK0 root-path references remain: $count"
+            echo "Active legacy MK0 root-path references remain: $count"
             exit 1
           fi
           echo "MK0 path audit passed."
