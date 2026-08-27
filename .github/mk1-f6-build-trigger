@@ -1,0 +1,7 @@
+triggered_at: 2026-08-27
+source: chatgpt
+mode: materialize-f6-zero-state-and-validate-full-chain
+policy: no-synthetic-receipts-no-false-promotion
+minimum_runtime_families: 3
+expected_without_real_f5_candidates: NO_F5_CANDIDATES
+run_nonce: f6-zero-state-01
