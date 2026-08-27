@@ -1,8 +1,8 @@
 {
   "fixture_id": "rewrite_noise_01",
-  "visible_chatgpt_label": null,
-  "observed_at": null,
-  "source_reference": null,
+  "visible_chatgpt_label": "High",
+  "observed_at": "2026-08-26T22:21:52-05:00",
+  "source_reference": "mk1/evidence/manual-source-notes/f4/content_clear_rewrite/rewrite_noise_01.json",
   "rendered_prompt_sha256": "sha256:14b51b485f8e41f42b743cf8d96fbbec9089d93029c7859b61427655ec468e87",
-  "output": null
+  "output": "La API respondió en 200 ms. Nota irrelevante: mañana es el cumpleaños de Pedro."
 }
