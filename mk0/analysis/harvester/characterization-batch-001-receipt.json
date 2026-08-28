@@ -3,12 +3,12 @@
   "batch_id": "mk0-characterization-001",
   "policy_version": "1.2.0",
   "status": "PASS",
-  "created_at": "2026-08-28T14:57:20.938329Z",
+  "created_at": "2026-08-28T15:01:07.423761Z",
   "records": 183,
   "routes": {
     "REJECTED": 4,
-    "HOLD": 81,
-    "HUMAN_REVIEW_REQUIRED": 98
+    "HOLD": 135,
+    "HUMAN_REVIEW_REQUIRED": 44
   },
   "semantic_artifact_classes": {
     "NOISY_HTML": 4,
