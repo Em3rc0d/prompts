@@ -1,21 +1,41 @@
 {
   "schema": "prompt-quarry-characterization-receipt-v1",
   "batch_id": "mk0-characterization-001",
+  "policy_version": "1.2.0",
   "status": "PASS",
-  "created_at": "2026-08-28T00:23:30.007678Z",
+  "created_at": "2026-08-28T14:52:51.758176Z",
   "records": 183,
   "routes": {
-    "HOLD": 103,
-    "HUMAN_REVIEW_REQUIRED": 79,
-    "GOLDEN_CANDIDATE": 1
+    "REJECTED": 4,
+    "HOLD": 81,
+    "HUMAN_REVIEW_REQUIRED": 98
   },
+  "semantic_artifact_classes": {
+    "NOISY_HTML": 4,
+    "MANUAL": 47,
+    "AMBIGUOUS": 80,
+    "AGENT_INSTRUCTION": 29,
+    "CODEBASE_GUIDE": 1,
+    "IMPLEMENTATION_PLAN": 3,
+    "PROMPT": 14,
+    "FAQ": 3,
+    "LOG_CHANGELOG": 1,
+    "ARCHITECTURE_DOCUMENTATION": 1
+  },
+  "semantic_dispositions": {
+    "REJECT": 4,
+    "REFERENCE_CORPUS": 56,
+    "HUMAN_REVIEW": 80,
+    "GOLDEN_EVALUATION": 43
+  },
+  "reference_corpus_records": 56,
   "confidence_bands": {
     ">=0.95": 1,
     "0.90-<0.95": 44,
     "<0.90": 138
   },
   "eligibility": {
-    "golden_research_eligible": 183,
+    "golden_research_eligible": 123,
     "distribution_eligible": 0
   },
   "domains": {
@@ -54,5 +74,5 @@
     "mean": 0.8642
   },
   "duplicates": 0,
-  "claim_boundary": "Heuristic MK0 characterization only. Research eligibility is independent from redistribution permission. UNKNOWN license remains UNKNOWN and blocks distribution, not internal Golden candidacy."
+  "claim_boundary": "Semantic artifact identity is gated before Golden routing. REFERENCE_CORPUS is non-canonical reference material, not truth and not Golden evidence. UNKNOWN license remains UNKNOWN and blocks distribution. Human approval does not establish behavioral certification."
 }
