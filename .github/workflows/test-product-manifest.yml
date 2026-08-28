@@ -41,6 +41,7 @@ permissions:
 
 jobs:
   product-manifest:
+    if: github.actor != 'prompt-quarry-bot' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
