@@ -5,13 +5,17 @@ ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
 
 REQUIRED = [
-    WEB / "index.html",
-    WEB / "free/developer-starter-pack/index.html",
-    WEB / "developer-pack/index.html",
-    WEB / "license/index.html",
-    WEB / "assets/styles.css",
-    WEB / "assets/app.js",
-    WEB / "config.js",
+    WEB / "package.json",
+    WEB / "tsconfig.json",
+    WEB / "next.config.ts",
+    WEB / "app/layout.tsx",
+    WEB / "app/page.tsx",
+    WEB / "app/globals.css",
+    WEB / "app/free/developer-starter-pack/page.tsx",
+    WEB / "app/developer-pack/page.tsx",
+    WEB / "app/license/page.tsx",
+    WEB / "components/commerce-link.tsx",
+    WEB / ".env.example",
 ]
 
 FORBIDDEN_MARKETING = [
@@ -31,10 +35,11 @@ def fail(message: str) -> None:
 def main() -> None:
     missing = [str(path.relative_to(ROOT)) for path in REQUIRED if not path.is_file()]
     if missing:
-        fail("missing required files: " + ", ".join(missing))
+        fail("missing required Next.js files: " + ", ".join(missing))
 
-    html = "\n".join(path.read_text(encoding="utf-8") for path in REQUIRED if path.suffix == ".html")
-    lower = html.lower()
+    source_files = list((WEB / "app").rglob("*.tsx")) + list((WEB / "components").rglob("*.tsx"))
+    source = "\n".join(path.read_text(encoding="utf-8") for path in source_files)
+    lower = source.lower()
 
     required_copy = [
         "stop collecting random prompts",
@@ -54,22 +59,27 @@ def main() -> None:
         if phrase in lower:
             fail(f"unsupported marketing claim observed: {phrase}")
 
-    config = (WEB / "config.js").read_text(encoding="utf-8")
-    for key in ("freePackUrl", "developerPackCheckoutUrl", "analyticsMode"):
-        if key not in config:
-            fail(f"runtime configuration key missing: {key}")
+    commerce = (WEB / "components/commerce-link.tsx").read_text(encoding="utf-8")
+    for key in ("NEXT_PUBLIC_FREE_PACK_URL", "NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL"):
+        if key not in commerce:
+            fail(f"public commerce environment key missing: {key}")
 
-    # Provider URLs must remain configuration, not page semantics.
     if "lemonsqueezy.com" in lower or "gumroad.com" in lower:
-        fail("checkout provider URL is hard-coded in customer-facing HTML")
+        fail("checkout provider URL is hard-coded in customer-facing source")
 
-    styles = (WEB / "assets/styles.css").read_text(encoding="utf-8")
-    if "@media(max-width:560px)" not in styles or "@media(max-width:880px)" not in styles:
-        fail("responsive mobile/tablet gates missing")
+    css = (WEB / "app/globals.css").read_text(encoding="utf-8")
+    for breakpoint in ("@media(max-width:900px)", "@media(max-width:620px)"):
+        if breakpoint not in css:
+            fail(f"responsive gate missing: {breakpoint}")
+
+    package = (WEB / "package.json").read_text(encoding="utf-8")
+    if '"next": "16.3.3"' not in package:
+        fail("Next.js Active LTS security release 16.3.3 is not pinned")
 
     print("COMMERCIAL WEB V0: PASS")
     print(f"required_files={len(REQUIRED)}")
-    print("routes=/,/free/developer-starter-pack/,/developer-pack/,/license/")
+    print("framework=Next.js 16.3.3 App Router")
+    print("routes=/,/free/developer-starter-pack,/developer-pack,/license")
     print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
 
 
