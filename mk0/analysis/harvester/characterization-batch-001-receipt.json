@@ -2,12 +2,21 @@
   "schema": "prompt-quarry-characterization-receipt-v1",
   "batch_id": "mk0-characterization-001",
   "status": "PASS",
-  "created_at": "2026-08-28T00:22:21.285888Z",
+  "created_at": "2026-08-28T00:23:14.130165Z",
   "records": 183,
   "routes": {
     "HOLD": 103,
     "HUMAN_REVIEW_REQUIRED": 79,
     "GOLDEN_CANDIDATE": 1
+  },
+  "confidence_bands": {
+    ">=0.95": 1,
+    "0.90-<0.95": 44,
+    "<0.90": 138
+  },
+  "eligibility": {
+    "golden_research_eligible": 183,
+    "distribution_eligible": 0
   },
   "domains": {
     "software": 114,
@@ -45,5 +54,5 @@
     "mean": 0.8642
   },
   "duplicates": 0,
-  "claim_boundary": "Heuristic MK0 characterization only. Routing does not establish behavioral quality, certification, portability, or redistribution rights. UNKNOWN license remains UNKNOWN."
+  "claim_boundary": "Heuristic MK0 characterization only. Research eligibility is independent from redistribution permission. UNKNOWN license remains UNKNOWN and blocks distribution, not internal Golden candidacy."
 }
