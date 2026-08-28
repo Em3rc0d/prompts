@@ -1,0 +1,11 @@
+{
+  "schema": "prompt-quarry-distribution-approval-v1",
+  "product_id": "pq-developer-pack",
+  "candidate_source_commit": "0000000000000000000000000000000000000000",
+  "status": "APPROVED",
+  "distribution_license": "REPLACE_WITH_EXPLICIT_LICENSE_DECISION",
+  "approved_by": "REPLACE_WITH_APPROVER",
+  "approved_at": "2026-01-01T00:00:00Z",
+  "commercial_release_approved": true,
+  "notes": "EXAMPLE ONLY. Copy to DISTRIBUTION_APPROVAL.json only after an actual human/commercial license decision."
+}
