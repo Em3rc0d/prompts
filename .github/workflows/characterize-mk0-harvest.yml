@@ -33,11 +33,14 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          receipt = json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
-          assert receipt['status'] == 'PASS'
-          assert receipt['records'] == 183, receipt
-          assert sum(receipt['routes'].values()) == 183, receipt
-          print(json.dumps(receipt, indent=2))
+          receipt=json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
+          assert receipt['status']=='PASS'
+          assert receipt['records']==183, receipt
+          assert sum(receipt['routes'].values())==183, receipt
+          assert sum(receipt['confidence_bands'].values())==183, receipt
+          assert receipt['eligibility']['golden_research_eligible'] <= 183
+          assert receipt['eligibility']['distribution_eligible'] <= receipt['eligibility']['golden_research_eligible']
+          print(json.dumps(receipt,indent=2))
           PY
       - name: Commit candidate queue and receipt
         run: |
@@ -47,6 +50,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No characterization changes"
           else
-            git commit -m "data(mk0): characterize live harvest batch 001"
+            git commit -m "data(mk0): reroute harvest with split eligibility"
             git push
           fi
