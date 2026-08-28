@@ -3,6 +3,11 @@ __pycache__/
 *.pyc
 .env
 .env.*
+!.env.example
+!web/.env.example
+node_modules/
+.next/
+.vercel/
 playwright-report/
 quarry/raw/**/snapshots/*.html
 mk1/staging/
