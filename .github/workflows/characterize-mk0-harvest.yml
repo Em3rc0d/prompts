@@ -16,6 +16,20 @@ on:
       - mk0/reference-corpus/README.md
       - mk0/normalized/harvester/source-records.jsonl
       - .github/workflows/characterize-mk0-harvest.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tools/mk0_characterize_harvest.py
+      - tools/mk0_semantic_artifact_gate.py
+      - tools/test_mk0_semantic_artifact_gate.py
+      - tools/mk0_harvester_router.py
+      - tools/test_mk0_harvester_router.py
+      - mk0/harvester/POLICY.json
+      - mk0/harvester/CANDIDATE_RECORD.schema.json
+      - mk0/reference-corpus/README.md
+      - mk0/normalized/harvester/source-records.jsonl
+      - .github/workflows/characterize-mk0-harvest.yml
 
 permissions:
   contents: write
@@ -79,6 +93,7 @@ jobs:
           print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
           PY
       - name: Commit candidate queue, reference corpus, and receipt
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name "prompt-quarry-bot"
           git config user.email "prompt-quarry-bot@users.noreply.github.com"
