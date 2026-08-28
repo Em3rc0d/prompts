@@ -20,11 +20,14 @@
       "artifact_type": "readme",
       "authority": "prompt-quarry",
       "provenance_class": "product-authored",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "sha256": "sha256:db551b8fd9cffb3784e37b90c635dfb2926169537569ee5baf1403089d48e6dc",
       "distribution": {
         "include": true,
@@ -39,11 +42,14 @@
       "artifact_type": "quickstart",
       "authority": "prompt-quarry",
       "provenance_class": "product-authored",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "sha256": "sha256:7be700dbd830b843ce85cf5462359917be2bed9917c0ce3618604a121a7655d4",
       "distribution": {
         "include": true,
@@ -58,11 +64,14 @@
       "artifact_type": "methodology",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_ARTIFACT.schema.json",
         "tools/mk1_prompt_generator_v0.py"
@@ -81,11 +90,14 @@
       "artifact_type": "methodology",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "product/developer-pack-v1/SPEC.md"
       ],
@@ -103,11 +115,14 @@
       "artifact_type": "methodology",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "product/developer-pack-v1/SPEC.md"
       ],
@@ -125,11 +140,14 @@
       "artifact_type": "task-brief-example",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/TASK_BRIEF.schema.json"
       ],
@@ -148,11 +166,14 @@
       "artifact_type": "prompt-request-example",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
       ],
@@ -172,11 +193,14 @@
       "prompt_family": "general_structured",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_ARTIFACT.schema.json",
         "tools/mk1_prompt_generator_v0.py"
@@ -196,11 +220,14 @@
       "prompt_family": "software_code_review",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/generator/examples/software-review.request.json",
         "tools/mk1_prompt_generator_v0.py"
@@ -220,11 +247,14 @@
       "prompt_family": "research_technical_decision",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_ARTIFACT.schema.json",
         "tools/mk1_prompt_generator_v0.py"
@@ -244,11 +274,14 @@
       "prompt_family": "software_code_review",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
       ],
@@ -268,11 +301,14 @@
       "prompt_family": "software_code_review",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/TASK_BRIEF.schema.json"
       ],
@@ -292,11 +328,14 @@
       "prompt_family": "software_code_review",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "product/developer-pack-v1/templates/software-code-review.md"
       ],
@@ -315,11 +354,14 @@
       "prompt_family": "software_code_review",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "sha256": "sha256:8dfdd0170aea87b730d304b0eb50336a1b77c8dccbb761da6294a8c39d0525c2",
       "distribution": {
         "include": true,
@@ -335,11 +377,14 @@
       "prompt_family": "research_technical_decision",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
       ],
@@ -359,11 +404,14 @@
       "prompt_family": "research_technical_decision",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "mk1/specs/TASK_BRIEF.schema.json"
       ],
@@ -383,11 +431,14 @@
       "prompt_family": "research_technical_decision",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "product/developer-pack-v1/templates/technical-research-decision.md"
       ],
@@ -406,11 +457,14 @@
       "prompt_family": "research_technical_decision",
       "authority": "prompt-quarry",
       "provenance_class": "example",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "sha256": "sha256:dae656e44e30ea143789af7faeecefd199f499b87386d193308a156e859ef26c",
       "distribution": {
         "include": true,
@@ -425,11 +479,14 @@
       "artifact_type": "checklist",
       "authority": "prompt-quarry",
       "provenance_class": "mk1-derived",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "source_refs": [
         "tools/mk1_prompt_linter.py",
         "tools/mk1_prompt_critic.py"
@@ -448,11 +505,14 @@
       "artifact_type": "checklist",
       "authority": "prompt-quarry",
       "provenance_class": "product-authored",
-      "maturity_state": "DRAFT",
+      "maturity_state": "VALID",
       "claims": [
-        "engineered"
+        "engineered",
+        "valid"
       ],
-      "evidence_refs": [],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
       "sha256": "sha256:ee20167eb191ad270f7f987ffe97cca06b3d4a5afac0c6bac880917dddc21fe7",
       "distribution": {
         "include": true,
