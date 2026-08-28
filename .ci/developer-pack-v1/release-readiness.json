@@ -1,11 +1,28 @@
 {
-  "blockers": [
-    "release.distribution_license requires explicit human/commercial approval"
-  ],
-  "claim_boundary": "READY is packaging/commercial readiness only. It does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE.",
-  "component": "developer-pack-v1",
-  "included_assets": 20,
   "schema": "prompt-quarry-release-readiness-receipt-v1",
-  "source_commit": "524effd16ceff8a6bf49febf76675452a3d7379d",
-  "status": "BLOCKED"
+  "component": "developer-pack-v1",
+  "source_commit": "05dbc4a97ec39ba22d99660bd3ca05e86292422e",
+  "status": "BLOCKED",
+  "gates": {
+    "compile": "success",
+    "draft_to_ready_prerequisites": "failure"
+  },
+  "details": {
+    "schema": "prompt-quarry-release-readiness-v1",
+    "component": "developer-pack-v1",
+    "status": "BLOCKED",
+    "included_assets": 20,
+    "blockers": [
+      "source_commit must bind READY to an exact 40-char commit",
+      "generated_at is required for READY",
+      "pack_root is required for READY",
+      "release.archive_sha256 is required before READY",
+      "release.claims_review_receipt is required before READY",
+      "release.clean_room_receipt is required before READY",
+      "release.distribution_license is required before READY",
+      "release.manifest_sha256 is required before READY"
+    ],
+    "claim_boundary": "READY is a packaging and commercial release-readiness state. It does not establish TESTED/F4, IMPROVED/F5, CERTIFIED/F6, or PORTABLE/F7."
+  },
+  "claim_boundary": "READY is packaging/commercial readiness only. This receipt does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
 }
