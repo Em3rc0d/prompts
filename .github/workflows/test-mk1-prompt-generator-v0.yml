@@ -109,7 +109,8 @@ jobs:
       - name: Build run-scoped validation receipt
         if: always()
         env:
-          SOURCE_SHA: ${{ github.sha }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          CHECKOUT_SHA: ${{ github.sha }}
           EVENT_NAME: ${{ github.event_name }}
           DEPS: ${{ steps.deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
@@ -135,6 +136,7 @@ jobs:
               'schema': 'prompt-quarry-ci-receipt-v1',
               'component': 'mk1-prompt-generator-v0',
               'source_commit': os.environ['SOURCE_SHA'],
+              'checkout_commit': os.environ['CHECKOUT_SHA'],
               'event_name': os.environ['EVENT_NAME'],
               'status': status,
               'gates': gates,
