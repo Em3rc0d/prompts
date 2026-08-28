@@ -1,6 +1,6 @@
 # Technical Research / Decision Template
 
-Maturity: `VALID` only after the static checklist passes.
+Maturity: `VALID` (static acceptance passed; no behavioral claim).
 
 ## PURPOSE
 Evaluate [DECISION] and recommend an option for [CONTEXT].
