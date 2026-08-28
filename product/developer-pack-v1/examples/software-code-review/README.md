@@ -16,7 +16,7 @@ A decorative role section was not required.
 
 ## Static quality result
 
-The prompt is designed to satisfy the pack's static checklist:
+The prompt passed the Developer Pack static acceptance surface:
 - inputs are explicit;
 - unobserved runtime facts are forbidden;
 - output fields are defined;
@@ -25,7 +25,7 @@ The prompt is designed to satisfy the pack's static checklist:
 
 ## Maturity
 
-`DRAFT` until the Developer Pack static acceptance gate promotes it to `VALID`.
+`VALID` — static package acceptance passed.
 
 No runtime output is included here, so this example does not establish `TESTED`, `IMPROVED`, `CERTIFIED`, or `PORTABLE`.
 
