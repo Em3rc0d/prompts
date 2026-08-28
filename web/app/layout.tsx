@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FunnelTracker } from "@/components/funnel-tracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
+        <FunnelTracker />
         <header className="nav">
           <div className="wrap navInner">
             <Link className="brand" href="/">Prompt <span>Quarry</span></Link>
