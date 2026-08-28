@@ -14,6 +14,7 @@ CASES = [
     ("mk0/raw/harvester/src-4fe8873fee95c3ad878b.md", "prompt", "ARCHITECTURE_DOCUMENTATION", "REFERENCE_CORPUS"),
     ("mk0/raw/harvester/src-df5745120b8542f8e17d.md", "instruction-markdown", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
     ("mk0/raw/harvester/src-38dc369b08a2e7b09211.md", "instruction-markdown", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
+    ("mk0/raw/harvester/src-bb47f1c16c51a452051c.md", "skill", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
 ]
 
 
@@ -33,9 +34,12 @@ def main():
                 failures.append(f"{path}: reference corpus must be explicitly non-canonical, got {result}")
         if expected_disposition == "REJECT" and result["canonical"] is not False:
             failures.append(f"{path}: rejected artifacts cannot be canonical")
+        if expected_disposition == "GOLDEN_EVALUATION":
+            if result["canonical"] is not True or result["authority"] != "CANONICAL_CANDIDATE_ONLY":
+                failures.append(f"{path}: Golden evaluation artifacts must remain candidate-only canonical, got {result}")
     if failures:
         raise AssertionError("semantic calibration failed:\n"+"\n".join(failures))
-    print(f"PASS: {len(CASES)}/10 human-reviewed calibration fixtures reproduced with epistemic boundaries")
+    print(f"PASS: {len(CASES)}/{len(CASES)} calibration fixtures reproduced with epistemic boundaries")
 
 
 if __name__ == "__main__":
