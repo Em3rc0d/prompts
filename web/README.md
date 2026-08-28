@@ -1,5 +1,7 @@
 # Prompt Quarry Web v0
 
+Status: `C1 IMPLEMENTED / CI PENDING`
+
 Zero-dependency static commercial surface for the `PQ-$1` funnel.
 
 ## Routes
@@ -32,6 +34,14 @@ python -m http.server 8080 -d web
 ```
 
 Then open `http://localhost:8080`.
+
+## Static acceptance
+
+```bash
+python tools/test_commercial_web_v0.py
+```
+
+The test guards required routes, responsive breakpoints, provider abstraction, and evidence-safe marketing boundaries.
 
 ## Boundaries
 
