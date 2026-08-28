@@ -17,6 +17,30 @@ def aggregate_confidence(confidence: dict, policy: dict) -> float:
     return min(values)
 
 
+def evaluate_eligibility(record: dict, policy: dict) -> dict:
+    flags = set(record.get("critical_flags", []))
+    overrides = policy["critical_overrides"]
+    force_reject = flags.intersection(overrides["force_reject"])
+    research_blockers = flags.intersection(overrides["block_research_auto_candidate"])
+    distribution_blockers = flags.intersection(overrides["block_distribution"])
+
+    research_eligible = not force_reject and not research_blockers
+    distribution_eligible = not force_reject and not distribution_blockers
+
+    return {
+        "golden_research_eligibility": {
+            "eligible": research_eligible,
+            "reasons": ([f"force_reject:{x}" for x in sorted(force_reject)] +
+                        [f"research_block:{x}" for x in sorted(research_blockers)]) or ["research_gate_pass"],
+        },
+        "distribution_eligibility": {
+            "eligible": distribution_eligible,
+            "reasons": ([f"force_reject:{x}" for x in sorted(force_reject)] +
+                        [f"distribution_block:{x}" for x in sorted(distribution_blockers)]) or ["distribution_gate_pass"],
+        },
+    }
+
+
 def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
     confidence = record["confidence"]
     aggregate = aggregate_confidence(confidence, policy)
@@ -27,21 +51,18 @@ def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
     if reject:
         return "REJECTED", [f"force_reject:{x}" for x in sorted(reject)], aggregate
 
-    blocked = flags.intersection(overrides["block_auto_candidate"])
+    research_blocked = flags.intersection(overrides["block_research_auto_candidate"])
     forced_review = flags.intersection(overrides["force_human_review"])
-
-    if blocked or forced_review:
-        reasons = [f"block_auto:{x}" for x in sorted(blocked)]
+    if research_blocked or forced_review:
+        reasons = [f"research_block:{x}" for x in sorted(research_blocked)]
         reasons += [f"force_review:{x}" for x in sorted(forced_review)]
         return "HUMAN_REVIEW_REQUIRED", reasons, aggregate
 
     routing = policy["routing"]
     if aggregate >= float(routing["auto_candidate_min_confidence"]):
         return "GOLDEN_CANDIDATE", ["confidence_at_or_above_auto_candidate_threshold"], aggregate
-
     if aggregate >= float(routing["human_review_min_confidence"]):
         return "HUMAN_REVIEW_REQUIRED", ["confidence_in_human_review_band"], aggregate
-
     return routing["below_human_review_default"], ["confidence_below_human_review_threshold"], aggregate
 
 
@@ -54,6 +75,7 @@ def apply_route(record: dict, policy: dict) -> dict:
     output["route_reasons"] = reasons
     output["stage"] = route
     output["policy_version"] = policy["policy_version"]
+    output["eligibility"] = evaluate_eligibility(record, policy)
     return output
 
 
@@ -63,12 +85,10 @@ def main() -> None:
     parser.add_argument("--policy", type=Path, default=POLICY_PATH)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-
     policy = load_policy(args.policy)
     record = json.loads(args.candidate.read_text(encoding="utf-8"))
     routed = apply_route(record, policy)
     encoded = json.dumps(routed, ensure_ascii=False, indent=2) + "\n"
-
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(encoded, encoding="utf-8")
