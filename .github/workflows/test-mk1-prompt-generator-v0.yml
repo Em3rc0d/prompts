@@ -33,6 +33,7 @@ on:
       - 'mk0/**'
       - 'mk1/specs/**'
       - 'mk1/generator/**'
+      - '.github/workflows/test-mk1-prompt-generator-v0.yml'
 
 permissions:
   contents: write
@@ -105,10 +106,11 @@ jobs:
           PY
           } 2>&1 | tee /tmp/mk1-generator-example.log
 
-      - name: Persist validation receipt on feature branch
-        if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+      - name: Build run-scoped validation receipt
+        if: always()
         env:
           SOURCE_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
           DEPS: ${{ steps.deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
           LEGACY: ${{ steps.legacy.outcome }}
@@ -133,16 +135,35 @@ jobs:
               'schema': 'prompt-quarry-ci-receipt-v1',
               'component': 'mk1-prompt-generator-v0',
               'source_commit': os.environ['SOURCE_SHA'],
+              'event_name': os.environ['EVENT_NAME'],
               'status': status,
               'gates': gates,
               'claim_boundary': 'CI validates static generator behavior only; it does not establish F4/F5 behavioral superiority or certification.',
           }
-          root = Path('.ci/mk1-prompt-generator-v0')
+          root = Path('/tmp/mk1-prompt-generator-v0-receipt')
           root.mkdir(parents=True, exist_ok=True)
-          (root / 'latest.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          (root / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
           print(json.dumps(receipt, indent=2))
           PY
 
+      - name: Upload run-scoped validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-prompt-generator-v0-validation
+          path: |
+            /tmp/mk1-prompt-generator-v0-receipt/receipt.json
+            /tmp/mk1-generator-tests.log
+            /tmp/mk1-generator-example.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Persist validation receipt on feature branch
+        if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        shell: bash
+        run: |
+          mkdir -p .ci/mk1-prompt-generator-v0
+          cp /tmp/mk1-prompt-generator-v0-receipt/receipt.json .ci/mk1-prompt-generator-v0/latest.json
           cp /tmp/mk1-generator-tests.log .ci/mk1-prompt-generator-v0/generator-tests.log 2>/dev/null || true
           cp /tmp/mk1-generator-example.log .ci/mk1-prompt-generator-v0/example-generation.log 2>/dev/null || true
 
