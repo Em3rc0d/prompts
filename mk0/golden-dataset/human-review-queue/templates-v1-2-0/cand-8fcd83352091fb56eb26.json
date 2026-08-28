@@ -1,0 +1,26 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-8fcd83352091fb56eb26",
+  "candidate_id": "cand-8fcd83352091fb56eb26",
+  "candidate_fingerprint": "sha256:171900d1713e2cf2164b31381324ec0d17883d560c529ffb4632c0ac577ee8c2",
+  "policy_version": "1.2.0",
+  "reviewer_role": "human-owner",
+  "decision": "HOLD",
+  "decision_reason_codes": [
+    "PENDING_HUMAN_DECISION"
+  ],
+  "rationale": "Pending human review; replace this placeholder with the review rationale.",
+  "reviewed_at": "1970-01-01T00:00:00Z",
+  "machine_confidence_at_review": 0.865,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "semantic_gate_at_review": {
+    "artifact_class": "AMBIGUOUS",
+    "confidence": 0.75,
+    "disposition": "HUMAN_REVIEW",
+    "canonical": false,
+    "authority": "UNRESOLVED",
+    "reason": "source label suggests prompt-like content but semantic evidence is insufficient"
+  },
+  "corrections": [],
+  "source_commit": null
+}
