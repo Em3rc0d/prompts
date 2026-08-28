@@ -7,8 +7,10 @@ on:
       - feat/mk1-prompt-generator-v0-20260827
     paths:
       - 'product/developer-pack-v1/**'
+      - 'product/specs/DISTRIBUTION_APPROVAL.schema.json'
       - 'tools/build_developer_pack_release_candidate.py'
       - 'tools/check_developer_pack_ready_gate.py'
+      - 'tools/promote_developer_pack_ready.py'
       - '.ci/developer-pack-v1/latest.json'
       - '.github/workflows/build-developer-pack-release-candidate.yml'
 
@@ -32,11 +34,15 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install validation dependency
+        run: python -m pip install jsonschema
+
       - name: Compile release tooling
         run: |
           python -m py_compile \
             tools/build_developer_pack_release_candidate.py \
-            tools/check_developer_pack_ready_gate.py
+            tools/check_developer_pack_ready_gate.py \
+            tools/promote_developer_pack_ready.py
 
       - name: Resolve deterministic source timestamp
         id: source
@@ -55,6 +61,15 @@ jobs:
 
       - name: Prove engineering converges to one human blocker
         run: python tools/check_developer_pack_ready_gate.py --expect-only-license-blocker
+
+      - name: Prove READY promotion fails closed without approval
+        shell: bash
+        run: |
+          if python tools/promote_developer_pack_ready.py; then
+            echo 'READY promotion unexpectedly succeeded without explicit approval.' >&2
+            exit 1
+          fi
+          echo 'READY promotion correctly blocked without explicit approval.'
 
       - name: Upload deterministic release candidate
         uses: actions/upload-artifact@v4
