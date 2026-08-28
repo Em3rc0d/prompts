@@ -1,0 +1,88 @@
+name: Build Developer Pack Release Candidate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'product/developer-pack-v1/**'
+      - 'tools/build_developer_pack_release_candidate.py'
+      - 'tools/check_developer_pack_ready_gate.py'
+      - '.ci/developer-pack-v1/latest.json'
+      - '.github/workflows/build-developer-pack-release-candidate.yml'
+
+concurrency:
+  group: developer-pack-release-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  release-candidate:
+    if: github.actor != 'prompt-quarry-bot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile release tooling
+        run: |
+          python -m py_compile \
+            tools/build_developer_pack_release_candidate.py \
+            tools/check_developer_pack_ready_gate.py
+
+      - name: Resolve deterministic source timestamp
+        id: source
+        shell: bash
+        run: |
+          echo "generated_at=$(git show -s --format=%cI "$GITHUB_SHA")" >> "$GITHUB_OUTPUT"
+
+      - name: Build deterministic release candidate
+        run: |
+          rm -rf /tmp/prompt-quarry-developer-pack-v1
+          mkdir -p /tmp/prompt-quarry-developer-pack-v1
+          python tools/build_developer_pack_release_candidate.py \
+            --source-commit "$GITHUB_SHA" \
+            --generated-at "${{ steps.source.outputs.generated_at }}" \
+            --archive /tmp/prompt-quarry-developer-pack-v1/prompt-quarry-developer-pack-v1.payload.zip
+
+      - name: Prove engineering converges to one human blocker
+        run: python tools/check_developer_pack_ready_gate.py --expect-only-license-blocker
+
+      - name: Upload deterministic release candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: developer-pack-v1-release-candidate
+          path: |
+            /tmp/prompt-quarry-developer-pack-v1/prompt-quarry-developer-pack-v1.payload.zip
+            product/developer-pack-v1/MANIFEST.release-candidate.json
+            .ci/developer-pack-v1/claims-review.json
+            .ci/developer-pack-v1/clean-room-release-candidate.json
+            .ci/developer-pack-v1/release-candidate-build.json
+            .ci/developer-pack-v1/release-readiness.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Persist release candidate evidence
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add \
+            product/developer-pack-v1/MANIFEST.release-candidate.json \
+            .ci/developer-pack-v1/claims-review.json \
+            .ci/developer-pack-v1/clean-room-release-candidate.json \
+            .ci/developer-pack-v1/release-candidate-build.json \
+            .ci/developer-pack-v1/release-readiness.json
+          if git diff --cached --quiet; then
+            echo 'Release candidate evidence unchanged.'
+          else
+            git commit -m 'ci(product): record Developer Pack release candidate evidence'
+            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          fi
