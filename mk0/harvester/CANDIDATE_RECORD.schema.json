@@ -16,11 +16,11 @@
       "additionalProperties":false,
       "required":["artifact_class","confidence","disposition","canonical","authority","reason"],
       "properties":{
-        "artifact_class":{"enum":["PROMPT","AGENT_INSTRUCTION","DOCUMENTATION","MANUAL","CODEBASE_GUIDE","DESIGN_SPEC","IMPLEMENTATION_PLAN","LOG_CHANGELOG","FAQ","ARCHITECTURE_DOCUMENTATION","NOISY_HTML","AMBIGUOUS"]},
+        "artifact_class":{"enum":["PROMPT","AGENT_INSTRUCTION","PROMPT_CONTAINER","DOCUMENTATION","MANUAL","CODEBASE_GUIDE","DESIGN_SPEC","IMPLEMENTATION_PLAN","LOG_CHANGELOG","FAQ","ARCHITECTURE_DOCUMENTATION","NOISY_HTML","AMBIGUOUS"]},
         "confidence":{"type":"number","minimum":0,"maximum":1},
-        "disposition":{"enum":["GOLDEN_EVALUATION","REFERENCE_CORPUS","REJECT","HUMAN_REVIEW"]},
+        "disposition":{"enum":["GOLDEN_EVALUATION","REFERENCE_CORPUS","EXTRACTION_REQUIRED","REJECT","HUMAN_REVIEW"]},
         "canonical":{"type":"boolean"},
-        "authority":{"enum":["CANONICAL_CANDIDATE_ONLY","NON_CANONICAL_REFERENCE","NON_USABLE","UNRESOLVED"]},
+        "authority":{"enum":["CANONICAL_CANDIDATE_ONLY","NON_CANONICAL_REFERENCE","SOURCE_CONTAINER_ONLY","NON_USABLE","UNRESOLVED"]},
         "reason":{"type":"string","minLength":1}
       }
     },
@@ -44,6 +44,10 @@
     {
       "if": {"properties":{"semantic_gate":{"properties":{"disposition":{"const":"REFERENCE_CORPUS"}}}}},
       "then": {"properties":{"semantic_gate":{"properties":{"canonical":{"const":false},"authority":{"const":"NON_CANONICAL_REFERENCE"}}}}}
+    },
+    {
+      "if": {"properties":{"semantic_gate":{"properties":{"disposition":{"const":"EXTRACTION_REQUIRED"}}}}},
+      "then": {"properties":{"semantic_gate":{"properties":{"canonical":{"const":false},"authority":{"const":"SOURCE_CONTAINER_ONLY"},"artifact_class":{"const":"PROMPT_CONTAINER"}}}}}
     },
     {
       "if": {"properties":{"semantic_gate":{"properties":{"disposition":{"const":"REJECT"}}}}},
