@@ -48,6 +48,7 @@
       "maturity_state": "DRAFT",
       "claims": ["engineered"],
       "evidence_refs": [],
+      "source_refs": ["mk1/specs/PROMPT_ARTIFACT.schema.json", "tools/mk1_prompt_generator_v0.py"],
       "sha256": "sha256:8dd11afb4a0a9bf181e063003db260bf61edd5135881ea6b5247f528fbb5a6d3",
       "distribution": {"include": true, "customer_visible": true, "redistributable": true, "notes": "General reusable structured prompt template."}
     },
@@ -61,6 +62,7 @@
       "maturity_state": "DRAFT",
       "claims": ["engineered"],
       "evidence_refs": [],
+      "source_refs": ["mk1/generator/examples/software-review.request.json", "tools/mk1_prompt_generator_v0.py"],
       "sha256": "sha256:f611ed340447f9754c0e09305f44d143aef0f85baa16c57fd38946b80e9f1cd8",
       "distribution": {"include": true, "customer_visible": true, "redistributable": true, "notes": "Software/code review template with evidence boundaries."}
     },
@@ -74,6 +76,7 @@
       "maturity_state": "DRAFT",
       "claims": ["engineered"],
       "evidence_refs": [],
+      "source_refs": ["mk1/specs/PROMPT_ARTIFACT.schema.json", "tools/mk1_prompt_generator_v0.py"],
       "sha256": "sha256:21d398f8b036186fbd6b8eb0d816638781c8020b3090429a7a5f751061b19594",
       "distribution": {"include": true, "customer_visible": true, "redistributable": true, "notes": "Technical research and decision template."}
     },
@@ -86,6 +89,7 @@
       "maturity_state": "DRAFT",
       "claims": ["engineered"],
       "evidence_refs": [],
+      "source_refs": ["tools/mk1_prompt_linter.py", "tools/mk1_prompt_critic.py"],
       "sha256": "sha256:d7af4e5c5df6e434eb766c09a79077aa76cfb71f5749ad07fc2dab1ccc941fa4",
       "distribution": {"include": true, "customer_visible": true, "redistributable": true, "notes": "Static prompt integrity gate."}
     },
