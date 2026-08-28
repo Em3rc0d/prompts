@@ -11,6 +11,7 @@ on:
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
       - 'tools/test_developer_pack_v1.py'
+      - 'tools/sync_product_manifest_hashes.py'
       - '.github/workflows/test-product-manifest.yml'
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
       - 'tools/test_developer_pack_v1.py'
+      - 'tools/sync_product_manifest_hashes.py'
       - '.github/workflows/test-product-manifest.yml'
 
 permissions:
@@ -47,7 +49,15 @@ jobs:
           python -m py_compile \
             tools/validate_product_manifest.py \
             tools/test_product_manifest.py \
-            tools/test_developer_pack_v1.py
+            tools/test_developer_pack_v1.py \
+            tools/sync_product_manifest_hashes.py
+
+      - name: Synchronize included artifact fingerprints
+        id: hashes
+        continue-on-error: true
+        run: |
+          python tools/sync_product_manifest_hashes.py \
+            product/developer-pack-v1/MANIFEST.draft.json
 
       - name: Validate current Developer Pack draft
         id: manifest
@@ -74,6 +84,7 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           DEPS: ${{ steps.deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
+          HASHES: ${{ steps.hashes.outcome }}
           MANIFEST: ${{ steps.manifest.outcome }}
           PACK: ${{ steps.pack.outcome }}
           ADVERSARIAL: ${{ steps.adversarial.outcome }}
@@ -86,6 +97,7 @@ jobs:
           gates = {
               'dependencies': os.environ['DEPS'],
               'compile': os.environ['COMPILE'],
+              'manifest_hash_sync': os.environ['HASHES'],
               'manifest_schema_semantics': os.environ['MANIFEST'],
               'developer_pack_static_acceptance': os.environ['PACK'],
               'adversarial_manifest_tests': os.environ['ADVERSARIAL'],
@@ -116,18 +128,18 @@ jobs:
           if-no-files-found: error
           retention-days: 30
 
-      - name: Persist canonical product receipt on feature branch
+      - name: Persist canonical product evidence on feature branch
         if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
         run: |
           mkdir -p .ci/developer-pack-v1
           cp /tmp/developer-pack-v1-receipt/receipt.json .ci/developer-pack-v1/latest.json
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
-          git add .ci/developer-pack-v1/latest.json
+          git add .ci/developer-pack-v1/latest.json product/developer-pack-v1/MANIFEST.draft.json
           if git diff --cached --quiet; then
-            echo 'Product validation receipt unchanged.'
+            echo 'Product evidence unchanged.'
           else
-            git commit -m 'ci(product): record Developer Pack v1 validation'
+            git commit -m 'ci(product): record Developer Pack v1 validation evidence'
             git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
           fi
 
@@ -136,11 +148,12 @@ jobs:
         env:
           DEPS: ${{ steps.deps.outcome }}
           COMPILE: ${{ steps.compile.outcome }}
+          HASHES: ${{ steps.hashes.outcome }}
           MANIFEST: ${{ steps.manifest.outcome }}
           PACK: ${{ steps.pack.outcome }}
           ADVERSARIAL: ${{ steps.adversarial.outcome }}
         run: |
-          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$MANIFEST" != success ] || [ "$PACK" != success ] || [ "$ADVERSARIAL" != success ]; then
+          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$HASHES" != success ] || [ "$MANIFEST" != success ] || [ "$PACK" != success ] || [ "$ADVERSARIAL" != success ]; then
             echo 'Developer Pack v1 static validation failed.' >&2
             exit 1
           fi
