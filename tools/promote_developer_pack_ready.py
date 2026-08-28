@@ -11,8 +11,9 @@ from validate_product_manifest import validate
 
 CANDIDATE = Path("product/developer-pack-v1/MANIFEST.release-candidate.json")
 APPROVAL_SCHEMA = Path("product/specs/DISTRIBUTION_APPROVAL.schema.json")
-DEFAULT_APPROVAL = Path("product/developer-pack-v1/release/DISTRIBUTION_APPROVAL.json")
+DEFAULT_APPROVAL = Path(".approvals/developer-pack-v1/DISTRIBUTION_APPROVAL.json")
 READY_MANIFEST = Path("product/developer-pack-v1/MANIFEST.ready.json")
+READY_RECEIPT = Path(".ci/developer-pack-v1/ready-promotion.json")
 
 
 def load(path: Path) -> dict:
@@ -39,10 +40,7 @@ def main() -> None:
 
     approval = load(args.approval)
     schema = load(APPROVAL_SCHEMA)
-    errors = sorted(
-        Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(approval),
-        key=lambda e: list(e.absolute_path),
-    )
+    errors = sorted(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(approval), key=lambda e: list(e.absolute_path))
     if errors:
         raise SystemExit("distribution approval is invalid:\n- " + "\n- ".join(e.message for e in errors))
 
@@ -63,13 +61,21 @@ def main() -> None:
         args.output.unlink(missing_ok=True)
         raise SystemExit("READY manifest failed product validation:\n- " + "\n- ".join(manifest_errors))
 
-    print(json.dumps({
-        "status": "READY",
-        "manifest": args.output.as_posix(),
-        "source_commit": ready["source_commit"],
+    receipt = {
+        "schema": "prompt-quarry-ready-promotion-receipt-v1",
+        "component": "developer-pack-v1",
+        "status": "PASS",
+        "release_status": "READY",
+        "candidate_source_commit": ready["source_commit"],
         "distribution_license": approval["distribution_license"],
-        "claim_boundary": "READY is a commercial packaging state only; it does not establish F4/F5/F6/F7 behavioral maturity."
-    }, indent=2))
+        "approval_ref": args.approval.as_posix(),
+        "ready_manifest": args.output.as_posix(),
+        "manifest_projection_sha256": ready["release"]["manifest_sha256"],
+        "claim_boundary": "READY is a commercial packaging state only; it does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
+    }
+    READY_RECEIPT.parent.mkdir(parents=True, exist_ok=True)
+    READY_RECEIPT.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps(receipt, indent=2))
 
 
 if __name__ == "__main__":
