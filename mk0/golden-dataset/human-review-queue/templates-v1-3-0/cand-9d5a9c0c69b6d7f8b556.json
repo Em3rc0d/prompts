@@ -1,0 +1,26 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-9d5a9c0c69b6d7f8b556",
+  "candidate_id": "cand-9d5a9c0c69b6d7f8b556",
+  "candidate_fingerprint": "sha256:f94de33774207b16a2cd0d909fd37c3ffb440970ad024fcb85ce8de6672372c8",
+  "policy_version": "1.3.0",
+  "reviewer_role": "human-owner",
+  "decision": "HOLD",
+  "decision_reason_codes": [
+    "PENDING_HUMAN_DECISION"
+  ],
+  "rationale": "Pending human review; replace this placeholder with the review rationale.",
+  "reviewed_at": "1970-01-01T00:00:00Z",
+  "machine_confidence_at_review": 0.89,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "semantic_gate_at_review": {
+    "artifact_class": "AGENT_INSTRUCTION",
+    "confidence": 0.97,
+    "disposition": "GOLDEN_EVALUATION",
+    "canonical": true,
+    "authority": "CANONICAL_CANDIDATE_ONLY",
+    "reason": "AGENTS.md contains actionable persistent agent constraints"
+  },
+  "corrections": [],
+  "source_commit": null
+}

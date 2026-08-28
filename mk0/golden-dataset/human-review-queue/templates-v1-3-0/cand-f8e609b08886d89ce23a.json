@@ -1,0 +1,26 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-f8e609b08886d89ce23a",
+  "candidate_id": "cand-f8e609b08886d89ce23a",
+  "candidate_fingerprint": "sha256:cccb3bdc25a81acd27c8a24875716c2ab18bd992396ae75e6cd4a83cb588112a",
+  "policy_version": "1.3.0",
+  "reviewer_role": "human-owner",
+  "decision": "HOLD",
+  "decision_reason_codes": [
+    "PENDING_HUMAN_DECISION"
+  ],
+  "rationale": "Pending human review; replace this placeholder with the review rationale.",
+  "reviewed_at": "1970-01-01T00:00:00Z",
+  "machine_confidence_at_review": 0.905,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "semantic_gate_at_review": {
+    "artifact_class": "PROMPT",
+    "confidence": 0.94,
+    "disposition": "GOLDEN_EVALUATION",
+    "canonical": true,
+    "authority": "CANONICAL_CANDIDATE_ONLY",
+    "reason": "artifact has direct model task/instruction structure"
+  },
+  "corrections": [],
+  "source_commit": null
+}
