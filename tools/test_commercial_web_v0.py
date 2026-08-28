@@ -15,6 +15,7 @@ REQUIRED = [
     WEB / "app/developer-pack/page.tsx",
     WEB / "app/license/page.tsx",
     WEB / "components/commerce-link.tsx",
+    WEB / "components/funnel-tracker.tsx",
     WEB / ".env.example",
 ]
 
@@ -64,6 +65,11 @@ def main() -> None:
         if key not in commerce:
             fail(f"public commerce environment key missing: {key}")
 
+    tracker = (WEB / "components/funnel-tracker.tsx").read_text(encoding="utf-8")
+    for token in ("NEXT_PUBLIC_ANALYTICS_MODE", "landing_view", "paid_product_viewed", "utm_source", "sessionStorage"):
+        if token not in tracker:
+            fail(f"analytics contract missing: {token}")
+
     if "lemonsqueezy.com" in lower or "gumroad.com" in lower:
         fail("checkout provider URL is hard-coded in customer-facing source")
 
@@ -80,6 +86,7 @@ def main() -> None:
     print(f"required_files={len(REQUIRED)}")
     print("framework=Next.js 16.3.3 App Router")
     print("routes=/,/free/developer-starter-pack,/developer-pack,/license")
+    print("analytics=minimal UTM/session bridge; no purchase/revenue inference")
     print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
 
 
