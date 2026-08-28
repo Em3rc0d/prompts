@@ -1,6 +1,6 @@
 # Software Code Review Template
 
-Maturity: `VALID` only after the static checklist passes.
+Maturity: `VALID` (static acceptance passed; no behavioral claim).
 
 ## PURPOSE
 Review [CODE_OR_DIFF] for correctness, maintainability, security-relevant defects, and regression risk.
