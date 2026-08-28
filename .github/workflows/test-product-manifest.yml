@@ -7,12 +7,14 @@ on:
       - 'product/**'
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
+      - 'tools/test_developer_pack_v1.py'
       - '.github/workflows/test-product-manifest.yml'
   pull_request:
     paths:
       - 'product/**'
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
+      - 'tools/test_developer_pack_v1.py'
       - '.github/workflows/test-product-manifest.yml'
 
 permissions:
@@ -35,12 +37,16 @@ jobs:
         run: |
           python -m py_compile \
             tools/validate_product_manifest.py \
-            tools/test_product_manifest.py
+            tools/test_product_manifest.py \
+            tools/test_developer_pack_v1.py
 
       - name: Validate current Developer Pack draft
         run: |
           python tools/validate_product_manifest.py \
             product/developer-pack-v1/MANIFEST.draft.json
+
+      - name: Run Developer Pack static acceptance
+        run: python tools/test_developer_pack_v1.py
 
       - name: Run adversarial manifest tests
         run: python tools/test_product_manifest.py
