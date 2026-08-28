@@ -24,7 +24,7 @@ def evaluate_eligibility(record: dict, policy: dict) -> dict:
     distribution_blockers = flags.intersection(overrides["block_distribution"])
     semantic = record.get("semantic_gate", {})
     disposition = semantic.get("disposition")
-    semantic_research_block = disposition in {"REFERENCE_CORPUS", "REJECT"}
+    semantic_research_block = disposition in {"REFERENCE_CORPUS", "EXTRACTION_REQUIRED", "REJECT"}
     semantic_distribution_block = disposition != "GOLDEN_EVALUATION"
 
     research_eligible = not force_reject and not research_blockers and not semantic_research_block
@@ -56,6 +56,8 @@ def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
         return "REJECTED", [f"semantic_reject:{artifact_class}"], aggregate
     if disposition == "REFERENCE_CORPUS":
         return "HOLD", [f"reference_corpus:{artifact_class}"], aggregate
+    if disposition == "EXTRACTION_REQUIRED":
+        return "HOLD", [f"extraction_required:{artifact_class}"], aggregate
 
     flags = set(record.get("critical_flags", []))
     overrides = policy["critical_overrides"]
