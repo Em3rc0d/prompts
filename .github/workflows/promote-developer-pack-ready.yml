@@ -1,0 +1,45 @@
+name: Promote Developer Pack READY
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - '.approvals/developer-pack-v1/DISTRIBUTION_APPROVAL.json'
+      - 'tools/promote_developer_pack_ready.py'
+      - 'product/specs/DISTRIBUTION_APPROVAL.schema.json'
+      - '.github/workflows/promote-developer-pack-ready.yml'
+
+concurrency:
+  group: developer-pack-ready-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  promote-ready:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Compile promotion tooling
+        run: python -m py_compile tools/promote_developer_pack_ready.py tools/validate_product_manifest.py
+      - name: Promote approved candidate to READY
+        run: python tools/promote_developer_pack_ready.py
+      - name: Persist READY manifest and receipt
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add product/developer-pack-v1/MANIFEST.ready.json .ci/developer-pack-v1/ready-promotion.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'release(product): promote Developer Pack v1 to READY'
+            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          fi
