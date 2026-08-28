@@ -1,13 +1,13 @@
 {
-  "archive_sha256": "sha256:e13b7c54e4d368d57cd196e13eff36ca9ecff4815fe8abb477b3833629fc8083",
+  "archive_sha256": "sha256:038275e7ed0733777d27eb786d8c5752d2421926ee13358661c76d49183ae0c8",
   "candidate_manifest": "product/developer-pack-v1/MANIFEST.release-candidate.json",
   "claim_boundary": "Release-candidate construction resolves engineering prerequisites only. READY remains blocked until an explicit distribution license/commercial approval is recorded.",
   "component": "developer-pack-v1",
-  "generated_at": "2026-08-28T16:38:03-05:00",
+  "generated_at": "2026-08-28T16:56:54-05:00",
   "included_assets": 21,
-  "manifest_projection_sha256": "sha256:124b69217625c16ab2f5e1629f58b02dc64f9d8392e4ac6143b38d844f980b39",
+  "manifest_projection_sha256": "sha256:dcad31d729a6b29f986abf18cb38a5c2be767dbdd48ebada169c186745a7a05a",
   "remaining_human_gate": "distribution_license/commercial_approval",
   "schema": "prompt-quarry-release-candidate-build-v1",
-  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
+  "source_commit": "dba9f21767bbfb6cc60b72aab750551fbe04bd6f",
   "status": "PASS"
 }

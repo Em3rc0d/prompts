@@ -28,7 +28,7 @@
       "evidence_refs": [
         ".ci/developer-pack-v1/latest.json"
       ],
-      "sha256": "sha256:bf0fe7262128348b1be67ef0b87492a9e318c649aa6c8442f130b257d81c3466",
+      "sha256": "sha256:5f9b7adc3e0c117d5138000b3bb5b4db7e56659e6222cb87ee3834b3f2e091c4",
       "distribution": {
         "include": true,
         "customer_visible": true,
