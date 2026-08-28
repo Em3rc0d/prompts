@@ -10,8 +10,8 @@
     "bundled": false,
     "gate": "canonical-static-ci-pass-required-before-bundling",
     "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json",
-    "receipt_status": "FAIL",
-    "receipt_source_commit": "8edb758cb94d1c423860c6ea89effe3d763147f1"
+    "receipt_status": "PASS",
+    "receipt_source_commit": "e69ab9afedf41fae4321f737f9ed28b1df21e806"
   },
   "artifacts": [],
   "forbidden_bundle_classes": [
