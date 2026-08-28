@@ -13,6 +13,7 @@ on:
       - 'tools/test_developer_pack_v1.py'
       - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
+      - 'tools/promote_developer_pack_valid.py'
       - '.github/workflows/test-product-manifest.yml'
   pull_request:
     paths:
@@ -22,6 +23,7 @@ on:
       - 'tools/test_developer_pack_v1.py'
       - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
+      - 'tools/promote_developer_pack_valid.py'
       - '.github/workflows/test-product-manifest.yml'
 
 concurrency:
@@ -57,7 +59,8 @@ jobs:
             tools/test_product_manifest.py \
             tools/test_developer_pack_v1.py \
             tools/test_developer_pack_clean_room.py \
-            tools/sync_product_manifest_hashes.py
+            tools/sync_product_manifest_hashes.py \
+            tools/promote_developer_pack_valid.py
 
       - name: Synchronize included artifact fingerprints
         id: hashes
@@ -87,6 +90,20 @@ jobs:
         id: adversarial
         continue-on-error: true
         run: python tools/test_product_manifest.py
+
+      - name: Promote statically accepted included assets to VALID
+        id: promote
+        if: >-
+          github.event_name == 'push' &&
+          github.ref_name == 'feat/mk1-prompt-generator-v0-20260827' &&
+          steps.deps.outcome == 'success' &&
+          steps.compile.outcome == 'success' &&
+          steps.hashes.outcome == 'success' &&
+          steps.manifest.outcome == 'success' &&
+          steps.pack.outcome == 'success' &&
+          steps.clean_room.outcome == 'success' &&
+          steps.adversarial.outcome == 'success'
+        run: python tools/promote_developer_pack_valid.py
 
       - name: Build run-scoped product validation receipt
         if: always()
@@ -125,7 +142,7 @@ jobs:
               'event_name': os.environ['EVENT_NAME'],
               'status': status,
               'gates': gates,
-              'claim_boundary': 'CI validates product manifest integrity, static package acceptance, and automated manifest-only clean-room export. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, human usability acceptance, or commercial release approval.',
+              'claim_boundary': 'CI validates product manifest integrity, static package acceptance, and automated manifest-only clean-room export. VALID is static maturity only. This receipt does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, human usability acceptance, or commercial release approval.',
           }
           root = Path('/tmp/developer-pack-v1-receipt')
           root.mkdir(parents=True, exist_ok=True)
