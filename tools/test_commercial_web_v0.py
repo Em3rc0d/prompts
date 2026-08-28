@@ -16,6 +16,7 @@ REQUIRED = [
     WEB / "app/license/page.tsx",
     WEB / "components/commerce-link.tsx",
     WEB / "components/funnel-tracker.tsx",
+    WEB / "components/quarry-engine.tsx",
     WEB / ".env.example",
 ]
 
@@ -51,6 +52,8 @@ def main() -> None:
         "use it. adapt it",
         "resell",
         "redistribut",
+        "quarry engine",
+        "not observed = unknown",
     ]
     for phrase in required_copy:
         if phrase not in lower:
@@ -78,6 +81,18 @@ def main() -> None:
         if breakpoint not in css:
             fail(f"responsive gate missing: {breakpoint}")
 
+    for visual_contract in (".heroPremium", ".engineShell", ".pipeline", ".productFrame", ".evidenceLadder", ".premiumCta"):
+        if visual_contract not in css:
+            fail(f"premium visual system contract missing: {visual_contract}")
+
+    if "prefers-reduced-motion:reduce" not in css:
+        fail("reduced-motion accessibility gate missing")
+
+    layout = (WEB / "app/layout.tsx").read_text(encoding="utf-8")
+    for token in ("Geist", "Geist_Mono", "brandGlyph"):
+        if token not in layout:
+            fail(f"brand typography/shell contract missing: {token}")
+
     package = (WEB / "package.json").read_text(encoding="utf-8")
     if '"next": "16.3.3"' not in package:
         fail("Next.js Active LTS security release 16.3.3 is not pinned")
@@ -85,6 +100,7 @@ def main() -> None:
     print("COMMERCIAL WEB V0: PASS")
     print(f"required_files={len(REQUIRED)}")
     print("framework=Next.js 16.3.3 App Router")
+    print("visual_system=premium technical/editorial + Quarry Engine")
     print("routes=/,/free/developer-starter-pack,/developer-pack,/license")
     print("analytics=minimal UTM/session bridge; no purchase/revenue inference")
     print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
