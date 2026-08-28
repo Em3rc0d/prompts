@@ -11,6 +11,7 @@ on:
       - tools/test_mk0_semantic_artifact_gate.py
       - tools/mk0_harvester_router.py
       - tools/test_mk0_harvester_router.py
+      - tools/mk0_build_human_review_queue.py
       - mk0/harvester/POLICY.json
       - mk0/harvester/CANDIDATE_RECORD.schema.json
       - mk0/reference-corpus/README.md
@@ -25,6 +26,7 @@ on:
       - tools/test_mk0_semantic_artifact_gate.py
       - tools/mk0_harvester_router.py
       - tools/test_mk0_harvester_router.py
+      - tools/mk0_build_human_review_queue.py
       - mk0/harvester/POLICY.json
       - mk0/harvester/CANDIDATE_RECORD.schema.json
       - mk0/reference-corpus/README.md
@@ -50,7 +52,9 @@ jobs:
         run: python tools/test_mk0_semantic_artifact_gate.py
       - name: Characterize 183 observations
         run: python tools/mk0_characterize_harvest.py
-      - name: Enforce characterization invariants
+      - name: Build policy-versioned human review queue
+        run: python tools/mk0_build_human_review_queue.py
+      - name: Enforce characterization and queue invariants
         run: |
           python - <<'PY'
           import json
@@ -60,6 +64,8 @@ jobs:
           receipt=json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
           records=[json.loads(line) for line in Path('mk0/golden-dataset/candidate-queue/batch-001.jsonl').read_text().splitlines() if line.strip()]
           references=[json.loads(line) for line in Path('mk0/reference-corpus/batch-001.jsonl').read_text().splitlines() if line.strip()]
+          queue_summary=json.loads(Path('mk0/analysis/harvester/human-review-queue-batch-001-v1-2-0.json').read_text())
+          queue=[json.loads(line) for line in Path('mk0/golden-dataset/human-review-queue/batch-001-v1-2-0.jsonl').read_text().splitlines() if line.strip()]
 
           assert policy['policy_version']=='1.2.0', policy
           assert receipt['policy_version']==policy['policy_version'], receipt
@@ -88,9 +94,22 @@ jobs:
                   assert record['semantic_gate']['disposition']=='GOLDEN_EVALUATION', record['candidate_id']
                   assert record['semantic_gate']['authority']=='CANONICAL_CANDIDATE_ONLY', record['candidate_id']
 
+          expected_review_count=receipt['routes'].get('HUMAN_REVIEW_REQUIRED',0)
+          assert queue_summary['status']=='PASS', queue_summary
+          assert queue_summary['policy_version']==policy['policy_version'], queue_summary
+          assert queue_summary['records']==expected_review_count, (queue_summary, receipt)
+          assert len(queue)==expected_review_count
+          assert sum(queue_summary['priority_buckets'].values())==expected_review_count
+          assert sum(queue_summary['semantic_artifact_classes'].values())==expected_review_count
+          assert all(r['machine_route']=='HUMAN_REVIEW_REQUIRED' for r in queue)
+          assert all(r['policy_version']==policy['policy_version'] for r in queue)
+          assert len(queue_summary['first_review_set'])==min(10, expected_review_count)
+
           print(json.dumps(receipt,indent=2))
+          print(json.dumps(queue_summary,indent=2))
           print(f"POLICY PROVENANCE: PASS ({policy['policy_version']})")
           print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
+          print(f"HUMAN REVIEW QUEUE: PASS ({len(queue)} records)")
           PY
       - name: Upload characterization evidence
         uses: actions/upload-artifact@v4
@@ -100,18 +119,27 @@ jobs:
             mk0/golden-dataset/candidate-queue/batch-001.jsonl
             mk0/reference-corpus/batch-001.jsonl
             mk0/analysis/harvester/characterization-batch-001-receipt.json
+            mk0/analysis/harvester/human-review-queue-batch-001-v1-2-0.json
+            mk0/golden-dataset/human-review-queue/batch-001-v1-2-0.jsonl
+            mk0/golden-dataset/human-review-queue/templates-v1-2-0/*.json
             mk0/normalized/harvester/source-records.jsonl
           if-no-files-found: error
           retention-days: 30
-      - name: Commit candidate queue, reference corpus, and receipt
+      - name: Commit generated MK0 batch artifacts
         if: github.event_name != 'pull_request'
         run: |
           git config user.name "prompt-quarry-bot"
           git config user.email "prompt-quarry-bot@users.noreply.github.com"
-          git add mk0/golden-dataset/candidate-queue/batch-001.jsonl mk0/reference-corpus/batch-001.jsonl mk0/analysis/harvester/characterization-batch-001-receipt.json
+          git add \
+            mk0/golden-dataset/candidate-queue/batch-001.jsonl \
+            mk0/reference-corpus/batch-001.jsonl \
+            mk0/analysis/harvester/characterization-batch-001-receipt.json \
+            mk0/analysis/harvester/human-review-queue-batch-001-v1-2-0.json \
+            mk0/golden-dataset/human-review-queue/batch-001-v1-2-0.jsonl \
+            mk0/golden-dataset/human-review-queue/templates-v1-2-0
           if git diff --cached --quiet; then
-            echo "No characterization changes"
+            echo "No MK0 generated changes"
           else
-            git commit -m "data(mk0): enforce canonical corpus boundaries on batch 001"
+            git commit -m "data(mk0): characterize batch 001 under policy v1.2.0"
             git push
           fi
