@@ -1,11 +1,11 @@
 {
   "schema": "prompt-quarry-distribution-approval-v1",
   "product_id": "pq-developer-pack",
-  "candidate_source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
+  "candidate_source_commit": "dba9f21767bbfb6cc60b72aab750551fbe04bd6f",
   "status": "APPROVED",
   "distribution_license": "Prompt Quarry Developer Pack — Proprietary Commercial License",
   "approved_by": "Prompt Quarry product owner (explicit user approval)",
-  "approved_at": "2026-08-28T16:53:19-05:00",
+  "approved_at": "2026-08-28T16:57:38-05:00",
   "commercial_release_approved": true,
-  "notes": "Approved commercial policy: licensees may use and adapt the Pack for their own work, workflows, products, and services. Resale, sublicensing, redistribution, publication, or offering the Pack/templates or substantially equivalent prompt libraries as standalone or competing products is prohibited. READY remains separate from F4 TESTED, F5 IMPROVED, F6 CERTIFIED, and F7 PORTABLE evidence states."
+  "notes": "Approved commercial policy: licensees may use and adapt the Pack for their own work, workflows, products, and services. Resale, sublicensing, redistribution, publication, or offering the Pack/templates or substantially equivalent prompt libraries as standalone or competing products is prohibited. This approval is rebound to the final 21-asset release candidate after the README was made release-state neutral and evidence persistence was made race-safe. READY remains separate from F4 TESTED, F5 IMPROVED, F6 CERTIFIED, and F7 PORTABLE evidence states."
 }
