@@ -3,18 +3,18 @@
   "batch_id": "mk0-characterization-001",
   "policy_version": "1.2.0",
   "status": "PASS",
-  "created_at": "2026-08-28T15:19:32.341722Z",
+  "created_at": "2026-08-28T15:21:54.871926Z",
   "records": 183,
   "routes": {
     "REJECTED": 4,
-    "HOLD": 135,
-    "HUMAN_REVIEW_REQUIRED": 44
+    "HOLD": 134,
+    "HUMAN_REVIEW_REQUIRED": 45
   },
   "semantic_artifact_classes": {
     "NOISY_HTML": 4,
-    "MANUAL": 47,
-    "AMBIGUOUS": 80,
-    "AGENT_INSTRUCTION": 29,
+    "MANUAL": 46,
+    "AMBIGUOUS": 78,
+    "AGENT_INSTRUCTION": 32,
     "CODEBASE_GUIDE": 1,
     "IMPLEMENTATION_PLAN": 3,
     "PROMPT": 14,
@@ -24,18 +24,18 @@
   },
   "semantic_dispositions": {
     "REJECT": 4,
-    "REFERENCE_CORPUS": 56,
-    "HUMAN_REVIEW": 80,
-    "GOLDEN_EVALUATION": 43
+    "REFERENCE_CORPUS": 55,
+    "HUMAN_REVIEW": 78,
+    "GOLDEN_EVALUATION": 46
   },
-  "reference_corpus_records": 56,
+  "reference_corpus_records": 55,
   "confidence_bands": {
     ">=0.95": 1,
     "0.90-<0.95": 44,
     "<0.90": 138
   },
   "eligibility": {
-    "golden_research_eligible": 123,
+    "golden_research_eligible": 124,
     "distribution_eligible": 0
   },
   "domains": {

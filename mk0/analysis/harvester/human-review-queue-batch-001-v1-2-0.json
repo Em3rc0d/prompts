@@ -3,24 +3,23 @@
   "batch_id": "mk0-human-review-001-v1-2-0",
   "policy_version": "1.2.0",
   "status": "PASS",
-  "records": 44,
+  "records": 45,
   "priority_buckets": {
-    "P1_SEMANTIC_CALIBRATION": 26,
-    "P2_GOLDEN_EVALUATION": 18
+    "P1_SEMANTIC_CALIBRATION": 25,
+    "P2_GOLDEN_EVALUATION": 20
   },
   "semantic_artifact_classes": {
-    "AMBIGUOUS": 26,
-    "AGENT_INSTRUCTION": 11,
+    "AMBIGUOUS": 25,
+    "AGENT_INSTRUCTION": 13,
     "PROMPT": 7
   },
   "domains": {
-    "agentic": 26,
+    "agentic": 27,
     "software": 12,
     "content": 3,
     "data": 3
   },
   "first_review_set": [
-    "cand-86ea409ac67374a37d39",
     "cand-ea55c35d1d48bca79f85",
     "cand-be29e5f0eccc9561bf96",
     "cand-a2b5d2aedf9a77ae7e3a",
@@ -29,7 +28,8 @@
     "cand-249e41a4cff660dccea2",
     "cand-1e7085cd2b34ee170624",
     "cand-99da5a3d99efc3e3d628",
-    "cand-96070239e20c81500d78"
+    "cand-96070239e20c81500d78",
+    "cand-556670bdba9c2dd9348a"
   ],
   "queue_ref": "mk0/golden-dataset/human-review-queue/batch-001-v1-2-0.jsonl",
   "templates_ref": "mk0/golden-dataset/human-review-queue/templates-v1-2-0",
