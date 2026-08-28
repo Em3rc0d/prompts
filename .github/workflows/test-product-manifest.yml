@@ -14,6 +14,9 @@ on:
       - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
       - 'tools/promote_developer_pack_valid.py'
+      - 'tools/build_developer_pack_release_candidate.py'
+      - 'tools/check_developer_pack_ready_gate.py'
+      - 'tools/promote_developer_pack_ready.py'
       - '.github/workflows/test-product-manifest.yml'
   pull_request:
     paths:
@@ -24,6 +27,9 @@ on:
       - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
       - 'tools/promote_developer_pack_valid.py'
+      - 'tools/build_developer_pack_release_candidate.py'
+      - 'tools/check_developer_pack_ready_gate.py'
+      - 'tools/promote_developer_pack_ready.py'
       - '.github/workflows/test-product-manifest.yml'
 
 concurrency:
@@ -60,7 +66,10 @@ jobs:
             tools/test_developer_pack_v1.py \
             tools/test_developer_pack_clean_room.py \
             tools/sync_product_manifest_hashes.py \
-            tools/promote_developer_pack_valid.py
+            tools/promote_developer_pack_valid.py \
+            tools/build_developer_pack_release_candidate.py \
+            tools/check_developer_pack_ready_gate.py \
+            tools/promote_developer_pack_ready.py
 
       - name: Synchronize included artifact fingerprints
         id: hashes
@@ -150,16 +159,83 @@ jobs:
           print(json.dumps(receipt, indent=2))
           PY
 
+      - name: Stage current canonical receipt for release construction
+        if: >-
+          github.event_name == 'push' &&
+          github.ref_name == 'feat/mk1-prompt-generator-v0-20260827' &&
+          steps.deps.outcome == 'success' &&
+          steps.compile.outcome == 'success' &&
+          steps.hashes.outcome == 'success' &&
+          steps.manifest.outcome == 'success' &&
+          steps.pack.outcome == 'success' &&
+          steps.clean_room.outcome == 'success' &&
+          steps.adversarial.outcome == 'success'
+        run: |
+          mkdir -p .ci/developer-pack-v1
+          cp /tmp/developer-pack-v1-receipt/receipt.json .ci/developer-pack-v1/latest.json
+
+      - name: Resolve deterministic source timestamp
+        id: source
+        if: github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        shell: bash
+        run: echo "generated_at=$(git show -s --format=%cI "$GITHUB_SHA")" >> "$GITHUB_OUTPUT"
+
+      - name: Build deterministic release candidate
+        id: release_candidate
+        continue-on-error: true
+        if: >-
+          github.event_name == 'push' &&
+          github.ref_name == 'feat/mk1-prompt-generator-v0-20260827' &&
+          steps.deps.outcome == 'success' &&
+          steps.compile.outcome == 'success' &&
+          steps.hashes.outcome == 'success' &&
+          steps.manifest.outcome == 'success' &&
+          steps.pack.outcome == 'success' &&
+          steps.clean_room.outcome == 'success' &&
+          steps.adversarial.outcome == 'success'
+        run: |
+          rm -rf /tmp/prompt-quarry-developer-pack-v1
+          mkdir -p /tmp/prompt-quarry-developer-pack-v1
+          python tools/build_developer_pack_release_candidate.py \
+            --source-commit "$GITHUB_SHA" \
+            --generated-at "${{ steps.source.outputs.generated_at }}" \
+            --archive /tmp/prompt-quarry-developer-pack-v1/prompt-quarry-developer-pack-v1.payload.zip
+
+      - name: Prove READY has exactly one human blocker
+        id: ready_gate
+        continue-on-error: true
+        if: steps.release_candidate.outcome == 'success'
+        run: python tools/check_developer_pack_ready_gate.py --expect-only-license-blocker
+
+      - name: Prove READY promotion fails closed without approval
+        id: approval_block
+        continue-on-error: true
+        if: steps.release_candidate.outcome == 'success'
+        shell: bash
+        run: |
+          if python tools/promote_developer_pack_ready.py; then
+            echo 'READY promotion unexpectedly succeeded without explicit approval.' >&2
+            exit 1
+          fi
+          echo 'READY promotion correctly blocked without explicit approval.'
+
       - name: Upload product validation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: developer-pack-v1-validation
-          path: /tmp/developer-pack-v1-receipt/receipt.json
-          if-no-files-found: error
+          path: |
+            /tmp/developer-pack-v1-receipt/receipt.json
+            /tmp/prompt-quarry-developer-pack-v1/prompt-quarry-developer-pack-v1.payload.zip
+            product/developer-pack-v1/MANIFEST.release-candidate.json
+            .ci/developer-pack-v1/claims-review.json
+            .ci/developer-pack-v1/clean-room-release-candidate.json
+            .ci/developer-pack-v1/release-candidate-build.json
+            .ci/developer-pack-v1/release-readiness.json
+          if-no-files-found: warn
           retention-days: 30
 
-      - name: Persist canonical product evidence on feature branch
+      - name: Persist canonical product and release-candidate evidence
         if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
         run: |
           mkdir -p .ci/developer-pack-v1
@@ -167,10 +243,18 @@ jobs:
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
           git add .ci/developer-pack-v1/latest.json product/developer-pack-v1/MANIFEST.draft.json
+          for path in \
+            product/developer-pack-v1/MANIFEST.release-candidate.json \
+            .ci/developer-pack-v1/claims-review.json \
+            .ci/developer-pack-v1/clean-room-release-candidate.json \
+            .ci/developer-pack-v1/release-candidate-build.json \
+            .ci/developer-pack-v1/release-readiness.json; do
+            if [ -f "$path" ]; then git add "$path"; fi
+          done
           if git diff --cached --quiet; then
             echo 'Product evidence unchanged.'
           else
-            git commit -m 'ci(product): record Developer Pack v1 validation evidence'
+            git commit -m 'ci(product): record Developer Pack validation and release candidate evidence'
             git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
           fi
 
@@ -190,3 +274,16 @@ jobs:
             exit 1
           fi
           echo 'Developer Pack v1 static and automated clean-room validation passed.'
+
+      - name: Enforce release-candidate engineering gates
+        if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        env:
+          RELEASE_CANDIDATE: ${{ steps.release_candidate.outcome }}
+          READY_GATE: ${{ steps.ready_gate.outcome }}
+          APPROVAL_BLOCK: ${{ steps.approval_block.outcome }}
+        run: |
+          if [ "$RELEASE_CANDIDATE" != success ] || [ "$READY_GATE" != success ] || [ "$APPROVAL_BLOCK" != success ]; then
+            echo 'Developer Pack release-candidate engineering gate failed.' >&2
+            exit 1
+          fi
+          echo 'Release candidate engineering complete; only explicit distribution approval may unlock READY.'
