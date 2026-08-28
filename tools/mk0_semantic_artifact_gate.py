@@ -30,6 +30,10 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
     This gate answers what the artifact IS, not how polished it looks.
     Reference material is preserved as explicitly non-canonical. Ambiguous
     cases remain reviewable instead of being silently promoted.
+
+    Precedence is semantic: explicit agent-operating instructions outrank
+    incidental documentation words; explicit document identity outranks
+    prompt-like phrases embedded inside manuals or reference material.
     """
     text = f"{title}\n{body}"
     low = text.casefold()
@@ -40,20 +44,20 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
         kind, confidence, reason = "FAQ", 0.99, "artifact is explicitly a FAQ"
     elif _has(text, "implementation plan", "poc implementation plan"):
         kind, confidence, reason = "IMPLEMENTATION_PLAN", 0.98, "artifact is an implementation/design plan"
-    elif _has(text, "activity log", "changelog") or (body.count("## 20") >= 2):
-        kind, confidence, reason = "LOG_CHANGELOG", 0.97, "artifact primarily records historical activity or changes"
+    elif re.search(r"^#\s+(?:log|changelog|activity log)\b", body, re.I | re.M):
+        kind, confidence, reason = "LOG_CHANGELOG", 0.99, "artifact explicitly identifies itself as a log or changelog"
     elif _has(text, "architecture overview", "end-to-end chat flow") and _has(text, "mermaid", "sequenceDiagram", "graph TB"):
         kind, confidence, reason = "ARCHITECTURE_DOCUMENTATION", 0.97, "artifact primarily documents system architecture"
+    elif _has(text, "this document provides comprehensive guidance for ai assistants", "instructions for ai assistants", "ai assistants working on", "guidance to ai agents when working with code"):
+        kind, confidence, reason = "AGENT_INSTRUCTION", 0.99, "artifact explicitly instructs AI assistants or agents operating in a repository"
+    elif source_type == "instruction-markdown" and _has(text, "agents.md") and _has(text, "don't", "must", "never", "treat every session", "before changing"):
+        kind, confidence, reason = "AGENT_INSTRUCTION", 0.97, "AGENTS.md contains actionable persistent agent constraints"
     elif _has(text, "codebase guide"):
         kind, confidence, reason = "CODEBASE_GUIDE", 0.98, "artifact explicitly identifies itself as a codebase guide"
-    elif _has(text, "this document provides comprehensive guidance for ai assistants", "instructions for ai assistants", "ai assistants working on"):
-        kind, confidence, reason = "AGENT_INSTRUCTION", 0.98, "artifact explicitly instructs AI assistants operating in a repository"
-    elif source_type == "instruction-markdown" and _has(text, "agents.md") and _has(text, "don't", "must", "never", "treat every session", "before changing"):
-        kind, confidence, reason = "AGENT_INSTRUCTION", 0.96, "AGENTS.md contains actionable persistent agent constraints"
+    elif _has(text, "quick start", "configuration", "installation") and _has(text, "build", "cli", "usage"):
+        kind, confidence, reason = "MANUAL", 0.95, "artifact is primarily setup/usage documentation"
     elif source_type == "prompt" and _has(text, "you are", "act as", "your task", "output"):
         kind, confidence, reason = "PROMPT", 0.94, "artifact has direct model task/instruction structure"
-    elif _has(text, "quick start", "configuration", "installation") and _has(text, "build", "cli", "usage"):
-        kind, confidence, reason = "MANUAL", 0.93, "artifact is primarily setup/usage documentation"
     elif source_type in {"prompt", "instruction-markdown", "skill", "agent", "capability", "workflow"}:
         kind, confidence, reason = "AMBIGUOUS", 0.75, "source label suggests prompt-like content but semantic evidence is insufficient"
     else:
