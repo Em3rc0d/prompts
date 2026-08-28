@@ -1,0 +1,32 @@
+{
+  "brief_id": "example-technical-decision-001",
+  "title": "Technical option decision prompt",
+  "intent": "research",
+  "domain": "software",
+  "risk": "normal",
+  "complexity": "moderate",
+  "goal": "Produce a reusable prompt that compares technical options consistently and returns an evidence-grounded recommendation with explicit uncertainty.",
+  "inputs": {
+    "required": ["decision", "options", "decision_criteria", "evidence"],
+    "optional": ["hard_constraints", "known_unknowns"]
+  },
+  "success_criteria": [
+    "The same decision criteria are applied across viable options",
+    "Evidence and inference are distinguished",
+    "Recommendation-changing conditions are explicit"
+  ],
+  "interaction": "intake-allowed",
+  "language": "en",
+  "constraints": [
+    "Do not infer missing evidence as fact",
+    "Reject options that violate explicit hard constraints"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 1,
+    "evidence": true,
+    "citations": false
+  },
+  "model_targets": ["model-agnostic"],
+  "notes": ["Normalized example task brief."]
+}
