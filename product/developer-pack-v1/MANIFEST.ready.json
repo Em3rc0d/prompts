@@ -20,7 +20,7 @@
       "maturity_state": "VALID",
       "path": "product/developer-pack-v1/README.md",
       "provenance_class": "product-authored",
-      "sha256": "sha256:bf0fe7262128348b1be67ef0b87492a9e318c649aa6c8442f130b257d81c3466"
+      "sha256": "sha256:5f9b7adc3e0c117d5138000b3bb5b4db7e56659e6222cb87ee3834b3f2e091c4"
     },
     {
       "artifact_id": "pq-devpack-quickstart",
@@ -538,7 +538,7 @@
     "unreviewed-source-harvest-data",
     "synthetic-output-presented-as-real-runtime-evidence"
   ],
-  "generated_at": "2026-08-28T16:38:03-05:00",
+  "generated_at": "2026-08-28T16:56:54-05:00",
   "generator_v0": {
     "bundled": false,
     "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json",
@@ -550,15 +550,15 @@
   "product_id": "pq-developer-pack",
   "product_name": "Prompt Quarry Developer Pack",
   "release": {
-    "archive_sha256": "sha256:e13b7c54e4d368d57cd196e13eff36ca9ecff4815fe8abb477b3833629fc8083",
+    "archive_sha256": "sha256:038275e7ed0733777d27eb786d8c5752d2421926ee13358661c76d49183ae0c8",
     "claims_review_receipt": ".ci/developer-pack-v1/claims-review.json",
     "clean_room_receipt": ".ci/developer-pack-v1/clean-room-release-candidate.json",
     "distribution_license": "Prompt Quarry Developer Pack \u2014 Proprietary Commercial License",
-    "manifest_sha256": "sha256:5ad22b1330c7092faf6a1e548ae9654fbe078d0c0106832a5ab7c9f636dc07bb"
+    "manifest_sha256": "sha256:3a94fb7e20b2f0a7464800339e015160447842484beb7b4e4c52a3c22e021c83"
   },
   "release_status": "READY",
   "schema": "prompt-quarry-product-manifest-v1",
   "source_branch": "feat/mk1-prompt-generator-v0-20260827",
-  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
+  "source_commit": "dba9f21767bbfb6cc60b72aab750551fbe04bd6f",
   "version": "1.0.0"
 }
