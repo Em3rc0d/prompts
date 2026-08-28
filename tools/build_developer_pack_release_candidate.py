@@ -49,6 +49,19 @@ def included_artifacts(manifest: dict) -> list[dict]:
     )
 
 
+def bind_current_fingerprints(manifest: dict) -> None:
+    """Bind the release candidate to bytes observed in this exact checkout.
+
+    The draft manifest remains historical working metadata. The release candidate
+    gets fresh fingerprints from the current source commit so a previous hash-sync
+    run cannot make release construction depend on workflow timing.
+    """
+    for artifact in included_artifacts(manifest):
+        path = Path(artifact["path"])
+        if path.is_file():
+            artifact["sha256"] = sha256_file(path)
+
+
 def validate_static_prerequisites(manifest: dict, static_receipt: dict) -> list[str]:
     failures: list[str] = []
     included = included_artifacts(manifest)
@@ -68,7 +81,7 @@ def validate_static_prerequisites(manifest: dict, static_receipt: dict) -> list[
         if not path.is_file():
             failures.append(f"missing included artifact: {path}")
         elif artifact.get("sha256") != sha256_file(path):
-            failures.append(f"fingerprint mismatch: {path}")
+            failures.append(f"fingerprint mismatch after current-checkout binding: {path}")
         if not artifact["path"].startswith(PACK_ROOT):
             failures.append(f"artifact escapes pack root: {artifact['path']}")
     return failures
@@ -98,6 +111,7 @@ def main() -> None:
         raise SystemExit("source commit must be a lowercase 40-char SHA")
 
     manifest = load(DRAFT_MANIFEST)
+    bind_current_fingerprints(manifest)
     static_receipt = load(STATIC_RECEIPT)
     failures = validate_static_prerequisites(manifest, static_receipt)
     if failures:
