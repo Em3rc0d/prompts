@@ -19,19 +19,15 @@ def _epistemic(disposition: str) -> tuple[bool, str]:
         return True, "CANONICAL_CANDIDATE_ONLY"
     if disposition == "REFERENCE_CORPUS":
         return False, "NON_CANONICAL_REFERENCE"
+    if disposition == "EXTRACTION_REQUIRED":
+        return False, "SOURCE_CONTAINER_ONLY"
     if disposition == "REJECT":
         return False, "NON_USABLE"
     return False, "UNRESOLVED"
 
 
 def _is_operational_skill(body: str, source_type: str) -> bool:
-    """Recognize a persistent AI skill contract without trusting the filename alone.
-
-    A SKILL.md-like source is promoted semantically only when it contains both
-    skill metadata/identity and normative operating instructions. This avoids
-    treating ordinary documentation that happens to be named SKILL.md as Golden
-    material.
-    """
+    """Recognize a persistent AI skill contract without trusting the filename alone."""
     if source_type != "skill":
         return False
 
@@ -59,16 +55,43 @@ def _is_operational_skill(body: str, source_type: str) -> bool:
     return frontmatter and identity and operating_sections >= 2 and normative >= 3
 
 
+def _is_prompt_container(body: str, source_type: str) -> bool:
+    """Detect documentation-like sources that contain an embedded prompt.
+
+    The source container is not itself a Golden prompt artifact. A future
+    extractor must create a child artifact with source span, fingerprint, and
+    provenance; that child then re-enters the semantic gate independently.
+    """
+    if source_type != "prompt" or len(body) < 1500:
+        return False
+    low = body.casefold()
+    prompt_marker = bool(re.search(
+        r"^(?:#{1,6}\s*)?(?:cron job |system |user |example |template )?prompt\b",
+        body,
+        re.I | re.M,
+    )) or _has(body, "paste the prompt below", "prompt below")
+    doc_markers = sum(
+        1 for term in (
+            "description",
+            "use when",
+            "don't use when",
+            "setup",
+            "source priority",
+            "optional enhancements",
+            "license",
+        ) if term in low
+    )
+    workflow_prompt = bool(re.search(r"\bSTEP\s+1\b", body, re.I)) and bool(re.search(r"\bSTEP\s+[2-9]\b", body, re.I))
+    return prompt_marker and doc_markers >= 2 and workflow_prompt
+
+
 def classify_artifact(title: str, body: str, source_type: str) -> dict:
     """Deterministic pre-quality semantic gate.
 
     This gate answers what the artifact IS, not how polished it looks.
-    Reference material is preserved as explicitly non-canonical. Ambiguous
-    cases remain reviewable instead of being silently promoted.
-
-    Precedence is semantic: explicit agent-operating instructions outrank
-    incidental documentation words; explicit document identity outranks
-    prompt-like phrases embedded inside manuals or reference material.
+    Reference material is preserved as explicitly non-canonical. Prompt
+    containers are preserved for child extraction, never promoted wholesale.
+    Ambiguous cases remain reviewable instead of being silently promoted.
     """
     text = f"{title}\n{body}"
     low = text.casefold()
@@ -89,6 +112,8 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
         kind, confidence, reason = "AGENT_INSTRUCTION", 0.97, "AGENTS.md contains actionable persistent agent constraints"
     elif _is_operational_skill(body, source_type):
         kind, confidence, reason = "AGENT_INSTRUCTION", 0.97, "SKILL artifact contains persistent normative operating instructions for an AI agent"
+    elif _is_prompt_container(body, source_type):
+        kind, confidence, reason = "PROMPT_CONTAINER", 0.97, "source document contains embedded prompt material but is not itself a prompt artifact"
     elif _has(text, "codebase guide"):
         kind, confidence, reason = "CODEBASE_GUIDE", 0.98, "artifact explicitly identifies itself as a codebase guide"
     elif _has(text, "quick start", "configuration", "installation") and _has(text, "build", "cli", "usage"):
@@ -104,6 +129,8 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
         disposition = "GOLDEN_EVALUATION"
     elif kind in REFERENCE_ARTIFACTS:
         disposition = "REFERENCE_CORPUS"
+    elif kind == "PROMPT_CONTAINER":
+        disposition = "EXTRACTION_REQUIRED"
     elif kind == "NOISY_HTML":
         disposition = "REJECT"
     else:
