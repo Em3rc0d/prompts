@@ -53,7 +53,12 @@ function emit(payload: FunnelEvent) {
 export function FunnelTracker() {
   useEffect(() => {
     captureAttribution();
-    emit({ event: "landing_view" });
+
+    if (window.location.pathname === "/") {
+      emit({ event: "landing_view" });
+    } else if (window.location.pathname.startsWith("/developer-pack")) {
+      emit({ event: "paid_product_viewed", product_id: "pq-developer-pack", product_version: "1.0.0" });
+    }
 
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<FunnelEvent>).detail;
