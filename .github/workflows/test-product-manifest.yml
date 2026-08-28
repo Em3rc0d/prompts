@@ -24,6 +24,10 @@ on:
       - 'tools/sync_product_manifest_hashes.py'
       - '.github/workflows/test-product-manifest.yml'
 
+concurrency:
+  group: developer-pack-v1-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
