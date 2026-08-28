@@ -1,0 +1,47 @@
+{
+  "schema": "prompt-quarry-characterization-receipt-v1",
+  "batch_id": "mk0-characterization-001",
+  "status": "PASS",
+  "created_at": "2026-08-28T00:11:24.855758Z",
+  "records": 183,
+  "routes": {
+    "HUMAN_REVIEW_REQUIRED": 183
+  },
+  "domains": {
+    "software": 114,
+    "content": 5,
+    "agentic": 59,
+    "data": 5
+  },
+  "top_families": {
+    "software_generate": 91,
+    "agentic_generate": 37,
+    "software_operate": 19,
+    "agentic_operate": 13,
+    "agentic_review": 7,
+    "content_generate": 5,
+    "data_generate": 4,
+    "software_research": 2,
+    "agentic_transform": 2,
+    "software_review": 1,
+    "software_transform": 1,
+    "data_operate": 1
+  },
+  "top_techniques": {
+    "tool-use": 158,
+    "structured-output": 155,
+    "verification": 155,
+    "context-boundary": 130,
+    "step-decomposition": 119,
+    "explicit-constraints": 118,
+    "examples": 95,
+    "role-framing": 32
+  },
+  "aggregate_confidence": {
+    "min": 0.72,
+    "max": 0.955,
+    "mean": 0.8642
+  },
+  "duplicates": 0,
+  "claim_boundary": "Heuristic MK0 characterization only. Routing does not establish behavioral quality, certification, portability, or redistribution rights. UNKNOWN license remains UNKNOWN."
+}
