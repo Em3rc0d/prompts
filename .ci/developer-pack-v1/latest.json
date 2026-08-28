@@ -1,16 +1,18 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "developer-pack-v1",
-  "source_commit": "79a9fd7eb365ea7bf31e867cd3115043d149dcaf",
-  "checkout_commit": "79a9fd7eb365ea7bf31e867cd3115043d149dcaf",
+  "source_commit": "11d9f3e1cf5565e21657fc41ccd4069e7eff36e6",
+  "checkout_commit": "11d9f3e1cf5565e21657fc41ccd4069e7eff36e6",
   "event_name": "push",
   "status": "PASS",
   "gates": {
     "dependencies": "success",
     "compile": "success",
+    "manifest_hash_sync": "success",
     "manifest_schema_semantics": "success",
     "developer_pack_static_acceptance": "success",
+    "clean_room_manifest_export": "success",
     "adversarial_manifest_tests": "success"
   },
-  "claim_boundary": "CI validates product manifest integrity and static package acceptance only. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or commercial clean-room readiness."
+  "claim_boundary": "CI validates product manifest integrity, static package acceptance, and automated manifest-only clean-room export. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, human usability acceptance, or commercial release approval."
 }
