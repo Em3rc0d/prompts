@@ -13,8 +13,7 @@ def load_policy(path: Path = POLICY_PATH) -> dict:
 
 def aggregate_confidence(confidence: dict, policy: dict) -> float:
     required = policy["aggregate_confidence"]["required_dimensions"]
-    values = [float(confidence[name]) for name in required]
-    return min(values)
+    return min(float(confidence[name]) for name in required)
 
 
 def evaluate_eligibility(record: dict, policy: dict) -> dict:
@@ -23,34 +22,47 @@ def evaluate_eligibility(record: dict, policy: dict) -> dict:
     force_reject = flags.intersection(overrides["force_reject"])
     research_blockers = flags.intersection(overrides["block_research_auto_candidate"])
     distribution_blockers = flags.intersection(overrides["block_distribution"])
+    semantic = record.get("semantic_gate", {})
+    disposition = semantic.get("disposition")
+    semantic_research_block = disposition in {"REFERENCE_CORPUS", "REJECT"}
+    semantic_distribution_block = disposition != "GOLDEN_EVALUATION"
 
-    research_eligible = not force_reject and not research_blockers
-    distribution_eligible = not force_reject and not distribution_blockers
+    research_eligible = not force_reject and not research_blockers and not semantic_research_block
+    distribution_eligible = not force_reject and not distribution_blockers and not semantic_distribution_block
 
+    research_reasons = ([f"force_reject:{x}" for x in sorted(force_reject)] +
+                        [f"research_block:{x}" for x in sorted(research_blockers)])
+    distribution_reasons = ([f"force_reject:{x}" for x in sorted(force_reject)] +
+                            [f"distribution_block:{x}" for x in sorted(distribution_blockers)])
+    if semantic_research_block:
+        research_reasons.append(f"semantic_gate:{disposition.casefold()}")
+    if semantic_distribution_block:
+        distribution_reasons.append(f"semantic_gate:{(disposition or 'unknown').casefold()}")
     return {
-        "golden_research_eligibility": {
-            "eligible": research_eligible,
-            "reasons": ([f"force_reject:{x}" for x in sorted(force_reject)] +
-                        [f"research_block:{x}" for x in sorted(research_blockers)]) or ["research_gate_pass"],
-        },
-        "distribution_eligibility": {
-            "eligible": distribution_eligible,
-            "reasons": ([f"force_reject:{x}" for x in sorted(force_reject)] +
-                        [f"distribution_block:{x}" for x in sorted(distribution_blockers)]) or ["distribution_gate_pass"],
-        },
+        "golden_research_eligibility": {"eligible": research_eligible, "reasons": research_reasons or ["research_gate_pass"]},
+        "distribution_eligibility": {"eligible": distribution_eligible, "reasons": distribution_reasons or ["distribution_gate_pass"]},
     }
 
 
 def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
-    confidence = record["confidence"]
-    aggregate = aggregate_confidence(confidence, policy)
+    aggregate = aggregate_confidence(record["confidence"], policy)
+    semantic = record.get("semantic_gate", {})
+    disposition = semantic.get("disposition")
+    artifact_class = semantic.get("artifact_class", "UNKNOWN")
+
+    # Semantic identity precedes quality/confidence. Polished documentation is still documentation.
+    if disposition == "REJECT":
+        return "REJECTED", [f"semantic_reject:{artifact_class}"], aggregate
+    if disposition == "REFERENCE_CORPUS":
+        return "HOLD", [f"reference_corpus:{artifact_class}"], aggregate
+    if disposition == "HUMAN_REVIEW":
+        return "HUMAN_REVIEW_REQUIRED", [f"semantic_ambiguous:{artifact_class}"], aggregate
+
     flags = set(record.get("critical_flags", []))
     overrides = policy["critical_overrides"]
-
     reject = flags.intersection(overrides["force_reject"])
     if reject:
         return "REJECTED", [f"force_reject:{x}" for x in sorted(reject)], aggregate
-
     research_blocked = flags.intersection(overrides["block_research_auto_candidate"])
     forced_review = flags.intersection(overrides["force_human_review"])
     if research_blocked or forced_review:
