@@ -1,6 +1,6 @@
 # General Structured Prompt
 
-Maturity: `VALID` only after the static checklist passes.
+Maturity: `VALID` (static acceptance passed; no behavioral claim).
 
 ## PURPOSE
 Achieve: [DESIRED_OUTCOME].
