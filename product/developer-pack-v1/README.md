@@ -1,7 +1,7 @@
 # Prompt Quarry Developer Pack v1
 
-Release status: `DRAFT`
 Asset maturity: `VALID` (static acceptance only)
+Distribution status: defined by the release manifest for the package you received.
 
 Prompt Quarry Developer Pack is a compact toolkit for structuring software and technical AI prompts with explicit inputs, constraints, outputs, uncertainty behavior, and quality gates.
 
@@ -15,12 +15,14 @@ It does not promise a universally best prompt. Pack assets keep their evidence s
 4. Run `checklists/static-quality.md`.
 5. Execute the prompt in your chosen model/runtime.
 6. Record runtime observations separately from static quality.
+7. Read `LICENSE.md` before redistributing or embedding Pack-derived material.
 
 ## Package map
 
 ```text
 README.md
 QUICKSTART.md
+LICENSE.md
 methodology/
   architecture.md
   evidence-states.md
@@ -65,4 +67,6 @@ Commercial packaging never promotes an artifact's evidence state.
 
 ## Distribution boundary
 
-This pack contains Prompt Quarry-authored or Prompt Quarry-derived material. Raw harvested third-party bodies, private research internals, credentials, and synthetic outputs presented as real runtime evidence are forbidden from the bundle.
+This Pack is licensed for authorized use and adaptation under `LICENSE.md`. Resale, sublicensing, redistribution, publication, or offering the Pack, its templates, or substantially equivalent prompt libraries as standalone or competing products is prohibited.
+
+This Pack contains Prompt Quarry-authored or Prompt Quarry-derived material. Raw harvested third-party bodies, private research internals, credentials, and synthetic outputs presented as real runtime evidence are forbidden from the bundle.
