@@ -28,7 +28,7 @@
       "evidence_refs": [
         ".ci/developer-pack-v1/latest.json"
       ],
-      "sha256": "sha256:db551b8fd9cffb3784e37b90c635dfb2926169537569ee5baf1403089d48e6dc",
+      "sha256": "sha256:bf0fe7262128348b1be67ef0b87492a9e318c649aa6c8442f130b257d81c3466",
       "distribution": {
         "include": true,
         "customer_visible": true,
@@ -513,7 +513,7 @@
       "evidence_refs": [
         ".ci/developer-pack-v1/latest.json"
       ],
-      "sha256": "sha256:ee20167eb191ad270f7f987ffe97cca06b3d4a5afac0c6bac880917dddc21fe7",
+      "sha256": "sha256:a0ec1f3c40a14f4534aa75ab8caa53652d2c7a62ba27cdbc71c6fb938e06fda2",
       "distribution": {
         "include": true,
         "customer_visible": true,
