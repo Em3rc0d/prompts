@@ -4,8 +4,8 @@
   ],
   "claim_boundary": "READY is packaging/commercial readiness only. It does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE.",
   "component": "developer-pack-v1",
-  "included_assets": 20,
+  "included_assets": 21,
   "schema": "prompt-quarry-release-readiness-receipt-v1",
-  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
+  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
   "status": "BLOCKED"
 }

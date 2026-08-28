@@ -506,6 +506,28 @@
       "path": "product/developer-pack-v1/checklists/release-readiness.md",
       "provenance_class": "product-authored",
       "sha256": "sha256:a0ec1f3c40a14f4534aa75ab8caa53652d2c7a62ba27cdbc71c6fb938e06fda2"
+    },
+    {
+      "artifact_id": "pq-devpack-license",
+      "artifact_type": "license",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Prompt Quarry proprietary use-and-adapt license; redistribution/resale rights are not granted to customers.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/LICENSE.md",
+      "provenance_class": "product-authored",
+      "sha256": "sha256:f111939ad4cb783ed195b97cadef28136e231769e4ee056a7233c2601c8d7626"
     }
   ],
   "claim_boundary": "Commercial distribution does not promote MK1 maturity. TESTED requires F4 real evidence; IMPROVED/CANDIDATE requires F5 superiority; CERTIFIED requires F6 repeated same-target evidence; PORTABLE requires F7 cross-provider evidence.",
@@ -516,7 +538,7 @@
     "unreviewed-source-harvest-data",
     "synthetic-output-presented-as-real-runtime-evidence"
   ],
-  "generated_at": "2026-08-28T16:35:26-05:00",
+  "generated_at": "2026-08-28T16:38:03-05:00",
   "generator_v0": {
     "bundled": false,
     "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json",
@@ -528,14 +550,14 @@
   "product_id": "pq-developer-pack",
   "product_name": "Prompt Quarry Developer Pack",
   "release": {
-    "archive_sha256": "sha256:a45761baac029a6dc55ed5d12b5e76fdbb181158adec5e88108f4b3384ef15a4",
+    "archive_sha256": "sha256:e13b7c54e4d368d57cd196e13eff36ca9ecff4815fe8abb477b3833629fc8083",
     "claims_review_receipt": ".ci/developer-pack-v1/claims-review.json",
     "clean_room_receipt": ".ci/developer-pack-v1/clean-room-release-candidate.json",
-    "manifest_sha256": "sha256:22ec81f21d768e1f9179119d116291c218cf6e771ed0c72fe0eb98ff61b3ffa3"
+    "manifest_sha256": "sha256:124b69217625c16ab2f5e1629f58b02dc64f9d8392e4ac6143b38d844f980b39"
   },
   "release_status": "DRAFT",
   "schema": "prompt-quarry-product-manifest-v1",
   "source_branch": "feat/mk1-prompt-generator-v0-20260827",
-  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
+  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
   "version": "1.0.0-rc.1"
 }

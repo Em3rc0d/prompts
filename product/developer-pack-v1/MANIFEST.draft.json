@@ -520,6 +520,28 @@
         "redistributable": true,
         "notes": "Commercial package readiness gate."
       }
+    },
+    {
+      "artifact_id": "pq-devpack-license",
+      "path": "product/developer-pack-v1/LICENSE.md",
+      "artifact_type": "license",
+      "authority": "prompt-quarry",
+      "provenance_class": "product-authored",
+      "maturity_state": "VALID",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "sha256": "sha256:f111939ad4cb783ed195b97cadef28136e231769e4ee056a7233c2601c8d7626",
+      "distribution": {
+        "include": true,
+        "customer_visible": true,
+        "redistributable": true,
+        "notes": "Prompt Quarry proprietary use-and-adapt license; redistribution/resale rights are not granted to customers."
+      }
     }
   ],
   "forbidden_bundle_classes": [

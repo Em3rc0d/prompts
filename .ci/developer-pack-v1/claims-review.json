@@ -2,9 +2,9 @@
   "claim_boundary": "Automated claims review verifies package labels do not exceed static VALID evidence. It does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE.",
   "component": "developer-pack-v1",
   "forbidden_claims_observed": [],
-  "included_assets": 20,
+  "included_assets": 21,
   "maximum_maturity_claim": "VALID",
   "schema": "prompt-quarry-claims-review-receipt-v1",
-  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
+  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
   "status": "PASS"
 }

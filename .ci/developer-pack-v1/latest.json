@@ -1,18 +1,19 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "developer-pack-v1",
-  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
-  "checkout_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
+  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
+  "checkout_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
   "event_name": "push",
   "status": "PASS",
   "gates": {
     "dependencies": "success",
     "compile": "success",
+    "license_asset_registration": "success",
     "manifest_hash_sync": "success",
     "manifest_schema_semantics": "success",
     "developer_pack_static_acceptance": "success",
     "clean_room_manifest_export": "success",
     "adversarial_manifest_tests": "success"
   },
-  "claim_boundary": "CI validates product manifest integrity, static package acceptance, and automated manifest-only clean-room export. VALID is static maturity only. This receipt does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, human usability acceptance, or commercial release approval."
+  "claim_boundary": "CI validates product manifest integrity, static package acceptance, proprietary license inclusion, and automated manifest-only clean-room export. VALID is static maturity only. This receipt does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or human usability acceptance."
 }
