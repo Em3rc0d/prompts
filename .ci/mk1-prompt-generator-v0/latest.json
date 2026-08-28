@@ -1,7 +1,7 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "mk1-prompt-generator-v0",
-  "source_commit": "eeabc76d55b80247b62b52c8c311798b74560b51",
+  "source_commit": "05a83297f9ea17e3ce5466bfa7f8cbe0ac351677",
   "status": "PASS",
   "gates": {
     "dependencies": "success",
