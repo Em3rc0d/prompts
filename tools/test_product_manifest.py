@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import copy
 import json
-import tempfile
 from pathlib import Path
 
 from validate_product_manifest import semantic_errors, schema_errors
@@ -54,10 +53,19 @@ def test_valid_cannot_claim_tested() -> None:
     assert schema_errors(manifest)
 
 
-def test_bundled_generator_requires_pass() -> None:
+def test_bundled_generator_rejects_non_pass_receipt() -> None:
     manifest = load_manifest()
     manifest["generator_v0"]["bundled"] = True
+    manifest["generator_v0"]["receipt_status"] = "FAIL"
     assert schema_errors(manifest)
+
+
+def test_bundled_generator_rejects_receipt_commit_mismatch() -> None:
+    manifest = load_manifest()
+    manifest["generator_v0"]["bundled"] = True
+    manifest["generator_v0"]["receipt_status"] = "PASS"
+    manifest["generator_v0"]["receipt_source_commit"] = "0" * 40
+    assert_has(semantic_errors(manifest, Path(".")), "receipt_source_commit does not match canonical receipt")
 
 
 def test_duplicate_ids_are_rejected() -> None:
@@ -136,7 +144,8 @@ def main() -> None:
         test_current_draft_schema_passes,
         test_unknown_field_fails_closed,
         test_valid_cannot_claim_tested,
-        test_bundled_generator_requires_pass,
+        test_bundled_generator_rejects_non_pass_receipt,
+        test_bundled_generator_rejects_receipt_commit_mismatch,
         test_duplicate_ids_are_rejected,
         test_included_nonexistent_path_is_rejected,
         test_unknown_dependency_is_rejected,
