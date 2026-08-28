@@ -80,6 +80,12 @@ def test_force_review_overrides_high_confidence() -> None:
     assert apply_route(record, load_policy())["route"] == "HUMAN_REVIEW_REQUIRED"
 
 
+def test_force_review_overrides_low_confidence_ambiguity() -> None:
+    record = base_record(0.72, "HUMAN_REVIEW")
+    record["critical_flags"] = ["conflicting_classifiers"]
+    assert apply_route(record, load_policy())["route"] == "HUMAN_REVIEW_REQUIRED"
+
+
 def test_unknown_license_does_not_block_internal_golden_candidacy() -> None:
     record = base_record(0.99)
     record["critical_flags"] = ["license_unknown_for_redistribution"]
@@ -115,10 +121,17 @@ def test_rejected_artifact_never_routes_to_golden_even_at_perfect_score() -> Non
     assert routed["eligibility"]["golden_research_eligibility"]["eligible"] is False
 
 
-def test_ambiguous_artifact_requires_human_review_even_at_perfect_score() -> None:
-    routed = apply_route(base_record(1.0, "HUMAN_REVIEW"), load_policy())
+def test_ambiguous_artifact_requires_human_review_at_review_threshold() -> None:
+    routed = apply_route(base_record(0.90, "HUMAN_REVIEW"), load_policy())
     assert routed["route"] == "HUMAN_REVIEW_REQUIRED"
     assert routed["semantic_gate"]["canonical"] is False
+
+
+def test_low_confidence_ambiguous_artifact_holds_without_override() -> None:
+    routed = apply_route(base_record(0.8999999, "HUMAN_REVIEW"), load_policy())
+    assert routed["route"] == "HOLD"
+    assert routed["semantic_gate"]["canonical"] is False
+    assert "confidence_below_human_review_threshold" in routed["route_reasons"]
 
 
 def main() -> None:
