@@ -28,9 +28,14 @@ def main():
         result=classify_artifact(p.name, body, source_type)
         if result["artifact_class"] != expected_class or result["disposition"] != expected_disposition:
             failures.append(f"{path}: expected {expected_class}/{expected_disposition}, got {result}")
+        if expected_disposition == "REFERENCE_CORPUS":
+            if result["canonical"] is not False or result["authority"] != "NON_CANONICAL_REFERENCE":
+                failures.append(f"{path}: reference corpus must be explicitly non-canonical, got {result}")
+        if expected_disposition == "REJECT" and result["canonical"] is not False:
+            failures.append(f"{path}: rejected artifacts cannot be canonical")
     if failures:
         raise AssertionError("semantic calibration failed:\n"+"\n".join(failures))
-    print(f"PASS: {len(CASES)}/10 human-reviewed calibration fixtures reproduced")
+    print(f"PASS: {len(CASES)}/10 human-reviewed calibration fixtures reproduced with epistemic boundaries")
 
 
 if __name__ == "__main__":
