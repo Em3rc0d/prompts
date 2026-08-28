@@ -49,20 +49,20 @@ def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
     semantic = record.get("semantic_gate", {})
     disposition = semantic.get("disposition")
     artifact_class = semantic.get("artifact_class", "UNKNOWN")
+    routing = policy["routing"]
 
     # Semantic identity precedes quality/confidence. Polished documentation is still documentation.
     if disposition == "REJECT":
         return "REJECTED", [f"semantic_reject:{artifact_class}"], aggregate
     if disposition == "REFERENCE_CORPUS":
         return "HOLD", [f"reference_corpus:{artifact_class}"], aggregate
-    if disposition == "HUMAN_REVIEW":
-        return "HUMAN_REVIEW_REQUIRED", [f"semantic_ambiguous:{artifact_class}"], aggregate
 
     flags = set(record.get("critical_flags", []))
     overrides = policy["critical_overrides"]
     reject = flags.intersection(overrides["force_reject"])
     if reject:
         return "REJECTED", [f"force_reject:{x}" for x in sorted(reject)], aggregate
+
     research_blocked = flags.intersection(overrides["block_research_auto_candidate"])
     forced_review = flags.intersection(overrides["force_human_review"])
     if research_blocked or forced_review:
@@ -70,7 +70,13 @@ def route_candidate(record: dict, policy: dict) -> tuple[str, list[str], float]:
         reasons += [f"force_review:{x}" for x in sorted(forced_review)]
         return "HUMAN_REVIEW_REQUIRED", reasons, aggregate
 
-    routing = policy["routing"]
+    # Ambiguity alone does not bypass the confidence policy. Low-confidence
+    # unresolved material remains HOLD unless a critical override requires a human.
+    if disposition == "HUMAN_REVIEW":
+        if aggregate >= float(routing["human_review_min_confidence"]):
+            return "HUMAN_REVIEW_REQUIRED", [f"semantic_ambiguous:{artifact_class}", "confidence_in_human_review_band"], aggregate
+        return routing["below_human_review_default"], [f"semantic_ambiguous:{artifact_class}", "confidence_below_human_review_threshold"], aggregate
+
     if aggregate >= float(routing["auto_candidate_min_confidence"]):
         return "GOLDEN_CANDIDATE", ["confidence_at_or_above_auto_candidate_threshold"], aggregate
     if aggregate >= float(routing["human_review_min_confidence"]):
