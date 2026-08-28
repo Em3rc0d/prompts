@@ -2,10 +2,12 @@
   "schema": "prompt-quarry-characterization-receipt-v1",
   "batch_id": "mk0-characterization-001",
   "status": "PASS",
-  "created_at": "2026-08-28T00:11:24.855758Z",
+  "created_at": "2026-08-28T00:22:21.285888Z",
   "records": 183,
   "routes": {
-    "HUMAN_REVIEW_REQUIRED": 183
+    "HOLD": 103,
+    "HUMAN_REVIEW_REQUIRED": 79,
+    "GOLDEN_CANDIDATE": 1
   },
   "domains": {
     "software": 114,
