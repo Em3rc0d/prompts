@@ -5,6 +5,7 @@ def base_record(score: float, disposition: str = "GOLDEN_EVALUATION") -> dict:
     epistemic = {
         "GOLDEN_EVALUATION": (True, "CANONICAL_CANDIDATE_ONLY", "PROMPT"),
         "REFERENCE_CORPUS": (False, "NON_CANONICAL_REFERENCE", "DOCUMENTATION"),
+        "EXTRACTION_REQUIRED": (False, "SOURCE_CONTAINER_ONLY", "PROMPT_CONTAINER"),
         "REJECT": (False, "NON_USABLE", "NOISY_HTML"),
         "HUMAN_REVIEW": (False, "UNRESOLVED", "AMBIGUOUS"),
     }
@@ -43,7 +44,7 @@ def base_record(score: float, disposition: str = "GOLDEN_EVALUATION") -> dict:
         "critical_flags": [],
         "route": "HOLD",
         "route_reasons": [],
-        "policy_version": "1.2.0",
+        "policy_version": "1.3.0",
         "created_at": "2026-08-28T00:00:00Z",
     }
 
@@ -113,6 +114,16 @@ def test_reference_corpus_never_routes_to_golden_even_at_perfect_score() -> None
     assert routed["eligibility"]["golden_research_eligibility"]["eligible"] is False
     assert routed["semantic_gate"]["canonical"] is False
     assert routed["semantic_gate"]["authority"] == "NON_CANONICAL_REFERENCE"
+
+
+def test_prompt_container_never_routes_to_golden_even_at_perfect_score() -> None:
+    routed = apply_route(base_record(1.0, "EXTRACTION_REQUIRED"), load_policy())
+    assert routed["route"] == "HOLD"
+    assert routed["eligibility"]["golden_research_eligibility"]["eligible"] is False
+    assert routed["eligibility"]["distribution_eligibility"]["eligible"] is False
+    assert routed["semantic_gate"]["canonical"] is False
+    assert routed["semantic_gate"]["authority"] == "SOURCE_CONTAINER_ONLY"
+    assert "extraction_required:PROMPT_CONTAINER" in routed["route_reasons"]
 
 
 def test_rejected_artifact_never_routes_to_golden_even_at_perfect_score() -> None:
