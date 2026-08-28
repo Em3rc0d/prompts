@@ -92,6 +92,16 @@ jobs:
           print(f"POLICY PROVENANCE: PASS ({policy['policy_version']})")
           print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
           PY
+      - name: Upload characterization evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk0-characterization-batch-001
+          path: |
+            mk0/golden-dataset/candidate-queue/batch-001.jsonl
+            mk0/reference-corpus/batch-001.jsonl
+            mk0/analysis/harvester/characterization-batch-001-receipt.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Commit candidate queue, reference corpus, and receipt
         if: github.event_name != 'pull_request'
         run: |
