@@ -1,6 +1,7 @@
 # Prompt Quarry Developer Pack v1
 
-Status: DRAFT
+Release status: `DRAFT`
+Asset maturity: `VALID` (static acceptance only)
 
 Prompt Quarry Developer Pack is a compact toolkit for structuring software and technical AI prompts with explicit inputs, constraints, outputs, uncertainty behavior, and quality gates.
 
