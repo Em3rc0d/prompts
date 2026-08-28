@@ -50,7 +50,8 @@ def prompt_markdown(result: dict) -> str:
 
 def artifact_entry(
     artifact_id: str,
-    path: Path,
+    physical_path: Path,
+    manifest_path: Path,
     artifact_type: str,
     provenance_class: str,
     maturity_state: str,
@@ -60,15 +61,15 @@ def artifact_entry(
 ) -> dict:
     entry = {
         "artifact_id": artifact_id,
-        "path": path.as_posix(),
+        "path": manifest_path.as_posix(),
         "artifact_type": artifact_type,
         "authority": "prompt-quarry",
         "provenance_class": provenance_class,
         "maturity_state": maturity_state,
         "claims": claims,
         "evidence_refs": evidence_refs,
-        "sha256": sha256_file(path),
-        "media_type": "text/markdown" if path.suffix == ".md" else "application/json",
+        "sha256": sha256_file(physical_path),
+        "media_type": "text/markdown" if physical_path.suffix == ".md" else "application/json",
         "distribution": {
             "include": True,
             "customer_visible": True,
@@ -94,7 +95,8 @@ def validate_manifest(manifest: dict) -> None:
 
 
 def enforce_export_boundary(root: Path) -> None:
-    # These tokens are allowed in MANIFEST.json only as build/evidence metadata.
+    # MANIFEST.json may name the canonical build receipt as evidence metadata.
+    # Customer-facing assets must never expose private quarry paths/source IDs.
     forbidden = ("mk0/", "quarry/", "src_alpacka", "golden-dataset/", ".ci/")
     violations = []
     for path in root.rglob("*"):
@@ -126,17 +128,30 @@ def build(output: Path, source_commit: str, source_branch: str) -> dict:
     output.mkdir(parents=True, exist_ok=True)
     example.mkdir(parents=True, exist_ok=True)
 
-    request_payload = result["request"]
-    brief_payload = result["brief"]
-    architecture_payload = result["architecture"]
+    lint = result["lint"]
+    critic = result["critic"]
     quality_payload = {
         "schema": "prompt-quarry-product-static-quality-v1",
         "generator_version": result["generator_version"],
         "generator_status": result["generator_status"],
         "artifact_id": result["artifact"]["id"],
         "artifact_state": result["artifact"]["state"],
-        "lint": result["lint"],
-        "critic": result["critic"],
+        "lint": {
+            "version": lint.get("linter_version"),
+            "status": lint["status"],
+            "error_count": lint["error_count"],
+            "warning_count": lint["warning_count"],
+            "blocking_count": lint["blocking_count"],
+            "findings": lint["findings"],
+        },
+        "critic": {
+            "version": critic.get("critic_version"),
+            "status": critic["status"],
+            "error_count": critic.get("error_count", 0),
+            "warning_count": critic.get("warning_count", 0),
+            "blocking_count": critic.get("blocking_count", 0),
+            "findings": critic.get("findings", []),
+        },
         "maturity_state": "VALID",
         "claims": ["engineered", "valid"],
         "claim_boundary": result["claim_boundary"],
@@ -160,20 +175,20 @@ def build(output: Path, source_commit: str, source_branch: str) -> dict:
         "model_targets": result["artifact"]["model_targets"],
         "maturity_state": "VALID",
         "claims": ["engineered", "valid"],
-        "architecture_signature": architecture_payload["architecture_signature"],
-        "techniques": architecture_payload["techniques"],
+        "architecture_signature": result["architecture"]["architecture_signature"],
+        "techniques": result["architecture"]["techniques"],
         "claim_boundary": result["claim_boundary"],
     }
 
-    files = {
-        example / "request.json": request_payload,
-        example / "task-brief.json": brief_payload,
-        example / "architecture.json": architecture_payload,
+    payloads = {
+        example / "request.json": result["request"],
+        example / "task-brief.json": result["brief"],
+        example / "architecture.json": result["architecture"],
         example / "static-quality.json": quality_payload,
         example / "evaluation-guidance.json": evaluation_payload,
         example / "prompt-metadata.json": metadata_payload,
     }
-    for path, payload in files.items():
+    for path, payload in payloads.items():
         write_json(path, payload)
     prompt_path = example / "prompt.md"
     prompt_path.write_text(prompt_markdown(result), encoding="utf-8")
@@ -181,15 +196,15 @@ def build(output: Path, source_commit: str, source_branch: str) -> dict:
     enforce_export_boundary(output)
 
     evidence_ref = f"generator-ci:{receipt['source_commit']}"
-    relative = lambda path: path.relative_to(output)
+    rel = lambda path: path.relative_to(output)
     artifacts = [
-        artifact_entry("pq-devpack-code-review-request", relative(example / "request.json"), "prompt-request-example", "example", "DRAFT", ["engineered"], []),
-        artifact_entry("pq-devpack-code-review-brief", relative(example / "task-brief.json"), "task-brief-example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
-        artifact_entry("pq-devpack-code-review-architecture", relative(example / "architecture.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
-        artifact_entry("pq-devpack-code-review-prompt", relative(prompt_path), "prompt-artifact", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref], "software_code_review"),
-        artifact_entry("pq-devpack-code-review-quality", relative(example / "static-quality.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
-        artifact_entry("pq-devpack-code-review-evaluation", relative(example / "evaluation-guidance.json"), "example", "product-authored", "DRAFT", ["engineered"], []),
-        artifact_entry("pq-devpack-code-review-metadata", relative(example / "prompt-metadata.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
+        artifact_entry("pq-devpack-code-review-request", example / "request.json", rel(example / "request.json"), "prompt-request-example", "example", "DRAFT", ["engineered"], []),
+        artifact_entry("pq-devpack-code-review-brief", example / "task-brief.json", rel(example / "task-brief.json"), "task-brief-example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
+        artifact_entry("pq-devpack-code-review-architecture", example / "architecture.json", rel(example / "architecture.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
+        artifact_entry("pq-devpack-code-review-prompt", prompt_path, rel(prompt_path), "prompt-artifact", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref], "software_code_review"),
+        artifact_entry("pq-devpack-code-review-quality", example / "static-quality.json", rel(example / "static-quality.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
+        artifact_entry("pq-devpack-code-review-evaluation", example / "evaluation-guidance.json", rel(example / "evaluation-guidance.json"), "example", "product-authored", "DRAFT", ["engineered"], []),
+        artifact_entry("pq-devpack-code-review-metadata", example / "prompt-metadata.json", rel(example / "prompt-metadata.json"), "example", "mk1-derived", "VALID", ["engineered", "valid"], [evidence_ref]),
     ]
 
     manifest = {
@@ -221,9 +236,6 @@ def build(output: Path, source_commit: str, source_branch: str) -> dict:
     }
     validate_manifest(manifest)
     write_json(output / "MANIFEST.json", manifest)
-
-    # Re-run after manifest exists; manifest is the only file allowed to name
-    # internal evidence locations required by the product-manifest contract.
     enforce_export_boundary(output)
 
     build_receipt = {
