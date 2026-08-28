@@ -4,13 +4,14 @@
   "title": "Prompt Quarry Harvester Candidate Record v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema","candidate_id","source_id","candidate_fingerprint","artifact_type","stage","classification","techniques","architecture","confidence","quality","critical_flags","route","eligibility","policy_version","created_at"],
+  "required": ["schema","candidate_id","source_id","candidate_fingerprint","artifact_type","semantic_gate","stage","classification","techniques","architecture","confidence","quality","critical_flags","route","eligibility","policy_version","created_at"],
   "properties": {
     "schema": {"const": "prompt-quarry-candidate-record-v1"},
     "candidate_id": {"type":"string","pattern":"^cand-[a-z0-9][a-z0-9-]{5,80}$"},
     "source_id": {"type":"string","pattern":"^src-[a-z0-9][a-z0-9-]{5,80}$"},
     "candidate_fingerprint": {"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},
     "artifact_type": {"enum":["prompt","skill","agent","instruction-markdown","capability","workflow","technique-pattern","other"]},
+    "semantic_gate": {"type":"object","additionalProperties":false,"required":["artifact_class","confidence","disposition","reason"],"properties":{"artifact_class":{"enum":["PROMPT","AGENT_INSTRUCTION","DOCUMENTATION","MANUAL","CODEBASE_GUIDE","DESIGN_SPEC","IMPLEMENTATION_PLAN","LOG_CHANGELOG","FAQ","ARCHITECTURE_DOCUMENTATION","NOISY_HTML","AMBIGUOUS"]},"confidence":{"type":"number","minimum":0,"maximum":1},"disposition":{"enum":["GOLDEN_EVALUATION","REFERENCE_CORPUS","REJECT","HUMAN_REVIEW"]},"reason":{"type":"string","minLength":1}}},
     "stage": {"enum":["CHARACTERIZED","SCORED","GOLDEN_CANDIDATE","HUMAN_REVIEW_REQUIRED","HOLD","REJECTED"]},
     "classification": {"type":"object","additionalProperties":false,"required":["domain","intent","family"],"properties":{"domain":{"type":"string","minLength":1},"intent":{"type":"string","minLength":1},"family":{"type":"string","minLength":1},"language":{"type":["string","null"]}}},
     "techniques": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
@@ -21,20 +22,11 @@
     "critical_flags": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
     "route": {"enum":["GOLDEN_CANDIDATE","HUMAN_REVIEW_REQUIRED","HOLD","REJECTED"]},
     "route_reasons": {"type":"array","uniqueItems":true,"items":{"type":"string","minLength":1}},
-    "eligibility": {
-      "type":"object","additionalProperties":false,
-      "required":["golden_research_eligibility","distribution_eligibility"],
-      "properties": {
-        "golden_research_eligibility": {"$ref":"#/$defs/gate"},
-        "distribution_eligibility": {"$ref":"#/$defs/gate"}
-      }
-    },
+    "eligibility": {"type":"object","additionalProperties":false,"required":["golden_research_eligibility","distribution_eligibility"],"properties":{"golden_research_eligibility":{"$ref":"#/$defs/gate"},"distribution_eligibility":{"$ref":"#/$defs/gate"}}},
     "policy_version": {"type":"string","pattern":"^[0-9]+\\.[0-9]+\\.[0-9]+$"},
     "source_record_ref": {"type":["string","null"]},
     "characterization_ref": {"type":["string","null"]},
     "created_at": {"type":"string","format":"date-time"}
   },
-  "$defs": {
-    "gate": {"type":"object","additionalProperties":false,"required":["eligible","reasons"],"properties":{"eligible":{"type":"boolean"},"reasons":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1}}}}
-  }
+  "$defs": {"gate":{"type":"object","additionalProperties":false,"required":["eligible","reasons"],"properties":{"eligible":{"type":"boolean"},"reasons":{"type":"array","minItems":1,"uniqueItems":true,"items":{"type":"string","minLength":1}}}}}
 }
