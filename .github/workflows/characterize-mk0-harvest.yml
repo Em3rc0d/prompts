@@ -42,13 +42,17 @@ jobs:
           import json
           from pathlib import Path
 
+          policy=json.loads(Path('mk0/harvester/POLICY.json').read_text())
           receipt=json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
           records=[json.loads(line) for line in Path('mk0/golden-dataset/candidate-queue/batch-001.jsonl').read_text().splitlines() if line.strip()]
           references=[json.loads(line) for line in Path('mk0/reference-corpus/batch-001.jsonl').read_text().splitlines() if line.strip()]
 
+          assert policy['policy_version']=='1.2.0', policy
+          assert receipt['policy_version']==policy['policy_version'], receipt
           assert receipt['status']=='PASS'
           assert receipt['records']==183, receipt
           assert len(records)==183
+          assert {r['policy_version'] for r in records}=={policy['policy_version']}
           assert sum(receipt['routes'].values())==183, receipt
           assert sum(receipt['confidence_bands'].values())==183, receipt
           assert sum(receipt['semantic_dispositions'].values())==183, receipt
@@ -71,6 +75,7 @@ jobs:
                   assert record['semantic_gate']['authority']=='CANONICAL_CANDIDATE_ONLY', record['candidate_id']
 
           print(json.dumps(receipt,indent=2))
+          print(f"POLICY PROVENANCE: PASS ({policy['policy_version']})")
           print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
           PY
       - name: Commit candidate queue, reference corpus, and receipt
