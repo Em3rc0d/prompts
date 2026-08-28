@@ -1,19 +1,19 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "developer-pack-v1",
-  "source_commit": "a40df8e0d84d6c3db13e570b2758e1af6f900d4c",
-  "checkout_commit": "a40df8e0d84d6c3db13e570b2758e1af6f900d4c",
+  "source_commit": "e20bef729eb6ad91626b0261d4abe2dd6c54c011",
+  "checkout_commit": "e20bef729eb6ad91626b0261d4abe2dd6c54c011",
   "event_name": "push",
-  "status": "FAIL",
+  "status": "PASS",
   "gates": {
-    "dependencies": "cancelled",
-    "compile": "skipped",
-    "license_asset_registration": "skipped",
-    "manifest_hash_sync": "skipped",
-    "manifest_schema_semantics": "skipped",
-    "developer_pack_static_acceptance": "skipped",
-    "clean_room_manifest_export": "skipped",
-    "adversarial_manifest_tests": "skipped"
+    "dependencies": "success",
+    "compile": "success",
+    "license_asset_registration": "success",
+    "manifest_hash_sync": "success",
+    "manifest_schema_semantics": "success",
+    "developer_pack_static_acceptance": "success",
+    "clean_room_manifest_export": "success",
+    "adversarial_manifest_tests": "success"
   },
   "claim_boundary": "CI validates product manifest integrity, static package acceptance, proprietary license inclusion, and automated manifest-only clean-room export. VALID is static maturity only. This receipt does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or human usability acceptance."
 }
