@@ -1,12 +1,44 @@
 {
   "schema": "prompt-quarry-harvester-policy-v1",
-  "policy_version": "1.1.0",
+  "policy_version": "1.2.0",
   "routing": {
     "auto_candidate_min_confidence": 0.95,
     "human_review_min_confidence": 0.90,
     "human_review_max_confidence_exclusive": 0.95,
     "below_human_review_default": "HOLD",
     "golden_requires_governed_promotion": true
+  },
+  "corpus_governance": {
+    "golden_dataset": {
+      "canonical": true,
+      "authority": "CANONICAL_PROMPT_KNOWLEDGE",
+      "allowed_semantic_dispositions": ["GOLDEN_EVALUATION"],
+      "requires_governed_promotion": true,
+      "reference_material_cannot_auto_promote": true
+    },
+    "reference_corpus": {
+      "canonical": false,
+      "authority": "NON_CANONICAL_REFERENCE",
+      "purpose": "Retain potentially useful source material without treating it as Prompt Quarry truth, Golden evidence, or behavioral certification.",
+      "may_contain_errors_or_bias": true,
+      "may_inform_research": true,
+      "may_define_canonical_rules": false,
+      "may_count_as_golden_evidence": false,
+      "may_count_as_behavioral_evidence": false,
+      "may_auto_promote_to_golden": false,
+      "promotion_requires_reclassification": true,
+      "promotion_requires_governed_review": true
+    },
+    "quarantine": {
+      "canonical": false,
+      "authority": "UNRESOLVED",
+      "may_define_canonical_rules": false
+    },
+    "rejected": {
+      "canonical": false,
+      "authority": "NON_USABLE",
+      "may_define_canonical_rules": false
+    }
   },
   "eligibility_gates": {
     "golden_research_eligibility": {
@@ -59,7 +91,8 @@
     "source_identity",
     "body_observation_status",
     "canonical_url",
-    "content_hash"
+    "content_hash",
+    "corpus_canonicality"
   ],
   "confidence_dimensions": [
     "classification",
@@ -94,6 +127,10 @@
     "confidence_is_not_quality": true,
     "quality_is_not_evidence": true,
     "research_eligibility_is_not_distribution_permission": true,
-    "human_approval_is_not_behavioral_certification": true
+    "human_approval_is_not_behavioral_certification": true,
+    "reference_corpus_is_non_canonical": true,
+    "reference_material_is_not_truth": true,
+    "reference_material_is_not_golden_evidence": true,
+    "reference_material_requires_governed_promotion": true
   }
 }
