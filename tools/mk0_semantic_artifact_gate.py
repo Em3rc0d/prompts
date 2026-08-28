@@ -35,7 +35,11 @@ def _is_operational_skill(body: str, source_type: str) -> bool:
     if source_type != "skill":
         return False
 
-    frontmatter = bool(re.search(r"\A---\s*\n(?:(?!\n---\s*$).)*?\nname:\s*.+?\n(?:(?!\n---\s*$).)*?description:\s*.+?\n(?:(?!\n---\s*$).)*?\n---\s*", body, re.I | re.M | re.S))
+    frontmatter = bool(re.search(
+        r"\A---\s*\n(?=.*?^name:\s*\S)(?=.*?^description:\s*\S).*?^---\s*$",
+        body,
+        re.I | re.M | re.S,
+    ))
     identity = _has(body, "use this skill", "this skill", "installed skill", "skill provides")
     operating_sections = sum(
         1 for term in (
