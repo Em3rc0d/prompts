@@ -10,8 +10,10 @@ on:
       - tools/mk0_semantic_artifact_gate.py
       - tools/test_mk0_semantic_artifact_gate.py
       - tools/mk0_harvester_router.py
+      - tools/test_mk0_harvester_router.py
       - mk0/harvester/POLICY.json
       - mk0/harvester/CANDIDATE_RECORD.schema.json
+      - mk0/reference-corpus/README.md
       - mk0/normalized/harvester/source-records.jsonl
       - .github/workflows/characterize-mk0-harvest.yml
 
@@ -28,6 +30,8 @@ jobs:
           python-version: '3.12'
       - name: Install validation dependency
         run: python -m pip install jsonschema
+      - name: Enforce routing and corpus governance
+        run: python tools/test_mk0_harvester_router.py
       - name: Reproduce human calibration decisions
         run: python tools/test_mk0_semantic_artifact_gate.py
       - name: Characterize 183 observations
@@ -37,16 +41,37 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
+
           receipt=json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
+          records=[json.loads(line) for line in Path('mk0/golden-dataset/candidate-queue/batch-001.jsonl').read_text().splitlines() if line.strip()]
+          references=[json.loads(line) for line in Path('mk0/reference-corpus/batch-001.jsonl').read_text().splitlines() if line.strip()]
+
           assert receipt['status']=='PASS'
           assert receipt['records']==183, receipt
+          assert len(records)==183
           assert sum(receipt['routes'].values())==183, receipt
           assert sum(receipt['confidence_bands'].values())==183, receipt
           assert sum(receipt['semantic_dispositions'].values())==183, receipt
           assert receipt['reference_corpus_records']==receipt['semantic_dispositions'].get('REFERENCE_CORPUS',0)
+          assert len(references)==receipt['reference_corpus_records']
           assert receipt['eligibility']['golden_research_eligible'] <= 183
           assert receipt['eligibility']['distribution_eligible'] <= receipt['eligibility']['golden_research_eligible']
+
+          for record in references:
+              gate=record['semantic_gate']
+              assert gate['disposition']=='REFERENCE_CORPUS', record['candidate_id']
+              assert gate['canonical'] is False, record['candidate_id']
+              assert gate['authority']=='NON_CANONICAL_REFERENCE', record['candidate_id']
+              assert record['route']!='GOLDEN_CANDIDATE', record['candidate_id']
+              assert record['eligibility']['golden_research_eligibility']['eligible'] is False, record['candidate_id']
+
+          for record in records:
+              if record['route']=='GOLDEN_CANDIDATE':
+                  assert record['semantic_gate']['disposition']=='GOLDEN_EVALUATION', record['candidate_id']
+                  assert record['semantic_gate']['authority']=='CANONICAL_CANDIDATE_ONLY', record['candidate_id']
+
           print(json.dumps(receipt,indent=2))
+          print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
           PY
       - name: Commit candidate queue, reference corpus, and receipt
         run: |
@@ -56,6 +81,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No characterization changes"
           else
-            git commit -m "data(mk0): apply semantic artifact gate to batch 001"
+            git commit -m "data(mk0): enforce canonical corpus boundaries on batch 001"
             git push
           fi
