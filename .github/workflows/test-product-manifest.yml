@@ -226,7 +226,10 @@ jobs:
 
       - name: Persist canonical product and release-candidate evidence
         if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        shell: bash
         run: |
+          set -euo pipefail
+          branch='feat/mk1-prompt-generator-v0-20260827'
           mkdir -p .ci/developer-pack-v1
           cp /tmp/developer-pack-v1-receipt/receipt.json .ci/developer-pack-v1/latest.json
           git config user.name 'prompt-quarry-bot'
@@ -235,10 +238,21 @@ jobs:
           for path in product/developer-pack-v1/MANIFEST.release-candidate.json .ci/developer-pack-v1/claims-review.json .ci/developer-pack-v1/clean-room-release-candidate.json .ci/developer-pack-v1/release-candidate-build.json .ci/developer-pack-v1/release-readiness.json; do
             if [ -f "$path" ]; then git add "$path"; fi
           done
-          if ! git diff --cached --quiet; then
-            git commit -m 'ci(product): record Developer Pack validation and release candidate evidence'
-            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          if git diff --cached --quiet; then
+            echo 'Product evidence unchanged.'
+            exit 0
           fi
+          git commit -m 'ci(product): record Developer Pack validation and release candidate evidence'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:"$branch"; then
+              exit 0
+            fi
+            echo "Evidence push raced with another writer; rebasing attempt $attempt/3."
+            git fetch origin "$branch"
+            GIT_EDITOR=true git rebase "origin/$branch"
+          done
+          echo 'Unable to persist canonical product evidence after 3 attempts.' >&2
+          exit 1
 
       - name: Enforce product validation gates
         if: always()
