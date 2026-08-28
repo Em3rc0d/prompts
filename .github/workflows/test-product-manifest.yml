@@ -3,6 +3,9 @@ name: Test Product Manifest
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
+      - feat/mk1-prompt-generator-v0-20260827
     paths:
       - 'product/**'
       - 'tools/validate_product_manifest.py'
@@ -18,22 +21,28 @@ on:
       - '.github/workflows/test-product-manifest.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   product-manifest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           cache: pip
 
       - name: Install dependencies
+        id: deps
+        continue-on-error: true
         run: pip install -r requirements.txt
 
       - name: Compile product contract tooling
+        id: compile
+        continue-on-error: true
         run: |
           python -m py_compile \
             tools/validate_product_manifest.py \
@@ -41,12 +50,98 @@ jobs:
             tools/test_developer_pack_v1.py
 
       - name: Validate current Developer Pack draft
+        id: manifest
+        continue-on-error: true
         run: |
           python tools/validate_product_manifest.py \
             product/developer-pack-v1/MANIFEST.draft.json
 
       - name: Run Developer Pack static acceptance
+        id: pack
+        continue-on-error: true
         run: python tools/test_developer_pack_v1.py
 
       - name: Run adversarial manifest tests
+        id: adversarial
+        continue-on-error: true
         run: python tools/test_product_manifest.py
+
+      - name: Build run-scoped product validation receipt
+        if: always()
+        env:
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          CHECKOUT_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          DEPS: ${{ steps.deps.outcome }}
+          COMPILE: ${{ steps.compile.outcome }}
+          MANIFEST: ${{ steps.manifest.outcome }}
+          PACK: ${{ steps.pack.outcome }}
+          ADVERSARIAL: ${{ steps.adversarial.outcome }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          gates = {
+              'dependencies': os.environ['DEPS'],
+              'compile': os.environ['COMPILE'],
+              'manifest_schema_semantics': os.environ['MANIFEST'],
+              'developer_pack_static_acceptance': os.environ['PACK'],
+              'adversarial_manifest_tests': os.environ['ADVERSARIAL'],
+          }
+          status = 'PASS' if all(value == 'success' for value in gates.values()) else 'FAIL'
+          receipt = {
+              'schema': 'prompt-quarry-ci-receipt-v1',
+              'component': 'developer-pack-v1',
+              'source_commit': os.environ['SOURCE_SHA'],
+              'checkout_commit': os.environ['CHECKOUT_SHA'],
+              'event_name': os.environ['EVENT_NAME'],
+              'status': status,
+              'gates': gates,
+              'claim_boundary': 'CI validates product manifest integrity and static package acceptance only. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or commercial clean-room readiness.',
+          }
+          root = Path('/tmp/developer-pack-v1-receipt')
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(receipt, indent=2))
+          PY
+
+      - name: Upload product validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: developer-pack-v1-validation
+          path: /tmp/developer-pack-v1-receipt/receipt.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Persist canonical product receipt on feature branch
+        if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        run: |
+          mkdir -p .ci/developer-pack-v1
+          cp /tmp/developer-pack-v1-receipt/receipt.json .ci/developer-pack-v1/latest.json
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add .ci/developer-pack-v1/latest.json
+          if git diff --cached --quiet; then
+            echo 'Product validation receipt unchanged.'
+          else
+            git commit -m 'ci(product): record Developer Pack v1 validation'
+            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          fi
+
+      - name: Enforce product validation gates
+        if: always()
+        env:
+          DEPS: ${{ steps.deps.outcome }}
+          COMPILE: ${{ steps.compile.outcome }}
+          MANIFEST: ${{ steps.manifest.outcome }}
+          PACK: ${{ steps.pack.outcome }}
+          ADVERSARIAL: ${{ steps.adversarial.outcome }}
+        run: |
+          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$MANIFEST" != success ] || [ "$PACK" != success ] || [ "$ADVERSARIAL" != success ]; then
+            echo 'Developer Pack v1 static validation failed.' >&2
+            exit 1
+          fi
+          echo 'Developer Pack v1 static validation passed.'
