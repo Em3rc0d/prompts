@@ -15,6 +15,7 @@ CASES = [
     ("mk0/raw/harvester/src-df5745120b8542f8e17d.md", "instruction-markdown", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
     ("mk0/raw/harvester/src-38dc369b08a2e7b09211.md", "instruction-markdown", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
     ("mk0/raw/harvester/src-bb47f1c16c51a452051c.md", "skill", "AGENT_INSTRUCTION", "GOLDEN_EVALUATION"),
+    ("mk0/raw/harvester/src-b432710e04fa91b4557d.md", "prompt", "PROMPT_CONTAINER", "EXTRACTION_REQUIRED"),
 ]
 
 
@@ -32,6 +33,9 @@ def main():
         if expected_disposition == "REFERENCE_CORPUS":
             if result["canonical"] is not False or result["authority"] != "NON_CANONICAL_REFERENCE":
                 failures.append(f"{path}: reference corpus must be explicitly non-canonical, got {result}")
+        if expected_disposition == "EXTRACTION_REQUIRED":
+            if result["canonical"] is not False or result["authority"] != "SOURCE_CONTAINER_ONLY":
+                failures.append(f"{path}: prompt container must be extraction-only and non-canonical, got {result}")
         if expected_disposition == "REJECT" and result["canonical"] is not False:
             failures.append(f"{path}: rejected artifacts cannot be canonical")
         if expected_disposition == "GOLDEN_EVALUATION":
