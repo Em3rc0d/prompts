@@ -1,8 +1,8 @@
 {
   "schema": "prompt-quarry-ci-receipt-v1",
   "component": "developer-pack-v1",
-  "source_commit": "ac2bb36e5c6cb8dcbb44ea4502aa5be2743a6662",
-  "checkout_commit": "ac2bb36e5c6cb8dcbb44ea4502aa5be2743a6662",
+  "source_commit": "524effd16ceff8a6bf49febf76675452a3d7379d",
+  "checkout_commit": "524effd16ceff8a6bf49febf76675452a3d7379d",
   "event_name": "push",
   "status": "PASS",
   "gates": {
