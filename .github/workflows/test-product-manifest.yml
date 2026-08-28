@@ -11,6 +11,7 @@ on:
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
       - 'tools/test_developer_pack_v1.py'
+      - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
       - '.github/workflows/test-product-manifest.yml'
   pull_request:
@@ -19,6 +20,7 @@ on:
       - 'tools/validate_product_manifest.py'
       - 'tools/test_product_manifest.py'
       - 'tools/test_developer_pack_v1.py'
+      - 'tools/test_developer_pack_clean_room.py'
       - 'tools/sync_product_manifest_hashes.py'
       - '.github/workflows/test-product-manifest.yml'
 
@@ -50,6 +52,7 @@ jobs:
             tools/validate_product_manifest.py \
             tools/test_product_manifest.py \
             tools/test_developer_pack_v1.py \
+            tools/test_developer_pack_clean_room.py \
             tools/sync_product_manifest_hashes.py
 
       - name: Synchronize included artifact fingerprints
@@ -71,6 +74,11 @@ jobs:
         continue-on-error: true
         run: python tools/test_developer_pack_v1.py
 
+      - name: Run clean-room manifest-only export acceptance
+        id: clean_room
+        continue-on-error: true
+        run: python tools/test_developer_pack_clean_room.py
+
       - name: Run adversarial manifest tests
         id: adversarial
         continue-on-error: true
@@ -87,6 +95,7 @@ jobs:
           HASHES: ${{ steps.hashes.outcome }}
           MANIFEST: ${{ steps.manifest.outcome }}
           PACK: ${{ steps.pack.outcome }}
+          CLEAN_ROOM: ${{ steps.clean_room.outcome }}
           ADVERSARIAL: ${{ steps.adversarial.outcome }}
         run: |
           python - <<'PY'
@@ -100,6 +109,7 @@ jobs:
               'manifest_hash_sync': os.environ['HASHES'],
               'manifest_schema_semantics': os.environ['MANIFEST'],
               'developer_pack_static_acceptance': os.environ['PACK'],
+              'clean_room_manifest_export': os.environ['CLEAN_ROOM'],
               'adversarial_manifest_tests': os.environ['ADVERSARIAL'],
           }
           status = 'PASS' if all(value == 'success' for value in gates.values()) else 'FAIL'
@@ -111,7 +121,7 @@ jobs:
               'event_name': os.environ['EVENT_NAME'],
               'status': status,
               'gates': gates,
-              'claim_boundary': 'CI validates product manifest integrity and static package acceptance only. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or commercial clean-room readiness.',
+              'claim_boundary': 'CI validates product manifest integrity, static package acceptance, and automated manifest-only clean-room export. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, human usability acceptance, or commercial release approval.',
           }
           root = Path('/tmp/developer-pack-v1-receipt')
           root.mkdir(parents=True, exist_ok=True)
@@ -151,10 +161,11 @@ jobs:
           HASHES: ${{ steps.hashes.outcome }}
           MANIFEST: ${{ steps.manifest.outcome }}
           PACK: ${{ steps.pack.outcome }}
+          CLEAN_ROOM: ${{ steps.clean_room.outcome }}
           ADVERSARIAL: ${{ steps.adversarial.outcome }}
         run: |
-          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$HASHES" != success ] || [ "$MANIFEST" != success ] || [ "$PACK" != success ] || [ "$ADVERSARIAL" != success ]; then
-            echo 'Developer Pack v1 static validation failed.' >&2
+          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$HASHES" != success ] || [ "$MANIFEST" != success ] || [ "$PACK" != success ] || [ "$CLEAN_ROOM" != success ] || [ "$ADVERSARIAL" != success ]; then
+            echo 'Developer Pack v1 validation failed.' >&2
             exit 1
           fi
-          echo 'Developer Pack v1 static validation passed.'
+          echo 'Developer Pack v1 static and automated clean-room validation passed.'
