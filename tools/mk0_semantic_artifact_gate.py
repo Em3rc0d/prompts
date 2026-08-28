@@ -24,6 +24,37 @@ def _epistemic(disposition: str) -> tuple[bool, str]:
     return False, "UNRESOLVED"
 
 
+def _is_operational_skill(body: str, source_type: str) -> bool:
+    """Recognize a persistent AI skill contract without trusting the filename alone.
+
+    A SKILL.md-like source is promoted semantically only when it contains both
+    skill metadata/identity and normative operating instructions. This avoids
+    treating ordinary documentation that happens to be named SKILL.md as Golden
+    material.
+    """
+    if source_type != "skill":
+        return False
+
+    frontmatter = bool(re.search(r"\A---\s*\n(?:(?!\n---\s*$).)*?\nname:\s*.+?\n(?:(?!\n---\s*$).)*?description:\s*.+?\n(?:(?!\n---\s*$).)*?\n---\s*", body, re.I | re.M | re.S))
+    identity = _has(body, "use this skill", "this skill", "installed skill", "skill provides")
+    operating_sections = sum(
+        1 for term in (
+            "operating contract",
+            "required workflow",
+            "safety gate",
+            "safety gates",
+            "workflow",
+            "policy",
+            "protocol",
+        ) if term in body.casefold()
+    )
+    normative = sum(
+        1 for term in (" must ", " never ", " do not ", " follow ", " use ", " ask ", " block ")
+        if term in f" {body.casefold()} "
+    )
+    return frontmatter and identity and operating_sections >= 2 and normative >= 3
+
+
 def classify_artifact(title: str, body: str, source_type: str) -> dict:
     """Deterministic pre-quality semantic gate.
 
@@ -52,6 +83,8 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
         kind, confidence, reason = "AGENT_INSTRUCTION", 0.99, "artifact explicitly instructs AI assistants or agents operating in a repository"
     elif source_type == "instruction-markdown" and _has(text, "agents.md") and _has(text, "don't", "must", "never", "treat every session", "before changing"):
         kind, confidence, reason = "AGENT_INSTRUCTION", 0.97, "AGENTS.md contains actionable persistent agent constraints"
+    elif _is_operational_skill(body, source_type):
+        kind, confidence, reason = "AGENT_INSTRUCTION", 0.97, "SKILL artifact contains persistent normative operating instructions for an AI agent"
     elif _has(text, "codebase guide"):
         kind, confidence, reason = "CODEBASE_GUIDE", 0.98, "artifact explicitly identifies itself as a codebase guide"
     elif _has(text, "quick start", "configuration", "installation") and _has(text, "build", "cli", "usage"):
