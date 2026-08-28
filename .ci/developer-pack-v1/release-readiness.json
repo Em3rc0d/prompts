@@ -1,7 +1,7 @@
 {
   "schema": "prompt-quarry-release-readiness-receipt-v1",
   "component": "developer-pack-v1",
-  "source_commit": "f86d253f9411d530c3efec98f736d6311d3de683",
+  "source_commit": "768f15a96c9510e4b4833528eb57bb9032018779",
   "status": "BLOCKED",
   "gates": {
     "compile": "success",
