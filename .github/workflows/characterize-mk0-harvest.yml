@@ -7,6 +7,8 @@ on:
       - feat/mk1-prompt-generator-v0-20260827
     paths:
       - tools/mk0_characterize_harvest.py
+      - tools/mk0_semantic_artifact_gate.py
+      - tools/test_mk0_semantic_artifact_gate.py
       - tools/mk0_harvester_router.py
       - mk0/harvester/POLICY.json
       - mk0/harvester/CANDIDATE_RECORD.schema.json
@@ -26,6 +28,8 @@ jobs:
           python-version: '3.12'
       - name: Install validation dependency
         run: python -m pip install jsonschema
+      - name: Reproduce human calibration decisions
+        run: python tools/test_mk0_semantic_artifact_gate.py
       - name: Characterize 183 observations
         run: python tools/mk0_characterize_harvest.py
       - name: Enforce characterization invariants
@@ -38,18 +42,20 @@ jobs:
           assert receipt['records']==183, receipt
           assert sum(receipt['routes'].values())==183, receipt
           assert sum(receipt['confidence_bands'].values())==183, receipt
+          assert sum(receipt['semantic_dispositions'].values())==183, receipt
+          assert receipt['reference_corpus_records']==receipt['semantic_dispositions'].get('REFERENCE_CORPUS',0)
           assert receipt['eligibility']['golden_research_eligible'] <= 183
           assert receipt['eligibility']['distribution_eligible'] <= receipt['eligibility']['golden_research_eligible']
           print(json.dumps(receipt,indent=2))
           PY
-      - name: Commit candidate queue and receipt
+      - name: Commit candidate queue, reference corpus, and receipt
         run: |
           git config user.name "prompt-quarry-bot"
           git config user.email "prompt-quarry-bot@users.noreply.github.com"
-          git add mk0/golden-dataset/candidate-queue/batch-001.jsonl mk0/analysis/harvester/characterization-batch-001-receipt.json
+          git add mk0/golden-dataset/candidate-queue/batch-001.jsonl mk0/reference-corpus/batch-001.jsonl mk0/analysis/harvester/characterization-batch-001-receipt.json
           if git diff --cached --quiet; then
             echo "No characterization changes"
           else
-            git commit -m "data(mk0): reroute harvest with split eligibility"
+            git commit -m "data(mk0): apply semantic artifact gate to batch 001"
             git push
           fi
