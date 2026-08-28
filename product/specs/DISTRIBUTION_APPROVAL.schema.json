@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://promptquarry.local/specs/DISTRIBUTION_APPROVAL.schema.json",
+  "title": "Prompt Quarry Distribution Approval v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "product_id",
+    "candidate_source_commit",
+    "status",
+    "distribution_license",
+    "approved_by",
+    "approved_at",
+    "commercial_release_approved",
+    "notes"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-distribution-approval-v1"},
+    "product_id": {"const": "pq-developer-pack"},
+    "candidate_source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "status": {"const": "APPROVED"},
+    "distribution_license": {"type": "string", "minLength": 3, "maxLength": 200},
+    "approved_by": {"type": "string", "minLength": 1, "maxLength": 120},
+    "approved_at": {"type": "string", "format": "date-time"},
+    "commercial_release_approved": {"const": true},
+    "notes": {"type": "string", "maxLength": 2000}
+  }
+}
