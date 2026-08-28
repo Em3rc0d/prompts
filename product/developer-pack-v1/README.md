@@ -15,6 +15,34 @@ It does not promise a universally best prompt. Pack assets keep their evidence s
 5. Execute the prompt in your chosen model/runtime.
 6. Record runtime observations separately from static quality.
 
+## Package map
+
+```text
+README.md
+QUICKSTART.md
+methodology/
+  architecture.md
+  evidence-states.md
+  evaluation.md
+contracts/
+  task-brief.example.json
+  prompt-request.example.json
+templates/
+  general-structured-prompt.md
+  software-code-review.md
+  technical-research-decision.md
+examples/
+  software-code-review/
+  technical-research-decision/
+checklists/
+  static-quality.md
+  release-readiness.md
+```
+
+Use `methodology/architecture.md` when deciding which prompt sections matter. Use `methodology/evidence-states.md` before making quality claims. Use `methodology/evaluation.md` when moving from static design to real runtime observation.
+
+The `contracts/` examples show machine-readable task/request shapes. The `examples/` directories show request → task brief → prompt → static evidence boundary end to end.
+
 ## Core architecture
 
 Use only the sections your task needs:
