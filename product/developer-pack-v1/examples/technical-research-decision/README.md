@@ -14,7 +14,7 @@ The example uses `PURPOSE`, `CONTEXT`, `INTAKE`, `PROCESS`, `RULES`, `OUTPUT CON
 
 ## Static quality result
 
-The example is designed so that:
+The example passed the Developer Pack static acceptance surface:
 - required decision inputs are explicit;
 - evidence gaps remain unknown;
 - all viable options use the same criteria;
@@ -23,7 +23,7 @@ The example is designed so that:
 
 ## Maturity
 
-`DRAFT` until the Developer Pack static acceptance gate promotes it to `VALID`.
+`VALID` — static package acceptance passed.
 
 No runtime comparison is included, so this example is not `TESTED`, `IMPROVED`, `CERTIFIED`, or `PORTABLE`.
 
