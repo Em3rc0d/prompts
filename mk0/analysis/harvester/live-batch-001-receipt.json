@@ -1,0 +1,27 @@
+{
+  "schema": "prompt-quarry-live-harvest-receipt-v1",
+  "batch_id": "mk0-live-001",
+  "status": "PASS",
+  "observed_at": "2026-08-28T00:04:36.666139Z",
+  "registry_version": "1.1.0",
+  "records": 183,
+  "unique_source_ids": 183,
+  "duplicate_records": 0,
+  "by_source_type": {
+    "documentation": 1,
+    "repository": 2,
+    "skill": 40,
+    "instruction-markdown": 100,
+    "prompt": 40
+  },
+  "by_access_status": {
+    "PUBLIC": 183
+  },
+  "by_body_observation_status": {
+    "OBSERVED": 183
+  },
+  "by_license_status": {
+    "UNKNOWN": 183
+  },
+  "claim_boundary": "Discovery and observation only. This receipt does not promote any record to GOLDEN, TESTED, IMPROVED, CERTIFIED, PORTABLE, or redistributable."
+}
