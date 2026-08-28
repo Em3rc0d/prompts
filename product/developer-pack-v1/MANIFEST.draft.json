@@ -181,7 +181,7 @@
         "mk1/specs/PROMPT_ARTIFACT.schema.json",
         "tools/mk1_prompt_generator_v0.py"
       ],
-      "sha256": "sha256:8dd11afb4a0a9bf181e063003db260bf61edd5135881ea6b5247f528fbb5a6d3",
+      "sha256": "sha256:3658a19ff0b96acb47395d29a17faf305f204628ae8cc9fa2599d5d00987433a",
       "distribution": {
         "include": true,
         "customer_visible": true,
@@ -205,7 +205,7 @@
         "mk1/generator/examples/software-review.request.json",
         "tools/mk1_prompt_generator_v0.py"
       ],
-      "sha256": "sha256:f611ed340447f9754c0e09305f44d143aef0f85baa16c57fd38946b80e9f1cd8",
+      "sha256": "sha256:310de8f405adbda63d417faab59dcb5171ed2daa02663f2a3b1d9b743db7acde",
       "distribution": {
         "include": true,
         "customer_visible": true,
@@ -229,7 +229,7 @@
         "mk1/specs/PROMPT_ARTIFACT.schema.json",
         "tools/mk1_prompt_generator_v0.py"
       ],
-      "sha256": "sha256:21d398f8b036186fbd6b8eb0d816638781c8020b3090429a7a5f751061b19594",
+      "sha256": "sha256:8796f53802693cd9eafb61092d0e2dec445f545fbc1796bf4c9030780a29eccc",
       "distribution": {
         "include": true,
         "customer_visible": true,
@@ -320,7 +320,7 @@
         "engineered"
       ],
       "evidence_refs": [],
-      "sha256": "sha256:1bbb31fa083f3dd777610ddcb401c6a26a607b926150f859f6fb1b045f258e25",
+      "sha256": "sha256:8dfdd0170aea87b730d304b0eb50336a1b77c8dccbb761da6294a8c39d0525c2",
       "distribution": {
         "include": true,
         "customer_visible": true,
@@ -411,7 +411,7 @@
         "engineered"
       ],
       "evidence_refs": [],
-      "sha256": "sha256:b536b67759c061c0f4385245a1a296f14f2517142f159da0338ea2f94fbc4afd",
+      "sha256": "sha256:dae656e44e30ea143789af7faeecefd199f499b87386d193308a156e859ef26c",
       "distribution": {
         "include": true,
         "customer_visible": true,
