@@ -1,0 +1,105 @@
+name: Test Developer Pack Release Readiness
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'product/developer-pack-v1/**'
+      - '.ci/developer-pack-v1/latest.json'
+      - 'tools/test_developer_pack_release_readiness.py'
+      - '.github/workflows/test-developer-pack-release-readiness.yml'
+
+concurrency:
+  group: developer-pack-v1-ready-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  release-readiness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile readiness gate
+        id: compile
+        continue-on-error: true
+        run: python -m py_compile tools/test_developer_pack_release_readiness.py
+
+      - name: Evaluate DRAFT to READY prerequisites
+        id: readiness
+        continue-on-error: true
+        run: |
+          python tools/test_developer_pack_release_readiness.py \
+            > /tmp/developer-pack-ready-output.json
+
+      - name: Build canonical readiness receipt
+        if: always()
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+          COMPILE: ${{ steps.compile.outcome }}
+          READINESS: ${{ steps.readiness.outcome }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          output = Path('/tmp/developer-pack-ready-output.json')
+          details = {}
+          if output.is_file():
+              try:
+                  details = json.loads(output.read_text(encoding='utf-8'))
+              except json.JSONDecodeError:
+                  details = {"status": "ERROR", "blockers": ["readiness output was not valid JSON"]}
+
+          status = 'PASS' if os.environ['COMPILE'] == 'success' and os.environ['READINESS'] == 'success' else 'BLOCKED'
+          receipt = {
+              'schema': 'prompt-quarry-release-readiness-receipt-v1',
+              'component': 'developer-pack-v1',
+              'source_commit': os.environ['SOURCE_SHA'],
+              'status': status,
+              'gates': {
+                  'compile': os.environ['COMPILE'],
+                  'draft_to_ready_prerequisites': os.environ['READINESS'],
+              },
+              'details': details,
+              'claim_boundary': 'READY is packaging/commercial readiness only. This receipt does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE.',
+          }
+          root = Path('.ci/developer-pack-v1')
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'release-readiness.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(receipt, indent=2))
+          PY
+
+      - name: Persist readiness receipt
+        if: always() && github.event_name == 'push'
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add .ci/developer-pack-v1/release-readiness.json
+          if git diff --cached --quiet; then
+            echo 'Readiness receipt unchanged.'
+          else
+            git commit -m 'ci(product): record Developer Pack release readiness'
+            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          fi
+
+      - name: Enforce READY gate
+        if: always()
+        env:
+          COMPILE: ${{ steps.compile.outcome }}
+          READINESS: ${{ steps.readiness.outcome }}
+        run: |
+          if [ "$COMPILE" != success ] || [ "$READINESS" != success ]; then
+            echo 'Developer Pack is not READY yet. See canonical readiness receipt for blockers.' >&2
+            exit 1
+          fi
+          echo 'Developer Pack DRAFT -> READY prerequisites passed.'
