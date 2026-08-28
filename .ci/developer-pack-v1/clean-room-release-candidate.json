@@ -6,6 +6,6 @@
   "included_assets": 20,
   "private_repository_required": false,
   "schema": "prompt-quarry-clean-room-receipt-v1",
-  "source_commit": "524effd16ceff8a6bf49febf76675452a3d7379d",
+  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
   "status": "PASS"
 }

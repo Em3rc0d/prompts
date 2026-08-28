@@ -3,11 +3,11 @@
   "candidate_manifest": "product/developer-pack-v1/MANIFEST.release-candidate.json",
   "claim_boundary": "Release-candidate construction resolves engineering prerequisites only. READY remains blocked until an explicit distribution license/commercial approval is recorded.",
   "component": "developer-pack-v1",
-  "generated_at": "2026-08-28T13:46:50-05:00",
+  "generated_at": "2026-08-28T16:35:26-05:00",
   "included_assets": 20,
-  "manifest_projection_sha256": "sha256:7d05deeafd4c045dd4c7a24955bfd698361f6edb5131989dc0da3a1249652290",
+  "manifest_projection_sha256": "sha256:22ec81f21d768e1f9179119d116291c218cf6e771ed0c72fe0eb98ff61b3ffa3",
   "remaining_human_gate": "distribution_license/commercial_approval",
   "schema": "prompt-quarry-release-candidate-build-v1",
-  "source_commit": "524effd16ceff8a6bf49febf76675452a3d7379d",
+  "source_commit": "06a1a39fa31f9fbb5336b38984188829d2250835",
   "status": "PASS"
 }
