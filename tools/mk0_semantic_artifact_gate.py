@@ -14,9 +14,23 @@ def _has(text: str, *terms: str) -> bool:
     return any(term.casefold() in t for term in terms)
 
 
+def _epistemic(disposition: str) -> tuple[bool, str]:
+    if disposition == "GOLDEN_EVALUATION":
+        return True, "CANONICAL_CANDIDATE_ONLY"
+    if disposition == "REFERENCE_CORPUS":
+        return False, "NON_CANONICAL_REFERENCE"
+    if disposition == "REJECT":
+        return False, "NON_USABLE"
+    return False, "UNRESOLVED"
+
+
 def classify_artifact(title: str, body: str, source_type: str) -> dict:
-    """Deterministic pre-quality semantic gate. It answers what the artifact IS,
-    not how polished it looks. Unknown/ambiguous cases stay reviewable."""
+    """Deterministic pre-quality semantic gate.
+
+    This gate answers what the artifact IS, not how polished it looks.
+    Reference material is preserved as explicitly non-canonical. Ambiguous
+    cases remain reviewable instead of being silently promoted.
+    """
     text = f"{title}\n{body}"
     low = text.casefold()
 
@@ -54,4 +68,12 @@ def classify_artifact(title: str, body: str, source_type: str) -> dict:
     else:
         disposition = "HUMAN_REVIEW"
 
-    return {"artifact_class": kind, "confidence": confidence, "disposition": disposition, "reason": reason}
+    canonical, authority = _epistemic(disposition)
+    return {
+        "artifact_class": kind,
+        "confidence": confidence,
+        "disposition": disposition,
+        "canonical": canonical,
+        "authority": authority,
+        "reason": reason,
+    }
