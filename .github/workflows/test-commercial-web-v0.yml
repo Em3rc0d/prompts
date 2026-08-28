@@ -19,14 +19,24 @@ permissions:
   contents: read
 
 jobs:
-  static-acceptance:
+  nextjs-acceptance:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.12'
-      - name: Compile web acceptance tooling
-        run: python -m py_compile tools/test_commercial_web_v0.py
-      - name: Validate commercial landing
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build Next.js app
+        run: npm run build
+      - name: Validate commercial boundaries
+        working-directory: .
         run: python tools/test_commercial_web_v0.py
