@@ -1,0 +1,16 @@
+{
+  "schema": "prompt-quarry-ci-receipt-v1",
+  "component": "developer-pack-v1",
+  "source_commit": "4683b6526a36a3e35fecb21c2635abb1bd2d5f75",
+  "checkout_commit": "4683b6526a36a3e35fecb21c2635abb1bd2d5f75",
+  "event_name": "push",
+  "status": "FAIL",
+  "gates": {
+    "dependencies": "success",
+    "compile": "success",
+    "manifest_schema_semantics": "success",
+    "developer_pack_static_acceptance": "success",
+    "adversarial_manifest_tests": "failure"
+  },
+  "claim_boundary": "CI validates product manifest integrity and static package acceptance only. It does not establish F4 behavioral testing, F5 superiority, F6 certification, F7 portability, or commercial clean-room readiness."
+}
