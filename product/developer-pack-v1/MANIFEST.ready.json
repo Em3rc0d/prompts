@@ -1,0 +1,564 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "pq-devpack-readme",
+      "artifact_type": "readme",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Customer-facing package overview.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/README.md",
+      "provenance_class": "product-authored",
+      "sha256": "sha256:bf0fe7262128348b1be67ef0b87492a9e318c649aa6c8442f130b257d81c3466"
+    },
+    {
+      "artifact_id": "pq-devpack-quickstart",
+      "artifact_type": "quickstart",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Five-minute customer workflow.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/QUICKSTART.md",
+      "provenance_class": "product-authored",
+      "sha256": "sha256:7be700dbd830b843ce85cf5462359917be2bed9917c0ce3618604a121a7655d4"
+    },
+    {
+      "artifact_id": "pq-methodology-architecture",
+      "artifact_type": "methodology",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Prompt architecture design method.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/methodology/architecture.md",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:8d8f1c6e160a7dfb0ae2e275f989cdd8e2a7aad430f36a156dcb53c83e27672c",
+      "source_refs": [
+        "mk1/specs/PROMPT_ARTIFACT.schema.json",
+        "tools/mk1_prompt_generator_v0.py"
+      ]
+    },
+    {
+      "artifact_id": "pq-methodology-evidence-states",
+      "artifact_type": "methodology",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Evidence-state definitions and claim discipline.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/methodology/evidence-states.md",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:3831ed9198dd8b68e7c67c1ca2f25e07a1903cee3dd2fae4992cbb06556279c8",
+      "source_refs": [
+        "product/developer-pack-v1/SPEC.md"
+      ]
+    },
+    {
+      "artifact_id": "pq-methodology-evaluation",
+      "artifact_type": "methodology",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Static and runtime evaluation method.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/methodology/evaluation.md",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:f27296984353c26fe24c4915b1a56fba83abd5b37655cbedff97b89afbac26a4",
+      "source_refs": [
+        "product/developer-pack-v1/SPEC.md"
+      ]
+    },
+    {
+      "artifact_id": "pq-contract-task-brief-example",
+      "artifact_type": "task-brief-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Customer-facing normalized task brief example.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/contracts/task-brief.example.json",
+      "provenance_class": "example",
+      "sha256": "sha256:2605dcbfbe1cd948d5d3b0a27564df0840baffa00e06467a0a828744072ab5d5",
+      "source_refs": [
+        "mk1/specs/TASK_BRIEF.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-contract-prompt-request-example",
+      "artifact_type": "prompt-request-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Customer-facing generator request example.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/contracts/prompt-request.example.json",
+      "provenance_class": "example",
+      "sha256": "sha256:53f4bd8a98c180280ac874aa8497940f7a971b7e768bcf605dfbf83dc2c8fe4d",
+      "source_refs": [
+        "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-template-general",
+      "artifact_type": "prompt-template",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "General reusable structured prompt template.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/templates/general-structured-prompt.md",
+      "prompt_family": "general_structured",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:3658a19ff0b96acb47395d29a17faf305f204628ae8cc9fa2599d5d00987433a",
+      "source_refs": [
+        "mk1/specs/PROMPT_ARTIFACT.schema.json",
+        "tools/mk1_prompt_generator_v0.py"
+      ]
+    },
+    {
+      "artifact_id": "pq-template-software-code-review",
+      "artifact_type": "prompt-template",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Software/code review template with evidence boundaries.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/templates/software-code-review.md",
+      "prompt_family": "software_code_review",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:310de8f405adbda63d417faab59dcb5171ed2daa02663f2a3b1d9b743db7acde",
+      "source_refs": [
+        "mk1/generator/examples/software-review.request.json",
+        "tools/mk1_prompt_generator_v0.py"
+      ]
+    },
+    {
+      "artifact_id": "pq-template-technical-research-decision",
+      "artifact_type": "prompt-template",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Technical research and decision template.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/templates/technical-research-decision.md",
+      "prompt_family": "research_technical_decision",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:8796f53802693cd9eafb61092d0e2dec445f545fbc1796bf4c9030780a29eccc",
+      "source_refs": [
+        "mk1/specs/PROMPT_ARTIFACT.schema.json",
+        "tools/mk1_prompt_generator_v0.py"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-code-review-request",
+      "artifact_type": "prompt-request-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Code review example request.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/examples/software-code-review/request.json",
+      "prompt_family": "software_code_review",
+      "provenance_class": "example",
+      "sha256": "sha256:892766198555fc36c6775985efa6605dae3ef3158454c65b2fa1a0c9aff467b1",
+      "source_refs": [
+        "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-code-review-brief",
+      "artifact_type": "task-brief-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Code review normalized task brief.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/examples/software-code-review/task-brief.json",
+      "prompt_family": "software_code_review",
+      "provenance_class": "example",
+      "sha256": "sha256:1803d0cffa27898cd44c32b1c48ab6b1a75f0e807f0876dd5208adca020a7229",
+      "source_refs": [
+        "mk1/specs/TASK_BRIEF.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-code-review-prompt",
+      "artifact_type": "prompt-artifact",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Code review example prompt artifact.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/examples/software-code-review/prompt.md",
+      "prompt_family": "software_code_review",
+      "provenance_class": "example",
+      "sha256": "sha256:cf98303b95e83800d4af562d679912c6cda101751360c0d6f886c1afbff47dee",
+      "source_refs": [
+        "product/developer-pack-v1/templates/software-code-review.md"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-code-review-readme",
+      "artifact_type": "example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Code review example walkthrough.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/examples/software-code-review/README.md",
+      "prompt_family": "software_code_review",
+      "provenance_class": "example",
+      "sha256": "sha256:8dfdd0170aea87b730d304b0eb50336a1b77c8dccbb761da6294a8c39d0525c2"
+    },
+    {
+      "artifact_id": "pq-example-technical-decision-request",
+      "artifact_type": "prompt-request-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Technical decision example request.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/examples/technical-research-decision/request.json",
+      "prompt_family": "research_technical_decision",
+      "provenance_class": "example",
+      "sha256": "sha256:c4b269e613a56a9dc8f3839d74d2862bf6d34264b68f5f38fde260689efb6c3b",
+      "source_refs": [
+        "mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-technical-decision-brief",
+      "artifact_type": "task-brief-example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Technical decision normalized task brief.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "media_type": "application/json",
+      "path": "product/developer-pack-v1/examples/technical-research-decision/task-brief.json",
+      "prompt_family": "research_technical_decision",
+      "provenance_class": "example",
+      "sha256": "sha256:9e042a48efc1d043d7d5ceabc21f8b45d58e4a977cd76c07129cdb2d31560147",
+      "source_refs": [
+        "mk1/specs/TASK_BRIEF.schema.json"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-technical-decision-prompt",
+      "artifact_type": "prompt-artifact",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Technical decision example prompt artifact.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/examples/technical-research-decision/prompt.md",
+      "prompt_family": "research_technical_decision",
+      "provenance_class": "example",
+      "sha256": "sha256:e41c0b753596800ba0f447c64e0838e7d17d2b42e645ccfdb2a974f537b69446",
+      "source_refs": [
+        "product/developer-pack-v1/templates/technical-research-decision.md"
+      ]
+    },
+    {
+      "artifact_id": "pq-example-technical-decision-readme",
+      "artifact_type": "example",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Technical decision example walkthrough.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/examples/technical-research-decision/README.md",
+      "prompt_family": "research_technical_decision",
+      "provenance_class": "example",
+      "sha256": "sha256:dae656e44e30ea143789af7faeecefd199f499b87386d193308a156e859ef26c"
+    },
+    {
+      "artifact_id": "pq-checklist-static-quality",
+      "artifact_type": "checklist",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Static prompt integrity gate.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/checklists/static-quality.md",
+      "provenance_class": "mk1-derived",
+      "sha256": "sha256:d7af4e5c5df6e434eb766c09a79077aa76cfb71f5749ad07fc2dab1ccc941fa4",
+      "source_refs": [
+        "tools/mk1_prompt_linter.py",
+        "tools/mk1_prompt_critic.py"
+      ]
+    },
+    {
+      "artifact_id": "pq-checklist-release-readiness",
+      "artifact_type": "checklist",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Commercial package readiness gate.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/checklists/release-readiness.md",
+      "provenance_class": "product-authored",
+      "sha256": "sha256:a0ec1f3c40a14f4534aa75ab8caa53652d2c7a62ba27cdbc71c6fb938e06fda2"
+    },
+    {
+      "artifact_id": "pq-devpack-license",
+      "artifact_type": "license",
+      "authority": "prompt-quarry",
+      "claims": [
+        "engineered",
+        "valid"
+      ],
+      "distribution": {
+        "customer_visible": true,
+        "include": true,
+        "notes": "Prompt Quarry proprietary use-and-adapt license; redistribution/resale rights are not granted to customers.",
+        "redistributable": true
+      },
+      "evidence_refs": [
+        ".ci/developer-pack-v1/latest.json"
+      ],
+      "maturity_state": "VALID",
+      "path": "product/developer-pack-v1/LICENSE.md",
+      "provenance_class": "product-authored",
+      "sha256": "sha256:f111939ad4cb783ed195b97cadef28136e231769e4ee056a7233c2601c8d7626"
+    }
+  ],
+  "claim_boundary": "Commercial distribution does not promote MK1 maturity. TESTED requires F4 real evidence; IMPROVED/CANDIDATE requires F5 superiority; CERTIFIED requires F6 repeated same-target evidence; PORTABLE requires F7 cross-provider evidence.",
+  "forbidden_bundle_classes": [
+    "credentials",
+    "private-research-internals",
+    "raw-third-party-premium-bodies",
+    "unreviewed-source-harvest-data",
+    "synthetic-output-presented-as-real-runtime-evidence"
+  ],
+  "generated_at": "2026-08-28T16:38:03-05:00",
+  "generator_v0": {
+    "bundled": false,
+    "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json",
+    "gate": "canonical-static-ci-pass-required-before-bundling",
+    "receipt_source_commit": "e69ab9afedf41fae4321f737f9ed28b1df21e806",
+    "receipt_status": "PASS"
+  },
+  "pack_root": "product/developer-pack-v1/",
+  "product_id": "pq-developer-pack",
+  "product_name": "Prompt Quarry Developer Pack",
+  "release": {
+    "archive_sha256": "sha256:e13b7c54e4d368d57cd196e13eff36ca9ecff4815fe8abb477b3833629fc8083",
+    "claims_review_receipt": ".ci/developer-pack-v1/claims-review.json",
+    "clean_room_receipt": ".ci/developer-pack-v1/clean-room-release-candidate.json",
+    "distribution_license": "Prompt Quarry Developer Pack \u2014 Proprietary Commercial License",
+    "manifest_sha256": "sha256:5ad22b1330c7092faf6a1e548ae9654fbe078d0c0106832a5ab7c9f636dc07bb"
+  },
+  "release_status": "READY",
+  "schema": "prompt-quarry-product-manifest-v1",
+  "source_branch": "feat/mk1-prompt-generator-v0-20260827",
+  "source_commit": "ebc6a2325a00e962a99043d946d38497860211f5",
+  "version": "1.0.0"
+}
