@@ -1,12 +1,29 @@
 {
   "schema": "prompt-quarry-harvester-policy-v1",
-  "policy_version": "1.0.0",
+  "policy_version": "1.1.0",
   "routing": {
     "auto_candidate_min_confidence": 0.95,
     "human_review_min_confidence": 0.90,
     "human_review_max_confidence_exclusive": 0.95,
     "below_human_review_default": "HOLD",
     "golden_requires_governed_promotion": true
+  },
+  "eligibility_gates": {
+    "golden_research_eligibility": {
+      "purpose": "Internal research, technique learning, architecture analysis, fixtures, and governed Golden Dataset candidacy.",
+      "license_unknown_blocks": false,
+      "requires_observed_body": true,
+      "requires_verified_source_identity": true,
+      "requires_content_hash": true
+    },
+    "distribution_eligibility": {
+      "purpose": "Commercial redistribution or bundling of third-party source wording/body.",
+      "license_unknown_blocks": true,
+      "allowed_license_statuses": ["ALLOWED"],
+      "requires_observed_body": true,
+      "requires_verified_source_identity": true,
+      "requires_content_hash": true
+    }
   },
   "critical_overrides": {
     "force_human_review": [
@@ -16,8 +33,15 @@
       "source_identity_ambiguity",
       "content_observation_ambiguity"
     ],
-    "block_auto_candidate": [
+    "block_research_auto_candidate": [
+      "access_boundary_uncertain",
+      "provenance_incomplete",
+      "body_unavailable_but_reconstructed",
+      "hash_missing_for_observed_body"
+    ],
+    "block_distribution": [
       "license_unknown_for_redistribution",
+      "license_forbids_redistribution",
       "access_boundary_uncertain",
       "provenance_incomplete",
       "body_unavailable_but_reconstructed",
@@ -69,6 +93,7 @@
     "unknown_remains_unknown": true,
     "confidence_is_not_quality": true,
     "quality_is_not_evidence": true,
+    "research_eligibility_is_not_distribution_permission": true,
     "human_approval_is_not_behavioral_certification": true
   }
 }
