@@ -23,7 +23,7 @@ not observed == unknown
 | C3 Paid commerce | `CODE_READY / PROVIDER_NOT_PROVISIONED` | Lemon Squeezy hosted-checkout abstraction, signed `order_created` webhook verification, paid/store/product/variant checks, no client-side purchase inference | Provision store product/variant, checkout URL, webhook secret/endpoint |
 | C4 Analytics | `CODE_READY / NOT_LIVE` | Minimum funnel semantics implemented across client/server, campaign attribution bridge, provider-signed purchase evidence | Observe events on deployed preview/live checkout |
 | C5 Launch E2E | `HARNESS_READY / BLOCKED_EXTERNAL` | Public-surface smoke harness validates pages, deterministic Free Pack, checkout redirect, and attribution | Deployed web + provisioned checkout + real provider test order |
-| C6 Distribution | `CONTENT_SPEC_READY / NOT_PUBLISHED` | `pq-launch-0` content system exists | Publish only after C5 passes |
+| C6 Distribution | `DRAFTS_READY / NOT_PUBLISHED` | Durable `pq-launch-0` payload plus first 3 LinkedIn/prodAgentic assets are ready and held behind C5 | Publish only after C5 passes |
 | PQ-LAUNCH-0 | `NOT_ACHIEVED` | — | Full C5 including provider test order + delivery |
 | PQ-$1 | `NOT_ACHIEVED` | — | Real non-zero provider revenue + delivery |
 
@@ -184,6 +184,32 @@ Automated assertions:
 - `source/medium/campaign/content` reach provider custom checkout data.
 
 The harness deliberately cannot satisfy the payment portion of C5. A real Lemon Squeezy test checkout and observed signed `order_created` webhook remain mandatory.
+
+## C6 — Launch package
+
+Prepared but deliberately unpublished:
+
+```text
+commercial/campaigns/pq-launch-0/CAMPAIGN.json
+commercial/campaigns/pq-launch-0/README.md
+commercial/campaigns/pq-launch-0/01-why-prompt-quarry-exists.md
+commercial/campaigns/pq-launch-0/02-code-review-before-after.md
+commercial/campaigns/pq-launch-0/03-not-observed-unknown.md
+```
+
+Each first-release draft has a stable content id, LinkedIn UTM attribution, CTA, and claims review. All are `HOLD_FOR_C5`.
+
+Initial sequence:
+
+```text
+P01 Why Prompt Quarry exists
+  -> observe
+P02 Code Review before/after
+  -> observe
+P03 not observed == unknown
+```
+
+No item should be published until `PQ-LAUNCH-0` is achieved.
 
 ## External blockers
 
