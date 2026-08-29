@@ -78,8 +78,10 @@ def main() -> None:
     for token in ("buildStoredZip", "FREE_PACK_ARCHIVE_SHA256", "free_pack_integrity_failure", "X-Prompt-Quarry-SHA256"):
         if token not in route:
             fail(f"free pack integrity route contract missing: {token}")
-    if "55121028168f9a5394fe79ccc3102caa60e5df85c59a03639dc6e5392e5b2ee1" not in generated:
-        fail("free pack generated snapshot is not bound to release fingerprint")
+    if "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32" not in generated:
+        fail("free pack generated snapshot is not bound to v1.1 release fingerprint")
+    if 'FREE_PACK_VERSION = "1.1.0"' not in generated or "FREE_PACK_ARCHIVE_SIZE = 23498" not in generated:
+        fail("free pack generated snapshot does not identify v1.1 size/version")
 
     tracker = (WEB / "components/funnel-tracker.tsx").read_text(encoding="utf-8")
     for token in ("NEXT_PUBLIC_ANALYTICS_MODE", "landing_view", "paid_product_viewed", "utm_source", "sessionStorage"):
@@ -115,7 +117,7 @@ def main() -> None:
     print("framework=Next.js 16.3.3 App Router")
     print("visual_system=premium technical/editorial + Quarry Engine")
     print("routes=/,/free/developer-starter-pack,/developer-pack,/license,/api/free-pack/v1")
-    print("free_delivery=deterministic ZIP + runtime SHA-256 fail-closed verification")
+    print("free_delivery=v1.1 deterministic ZIP + runtime SHA-256 fail-closed verification")
     print("analytics=minimal UTM/session bridge; no purchase/revenue inference")
     print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
 
