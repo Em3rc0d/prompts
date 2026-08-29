@@ -21,6 +21,12 @@ on:
     paths:
       - tools/stress_golden_path_v1.py
       - .github/workflows/stress-golden-path-v1.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tools/stress_golden_path_v1.py
+      - .github/workflows/stress-golden-path-v1.yml
 
 permissions:
   contents: read
