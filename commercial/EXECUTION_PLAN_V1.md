@@ -4,47 +4,49 @@
 
 Move from `Developer Pack v1 = READY` to the first real paying customer without reopening internal platform work.
 
+Current execution truth lives in `STATUS_V1.md`. This document defines the ordered gates.
+
 ## Current state
 
 ```text
 Generator v0                  PASS
 Developer Pack v1             READY / v1.0.0
 Developer Pack asset maturity VALID
-Developer Starter Pack v1     BUILT
-Commercial funnel             DEFINED
-Offer / pricing               DEFINED
-Landing contract              DEFINED
-Checkout architecture         DEFINED
-Analytics contract            DEFINED
-Launch content system         DEFINED
+Premium Next.js web           IMPLEMENTED / VISUALLY_REVIEWED
+Vercel preview                BLOCKED_EXTERNAL
+Developer Starter Pack v1     ARTIFACT_READY / NOT_DEPLOYED
+Paid commerce integration     CODE_READY / PROVIDER_NOT_PROVISIONED
+Minimum funnel analytics      CODE_READY / NOT_LIVE
+Launch content system         CONTENT_SPEC_READY / NOT_PUBLISHED
+PQ-LAUNCH-0                   NOT_ACHIEVED
+PQ-$1                         NOT_ACHIEVED
 ```
 
-## Missing path to PQ-$1
+## Remaining path to PQ-$1
 
 ```text
-LANDING IMPLEMENTATION
+PROVISION VERCEL PROJECT
+    +
+PROVISION LEMON SQUEEZY PRODUCT
     ↓
-FREE DISTRIBUTION ARTIFACT
+C5 END-TO-END SMOKE
     ↓
-LIVE CHECKOUT
+PQ-LAUNCH-0
     ↓
-LIVE ANALYTICS
-    ↓
-END-TO-END SMOKE TEST
-    ↓
-LAUNCH CONTENT
+C6 LAUNCH CONTENT
     ↓
 REAL TRAFFIC
     ↓
 REAL PURCHASE
+    ↓
+PQ-$1
 ```
 
 ## Phase C1 — Commercial surface
 
-### Build
-A fast public landing page implementing `LANDING_V1.md`.
+State: `IMPLEMENTED / VISUALLY_REVIEWED`
 
-### Required routes
+Implemented in Next.js App Router under `web/`:
 
 ```text
 /
@@ -53,118 +55,162 @@ A fast public landing page implementing `LANDING_V1.md`.
 /license
 ```
 
-A single-page implementation with anchored sections is acceptable for v0 if URLs/CTAs remain clear.
+The visual system is intentionally premium technical/editorial rather than generic SaaS. It includes the Quarry Engine, manufacturing pipeline, governed-product framing, evidence ladder, responsive layout, and reduced-motion handling.
 
-### Environment contract
-
-```text
-PUBLIC_FREE_PACK_URL=
-PUBLIC_DEVELOPER_PACK_CHECKOUT_URL=
-PUBLIC_ANALYTICS_MODE=
-```
-
-Do not hard-code provider-specific URLs throughout components.
-
-### Definition of done
-- responsive desktop/mobile;
-- Free CTA works;
-- paid CTA works or clearly remains disabled before checkout is configured;
-- evidence boundaries visible;
-- license summary visible;
-- no unsupported claims;
-- metadata/SEO baseline exists;
-- no fake testimonials/social proof.
+Remaining gate: execute a real Next.js deployment/build in Vercel or another controlled runtime. GitHub Actions jobs have repeatedly been created without a runner and with zero executed steps, so those runs are neither PASS nor meaningful code failures.
 
 ## Phase C2 — Free Pack distribution
 
-### Build
-Create a deterministic customer ZIP containing only:
-- `README.md`;
-- `QUICKSTART.md`;
-- `LICENSE.md`;
-- `OFFER.md`;
-- 3 prompt files.
+State: `ARTIFACT_READY / NOT_DEPLOYED`
 
-### Required evidence
-Create a small release receipt containing:
-- version;
-- included paths;
-- archive SHA-256;
-- source commit;
-- generated timestamp.
+Governed payload: exactly 7 customer files.
 
-Do not recreate the entire paid release-governance system unless needed.
+```text
+LICENSE.md
+OFFER.md
+QUICKSTART.md
+README.md
+prompts/bug-diagnosis.md
+prompts/code-review.md
+prompts/technical-decision.md
+```
 
-### Definition of done
-A visitor can click once from the landing and receive the exact intended Free Pack.
+Deterministic archive identity:
+
+```text
+filename  prompt-quarry-developer-starter-v1.zip
+size      11573 bytes
+sha256    55121028168f9a5394fe79ccc3102caa60e5df85c59a03639dc6e5392e5b2ee1
+```
+
+The Next.js route `/api/free-pack/v1` rebuilds the governed payload and fails closed if archive size/hash differs. `free_pack_acquired` is emitted server-side only after integrity verification.
+
+Remaining gate: deploy the Next.js app so the route is publicly reachable.
 
 ## Phase C3 — Checkout
 
-### Build/configure
-- one-time Developer Pack v1 product;
-- launch price USD $19;
-- correct release payload;
-- visible use/adapt license boundary;
-- success/download flow.
+State: `CODE_READY / PROVIDER_NOT_PROVISIONED`
 
-### Provider
-Primary v1 choice: Lemon Squeezy.
+Provider: Lemon Squeezy.
 
-### Definition of done
-A non-production/test transaction path is verified where provider capabilities permit, and the correct product is delivered.
+Product contract:
+
+```text
+Prompt Quarry Developer Pack v1
+one-time digital purchase
+USD $19 launch price
+use/adapt/integrate allowed
+resale/redistribution/sublicense prohibited
+```
+
+Implemented flow:
+
+```text
+paid CTA
+ -> /api/commerce/developer-pack/checkout
+ -> checkout_started
+ -> hosted provider checkout
+ -> order_created webhook
+ -> HMAC-SHA256 signature verification
+ -> paid + store/product/variant checks
+ -> purchase_completed evidence
+```
+
+Provider customer name/email are deliberately excluded from the Prompt Quarry commerce evidence path.
+
+Remaining external configuration:
+
+```text
+NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL
+LEMONSQUEEZY_WEBHOOK_SECRET
+LEMONSQUEEZY_STORE_ID
+LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID
+LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID
+```
 
 ## Phase C4 — Analytics
 
-### Build
-Instrument only the events defined in `ANALYTICS_V1.md`.
+State: `CODE_READY / NOT_LIVE`
 
-Minimum launch events:
-- `landing_view`;
-- `free_cta_clicked`;
-- `free_pack_acquired`;
-- `paid_cta_clicked`;
-- `checkout_started`;
-- `purchase_completed` where authoritative integration permits it.
+Minimum launch chain implemented:
 
-### Definition of done
-A local/staging smoke test can trace one synthetic funnel session without contaminating real revenue metrics.
+```text
+landing_view
+free_cta_clicked
+free_pack_acquired
+paid_product_viewed
+paid_cta_clicked
+checkout_started
+purchase_completed
+```
+
+Campaign fields:
+
+```text
+source
+medium
+campaign
+content
+```
+
+The checkout redirect passes only those fields through Lemon Squeezy custom checkout data. The signed order webhook reconciles them from provider `meta.custom_data`.
+
+An anonymous session id is generated only in browser `sessionStorage` for local diagnostics and is not sent to the payment provider.
+
+Evidence hierarchy remains:
+
+```text
+CHECKOUT PROVIDER TRANSACTION
+    > signed server/webhook evidence
+    > client telemetry
+    > button click
+```
 
 ## Phase C5 — End-to-end launch gate
 
-Run this exact journey:
+State: `BLOCKED_EXTERNAL / HARNESS NEXT`
+
+The test journey is:
 
 ```text
-LINKEDIN-LIKE URL WITH UTM
+UTM URL
   -> LANDING
   -> FREE CTA
-  -> DOWNLOAD STARTER PACK
-  -> OPEN OFFER
-  -> RETURN TO PAID PAGE
-  -> START CHECKOUT
-  -> COMPLETE TEST FLOW
+  -> VERIFIED STARTER PACK ZIP
+  -> PAID PRODUCT PAGE
+  -> BUY CTA
+  -> checkout_started
+  -> REAL PROVIDER TEST CHECKOUT
+  -> SIGNED order_created WEBHOOK
+  -> purchase_completed(test_mode=true)
   -> VERIFY DELIVERY
-  -> VERIFY ANALYTICS
 ```
 
-### Gate
-`PQ-LAUNCH-0` is PASS only if the full customer journey works without access to the private GitHub repository.
+`PQ-LAUNCH-0` is PASS only if this full journey works without access to the private GitHub repository.
+
+A repository smoke harness should automate all public-surface assertions that do not require human/provider UI completion. The real provider test order remains mandatory; a fabricated webhook is not a substitute for it.
 
 ## Phase C6 — Distribution
 
-Use `LAUNCH_CONTENT_V1.md` through prodAgentic.
+State: `CONTENT_SPEC_READY / NOT_PUBLISHED`
 
-Start with three pieces, not ten drafts waiting for perfection:
+Use `LAUNCH_CONTENT_V1.md` through prodAgentic only after C5 passes.
+
+Start with three pieces:
 1. Why Prompt Quarry exists.
 2. Code-review prompt before/after structure.
 3. Free Starter Pack launch/demo.
+
+Canonical campaign:
+`pq-launch-0`
 
 Publish, observe, then continue the sequence.
 
 ## Phase C7 — PQ-$1
 
 `PQ-$1` requires:
-- real production transaction;
-- real non-zero revenue;
+- a real non-test production transaction;
+- real non-zero provider revenue;
 - customer receives Developer Pack v1;
 - transaction/product version is identifiable.
 
@@ -176,20 +222,38 @@ After PQ-$1, record a milestone receipt/document with:
 - transaction evidence reference without exposing sensitive customer/payment details;
 - first customer questions/objections.
 
-## Commit sequence
-
-Recommended commits:
+## Current commit sequence
 
 ```text
-C1 feat(web): build Prompt Quarry commercial landing v0
-C2 release(free): build deterministic Developer Starter Pack v1 artifact
-C3 feat(commerce): wire Free download and paid checkout URLs
-C4 feat(analytics): instrument minimum PQ-$1 funnel events
-C5 test(launch): add commercial end-to-end smoke gate
-C6 content(launch): add pq-launch-0 campaign payload for prodAgentic
+C1 feat(web)         DONE — premium Next.js commercial surface
+C2 release(free)     DONE IN CODE — deterministic Starter Pack artifact + verified route
+C3 feat(commerce)    DONE IN CODE — hosted checkout bridge + signed webhook contract
+C4 feat(analytics)   DONE IN CODE — minimum funnel semantics + campaign reconciliation
+C5 test(launch)      NEXT — public smoke harness; full PASS awaits external provisioning
+C6 content(launch)   AFTER C5 — pq-launch-0 execution payload
 ```
 
-External checkout configuration may not correspond to a repository commit; document the live product id/configuration without storing secrets.
+## External provisioning gates
+
+### Vercel
+
+Import `Em3rc0d/prompts` with:
+
+```text
+Framework       Next.js
+Root Directory  web/
+Node            >=20.9.0
+```
+
+### Lemon Squeezy
+
+Provision the `$19` one-time Developer Pack v1 product/variant, shareable checkout URL, and webhook targeting:
+
+```text
+/api/commerce/lemonsqueezy/webhook
+```
+
+Subscribe to `order_created` for the initial one-time purchase flow.
 
 ## Stop conditions
 
@@ -209,17 +273,8 @@ Question to ask:
 
 If no, defer it.
 
-## Immediate next commit
+## Immediate next repository move
 
-`C1 feat(web): build Prompt Quarry commercial landing v0`
+`C5 test(launch): add commercial public-surface smoke harness`
 
-Inputs are now frozen enough to implement:
-- product hierarchy;
-- copy architecture;
-- price hypothesis;
-- evidence boundaries;
-- CTAs;
-- checkout abstraction;
-- analytics event names.
-
-The next work should be executable code, not another strategy document.
+It must validate the deployed landing, Free Pack integrity, paid-page availability, license route, checkout redirect contract, and attribution propagation while preserving the rule that only a real provider test checkout can satisfy the payment portion of `PQ-LAUNCH-0`.
