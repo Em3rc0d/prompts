@@ -15,6 +15,11 @@ REQUIRED = [
     PACK / "examples" / "code-review-policy-transformation.md",
 ]
 
+# These phrases are forbidden as customer-facing performance/marketing claims.
+# Governance documents are allowed to mention the phrases when explicitly
+# documenting that they must NOT be claimed. Therefore this guard is scoped to
+# the customer-facing product surfaces below instead of blindly scanning the
+# policy/spec corpus.
 FORBIDDEN_CLAIMS = [
     "battle-tested",
     "proven superior",
@@ -73,8 +78,6 @@ def main() -> None:
     readme = (PACK / "README.md").read_text(encoding="utf-8")
     spec = (PACK / "SPEC.md").read_text(encoding="utf-8")
     gate = (PACK / "quality" / "COMMERCIAL_VALUE_GATE.md").read_text(encoding="utf-8")
-    corpus = "\n".join(p.read_text(encoding="utf-8") for p in REQUIRED)
-    lower = corpus.lower()
 
     for token in ("DRAFT", "NOT FOR SALE", "not observed == unknown"):
         if token not in readme:
@@ -99,11 +102,18 @@ def main() -> None:
         if token not in gate:
             fail(f"commercial value gate missing: {token}")
 
-    for claim in FORBIDDEN_CLAIMS:
-        if claim in lower:
-            fail(f"unsupported marketing claim observed: {claim}")
-
     templates = PACK / "templates"
+    example_path = PACK / "examples" / "code-review-policy-transformation.md"
+    customer_claim_surfaces = [readme, example_path.read_text(encoding="utf-8")]
+    customer_claim_surfaces.extend(
+        path.read_text(encoding="utf-8") for path in sorted(templates.glob("*.md"))
+    )
+    customer_claim_text = "\n".join(customer_claim_surfaces).lower()
+
+    for claim in FORBIDDEN_CLAIMS:
+        if claim in customer_claim_text:
+            fail(f"unsupported customer-facing marketing claim observed: {claim}")
+
     for filename, required_tokens in CORE_TEMPLATE_REQUIREMENTS.items():
         path = templates / filename
         size = path.stat().st_size
@@ -116,7 +126,7 @@ def main() -> None:
         if "no behavioral claim" not in text.lower():
             fail(f"{filename} missing behavioral evidence boundary")
 
-    example = (PACK / "examples" / "code-review-policy-transformation.md").read_text(encoding="utf-8")
+    example = example_path.read_text(encoding="utf-8")
     for token in (
         "Starting request",
         "Extract the workflow requirements",
@@ -129,7 +139,11 @@ def main() -> None:
             fail(f"worked transformation incomplete: {token}")
 
     license_text = (PACK / "LICENSE.md").read_text(encoding="utf-8")
-    for token in ("Prohibited redistribution and resale", "Adapted work inside your own product", "Evidence and performance boundary"):
+    for token in (
+        "Prohibited redistribution and resale",
+        "Adapted work inside your own product",
+        "Evidence and performance boundary",
+    ):
         if token not in license_text:
             fail(f"license boundary missing: {token}")
 
