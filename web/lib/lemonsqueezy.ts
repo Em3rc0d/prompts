@@ -29,6 +29,7 @@ type OrderCreatedPayload = {
         product_id?: number;
         variant_id?: number;
         price?: number;
+        test_mode?: boolean;
       };
     };
   };
