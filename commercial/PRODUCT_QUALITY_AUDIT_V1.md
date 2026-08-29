@@ -106,6 +106,50 @@ This fingerprint was independently reconstructed from the seven current Git blob
 
 The previous v1.0 archive fingerprint is historical only and must not be used for current public distribution.
 
+## Free Pack v1.1 Vercel delivery-integrity preview
+
+A dedicated isolated Vercel preview was created to test the canonical v1.1 buffer without changing the production alias.
+
+Observed deployment:
+
+```text
+deployment_id   dpl_FSz16X8rci5GNGMxmee6PofqMgMZ
+environment     preview
+deployment      READY
+runtime         Node.js / Next.js
+```
+
+Observed `GET /api/integrity` response at `2026-08-29T02:04:45Z`:
+
+```text
+http_status       200
+status            PASS
+version           1.1.0
+size_bytes        23498
+sha256            55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+expected_size     23498
+expected_sha256   55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+match             true
+```
+
+The preview runtime reconstructs the customer ZIP buffer and calculates its SHA-256 before returning PASS. The download route shares the same verified `archive()` function.
+
+A direct binary-body inspection of `/api/free-pack/v1` was **not observed** because the connected Vercel fetch client was redirected through preview SSO and did not preserve the authentication cookie required to inspect the binary response. Do not upgrade this evidence into a direct download observation.
+
+Canonical receipt:
+
+`.ci/free-developer-starter-v1/delivery-preview-v1.1.json`
+
+Classification:
+
+```text
+FREE_V1_1_DELIVERY_PREVIEW     PASS
+PRODUCTION_FREE_V1_1_DELIVERY  NOT_RECONCILED
+PUBLIC_INCIDENT_CLOSED         NO
+```
+
+This preview establishes delivery integrity only. It does not establish F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE`.
+
 ## Paid Developer Pack decision
 
 `Developer Pack v1.0.0` remains historically:
@@ -142,15 +186,20 @@ F6_CERTIFIED     NO
 F7_PORTABLE      NO
 ```
 
-The first product-quality slice now exists and includes:
+The current product-quality slice includes:
 
-- `README.md` — new v1.1 product thesis and release boundary;
+- `README.md` — v1.1 product thesis and release boundary;
 - `SPEC.md` — Free-vs-Paid boundary and reusable operating architecture;
+- `QUICKSTART.md` — customer-first 15-minute workflow configuration path;
 - `LICENSE.md` — proprietary commercial use/adapt, no resale/redistribution;
 - `quality/COMMERCIAL_VALUE_GATE.md` — blocking static customer-value gate;
 - `templates/general-operating-contract.md` — reusable input/context/evidence/decision/output/verification architecture;
 - `templates/software-code-review-system.md` — configurable review policy, lenses, evidence threshold, severity and ship transitions;
 - `templates/technical-research-decision-system.md` — configurable constraints, criteria, source/freshness policy, evidence quality, reversibility and decision states;
+- `contracts/workflow-contract.schema.json` — JSON Schema draft 2020-12 machine-readable workflow interface;
+- `contracts/code-review-policy.example.json` — concrete machine-readable team review policy;
+- `methodology/adaptation-playbook.md` — policy vs instance-data adaptation method and change-control rules;
+- `checklists/workflow-static-review.md` — static inspection checklist and runtime-test readiness states;
 - `examples/code-review-policy-transformation.md` — worked transformation from vague PR request to explicit team review policy;
 - `tools/test_developer_pack_v1_1_quality.py` — static architecture regression guard;
 - `.github/workflows/test-developer-pack-v1-1-quality.yml` — CI entrypoint for that guard.
@@ -166,6 +215,14 @@ technical-research-decision-system.md    8654 bytes
 ```
 
 The static guard defines a 6000-byte minimum as a coarse anti-regression floor plus required operating-interface tokens. This size floor is not itself a quality proof; it only prevents accidental regression to minimal skeleton assets.
+
+### Static guard correction
+
+An inspection found a real test-design defect before any successful runner execution: the first version scanned the entire governance corpus for forbidden marketing phrases such as `battle-tested` and `proven superior`. The SPEC itself names those phrases as claims that must **not** be made, so a real runner would have false-failed.
+
+The guard was corrected to scope unsupported-claim scanning to customer-facing usage/sales surfaces while allowing governance documents to describe forbidden claims as policy.
+
+The guard was then expanded to parse and inspect the machine-readable contracts, adaptation playbook, Quickstart, checklist, and worked transformation.
 
 ### CI observation
 
@@ -190,7 +247,7 @@ RUNNER EXECUTION         NOT OBSERVED
 CURRENT CLASSIFICATION   CI INFRASTRUCTURE / RUNNER UNASSIGNED
 ```
 
-Do not modify product content in response to this run unless a later execution actually runs the validation steps and reports a product failure.
+Do not modify product content in response to that run unless a later execution actually runs validation steps and reports a product failure.
 
 ### Commercial distinction being enforced
 
@@ -209,13 +266,15 @@ Passing that static gate would still not establish behavioral superiority or F4�
 3. Update Free release manifest to v1.1.0. — `DONE`
 4. Update Next.js generated delivery snapshot and web copy. — `DONE`
 5. Bind web acceptance test to v1.1 version/size/hash. — `DONE`
-6. Redeploy exact governed web source to Vercel. — `PENDING / BLOCKED ON REPRODUCIBLE SOURCE DEPLOYMENT`
-7. Observe public `/api/free-pack/v1` returning v1.1 headers and runtime-verified hash. — `PENDING`
-8. Replace manual Vercel bootstrap deployment process with Git-linked or otherwise reproducible source deployment. — `PENDING`
-9. Design and govern Developer Pack v1.1 product-quality release. — `IN PROGRESS / CORE SLICE IMPLEMENTED`
-10. Execute Developer Pack v1.1 static quality guard on an assigned runner. — `PENDING / CI RUNNER UNASSIGNED`
-11. Migrate/redesign remaining paid customer assets only after the core slice passes inspection. — `NEXT`
-12. Keep checkout disabled until paid v1.1 and launch smoke gates are verified. — `ENFORCED`
+6. Execute isolated Vercel runtime integrity preview against Free v1.1 canonical buffer. — `DONE / PASS`
+7. Redeploy exact governed full web source to Vercel production. — `PENDING / BLOCKED ON REPRODUCIBLE SOURCE DEPLOYMENT`
+8. Observe production `/api/free-pack/v1` returning v1.1 canonical delivery. — `PENDING`
+9. Replace manual Vercel bootstrap deployment process with Git-linked or otherwise reproducible full-source deployment. — `PENDING`
+10. Design and govern Developer Pack v1.1 product-quality release. — `IN PROGRESS / CORE SYSTEM IMPLEMENTED`
+11. Execute Developer Pack v1.1 static quality guard on an assigned GitHub runner. — `PENDING / CI RUNNER UNASSIGNED`
+12. Score the Commercial Value Gate against the actual v1.1 assets and close any gaps. — `NEXT`
+13. Add/migrate only remaining customer assets that create distinct customer capability. — `NEXT AFTER GATE SCORING`
+14. Keep checkout disabled until paid v1.1 and launch smoke gates are verified. — `ENFORCED`
 
 ## Closure conditions
 
