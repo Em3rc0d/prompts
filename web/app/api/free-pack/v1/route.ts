@@ -1,8 +1,8 @@
 import { createHash } from "node:crypto";
+import { FREE_PACK_BASE64 } from "@/generated/free-pack-archive";
 
 export const runtime = "nodejs";
 
-const RELEASE_ORIGIN = "https://prompt-quarry-mx9ioitln-faridmerinos-projects.vercel.app/api/free-pack/v1.1.0";
 const EXPECTED_SHA256 = "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32";
 const EXPECTED_SIZE = 23498;
 const VERSION = "1.1.0";
@@ -12,26 +12,14 @@ const ATTRIBUTION_FIELDS = ["source", "medium", "campaign", "content"] as const;
 function clean(value: string | null): string | undefined {
   if (!value) return undefined;
   const normalized = value.trim().slice(0, 120);
-  if (!normalized) return undefined;
-  return normalized.replace(/[^a-zA-Z0-9._:/-]/g, "-");
+  return normalized ? normalized.replace(/[^a-zA-Z0-9._:/-]/g, "-") : undefined;
 }
 
 export async function GET(request: Request) {
-  let upstream: Response;
-  try {
-    upstream = await fetch(RELEASE_ORIGIN, { cache: "force-cache" });
-  } catch {
-    return Response.json({ ok: false, error: "release_origin_unavailable" }, { status: 503 });
-  }
-
-  if (!upstream.ok) {
-    return Response.json({ ok: false, error: "release_origin_bad_status", status: upstream.status }, { status: 503 });
-  }
-
-  const archive = Buffer.from(await upstream.arrayBuffer());
+  const archive = Buffer.from(FREE_PACK_BASE64, "base64");
   const observedHash = createHash("sha256").update(archive).digest("hex");
   if (archive.length !== EXPECTED_SIZE || observedHash !== EXPECTED_SHA256) {
-    return Response.json({ ok: false, error: "free_pack_integrity_failure", expected_size: EXPECTED_SIZE, observed_size: archive.length, expected_sha256: EXPECTED_SHA256, observed_sha256: observedHash }, { status: 500 });
+    return Response.json({ ok: false, error: "free_pack_integrity_failure", observed_size: archive.length, observed_sha256: observedHash }, { status: 500 });
   }
 
   const url = new URL(request.url);
@@ -51,6 +39,6 @@ export async function GET(request: Request) {
     ETag: `"sha256-${observedHash}"`,
     "X-Prompt-Quarry-Version": VERSION,
     "X-Prompt-Quarry-SHA256": observedHash,
-    "X-Prompt-Quarry-Origin": "immutable-release",
+    "X-Prompt-Quarry-Origin": "build-materialized-release",
   }});
 }
