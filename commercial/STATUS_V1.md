@@ -22,9 +22,9 @@ not observed == unknown
 | C2 Free Starter Pack | `ARTIFACT_READY / NOT_DEPLOYED` | Governed 7-file payload, deterministic ZIP contract, runtime integrity-checked download route | Deploy web so `/api/free-pack/v1` is public |
 | C3 Paid commerce | `CODE_READY / PROVIDER_NOT_PROVISIONED` | Lemon Squeezy hosted-checkout abstraction, signed `order_created` webhook verification, paid/store/product/variant checks, no client-side purchase inference | Provision store product/variant, checkout URL, webhook secret/endpoint |
 | C4 Analytics | `CODE_READY / NOT_LIVE` | Minimum funnel semantics implemented across client/server, campaign attribution bridge, provider-signed purchase evidence | Observe events on deployed preview/live checkout |
-| C5 Launch E2E | `BLOCKED_EXTERNAL` | Smoke path is defined | Requires deployed web + provisioned checkout |
+| C5 Launch E2E | `HARNESS_READY / BLOCKED_EXTERNAL` | Public-surface smoke harness validates pages, deterministic Free Pack, checkout redirect, and attribution | Deployed web + provisioned checkout + real provider test order |
 | C6 Distribution | `CONTENT_SPEC_READY / NOT_PUBLISHED` | `pq-launch-0` content system exists | Publish only after C5 passes |
-| PQ-LAUNCH-0 | `NOT_ACHIEVED` | — | C5 end-to-end gate |
+| PQ-LAUNCH-0 | `NOT_ACHIEVED` | — | Full C5 including provider test order + delivery |
 | PQ-$1 | `NOT_ACHIEVED` | — | Real non-zero provider revenue + delivery |
 
 ## C1 — Public surface
@@ -51,7 +51,7 @@ Current routes:
 /api/commerce/lemonsqueezy/webhook
 ```
 
-GitHub Actions jobs for the new web/release/commerce gates have repeatedly been created with no runner and zero executed steps. This is not treated as a build failure or a pass. Build evidence remains unobserved until a runner or Vercel deployment actually executes it.
+GitHub Actions jobs for the new web/release/commerce/analytics gates have repeatedly been created with no runner and zero executed steps. This is not treated as a build failure or a pass. Build evidence remains unobserved until a runner or Vercel deployment actually executes it.
 
 ## C2 — Developer Starter Pack v1
 
@@ -151,7 +151,7 @@ content
 
 These four fields are carried through Lemon Squeezy custom checkout data and reconciled from webhook `meta.custom_data` on a successful signed order.
 
-An anonymous random `session_id` exists only in browser `sessionStorage` for local/session-level diagnostics. It is not transferred to Lemon Squeezy.
+An anonymous random `session_id` exists only in browser `sessionStorage` for local/session-level diagnostics. It is not transferred to Prompt Quarry server routes or Lemon Squeezy.
 
 Revenue truth remains provider-first:
 
@@ -161,6 +161,29 @@ CHECKOUT PROVIDER TRANSACTION
     > client telemetry
     > button click
 ```
+
+## C5 — Public launch smoke harness
+
+Repository harness:
+
+```text
+tools/smoke_commercial_launch_v0.py
+.github/workflows/smoke-commercial-launch-v0.yml
+```
+
+Automated assertions:
+- `/` returns the premium Prompt Quarry landing;
+- Free Pack page is reachable;
+- Developer Pack page is reachable and exposes the `$19` offer;
+- license route is reachable;
+- `/api/free-pack/v1` returns the exact 11,573-byte ZIP;
+- Free Pack SHA-256 equals the canonical release fingerprint;
+- ZIP entry list and CRCs are valid;
+- paid checkout route redirects over HTTPS;
+- configured checkout remains a shareable `/checkout/buy/` URL;
+- `source/medium/campaign/content` reach provider custom checkout data.
+
+The harness deliberately cannot satisfy the payment portion of C5. A real Lemon Squeezy test checkout and observed signed `order_created` webhook remain mandatory.
 
 ## External blockers
 
@@ -186,23 +209,24 @@ No additional product, authentication, dashboard, subscription, CMS, or billing 
 
 ## Next executable gate
 
-Once Vercel and Lemon Squeezy are provisioned, run C5 exactly:
+After Vercel and Lemon Squeezy provisioning, run:
 
-```text
-UTM URL
- -> premium landing
- -> Free CTA
- -> verified Starter Pack ZIP
- -> paid product page
- -> Buy CTA
- -> checkout_started
- -> Lemon Squeezy test checkout
- -> signed order_created webhook
- -> purchase_completed(test_mode=true)
- -> verify correct delivery
+```bash
+python tools/smoke_commercial_launch_v0.py \
+  --base-url https://<prompt-quarry-preview-or-domain> \
+  --expected-checkout-host <checkout-host>
 ```
 
-Only after this journey passes should Prompt Quarry be marked `PQ-LAUNCH-0` and `pq-launch-0` distribution begin.
+Then complete the provider portion manually/in sandbox:
+
+```text
+real Lemon Squeezy test checkout
+ -> signed order_created webhook
+ -> purchase_completed(test_mode=true)
+ -> correct paid Pack delivery
+```
+
+Only after both automated public-surface smoke and real provider test flow pass should Prompt Quarry be marked `PQ-LAUNCH-0` and `pq-launch-0` distribution begin.
 
 ## North star
 
