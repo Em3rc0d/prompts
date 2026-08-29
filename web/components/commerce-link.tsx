@@ -13,7 +13,8 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
   const external = kind === "free"
     ? process.env.NEXT_PUBLIC_FREE_PACK_URL
     : process.env.NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL;
-  const fallback = kind === "free" ? "/free/developer-starter-pack" : "/developer-pack";
+  const fallback = kind === "free" ? "/api/free-pack/v1" : "/developer-pack";
+  const href = external || fallback;
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     window.dispatchEvent(new CustomEvent("pq:funnel", { detail: { event: kind === "free" ? "free_cta_clicked" : "paid_cta_clicked" } }));
@@ -24,5 +25,9 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
     }
   }
 
-  return <Link className={className} href={external || fallback} onClick={handleClick}>{children}</Link>;
+  if (kind === "free" || external) {
+    return <a className={className} href={href} onClick={handleClick}>{children}</a>;
+  }
+
+  return <Link className={className} href={href} onClick={handleClick}>{children}</Link>;
 }
