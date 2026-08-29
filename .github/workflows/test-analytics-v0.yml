@@ -1,0 +1,40 @@
+name: Test Analytics v0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'web/components/funnel-tracker.tsx'
+      - 'web/components/commerce-link.tsx'
+      - 'web/app/api/free-pack/v1/**'
+      - 'web/app/api/commerce/**'
+      - 'web/lib/lemonsqueezy.ts'
+      - 'tools/test_analytics_v0.py'
+      - '.github/workflows/test-analytics-v0.yml'
+  pull_request:
+    paths:
+      - 'web/components/funnel-tracker.tsx'
+      - 'web/components/commerce-link.tsx'
+      - 'web/app/api/free-pack/v1/**'
+      - 'web/app/api/commerce/**'
+      - 'web/lib/lemonsqueezy.ts'
+      - 'tools/test_analytics_v0.py'
+      - '.github/workflows/test-analytics-v0.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  analytics-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile analytics acceptance tooling
+        run: python -m py_compile tools/test_analytics_v0.py
+      - name: Validate PQ-$1 funnel semantics
+        run: python tools/test_analytics_v0.py
