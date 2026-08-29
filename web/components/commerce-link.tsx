@@ -3,6 +3,7 @@
 import type { MouseEvent, ReactNode } from "react";
 
 const ATTRIBUTION_KEY = "pq:attribution";
+const SESSION_KEY = "pq:session-id";
 
 type Props = {
   kind: "free" | "paid";
@@ -25,12 +26,18 @@ function readAttribution(): Attribution {
   }
 }
 
+function readSessionId(): string | undefined {
+  return sessionStorage.getItem(SESSION_KEY) || undefined;
+}
+
 function attributedInternalUrl(path: string): string {
   const url = new URL(path, window.location.origin);
   const attribution = readAttribution();
   for (const [key, value] of Object.entries(attribution)) {
     if (value) url.searchParams.set(key, value);
   }
+  const sessionId = readSessionId();
+  if (sessionId) url.searchParams.set("session_id", sessionId);
   return `${url.pathname}${url.search}`;
 }
 
