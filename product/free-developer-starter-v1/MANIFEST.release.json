@@ -1,19 +1,19 @@
 {
   "schema": "prompt-quarry-free-pack-release-v1",
   "product_id": "pq-developer-starter",
-  "product_name": "Prompt Quarry Developer Starter Pack v1",
-  "version": "1.0.0",
+  "product_name": "Prompt Quarry Developer Starter Pack",
+  "version": "1.1.0",
   "artifact_state": "READY",
   "delivery_state": "NOT_DEPLOYED",
-  "payload_source_commit": "78fb00dca4b4fb099021e245a8cb3547a6500c12",
-  "payload_source_tree": "4b31c2760fe031334e6c6afda55856a6d581c9e3",
+  "payload_source_commit": "71d6cd1e421f0cf7137e3051c2280240f4abe4eb",
+  "payload_source_tree": "c2ac0cb3c3bbbb4232dad855bc68f4492634bbd6",
   "pack_root": "product/free-developer-starter-v1/",
   "archive": {
-    "filename": "prompt-quarry-developer-starter-v1.zip",
+    "filename": "prompt-quarry-developer-starter-v1.1.0.zip",
     "root": "prompt-quarry-developer-starter-v1/",
     "format": "zip-store-v1",
-    "archive_sha256": "sha256:55121028168f9a5394fe79ccc3102caa60e5df85c59a03639dc6e5392e5b2ee1",
-    "size_bytes": 11573,
+    "archive_sha256": "sha256:55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32",
+    "size_bytes": 23498,
     "entry_order": "lexicographic",
     "timestamp": "1980-01-01T00:00:00",
     "unix_mode": "100644",
@@ -22,11 +22,11 @@
   "assets": [
     {"path":"LICENSE.md","size_bytes":2049,"git_blob_sha1":"b69b2928bc00b9a6f992dfc46c075338639143e7","sha256":"sha256:f68387b74142a428bf0c351ac415f6c55be2d81cfa53d4ca01ab7d9f488c166d"},
     {"path":"OFFER.md","size_bytes":1486,"git_blob_sha1":"7f6d8049341099d573efac63c1b1dc5daf1fd24e","sha256":"sha256:d30f18b76560540a254f2f2efc1156f1d3295dfde750e6568a2d8acd73b3faa7"},
-    {"path":"QUICKSTART.md","size_bytes":1036,"git_blob_sha1":"ef5f3ab71f404c7cafc7d14570e860a7aba85e8b","sha256":"sha256:4f2be02db3689f9d20894525affe2d49a98d09b9e1c1bf259299e3d907d8093f"},
+    {"path":"QUICKSTART.md","size_bytes":3082,"git_blob_sha1":"d148bad7e334d580f4721afc22bac9ae87a36a15","sha256":"sha256:73859e511837f1b5500d3d168ea79d16772058082d6eed0586564b1dd622382a"},
     {"path":"README.md","size_bytes":1579,"git_blob_sha1":"6c737af8cac483dd33c51e0204fad2f26eef1a18","sha256":"sha256:9d7ba2c16a3b2a6eb4a4e335f43d30d1152b43242bb87e04d99d07248b126a17"},
-    {"path":"prompts/bug-diagnosis.md","size_bytes":1277,"git_blob_sha1":"00f7f50efe1b822d88c8a791291845f231453870","sha256":"sha256:ef876b01876bcaa17747af2a94fa0cfe77fb5e4e6d0ef103ba26053020af7029"},
-    {"path":"prompts/code-review.md","size_bytes":1495,"git_blob_sha1":"39e50c5a7744f7e2fe428e819eae8c9f628576a3","sha256":"sha256:35d485015c0e20338b42fe55ab131bf0bdfc630bf2f62e12833e4b101aa97b89"},
-    {"path":"prompts/technical-decision.md","size_bytes":1377,"git_blob_sha1":"6bd9bbe315147a89c0297257dc12a839d43e01f3","sha256":"sha256:7b304dbda8291475f23ea61db77128ed57f5a07e7efbcfa6165e59580c6b1f01"}
+    {"path":"prompts/bug-diagnosis.md","size_bytes":4273,"git_blob_sha1":"5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e","sha256":"sha256:0bd97581cd1c8e3879239831d124b200ee28236b027b49cc5f1c63cd34a83e74"},
+    {"path":"prompts/code-review.md","size_bytes":5093,"git_blob_sha1":"4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5","sha256":"sha256:9d029a870e08f6ab0bf277e29b64bba7dc39eafd471895b544d58afd2b96a024"},
+    {"path":"prompts/technical-decision.md","size_bytes":4662,"git_blob_sha1":"1ec734dc6fcd7c77426412ad649eb261e40dd386","sha256":"sha256:70ba94069d80e2d8fb7e2c8876ee64a8b0b60d7720951eb20ea14a5cf5f0cc73"}
   ],
   "claims_boundary": "Free distribution does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
 }
