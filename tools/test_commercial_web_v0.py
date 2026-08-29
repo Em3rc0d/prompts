@@ -14,9 +14,12 @@ REQUIRED = [
     WEB / "app/free/developer-starter-pack/page.tsx",
     WEB / "app/developer-pack/page.tsx",
     WEB / "app/license/page.tsx",
+    WEB / "app/api/free-pack/v1/route.ts",
     WEB / "components/commerce-link.tsx",
     WEB / "components/funnel-tracker.tsx",
     WEB / "components/quarry-engine.tsx",
+    WEB / "generated/free-developer-starter-v1.ts",
+    WEB / "lib/deterministic-zip.ts",
     WEB / ".env.example",
 ]
 
@@ -67,6 +70,16 @@ def main() -> None:
     for key in ("NEXT_PUBLIC_FREE_PACK_URL", "NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL"):
         if key not in commerce:
             fail(f"public commerce environment key missing: {key}")
+    if '"/api/free-pack/v1"' not in commerce:
+        fail("Free CTA is not wired to governed local download route")
+
+    route = (WEB / "app/api/free-pack/v1/route.ts").read_text(encoding="utf-8")
+    generated = (WEB / "generated/free-developer-starter-v1.ts").read_text(encoding="utf-8")
+    for token in ("buildStoredZip", "FREE_PACK_ARCHIVE_SHA256", "free_pack_integrity_failure", "X-Prompt-Quarry-SHA256"):
+        if token not in route:
+            fail(f"free pack integrity route contract missing: {token}")
+    if "55121028168f9a5394fe79ccc3102caa60e5df85c59a03639dc6e5392e5b2ee1" not in generated:
+        fail("free pack generated snapshot is not bound to release fingerprint")
 
     tracker = (WEB / "components/funnel-tracker.tsx").read_text(encoding="utf-8")
     for token in ("NEXT_PUBLIC_ANALYTICS_MODE", "landing_view", "paid_product_viewed", "utm_source", "sessionStorage"):
@@ -101,7 +114,8 @@ def main() -> None:
     print(f"required_files={len(REQUIRED)}")
     print("framework=Next.js 16.3.3 App Router")
     print("visual_system=premium technical/editorial + Quarry Engine")
-    print("routes=/,/free/developer-starter-pack,/developer-pack,/license")
+    print("routes=/,/free/developer-starter-pack,/developer-pack,/license,/api/free-pack/v1")
+    print("free_delivery=deterministic ZIP + runtime SHA-256 fail-closed verification")
     print("analytics=minimal UTM/session bridge; no purchase/revenue inference")
     print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
 
