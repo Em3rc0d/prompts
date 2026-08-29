@@ -10,7 +10,16 @@ import { buildStoredZip } from "@/lib/deterministic-zip";
 
 export const runtime = "nodejs";
 
-export async function GET() {
+const ATTRIBUTION_FIELDS = ["source", "medium", "campaign", "content"] as const;
+
+function clean(value: string | null): string | undefined {
+  if (!value) return undefined;
+  const normalized = value.trim().slice(0, 120);
+  if (!normalized) return undefined;
+  return normalized.replace(/[^a-zA-Z0-9._:/-]/g, "-");
+}
+
+export async function GET(request: Request) {
   const archive = buildStoredZip(FREE_PACK_FILES);
   const observedHash = createHash("sha256").update(archive).digest("hex");
 
@@ -27,6 +36,22 @@ export async function GET() {
       { status: 500 },
     );
   }
+
+  const url = new URL(request.url);
+  const attribution: Record<string, string> = {};
+  for (const field of ATTRIBUTION_FIELDS) {
+    const value = clean(url.searchParams.get(field));
+    if (value) attribution[field] = value;
+  }
+
+  console.info("PQ_FUNNEL_EVENT", JSON.stringify({
+    event: "free_pack_acquired",
+    product_id: "pq-developer-starter",
+    product_version: FREE_PACK_VERSION,
+    archive_sha256: observedHash,
+    timestamp: new Date().toISOString(),
+    ...attribution,
+  }));
 
   return new Response(new Uint8Array(archive), {
     headers: {
