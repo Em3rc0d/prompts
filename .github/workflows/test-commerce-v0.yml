@@ -1,0 +1,40 @@
+name: Test Commerce v0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'web/app/api/commerce/**'
+      - 'web/lib/lemonsqueezy.ts'
+      - 'web/components/commerce-link.tsx'
+      - 'web/components/funnel-tracker.tsx'
+      - 'web/.env.example'
+      - 'tools/test_commerce_v0.py'
+      - '.github/workflows/test-commerce-v0.yml'
+  pull_request:
+    paths:
+      - 'web/app/api/commerce/**'
+      - 'web/lib/lemonsqueezy.ts'
+      - 'web/components/commerce-link.tsx'
+      - 'web/components/funnel-tracker.tsx'
+      - 'web/.env.example'
+      - 'tools/test_commerce_v0.py'
+      - '.github/workflows/test-commerce-v0.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  commerce-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile commerce acceptance tooling
+        run: python -m py_compile tools/test_commerce_v0.py
+      - name: Validate commerce evidence contract
+        run: python tools/test_commerce_v0.py
