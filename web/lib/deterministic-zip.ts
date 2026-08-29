@@ -43,7 +43,7 @@ export function buildStoredZip(entries: readonly ZipEntry[]): Buffer {
   const centralChunks: Buffer[] = [];
   let offset = 0;
 
-  const sorted = [...entries].sort((a, b) => a.path.localeCompare(b.path, "en"));
+  const sorted = [...entries].sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
 
   for (const entry of sorted) {
     const archiveName = Buffer.from(`${ZIP_ROOT}/${entry.path}`, "utf8");
