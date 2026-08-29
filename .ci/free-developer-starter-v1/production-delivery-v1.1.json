@@ -1,0 +1,59 @@
+{
+  "receipt_type": "prompt_quarry_free_pack_production_delivery",
+  "status": "PASS",
+  "observed_at": "2026-08-29T03:51:46Z",
+  "environment": "production",
+  "domain": "prompt-quarry.vercel.app",
+  "deployment": {
+    "id": "dpl_4dsGJa3mosi48EPevw3qHzKw1Bg7",
+    "state": "READY",
+    "target": "production",
+    "aliases": [
+      "prompt-quarry.vercel.app",
+      "prompt-quarry-faridmerinos-projects.vercel.app"
+    ]
+  },
+  "governed_release_snapshot": {
+    "path": "release/public-web-v1.1/",
+    "source_branch": "feat/mk1-prompt-generator-v0-20260827",
+    "source_head_at_snapshot_completion": "52b3d4395a16f2d27ef258bf6068e2721b3b4237"
+  },
+  "free_pack": {
+    "product_id": "pq-developer-starter",
+    "version": "1.1.0",
+    "customer_files": 7,
+    "download_path": "/api/free-pack/v1.1.0",
+    "legacy_path": "/api/free-pack/v1",
+    "legacy_path_observed_serving_versioned_artifact": true,
+    "content_type": "application/zip",
+    "content_disposition": "attachment; filename=\"prompt-quarry-developer-starter-v1.1.0.zip\"",
+    "content_length": 23498,
+    "sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32",
+    "etag": "\"sha256-55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32\"",
+    "x_prompt_quarry_version": "1.1.0",
+    "x_prompt_quarry_sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32",
+    "body_inspection": "OBSERVED",
+    "body_contains_field_ready_code_review": true,
+    "body_contains_field_ready_bug_diagnosis": true,
+    "body_contains_field_ready_technical_decision": true
+  },
+  "public_page": {
+    "path": "/free/developer-starter-pack",
+    "http_status": 200,
+    "visible_version": "v1.1",
+    "visible_artifact_version": "v1.1.0",
+    "download_href": "/api/free-pack/v1.1.0"
+  },
+  "incident": {
+    "public_artifact_divergence": "CLOSED",
+    "old_bootstrap_artifact_is_current_production": false
+  },
+  "evidence_boundary": {
+    "delivery_integrity": "PASS",
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false,
+    "note": "Production delivery integrity does not establish behavioral performance evidence."
+  }
+}
