@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "contract_id": "pq-golden-path-v1",
+  "base_url": "https://prompt-quarry.vercel.app",
+  "evidence_boundary": "Deployment/runtime contract only; no F4/F5/F6/F7 model-behavior claim.",
+  "required_routes": [
+    {
+      "id": "landing",
+      "method": "GET",
+      "path": "/",
+      "allowed_status": [200]
+    },
+    {
+      "id": "free_page",
+      "method": "GET",
+      "path": "/free/developer-starter-pack",
+      "allowed_status": [200]
+    },
+    {
+      "id": "free_download_versioned",
+      "method": "GET",
+      "path": "/api/free-pack/v1.1.0",
+      "allowed_status": [200],
+      "required_headers": {
+        "x-prompt-quarry-version": "1.1.0",
+        "x-prompt-quarry-sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
+      },
+      "content_length": 23498
+    },
+    {
+      "id": "free_download_alias",
+      "method": "GET",
+      "path": "/api/free-pack/v1",
+      "allowed_status": [200],
+      "required_headers": {
+        "x-prompt-quarry-version": "1.1.0",
+        "x-prompt-quarry-sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
+      },
+      "content_length": 23498
+    },
+    {
+      "id": "developer_pack",
+      "method": "GET",
+      "path": "/developer-pack",
+      "allowed_status": [200]
+    },
+    {
+      "id": "license",
+      "method": "GET",
+      "path": "/license",
+      "allowed_status": [200]
+    },
+    {
+      "id": "checkout_route_presence",
+      "method": "GET",
+      "path": "/api/commerce/developer-pack/checkout",
+      "allowed_status": [302, 503],
+      "forbidden_status": [404],
+      "meaning": {
+        "302": "provider configured; redirect contract active",
+        "503": "route deployed and intentionally fail-closed; provider not configured",
+        "404": "deployment parity failure"
+      }
+    },
+    {
+      "id": "webhook_route_presence",
+      "method": "GET",
+      "path": "/api/commerce/lemonsqueezy/webhook",
+      "allowed_status": [405],
+      "forbidden_status": [404],
+      "meaning": {
+        "405": "POST-only route exists",
+        "404": "deployment parity failure"
+      }
+    }
+  ],
+  "release_rules": [
+    "VERCEL_READY != GOLDEN_PATH_READY",
+    "A production candidate must expose every required route before promotion.",
+    "A checkout 503 is an intentional commerce hold; checkout 404 is a deployment defect.",
+    "A webhook 405 on GET proves route presence only; signed POST behavior requires separate testing.",
+    "Free Pack delivery must preserve canonical size and SHA-256 under repeated access.",
+    "not observed == unknown"
+  ]
+}
