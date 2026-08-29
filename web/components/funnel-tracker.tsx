@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 const ATTRIBUTION_KEY = "pq:attribution";
+const SESSION_KEY = "pq:session-id";
 
 type Attribution = {
   source?: string;
@@ -38,11 +39,20 @@ function captureAttribution(): Attribution {
   return next;
 }
 
+function sessionId(): string {
+  const existing = sessionStorage.getItem(SESSION_KEY);
+  if (existing) return existing;
+  const created = crypto.randomUUID();
+  sessionStorage.setItem(SESSION_KEY, created);
+  return created;
+}
+
 function emit(payload: FunnelEvent) {
   const mode = process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off";
   const detail = {
     ...payload,
     timestamp: new Date().toISOString(),
+    session_id: sessionId(),
     ...readAttribution(),
   };
 
@@ -53,6 +63,7 @@ function emit(payload: FunnelEvent) {
 export function FunnelTracker() {
   useEffect(() => {
     captureAttribution();
+    sessionId();
 
     if (window.location.pathname === "/") {
       emit({ event: "landing_view" });
