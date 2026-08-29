@@ -8,9 +8,17 @@ export type LemonSqueezyConfig = {
   allowTestMode: boolean;
 };
 
+type Attribution = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  content?: string;
+};
+
 type OrderCreatedPayload = {
   meta?: {
     event_name?: string;
+    custom_data?: Record<string, unknown>;
   };
   data?: {
     type?: string;
@@ -50,6 +58,7 @@ export type CommerceEvidence = {
   total_usd?: number;
   test_mode: boolean;
   created_at?: string;
+  attribution?: Attribution;
 };
 
 export type WebhookEvaluation =
@@ -64,6 +73,18 @@ function signaturesMatch(rawBody: string, signature: string, secret: string): bo
   const expected = Buffer.from(expectedHex, "utf8");
   const observed = Buffer.from(signature, "utf8");
   return expected.length === observed.length && timingSafeEqual(expected, observed);
+}
+
+function cleanAttribution(customData: Record<string, unknown> | undefined): Attribution | undefined {
+  if (!customData) return undefined;
+  const attribution: Attribution = {};
+  for (const key of ["source", "medium", "campaign", "content"] as const) {
+    const raw = customData[key];
+    if (typeof raw !== "string") continue;
+    const value = raw.trim().slice(0, 120).replace(/[^a-zA-Z0-9._:/-]/g, "-");
+    if (value) attribution[key] = value;
+  }
+  return Object.keys(attribution).length ? attribution : undefined;
 }
 
 export function evaluateLemonSqueezyWebhook(input: {
@@ -136,6 +157,7 @@ export function evaluateLemonSqueezyWebhook(input: {
       total_usd: attributes.total_usd,
       test_mode: testMode,
       created_at: attributes.created_at,
+      attribution: cleanAttribution(payload.meta?.custom_data),
     },
   };
 }
