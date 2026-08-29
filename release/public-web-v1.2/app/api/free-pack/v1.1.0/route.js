@@ -1,17 +1,24 @@
 import { createHash } from "node:crypto";
+import { gunzipSync } from "node:zlib";
+import part0 from "../../../generated/free-pack-part-0";
+import part1 from "../../../generated/free-pack-part-1";
+import part2 from "../../../generated/free-pack-part-2";
+import part3 from "../../../generated/free-pack-part-3";
 
 export const runtime="nodejs";
-const ORIGIN="https://prompt-quarry-mx9ioitln-faridmerinos-projects.vercel.app/api/free-pack/v1.1.0";
 const EXPECTED_SIZE=23498;
 const EXPECTED_SHA="55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32";
 const FILENAME="prompt-quarry-developer-starter-v1.1.0.zip";
+const PAYLOAD=[part0,part1,part2,part3].join("");
+
+function buildArchive(){
+  return gunzipSync(Buffer.from(PAYLOAD,"base64"));
+}
 
 export async function GET(request){
-  let upstream;
-  try{upstream=await fetch(ORIGIN,{cache:"force-cache"});}
-  catch(error){console.error("PQ_FREE_ORIGIN_ERROR",String(error));return Response.json({ok:false,error:"free_pack_origin_unreachable"},{status:502});}
-  if(!upstream.ok)return Response.json({ok:false,error:"free_pack_origin_http_error",status:upstream.status},{status:502});
-  const archive=Buffer.from(await upstream.arrayBuffer());
+  let archive;
+  try{archive=buildArchive();}
+  catch(error){console.error("PQ_FREE_DECODE_FAILURE",String(error));return Response.json({ok:false,error:"free_pack_decode_failure"},{status:500});}
   const sha=createHash("sha256").update(archive).digest("hex");
   if(archive.length!==EXPECTED_SIZE||sha!==EXPECTED_SHA){
     console.error("PQ_FREE_INTEGRITY_FAILURE",JSON.stringify({size:archive.length,sha}));
