@@ -1,0 +1,35 @@
+name: Build Developer Pack v1.1 Release Candidate
+
+on:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'product/developer-pack-v1.1/**'
+      - 'tools/build_developer_pack_v1_1_release_candidate.py'
+      - '.github/workflows/build-developer-pack-v1-1-release-candidate.yml'
+  workflow_dispatch:
+
+jobs:
+  build-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build candidate twice
+        run: |
+          python tools/build_developer_pack_v1_1_release_candidate.py
+          cp dist/prompt-quarry-developer-pack-v1.1.0.zip /tmp/first.zip
+          python tools/build_developer_pack_v1_1_release_candidate.py
+          cmp /tmp/first.zip dist/prompt-quarry-developer-pack-v1.1.0.zip
+      - name: Show receipt
+        run: cat .ci/developer-pack-v1.1/release-candidate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prompt-quarry-developer-pack-v1.1.0
+          path: |
+            dist/prompt-quarry-developer-pack-v1.1.0.zip
+            .ci/developer-pack-v1.1/release-candidate.json
+          if-no-files-found: error
