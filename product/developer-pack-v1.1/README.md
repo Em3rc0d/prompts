@@ -1,98 +1,114 @@
 # Prompt Quarry — Developer Pack v1.1
 
-Status: `DRAFT / PRODUCT QUALITY HARDENING / NOT FOR SALE`
+Internal product status: `RELEASE_CANDIDATE RC1 / NOT FOR SALE`
 
-Version target: `1.1.0`
+Target version: `1.1.0`
 
-This directory is a new governed product line derived from the lessons of Developer Pack v1.0 and Free Developer Starter Pack v1.1.
-
-It does **not** replace or mutate the frozen `product/developer-pack-v1/` release history.
-
-## Why v1.1 exists
-
-Developer Pack v1.0 proved that Prompt Quarry could package a coherent developer prompt system with templates, contracts, methodology, examples, checklists, licensing, and release governance.
-
-The Free Developer Starter Pack v1.1 raised the quality bar: its three finished prompts became field-ready operating contracts rather than short prompt descriptions.
-
-That exposed a commercial mismatch. A paid system must be materially more reusable and operational than the free examples, not merely contain more files.
-
-Developer Pack v1.1 exists to close that gap.
+This directory is the governed authoring and release source for Developer Pack v1.1. It does not replace or mutate the frozen `product/developer-pack-v1/` v1.0 release history.
 
 ## Product thesis
 
-The Free Pack gives developers three strong finished workflows.
+The Free Developer Starter Pack v1.1 gives developers three strong finished workflows.
 
-The Paid Pack must give developers the **system for producing, adapting, reviewing, and governing many workflows**.
+Developer Pack v1.1 gives developers the reusable construction and governance system behind them:
 
 ```text
 FREE
-ready-to-use examples
+finished workflows
         ↓
 PAID
 reusable operating architecture
-+ parameterized templates
++ parameterized policy
 + evidence controls
-+ adaptation rules
++ decision / escalation semantics
++ machine-readable contracts
++ adaptation method
 + verification contracts
-+ decision gates
++ team/application integration
 + worked transformations
-+ release discipline
 ```
 
-## v1.1 quality rule
+## RC1 customer inventory
 
-A paid asset is not valuable merely because it is longer or more detailed.
+Frozen in:
 
-Every core asset must provide at least one capability that a finished Free prompt does not provide on its own:
+`CUSTOMER_INVENTORY.release-candidate.json`
 
-- reuse across multiple task families;
-- explicit parameterization;
-- configurable evidence policy;
-- configurable escalation/fallback behavior;
-- reusable output contracts;
-- adaptation guidance;
-- validation or review procedure;
-- integration into team/application workflows;
-- machine-readable or repeatable operating boundaries.
+Customer-visible payload: `13 assets`.
 
-## Current scope
+Source fingerprint:
 
-The first v1.1 hardening slice focuses on:
+`sha256:dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa`
 
-1. a general reusable operating-contract template;
-2. a software code-review system template;
-3. a technical research/decision system template;
-4. a commercial value gate that compares Paid against Free;
-5. a v1.1 product specification and unchanged proprietary commercial license.
+The customer ZIP uses `README.customer.md` as `README.md`. Internal `README.md`, `SPEC.md`, inventory files, and `quality/*` are governance assets and are excluded.
 
-The rest of the v1.0 product surface will be migrated or redesigned only after the core architecture passes inspection.
+## Core systems
+
+- General Operating Contract
+- Software Code Review System
+- Bug Diagnosis System
+- Technical Research / Decision System
+
+The four core systems passed the manual static Commercial Value Gate at `14/14` each (`56/56` total). This is static product evidence only.
+
+## Packaging
+
+Canonical builder:
+
+`tools/build_developer_pack_v1_1_release_candidate.py`
+
+The builder must:
+
+1. verify every frozen Git blob identity;
+2. verify the source fingerprint;
+3. apply only declared exact customer-state normalizations;
+4. fail if any declared normalization is missing or duplicated;
+5. archive exactly the frozen customer inventory;
+6. fail if customer `DRAFT` markers leak into the ZIP;
+7. verify ZIP members and CRC;
+8. emit `.ci/developer-pack-v1.1/release-candidate.json` with archive SHA-256.
+
+The CI workflow runs the builder twice and requires byte-identical archives.
+
+## Current blocker
+
+GitHub Actions is currently creating the `build-candidate` job but not assigning/executing steps (`steps=null`, `logs_url=null`). Therefore:
+
+```text
+builder_source             READY
+inventory_freeze           PASS
+commercial_value_gate      PASS (MANUAL_STATIC)
+archive_execution          NOT_OBSERVED
+archive_sha256             UNKNOWN
+distribution_approval      BLOCKED
+READY                      NO
+sale_status                NOT_FOR_SALE
+```
+
+A CI conclusion of `failure` with zero executed steps is not treated as product or builder failure.
 
 ## Evidence boundary
 
-Current state is static authoring only.
-
 ```text
-package_state    DRAFT
-asset_maturity   DRAFT
-F4_TESTED        NO
-F5_IMPROVED      NO
-F6_CERTIFIED     NO
-F7_PORTABLE      NO
-sale_status      NOT_FOR_SALE
+static_maturity   VALID_CANDIDATE
+F4_TESTED         NO
+F5_IMPROVED       NO
+F6_CERTIFIED      NO
+F7_PORTABLE       NO
 ```
 
 `not observed == unknown`
 
-No v1.0 `READY` receipt, approval, fingerprint, or evidence state automatically applies to v1.1.
+No `READY`, `TESTED`, `IMPROVED`, `CERTIFIED`, `PORTABLE`, or behavioral-superiority claim is permitted until the corresponding gate is observed.
 
-## Release rule
+## Exit to READY
 
-Do not enable checkout for Developer Pack v1.1 until:
+RC1 can become READY only after:
 
-- all intended customer assets are finalized;
-- the commercial value gate passes;
-- static product validation passes;
-- a deterministic candidate manifest/fingerprint is generated;
-- distribution approval explicitly names the v1.1 candidate;
-- the final customer artifact is built from that exact candidate;
-- the public delivery path is verified against the candidate fingerprint.
+1. deterministic builder executes successfully;
+2. two independent builds produce the same ZIP bytes;
+3. archive SHA-256 and size are recorded;
+4. distribution approval binds to that exact source fingerprint + archive SHA;
+5. the delivered paid artifact is verified against the approved fingerprint.
+
+Checkout remains off until those gates pass.
