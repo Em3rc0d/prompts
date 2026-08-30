@@ -4,29 +4,44 @@
   "state": "RELEASE_CANDIDATE",
   "sale_status": "NOT_FOR_SALE",
   "customer_visible_assets": 13,
-  "customer_payload_bytes": 84133,
-  "source_fingerprint_algorithm": "sha256(canonical-json(sorted(path,git_blob_sha,size)))",
-  "source_fingerprint_sha256": "75a634af30881f86a719c273a7478972ec142e9e2d3203b0ab53e07a5bf0fd03",
+  "customer_source_payload_bytes": 83879,
+  "source_fingerprint_algorithm": "sha256(canonical-json(sorted(source_path,archive_path,git_blob_sha,size)))",
+  "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa",
   "files": [
-    {"path":"LICENSE.md","git_blob_sha":"db50151494606a3a55f92d19662c8e020285c7ce","size":3151},
-    {"path":"QUICKSTART.md","git_blob_sha":"efcccf3f8efb9853ff882dd1ac97c7cc9ae5e9bb","size":5529},
-    {"path":"README.md","git_blob_sha":"e3055ff13c805009865f003f674adcad380e2d5d","size":3197},
-    {"path":"checklists/workflow-static-review.md","git_blob_sha":"a796315eb408d93799e338a0ee0187246ec9d6db","size":5031},
-    {"path":"contracts/code-review-policy.example.json","git_blob_sha":"61d1f0c729303370a5043f93856adec546e0c379","size":5974},
-    {"path":"contracts/workflow-contract.schema.json","git_blob_sha":"30350d5111fbcf4dcaded4d5b5d1af2e3af68fe9","size":6847},
-    {"path":"examples/code-review-policy-transformation.md","git_blob_sha":"d38c1c832e0669cca9d0afea34964198052b182b","size":5657},
-    {"path":"examples/technical-decision-policy-transformation.md","git_blob_sha":"9714585152f487657241bfe89b4bfe92f2b60004","size":7242},
-    {"path":"methodology/adaptation-playbook.md","git_blob_sha":"0af327569a20cd3882afe5a411c2271fb826ff32","size":8165},
-    {"path":"templates/bug-diagnosis-system.md","git_blob_sha":"7a320cf8bbf5587024f201b8a02fa5421979f396","size":9722},
-    {"path":"templates/general-operating-contract.md","git_blob_sha":"6774cead6da72a2f845889429dc2af60fc0d15d5","size":7224},
-    {"path":"templates/software-code-review-system.md","git_blob_sha":"387804cf3dd5aaf22b56aafbeb6b17380942a59e","size":7740},
-    {"path":"templates/technical-research-decision-system.md","git_blob_sha":"60a76e56f669c875ffd98a6713846f4e4530cb44","size":8654}
+    {"source_path":"LICENSE.md","archive_path":"LICENSE.md","git_blob_sha":"db50151494606a3a55f92d19662c8e020285c7ce","size":3151},
+    {"source_path":"QUICKSTART.md","archive_path":"QUICKSTART.md","git_blob_sha":"efcccf3f8efb9853ff882dd1ac97c7cc9ae5e9bb","size":5529},
+    {"source_path":"README.customer.md","archive_path":"README.md","git_blob_sha":"d438939e3910bfde2391acd27573266354b68ca3","size":2943},
+    {"source_path":"checklists/workflow-static-review.md","archive_path":"checklists/workflow-static-review.md","git_blob_sha":"a796315eb408d93799e338a0ee0187246ec9d6db","size":5031},
+    {"source_path":"contracts/code-review-policy.example.json","archive_path":"contracts/code-review-policy.example.json","git_blob_sha":"61d1f0c729303370a5043f93856adec546e0c379","size":5974},
+    {"source_path":"contracts/workflow-contract.schema.json","archive_path":"contracts/workflow-contract.schema.json","git_blob_sha":"30350d5111fbcf4dcaded4d5b5d1af2e3af68fe9","size":6847},
+    {"source_path":"examples/code-review-policy-transformation.md","archive_path":"examples/code-review-policy-transformation.md","git_blob_sha":"d38c1c832e0669cca9d0afea34964198052b182b","size":5657},
+    {"source_path":"examples/technical-decision-policy-transformation.md","archive_path":"examples/technical-decision-policy-transformation.md","git_blob_sha":"9714585152f487657241bfe89b4bfe92f2b60004","size":7242},
+    {"source_path":"methodology/adaptation-playbook.md","archive_path":"methodology/adaptation-playbook.md","git_blob_sha":"0af327569a20cd3882afe5a411c2271fb826ff32","size":8165},
+    {"source_path":"templates/bug-diagnosis-system.md","archive_path":"templates/bug-diagnosis-system.md","git_blob_sha":"7a320cf8bbf5587024f201b8a02fa5421979f396","size":9722},
+    {"source_path":"templates/general-operating-contract.md","archive_path":"templates/general-operating-contract.md","git_blob_sha":"6774cead6da72a2f845889429dc2af60fc0d15d5","size":7224},
+    {"source_path":"templates/software-code-review-system.md","archive_path":"templates/software-code-review-system.md","git_blob_sha":"387804cf3dd5aaf22b56aafbeb6b17380942a59e","size":7740},
+    {"source_path":"templates/technical-research-decision-system.md","archive_path":"templates/technical-research-decision-system.md","git_blob_sha":"60a76e56f669c875ffd98a6713846f4e4530cb44","size":8654}
   ],
+  "release_normalization": {
+    "mode": "exact_single_replacement_per_declared_source",
+    "rules": [
+      {"source_path":"checklists/workflow-static-review.md","from":"Status: `DRAFT / CUSTOMER-FACING QUALITY TOOL`","to":"Static maturity: `VALID / CUSTOMER-FACING QUALITY TOOL`"},
+      {"source_path":"examples/code-review-policy-transformation.md","from":"Status: `DRAFT EXAMPLE`","to":"Static maturity: `VALID EXAMPLE`"},
+      {"source_path":"examples/technical-decision-policy-transformation.md","from":"Status: `DRAFT EXAMPLE`","to":"Static maturity: `VALID EXAMPLE`"},
+      {"source_path":"methodology/adaptation-playbook.md","from":"Maturity: `DRAFT` — static methodology; no behavioral claim.","to":"Static maturity: `VALID` — static methodology; no behavioral claim."},
+      {"source_path":"templates/bug-diagnosis-system.md","from":"Maturity: `DRAFT` — reusable operating template; no behavioral claim.","to":"Static maturity: `VALID` — reusable operating template; no behavioral claim."},
+      {"source_path":"templates/general-operating-contract.md","from":"Maturity: `DRAFT` — reusable architecture; no behavioral claim.","to":"Static maturity: `VALID` — reusable architecture; no behavioral claim."},
+      {"source_path":"templates/software-code-review-system.md","from":"Maturity: `DRAFT` — reusable operating template; no behavioral claim.","to":"Static maturity: `VALID` — reusable operating template; no behavioral claim."},
+      {"source_path":"templates/technical-research-decision-system.md","from":"Maturity: `DRAFT` — reusable operating template; no behavioral claim.","to":"Static maturity: `VALID` — reusable operating template; no behavioral claim."}
+    ]
+  },
   "excluded_internal_governance": [
+    "README.md",
     "SPEC.md",
     "quality/COMMERCIAL_VALUE_GATE.md",
     "quality/COMMERCIAL_VALUE_SCORECARD.md",
-    "quality/BUG_DIAGNOSIS_SCORECARD.md"
+    "quality/BUG_DIAGNOSIS_SCORECARD.md",
+    "CUSTOMER_INVENTORY.release-candidate.json"
   ],
   "evidence_boundary": {
     "static_maturity": "VALID_CANDIDATE",
