@@ -1,11 +1,14 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
+import type { CommerceMode } from "./commerce-mode";
+import { DEVELOPER_PACK_RELEASE, releaseCheckoutCustomData } from "./developer-pack-release";
+
 export type LemonSqueezyConfig = {
   webhookSecret: string;
   storeId: string;
   productId: string;
   variantId: string;
-  allowTestMode: boolean;
+  commerceMode: Exclude<CommerceMode, "off">;
 };
 
 type Attribution = {
@@ -44,7 +47,7 @@ type OrderCreatedPayload = {
 };
 
 export type CommerceEvidence = {
-  event: "purchase_completed";
+  event: "provider_test_order_accepted" | "purchase_completed";
   source: "lemonsqueezy_webhook";
   evidence: "provider_signed_order_created";
   provider_order_id: string;
@@ -59,6 +62,12 @@ export type CommerceEvidence = {
   test_mode: boolean;
   created_at?: string;
   attribution?: Attribution;
+  release: {
+    product_id: typeof DEVELOPER_PACK_RELEASE.productId;
+    product_version: typeof DEVELOPER_PACK_RELEASE.version;
+    archive_sha256: typeof DEVELOPER_PACK_RELEASE.archiveSha256;
+    archive_size: typeof DEVELOPER_PACK_RELEASE.archiveSize;
+  };
 };
 
 export type WebhookEvaluation =
@@ -85,6 +94,15 @@ function cleanAttribution(customData: Record<string, unknown> | undefined): Attr
     if (value) attribution[key] = value;
   }
   return Object.keys(attribution).length ? attribution : undefined;
+}
+
+function releaseIdentityMatches(
+  customData: Record<string, unknown> | undefined,
+  commerceMode: Exclude<CommerceMode, "off">,
+): boolean {
+  if (!customData) return false;
+  const expected = releaseCheckoutCustomData(commerceMode === "test" ? "provider_test" : "live");
+  return Object.entries(expected).every(([key, value]) => customData[key] === value);
 }
 
 export function evaluateLemonSqueezyWebhook(input: {
@@ -136,14 +154,21 @@ export function evaluateLemonSqueezyWebhook(input: {
   }
 
   const testMode = attributes.test_mode === true || item.test_mode === true;
-  if (testMode && !config.allowTestMode) {
-    return { kind: "ignored", reason: "test_mode_not_allowed" };
+  if (config.commerceMode === "test" && !testMode) {
+    return { kind: "ignored", reason: "live_order_not_allowed_during_provider_test" };
+  }
+  if (config.commerceMode === "live" && testMode) {
+    return { kind: "ignored", reason: "test_order_not_allowed_in_live_mode" };
+  }
+
+  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceMode)) {
+    return { kind: "ignored", reason: "release_identity_mismatch" };
   }
 
   return {
     kind: "accepted",
     evidence: {
-      event: "purchase_completed",
+      event: testMode ? "provider_test_order_accepted" : "purchase_completed",
       source: "lemonsqueezy_webhook",
       evidence: "provider_signed_order_created",
       provider_order_id: payload.data.id,
@@ -158,6 +183,12 @@ export function evaluateLemonSqueezyWebhook(input: {
       test_mode: testMode,
       created_at: attributes.created_at,
       attribution: cleanAttribution(payload.meta?.custom_data),
+      release: {
+        product_id: DEVELOPER_PACK_RELEASE.productId,
+        product_version: DEVELOPER_PACK_RELEASE.version,
+        archive_sha256: DEVELOPER_PACK_RELEASE.archiveSha256,
+        archive_size: DEVELOPER_PACK_RELEASE.archiveSize,
+      },
     },
   };
 }
