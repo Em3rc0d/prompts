@@ -2,15 +2,16 @@
 
 Canonical execution snapshot for the path to `PQ-$1`.
 
-Last reconciled: `2026-08-31T03:19Z`
+Last reconciled: `2026-08-30T22:49:38-05:00`
 
 ## Truth rules
 
 ```text
 IMPLEMENTED != DEPLOYED
 ARTIFACT_READY != PUBLICLY_AVAILABLE
-CHECKOUT_CODE_READY != CHECKOUT_LIVE
-CLICK != PURCHASE
+PACKAGING_READY != PROVIDER_READY
+CHECKOUT_REDIRECT != PURCHASE
+TEST ORDER != REAL REVENUE
 SIGNED PAID PROVIDER ORDER = authoritative purchase evidence
 not observed == unknown
 ```
@@ -19,28 +20,20 @@ not observed == unknown
 
 | Phase | State | What is true now | Remaining gate |
 |---|---|---|---|
-| C1 Premium Next.js web | `DEPLOYED / OBSERVED` | Production Next.js surface is live at `https://prompt-quarry.vercel.app`; landing, Free Pack, Developer Pack and license routes return the expected public surfaces | Continue regression observation; no deployment blocker remains |
-| C1.4 Vercel production | `PASS` | Vercel project `prompt-quarry` exists; production deployment `dpl_5WxCPP6mTuwe9NCwxa3Wnzh77kvk` is `READY`; canonical domain is assigned | None for public serving |
-| C2 Free Starter Pack | `PUBLICLY_DELIVERED / INTEGRITY_VERIFIED` | Versioned and alias routes deliver the canonical v1.1.0 ZIP with exact size and SHA-256 | Observe real user acquisition separately from delivery correctness |
-| C3 Paid commerce | `HOLD / NOT_FOR_SALE` | Checkout and webhook routes are deployed and fail closed correctly; Developer Pack v1.1 is RC1, not sellable | Execute RC1 deterministic archive twice, record artifact fingerprint, approve exact artifact, then provision/test provider checkout |
-| C4 Analytics | `CODE_DEPLOYED / FUNNEL_EVIDENCE_NOT_OBSERVED` | Client/server event semantics and attribution code are present on the deployed surface | Observe and reconcile real deployed funnel events; provider purchase event requires signed order evidence |
-| C5 Golden Path | `PUBLIC_SURFACE_PASS / COMMERCE_HOLD` | Required public routes satisfy the Golden Path contract; Free Pack integrity holds; production resilience receipt is healthy through bounded concurrency 200 | Paid provider test order + signed webhook + exact paid artifact delivery after RC1 READY |
-| C6 Distribution | `DRAFTS_READY / HOLD` | Launch material exists but remains intentionally unpublished | Release only after paid artifact + provider flow gates pass |
-| PQ-LAUNCH-0 | `NOT_ACHIEVED` | Public/free path is live; paid path is intentionally held | RC1 READY + real provider test order + verified paid delivery |
-| PQ-$1 | `NOT_ACHIEVED` | No real non-test paid transaction is claimed | Real non-zero provider revenue + identifiable delivered product/version |
+| C1 Premium Next.js web | `DEPLOYED / OBSERVED` | Production surface is live at `https://prompt-quarry.vercel.app` | Continue regression observation |
+| C1.4 Vercel production | `PASS` | Production deployment is `READY`; canonical domain assigned | None for public serving |
+| C2 Free Starter Pack | `PUBLICLY_DELIVERED / INTEGRITY_VERIFIED` | v1.1.0 ZIP is delivered with canonical size/hash | Observe acquisition separately |
+| C3 Developer Pack artifact | `PACKAGING_READY` | 13-asset RC1 built twice from exact blobs; archives are byte-identical; exact SHA/size recorded | Provider test + delivered-artifact verification |
+| C3.1 Paid commerce | `PROVIDER_TEST_PENDING / NOT_FOR_SALE` | Checkout/webhook routes exist and remain fail-closed | Configure Lemon Squeezy, execute controlled signed test order |
+| C4 Analytics | `CODE_DEPLOYED / PURCHASE_EVIDENCE_NOT_OBSERVED` | Funnel event model exists | Observe real provider-backed purchase event later |
+| C5 Golden Path | `PUBLIC_SURFACE_PASS / PAID_PROVIDER_PENDING` | Public/free path and bounded resilience gates pass | Provider checkout + signed webhook + exact paid delivery |
+| C6 Distribution | `DRAFTS_READY / HOLD` | Launch material prepared, intentionally unpublished | Provider gate PASS + public-sale decision |
+| PQ-LAUNCH-0 | `NOT_ACHIEVED` | Packaging is ready; paid provider proof is not | Signed controlled order + exact delivery + launch approval |
+| PQ-$1 | `NOT_ACHIEVED` | No real non-test paid transaction claimed | Real non-zero revenue + identifiable delivered v1.1.0 artifact |
 
 ## C1 — Public surface
 
-Framework currently observed in production:
-
-```text
-Next.js App Router
-Node 24.x on Vercel
-production deployment READY
-canonical domain prompt-quarry.vercel.app
-```
-
-Observed public routes:
+Observed production contract remains:
 
 ```text
 /                                      -> 200
@@ -53,113 +46,121 @@ Observed public routes:
 /api/commerce/lemonsqueezy/webhook     -> 405 on GET, route present
 ```
 
-The paid surface is intentionally explicit:
-
-```text
-PAID / v1.1 · DRAFT · NOT FOR SALE
-checkout_not_configured
-```
-
-A `503` on the checkout route is currently a governed commerce hold, not a deployment defect. A `404` would be a parity failure.
+Checkout `503` is still intentional while the provider is not configured and public sale remains disabled.
 
 ## C2 — Developer Starter Pack v1.1.0
 
-Public delivery identity:
-
 ```text
-product            Prompt Quarry Developer Starter Pack
 version            1.1.0
+customer_files     7
+archive_size       23498 bytes
+archive_sha256     55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
 delivery_state     PUBLICLY_DELIVERED
 integrity_state    VERIFIED
-archive_file       prompt-quarry-developer-starter-v1.1.0.zip
-archive_size       23498 bytes
-archive_sha256     sha256:55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
-customer_files     7
 ```
 
-Both the canonical versioned route and `/api/free-pack/v1` alias return the same version, size and SHA-256 headers.
+Public availability does not establish F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE`.
 
-The download route is immutable and exposes:
+## C3 — Developer Pack v1.1 artifact
 
-```text
-x-prompt-quarry-version: 1.1.0
-x-prompt-quarry-sha256: 55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
-x-prompt-quarry-origin: build-materialized-release
-```
-
-Public availability does not promote any contained prompt to F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE`.
-
-## C3 — Developer Pack v1.1
-
-Current governed product state:
+Frozen source identity:
 
 ```text
 product                 Prompt Quarry Developer Pack
 version                 1.1.0
-internal_state          RELEASE_CANDIDATE RC1
-sale_status             NOT_FOR_SALE
 customer_visible_assets 13
-source_fingerprint      sha256:dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
-static_maturity         VALID_CANDIDATE
-F4_TESTED               NO
-F5_IMPROVED             NO
-F6_CERTIFIED            NO
-F7_PORTABLE             NO
+source_payload_bytes    83879
+source_fingerprint      dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
+inventory_blob          b287172a94246109d0e33f691f50d6ab5d1ae7aa
+builder_blob            4867e3bbd5942667e01d3be62804dc3e0f10e9d1
+source_commit           f0accde4aa12ecf4eae530249cb56175e5a28b66
 ```
 
-RC1 has a frozen customer inventory and deterministic builder contract. The four core systems have manual static Commercial Value Gate evidence at `14/14` each (`56/56` total). That is static product evidence only.
-
-Current packaging blocker:
+Physical build evidence:
 
 ```text
-builder_source             READY
-inventory_freeze           PASS
+build_1 exit            0
+build_2 exit            0
+byte_identical          YES
+receipts_equal          YES
+normalizations          8 / 8
+archive_size            86763 bytes
+archive_sha256          546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
+```
+
+All 13 customer source files were reconstructed from exact Git blob bytes and verified against their frozen blob SHA and size before execution. Both builds used the canonical builder in isolated clean roots.
+
+Durable evidence:
+
+```text
+.ci/developer-pack-v1.1/release-candidate.json
+.ci/developer-pack-v1.1/build-evidence.json
+.ci/developer-pack-v1.1/packaging-readiness.json
+.approvals/developer-pack-v1.1/DISTRIBUTION_APPROVAL.json
+```
+
+Builder gates:
+
+```text
+inventory_exact                 PASS
+blob_identity                   PASS
+source_fingerprint              PASS
+normalization_exact             PASS
+archive_members_exact           PASS
+archive_crc                     PASS
+customer_draft_markers_absent   PASS
+deterministic_rules             PASS
+```
+
+The earlier GitHub Actions run `33295722641` remains an infrastructure incident only: the `build-candidate` job had zero executed steps and produced zero artifacts. It was not used as product evidence.
+
+### Current packaging state
+
+```text
+builder_source             PASS / EXACT BLOB
+inventory_freeze           PASS / EXACT BLOB
+customer_payload           PASS / 13 EXACT BLOBS
 commercial_value_gate      PASS (MANUAL_STATIC)
-archive_execution          NOT_OBSERVED
-archive_sha256             UNKNOWN
-distribution_approval      BLOCKED
-READY                      NO
+archive_execution          PASS
+archive_determinism        PASS
+archive_sha256             RECORDED
+distribution_approval      APPROVED_FOR_CONTROLLED_PROVIDER_TEST
+packaging_ready            YES
+provider_test              PENDING
+public_sale                NO
 sale_status                NOT_FOR_SALE
 ```
 
-GitHub Actions has created relevant jobs without assigning/executing steps. A workflow conclusion with zero executed steps is not evidence that the builder failed or passed.
+`PACKAGING_READY` means the distributable artifact is physically reproducible and fingerprinted. It does not establish behavioral quality or payment readiness.
 
-### Exit RC1 -> READY
-
-RC1 may become packaging/commercial `READY` only after:
-
-1. the deterministic builder executes successfully in a clean execution environment;
-2. two independent builds produce byte-identical ZIP archives;
-3. archive size and SHA-256 are recorded;
-4. approval binds to the exact source fingerprint + archive fingerprint;
-5. the artifact delivered by the paid path is verified against the approved fingerprint.
-
-`READY` here means packaging/commercial readiness only. It does not grant behavioral maturity labels.
-
-## C3.1 — Checkout/provider contract
+## C3.1 — Provider contract
 
 Provider design remains Lemon Squeezy.
 
-Current deployed route contract:
+The controlled next gate is:
 
 ```text
-paid CTA
-  -> /api/commerce/developer-pack/checkout
-  -> 503 while sale_status == NOT_FOR_SALE or provider is not configured
-
-future READY state
-  -> hosted checkout URL
-  -> Lemon Squeezy order_created
+exact approved ZIP
+  -> Lemon Squeezy product/variant
+  -> hosted test checkout
+  -> order_created
   -> HMAC-SHA256 signature verification
-  -> status == paid
-  -> store/product/variant match
-  -> purchase_completed evidence
-  -> exact approved Developer Pack delivery
+  -> expected store/product/variant
+  -> paid/test-mode state according to controlled protocol
+  -> purchase evidence receipt
+  -> exact artifact delivery
+  -> delivered bytes/hash verification
 ```
 
-A browser click cannot create `purchase_completed` evidence.
+Artifact identity that the provider flow must deliver:
 
-Provider configuration remains withheld until the product artifact is physically closed:
+```text
+version   1.1.0
+bytes     86763
+sha256    546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
+```
+
+Configuration surface remains:
 
 ```text
 NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL
@@ -167,150 +168,88 @@ LEMONSQUEEZY_WEBHOOK_SECRET
 LEMONSQUEEZY_STORE_ID
 LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID
 LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID
+LEMONSQUEEZY_ALLOW_TEST_MODE
 ```
 
-`LEMONSQUEEZY_ALLOW_TEST_MODE` remains `false` by default and is only appropriate for a controlled test flow.
+For the controlled provider gate, test mode may be enabled deliberately. Public sale remains off until the test receipt is durable and separately promoted.
 
-## C4 — Minimum funnel telemetry
-
-Implemented event chain:
+## C4 — Funnel truth
 
 ```text
 landing_view                 client/session
 free_cta_clicked             client/session
-free_pack_acquired           server, after ZIP integrity verification
+free_pack_acquired           server after integrity verification
 paid_product_viewed          client/session
 paid_cta_clicked             client/session
-checkout_started             server redirect when commerce becomes active
-purchase_completed           signed provider webhook only
+checkout_started             server redirect when configured
+purchase_completed           signed provider evidence only
 ```
 
-Campaign attribution contract remains:
+A CTA click, redirect, page view, or webhook route presence cannot prove a purchase.
 
-```text
-source
-medium
-campaign
-content
-```
+## C5 — Golden Path
 
-Deployment of analytics code is not treated as proof that live funnel events were observed. Real event evidence remains separate.
-
-Revenue truth remains provider-first:
-
-```text
-CHECKOUT PROVIDER TRANSACTION
-    > signed server/webhook evidence
-    > client telemetry
-    > button click
-```
-
-## C5 — Golden Path and resilience
-
-Canonical contract:
-
-`commercial/GOLDEN_PATH_CONTRACT_V1.json`
-
-Production evidence:
-
-`.ci/golden-path/wave2-production-20260829.json`
-
-The production resilience run observed:
-
-```text
-free_pack_materialize   PASS
-golden_path_build_parity PASS
-required_routes         7
-runtime_errors          0
-first_break             null
-classification          HEALTHY_THROUGH_C200_WITHIN_TESTED_ENVELOPE
-```
-
-Bounded Free Pack load phases completed successfully through concurrency `200`, including integrity verification. This establishes infrastructure delivery resilience only inside the tested envelope; it is not a behavioral, payment, or capacity guarantee.
-
-Current Golden Path boundary:
+Existing production evidence remains:
 
 ```text
 PUBLIC SURFACE           PASS
 FREE DELIVERY            PASS
 FREE INTEGRITY           PASS
 ROUTE PRESENCE           PASS
-PRODUCTION RESILIENCE    PASS within tested envelope
-PAID ARTIFACT READY      NO
-PROVIDER CHECKOUT        HOLD
+PRODUCTION RESILIENCE    PASS within tested envelope through C200
+PAID ARTIFACT READY      PASS
+PROVIDER CHECKOUT        PENDING
 SIGNED TEST ORDER        NOT_OBSERVED
 PAID DELIVERY            NOT_OBSERVED
 ```
 
-## C6 — Launch package
+Infrastructure evidence remains distinct from F4–F7 model-behavior evidence.
 
-Prepared distribution assets remain on hold.
+## C6 — Release sequence
 
-Do not publish the paid launch sequence while Developer Pack v1.1 is `NOT_FOR_SALE`.
-
-The release order is now:
+The critical path has advanced to:
 
 ```text
-RC1 deterministic build
-  -> exact archive fingerprint
-  -> distribution approval
-  -> Developer Pack packaging READY
-  -> provision Lemon Squeezy product/variant
-  -> controlled provider test checkout
-  -> signed order_created webhook
-  -> verify exact paid artifact delivery
-  -> PQ-LAUNCH-0
-  -> publish pq-launch-0 sequence
-  -> seek real non-test purchase
-  -> PQ-$1
+PACKAGING_READY
+        ↓
+provider configuration
+        ↓
+controlled provider test checkout
+        ↓
+signed order_created webhook
+        ↓
+exact approved artifact delivery
+        ↓
+delivery fingerprint verification
+        ↓
+PROVIDER_GATE_PASS
+        ↓
+PQ-LAUNCH-0 decision
+        ↓
+launch distribution
+        ↓
+real non-test purchase
+        ↓
+PQ-$1
 ```
 
-## Active blockers
+Do not reopen MK2, redesign the landing, or alter the product archive while this provider gate is active. Any change to one of the 13 frozen customer blobs invalidates the current archive fingerprint and requires a new release candidate build.
 
-There are two material blockers on the path to launch:
+## Evidence boundary
 
-### 1. Developer Pack v1.1 physical release evidence
+```text
+static_maturity   VALID_CANDIDATE
+packaging         READY_FOR_PROVIDER_TEST
+F4_TESTED         NO
+F5_IMPROVED       NO
+F6_CERTIFIED      NO
+F7_PORTABLE       NO
+provider_test     NOT_OBSERVED
+real_revenue      NOT_OBSERVED
+```
 
-The frozen RC1 source exists, but deterministic archive execution and artifact fingerprint are still unobserved because the available GitHub Actions runner path has not executed job steps.
-
-Do not substitute CI job creation, Vercel serving health, or static review for this artifact evidence.
-
-### 2. Paid provider proof
-
-Lemon Squeezy provisioning and a controlled provider test order remain undone. This should occur only after the exact paid artifact is packaging/commercial `READY`.
-
-The previous Vercel project-provisioning blocker is closed.
+`not observed == unknown`
 
 ## Next executable gate
 
-Close the paid artifact before commerce:
-
-```bash
-python tools/build_developer_pack_v1_1_release_candidate.py
-sha256sum dist/prompt-quarry-developer-pack-v1.1.0.zip
-
-# repeat from a clean checkout/environment
-python tools/build_developer_pack_v1_1_release_candidate.py
-sha256sum dist/prompt-quarry-developer-pack-v1.1.0.zip
-```
-
-Acceptance:
-
-```text
-run_1 PASS
-run_2 PASS
-zip_bytes_1 == zip_bytes_2
-archive_size recorded
-archive_sha256 recorded
-source_fingerprint == dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
-customer_visible_assets == 13
-no customer DRAFT markers
-```
-
-After that evidence is durable, provision the provider and execute the payment/delivery gate.
-
-## North star
-
-`PQ-$1` remains intentionally simple:
-
-> At least one real, non-test transaction with non-zero revenue for Developer Pack v1.1, with the delivered product/version identifiable from provider and release evidence.
+Configure Lemon Squeezy for the exact approved artifact, then execute one controlled test order and verify both the signed provider event and delivered ZIP fingerprint.
