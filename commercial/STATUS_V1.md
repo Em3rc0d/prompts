@@ -2,6 +2,8 @@
 
 Canonical execution snapshot for the path to `PQ-$1`.
 
+Last reconciled: `2026-08-31T03:19Z`
+
 ## Truth rules
 
 ```text
@@ -17,104 +19,147 @@ not observed == unknown
 
 | Phase | State | What is true now | Remaining gate |
 |---|---|---|---|
-| C1 Premium Next.js web | `IMPLEMENTED / VISUALLY_REVIEWED` | Next.js App Router commercial surface, premium visual system, responsive desktop/mobile, evidence-safe copy | Real deployment/build observation |
-| C1.4 Vercel preview | `BLOCKED_EXTERNAL` | Vercel account is connected, but Prompt Quarry project is not provisioned and current connector cannot safely import the private repo with `web/` as root | Create/import Vercel project and deploy `web/` |
-| C2 Free Starter Pack | `ARTIFACT_READY / NOT_DEPLOYED` | Governed 7-file payload, deterministic ZIP contract, runtime integrity-checked download route | Deploy web so `/api/free-pack/v1` is public |
-| C3 Paid commerce | `CODE_READY / PROVIDER_NOT_PROVISIONED` | Lemon Squeezy hosted-checkout abstraction, signed `order_created` webhook verification, paid/store/product/variant checks, no client-side purchase inference | Provision store product/variant, checkout URL, webhook secret/endpoint |
-| C4 Analytics | `CODE_READY / NOT_LIVE` | Minimum funnel semantics implemented across client/server, campaign attribution bridge, provider-signed purchase evidence | Observe events on deployed preview/live checkout |
-| C5 Launch E2E | `HARNESS_READY / BLOCKED_EXTERNAL` | Public-surface smoke harness validates pages, deterministic Free Pack, checkout redirect, and attribution | Deployed web + provisioned checkout + real provider test order |
-| C6 Distribution | `DRAFTS_READY / NOT_PUBLISHED` | Durable `pq-launch-0` payload plus first 3 LinkedIn/prodAgentic assets are ready and held behind C5 | Publish only after C5 passes |
-| PQ-LAUNCH-0 | `NOT_ACHIEVED` | — | Full C5 including provider test order + delivery |
-| PQ-$1 | `NOT_ACHIEVED` | — | Real non-zero provider revenue + delivery |
+| C1 Premium Next.js web | `DEPLOYED / OBSERVED` | Production Next.js surface is live at `https://prompt-quarry.vercel.app`; landing, Free Pack, Developer Pack and license routes return the expected public surfaces | Continue regression observation; no deployment blocker remains |
+| C1.4 Vercel production | `PASS` | Vercel project `prompt-quarry` exists; production deployment `dpl_5WxCPP6mTuwe9NCwxa3Wnzh77kvk` is `READY`; canonical domain is assigned | None for public serving |
+| C2 Free Starter Pack | `PUBLICLY_DELIVERED / INTEGRITY_VERIFIED` | Versioned and alias routes deliver the canonical v1.1.0 ZIP with exact size and SHA-256 | Observe real user acquisition separately from delivery correctness |
+| C3 Paid commerce | `HOLD / NOT_FOR_SALE` | Checkout and webhook routes are deployed and fail closed correctly; Developer Pack v1.1 is RC1, not sellable | Execute RC1 deterministic archive twice, record artifact fingerprint, approve exact artifact, then provision/test provider checkout |
+| C4 Analytics | `CODE_DEPLOYED / FUNNEL_EVIDENCE_NOT_OBSERVED` | Client/server event semantics and attribution code are present on the deployed surface | Observe and reconcile real deployed funnel events; provider purchase event requires signed order evidence |
+| C5 Golden Path | `PUBLIC_SURFACE_PASS / COMMERCE_HOLD` | Required public routes satisfy the Golden Path contract; Free Pack integrity holds; production resilience receipt is healthy through bounded concurrency 200 | Paid provider test order + signed webhook + exact paid artifact delivery after RC1 READY |
+| C6 Distribution | `DRAFTS_READY / HOLD` | Launch material exists but remains intentionally unpublished | Release only after paid artifact + provider flow gates pass |
+| PQ-LAUNCH-0 | `NOT_ACHIEVED` | Public/free path is live; paid path is intentionally held | RC1 READY + real provider test order + verified paid delivery |
+| PQ-$1 | `NOT_ACHIEVED` | No real non-test paid transaction is claimed | Real non-zero provider revenue + identifiable delivered product/version |
 
 ## C1 — Public surface
 
-Framework:
-- Next.js `16.3.3` App Router;
-- React `19.2.0`;
-- TypeScript strict;
-- Server Components by default;
-- Geist + Geist Mono;
-- premium technical/editorial visual system;
-- custom Quarry Engine visual;
-- reduced-motion support.
-
-Current routes:
+Framework currently observed in production:
 
 ```text
-/
-/free/developer-starter-pack
-/developer-pack
-/license
-/api/free-pack/v1
-/api/commerce/developer-pack/checkout
-/api/commerce/lemonsqueezy/webhook
+Next.js App Router
+Node 24.x on Vercel
+production deployment READY
+canonical domain prompt-quarry.vercel.app
 ```
 
-GitHub Actions jobs for the new web/release/commerce/analytics gates have repeatedly been created with no runner and zero executed steps. This is not treated as a build failure or a pass. Build evidence remains unobserved until a runner or Vercel deployment actually executes it.
-
-## C2 — Developer Starter Pack v1
-
-Customer payload: exactly 7 files.
+Observed public routes:
 
 ```text
-LICENSE.md
-OFFER.md
-QUICKSTART.md
-README.md
-prompts/bug-diagnosis.md
-prompts/code-review.md
-prompts/technical-decision.md
+/                                      -> 200
+/free/developer-starter-pack           -> 200
+/developer-pack                         -> 200
+/license                                -> 200
+/api/free-pack/v1.1.0                  -> 200
+/api/free-pack/v1                      -> 200
+/api/commerce/developer-pack/checkout  -> 503 expected HOLD
+/api/commerce/lemonsqueezy/webhook     -> 405 on GET, route present
 ```
 
-Release identity:
+The paid surface is intentionally explicit:
 
 ```text
-product_id        pq-developer-starter
-version           1.0.0
-artifact_state    READY
-delivery_state    NOT_DEPLOYED
-archive_file      prompt-quarry-developer-starter-v1.zip
-archive_size      11573 bytes
-archive_sha256    sha256:55121028168f9a5394fe79ccc3102caa60e5df85c59a03639dc6e5392e5b2ee1
+PAID / v1.1 · DRAFT · NOT FOR SALE
+checkout_not_configured
 ```
 
-The Python release builder and Node/Next.js ZIP algorithm use the same deterministic archive contract. The download route rebuilds the governed payload and refuses delivery if size or SHA-256 differs from the release manifest.
+A `503` on the checkout route is currently a governed commerce hold, not a deployment defect. A `404` would be a parity failure.
 
-`ARTIFACT_READY` does not mean the URL is publicly reachable. Public Free Pack acquisition requires deployment of the Next.js app.
+## C2 — Developer Starter Pack v1.1.0
 
-## C3 — Developer Pack v1 commerce
-
-Product truth remains:
+Public delivery identity:
 
 ```text
-product            Prompt Quarry Developer Pack v1
-version            1.0.0
-commercial state   READY
-asset maturity     VALID
-launch price        USD $19
-license             use/adapt/integrate YES; resale/redistribution/sublicense NO
+product            Prompt Quarry Developer Starter Pack
+version            1.1.0
+delivery_state     PUBLICLY_DELIVERED
+integrity_state    VERIFIED
+archive_file       prompt-quarry-developer-starter-v1.1.0.zip
+archive_size       23498 bytes
+archive_sha256     sha256:55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+customer_files     7
 ```
 
-Provider choice: Lemon Squeezy.
+Both the canonical versioned route and `/api/free-pack/v1` alias return the same version, size and SHA-256 headers.
 
-Code contract:
+The download route is immutable and exposes:
+
+```text
+x-prompt-quarry-version: 1.1.0
+x-prompt-quarry-sha256: 55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+x-prompt-quarry-origin: build-materialized-release
+```
+
+Public availability does not promote any contained prompt to F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE`.
+
+## C3 — Developer Pack v1.1
+
+Current governed product state:
+
+```text
+product                 Prompt Quarry Developer Pack
+version                 1.1.0
+internal_state          RELEASE_CANDIDATE RC1
+sale_status             NOT_FOR_SALE
+customer_visible_assets 13
+source_fingerprint      sha256:dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
+static_maturity         VALID_CANDIDATE
+F4_TESTED               NO
+F5_IMPROVED             NO
+F6_CERTIFIED            NO
+F7_PORTABLE             NO
+```
+
+RC1 has a frozen customer inventory and deterministic builder contract. The four core systems have manual static Commercial Value Gate evidence at `14/14` each (`56/56` total). That is static product evidence only.
+
+Current packaging blocker:
+
+```text
+builder_source             READY
+inventory_freeze           PASS
+commercial_value_gate      PASS (MANUAL_STATIC)
+archive_execution          NOT_OBSERVED
+archive_sha256             UNKNOWN
+distribution_approval      BLOCKED
+READY                      NO
+sale_status                NOT_FOR_SALE
+```
+
+GitHub Actions has created relevant jobs without assigning/executing steps. A workflow conclusion with zero executed steps is not evidence that the builder failed or passed.
+
+### Exit RC1 -> READY
+
+RC1 may become packaging/commercial `READY` only after:
+
+1. the deterministic builder executes successfully in a clean execution environment;
+2. two independent builds produce byte-identical ZIP archives;
+3. archive size and SHA-256 are recorded;
+4. approval binds to the exact source fingerprint + archive fingerprint;
+5. the artifact delivered by the paid path is verified against the approved fingerprint.
+
+`READY` here means packaging/commercial readiness only. It does not grant behavioral maturity labels.
+
+## C3.1 — Checkout/provider contract
+
+Provider design remains Lemon Squeezy.
+
+Current deployed route contract:
 
 ```text
 paid CTA
   -> /api/commerce/developer-pack/checkout
-  -> checkout_started server event
+  -> 503 while sale_status == NOT_FOR_SALE or provider is not configured
+
+future READY state
   -> hosted checkout URL
   -> Lemon Squeezy order_created
   -> HMAC-SHA256 signature verification
   -> status == paid
   -> store/product/variant match
   -> purchase_completed evidence
+  -> exact approved Developer Pack delivery
 ```
 
-The webhook evidence path excludes provider customer name/email. A browser click cannot create `purchase_completed`.
+A browser click cannot create `purchase_completed` evidence.
 
-Required external configuration before checkout is live:
+Provider configuration remains withheld until the product artifact is physically closed:
 
 ```text
 NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL
@@ -124,7 +169,7 @@ LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID
 LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID
 ```
 
-`LEMONSQUEEZY_ALLOW_TEST_MODE` remains `false` by default and can be explicitly enabled only for a controlled test environment.
+`LEMONSQUEEZY_ALLOW_TEST_MODE` remains `false` by default and is only appropriate for a controlled test flow.
 
 ## C4 — Minimum funnel telemetry
 
@@ -136,11 +181,11 @@ free_cta_clicked             client/session
 free_pack_acquired           server, after ZIP integrity verification
 paid_product_viewed          client/session
 paid_cta_clicked             client/session
-checkout_started             server redirect
+checkout_started             server redirect when commerce becomes active
 purchase_completed           signed provider webhook only
 ```
 
-Campaign attribution:
+Campaign attribution contract remains:
 
 ```text
 source
@@ -149,9 +194,7 @@ campaign
 content
 ```
 
-These four fields are carried through Lemon Squeezy custom checkout data and reconciled from webhook `meta.custom_data` on a successful signed order.
-
-An anonymous random `session_id` exists only in browser `sessionStorage` for local/session-level diagnostics. It is not transferred to Prompt Quarry server routes or Lemon Squeezy.
+Deployment of analytics code is not treated as proof that live funnel events were observed. Real event evidence remains separate.
 
 Revenue truth remains provider-first:
 
@@ -162,100 +205,112 @@ CHECKOUT PROVIDER TRANSACTION
     > button click
 ```
 
-## C5 — Public launch smoke harness
+## C5 — Golden Path and resilience
 
-Repository harness:
+Canonical contract:
+
+`commercial/GOLDEN_PATH_CONTRACT_V1.json`
+
+Production evidence:
+
+`.ci/golden-path/wave2-production-20260829.json`
+
+The production resilience run observed:
 
 ```text
-tools/smoke_commercial_launch_v0.py
-.github/workflows/smoke-commercial-launch-v0.yml
+free_pack_materialize   PASS
+golden_path_build_parity PASS
+required_routes         7
+runtime_errors          0
+first_break             null
+classification          HEALTHY_THROUGH_C200_WITHIN_TESTED_ENVELOPE
 ```
 
-Automated assertions:
-- `/` returns the premium Prompt Quarry landing;
-- Free Pack page is reachable;
-- Developer Pack page is reachable and exposes the `$19` offer;
-- license route is reachable;
-- `/api/free-pack/v1` returns the exact 11,573-byte ZIP;
-- Free Pack SHA-256 equals the canonical release fingerprint;
-- ZIP entry list and CRCs are valid;
-- paid checkout route redirects over HTTPS;
-- configured checkout remains a shareable `/checkout/buy/` URL;
-- `source/medium/campaign/content` reach provider custom checkout data.
+Bounded Free Pack load phases completed successfully through concurrency `200`, including integrity verification. This establishes infrastructure delivery resilience only inside the tested envelope; it is not a behavioral, payment, or capacity guarantee.
 
-The harness deliberately cannot satisfy the payment portion of C5. A real Lemon Squeezy test checkout and observed signed `order_created` webhook remain mandatory.
+Current Golden Path boundary:
+
+```text
+PUBLIC SURFACE           PASS
+FREE DELIVERY            PASS
+FREE INTEGRITY           PASS
+ROUTE PRESENCE           PASS
+PRODUCTION RESILIENCE    PASS within tested envelope
+PAID ARTIFACT READY      NO
+PROVIDER CHECKOUT        HOLD
+SIGNED TEST ORDER        NOT_OBSERVED
+PAID DELIVERY            NOT_OBSERVED
+```
 
 ## C6 — Launch package
 
-Prepared but deliberately unpublished:
+Prepared distribution assets remain on hold.
+
+Do not publish the paid launch sequence while Developer Pack v1.1 is `NOT_FOR_SALE`.
+
+The release order is now:
 
 ```text
-commercial/campaigns/pq-launch-0/CAMPAIGN.json
-commercial/campaigns/pq-launch-0/README.md
-commercial/campaigns/pq-launch-0/01-why-prompt-quarry-exists.md
-commercial/campaigns/pq-launch-0/02-code-review-before-after.md
-commercial/campaigns/pq-launch-0/03-not-observed-unknown.md
+RC1 deterministic build
+  -> exact archive fingerprint
+  -> distribution approval
+  -> Developer Pack packaging READY
+  -> provision Lemon Squeezy product/variant
+  -> controlled provider test checkout
+  -> signed order_created webhook
+  -> verify exact paid artifact delivery
+  -> PQ-LAUNCH-0
+  -> publish pq-launch-0 sequence
+  -> seek real non-test purchase
+  -> PQ-$1
 ```
 
-Each first-release draft has a stable content id, LinkedIn UTM attribution, CTA, and claims review. All are `HOLD_FOR_C5`.
+## Active blockers
 
-Initial sequence:
+There are two material blockers on the path to launch:
 
-```text
-P01 Why Prompt Quarry exists
-  -> observe
-P02 Code Review before/after
-  -> observe
-P03 not observed == unknown
-```
+### 1. Developer Pack v1.1 physical release evidence
 
-No item should be published until `PQ-LAUNCH-0` is achieved.
+The frozen RC1 source exists, but deterministic archive execution and artifact fingerprint are still unobserved because the available GitHub Actions runner path has not executed job steps.
 
-## External blockers
+Do not substitute CI job creation, Vercel serving health, or static review for this artifact evidence.
 
-There are currently only two blockers that cannot be completed from the repository alone:
+### 2. Paid provider proof
 
-### 1. Vercel project provisioning
+Lemon Squeezy provisioning and a controlled provider test order remain undone. This should occur only after the exact paid artifact is packaging/commercial `READY`.
 
-Create/import Prompt Quarry from `Em3rc0d/prompts` with:
-
-```text
-Framework       Next.js
-Root Directory  web/
-Node            >= 20.9.0
-```
-
-Then configure environment variables and obtain a preview URL.
-
-### 2. Lemon Squeezy product provisioning
-
-Create the one-time product/variant for Developer Pack v1 at `USD $19`, obtain its shareable `/checkout/buy/...` URL, configure the webhook endpoint, and populate the store/product/variant/secret values.
-
-No additional product, authentication, dashboard, subscription, CMS, or billing architecture is required before those two gates.
+The previous Vercel project-provisioning blocker is closed.
 
 ## Next executable gate
 
-After Vercel and Lemon Squeezy provisioning, run:
+Close the paid artifact before commerce:
 
 ```bash
-python tools/smoke_commercial_launch_v0.py \
-  --base-url https://<prompt-quarry-preview-or-domain> \
-  --expected-checkout-host <checkout-host>
+python tools/build_developer_pack_v1_1_release_candidate.py
+sha256sum dist/prompt-quarry-developer-pack-v1.1.0.zip
+
+# repeat from a clean checkout/environment
+python tools/build_developer_pack_v1_1_release_candidate.py
+sha256sum dist/prompt-quarry-developer-pack-v1.1.0.zip
 ```
 
-Then complete the provider portion manually/in sandbox:
+Acceptance:
 
 ```text
-real Lemon Squeezy test checkout
- -> signed order_created webhook
- -> purchase_completed(test_mode=true)
- -> correct paid Pack delivery
+run_1 PASS
+run_2 PASS
+zip_bytes_1 == zip_bytes_2
+archive_size recorded
+archive_sha256 recorded
+source_fingerprint == dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
+customer_visible_assets == 13
+no customer DRAFT markers
 ```
 
-Only after both automated public-surface smoke and real provider test flow pass should Prompt Quarry be marked `PQ-LAUNCH-0` and `pq-launch-0` distribution begin.
+After that evidence is durable, provision the provider and execute the payment/delivery gate.
 
 ## North star
 
 `PQ-$1` remains intentionally simple:
 
-> At least one real, non-test transaction with non-zero revenue for Developer Pack v1, with the delivered product/version identifiable from provider/release evidence.
+> At least one real, non-test transaction with non-zero revenue for Developer Pack v1.1, with the delivered product/version identifiable from provider and release evidence.
