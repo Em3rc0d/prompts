@@ -1,6 +1,6 @@
 # Prompt Quarry — Developer Pack v1.1
 
-Internal product status: `RELEASE_CANDIDATE RC1 / NOT FOR SALE`
+Internal product status: `PACKAGING_READY / PROVIDER_TEST_PENDING / NOT FOR SALE`
 
 Target version: `1.1.0`
 
@@ -30,15 +30,13 @@ reusable operating architecture
 
 ## RC1 customer inventory
 
-Frozen in:
+Frozen in `CUSTOMER_INVENTORY.release-candidate.json`.
 
-`CUSTOMER_INVENTORY.release-candidate.json`
-
-Customer-visible payload: `13 assets`.
-
-Source fingerprint:
-
-`sha256:dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa`
+```text
+customer-visible assets  13
+source payload bytes      83879
+source fingerprint        dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
+```
 
 The customer ZIP uses `README.customer.md` as `README.md`. Internal `README.md`, `SPEC.md`, inventory files, and `quality/*` are governance assets and are excluded.
 
@@ -51,41 +49,68 @@ The customer ZIP uses `README.customer.md` as `README.md`. Internal `README.md`,
 
 The four core systems passed the manual static Commercial Value Gate at `14/14` each (`56/56` total). This is static product evidence only.
 
-## Packaging
+## Packaging evidence
 
 Canonical builder:
 
 `tools/build_developer_pack_v1_1_release_candidate.py`
 
-The builder must:
+Durable receipts:
 
-1. verify every frozen Git blob identity;
-2. verify the source fingerprint;
-3. apply only declared exact customer-state normalizations;
-4. fail if any declared normalization is missing or duplicated;
-5. archive exactly the frozen customer inventory;
-6. fail if customer `DRAFT` markers leak into the ZIP;
-7. verify ZIP members and CRC;
-8. emit `.ci/developer-pack-v1.1/release-candidate.json` with archive SHA-256.
+- `.ci/developer-pack-v1.1/release-candidate.json`
+- `.ci/developer-pack-v1.1/build-evidence.json`
+- `.ci/developer-pack-v1.1/packaging-readiness.json`
+- `.approvals/developer-pack-v1.1/DISTRIBUTION_APPROVAL.json`
 
-The CI workflow runs the builder twice and requires byte-identical archives.
+The RC1 source, inventory, and builder were reconstructed from their exact Git blob identities and executed in two isolated clean roots.
 
-## Current blocker
-
-GitHub Actions is currently creating the `build-candidate` job but not assigning/executing steps (`steps=null`, `logs_url=null`). Therefore:
+Observed result:
 
 ```text
-builder_source             READY
-inventory_freeze           PASS
+build_1 exit              0
+build_2 exit              0
+byte_identical            YES
+receipt_equal             YES
+customer_visible_assets   13
+normalizations            8 / 8
+archive_size              86763 bytes
+archive_sha256            546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
+source_fingerprint         dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa
+```
+
+All builder gates passed:
+
+```text
+inventory_exact                 PASS
+blob_identity                   PASS
+source_fingerprint              PASS
+normalization_exact             PASS
+archive_members_exact           PASS
+archive_crc                     PASS
+customer_draft_markers_absent   PASS
+deterministic_rules             PASS
+```
+
+The earlier GitHub Actions run remains classified separately as a pre-execution runner failure: its `build-candidate` job executed zero steps and produced zero artifacts. It is not used as release evidence.
+
+## Current state
+
+```text
+builder_source             PASS / EXACT BLOB
+inventory_freeze           PASS / EXACT BLOB
+customer_payload           PASS / 13 EXACT BLOBS
 commercial_value_gate      PASS (MANUAL_STATIC)
-archive_execution          NOT_OBSERVED
-archive_sha256             UNKNOWN
-distribution_approval      BLOCKED
-READY                      NO
+archive_execution          PASS
+archive_determinism        PASS
+archive_sha256             RECORDED
+distribution_approval      APPROVED_FOR_CONTROLLED_PROVIDER_TEST
+packaging_ready            YES
+provider_test              PENDING
+public_sale                NO
 sale_status                NOT_FOR_SALE
 ```
 
-A CI conclusion of `failure` with zero executed steps is not treated as product or builder failure.
+`PACKAGING_READY` means the exact distributable artifact is reproducible and approved for the controlled provider test/delivery-validation stage. It does not authorize public sale by itself.
 
 ## Evidence boundary
 
@@ -99,16 +124,34 @@ F7_PORTABLE       NO
 
 `not observed == unknown`
 
-No `READY`, `TESTED`, `IMPROVED`, `CERTIFIED`, `PORTABLE`, or behavioral-superiority claim is permitted until the corresponding gate is observed.
+Packaging determinism, CI success, deployment health, provider redirects, or payment UI must never be promoted into behavioral maturity claims.
 
-## Exit to READY
+## Next gate
 
-RC1 can become READY only after:
+The release path is now:
 
-1. deterministic builder executes successfully;
-2. two independent builds produce the same ZIP bytes;
-3. archive SHA-256 and size are recorded;
-4. distribution approval binds to that exact source fingerprint + archive SHA;
-5. the delivered paid artifact is verified against the approved fingerprint.
+```text
+PACKAGING_READY
+    ↓
+configure payment provider
+    ↓
+controlled test checkout
+    ↓
+signed provider order/webhook
+    ↓
+verify exact delivered artifact
+    ↓
+provider gate PASS
+    ↓
+public-sale decision / PQ-LAUNCH-0
+```
 
-Checkout remains off until those gates pass.
+The provider test must bind delivery to exactly:
+
+```text
+version   1.1.0
+bytes     86763
+sha256    546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
+```
+
+Checkout remains fail-closed until provider configuration and signed-order evidence are observed.
