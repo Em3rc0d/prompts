@@ -1,49 +1,46 @@
 # Prompt Quarry
 
-Private research and engineering repository for collecting, characterizing and transforming prompt/skill knowledge into tested reusable AI artifacts with explicit provenance.
+Private research, engineering, and product repository for turning prompt/skill knowledge into governed reusable AI workflows with explicit provenance and evidence boundaries.
 
-## Product stages
-
-Prompt Quarry has three explicit maturity layers:
+## System model
 
 ```text
 MK0 — KNOWLEDGE QUARRY
-"What exists?"
+"What exists, and what do we actually know about it?"
         │
         ▼
 MK1 — PROMPT FORGE
-"Can we build better prompts from it?"
+"Can we engineer and evaluate reusable prompt artifacts?"
         │
         ▼
 MK2 — PROMPT ENGINE
-"Can the system automatically select,
- compose, test and improve prompts
- for a specific task?"
+"Can the system automatically route, compose, test and improve them?"
 ```
 
-- **MK0** owns evidence, source characterization, normalized metadata, technique mining, Golden Dataset, derived knowledge and the human-reading layer.
-- **MK1** engineers Prompt Quarry candidates and only calls them `CERTIFIED` after behavioral fixtures, rubric evaluation and durable receipts.
-- **MK2** is the future orchestration engine for automatic retrieval/composition/evaluation after MK1 is mature.
+- **MK0** owns source evidence, semantic artifact identity, characterization, normalized metadata, mined techniques, fixtures, provenance, and human-readable materialization.
+- **MK1** owns prompt contracts, architecture selection, assembly, critique, runtime fixtures, baseline comparison, promotion receipts, and the Prompt Generator.
+- **MK2** remains the future orchestration layer and is intentionally deferred until MK1 evidence is mature enough to support it.
 
-Stage entry points:
+Canonical stage entry points:
 
 - `mk0/README.md`
 - `mk1/README.md`
 - `mk2/README.md`
 - `docs/ROADMAP.md`
 
-## Principles
+## Core principles
 
-1. **Source first.** Every source observation keeps an original/official URL whenever available.
-2. **Raw != normalized != derived != engineered.** Evidence, metadata, analysis and repository-authored artifacts remain semantically distinct.
+1. **Source first.** Keep original/official source identity whenever available.
+2. **Raw != normalized != derived != engineered.** Do not collapse evidence and transformation layers.
 3. **Provenance survives transformation and deduplication.**
-4. **Prompt != skill != workflow.** Artifact type is explicit.
-5. **Evidence before claims.** Unknown != pass; generated != valid; valid != tested; tested != certified; engineered != improved without a baseline receipt.
-6. **No access-control bypass.** Collectors stop at authentication, CAPTCHA, paywalls or changed authorization boundaries.
-7. **Minimize third-party body duplication.** Prefer URLs, metadata, fingerprints, structural features and repository-authored abstractions.
-8. **Promotion/certification is gated.** A failed gate must not be bypassed to make an artifact look ready.
-9. **Human readability is a product requirement.** JSON/JSONL remains machine evidence; `readable/` provides additive TXT views for people.
-10. **Meaningful failures become fixtures.** Do not accumulate ad-hoc patches without regression evidence.
+4. **Prompt != skill != workflow.** Semantic artifact identity precedes structural scoring.
+5. **Evidence before claims.** Unknown != pass; generated != valid; valid != tested; tested != improved; improved != certified; certified != portable.
+6. **No access-control bypass.** Collectors stop at authentication, CAPTCHA, paywalls, or changed authorization boundaries.
+7. **Minimize third-party body duplication.** Prefer metadata, URLs, fingerprints, structural observations, and repository-authored abstractions.
+8. **Promotion is gated.** Failed or unobserved gates are never bypassed to make an artifact look ready.
+9. **Human readability matters.** Machine evidence and human inspection surfaces are separate but both first-class.
+10. **Meaningful failures become fixtures.** Regression evidence replaces ad-hoc patch accumulation.
+11. **`not observed == unknown`.** This applies to model behavior, builds, deployment, payments, and product claims.
 
 ## Architecture
 
@@ -54,22 +51,22 @@ EXTERNAL SOURCES
 ┌─────────────────────────────────────────┐
 │ MK0 — KNOWLEDGE QUARRY                  │
 │                                         │
-│ raw → normalized → indexes/analysis     │
-│              → fixtures / Golden Data   │
-│              → patterns/templates       │
-│              → readable TXT             │
+│ acquire → identify → characterize       │
+│         → normalize → derive            │
+│         → fixtures / Golden data        │
+│         → readable materialization      │
 └──────────────────┬──────────────────────┘
-                   │ characterized knowledge
+                   │ governed knowledge
                    ▼
 ┌─────────────────────────────────────────┐
 │ MK1 — PROMPT FORGE                      │
 │                                         │
 │ brief → architecture → candidate        │
-│       → critic → fixtures               │
+│       → critic → runtime fixtures       │
 │       → baseline → rubric → receipt     │
-│       → CERTIFIED / REJECTED            │
+│       → promotion / rejection           │
 └──────────────────┬──────────────────────┘
-                   │ certified artifacts
+                   │ sufficiently evidenced artifacts
                    ▼
 ┌─────────────────────────────────────────┐
 │ MK2 — PROMPT ENGINE                     │
@@ -79,181 +76,188 @@ EXTERNAL SOURCES
 └─────────────────────────────────────────┘
 ```
 
-See `docs/ARCHITECTURE.md` and `docs/ROADMAP.md`.
+See `docs/ARCHITECTURE.md` and `docs/ROADMAP.md` for the full design.
 
 ## Repository map
 
 ```text
 prompts/
-├── mk0/
-│   └── README.md
-├── mk1/
-│   ├── README.md
-│   ├── specs/
-│   ├── rubrics/
-│   ├── fixtures/
-│   ├── briefs/
-│   └── candidates/
-├── mk2/
-│   └── README.md
-├── catalog/
-├── library/
-├── quarry/
-│   ├── raw/
-│   ├── normalized/
-│   ├── indexes/
-│   ├── analysis/
-│   ├── fixtures/
-│   └── promotions/
-├── readable/
-├── sources/
-├── tools/
-├── docs/
-└── .github/workflows/
+├── mk0/                    # source knowledge + characterization
+├── mk1/                    # engineered artifacts + evidence pipeline
+├── mk2/                    # deferred orchestration architecture
+├── quarry/                 # raw / normalized / analysis / fixtures
+├── library/                # governed reusable material
+├── readable/               # human-readable materializations
+├── product/                # Free Pack + Developer Pack product sources
+├── commercial/             # landing / funnel / Golden Path / launch contracts
+├── web/                    # Next.js public product surface
+├── tools/                  # builders, validators, probes, harnesses
+├── .ci/                    # durable CI / release / Golden Path receipts
+├── .approvals/             # explicit approval evidence
+└── .github/workflows/      # automation entry points
 ```
 
-## MK0 — current characterized foundation
+## Current integration state
 
-All current source mining and knowledge characterization belongs to MK0.
-
-### Alpacka receipts
-
-- **530** public prompt UUID references;
-- **22** source-observed categories;
-- **52** free records whose public detail RPC returned content;
-- **478** premium source records whose public detail RPC returned `content: null`;
-- **0** category mismatches in the certified detail harvest;
-- **478/478** non-empty repository-authored reconstructions for those premium references;
-- **12** public Skill references;
-- **3** generator-preview references;
-- **2** normalized blog references;
-- **18** prompt-construction techniques observed in the current free-corpus mining pass;
-- Golden Dataset and human TXT materialization operational.
-
-The premium source `null` remains evidence about source access; it is never relabeled as observed source wording. Repository-authored reconstructions remain explicitly `derived`.
-
-Key paths:
-
-- `quarry/normalized/alpacka-ai-prompt-metadata.jsonl`
-- `quarry/analysis/`
-- `quarry/fixtures/`
-- `library/prompts/alpacka/derived-premium/`
-- `readable/`
-
-## MK1 — Prompt Forge status
-
-### F0 — Contracts: COMPLETE
-
-The Forge has explicit Task Brief, Prompt Artifact, fixture and quality/certification contracts.
-
-Key files:
-
-- `mk1/specs/PROMPT_CONTRACT.md`
-- `mk1/specs/TASK_BRIEF.schema.json`
-- `mk1/specs/PROMPT_ARTIFACT.schema.json`
-- `mk1/rubrics/PROMPT_QUALITY_RUBRIC.md`
-- `mk1/fixtures/README.md`
-
-### F1 — Architecture selector + static guardrails: COMPLETE / CI PASS
-
-Implemented:
-
-- explainable architecture selector;
-- static linter;
-- 5 selector characterization fixtures;
-- 6 linter regression cases;
-- dedicated CI gate.
-
-The selector deliberately keeps simple tasks compact and gives reliability/safety blocks to complex or high-stakes tasks.
-
-### F2 — Candidate assembler: COMPLETE / 3 VALID CANDIDATES
-
-The Forge now performs:
+The active integration train is:
 
 ```text
-Task Brief
-   ↓
-architecture selection
-   ↓
-deterministic prompt assembly
-   ↓
-static lint
-   ↓
-VALID candidate bundle
+feat/mk1-prompt-generator-v0-20260827
 ```
 
-First persisted candidate bundles:
+It is tracked by draft PR `#2` into `main`.
 
-- `mk1/candidates/f2/content_clear_rewrite/`
-- `mk1/candidates/f2/software_code_review/`
-- `mk1/candidates/f2/research_technical_decision/`
+`main` is intentionally not treated as the current product truth until that integration train is reconciled and promoted.
 
-Each bundle contains:
+### MK0
+
+MK0 has moved beyond simple corpus collection into semantic artifact and corpus governance. Reference material cannot silently become canonical Prompt Quarry truth, and structural quality evaluation is limited to artifacts whose semantic type is appropriate for that evaluation.
+
+Use `mk0/README.md` and current characterization receipts for exact corpus state.
+
+### MK1
+
+The repository now contains infrastructure across the Forge pipeline rather than stopping at F2.
+
+Prompt Generator v0 has a durable static CI receipt with:
 
 ```text
-artifact.json
-architecture.json
-lint.json
-prompt.txt
+dependencies          PASS
+compile               PASS
+F1/F2 regression      PASS
+generator tests       PASS
+example generation    PASS
 ```
 
-All three are `VALID`, `lint=PASS`, `0 warnings`, and claim only `engineered`.
+That receipt establishes static generator behavior only. It does **not** establish behavioral superiority or certification.
 
-**They are deliberately NOT labeled TESTED, CERTIFIED or IMPROVED yet.** Those labels require F4–F6 evidence.
-
-### F3 — Critic: NEXT
-
-Next work deepens static quality analysis beyond the current linter:
-
-- contradiction detection;
-- vague-output detection;
-- instruction redundancy;
-- unsupported-assumption checks;
-- provenance/truth-boundary checks;
-- high-stakes critic reports;
-- permanent regression fixtures.
-
-Canonical construction vocabulary remains:
+Canonical maturity ladder:
 
 ```text
-PURPOSE
-↓
-ROLE
-↓
-CONTEXT
-↓
-INTAKE
-↓
-ASSUMPTIONS
-↓
-PROCESS
-↓
-RULES / CONSTRAINTS
-↓
-OUTPUT CONTRACT
-↓
-QUALITY GATE
-↓
-FALLBACK / UNCERTAINTY BEHAVIOR
+DRAFT
+  ↓
+VALID
+  ↓
+TESTED
+  ↓
+CANDIDATE / IMPROVED
+  ↓
+CERTIFIED
+  ↓
+PORTABLE
 ```
 
-Not every task needs every block. Section count is not a quality metric.
+No higher state may be inferred from CI success, generated examples, deployment health, or product packaging alone.
 
-## MK2 — Prompt Engine status
+### MK2
 
-**Architecture only — not implemented.**
+`ARCHITECTURE ONLY / DEFERRED`
 
-MK2 waits for MK1 behavioral fixtures, baseline comparisons, repeatable certification, multiple certified prompt families and version/deprecation semantics.
+MK2 should not become the active implementation front until MK1 has enough real behavioral evidence, certified families, portability evidence, and lifecycle/version semantics to justify automatic orchestration.
 
-## Current program status
+## Product surfaces
+
+### Free Developer Starter Pack v1.1.0
+
+Current public state:
 
 ```text
-MK0: ACTIVE / USABLE FOUNDATION
-MK1: F0 COMPLETE
-     F1 COMPLETE / CI PASS
-     F2 COMPLETE / 3 VALID ENGINEERED CANDIDATES
-     F3 NEXT
-MK2: ARCHITECTURE ONLY / DEFERRED
+DELIVERY          VERIFIED
+VERSION           1.1.0
+FILES             7
+ZIP BYTES         23498
+SHA-256           55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
 ```
 
-No MK1 prompt is currently claimed as `CERTIFIED` or empirically `IMPROVED`.
+Public surface:
+
+`https://prompt-quarry.vercel.app/free/developer-starter-pack`
+
+The Free Pack is useful product material, not behavioral certification evidence.
+
+### Developer Pack v1.1
+
+Current governed state:
+
+```text
+RELEASE_CANDIDATE RC1
+NOT_FOR_SALE
+13 customer-visible assets
+static maturity: VALID_CANDIDATE
+F4 TESTED:    NO
+F5 IMPROVED:  NO
+F6 CERTIFIED: NO
+F7 PORTABLE:  NO
+```
+
+The RC1 source inventory is frozen and its deterministic builder exists. The remaining release blocker is physical archive evidence: successful deterministic execution, two byte-identical builds, recorded archive SHA-256/size, and approval bound to that exact artifact.
+
+Do not enable paid checkout before that gate closes.
+
+## Public Golden Path
+
+Canonical production domain:
+
+`https://prompt-quarry.vercel.app`
+
+Required route behavior is defined by:
+
+`commercial/GOLDEN_PATH_CONTRACT_V1.json`
+
+Current durable resilience evidence:
+
+`.ci/golden-path/wave2-production-20260829.json`
+
+Observed infrastructure classification:
+
+```text
+HEALTHY_THROUGH_C200_WITHIN_TESTED_ENVELOPE
+runtime_errors = 0
+free artifact integrity preserved
+checkout = intentional 503 HOLD
+webhook GET = expected 405 route presence
+```
+
+This is serving/infrastructure evidence only. It is not F4/F5/F6/F7 evidence and it is not payment proof.
+
+## Commercial status
+
+The canonical commercial execution snapshot is:
+
+`commercial/STATUS_V1.md`
+
+Current sequence:
+
+```text
+Developer Pack RC1 deterministic build
+        ↓
+exact archive fingerprint + approval
+        ↓
+packaging/commercial READY
+        ↓
+provider provisioning + controlled test order
+        ↓
+signed provider webhook + exact paid delivery
+        ↓
+PQ-LAUNCH-0
+        ↓
+real non-test purchase
+        ↓
+PQ-$1
+```
+
+The public Free Pack path is live. The paid path is intentionally held.
+
+## Current merge boundary
+
+The draft integration PR should not be merged just because production serves correctly.
+
+Before promotion to `main`, reconcile at least:
+
+1. canonical docs/status against observed repository and production state;
+2. branch-level CI and durable receipt inventory;
+3. Developer Pack RC1 physical release evidence or an explicit decision to keep that gate post-merge;
+4. obsolete branches as `MERGE`, `SUPERSEDED`, or `ARCHIVE`;
+5. claims so no `TESTED`, `IMPROVED`, `CERTIFIED`, `PORTABLE`, payment, or revenue statement exceeds evidence.
+
+Prompt Quarry treats the distinction between **implemented**, **observed**, **validated**, **behaviorally proven**, and **commercially ready** as part of the product itself.
