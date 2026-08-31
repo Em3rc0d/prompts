@@ -1,8 +1,12 @@
+import { currentCommerceMode } from "@/lib/commerce-mode";
 import { evaluateLemonSqueezyWebhook, type LemonSqueezyConfig } from "@/lib/lemonsqueezy";
 
 export const runtime = "nodejs";
 
 function loadConfig(): LemonSqueezyConfig | null {
+  const commerceMode = currentCommerceMode();
+  if (commerceMode === "off") return null;
+
   const webhookSecret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
   const storeId = process.env.LEMONSQUEEZY_STORE_ID;
   const productId = process.env.LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID;
@@ -15,7 +19,7 @@ function loadConfig(): LemonSqueezyConfig | null {
     storeId,
     productId,
     variantId,
-    allowTestMode: process.env.LEMONSQUEEZY_ALLOW_TEST_MODE === "true",
+    commerceMode,
   };
 }
 
@@ -60,7 +64,9 @@ export async function POST(request: Request) {
   return Response.json({
     ok: true,
     accepted: true,
-    event: "purchase_completed",
+    event: evaluation.evidence.event,
     provider_order_id: evaluation.evidence.provider_order_id,
+    test_mode: evaluation.evidence.test_mode,
+    release: evaluation.evidence.release,
   });
 }
