@@ -538,7 +538,7 @@
     "unreviewed-source-harvest-data",
     "synthetic-output-presented-as-real-runtime-evidence"
   ],
-  "generated_at": "2026-08-28T17:01:02-05:00",
+  "generated_at": "2026-09-01T07:33:45-05:00",
   "generator_v0": {
     "bundled": false,
     "canonical_receipt": ".ci/mk1-prompt-generator-v0/latest.json",
@@ -553,11 +553,11 @@
     "archive_sha256": "sha256:038275e7ed0733777d27eb786d8c5752d2421926ee13358661c76d49183ae0c8",
     "claims_review_receipt": ".ci/developer-pack-v1/claims-review.json",
     "clean_room_receipt": ".ci/developer-pack-v1/clean-room-release-candidate.json",
-    "manifest_sha256": "sha256:2200c068789dbfbd607ec37290050554f1095f1223029f012a52aea5792abd31"
+    "manifest_sha256": "sha256:ce1eed0d4206b379a05890891588aa5e626bf328fc362ba901f5026c35502e15"
   },
   "release_status": "DRAFT",
   "schema": "prompt-quarry-product-manifest-v1",
   "source_branch": "feat/mk1-prompt-generator-v0-20260827",
-  "source_commit": "e20bef729eb6ad91626b0261d4abe2dd6c54c011",
+  "source_commit": "4386cf1496fcffef457dad0d3b3b9fe8151c1853",
   "version": "1.0.0-rc.1"
 }

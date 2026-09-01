@@ -5,6 +5,6 @@
   "included_assets": 21,
   "maximum_maturity_claim": "VALID",
   "schema": "prompt-quarry-claims-review-receipt-v1",
-  "source_commit": "e20bef729eb6ad91626b0261d4abe2dd6c54c011",
+  "source_commit": "4386cf1496fcffef457dad0d3b3b9fe8151c1853",
   "status": "PASS"
 }
