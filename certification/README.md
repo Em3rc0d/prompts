@@ -1,6 +1,6 @@
 # Prompt Quarry Certification Program
 
-Status: `ACTIVE / PCP-00 PASS / PCP-01 NEXT`
+Status: `ACTIVE / PCP-00 PASS / PCP-01 PASS / PCP-02 NEXT`
 
 This program converts the current Free and Paid product baselines into governed,
 testable prompt artifacts. It does not change the frozen product files in place.
@@ -67,9 +67,13 @@ Non-prompt assets      13
 Semantic families      4
 ```
 
-The prompt inventory is `inventory/product-prompt-inventory.v1.json`. The schema
+The prompt inventory is `inventory/product-prompt-inventory.v1.json`. Its schema
 is `specs/PRODUCT_PROMPT_INVENTORY.schema.json`, and the gate receipt is
 `receipts/pcp-00-inventory-audit.v1.json`.
+
+The frozen specifications are `specs/product-prompt-specifications.v1.json`.
+Their schema is `specs/PRODUCT_PROMPT_SPECIFICATION_SET.schema.json`, and the
+gate receipt is `receipts/pcp-01-spec-completeness.v1.json`.
 
 ## Artifact boundary
 
@@ -87,7 +91,7 @@ the baseline and are linked through `family_id`.
 
 ```text
 PROMPT_INVENTORY_AUDITED    PASS
-PROMPT_SPEC_COMPLETE        NOT_STARTED
+PROMPT_SPEC_COMPLETE        PASS
 STATIC_AUDIT_COMPLETE       NOT_STARTED
 PROMPT_TEST_MATRIX          NOT_STARTED
 F4_TESTED                   NO
@@ -112,7 +116,6 @@ with explicit `BEFORE -> FAILURE -> HYPOTHESIS -> AFTER -> RETEST` provenance.
 
 ## Next critical front
 
-`PCP-01 / Prompt Specification` is next. Each of the seven frozen prompt IDs must
-receive a complete purpose, target-user, input, output, constraint, limitation,
-supported-use-case, and out-of-scope contract before static or behavioral scoring
-begins.
+`PCP-02 / Static Quality Audit` is next. It must apply the frozen P1-P15 rubric
+without changing any prompt, record `PASS / WARN / FAIL / NOT_APPLICABLE` per
+criterion, and preserve every failure as baseline evidence for later test design.
