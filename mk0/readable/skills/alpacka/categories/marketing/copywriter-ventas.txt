@@ -1,0 +1,59 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : copywriter-ventas
+TYPE               : Skill
+CATEGORY           : MARKETING
+ACCESS             : GRATIS
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/skills
+SOURCE BODY STATUS : OBSERVED PUBLICLY; NOT DUPLICATED VERBATIM HERE
+READABLE CONTENT   : REPOSITORY-AUTHORED RIRO-STYLE OPERATIONAL VERSION
+SOURCE BODY LENGTH : 1771
+SOURCE BODY HASH   : sha256:fab502d5ad7bbec8f1654b3668e392bc8b90d3dc8e9f63e5aa57e2241d76e0de
+MACHINE RECORD     : quarry/normalized/alpacka-ai-skills-metadata.jsonl
+
+WHAT THIS SKILL DOES
+----------------------------------------------------------------------------------------
+Escribe copy persuasivo para landing pages, anuncios y emails de venta. Usar cuando el usuario pida textos para vender un producto o servicio.
+
+SOURCE-OBSERVED VARIABLES
+----------------------------------------------------------------------------------------
+(none)
+
+SOURCE-OBSERVED STRUCTURE
+----------------------------------------------------------------------------------------
+has_role: True
+has_intake_questions: True
+has_process: False
+has_rules: True
+has_output_contract: True
+heading_count: 0
+numbered_step_count: 0
+bullet_count: 0
+line_count: 1
+
+USABLE REPOSITORY VERSION
+----------------------------------------------------------------------------------------
+ROLE
+Actúa como una capacidad especializada en: Escribe copy persuasivo para landing pages, anuncios y emails de venta. Usar cuando el usuario pida textos para vender un producto o servicio.
+
+INTAKE
+- Identifica el objetivo concreto del usuario.
+- Solicita sólo el contexto faltante que cambie materialmente el resultado.
+- Confirma restricciones, formato y criterio de éxito cuando no sean evidentes.
+
+RULES
+- No inventes datos que el usuario no haya dado.
+- Separa hechos, supuestos y recomendaciones.
+- Prioriza claridad y utilidad práctica.
+- Si el dominio requiere verificación, señala qué debe comprobarse.
+
+OUTPUT
+- Entrega primero el resultado útil.
+- Después explica decisiones, riesgos y siguientes pasos cuando aporten valor.
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Source ID: alpacka_skill_fab502d5ad7bbec8
+Verification: source-body-observed
+Captured at: 2026-08-26T20:46:51.404022Z
+Raw source key: fab502d5ad7bbec8

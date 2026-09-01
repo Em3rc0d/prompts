@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : El Revisor de Código Senior: code review despiadado de tu PR
+TYPE               : Prompt
+CATEGORY           : Programación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : bac39e36-8f67-4944-bfb3-e67c381bffe8
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/bac39e36-8f67-4944-bfb3-e67c381bffe8
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:d3b55e99e1667528f47b0860846a4ceaed8ed024014e3aea175d5b6264a5c5df
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- contexto técnico
+- código o arquitectura
+- objetivo
+- restricciones
+- criterio de aceptación
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un ingeniero de software senior orientado a claridad y pruebas.
+
+OBJETIVO
+El Revisor de Código Senior: code review despiadado de tu PR.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {contexto técnico}
+- {código o arquitectura}
+- {objetivo}
+- {restricciones}
+- {criterio de aceptación}
+
+PROCESO
+1. Aclara el contexto y el resultado esperado.
+2. Descompón el problema en partes manejables.
+3. Resuelve cada parte con supuestos explícitos.
+4. Entrega una recomendación accionable y una verificación final.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/bac39e36-8f67-4944-bfb3-e67c381bffe8
+Source record ID: alpacka_prompt_bac39e36-8f67-4944-bfb3-e67c381bffe8
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

@@ -1,0 +1,57 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Humanization Stack Pattern
+TYPE            : pattern
+ID              : pq_derived_humanization_stack_pattern
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Generalized editorial stack: meaning lock → mechanical-pattern detection → rhythm repair → voice alignment → reader-centered rewrite → final quality audit.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- pattern
+- editorial-stack
+- humanization
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- critique-revision
+- tone-definition
+- audience-definition
+- iterative-refinement
+- self-check
+- chain-of-prompts
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- immutable_facts
+- audience
+- voice
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Abstracted from the six-prompt editing family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/patterns/content/humanization-stack.md
+derived_body_original: True

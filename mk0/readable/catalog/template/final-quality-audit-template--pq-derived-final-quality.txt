@@ -1,0 +1,56 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Final Quality Audit Template
+TYPE            : template
+ID              : pq_derived_final_quality_audit_template
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Final editorial audit template that ranks issues, proposes minimal edits and verifies factual/terminology preservation.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- final-review
+- audit
+- template
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- critique-revision
+- self-check
+- rubric-evaluation
+- evidence-requirement
+- explicit-constraints
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- audience
+- purpose
+- facts
+- required_terms
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Generalized from the final-review behavior observed in the source family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/content/final-quality-audit.md
+derived_body_original: True

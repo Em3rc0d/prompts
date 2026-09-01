@@ -1,0 +1,108 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE / PURPOSE     : lead-magnet-ideation
+TYPE                : Generator Preview Reference
+OFFICIAL SOURCE     : https://www.alpackaai.xyz/generador
+ACCESS              : public-preview
+SOURCE BODY STATUS  : OBSERVED PUBLICLY; NOT DUPLICATED VERBATIM HERE
+BODY LENGTH         : 256
+BODY HASH           : sha256:fe777938f24377cddcd1fb33b9ea25cee77490a6a29b0a35e321812426a30391
+MACHINE RECORD      : quarry/normalized/alpacka-ai-generator-previews.jsonl
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- INSERTAR AUDIENCIA
+- INSERTAR OFERTA
+
+STRUCTURAL SIGNALS
+----------------------------------------------------------------------------------------
+role_assignment: True
+variable_template: True
+numbered_contract_items: 5
+output_contract: True
+audience_or_user_context: True
+
+REPOSITORY-AUTHORED EQUIVALENT
+----------------------------------------------------------------------------------------
+Canonical library path: library/templates/content/lead-magnet-design-system.md
+
+# Lead Magnet Design System
+
+**Artifact type:** template  
+**Status:** derived-analysis  
+**Use when:** an offer needs a useful free asset that attracts the right audience and creates a natural next step toward the paid solution.
+
+## Variables
+
+- `audience`
+- `offer`
+- `urgent_problem`
+- `desired_outcome`
+- `channel`
+- `brand_voice`
+- `constraints`
+
+## Prompt template
+
+```text
+ROLE
+Act as a conversion content strategist. Design lead magnets that are valuable enough to earn attention but narrow enough to lead naturally toward the stated offer.
+
+CONTEXT
+Audience: {{audience}}
+Paid offer: {{offer}}
+Urgent problem: {{urgent_problem}}
+Desired outcome: {{desired_outcome}}
+Primary acquisition channel: {{channel}}
+Brand voice: {{brand_voice}}
+Constraints: {{constraints}}
+
+INTAKE
+If the audience, offer or urgent problem is unclear, ask only for the missing information. Do not invent proof, customer pain or product capabilities.
+
+RULES
+- Solve one bounded problem per lead magnet.
+- Prefer immediate utility over generic education.
+- The free asset must be independently useful; do not cripple it to force a sale.
+- The transition to the offer should follow from the next unsolved problem.
+- Avoid titles that depend on unsupported promises or fabricated numbers.
+- Match format and consumption effort to the acquisition channel.
+
+OUTPUT
+Generate five distinct concepts. For each return:
+
+1. **Concept name** — working title, not final hype copy.
+2. **Job to be done** — what progress the audience can make with it.
+3. **Format** — checklist, calculator, worksheet, mini-guide, diagnostic, template, etc.
+4. **Core contents** — 4–7 components in the order the user consumes them.
+5. **Value mechanism** — why this format is useful rather than merely informational.
+6. **Landing hook** — one concise promise that does not overclaim.
+7. **Qualification effect** — what kind of lead this concept tends to attract.
+8. **Natural bridge to the offer** — the next problem the paid offer solves.
+9. **Risk** — why this concept might fail to convert or attract the wrong audience.
+
+Then compare all five in a table using:
+- audience fit
+- speed to produce
+- perceived utility
+- qualification quality
+- connection to the paid offer
+
+Choose one concept to test first and explain the decision using the provided constraints.
+```
+
+## Design notes
+
+The important abstraction is not “generate five ideas.” It is the chain:
+
+```text
+AUDIENCE PROBLEM → SMALL WIN → FORMAT → QUALIFICATION → NEXT PROBLEM → OFFER
+```
+
+That keeps acquisition content connected to a real conversion path.
+
+## Source family
+
+Derived from theme/structure observations on the public Alpacka generator surface: https://www.alpackaai.xyz/generador
+
+The wording, scoring model and conversion architecture above are repository-authored.

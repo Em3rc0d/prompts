@@ -1,0 +1,162 @@
+# Prompt Quarry MK0 policy-contract: v1.3.0
+name: Characterize MK0 Harvest Batch 001
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - tools/mk0_characterize_harvest.py
+      - tools/mk0_semantic_artifact_gate.py
+      - tools/test_mk0_semantic_artifact_gate.py
+      - tools/mk0_harvester_router.py
+      - tools/test_mk0_harvester_router.py
+      - tools/mk0_build_human_review_queue.py
+      - mk0/harvester/POLICY.json
+      - mk0/harvester/CANDIDATE_RECORD.schema.json
+      - mk0/reference-corpus/README.md
+      - mk0/normalized/harvester/source-records.jsonl
+      - .github/workflows/characterize-mk0-harvest.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tools/mk0_characterize_harvest.py
+      - tools/mk0_semantic_artifact_gate.py
+      - tools/test_mk0_semantic_artifact_gate.py
+      - tools/mk0_harvester_router.py
+      - tools/test_mk0_harvester_router.py
+      - tools/mk0_build_human_review_queue.py
+      - mk0/harvester/POLICY.json
+      - mk0/harvester/CANDIDATE_RECORD.schema.json
+      - mk0/reference-corpus/README.md
+      - mk0/normalized/harvester/source-records.jsonl
+      - .github/workflows/characterize-mk0-harvest.yml
+
+permissions:
+  contents: write
+
+jobs:
+  characterize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install validation dependency
+        run: python -m pip install jsonschema
+      - name: Enforce routing and corpus governance
+        run: python tools/test_mk0_harvester_router.py
+      - name: Reproduce human calibration decisions
+        run: python tools/test_mk0_semantic_artifact_gate.py
+      - name: Characterize 183 observations
+        run: python tools/mk0_characterize_harvest.py
+      - name: Build policy-versioned human review queue
+        run: python tools/mk0_build_human_review_queue.py
+      - name: Enforce characterization and queue invariants
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          policy=json.loads(Path('mk0/harvester/POLICY.json').read_text())
+          receipt=json.loads(Path('mk0/analysis/harvester/characterization-batch-001-receipt.json').read_text())
+          records=[json.loads(line) for line in Path('mk0/golden-dataset/candidate-queue/batch-001.jsonl').read_text().splitlines() if line.strip()]
+          references=[json.loads(line) for line in Path('mk0/reference-corpus/batch-001.jsonl').read_text().splitlines() if line.strip()]
+          containers=[json.loads(line) for line in Path('mk0/extraction-queue/batch-001.jsonl').read_text().splitlines() if line.strip()]
+          queue_summary=json.loads(Path('mk0/analysis/harvester/human-review-queue-batch-001-v1-3-0.json').read_text())
+          queue=[json.loads(line) for line in Path('mk0/golden-dataset/human-review-queue/batch-001-v1-3-0.jsonl').read_text().splitlines() if line.strip()]
+
+          assert policy['policy_version']=='1.3.0', policy
+          assert receipt['policy_version']==policy['policy_version'], receipt
+          assert receipt['status']=='PASS'
+          assert receipt['records']==183, receipt
+          assert len(records)==183
+          assert {r['policy_version'] for r in records}=={policy['policy_version']}
+          assert sum(receipt['routes'].values())==183, receipt
+          assert sum(receipt['confidence_bands'].values())==183, receipt
+          assert sum(receipt['semantic_dispositions'].values())==183, receipt
+          assert receipt['reference_corpus_records']==receipt['semantic_dispositions'].get('REFERENCE_CORPUS',0)
+          assert receipt['prompt_container_records']==receipt['semantic_dispositions'].get('EXTRACTION_REQUIRED',0)
+          assert len(references)==receipt['reference_corpus_records']
+          assert len(containers)==receipt['prompt_container_records']
+          assert receipt['eligibility']['golden_research_eligible'] <= 183
+          assert receipt['eligibility']['distribution_eligible'] <= receipt['eligibility']['golden_research_eligible']
+
+          for record in references:
+              gate=record['semantic_gate']
+              assert gate['disposition']=='REFERENCE_CORPUS', record['candidate_id']
+              assert gate['canonical'] is False, record['candidate_id']
+              assert gate['authority']=='NON_CANONICAL_REFERENCE', record['candidate_id']
+              assert record['route']!='GOLDEN_CANDIDATE', record['candidate_id']
+              assert record['eligibility']['golden_research_eligibility']['eligible'] is False, record['candidate_id']
+
+          for record in containers:
+              gate=record['semantic_gate']
+              assert gate['artifact_class']=='PROMPT_CONTAINER', record['candidate_id']
+              assert gate['disposition']=='EXTRACTION_REQUIRED', record['candidate_id']
+              assert gate['canonical'] is False, record['candidate_id']
+              assert gate['authority']=='SOURCE_CONTAINER_ONLY', record['candidate_id']
+              assert record['route']=='HOLD', record['candidate_id']
+              assert record['eligibility']['golden_research_eligibility']['eligible'] is False, record['candidate_id']
+              assert record['eligibility']['distribution_eligibility']['eligible'] is False, record['candidate_id']
+
+          for record in records:
+              if record['route']=='GOLDEN_CANDIDATE':
+                  assert record['semantic_gate']['disposition']=='GOLDEN_EVALUATION', record['candidate_id']
+                  assert record['semantic_gate']['authority']=='CANONICAL_CANDIDATE_ONLY', record['candidate_id']
+
+          expected_review_count=receipt['routes'].get('HUMAN_REVIEW_REQUIRED',0)
+          assert queue_summary['status']=='PASS', queue_summary
+          assert queue_summary['policy_version']==policy['policy_version'], queue_summary
+          assert queue_summary['records']==expected_review_count, (queue_summary, receipt)
+          assert len(queue)==expected_review_count
+          assert sum(queue_summary['priority_buckets'].values())==expected_review_count
+          assert sum(queue_summary['semantic_artifact_classes'].values())==expected_review_count
+          assert all(r['machine_route']=='HUMAN_REVIEW_REQUIRED' for r in queue)
+          assert all(r['policy_version']==policy['policy_version'] for r in queue)
+          assert len(queue_summary['first_review_set'])==min(10, expected_review_count)
+
+          print(json.dumps(receipt,indent=2))
+          print(json.dumps(queue_summary,indent=2))
+          print(f"POLICY PROVENANCE: PASS ({policy['policy_version']})")
+          print(f"REFERENCE CORPUS BOUNDARY: PASS ({len(references)} records)")
+          print(f"PROMPT CONTAINER BOUNDARY: PASS ({len(containers)} records)")
+          print(f"HUMAN REVIEW QUEUE: PASS ({len(queue)} records)")
+          PY
+      - name: Upload characterization evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk0-characterization-batch-001-v1-3-0
+          path: |
+            mk0/golden-dataset/candidate-queue/batch-001.jsonl
+            mk0/reference-corpus/batch-001.jsonl
+            mk0/extraction-queue/batch-001.jsonl
+            mk0/analysis/harvester/characterization-batch-001-receipt.json
+            mk0/analysis/harvester/human-review-queue-batch-001-v1-3-0.json
+            mk0/golden-dataset/human-review-queue/batch-001-v1-3-0.jsonl
+            mk0/golden-dataset/human-review-queue/templates-v1-3-0/*.json
+            mk0/normalized/harvester/source-records.jsonl
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit generated MK0 batch artifacts
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "prompt-quarry-bot"
+          git config user.email "prompt-quarry-bot@users.noreply.github.com"
+          git add \
+            mk0/golden-dataset/candidate-queue/batch-001.jsonl \
+            mk0/reference-corpus/batch-001.jsonl \
+            mk0/extraction-queue/batch-001.jsonl \
+            mk0/analysis/harvester/characterization-batch-001-receipt.json \
+            mk0/analysis/harvester/human-review-queue-batch-001-v1-3-0.json \
+            mk0/golden-dataset/human-review-queue/batch-001-v1-3-0.jsonl \
+            mk0/golden-dataset/human-review-queue/templates-v1-3-0
+          if git diff --cached --quiet; then
+            echo "No MK0 generated changes"
+          else
+            git commit -m "data(mk0): characterize batch 001 under policy v1.3.0"
+            git push
+          fi

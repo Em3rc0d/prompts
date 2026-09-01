@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Em3rc0d/prompts/catalog/schema.json",
+  "title": "Prompt Quarry Catalog Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "artifact_type",
+    "source_id",
+    "source_url",
+    "capture_mode",
+    "verification",
+    "language",
+    "categories",
+    "tags",
+    "techniques",
+    "provenance"
+  ],
+  "properties": {
+    "id": {"type": "string", "minLength": 3},
+    "artifact_type": {
+      "enum": ["prompt", "skill", "workflow", "template", "pattern", "guide", "reference"]
+    },
+    "title": {"type": ["string", "null"]},
+    "source_id": {"type": "string"},
+    "source_url": {"type": "string", "format": "uri"},
+    "official_post_url": {"type": ["string", "null"], "format": "uri"},
+    "raw_url": {"type": ["string", "null"], "format": "uri"},
+    "source_snapshot_path": {"type": ["string", "null"]},
+    "author": {"type": ["string", "null"]},
+    "published_at": {"type": ["string", "null"]},
+    "captured_at": {"type": ["string", "null"]},
+    "capture_mode": {
+      "enum": ["direct-source", "api", "rendered-page", "indexed-reference", "user-provided", "derived-analysis"]
+    },
+    "verification": {
+      "enum": ["source-body-observed", "source-url-observed", "secondary-source-observed", "metadata-only", "unverified", "blocked"]
+    },
+    "language": {"enum": ["es", "en", "mixed", "unknown"]},
+    "model_targets": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "categories": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "techniques": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "body": {"type": ["string", "null"]},
+    "summary": {"type": ["string", "null"]},
+    "variables": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "observed_titles": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "fingerprint": {"type": ["string", "null"]},
+    "duplicate_of": {"type": ["string", "null"]},
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["url", "relation"],
+        "properties": {
+          "url": {"type": "string", "format": "uri"},
+          "relation": {
+            "enum": ["primary", "secondary", "mirror", "citation", "discovery", "derived-from"]
+          },
+          "note": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "metadata": {"type": "object"}
+  }
+}

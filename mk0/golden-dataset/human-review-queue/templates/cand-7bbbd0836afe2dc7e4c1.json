@@ -1,0 +1,19 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-7bbbd0836afe2dc7e4c1",
+  "candidate_id": "cand-7bbbd0836afe2dc7e4c1",
+  "candidate_fingerprint": "sha256:6d7e03f127ac26349c23a37cffec98183deacccd405d25ec37584ff0802420cb",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "REJECT",
+  "decision_reason_codes": [
+    "NOT_PROMPT_ARTIFACT",
+    "CODEBASE_GUIDE"
+  ],
+  "rationale": "Human owner rejected the candidate because the artifact is primarily codebase documentation/context rather than a reusable prompt artifact suitable for the Golden Dataset.",
+  "reviewed_at": "2026-08-27T21:08:00-05:00",
+  "machine_confidence_at_review": 0.94,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [],
+  "source_commit": null
+}

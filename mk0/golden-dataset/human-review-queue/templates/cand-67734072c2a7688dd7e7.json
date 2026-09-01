@@ -1,0 +1,19 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-67734072c2a7688dd7e7",
+  "candidate_id": "cand-67734072c2a7688dd7e7",
+  "candidate_fingerprint": "sha256:6e421c7a2d256b4e9c6d96b7cea7a41c859c0668610d15d43d8c17617b253a07",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "APPROVE_CANDIDATE",
+  "decision_reason_codes": [
+    "HUMAN_OWNER_APPROVED",
+    "STRONG_INTERNAL_RESEARCH_VALUE"
+  ],
+  "rationale": "Human owner approved this candidate as a strong internal research specimen for software-operate agent instructions. Approval applies to Golden Dataset candidacy only and does not grant redistribution rights or behavioral certification.",
+  "reviewed_at": "2026-08-28T02:03:00Z",
+  "machine_confidence_at_review": 0.945,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [],
+  "source_commit": null
+}

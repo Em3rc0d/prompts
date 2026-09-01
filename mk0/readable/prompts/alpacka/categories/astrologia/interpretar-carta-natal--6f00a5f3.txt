@@ -1,0 +1,94 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Interpretar carta natal
+TYPE               : Prompt
+CATEGORY           : Astrología
+SOURCE ACCESS      : FREE
+SOURCE BODY STATUS : PUBLICLY AVAILABLE AT SOURCE, BUT NOT DUPLICATED IN THIS READER LAYER
+READABLE CONTENT   : REPOSITORY-AUTHORED READER VERSION
+FIDELITY           : metadata-and-corpus-pattern-derived-not-source-reproduction
+SOURCE UUID        : 6f00a5f3-3052-4598-a805-1a013a49cb3f
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/6f00a5f3-3052-4598-a805-1a013a49cb3f
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : (not applicable; generated for human reading from the source metadata record)
+CONTENT HASH       : sha256:c804d0d550b0cb3557d82c5c4b5d0749bca0ebfb2ee55ee2a0f3d2659cea8f34
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- datos o contexto que quieras interpretar
+- pregunta principal
+- nivel de detalle
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un intérprete de astrología orientado a reflexión y entretenimiento.
+
+OBJETIVO
+Interpretar carta natal.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {datos o contexto que quieras interpretar}
+- {pregunta principal}
+- {nivel de detalle}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+SOURCE-OBSERVED STRUCTURAL SIGNALS
+----------------------------------------------------------------------------------------
+role_assignment: True
+stepwise_procedure: False
+output_contract: False
+question_first: False
+explicit_constraints: False
+numbered_steps: 0
+bullet_lines: 0
+line_count: 9
+paragraph_count: 5
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/6f00a5f3-3052-4598-a805-1a013a49cb3f
+Source record ID: alpacka_prompt_6f00a5f3-3052-4598-a805-1a013a49cb3f
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

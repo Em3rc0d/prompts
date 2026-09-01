@@ -2,109 +2,129 @@
 
 > **Question:** What exists, what did we actually observe, and what reusable knowledge can we extract from it?
 
-MK0 is the evidence, characterization and knowledge-mining foundation of Prompt Quarry.
+MK0 is the physical evidence and knowledge foundation of Prompt Quarry. It owns the source-derived material, normalized observations, indexes, analysis, Golden Dataset, reviewed reusable knowledge, source maps and human-readable projections that MK1 consumes.
 
-Everything built before the Prompt Forge belongs logically to MK0, even when the physical files remain in existing top-level directories. We intentionally do **not** move those files merely to make the tree look cleaner: provenance, Git history and stable paths matter more than cosmetic restructuring.
+MK0 is **not** a prompt-generation stage. New Prompt Quarry prompts and skills are engineered in MK1.
 
-## MK0 mission
+## Physical architecture
 
-MK0 turns external observations into a durable, inspectable and reusable knowledge base without confusing source material with repository-authored artifacts.
+```text
+mk0/
+├── raw/                # source observations / harvest evidence
+├── normalized/         # normalized machine-readable observations
+├── catalog/            # identities, taxonomy, source registry, provenance
+├── indexes/            # navigation and retrieval indexes
+├── analysis/           # aggregate mining, technique vectors, architecture signals
+├── golden-dataset/     # reviewed deterministic fixtures / regression evidence
+├── promotions/         # reviewed promotion staging
+├── library/            # repository-authored reusable knowledge, patterns, templates
+├── sources/            # source-family maps and source-specific knowledge
+├── readable/           # additive human-readable materialization
+├── MANIFEST.json       # machine-readable MK0 contract
+└── README.md
+```
+
+Shared execution infrastructure remains at repository root:
+
+```text
+tools/               collectors, miners, builders, validators
+docs/                cross-stage architecture and program documentation
+.github/workflows/    CI / harvest / validation automation
+```
+
+Those directories may operate on MK0, MK1 and MK2; they are not part of MK0's canonical data boundary.
+
+## Knowledge flow
 
 ```text
 EXTERNAL SOURCES
       │
       ▼
-raw evidence
+mk0/raw
       │
       ▼
-normalized metadata
+mk0/normalized
       │
-      ├── indexes
-      ├── structural analysis
-      ├── technique vectors
+      ├── mk0/catalog
+      ├── mk0/indexes
+      ├── mk0/analysis
       └── provenance
       │
       ▼
-Golden Dataset / fixtures
+mk0/golden-dataset
       │
       ▼
-repository-authored patterns, templates and reconstructions
+mk0/library + mk0/sources
       │
       ▼
-human-readable TXT layer
+mk0/readable
+      │
+      ▼
+MK1 — Prompt / Skill Forge
 ```
 
-## Physical paths that belong to MK0
-
-MK0 is an architectural boundary, not a single folder.
-
-| MK0 responsibility | Current repository path |
-|---|---|
-| Source registry | `catalog/sources.jsonl` |
-| Canonical evidence catalog | `catalog/catalog.jsonl` |
-| Taxonomy/schema | `catalog/schema.json`, `catalog/taxonomy.yaml` |
-| Raw evidence | `quarry/raw/` |
-| Normalized observations | `quarry/normalized/` |
-| Source/category indexes | `quarry/indexes/` |
-| Mining and aggregate analysis | `quarry/analysis/` |
-| Golden/regression evidence | `quarry/fixtures/` |
-| Reviewed promotion staging | `quarry/promotions/` |
-| Source-family maps | `sources/` |
-| Reusable knowledge derived during quarry work | `library/` |
-| Human-reading materialization | `readable/` |
-| Collectors/miners/builders | `tools/` |
-| Evidence and architecture docs | `docs/` |
-| Validation/harvest automation | `.github/workflows/` |
-
-## MK0 contains source-observed and derived knowledge
-
-Two things can coexist in MK0, but they must never be confused:
+## Truth boundaries
 
 ```text
 SOURCE OBSERVATION
     ≠
 REPOSITORY-AUTHORED DERIVATION
+    ≠
+MK1 ENGINEERED ARTIFACT
 ```
 
-For example:
+Examples:
 
-- a public Alpacka UUID/title/category is a source observation;
-- a hash or technique vector is derived analysis;
-- a Prompt Quarry reconstruction created from public metadata is repository-authored content;
-- RIRO is a repository-authored pattern extracted from aggregate evidence.
+- an observed public UUID/title/category is source evidence;
+- an extracted technique vector is MK0 analysis;
+- a reconstruction authored from public metadata is MK0 derived knowledge, not observed source wording;
+- RIRO is reviewed reusable MK0 knowledge;
+- a new Prompt Quarry prompt or skill built from those signals belongs to MK1.
 
-Every layer must preserve that distinction explicitly.
+## Current characterized baseline
 
-## Current characterized Alpacka evidence
-
-The current MK0 baseline includes:
+The current MK0 snapshot records:
 
 - 530 public prompt references;
 - 22 source-observed categories;
-- 52 free records whose public detail endpoint returned content;
+- 52 free records whose public detail endpoint returned prompt content;
 - 478 premium source records whose public detail endpoint returned `content: null`;
-- 478/478 non-empty repository-authored usable reconstructions for those premium references;
+- 478/478 non-empty repository-authored reconstructions for those premium references;
 - 12 public Skill references;
-- 3 public generator preview references;
+- 3 public generator-preview references;
 - 2 normalized public blog references;
 - 18 observed prompt-construction techniques in the free-prompt mining pass;
-- a Golden Dataset selected from the free-prompt evidence;
-- a complete TXT human-reading layer without deleting raw/JSON evidence.
+- a reviewed Golden Dataset;
+- an additive TXT/human-reading layer.
 
-These counts are receipts for the current characterized source snapshot, not universal claims about everything that exists on the source platform.
+These are receipts for the characterized snapshot, not universal claims about everything available on the source platform.
 
-## MK0 outputs that MK1 is allowed to consume
+## Canonical MK0 paths
 
-MK1 should preferentially consume stable knowledge products rather than raw scraped material:
+| Responsibility | Canonical path |
+|---|---|
+| Raw evidence | `mk0/raw/` |
+| Normalized observations | `mk0/normalized/` |
+| Source registry / canonical catalog | `mk0/catalog/` |
+| Source and category indexes | `mk0/indexes/` |
+| Mining / aggregate analysis | `mk0/analysis/` |
+| Golden Dataset / regression evidence | `mk0/golden-dataset/` |
+| Reviewed promotion staging | `mk0/promotions/` |
+| Reusable patterns/templates/derived knowledge | `mk0/library/` |
+| Source-family maps | `mk0/sources/` |
+| Human-readable projection | `mk0/readable/` |
 
-1. `quarry/fixtures/` — deterministic evidence fixtures;
-2. `quarry/analysis/` — technique and architecture signals;
-3. `catalog/` — canonical identities, provenance and taxonomy;
-4. `library/patterns/` — reviewed reusable construction patterns;
-5. `library/templates/` — repository-authored reusable templates;
-6. category/source indexes — retrieval/navigation context.
+## What MK1 may consume
 
-Raw observations remain available for audit and debugging but should not become an implicit prompt-generation dependency.
+MK1 should consume stable MK0 knowledge products, not silently depend on arbitrary raw source bodies. Preferred inputs are:
+
+1. `mk0/golden-dataset/` — deterministic reviewed evidence;
+2. `mk0/analysis/` — technique and architecture signals;
+3. `mk0/catalog/` — canonical identities, taxonomy and provenance;
+4. `mk0/library/` — reviewed reusable construction knowledge;
+5. `mk0/indexes/` and `mk0/sources/` — retrieval/navigation context.
+
+`mk0/raw/` remains available for audit, reproducibility and debugging.
 
 ## MK0 quality rules
 
@@ -112,12 +132,12 @@ Raw observations remain available for audit and debugging but should not become 
 - `UNKNOWN != PASS`.
 - Source body unavailable means unavailable; never infer it as observed.
 - Provenance survives deduplication.
-- Raw is not silently rewritten.
+- Raw evidence is not silently rewritten.
 - Source text and repository-authored text remain distinguishable.
 - Human-readable material is additive; it never replaces machine evidence.
 - A failed validation gate must not silently promote an artifact.
 
-## MK0 relationship to MK1
+## Boundary with MK1
 
 MK0 asks:
 
@@ -125,17 +145,6 @@ MK0 asks:
 
 MK1 asks:
 
-> **Can we engineer a better, testable artifact from that knowledge?**
+> **Can we engineer, test and certify better prompts and skills from that knowledge?**
 
-MK0 does not need to stop evolving when MK1 begins. It becomes a versioned knowledge foundation. New source observations can continue to improve future MK1 prompt generations without changing the meaning of already-certified MK1 artifacts.
-
-## Exit from quarry into forge
-
-An observation is ready to influence MK1 when at least one of these is true:
-
-- it is a reviewed Golden Fixture;
-- it contributes to a characterized aggregate technique/pattern;
-- it is a repository-authored MK0 pattern/template with explicit provenance;
-- it has stable taxonomy and a clearly understood evidence state.
-
-A source URL alone is not sufficient evidence that its wording or architecture should be copied into MK1.
+MK0 can keep evolving as a versioned quarry while already-built MK1 artifacts preserve their own lineage and fingerprints.

@@ -1,0 +1,676 @@
+{
+  "records": 52,
+  "source": "quarry/normalized/alpacka-ai-prompt-metadata.jsonl",
+  "body_storage_policy": "Free prompt bodies are fetched from the public RPC, analyzed in memory and discarded. Only fingerprints, technique vectors and aggregate features are written.",
+  "technique_presence": {
+    "variable-template": {
+      "count": 45,
+      "percent": 86.54
+    },
+    "role-assignment": {
+      "count": 43,
+      "percent": 82.69
+    },
+    "stepwise-procedure": {
+      "count": 31,
+      "percent": 59.62
+    },
+    "task-decomposition": {
+      "count": 28,
+      "percent": 53.85
+    },
+    "context-injection": {
+      "count": 21,
+      "percent": 40.38
+    },
+    "tone-definition": {
+      "count": 20,
+      "percent": 38.46
+    },
+    "output-formatting": {
+      "count": 17,
+      "percent": 32.69
+    },
+    "explicit-constraints": {
+      "count": 13,
+      "percent": 25.0
+    },
+    "audience-definition": {
+      "count": 9,
+      "percent": 17.31
+    },
+    "self-check": {
+      "count": 7,
+      "percent": 13.46
+    },
+    "critique-revision": {
+      "count": 7,
+      "percent": 13.46
+    },
+    "temporal-plan": {
+      "count": 7,
+      "percent": 13.46
+    },
+    "alternative-generation": {
+      "count": 6,
+      "percent": 11.54
+    },
+    "personalization": {
+      "count": 5,
+      "percent": 9.62
+    },
+    "evidence-requirement": {
+      "count": 4,
+      "percent": 7.69
+    },
+    "examples-few-shot": {
+      "count": 3,
+      "percent": 5.77
+    },
+    "comparison": {
+      "count": 3,
+      "percent": 5.77
+    },
+    "output-schema": {
+      "count": 1,
+      "percent": 1.92
+    }
+  },
+  "top_architecture_signatures": [
+    {
+      "signature": "role-assignment+context-injection+variable-template+stepwise-procedure+task-decomposition",
+      "count": 4,
+      "percent": 7.69
+    },
+    {
+      "signature": "role-assignment+variable-template+tone-definition",
+      "count": 2,
+      "percent": 3.85
+    },
+    {
+      "signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition",
+      "count": 2,
+      "percent": 3.85
+    },
+    {
+      "signature": "role-assignment+variable-template+tone-definition+stepwise-procedure+task-decomposition",
+      "count": 2,
+      "percent": 3.85
+    },
+    {
+      "signature": "role-assignment+variable-template+tone-definition+self-check",
+      "count": 2,
+      "percent": 3.85
+    },
+    {
+      "signature": "none",
+      "count": 2,
+      "percent": 3.85
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+self-check+evidence-requirement",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+variable-template+tone-definition+critique-revision+self-check",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+tone-definition+self-check+personalization",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+personalization",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition+evidence-requirement",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+stepwise-procedure+task-decomposition+explicit-constraints",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting+output-schema",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+audience-definition+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition+output-formatting+examples-few-shot+temporal-plan+personalization",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+tone-definition+stepwise-procedure+task-decomposition+explicit-constraints+output-formatting",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition+critique-revision",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+variable-template+audience-definition",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+critique-revision+personalization",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "context-injection+variable-template+stepwise-procedure+explicit-constraints+output-formatting+comparison+temporal-plan",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+audience-definition+output-formatting+alternative-generation",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "context-injection+variable-template+audience-definition+stepwise-procedure+task-decomposition+output-formatting",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+context-injection+variable-template+output-formatting+alternative-generation+temporal-plan",
+      "count": 1,
+      "percent": 1.92
+    },
+    {
+      "signature": "role-assignment+variable-template+stepwise-procedure+task-decomposition+explicit-constraints+comparison+critique-revision",
+      "count": 1,
+      "percent": 1.92
+    }
+  ],
+  "category_counts": {
+    "Astrología": 12,
+    "Marketing": 8,
+    "Idiomas": 6,
+    "Salud": 6,
+    "Empleo": 5,
+    "Abogados": 3,
+    "IG reels": 3,
+    "Copywriting": 2,
+    "Educación": 2,
+    "Imagen": 2,
+    "Finanzas Personales": 1,
+    "Negocios": 1,
+    "Redes Sociales": 1
+  },
+  "category_technique_presence": {
+    "Abogados": {
+      "role-assignment": {
+        "count": 3,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 3,
+        "percent": 100.0
+      },
+      "self-check": {
+        "count": 2,
+        "percent": 66.67
+      },
+      "tone-definition": {
+        "count": 2,
+        "percent": 66.67
+      },
+      "context-injection": {
+        "count": 1,
+        "percent": 33.33
+      },
+      "evidence-requirement": {
+        "count": 1,
+        "percent": 33.33
+      },
+      "critique-revision": {
+        "count": 1,
+        "percent": 33.33
+      }
+    },
+    "Astrología": {
+      "role-assignment": {
+        "count": 12,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 10,
+        "percent": 83.33
+      },
+      "stepwise-procedure": {
+        "count": 10,
+        "percent": 83.33
+      },
+      "task-decomposition": {
+        "count": 10,
+        "percent": 83.33
+      },
+      "context-injection": {
+        "count": 6,
+        "percent": 50.0
+      },
+      "tone-definition": {
+        "count": 3,
+        "percent": 25.0
+      },
+      "personalization": {
+        "count": 2,
+        "percent": 16.67
+      },
+      "self-check": {
+        "count": 1,
+        "percent": 8.33
+      },
+      "evidence-requirement": {
+        "count": 1,
+        "percent": 8.33
+      },
+      "explicit-constraints": {
+        "count": 1,
+        "percent": 8.33
+      }
+    },
+    "Copywriting": {
+      "role-assignment": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "context-injection": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "tone-definition": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "stepwise-procedure": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "task-decomposition": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "explicit-constraints": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "output-schema": {
+        "count": 1,
+        "percent": 50.0
+      },
+      "audience-definition": {
+        "count": 1,
+        "percent": 50.0
+      }
+    },
+    "Educación": {
+      "context-injection": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "tone-definition": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "stepwise-procedure": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "task-decomposition": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 2,
+        "percent": 100.0
+      },
+      "examples-few-shot": {
+        "count": 1,
+        "percent": 50.0
+      },
+      "temporal-plan": {
+        "count": 1,
+        "percent": 50.0
+      },
+      "personalization": {
+        "count": 1,
+        "percent": 50.0
+      },
+      "role-assignment": {
+        "count": 1,
+        "percent": 50.0
+      },
+      "explicit-constraints": {
+        "count": 1,
+        "percent": 50.0
+      }
+    },
+    "Empleo": {
+      "role-assignment": {
+        "count": 5,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 4,
+        "percent": 80.0
+      },
+      "critique-revision": {
+        "count": 2,
+        "percent": 40.0
+      },
+      "tone-definition": {
+        "count": 2,
+        "percent": 40.0
+      },
+      "self-check": {
+        "count": 2,
+        "percent": 40.0
+      },
+      "stepwise-procedure": {
+        "count": 1,
+        "percent": 20.0
+      },
+      "task-decomposition": {
+        "count": 1,
+        "percent": 20.0
+      },
+      "audience-definition": {
+        "count": 1,
+        "percent": 20.0
+      },
+      "personalization": {
+        "count": 1,
+        "percent": 20.0
+      }
+    },
+    "Finanzas Personales": {
+      "context-injection": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "stepwise-procedure": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "explicit-constraints": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "comparison": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "temporal-plan": {
+        "count": 1,
+        "percent": 100.0
+      }
+    },
+    "IG reels": {
+      "context-injection": {
+        "count": 3,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 3,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 3,
+        "percent": 100.0
+      },
+      "role-assignment": {
+        "count": 2,
+        "percent": 66.67
+      },
+      "audience-definition": {
+        "count": 2,
+        "percent": 66.67
+      },
+      "alternative-generation": {
+        "count": 2,
+        "percent": 66.67
+      },
+      "stepwise-procedure": {
+        "count": 1,
+        "percent": 33.33
+      },
+      "task-decomposition": {
+        "count": 1,
+        "percent": 33.33
+      },
+      "temporal-plan": {
+        "count": 1,
+        "percent": 33.33
+      }
+    },
+    "Idiomas": {
+      "variable-template": {
+        "count": 6,
+        "percent": 100.0
+      },
+      "stepwise-procedure": {
+        "count": 6,
+        "percent": 100.0
+      },
+      "task-decomposition": {
+        "count": 6,
+        "percent": 100.0
+      },
+      "role-assignment": {
+        "count": 5,
+        "percent": 83.33
+      },
+      "tone-definition": {
+        "count": 5,
+        "percent": 83.33
+      },
+      "critique-revision": {
+        "count": 4,
+        "percent": 66.67
+      },
+      "explicit-constraints": {
+        "count": 2,
+        "percent": 33.33
+      },
+      "comparison": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "context-injection": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "alternative-generation": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "evidence-requirement": {
+        "count": 1,
+        "percent": 16.67
+      }
+    },
+    "Marketing": {
+      "variable-template": {
+        "count": 7,
+        "percent": 87.5
+      },
+      "stepwise-procedure": {
+        "count": 7,
+        "percent": 87.5
+      },
+      "role-assignment": {
+        "count": 7,
+        "percent": 87.5
+      },
+      "task-decomposition": {
+        "count": 6,
+        "percent": 75.0
+      },
+      "output-formatting": {
+        "count": 5,
+        "percent": 62.5
+      },
+      "audience-definition": {
+        "count": 4,
+        "percent": 50.0
+      },
+      "explicit-constraints": {
+        "count": 4,
+        "percent": 50.0
+      },
+      "context-injection": {
+        "count": 3,
+        "percent": 37.5
+      },
+      "tone-definition": {
+        "count": 3,
+        "percent": 37.5
+      },
+      "temporal-plan": {
+        "count": 3,
+        "percent": 37.5
+      },
+      "examples-few-shot": {
+        "count": 2,
+        "percent": 25.0
+      },
+      "alternative-generation": {
+        "count": 1,
+        "percent": 12.5
+      },
+      "self-check": {
+        "count": 1,
+        "percent": 12.5
+      },
+      "comparison": {
+        "count": 1,
+        "percent": 12.5
+      }
+    },
+    "Negocios": {
+      "alternative-generation": {
+        "count": 1,
+        "percent": 100.0
+      }
+    },
+    "Redes Sociales": {
+      "context-injection": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "audience-definition": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "stepwise-procedure": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "alternative-generation": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "self-check": {
+        "count": 1,
+        "percent": 100.0
+      },
+      "personalization": {
+        "count": 1,
+        "percent": 100.0
+      }
+    },
+    "Salud": {
+      "role-assignment": {
+        "count": 6,
+        "percent": 100.0
+      },
+      "variable-template": {
+        "count": 6,
+        "percent": 100.0
+      },
+      "output-formatting": {
+        "count": 3,
+        "percent": 50.0
+      },
+      "explicit-constraints": {
+        "count": 2,
+        "percent": 33.33
+      },
+      "context-injection": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "tone-definition": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "evidence-requirement": {
+        "count": 1,
+        "percent": 16.67
+      },
+      "temporal-plan": {
+        "count": 1,
+        "percent": 16.67
+      }
+    }
+  },
+  "average_features": {
+    "numbered_steps": 2.69,
+    "bullet_lines": 2.71,
+    "variable_markers": 2.15,
+    "question_marks": 0.1,
+    "line_count": 17.0,
+    "paragraph_count": 4.5,
+    "characters": 990.5
+  }
+}

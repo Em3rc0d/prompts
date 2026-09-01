@@ -1,0 +1,16 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-6eed2282a45f3fb3e06e",
+  "candidate_id": "cand-6eed2282a45f3fb3e06e",
+  "candidate_fingerprint": "sha256:6007607b07250d0497a3fb0780576df2c9b88a10e38e535dea872c3fb7b5da4b",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "REJECT",
+  "decision_reason_codes": ["NOT_PROMPT_ARTIFACT", "ARCHITECTURE_DOCUMENTATION", "RETAIN_AS_NON_GOLDEN_REFERENCE"],
+  "rationale": "Human owner rejected this artifact from Golden Dataset candidacy but explicitly requested that it be retained as a useful non-Golden technical reference. It is RAG architecture documentation rather than a reusable prompt artifact.",
+  "reviewed_at": "2026-08-27T21:08:00-05:00",
+  "machine_confidence_at_review": 0.93,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [{"field":"artifact_type","from":"prompt","to":"architecture-documentation","reason":"The source documents a hybrid RAG system architecture rather than containing a reusable prompt."}],
+  "source_commit": null
+}

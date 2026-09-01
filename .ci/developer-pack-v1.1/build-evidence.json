@@ -1,0 +1,82 @@
+{
+  "archive": {
+    "filename": "prompt-quarry-developer-pack-v1.1.0.zip",
+    "format": "zip-store",
+    "mode": "100644",
+    "root": "prompt-quarry-developer-pack-v1.1.0",
+    "sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+    "size": 86763,
+    "timestamp": "1980-01-01T00:00:00"
+  },
+  "builder_gates": {
+    "archive_crc": true,
+    "archive_members_exact": true,
+    "blob_identity": true,
+    "customer_draft_markers_absent": true,
+    "deterministic_rules": true,
+    "inventory_exact": true,
+    "normalization_exact": true,
+    "source_fingerprint": true
+  },
+  "component": "developer-pack-v1.1",
+  "evidence_boundary": {
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false,
+    "packaging_determinism": "OBSERVED_PASS",
+    "payment_provider_test": "NOT_OBSERVED",
+    "public_sale": "NOT_AUTHORIZED_BY_THIS_RECEIPT"
+  },
+  "execution": {
+    "build_1": {
+      "archive_sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+      "archive_size": 86763,
+      "exit_code": 0
+    },
+    "build_2": {
+      "archive_sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+      "archive_size": 86763,
+      "exit_code": 0
+    },
+    "byte_identical": true,
+    "mode": "two isolated clean roots; canonical builder executed as separate Python subprocesses",
+    "receipts_equal": true
+  },
+  "github_actions_incident": {
+    "artifacts_produced": 0,
+    "classification": "PRE_EXECUTION_RUNNER_FAILURE_NOT_PRODUCT_FAILURE",
+    "job_id": 99215017138,
+    "run_attempts_observed": 2,
+    "steps_executed": 0,
+    "used_as_release_evidence": false,
+    "workflow_run_id": 33295722641
+  },
+  "normalization": {
+    "mode": "exact_single_replacement_per_declared_source",
+    "rules_applied": 8,
+    "rules_declared": 8,
+    "sources": [
+      "checklists/workflow-static-review.md",
+      "examples/code-review-policy-transformation.md",
+      "examples/technical-decision-policy-transformation.md",
+      "methodology/adaptation-playbook.md",
+      "templates/bug-diagnosis-system.md",
+      "templates/general-operating-contract.md",
+      "templates/software-code-review-system.md",
+      "templates/technical-research-decision-system.md"
+    ]
+  },
+  "observed_at": "2026-08-30T22:49:38-05:00",
+  "product_version": "1.1.0",
+  "schema": "prompt-quarry-clean-room-build-evidence-v1",
+  "source_commit": "f0accde4aa12ecf4eae530249cb56175e5a28b66",
+  "source_input_evidence": {
+    "all_customer_blobs_exact": true,
+    "builder_git_blob_sha": "4867e3bbd5942667e01d3be62804dc3e0f10e9d1",
+    "customer_source_payload_bytes": 83879,
+    "customer_visible_assets": 13,
+    "inventory_git_blob_sha": "b287172a94246109d0e33f691f50d6ab5d1ae7aa",
+    "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa"
+  }
+}

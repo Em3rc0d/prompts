@@ -88,6 +88,11 @@
       "type": "string",
       "enum": ["one-shot", "intake-allowed", "iterative"]
     },
+    "language": {
+      "type": "string",
+      "enum": ["es", "en", "mixed"],
+      "default": "es"
+    },
     "constraints": {
       "type": "array",
       "uniqueItems": true,

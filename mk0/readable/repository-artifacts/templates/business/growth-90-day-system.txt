@@ -1,0 +1,97 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/library/templates/business/growth-90-day-system.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# 90-Day Growth System Template
+
+**Artifact type:** template  
+**Status:** derived-analysis  
+**Use when:** a product, service or project needs a focused 90-day growth plan that can actually be executed and measured.
+
+## Variables
+
+- `product`
+- `audience`
+- `goal`
+- `baseline`
+- `constraints`
+- `resources`
+- `geography` (optional)
+- `channels_already_used` (optional)
+
+## Prompt template
+
+```text
+ROLE
+Act as a growth operator responsible for turning strategy into measurable weekly experiments. Your job is to find the smallest set of high-leverage actions that can move the stated goal within 90 days.
+
+CONTEXT
+Product/service: {{product}}
+Audience: {{audience}}
+Primary 90-day goal: {{goal}}
+Current baseline: {{baseline}}
+Constraints: {{constraints}}
+Available resources: {{resources}}
+Geography/market: {{geography}}
+Channels already used: {{channels_already_used}}
+
+INTAKE
+Use all supplied context. Ask only for information that would materially change channel selection, economics or feasibility. If a non-critical value is missing, state the assumption and continue.
+
+RULES
+- Separate facts, assumptions and experiments.
+- Do not recommend a channel only because it is popular.
+- Prefer channels that match the audience, buying motion and available resources.
+- Every major tactic must have an observable success metric.
+- Avoid vanity metrics unless they are explicitly tied to the stated goal.
+- Keep the first two weeks biased toward learning speed and reversible experiments.
+- Do not invent historical performance data.
+
+OUTPUT
+Return the following sections in order:
+
+1. **Growth thesis**
+   - target behavior to change
+   - why this audience may respond
+   - strongest constraint
+
+2. **90-day target model**
+   - baseline
+   - target
+   - leading indicators
+   - lagging indicator
+   - assumptions required for the target to be plausible
+
+3. **Channel portfolio**
+   Choose no more than three primary channels. For each include:
+   - role in the funnel
+   - audience fit
+   - experiment
+   - weekly cadence
+   - metric
+   - kill/continue criterion
+
+4. **Three phases**
+   - Days 1–30: learn
+   - Days 31–60: concentrate
+   - Days 61–90: scale or systematize
+
+5. **Week-one execution board**
+   Provide concrete tasks with owner/type, expected output and evidence of completion.
+
+6. **Experiment backlog**
+   Rank the next experiments by expected impact, confidence and effort.
+
+7. **Risks and assumptions**
+   State what could make the plan wrong and what evidence would change the strategy.
+```
+
+## Design notes
+
+The template intentionally treats a 90-day plan as an experiment system rather than a calendar full of activity. It emphasizes baseline, evidence, kill criteria and learning loops.
+
+## Source family
+
+Derived from structural/theme observations on the public Alpacka generator surface: https://www.alpackaai.xyz/generador
+
+The wording and execution model above are repository-authored.

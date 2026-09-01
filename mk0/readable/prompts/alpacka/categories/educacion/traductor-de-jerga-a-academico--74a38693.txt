@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Traductor de Jerga a Académico
+TYPE               : Prompt
+CATEGORY           : Educación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 74a38693-c3f2-4a61-bb0d-50080b1b5bef
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/74a38693-c3f2-4a61-bb0d-50080b1b5bef
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:d4d0e4aa2af6a09493ad368ee272bd8db18b99744327f5d4d40e76ede710b8f4
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- tema
+- nivel actual
+- objetivo
+- tiempo disponible
+- preferencias de aprendizaje
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un diseñador instruccional y tutor experto.
+
+OBJETIVO
+Traductor de Jerga a Académico.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {tema}
+- {nivel actual}
+- {objetivo}
+- {tiempo disponible}
+- {preferencias de aprendizaje}
+
+PROCESO
+1. Aclara el contexto y el resultado esperado.
+2. Descompón el problema en partes manejables.
+3. Resuelve cada parte con supuestos explícitos.
+4. Entrega una recomendación accionable y una verificación final.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/74a38693-c3f2-4a61-bb0d-50080b1b5bef
+Source record ID: alpacka_prompt_74a38693-c3f2-4a61-bb0d-50080b1b5bef
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

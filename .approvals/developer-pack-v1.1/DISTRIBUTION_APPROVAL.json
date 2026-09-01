@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-quarry-distribution-approval-v1",
+  "product_id": "pq-developer-pack",
+  "product_version": "1.1.0",
+  "candidate_source_commit": "f0accde4aa12ecf4eae530249cb56175e5a28b66",
+  "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa",
+  "archive_sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+  "archive_size": 86763,
+  "status": "APPROVED_FOR_CONTROLLED_PROVIDER_TEST",
+  "distribution_license": "Prompt Quarry Developer Pack — Proprietary Commercial License",
+  "approved_by": "Prompt Quarry product owner (explicit active release direction)",
+  "approved_at": "2026-08-30T22:49:38-05:00",
+  "packaging_ready": true,
+  "provider_test_approved": true,
+  "commercial_release_approved": false,
+  "public_sale_approved": false,
+  "notes": "Approval is bound to the exact 13-asset v1.1.0 RC1 source fingerprint and deterministic archive fingerprint. Scope is limited to provider configuration, controlled test checkout, signed webhook verification, and exact artifact-delivery validation. Public sale remains disabled until provider proof is durable. READY here is packaging/commercial workflow readiness only and does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
+}

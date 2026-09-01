@@ -1,0 +1,36 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1 CANDIDATE INDEX
+SOURCE REPOSITORY FILE: mk1/candidates/f2/INDEX.txt
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
+
+PROMPT QUARRY — MK1 F2 CANDIDATE INDEX
+========================================================================================
+
+These are engineered Prompt Forge artifacts that passed the static contract/linter gate.
+They are NOT yet behavior-tested, CERTIFIED or proven improved against a baseline.
+
+TITLE        : Reescritura clara sin cambiar significado
+ARTIFACT ID  : pq_mk1_content_clear_rewrite
+STATE        : VALID
+DOMAIN/INTENT: general / rewrite
+ARCHITECTURE : PURPOSE+CONTEXT+INTAKE+ASSUMPTIONS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK
+LINT         : PASS (0 warnings)
+BUNDLE       : mk1/candidates/f2/content_clear_rewrite
+----------------------------------------------------------------------------------------
+TITLE        : Revisión senior de código y pull requests
+ARTIFACT ID  : pq_mk1_software_code_review
+STATE        : VALID
+DOMAIN/INTENT: software / review
+ARCHITECTURE : PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK
+LINT         : PASS (0 warnings)
+BUNDLE       : mk1/candidates/f2/software_code_review
+----------------------------------------------------------------------------------------
+TITLE        : Comparación técnica con recomendación basada en evidencia
+ARTIFACT ID  : pq_mk1_research_technical_decision
+STATE        : VALID
+DOMAIN/INTENT: research / research
+ARCHITECTURE : PURPOSE+ROLE+CONTEXT+INTAKE+ASSUMPTIONS+PROCESS+CONSTRAINTS+OUTPUT_CONTRACT+QUALITY_GATE+FALLBACK
+LINT         : PASS (0 warnings)
+BUNDLE       : mk1/candidates/f2/research_technical_decision
+----------------------------------------------------------------------------------------

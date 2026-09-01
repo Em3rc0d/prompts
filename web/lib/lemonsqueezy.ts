@@ -1,0 +1,216 @@
+import { createHmac, timingSafeEqual } from "node:crypto";
+
+import type { CommerceMode } from "./commerce-mode";
+import {
+  DEVELOPER_PACK_RELEASE,
+  releaseCheckoutCustomData,
+  type CommerceGate,
+} from "./developer-pack-release";
+
+export type LemonSqueezyConfig = {
+  webhookSecret: string;
+  storeId: string;
+  productId: string;
+  variantId: string;
+  commerceMode: Exclude<CommerceMode, "off">;
+  commerceGate: CommerceGate;
+};
+
+type Attribution = {
+  source?: string;
+  medium?: string;
+  campaign?: string;
+  content?: string;
+};
+
+type OrderCreatedPayload = {
+  meta?: {
+    event_name?: string;
+    custom_data?: Record<string, unknown>;
+  };
+  data?: {
+    type?: string;
+    id?: string;
+    attributes?: {
+      store_id?: number;
+      identifier?: string;
+      order_number?: number;
+      currency?: string;
+      total?: number;
+      total_usd?: number;
+      status?: string;
+      test_mode?: boolean;
+      created_at?: string;
+      first_order_item?: {
+        product_id?: number;
+        variant_id?: number;
+        price?: number;
+        test_mode?: boolean;
+      };
+    };
+  };
+};
+
+export type CommerceEvidence = {
+  event: "provider_test_order_accepted" | "live_delivery_canary_order_accepted" | "purchase_completed";
+  source: "lemonsqueezy_webhook";
+  evidence: "provider_signed_order_created";
+  commerce_gate: CommerceGate;
+  provider_order_id: string;
+  provider_identifier?: string;
+  order_number?: number;
+  store_id: number;
+  product_id: number;
+  variant_id: number;
+  currency?: string;
+  total?: number;
+  total_usd?: number;
+  test_mode: boolean;
+  created_at?: string;
+  attribution?: Attribution;
+  release: {
+    product_id: typeof DEVELOPER_PACK_RELEASE.productId;
+    product_version: typeof DEVELOPER_PACK_RELEASE.version;
+    archive_sha256: typeof DEVELOPER_PACK_RELEASE.archiveSha256;
+    archive_size: typeof DEVELOPER_PACK_RELEASE.archiveSize;
+  };
+};
+
+export type WebhookEvaluation =
+  | { kind: "accepted"; evidence: CommerceEvidence }
+  | { kind: "ignored"; reason: string }
+  | { kind: "invalid_signature" }
+  | { kind: "malformed"; reason: string };
+
+function signaturesMatch(rawBody: string, signature: string, secret: string): boolean {
+  if (!signature || !secret) return false;
+  const expectedHex = createHmac("sha256", secret).update(rawBody).digest("hex");
+  const expected = Buffer.from(expectedHex, "utf8");
+  const observed = Buffer.from(signature, "utf8");
+  return expected.length === observed.length && timingSafeEqual(expected, observed);
+}
+
+function cleanAttribution(customData: Record<string, unknown> | undefined): Attribution | undefined {
+  if (!customData) return undefined;
+  const attribution: Attribution = {};
+  for (const key of ["source", "medium", "campaign", "content"] as const) {
+    const raw = customData[key];
+    if (typeof raw !== "string") continue;
+    const value = raw.trim().slice(0, 120).replace(/[^a-zA-Z0-9._:/-]/g, "-");
+    if (value) attribution[key] = value;
+  }
+  return Object.keys(attribution).length ? attribution : undefined;
+}
+
+function releaseIdentityMatches(
+  customData: Record<string, unknown> | undefined,
+  commerceGate: CommerceGate,
+): boolean {
+  if (!customData) return false;
+  const expected = releaseCheckoutCustomData(commerceGate);
+  return Object.entries(expected).every(([key, value]) => customData[key] === value);
+}
+
+function gateMatchesMode(config: LemonSqueezyConfig): boolean {
+  if (config.commerceMode === "test") return config.commerceGate === "provider_test";
+  return config.commerceGate === "live_canary" || config.commerceGate === "live";
+}
+
+function acceptedEvent(gate: CommerceGate): CommerceEvidence["event"] {
+  if (gate === "provider_test") return "provider_test_order_accepted";
+  if (gate === "live_canary") return "live_delivery_canary_order_accepted";
+  return "purchase_completed";
+}
+
+export function evaluateLemonSqueezyWebhook(input: {
+  rawBody: string;
+  signature: string;
+  eventName: string;
+  config: LemonSqueezyConfig;
+}): WebhookEvaluation {
+  const { rawBody, signature, eventName, config } = input;
+
+  if (!gateMatchesMode(config)) {
+    return { kind: "malformed", reason: "commerce_gate_configuration_mismatch" };
+  }
+
+  if (!signaturesMatch(rawBody, signature, config.webhookSecret)) {
+    return { kind: "invalid_signature" };
+  }
+
+  let payload: OrderCreatedPayload;
+  try {
+    payload = JSON.parse(rawBody) as OrderCreatedPayload;
+  } catch {
+    return { kind: "malformed", reason: "invalid_json" };
+  }
+
+  const payloadEvent = payload.meta?.event_name;
+  if (eventName !== "order_created" || payloadEvent !== "order_created") {
+    return { kind: "ignored", reason: "unsupported_event" };
+  }
+
+  if (payload.data?.type !== "orders" || !payload.data.id || !payload.data.attributes) {
+    return { kind: "malformed", reason: "missing_order_shape" };
+  }
+
+  const attributes = payload.data.attributes;
+  const item = attributes.first_order_item;
+  if (!item?.product_id || !item.variant_id || !attributes.store_id) {
+    return { kind: "malformed", reason: "missing_product_identity" };
+  }
+
+  if (attributes.status !== "paid") {
+    return { kind: "ignored", reason: "order_not_paid" };
+  }
+
+  if (String(attributes.store_id) !== config.storeId) {
+    return { kind: "ignored", reason: "store_mismatch" };
+  }
+  if (String(item.product_id) !== config.productId) {
+    return { kind: "ignored", reason: "product_mismatch" };
+  }
+  if (String(item.variant_id) !== config.variantId) {
+    return { kind: "ignored", reason: "variant_mismatch" };
+  }
+
+  const testMode = attributes.test_mode === true || item.test_mode === true;
+  if (config.commerceMode === "test" && !testMode) {
+    return { kind: "ignored", reason: "live_order_not_allowed_during_provider_test" };
+  }
+  if (config.commerceMode === "live" && testMode) {
+    return { kind: "ignored", reason: "test_order_not_allowed_in_live_mode" };
+  }
+
+  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceGate)) {
+    return { kind: "ignored", reason: "release_identity_mismatch" };
+  }
+
+  return {
+    kind: "accepted",
+    evidence: {
+      event: acceptedEvent(config.commerceGate),
+      source: "lemonsqueezy_webhook",
+      evidence: "provider_signed_order_created",
+      commerce_gate: config.commerceGate,
+      provider_order_id: payload.data.id,
+      provider_identifier: attributes.identifier,
+      order_number: attributes.order_number,
+      store_id: attributes.store_id,
+      product_id: item.product_id,
+      variant_id: item.variant_id,
+      currency: attributes.currency,
+      total: attributes.total,
+      total_usd: attributes.total_usd,
+      test_mode: testMode,
+      created_at: attributes.created_at,
+      attribution: cleanAttribution(payload.meta?.custom_data),
+      release: {
+        product_id: DEVELOPER_PACK_RELEASE.productId,
+        product_version: DEVELOPER_PACK_RELEASE.version,
+        archive_sha256: DEVELOPER_PACK_RELEASE.archiveSha256,
+        archive_size: DEVELOPER_PACK_RELEASE.archiveSize,
+      },
+    },
+  };
+}

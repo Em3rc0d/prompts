@@ -1,0 +1,186 @@
+{
+  "contract_version": "1.1",
+  "workflow_id": "team-pr-review",
+  "title": "Team Pull Request Review Policy",
+  "owner": "engineering",
+  "intent": "review",
+  "domain": "software",
+  "outcome": "Return evidence-grounded, prioritized findings and a policy-consistent ship recommendation for a supplied code change.",
+  "inputs": {
+    "required": [
+      "code_or_diff",
+      "change_intent",
+      "runtime_context"
+    ],
+    "optional": [
+      "api_or_schema_contract",
+      "authorization_model",
+      "migration_plan",
+      "observed_test_results"
+    ],
+    "missing_required_state": "BLOCKED",
+    "ambiguity_rule": "Ask only for missing information that can materially change a finding or ship recommendation."
+  },
+  "context_policy": {
+    "allowed_sources": [
+      "supplied code or diff",
+      "supplied repository/runtime context",
+      "supplied test or CI evidence"
+    ],
+    "external_research": false,
+    "source_classes": [],
+    "freshness": null,
+    "citation_policy": "none",
+    "unknown_rule": "Repository files, runtime behavior, tests, APIs, and requirements not supplied are UNKNOWN."
+  },
+  "evidence_policy": {
+    "labels": [
+      {
+        "name": "CONFIRMED",
+        "meaning": "The finding and failure mechanism are directly supported by supplied code/context."
+      },
+      {
+        "name": "LIKELY",
+        "meaning": "The finding is strongly inferred, but one material fact remains unobserved."
+      },
+      {
+        "name": "QUESTION",
+        "meaning": "More context is required before the concern can be treated as a defect."
+      }
+    ],
+    "forbidden_promotions": [
+      "LIKELY -> CONFIRMED without additional evidence",
+      "QUESTION -> CONFIRMED without additional evidence"
+    ],
+    "strongest_conclusion_threshold": "BLOCK requires at least one CONFIRMED HIGH or CRITICAL finding."
+  },
+  "constraints": {
+    "must": [
+      "Explain the failure mechanism for every reported finding",
+      "Provide a verification step for every reported finding",
+      "Keep material missing context visible"
+    ],
+    "must_not": [
+      "Report pure style preference as a defect",
+      "Claim tests passed without supplied test evidence",
+      "Invent repository files, runtime behavior, or requirements"
+    ],
+    "preserve": [
+      "intended public behavior unless a finding requires change",
+      "API/schema compatibility unless explicitly changed",
+      "evidence labels"
+    ],
+    "priority_order": [
+      "correctness",
+      "security and data integrity",
+      "reliability and regression risk",
+      "operability",
+      "maintainability"
+    ]
+  },
+  "process": [
+    {
+      "id": "reconstruct-intent",
+      "instruction": "State the intended change and identify interfaces or state transitions it touches."
+    },
+    {
+      "id": "trace-behavior",
+      "instruction": "Trace changed behavior through enabled review lenses and generate candidate findings."
+    },
+    {
+      "id": "challenge-findings",
+      "instruction": "Reject candidates without concrete evidence, failure mechanism, or material impact."
+    },
+    {
+      "id": "prioritize",
+      "instruction": "Order accepted findings by severity, evidence strength, reachability, and blast radius."
+    },
+    {
+      "id": "decide",
+      "instruction": "Apply the configured ship transition rules without overstating certainty."
+    }
+  ],
+  "decision_policy": {
+    "states": [
+      "BLOCK",
+      "REVIEW_REQUIRED",
+      "SHIP_WITH_FIXES",
+      "NO_MATERIAL_ISSUE_FOUND"
+    ],
+    "transitions": [
+      {
+        "when": "At least one CONFIRMED HIGH or CRITICAL finding exists",
+        "state": "BLOCK"
+      },
+      {
+        "when": "A LIKELY HIGH concern depends on material missing context",
+        "state": "REVIEW_REQUIRED"
+      },
+      {
+        "when": "Only bounded MEDIUM or LOW material findings remain",
+        "state": "SHIP_WITH_FIXES"
+      },
+      {
+        "when": "No material finding is supported by supplied evidence",
+        "state": "NO_MATERIAL_ISSUE_FOUND"
+      }
+    ],
+    "authority": "human_decides"
+  },
+  "output_contract": {
+    "format": "markdown",
+    "sections": [
+      {
+        "name": "Review state",
+        "required": true,
+        "description": "Whether the supplied material is reviewable and what uncertainty remains."
+      },
+      {
+        "name": "Executive assessment",
+        "required": true,
+        "description": "Intent, overall risk, highest-priority concern, and ship recommendation."
+      },
+      {
+        "name": "Findings",
+        "required": true,
+        "description": "Evidence-ranked findings with location, mechanism, impact, fix, and verification."
+      },
+      {
+        "name": "Missing context",
+        "required": true,
+        "description": "Only missing information capable of changing findings or ship state."
+      },
+      {
+        "name": "Verification plan",
+        "required": true,
+        "description": "Focused checks for the highest-risk changed paths."
+      },
+      {
+        "name": "Ship recommendation",
+        "required": true,
+        "description": "One configured state and rationale."
+      }
+    ]
+  },
+  "verification": {
+    "checks": [
+      "Every finding maps to supplied evidence or a labeled inference",
+      "Every finding explains a concrete failure mechanism",
+      "Severity follows the configured rubric",
+      "No test or runtime claim was invented",
+      "Ship recommendation follows configured transition rules"
+    ],
+    "pass_states": [
+      "REVIEW_CONTRACT_PASS",
+      "REVIEW_CONTRACT_PASS_WITH_UNKNOWNS"
+    ]
+  },
+  "fallback": {
+    "allowed_states": [
+      "BLOCKED",
+      "REVIEW_REQUIRED"
+    ],
+    "instruction": "Return the safe partial assessment and the smallest additional context set needed to continue."
+  },
+  "evidence_boundary": "Local contract validation does not establish Prompt Quarry F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
+}

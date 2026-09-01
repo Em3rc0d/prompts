@@ -1,0 +1,56 @@
+name: MK0 Path Audit
+
+on:
+  push:
+    branches:
+      - refactor/mk0-physical-boundary-20260827
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build legacy MK0 root-path inventory
+        id: inventory
+        shell: bash
+        run: |
+          set -uo pipefail
+          echo "Scanning active executable/documentation surfaces for legacy MK0 root paths..."
+          # Do not scan MK0 evidence payloads: historical provenance may legitimately
+          # contain pre-migration repository paths and must remain immutable.
+          paths=(README.md docs tools .github mk1 mk2 mk0/README.md mk0/MANIFEST.json)
+          pattern='(^|[^A-Za-z0-9_-])(catalog|quarry|library|sources|readable)/'
+          : > /tmp/mk0-legacy-paths.txt
+          git grep -nE "$pattern" -- "${paths[@]}" \
+            ':(exclude).github/workflows/mk0-path-audit.yml' \
+            ':(exclude).github/workflows/mk0-migration-preview.yml' \
+            ':(exclude)tools/migrate_mk0_physical_paths.py' \
+            > /tmp/mk0-legacy-paths.txt || true
+          count=$(wc -l < /tmp/mk0-legacy-paths.txt | tr -d ' ')
+          echo "legacy_reference_count=$count" >> "$GITHUB_OUTPUT"
+          echo "legacy_reference_count=$count" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$count" -gt 0 ]; then
+            cat /tmp/mk0-legacy-paths.txt
+          else
+            echo "No active legacy MK0 root-path references found."
+          fi
+
+      - name: Upload legacy path inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk0-legacy-path-inventory
+          path: /tmp/mk0-legacy-paths.txt
+          if-no-files-found: error
+
+      - name: Enforce zero active legacy root-path consumers
+        shell: bash
+        run: |
+          count='${{ steps.inventory.outputs.legacy_reference_count }}'
+          if [ "$count" -ne 0 ]; then
+            echo "Active legacy MK0 root-path references remain: $count"
+            exit 1
+          fi
+          echo "MK0 path audit passed."

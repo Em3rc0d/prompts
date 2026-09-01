@@ -1,0 +1,109 @@
+name: Patch MK1 Generator v0 Domain Classifier
+
+on:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - '.github/workflows/patch-mk1-generator-v0-classifier.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Separate concrete domains from research mode
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          source_path = Path('tools/mk1_prompt_generator_v0.py')
+          source = source_path.read_text(encoding='utf-8')
+          old_domain = '''def _detect_domain(text: str) -> str:
+              folded = _fold(text)
+              scored = []
+              for domain, patterns in DOMAIN_PATTERNS:
+                  score = sum(1 for pattern in patterns if _fold(pattern).strip() in folded)
+                  if score:
+                      scored.append((score, domain))
+              if not scored:
+                  return "general"
+              scored.sort(key=lambda row: (-row[0], row[1]))
+              return scored[0][1]
+          '''
+          new_domain = '''def _detect_domain(text: str) -> str:
+              folded = _fold(text)
+              scored = []
+              for domain, patterns in DOMAIN_PATTERNS:
+                  score = sum(1 for pattern in patterns if _fold(pattern).strip() in folded)
+                  if score:
+                      scored.append((score, domain))
+              if not scored:
+                  return "general"
+
+              # Research is a transversal task mode in v0. When a concrete domain is
+              # also detectable, preserve that domain and let intent carry "research".
+              concrete = [row for row in scored if row[1] != "research"]
+              candidates = concrete or scored
+              candidates.sort(key=lambda row: (-row[0], row[1]))
+              return candidates[0][1]
+          '''
+          if source.count(old_domain) != 1:
+              raise SystemExit('Expected exactly one _detect_domain implementation to patch.')
+          source_path.write_text(source.replace(old_domain, new_domain, 1), encoding='utf-8')
+
+          test_path = Path('tools/test_mk1_prompt_generator_v0.py')
+          tests = test_path.read_text(encoding='utf-8')
+          anchor = '''def test_explicit_overrides_win() -> None:
+          '''
+          regression = '''def test_research_domain_fallback() -> None:
+              request = {
+                  "request_id": "test_research_domain",
+                  "request": "Research the available evidence, benchmark results, papers, and studies for this question.",
+              }
+              _, classification = classify_request(request)
+
+              assert classification["intent"] == "research"
+              assert classification["domain"] == "research"
+              assert classification["risk"] == "normal"
+
+
+          def test_explicit_overrides_win() -> None:
+          '''
+          if tests.count(anchor) != 1:
+              raise SystemExit('Expected exactly one explicit-overrides test anchor.')
+          tests = tests.replace(anchor, regression, 1)
+
+          old_list = '''        test_high_stakes_boundary,
+                  test_explicit_overrides_win,
+          '''
+          new_list = '''        test_high_stakes_boundary,
+                  test_research_domain_fallback,
+                  test_explicit_overrides_win,
+          '''
+          if tests.count(old_list) != 1:
+              raise SystemExit('Expected exactly one generator test-list anchor.')
+          tests = tests.replace(old_list, new_list, 1)
+          test_path.write_text(tests, encoding='utf-8')
+          PY
+
+          python -m py_compile tools/mk1_prompt_generator_v0.py tools/test_mk1_prompt_generator_v0.py
+          python tools/test_mk1_prompt_generator_v0.py
+          git diff --check
+          git diff -- tools/mk1_prompt_generator_v0.py tools/test_mk1_prompt_generator_v0.py
+
+      - name: Commit domain classifier fix
+        shell: bash
+        run: |
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add tools/mk1_prompt_generator_v0.py tools/test_mk1_prompt_generator_v0.py
+          git commit -m 'fix(mk1): separate concrete domain from research mode'
+          git push origin HEAD:feat/mk1-prompt-generator-v0-20260827

@@ -1,0 +1,59 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : traductor-localizador
+TYPE               : Skill
+CATEGORY           : ESCRITURA
+ACCESS             : GRATIS
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/skills
+SOURCE BODY STATUS : OBSERVED PUBLICLY; NOT DUPLICATED VERBATIM HERE
+READABLE CONTENT   : REPOSITORY-AUTHORED RIRO-STYLE OPERATIONAL VERSION
+SOURCE BODY LENGTH : 1865
+SOURCE BODY HASH   : sha256:3cebbf486c07007b528f39565c4205d8d86bab4680342ab3e13bf8a117c353c2
+MACHINE RECORD     : quarry/normalized/alpacka-ai-skills-metadata.jsonl
+
+WHAT THIS SKILL DOES
+----------------------------------------------------------------------------------------
+Traduce y localiza textos manteniendo tono, intención y adaptación cultural, no literalidad. Usar cuando el usuario pida traducir un texto a otro idioma.
+
+SOURCE-OBSERVED VARIABLES
+----------------------------------------------------------------------------------------
+(none)
+
+SOURCE-OBSERVED STRUCTURE
+----------------------------------------------------------------------------------------
+has_role: True
+has_intake_questions: True
+has_process: False
+has_rules: True
+has_output_contract: True
+heading_count: 0
+numbered_step_count: 0
+bullet_count: 0
+line_count: 1
+
+USABLE REPOSITORY VERSION
+----------------------------------------------------------------------------------------
+ROLE
+Actúa como una capacidad especializada en: Traduce y localiza textos manteniendo tono, intención y adaptación cultural, no literalidad. Usar cuando el usuario pida traducir un texto a otro idioma.
+
+INTAKE
+- Identifica el objetivo concreto del usuario.
+- Solicita sólo el contexto faltante que cambie materialmente el resultado.
+- Confirma restricciones, formato y criterio de éxito cuando no sean evidentes.
+
+RULES
+- No inventes datos que el usuario no haya dado.
+- Separa hechos, supuestos y recomendaciones.
+- Prioriza claridad y utilidad práctica.
+- Si el dominio requiere verificación, señala qué debe comprobarse.
+
+OUTPUT
+- Entrega primero el resultado útil.
+- Después explica decisiones, riesgos y siguientes pasos cuando aporten valor.
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Source ID: alpacka_skill_3cebbf486c07007b
+Verification: source-body-observed
+Captured at: 2026-08-26T20:46:51.404022Z
+Raw source key: 3cebbf486c07007b

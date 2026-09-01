@@ -1,0 +1,180 @@
+version: 0.2.0
+
+artifact_types:
+  - prompt
+  - skill
+  - workflow
+  - template
+  - pattern
+  - guide
+  - reference
+
+capture_modes:
+  - direct-source
+  - api
+  - rendered-page
+  - indexed-reference
+  - user-provided
+  - derived-analysis
+
+verification_states:
+  - source-body-observed
+  - source-url-observed
+  - secondary-source-observed
+  - metadata-only
+  - unverified
+  - blocked
+
+content_states:
+  - raw
+  - normalized
+  - summarized
+  - classified
+  - verified
+  - promoted
+
+languages:
+  - es
+  - en
+  - mixed
+  - unknown
+
+model_targets:
+  - chatgpt
+  - claude
+  - gemini
+  - codex
+  - image-model
+  - model-agnostic
+  - unknown
+
+categories:
+  software:
+    - architecture
+    - coding
+    - debugging
+    - testing
+    - devops
+    - security
+    - data-engineering
+    - database
+    - api-design
+    - frontend
+    - mobile
+    - automation
+    - ai-agents
+  business:
+    - strategy
+    - entrepreneurship
+    - operations
+    - sales
+    - marketing
+    - marketing-email
+    - marketing-influencer
+    - marketing-paid-ads
+    - marketing-social
+    - marketing-outreach
+    - marketing-growth
+    - marketing-psychology
+    - marketing-content-systems
+    - finance
+    - product-management
+    - customer-research
+    - negotiation
+  content:
+    - writing
+    - editing
+    - social-media
+    - seo
+    - storytelling
+    - copywriting
+    - conversion-copywriting
+    - blog-writing
+    - video-content
+    - translation
+    - summarization
+  research:
+    - web-research
+    - academic-research
+    - analysis
+    - synthesis
+    - fact-checking
+    - decision-support
+  creative:
+    - ideation
+    - image-generation
+    - design
+    - branding
+    - video
+    - audio
+  productivity:
+    - planning
+    - prioritization
+    - learning
+    - accelerated-learning
+    - language-learning
+    - study
+    - meetings
+    - documentation
+    - personal-development
+  career:
+    - resume
+    - interview
+    - job-search
+    - professional-development
+  personal:
+    - finance
+    - reflection
+    - communication
+    - habits
+    - travel
+    - fitness
+
+techniques:
+  - role-assignment
+  - context-injection
+  - task-decomposition
+  - stepwise-procedure
+  - explicit-constraints
+  - output-schema
+  - output-formatting
+  - examples-few-shot
+  - counterexamples
+  - variable-template
+  - audience-definition
+  - tone-definition
+  - perspective-shift
+  - critique-revision
+  - iterative-refinement
+  - self-check
+  - rubric-evaluation
+  - alternative-generation
+  - comparison
+  - structured-reflection
+  - assumption-audit
+  - question-first
+  - pattern-detection
+  - tool-use
+  - retrieval-grounding
+  - source-requirement
+  - evidence-requirement
+  - confidence-labeling
+  - fallback-behavior
+  - safety-boundary
+  - multi-agent
+  - chain-of-prompts
+  - memory-context
+
+source_platforms:
+  - threads
+  - website
+  - github
+  - article
+  - video
+  - document
+  - other
+
+deduplication:
+  exact: sha256_canonical_text
+  near_duplicate: semantic_review_required
+  provenance_rule: preserve_all_source_observations

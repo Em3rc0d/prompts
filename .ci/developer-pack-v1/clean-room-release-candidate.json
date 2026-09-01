@@ -1,0 +1,11 @@
+{
+  "archive_layout": "prompt-quarry-developer-pack-v1/",
+  "archive_sha256": "sha256:038275e7ed0733777d27eb786d8c5752d2421926ee13358661c76d49183ae0c8",
+  "claim_boundary": "This receipt verifies deterministic manifest-only payload export and package path isolation. It is not behavioral model evidence or human usability approval.",
+  "component": "developer-pack-v1",
+  "included_assets": 21,
+  "private_repository_required": false,
+  "schema": "prompt-quarry-clean-room-receipt-v1",
+  "source_commit": "4386cf1496fcffef457dad0d3b3b9fe8151c1853",
+  "status": "PASS"
+}

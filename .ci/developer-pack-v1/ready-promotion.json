@@ -1,0 +1,12 @@
+{
+  "approval_ref": ".approvals/developer-pack-v1/DISTRIBUTION_APPROVAL.json",
+  "candidate_source_commit": "dba9f21767bbfb6cc60b72aab750551fbe04bd6f",
+  "claim_boundary": "READY is a commercial packaging state only; it does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE.",
+  "component": "developer-pack-v1",
+  "distribution_license": "Prompt Quarry Developer Pack \u2014 Proprietary Commercial License",
+  "manifest_projection_sha256": "sha256:3a94fb7e20b2f0a7464800339e015160447842484beb7b4e4c52a3c22e021c83",
+  "ready_manifest": "product/developer-pack-v1/MANIFEST.ready.json",
+  "release_status": "READY",
+  "schema": "prompt-quarry-ready-promotion-receipt-v1",
+  "status": "PASS"
+}

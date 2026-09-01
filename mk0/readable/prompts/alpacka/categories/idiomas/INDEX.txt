@@ -1,0 +1,106 @@
+PROMPTS — Idiomas
+========================================================================================
+Total: 51
+
+[PREMIUM] Aprende Humor, Sarcasmo y Anécdotas
+          aprende-humor-sarcasmo-y-anecdotas--982250fe.txt
+[PREMIUM] Aprende a Expresarte con Metáforas y Comparaciones
+          aprende-a-expresarte-con-metaforas-y-comparaciones--c6e65e45.txt
+[PREMIUM] Aprende a Hablar Solo para Soltarte
+          aprende-a-hablar-solo-para-soltarte--3548cf04.txt
+[PREMIUM] Aprende a Leer Fluido y Rápido
+          aprende-a-leer-fluido-y-rapido--61a375ca.txt
+[PREMIUM] Aprende con tus Canciones Favoritas
+          aprende-con-tus-canciones-favoritas--b47e9470.txt
+[PREMIUM] Arquitecto de Vocabulario por Contextos (IA)
+          arquitecto-de-vocabulario-por-contextos-ia--2c98901d.txt
+[PREMIUM] Brilla al Hablar en Público
+          brilla-al-hablar-en-publico--b7316b87.txt
+[PREMIUM] Coach de Pronunciación y Fonética (IPA)
+          coach-de-pronunciacion-y-fonetica-ipa--d7a03e65.txt
+[PREMIUM] Compañero de Conversación Socrático
+          companero-de-conversacion-socratico--8adc4b46.txt
+[PREMIUM] Consultor de Bilingüismo Infantil y Familiar
+          consultor-de-bilinguismo-infantil-y-familiar--9ed05c0d.txt
+[PREMIUM] Consultor de Presentaciones Internacionales
+          consultor-de-presentaciones-internacionales--04d2b76c.txt
+[PREMIUM] Debates para Argumentar y Convencer
+          debates-para-argumentar-y-convencer--565d46d3.txt
+[PREMIUM] Domina el Laberinto de los Kanji
+          domina-el-laberinto-de-los-kanji--ceb80ec4.txt
+[PREMIUM] Domina el Menú y Pide como un Experto
+          domina-el-menu-y-pide-como-un-experto--7aa299b5.txt
+[FREE   ] Domina las Partículas Japonesas sin Confusiones
+          domina-las-particulas-japonesas-sin-confusiones--09f5b348.txt
+[PREMIUM] Domina los Sonidos Más Difíciles
+          domina-los-sonidos-mas-dificiles--acea2092.txt
+[PREMIUM] Domina los Verbos con Partículas
+          domina-los-verbos-con-particulas--c9ba8195.txt
+[PREMIUM] El Arte de Hacer Amigos y Socializar
+          el-arte-de-hacer-amigos-y-socializar--e746c083.txt
+[PREMIUM] El Arte de Sonar Natural Mientras Piensas
+          el-arte-de-sonar-natural-mientras-piensas--1234149b.txt
+[PREMIUM] El Desafío de la Traducción Inversa
+          el-desafio-de-la-traduccion-inversa--a2ba810a.txt
+[PREMIUM] El Fascinante Mundo de las Onomatopeyas Japonesas
+          el-fascinante-mundo-de-las-onomatopeyas-japonesas--ecf5da15.txt
+[PREMIUM] El Laberinto de la Cortesía Japonesa (Keigo)
+          el-laberinto-de-la-cortesia-japonesa-keigo--479dab1f.txt
+[PREMIUM] Elimina tus Vicios y Errores al Hablar
+          elimina-tus-vicios-y-errores-al-hablar--0c496dd4.txt
+[PREMIUM] Entrena tu Oído para Diferentes Acentos
+          entrena-tu-oido-para-diferentes-acentos--23cf56ef.txt
+[PREMIUM] Entrenador para Pensar en [Idioma]
+          entrenador-para-pensar-en-idioma--e6c87f4f.txt
+[FREE   ] Escribe tu Diario y Desbloquea tu Vocabulario
+          escribe-tu-diario-y-desbloquea-tu-vocabulario--5e55f7bd.txt
+[PREMIUM] Estratega de Comprensión Auditiva (Zero Subtitles)
+          estratega-de-comprension-auditiva-zero-subtitles--648c439e.txt
+[PREMIUM] Estratega de Preparación para Exámenes (TOEFL/IELTS)
+          estratega-de-preparacion-para-examenes-toefl-ielts--05c7aaba.txt
+[PREMIUM] Guía de Etimología y Conexiones Culturales
+          guia-de-etimologia-y-conexiones-culturales--8fe4d788.txt
+[PREMIUM] Guía de Slang y Lenguaje Coloquial Nativo
+          guia-de-slang-y-lenguaje-coloquial-nativo--8d526d50.txt
+[PREMIUM] Habla como en tu Anime o Manga Favorito
+          habla-como-en-tu-anime-o-manga-favorito--b0739809.txt
+[PREMIUM] Habla con Expresiones Nativas Divertidas
+          habla-con-expresiones-nativas-divertidas--47ac539d.txt
+[PREMIUM] Habla de tus Hobbies y Pasiones
+          habla-de-tus-hobbies-y-pasiones--46c1abcd.txt
+[FREE   ] Juegos de Ingenio y Agilidad Mental
+          juegos-de-ingenio-y-agilidad-mental--5e11fe18.txt
+[PREMIUM] Maestro de Escritura de Negocios (Business Writing)
+          maestro-de-escritura-de-negocios-business-writing--ea6d06b6.txt
+[PREMIUM] Maestro de Gramática Comparada (Mapas Mentales)
+          maestro-de-gramatica-comparada-mapas-mentales--97d67528.txt
+[PREMIUM] Maestro de Idiomas mediante Canciones y Letras
+          maestro-de-idiomas-mediante-canciones-y-letras--e90c80b3.txt
+[PREMIUM] Maestro de Idiomas para Viajeros (Survival Kit)
+          maestro-de-idiomas-para-viajeros-survival-kit--ee4745ac.txt
+[PREMIUM] Maestro de Literatura y Análisis de Texto
+          maestro-de-literatura-y-analisis-de-texto--7a55c045.txt
+[PREMIUM] Memoriza Vocabulario con Historias Locas
+          memoriza-vocabulario-con-historias-locas--e907c446.txt
+[PREMIUM] Pasa de Subtítulos a Audio Real
+          pasa-de-subtitulos-a-audio-real--442da1ba.txt
+[PREMIUM] Políglota de Inmersión Total (IA)
+          poliglota-de-inmersion-total-ia--b598e084.txt
+[FREE   ] Qué Decir en una Emergencia o Apuro
+          que-decir-en-una-emergencia-o-apuro--29c9f969.txt
+[FREE   ] Redacción Casual de Mensajes y Correos
+          redaccion-casual-de-mensajes-y-correos--dd4a31ed.txt
+[PREMIUM] Resuelve Conflictos en el Trabajo con Diplomacia
+          resuelve-conflictos-en-el-trabajo-con-diplomacia--aaeb0aea.txt
+[PREMIUM] Simula tu Entrevista de Trabajo
+          simula-tu-entrevista-de-trabajo--456eaffb.txt
+[PREMIUM] Simulador de Situaciones Incómodas
+          simulador-de-situaciones-incomodas--4a425fc6.txt
+[PREMIUM] Sobrevive y Pide en un Izakaya Japonesa
+          sobrevive-y-pide-en-un-izakaya-japonesa--55b09c07.txt
+[FREE   ] Supera el Miedo a Hablar
+          supera-el-miedo-a-hablar--af6b2b79.txt
+[PREMIUM] Supera los Exámenes Oficiales de Idiomas
+          supera-los-examenes-oficiales-de-idiomas--201dbd1c.txt
+[PREMIUM] Tu Diario Personal Guiado
+          tu-diario-personal-guiado--d7f3bed9.txt

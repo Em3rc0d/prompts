@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Tutor de Habilidades Prácticas para Principiantes
+TYPE               : Prompt
+CATEGORY           : Ideas de Negocio
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : b5bc3fc9-1abc-457e-8b83-83b31f17f6f3
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/b5bc3fc9-1abc-457e-8b83-83b31f17f6f3
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:6a29e9298699943f2990b33fafc78b8e7af0074813e4b71a9a656c04a0bafc9e
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- problema
+- audiencia
+- recursos
+- mercado
+- restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de emprendimiento y validación de negocios.
+
+OBJETIVO
+Tutor de Habilidades Prácticas para Principiantes.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {problema}
+- {audiencia}
+- {recursos}
+- {mercado}
+- {restricciones}
+
+PROCESO
+1. Comprueba el nivel inicial.
+2. Identifica el 20% de conceptos de mayor impacto.
+3. Enseña por bloques cortos con práctica.
+4. Verifica comprensión y adapta el siguiente bloque.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/b5bc3fc9-1abc-457e-8b83-83b31f17f6f3
+Source record ID: alpacka_prompt_b5bc3fc9-1abc-457e-8b83-83b31f17f6f3
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

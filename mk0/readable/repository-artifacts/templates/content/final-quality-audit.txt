@@ -1,0 +1,51 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/library/templates/content/final-quality-audit.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# Final Quality Audit Template
+
+**Artifact type:** template  
+**Status:** derived-analysis  
+**Source inspiration:** the final-review behavior described in Alpacka AI's `DURUbidDrA5` collection
+
+## Template
+
+```text
+Perform a final editorial audit of this draft.
+
+Draft: {{draft}}
+Audience: {{audience}}
+Purpose: {{purpose}}
+Immutable facts: {{facts}}
+Required terms/phrases: {{required_terms}}
+
+Audit the draft for:
+- wording that feels generic or unnecessarily formal;
+- repeated sentence structures;
+- claims that became stronger or weaker during editing;
+- missing context the reader actually needs;
+- paragraphs that repeat a previous idea;
+- transitions that exist only to sound polished;
+- terminology that became less precise.
+
+Do not rewrite everything automatically.
+
+Return:
+1. PASS / NEEDS_REVISION
+2. Findings ranked by importance
+3. Minimal proposed edits
+4. Facts and constraints verified as preserved
+5. Anything that requires a human decision
+```
+
+## Techniques
+
+- critique-revision
+- self-check
+- rubric-evaluation
+- evidence-requirement
+- explicit-constraints
+
+## Provenance
+
+Original repository template derived from the final-pass editing concept publicly attributed to the Alpacka humanization prompt collection.

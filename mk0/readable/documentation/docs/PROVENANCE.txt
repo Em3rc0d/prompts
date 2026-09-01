@@ -1,0 +1,80 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/docs/PROVENANCE.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# Provenance Contract
+
+The repository is designed so that a useful artifact never becomes detached from where it came from.
+
+## URL fields
+
+### `source_url`
+
+Canonical URL used as the principal source for the record.
+
+### `official_post_url`
+
+Direct official social/post URL when the artifact originated in a platform such as Threads. Keep it even when the same content later appears on the website.
+
+### `raw_url`
+
+Direct machine/raw representation when one actually exists and is stable (for example, a documented API resource or raw file URL). Do not fabricate a raw URL by renaming a normal webpage.
+
+### `source_snapshot_path`
+
+Repository/local path to a captured source snapshot produced by a quarry run. Snapshots are evidence and should remain under `quarry/raw/`.
+
+## Provenance relations
+
+- `primary`: official/original source.
+- `secondary`: independent page describing or quoting the source.
+- `mirror`: another copy of substantially the same source artifact.
+- `citation`: page that cites the artifact without being its origin.
+- `discovery`: link/path used to discover the primary artifact.
+- `derived-from`: internal analysis created from another repository record.
+
+## Evidence levels
+
+### `source-body-observed`
+
+Primary body retrieved directly from the official source/API.
+
+### `source-url-observed`
+
+Official source URL verified, but body was not directly captured.
+
+### `secondary-source-observed`
+
+Artifact details are supported by a secondary source, while the primary body remains unavailable.
+
+### `metadata-only`
+
+Only source metadata, title, keywords or high-level descriptors were observed.
+
+### `unverified`
+
+Record exists as a lead and needs evidence.
+
+### `blocked`
+
+Collection encountered an access/rate barrier and intentionally stopped.
+
+## Non-invention rule
+
+When a field is not known, use `null` or an explicit unknown state.
+
+Never infer:
+
+- exact publication date from a secondary article date;
+- exact prompt body from a title/slug;
+- author identity beyond the observed source account;
+- model compatibility without evidence;
+- raw/API links that were not actually observed.
+
+## Deduplication rule
+
+Deduplication changes storage identity, not historical evidence. If five URLs lead to the same normalized body, the canonical record must retain all five provenance observations.
+
+## Derived analysis
+
+Summaries, tags, categories and prompt-engineering techniques are repository analysis unless explicitly marked as observed source metadata. They should remain distinguishable from source text.

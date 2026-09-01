@@ -1,0 +1,81 @@
+{
+  "schema": "prompt-quarry-characterization-receipt-v1",
+  "batch_id": "mk0-characterization-001",
+  "policy_version": "1.3.0",
+  "status": "PASS",
+  "created_at": "2026-08-28T15:26:10.973249Z",
+  "records": 183,
+  "routes": {
+    "REJECTED": 4,
+    "HOLD": 136,
+    "HUMAN_REVIEW_REQUIRED": 43
+  },
+  "semantic_artifact_classes": {
+    "NOISY_HTML": 4,
+    "MANUAL": 46,
+    "AMBIGUOUS": 77,
+    "AGENT_INSTRUCTION": 32,
+    "CODEBASE_GUIDE": 1,
+    "IMPLEMENTATION_PLAN": 3,
+    "PROMPT": 13,
+    "PROMPT_CONTAINER": 2,
+    "FAQ": 3,
+    "LOG_CHANGELOG": 1,
+    "ARCHITECTURE_DOCUMENTATION": 1
+  },
+  "semantic_dispositions": {
+    "REJECT": 4,
+    "REFERENCE_CORPUS": 55,
+    "HUMAN_REVIEW": 77,
+    "GOLDEN_EVALUATION": 45,
+    "EXTRACTION_REQUIRED": 2
+  },
+  "reference_corpus_records": 55,
+  "prompt_container_records": 2,
+  "confidence_bands": {
+    ">=0.95": 1,
+    "0.90-<0.95": 44,
+    "<0.90": 138
+  },
+  "eligibility": {
+    "golden_research_eligible": 122,
+    "distribution_eligible": 0
+  },
+  "domains": {
+    "software": 114,
+    "content": 5,
+    "agentic": 59,
+    "data": 5
+  },
+  "top_families": {
+    "software_generate": 91,
+    "agentic_generate": 37,
+    "software_operate": 19,
+    "agentic_operate": 13,
+    "agentic_review": 7,
+    "content_generate": 5,
+    "data_generate": 4,
+    "software_research": 2,
+    "agentic_transform": 2,
+    "software_review": 1,
+    "software_transform": 1,
+    "data_operate": 1
+  },
+  "top_techniques": {
+    "tool-use": 158,
+    "structured-output": 155,
+    "verification": 155,
+    "context-boundary": 130,
+    "step-decomposition": 119,
+    "explicit-constraints": 118,
+    "examples": 95,
+    "role-framing": 32
+  },
+  "aggregate_confidence": {
+    "min": 0.72,
+    "max": 0.955,
+    "mean": 0.8642
+  },
+  "duplicates": 0,
+  "claim_boundary": "Semantic artifact identity is gated before Golden routing. REFERENCE_CORPUS is non-canonical reference material, not truth and not Golden evidence. PROMPT_CONTAINER sources require governed child extraction and are not prompts themselves. UNKNOWN license remains UNKNOWN and blocks distribution. Human approval does not establish behavioral certification."
+}
