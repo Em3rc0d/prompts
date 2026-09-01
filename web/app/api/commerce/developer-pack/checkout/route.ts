@@ -1,7 +1,11 @@
 import { timingSafeEqual } from "node:crypto";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
-import { DEVELOPER_PACK_RELEASE, releaseCheckoutCustomData } from "@/lib/developer-pack-release";
+import {
+  DEVELOPER_PACK_RELEASE,
+  releaseCheckoutCustomData,
+  type CommerceGate,
+} from "@/lib/developer-pack-release";
 
 const ATTRIBUTION_FIELDS = ["source", "medium", "campaign", "content"] as const;
 
@@ -21,8 +25,25 @@ function secretsMatch(expected: string | undefined, observed: string | null): bo
   return expectedBytes.length === observedBytes.length && timingSafeEqual(expectedBytes, observedBytes);
 }
 
+function authorizeGateToken(input: {
+  expected: string | undefined;
+  observed: string | null;
+  notConfiguredError: string;
+  unauthorizedError: string;
+}): Response | null {
+  if (!input.expected) {
+    return Response.json({ ok: false, error: input.notConfiguredError }, { status: 503 });
+  }
+  if (!secretsMatch(input.expected, input.observed)) {
+    return Response.json({ ok: false, error: input.unauthorizedError }, { status: 403 });
+  }
+  return null;
+}
+
 export async function GET(request: Request) {
   const mode = currentCommerceMode();
+  const publicSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
+
   if (mode === "off") {
     return Response.json(
       { ok: false, error: "commerce_disabled", sale_status: "NOT_FOR_SALE", commerce_mode: "off" },
@@ -30,14 +51,34 @@ export async function GET(request: Request) {
     );
   }
 
+  if (mode === "test" && publicSaleLive) {
+    return Response.json(
+      { ok: false, error: "commerce_configuration_conflict", detail: "public_sale_cannot_be_live_in_test_mode" },
+      { status: 503 },
+    );
+  }
+
+  let gate: CommerceGate;
   if (mode === "test") {
-    const expectedToken = process.env.LEMONSQUEEZY_PROVIDER_TEST_TOKEN;
-    if (!expectedToken) {
-      return Response.json({ ok: false, error: "provider_test_token_not_configured" }, { status: 503 });
-    }
-    if (!secretsMatch(expectedToken, request.headers.get("x-pq-provider-test-token"))) {
-      return Response.json({ ok: false, error: "provider_test_not_authorized" }, { status: 403 });
-    }
+    gate = "provider_test";
+    const denial = authorizeGateToken({
+      expected: process.env.LEMONSQUEEZY_PROVIDER_TEST_TOKEN,
+      observed: request.headers.get("x-pq-provider-test-token"),
+      notConfiguredError: "provider_test_token_not_configured",
+      unauthorizedError: "provider_test_not_authorized",
+    });
+    if (denial) return denial;
+  } else if (!publicSaleLive) {
+    gate = "live_canary";
+    const denial = authorizeGateToken({
+      expected: process.env.LEMONSQUEEZY_LIVE_CANARY_TOKEN,
+      observed: request.headers.get("x-pq-live-canary-token"),
+      notConfiguredError: "live_canary_token_not_configured",
+      unauthorizedError: "live_canary_not_authorized",
+    });
+    if (denial) return denial;
+  } else {
+    gate = "live";
   }
 
   const checkoutUrl = mode === "test"
@@ -46,7 +87,7 @@ export async function GET(request: Request) {
 
   if (!checkoutUrl) {
     return Response.json(
-      { ok: false, error: "checkout_not_configured", sale_status: "NOT_FOR_SALE", commerce_mode: mode },
+      { ok: false, error: "checkout_not_configured", sale_status: publicSaleLive ? "LIVE" : "NOT_FOR_SALE", commerce_mode: mode, commerce_gate: gate },
       { status: 503 },
     );
   }
@@ -62,7 +103,6 @@ export async function GET(request: Request) {
     return Response.json({ ok: false, error: "checkout_url_must_use_https" }, { status: 500 });
   }
 
-  const gate = mode === "test" ? "provider_test" : "live";
   for (const [key, value] of Object.entries(releaseCheckoutCustomData(gate))) {
     destination.searchParams.set(`checkout[custom][${key}]`, value);
   }
@@ -76,9 +116,15 @@ export async function GET(request: Request) {
     destination.searchParams.set(`checkout[custom][${field}]`, value);
   }
 
-  const event = mode === "test" ? "provider_test_checkout_started" : "checkout_started";
+  const event = gate === "provider_test"
+    ? "provider_test_checkout_started"
+    : gate === "live_canary"
+      ? "live_delivery_canary_checkout_started"
+      : "checkout_started";
+
   console.info("PQ_FUNNEL_EVENT", JSON.stringify({
     event,
+    commerce_gate: gate,
     product_id: DEVELOPER_PACK_RELEASE.productId,
     product_version: DEVELOPER_PACK_RELEASE.version,
     archive_sha256: DEVELOPER_PACK_RELEASE.archiveSha256,
