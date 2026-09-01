@@ -22,20 +22,20 @@ not observed == unknown
 
 | Phase | State | What is true now | Remaining gate |
 |---|---|---|---|
-| C1 Premium Next.js web | `DEPLOYED / OBSERVED` | Existing production surface is live at `https://prompt-quarry.vercel.app` | Current commerce hardening not yet deployed |
-| C1.4 Vercel production | `PASS / PRE-HARDENING DEPLOYMENT` | Observed deployment is `READY`; canonical domain assigned | Full current-branch build then controlled deployment |
-| C2 Free Starter Pack | `PUBLICLY_DELIVERED / INTEGRITY_VERIFIED` | v1.1.0 ZIP is delivered with canonical size/hash | Observe acquisition separately |
-| C3 Developer Pack artifact | `PACKAGING_READY` | 13-asset RC1 built twice from exact blobs; archives byte-identical; exact SHA/size recorded | Provider custody + integration + live delivery canary |
-| C3.1 Paid commerce | `HARDENED CONTRACT / PROVIDER_PENDING / NOT_FOR_SALE` | Test, live-canary, and public-live evidence are semantically separated; release identity is bound into checkout/webhook | Full branch build, Lemon Squeezy configuration, controlled provider gates |
-| C4 Analytics | `CODE DEPLOYED FOR EXISTING FUNNEL / NEW COMMERCE EVENTS NOT DEPLOYED` | Funnel model exists; provider-test/canary semantics now exist on branch | Deploy after full build; observe provider evidence later |
-| C5 Golden Path | `PUBLIC_SURFACE_PASS / PAID_PROVIDER_PENDING` | Public/free path and bounded resilience gates pass | Provider custody + signed test + exact live-canary delivery |
-| C6 Distribution | `DRAFTS_READY / HOLD` | Launch material prepared, intentionally unpublished | Provider gate PASS + explicit public-sale decision |
-| PQ-LAUNCH-0 | `NOT_ACHIEVED` | Packaging is ready; paid provider proof is not | G1/G2/G3 PASS + public-commerce promotion |
-| PQ-$1 | `NOT_ACHIEVED` | No real public non-test purchase claimed | Real public `pq_gate=live` purchase + exact customer delivery evidence |
+| C1 Premium Next.js web | `DEPLOYED / OBSERVED` | Existing public surface is live at `https://prompt-quarry.vercel.app` | Current commerce hardening not yet deployed |
+| C1.4 Current web build | `PASS / CLEAN CI` | Typecheck, production build, Golden Path build parity, and commercial boundaries pass | Preview/runtime observation before production promotion |
+| C2 Free Starter Pack | `PUBLICLY_DELIVERED / INTEGRITY_VERIFIED` | v1.1.0 ZIP delivered at canonical size/hash | Acquisition observation separate |
+| C3 Developer Pack artifact | `PACKAGING_READY` | 13-asset RC1 built twice from exact blobs; byte-identical | Provider custody + integration + live delivery canary |
+| C3.1 Paid commerce | `COMMERCE_BUILD_READY / PROVIDER_PENDING / NOT_FOR_SALE` | Test, canary, and public-live evidence separated; exact release bound into checkout/webhook; CI green | Lemon Squeezy provider gates |
+| C4 Analytics | `EXISTING FUNNEL DEPLOYED / NEW COMMERCE EVENTS NOT DEPLOYED` | Provider-test/canary semantics implemented and built | Runtime deployment/observation later |
+| C5 Golden Path | `BUILD_PASS / PUBLIC_FREE_PATH_PASS / PAID_PROVIDER_PENDING` | Current branch route parity passes; existing production/free path healthy | Provider custody + signed test + exact live-canary delivery |
+| C6 Distribution | `DRAFTS_READY / HOLD` | Launch material prepared and intentionally unpublished | Provider gate PASS + explicit public-sale promotion |
+| PQ-LAUNCH-0 | `NOT_ACHIEVED` | Packaging and commerce build are ready; provider proof is not | G1/G2/G3 + public-commerce promotion |
+| PQ-$1 | `NOT_ACHIEVED` | No real public non-test purchase claimed | Real `pq_gate=live` purchase + exact customer delivery evidence |
 
 ## C1 — Public surface
 
-Existing observed production contract remains:
+Existing observed production contract:
 
 ```text
 /                                      -> 200
@@ -48,7 +48,15 @@ Existing observed production contract remains:
 /api/commerce/lemonsqueezy/webhook     -> 405 on GET, route present
 ```
 
-The observed production deployment predates the latest commerce hardening commits. Branch implementation must not be promoted into deployment evidence.
+Observed production deployment:
+
+```text
+deployment  dpl_5WxCPP6mTuwe9NCwxa3Wnzh77kvk
+state       READY
+boundary    predates current commerce hardening
+```
+
+Do not promote branch build evidence into production deployment evidence.
 
 ## C2 — Developer Starter Pack v1.1.0
 
@@ -60,6 +68,8 @@ archive_sha256     55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76e
 delivery_state     PUBLICLY_DELIVERED
 integrity_state    VERIFIED
 ```
+
+The current clean CI build independently materialized that public artifact and re-verified the same size/hash before compiling the web application.
 
 Public availability does not establish F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE`.
 
@@ -90,9 +100,7 @@ archive_size            86763 bytes
 archive_sha256          546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
 ```
 
-All 13 customer source files were reconstructed from exact Git blob bytes and verified against their frozen blob SHA and size before execution. Both builds used the canonical builder in isolated clean roots.
-
-Durable evidence:
+Durable packaging evidence:
 
 ```text
 .ci/developer-pack-v1.1/release-candidate.json
@@ -114,9 +122,9 @@ customer_draft_markers_absent   PASS
 deterministic_rules             PASS
 ```
 
-The earlier GitHub Actions run `33295722641` remains an infrastructure incident only: the `build-candidate` job had zero executed steps and produced zero artifacts. It was not used as product evidence.
+The historical GitHub Actions run `33295722641` remains an infrastructure incident: zero product steps executed and zero artifacts produced. It is excluded from release evidence.
 
-### Current packaging state
+### Packaging state
 
 ```text
 builder_source             PASS / EXACT BLOB
@@ -135,15 +143,13 @@ public_sale                NO
 sale_status                NOT_FOR_SALE
 ```
 
-`PACKAGING_READY` means the distributable artifact is physically reproducible and fingerprinted. It does not establish behavioral quality, provider custody, customer delivery, or payment readiness.
-
 ## C3.1 — Commerce hardening
 
 Canonical provider protocol:
 
 `commercial/LEMONSQUEEZY_PROVIDER_GATE_V1.md`
 
-Current branch implements three mutually distinct commerce gates:
+Current branch implements mutually distinct evidence gates:
 
 ```text
 provider_test  -> provider_test_order_accepted
@@ -153,7 +159,7 @@ live           -> purchase_completed
 
 Only `live` can emit `purchase_completed`.
 
-Checkout release binding is exact:
+Exact checkout release binding:
 
 ```text
 pq_product_id       pq-developer-pack
@@ -163,7 +169,7 @@ pq_archive_size     86763
 pq_gate             provider_test | live_canary | live
 ```
 
-Webhook acceptance requires HMAC signature, `order_created`, paid order state, exact store/product/variant, expected test/live mode, exact release custom data, and the exact expected gate.
+Webhook acceptance requires valid HMAC signature, `order_created`, paid order status, exact store/product/variant, expected test/live mode, exact release custom data, and exact expected commerce gate.
 
 Fail-closed matrix:
 
@@ -190,11 +196,11 @@ LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID
 LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID
 ```
 
-Legacy single-checkout and allow-test flags are no longer the contract.
+Legacy single-checkout and allow-test flags are not part of the contract.
 
-### Executed hardening checks
+### Executed commerce evidence
 
-Observed in an isolated local validation harness against the current commerce module graph:
+Local adversarial harness:
 
 ```text
 TypeScript isolated typecheck                 PASS
@@ -204,16 +210,29 @@ provider verifier missing API key fail-closed PASS
 webhook adversarial cases                     16 / 16 PASS
 ```
 
-Adversarial cases included invalid signature, unsupported event, unpaid order, store/product/variant mismatch, test/live mismatch, tampered release hash, missing release metadata, wrong signed gate, invalid mode/gate configuration, malformed JSON, and missing order shape.
+Clean GitHub Actions evidence for source/test head `7d910cfbba537ac62dc8e8186b43282483b37dd0`:
 
-This is **not** yet a full repository `npm run typecheck` / `npm run build` receipt. Full current-branch web build remains required before deployment.
+```text
+Test Commerce v0       run 33509477412  PASS
+Test Commercial Web v0 run 33509477240  PASS
+npm run typecheck                         PASS
+npm run build                             PASS
+Free Pack materialization                 PASS
+Golden Path build parity                  PASS
+commercial boundaries                     PASS
+```
+
+Durable narrative evidence:
+
+`commercial/COMMERCE_HARDENING_EVIDENCE_2026-09-01.md`
 
 ## C3.2 — Provider gate
 
-The provider path is intentionally split because Lemon Squeezy Test Mode supports checkout/webhook integration testing but disables file downloads for test purchases.
+The provider path is deliberately split because test checkout/webhook integration is not customer-delivery evidence.
 
 ```text
 G0 PACKAGING_READY                PASS
+G0.5 COMMERCE_BUILD_READY         PASS
 G1 PROVIDER_CUSTODY_PASS          NOT_OBSERVED
 G2 PROVIDER_INTEGRATION_PASS      NOT_OBSERVED
 G3 LIVE_DELIVERY_CANARY_PASS      NOT_OBSERVED
@@ -222,37 +241,39 @@ G4 PUBLIC_COMMERCE_READY          NO
 
 ### G1 — Provider custody
 
-Use `tools/verify_lemonsqueezy_provider_file.py` to verify product/variant/file metadata and optionally provider-held file bytes against the exact RC1.
+Use `tools/verify_lemonsqueezy_provider_file.py` to verify product, variant, file metadata, and optionally provider-held file bytes against the exact RC1.
 
-Provider API download evidence proves provider custody only; it does not prove customer delivery.
+Provider API file verification proves custody only; it does not prove customer delivery.
 
 ### G2 — Provider integration test
-
-Run test checkout while public sale remains disabled:
 
 ```text
 DEVELOPER_PACK_COMMERCE_MODE=test
 NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=NOT_FOR_SALE
 ```
 
-Expected signed evidence:
+Expected accepted evidence:
 
 ```text
 provider_test_order_accepted
 ```
 
-No customer delivery claim is permitted at this stage.
+No customer delivery or revenue claim is allowed at G2.
 
 ### G3 — Live delivery canary
-
-Run one controlled live order while public sale remains disabled:
 
 ```text
 DEVELOPER_PACK_COMMERCE_MODE=live
 NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=NOT_FOR_SALE
 ```
 
-The private canary checkout emits signed gate `live_canary` and accepted evidence:
+Controlled checkout requires the private live-canary token and signs:
+
+```text
+pq_gate=live_canary
+```
+
+Expected accepted evidence:
 
 ```text
 live_delivery_canary_order_accepted
@@ -266,11 +287,11 @@ bytes     86763
 sha256    546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
 ```
 
-This canary is not `PQ-$1`.
+The canary is not `PQ-$1`.
 
 ### G4 — Public commerce
 
-Only after G1/G2/G3 are durable PASS may an explicit decision set:
+Only after G1/G2/G3 are durable PASS may an explicit release decision set:
 
 ```text
 DEVELOPER_PACK_COMMERCE_MODE=live
@@ -282,34 +303,33 @@ Only a non-test order bound to `pq_gate=live` may emit `purchase_completed`.
 ## C4 — Funnel truth
 
 ```text
-landing_view                         client/session
-free_cta_clicked                     client/session
-free_pack_acquired                   server after integrity verification
-paid_product_viewed                  client/session
-paid_cta_clicked                     client/session
-provider_test_checkout_started       private controlled redirect
-live_delivery_canary_checkout_started private controlled redirect
-checkout_started                     public live redirect only
-provider_test_order_accepted         signed provider test evidence
-live_delivery_canary_order_accepted  signed live-canary evidence
-purchase_completed                   signed public-live provider evidence only
+landing_view                           client/session
+free_cta_clicked                       client/session
+free_pack_acquired                     server after integrity verification
+paid_product_viewed                    client/session
+paid_cta_clicked                       client/session
+provider_test_checkout_started         private controlled redirect
+live_delivery_canary_checkout_started  private controlled redirect
+checkout_started                       public live redirect only
+provider_test_order_accepted           signed provider-test evidence
+live_delivery_canary_order_accepted    signed live-canary evidence
+purchase_completed                     signed public-live provider evidence only
 ```
 
-A CTA click, redirect, page view, test order, canary order, or webhook route presence cannot prove `PQ-$1`.
+No click, redirect, test order, canary order, route presence, or build success can prove `PQ-$1`.
 
 ## C5 — Golden Path
 
-Existing production evidence remains:
-
 ```text
-PUBLIC SURFACE           PASS
+PUBLIC SURFACE           PASS on existing production
 FREE DELIVERY            PASS
 FREE INTEGRITY           PASS
-ROUTE PRESENCE           PASS
 PRODUCTION RESILIENCE    PASS within tested envelope through C200
 PAID ARTIFACT READY      PASS
-COMMERCE HARDENING       IMPLEMENTED ON BRANCH
-FULL CURRENT WEB BUILD   NOT_OBSERVED
+COMMERCE HARDENING       PASS on branch
+FULL CURRENT WEB BUILD   PASS
+BUILD ROUTE PARITY       PASS
+COMMERCIAL BOUNDARIES    PASS
 PROVIDER CUSTODY         NOT_OBSERVED
 SIGNED TEST ORDER        NOT_OBSERVED
 LIVE CANARY DELIVERY     NOT_OBSERVED
@@ -320,12 +340,12 @@ Infrastructure evidence remains distinct from F4–F7 model-behavior evidence.
 
 ## C6 — Release sequence
 
-The critical path is now:
+Critical path now:
 
 ```text
 PACKAGING_READY
         ↓
-full current-branch typecheck/build
+COMMERCE_BUILD_READY                 PASS
         ↓
 provider configuration
         ↓
@@ -356,18 +376,19 @@ exact delivered v1.1.0 artifact
 PQ-$1
 ```
 
-Do not reopen MK2, redesign the landing, merge PR #2, enable public sale, or alter the product archive while this provider gate is active. Any change to one of the 13 frozen customer blobs invalidates the current archive fingerprint and requires a new release candidate build.
+Do not reopen MK2, redesign the landing, merge PR #2, enable public sale, or alter the 13 frozen RC1 customer blobs while this provider gate is active.
 
 ## Evidence boundary
 
 ```text
 static_maturity       VALID_CANDIDATE
 packaging             READY_FOR_PROVIDER_TEST
-commerce_contract     HARDENED_ON_BRANCH
-full_web_build        NOT_OBSERVED_AFTER_HARDENING
+commerce_contract     PASS
+full_web_build        PASS
 provider_custody      NOT_OBSERVED
 provider_test         NOT_OBSERVED
 live_delivery_canary  NOT_OBSERVED
+production_hardening  NOT_DEPLOYED
 F4_TESTED             NO
 F5_IMPROVED           NO
 F6_CERTIFIED          NO
@@ -379,4 +400,4 @@ real_public_revenue   NOT_OBSERVED
 
 ## Next executable gate
 
-Obtain a full current-branch web typecheck/build receipt without deploying public commerce. Once that passes, configure Lemon Squeezy for the exact approved artifact and execute G1 provider custody verification followed by the controlled G2 provider integration test.
+Audit the connected deployment configuration without changing production, then configure Lemon Squeezy for the exact approved RC1 and execute G1 provider custody verification. Only after custody is exact do we execute the controlled G2 provider integration test.
