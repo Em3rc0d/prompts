@@ -238,9 +238,21 @@ def main() -> None:
         fail("reduced-motion accessibility gate missing")
 
     layout = (WEB / "app/layout.tsx").read_text(encoding="utf-8")
-    for token in ("Geist", "Geist_Mono", "brandGlyph"):
-        if token not in layout:
-            fail(f"brand typography/shell contract missing: {token}")
+    require_tokens(
+        "brand shell/accessibility contract",
+        layout,
+        (
+            'title: "Prompt Quarry — Structured Prompts for Developers"',
+            'applicationName: "Prompt Quarry"',
+            '<html lang="en">',
+            'aria-label="Prompt Quarry home"',
+            'aria-label="Primary"',
+            "brandGlyph",
+            "brandWord",
+            "brandVersion",
+            "FunnelTracker",
+        ),
+    )
 
     package = (WEB / "package.json").read_text(encoding="utf-8")
     if '"next": "16.3.3"' not in package:
@@ -250,6 +262,7 @@ def main() -> None:
     print(f"required_files={len(REQUIRED)}")
     print("framework=Next.js 16.3.3 App Router")
     print("visual_system=premium technical/editorial + Quarry Engine")
+    print("brand_shell=metadata + semantic navigation + accessible brand controls")
     print("free_delivery=v1.1 build-materialized ZIP + runtime SHA-256 fail-closed verification")
     print("paid_release=Developer Pack v1.1.0 exact 86763-byte release identity")
     print("commerce=provider_test/live_canary/live gates; public CTA defaults NOT_FOR_SALE")
