@@ -1,0 +1,191 @@
+{
+  "schema": "prompt-quarry-product-prompt-inventory-v1",
+  "inventory_id": "PQ-PCP-00-INV-0001",
+  "frozen_at": "2026-09-01T14:01:41Z",
+  "baseline": {
+    "repository": "Em3rc0d/prompts",
+    "integration_branch": "feat/mk1-prompt-generator-v0-20260827",
+    "observed_head": "a70ee18f8a15e65ed08b153fa95f1397821d8014",
+    "packs": [
+      {
+        "product_id": "pq-developer-starter",
+        "version": "1.1.0",
+        "tier": "FREE",
+        "manifest_path": "product/free-developer-starter-v1/MANIFEST.release.json",
+        "manifest_blob_sha": "db44c7213d03d60dfd22caa6d19229d22ba1a9a8",
+        "archive_sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
+      },
+      {
+        "product_id": "pq-developer-pack",
+        "version": "1.1.0",
+        "tier": "PAID",
+        "manifest_path": "product/developer-pack-v1.1/CUSTOMER_INVENTORY.release-candidate.json",
+        "manifest_blob_sha": "b287172a94246109d0e33f691f50d6ab5d1ae7aa",
+        "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa",
+        "archive_sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009"
+      }
+    ]
+  },
+  "classification_rule": {
+    "included": [
+      "Customer-visible finished workflows whose primary payload is executable prompt instructions.",
+      "Customer-visible reusable operating templates whose primary payload is executable prompt/workflow policy."
+    ],
+    "excluded": [
+      "Licenses, READMEs, quickstarts, offers, and product documentation.",
+      "Checklists, methodologies, examples, schemas, and policy instances that support prompts but are not themselves the primary executable prompt artifact."
+    ]
+  },
+  "counts": {
+    "packs": 2,
+    "customer_visible_assets": 20,
+    "prompt_artifacts": 7,
+    "non_prompt_assets": 13,
+    "semantic_families": 4
+  },
+  "prompts": [
+    {
+      "prompt_id": "PQ-PROMPT-0001",
+      "family_id": "PQ-FAMILY-BUG-DIAGNOSIS",
+      "title": "Bug Diagnosis",
+      "artifact_kind": "FINISHED_WORKFLOW",
+      "pack": {"product_id": "pq-developer-starter", "version": "1.1.0", "tier": "FREE"},
+      "category": {"domain": "software_engineering", "capability": "bug_diagnosis"},
+      "purpose": "Diagnose software defects without collapsing observations, hypotheses, and unknowns into an unsupported root-cause claim.",
+      "target_users": ["developer", "on_call_engineer", "technical_support_engineer"],
+      "input_contract_summary": ["Expected and observed behavior", "Reproduction and environment context", "Available logs, errors, code, metrics, or other evidence"],
+      "output_contract_summary": ["Diagnosis state and evidence summary", "Ranked hypotheses with discriminating checks", "Safest next action and verification path"],
+      "source": {"path": "product/free-developer-starter-v1/prompts/bug-diagnosis.md", "git_blob_sha": "5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e", "sha256": "0bd97581cd1c8e3879239831d124b200ee28236b027b49cc5f1c63cd34a83e74", "size_bytes": 4273, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "prompts/bug-diagnosis.md", "sha256": "0bd97581cd1c8e3879239831d124b200ee28236b027b49cc5f1c63cd34a83e74", "size_bytes": 4273, "normalization": "NONE"},
+      "claims": {"static": ["ENGINEERED", "STATICALLY_STRUCTURED"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0002",
+      "family_id": "PQ-FAMILY-CODE-REVIEW",
+      "title": "Code Review",
+      "artifact_kind": "FINISHED_WORKFLOW",
+      "pack": {"product_id": "pq-developer-starter", "version": "1.1.0", "tier": "FREE"},
+      "category": {"domain": "software_engineering", "capability": "code_review"},
+      "purpose": "Review a supplied change for evidence-backed defects, risks, missing context, and actionable verification without inventing findings.",
+      "target_users": ["software_developer", "code_reviewer", "technical_lead"],
+      "input_contract_summary": ["Code, diff, or exact changed files", "Change intent or acceptance criteria", "Relevant runtime, contract, and test context"],
+      "output_contract_summary": ["Executive review assessment", "Prioritized evidence-backed findings", "Missing context, verification plan, and ship recommendation"],
+      "source": {"path": "product/free-developer-starter-v1/prompts/code-review.md", "git_blob_sha": "4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5", "sha256": "9d029a870e08f6ab0bf277e29b64bba7dc39eafd471895b544d58afd2b96a024", "size_bytes": 5093, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "prompts/code-review.md", "sha256": "9d029a870e08f6ab0bf277e29b64bba7dc39eafd471895b544d58afd2b96a024", "size_bytes": 5093, "normalization": "NONE"},
+      "claims": {"static": ["ENGINEERED", "STATICALLY_STRUCTURED"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0003",
+      "family_id": "PQ-FAMILY-TECHNICAL-DECISION",
+      "title": "Technical Decision",
+      "artifact_kind": "FINISHED_WORKFLOW",
+      "pack": {"product_id": "pq-developer-starter", "version": "1.1.0", "tier": "FREE"},
+      "category": {"domain": "software_engineering", "capability": "technical_decision"},
+      "purpose": "Compare technical options under explicit constraints and evidence, preserving uncertainty and identifying the next highest-value validation action.",
+      "target_users": ["software_developer", "software_architect", "technical_lead", "product_engineer"],
+      "input_contract_summary": ["Decision and candidate options", "Hard constraints and decision criteria", "Available evidence, assumptions, deadline, and reversibility context"],
+      "output_contract_summary": ["Decision state and recommendation", "Constraint, option, and evidence comparison", "Uncertainties, reversal triggers, and next validation action"],
+      "source": {"path": "product/free-developer-starter-v1/prompts/technical-decision.md", "git_blob_sha": "1ec734dc6fcd7c77426412ad649eb261e40dd386", "sha256": "70ba94069d80e2d8fb7e2c8876ee64a8b0b60d7720951eb20ea14a5cf5f0cc73", "size_bytes": 4662, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "prompts/technical-decision.md", "sha256": "70ba94069d80e2d8fb7e2c8876ee64a8b0b60d7720951eb20ea14a5cf5f0cc73", "size_bytes": 4662, "normalization": "NONE"},
+      "claims": {"static": ["ENGINEERED", "STATICALLY_STRUCTURED"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0004",
+      "family_id": "PQ-FAMILY-BUG-DIAGNOSIS",
+      "title": "Bug Diagnosis System Template",
+      "artifact_kind": "REUSABLE_SYSTEM_TEMPLATE",
+      "pack": {"product_id": "pq-developer-pack", "version": "1.1.0", "tier": "PAID"},
+      "category": {"domain": "software_engineering", "capability": "governed_bug_diagnosis"},
+      "purpose": "Configure a repeatable diagnosis or incident workflow with explicit evidence, safety, hypothesis, decision, and verification policies.",
+      "target_users": ["developer", "on_call_engineer", "incident_commander", "engineering_team", "agent_designer"],
+      "input_contract_summary": ["Configured diagnostic target, consumer, authority, and outcome", "Required and optional diagnostic evidence", "Safety, root-cause confirmation, and escalation policies"],
+      "output_contract_summary": ["Configured diagnosis and evidence states", "Governed hypothesis ledger and discriminating checks", "Decision, mitigation, verification, and fallback contract"],
+      "source": {"path": "product/developer-pack-v1.1/templates/bug-diagnosis-system.md", "git_blob_sha": "7a320cf8bbf5587024f201b8a02fa5421979f396", "sha256": "d8b9027c9680e38ca5ae07eb3a64e150070f93e011ba16c3ca443387d2c9b24a", "size_bytes": 9722, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "templates/bug-diagnosis-system.md", "sha256": "d3ff32799513dc906db854e994f4e478d8b461bde3c49fb5008c08a96f7cde2f", "size_bytes": 9729, "normalization": "DECLARED_MATURITY_LABEL_ONLY"},
+      "claims": {"static": ["VALID", "VALID_CANDIDATE"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0005",
+      "family_id": "PQ-FAMILY-GENERAL-OPERATING-CONTRACT",
+      "title": "General Operating Contract",
+      "artifact_kind": "REUSABLE_SYSTEM_TEMPLATE",
+      "pack": {"product_id": "pq-developer-pack", "version": "1.1.0", "tier": "PAID"},
+      "category": {"domain": "technical_workflow", "capability": "general_workflow_governance"},
+      "purpose": "Define a reusable, domain-neutral operating contract for technical workflows with stable intake, evidence, process, decision, output, verification, and fallback semantics.",
+      "target_users": ["developer", "technical_lead", "product_engineer", "engineering_team", "agent_designer"],
+      "input_contract_summary": ["Workflow outcome, consumer, authority, and decision surface", "Required, optional, and forbidden context", "Evidence, constraint, process, decision, and escalation policies"],
+      "output_contract_summary": ["Stable governed workflow contract", "Decision and uncertainty states", "Verification, fallback, adaptation, and integration map"],
+      "source": {"path": "product/developer-pack-v1.1/templates/general-operating-contract.md", "git_blob_sha": "6774cead6da72a2f845889429dc2af60fc0d15d5", "sha256": "c3f39325fa0ab1989ab860928545de8149c70a538816eb64db79d040bcfacf40", "size_bytes": 7224, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "templates/general-operating-contract.md", "sha256": "7cefbb5b8c15897dd48a2f03e845b9019186c9fb3413a86ffb2875cb21648f12", "size_bytes": 7231, "normalization": "DECLARED_MATURITY_LABEL_ONLY"},
+      "claims": {"static": ["VALID", "VALID_CANDIDATE"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0006",
+      "family_id": "PQ-FAMILY-CODE-REVIEW",
+      "title": "Software Code Review System Template",
+      "artifact_kind": "REUSABLE_SYSTEM_TEMPLATE",
+      "pack": {"product_id": "pq-developer-pack", "version": "1.1.0", "tier": "PAID"},
+      "category": {"domain": "software_engineering", "capability": "governed_code_review"},
+      "purpose": "Configure a repeatable code-review system across repositories and risk profiles with explicit lenses, evidence thresholds, severity, ship decisions, and verification.",
+      "target_users": ["software_developer", "code_reviewer", "technical_lead", "engineering_team", "agent_designer"],
+      "input_contract_summary": ["Review target, change intent, consumer, and authority", "Required code and material runtime or contract context", "Configured lenses, evidence threshold, severity, and ship policy"],
+      "output_contract_summary": ["Review state and executive assessment", "Policy-compliant evidence-backed findings", "Verification plan, missing context, and governed ship recommendation"],
+      "source": {"path": "product/developer-pack-v1.1/templates/software-code-review-system.md", "git_blob_sha": "387804cf3dd5aaf22b56aafbeb6b17380942a59e", "sha256": "1653dc2b8be07a7c61a44bfd58f4a33f756c4ae311e130858a013ea1aa4dae15", "size_bytes": 7740, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "templates/software-code-review-system.md", "sha256": "7cc7f65ea3bae1c8788696a332c6ef21c561fafca2d6afdf30755af26abad018", "size_bytes": 7747, "normalization": "DECLARED_MATURITY_LABEL_ONLY"},
+      "claims": {"static": ["VALID", "VALID_CANDIDATE"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0007",
+      "family_id": "PQ-FAMILY-TECHNICAL-DECISION",
+      "title": "Technical Research / Decision System Template",
+      "artifact_kind": "REUSABLE_SYSTEM_TEMPLATE",
+      "pack": {"product_id": "pq-developer-pack", "version": "1.1.0", "tier": "PAID"},
+      "category": {"domain": "software_engineering", "capability": "governed_technical_decision"},
+      "purpose": "Configure repeatable architecture, vendor, dependency, migration, build-vs-buy, or tooling decisions with explicit constraints, evidence quality, reversibility, and decision transitions.",
+      "target_users": ["software_architect", "technical_lead", "product_engineer", "engineering_team", "agent_designer"],
+      "input_contract_summary": ["Decision, owner, options, horizon, and deadline", "Hard constraints and criteria", "Allowed sources, freshness, evidence quality, and decision policies"],
+      "output_contract_summary": ["Decision state, recommendation, and strongest uncertainty", "Constraint, viability, evidence, and comparative ledgers", "Reversal triggers and highest-value discriminating experiment or validation action"],
+      "source": {"path": "product/developer-pack-v1.1/templates/technical-research-decision-system.md", "git_blob_sha": "60a76e56f669c875ffd98a6713846f4e4530cb44", "sha256": "33167937205377379d00cba3facb011161bf420ea7a2bc433468e3bfd450fef3", "size_bytes": 8654, "origin_class": "PROMPT_QUARRY_PRODUCT_SOURCE"},
+      "release": {"archive_path": "templates/technical-research-decision-system.md", "sha256": "ed739620545bb7bbca895a42d9f81f2dbf443f0cf0dfdc4ccf8007326dbed128", "size_bytes": 8661, "normalization": "DECLARED_MATURITY_LABEL_ONLY"},
+      "claims": {"static": ["VALID", "VALID_CANDIDATE"], "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "lifecycle": {"state": "FROZEN_BASELINE", "silent_edit_allowed": false, "successor_rule": "NEW_VERSION_WITH_TRACEABILITY"}
+    }
+  ],
+  "duplicate_analysis": {
+    "exact": {
+      "algorithm": "release_sha256 equality",
+      "groups": [],
+      "duplicate_prompt_count": 0,
+      "status": "PASS"
+    },
+    "lexical_near_duplicate": {
+      "algorithm": "lowercase alphanumeric token 5-gram Jaccard after inline-code removal",
+      "candidate_threshold": 0.8,
+      "pairs_above_threshold": [],
+      "highest_related_pairs": [
+        {"left": "PQ-PROMPT-0002", "right": "PQ-PROMPT-0006", "score": 0.0255},
+        {"left": "PQ-PROMPT-0003", "right": "PQ-PROMPT-0007", "score": 0.0219},
+        {"left": "PQ-PROMPT-0001", "right": "PQ-PROMPT-0004", "score": 0.0124}
+      ],
+      "status": "PASS"
+    },
+    "semantic_siblings": [
+      {"left": "PQ-PROMPT-0001", "right": "PQ-PROMPT-0004", "relationship": "SAME_FAMILY_DIFFERENT_PRODUCT_ROLE", "decision": "KEEP_DISTINCT", "reason": "Finished Free workflow versus configurable Paid operating system."},
+      {"left": "PQ-PROMPT-0002", "right": "PQ-PROMPT-0006", "relationship": "SAME_FAMILY_DIFFERENT_PRODUCT_ROLE", "decision": "KEEP_DISTINCT", "reason": "Finished Free workflow versus configurable Paid operating system."},
+      {"left": "PQ-PROMPT-0003", "right": "PQ-PROMPT-0007", "relationship": "SAME_FAMILY_DIFFERENT_PRODUCT_ROLE", "decision": "KEEP_DISTINCT", "reason": "Finished Free workflow versus configurable Paid operating system."}
+    ]
+  },
+  "evidence_boundary": {
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false,
+    "not_observed": "UNKNOWN"
+  }
+}
