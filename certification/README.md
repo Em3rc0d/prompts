@@ -1,6 +1,6 @@
 # Prompt Quarry Certification Program
 
-Status: `ACTIVE / PCP-00 PASS / PCP-01 PASS / PCP-02 NEXT`
+Status: `ACTIVE / PCP-00 PASS / PCP-01 PASS / PCP-02 PASS / PCP-03 NEXT`
 
 This program converts the current Free and Paid product baselines into governed,
 testable prompt artifacts. It does not change the frozen product files in place.
@@ -92,7 +92,7 @@ the baseline and are linked through `family_id`.
 ```text
 PROMPT_INVENTORY_AUDITED    PASS
 PROMPT_SPEC_COMPLETE        PASS
-STATIC_AUDIT_COMPLETE       NOT_STARTED
+STATIC_AUDIT_COMPLETE       PASS
 PROMPT_TEST_MATRIX          NOT_STARTED
 F4_TESTED                   NO
 F5_IMPROVED                 NO
@@ -116,6 +116,9 @@ with explicit `BEFORE -> FAILURE -> HYPOTHESIS -> AFTER -> RETEST` provenance.
 
 ## Next critical front
 
-`PCP-02 / Static Quality Audit` is next. It must apply the frozen P1-P15 rubric
-without changing any prompt, record `PASS / WARN / FAIL / NOT_APPLICABLE` per
-criterion, and preserve every failure as baseline evidence for later test design.
+`PCP-03 / Test Matrix Design` is next. The static audit completed 105/105 P1-P15
+ratings with `94 PASS / 10 WARN / 1 FAIL`. The single blocker is preserved against
+`PQ-PROMPT-0005`: its `BLOCKED` input rule says to return only unblocking
+information, while its fallback also requires preserving a safe partial result.
+No prompt was modified. PCP-03 must turn that contradiction and the remaining
+warnings into explicit fixtures before baseline execution.
