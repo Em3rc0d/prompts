@@ -1,6 +1,6 @@
 # Prompt Quarry — Developer Pack v1.1
 
-Internal product status: `PACKAGING_READY / PROVIDER_TEST_PENDING / NOT FOR SALE`
+Internal product status: `PACKAGING_READY / PROVIDER_GATE_PENDING / NOT FOR SALE`
 
 Target version: `1.1.0`
 
@@ -105,12 +105,14 @@ archive_determinism        PASS
 archive_sha256             RECORDED
 distribution_approval      APPROVED_FOR_CONTROLLED_PROVIDER_TEST
 packaging_ready            YES
-provider_test              PENDING
+provider_custody           NOT_OBSERVED
+provider_integration_test  NOT_OBSERVED
+live_delivery_canary       NOT_OBSERVED
 public_sale                NO
 sale_status                NOT_FOR_SALE
 ```
 
-`PACKAGING_READY` means the exact distributable artifact is reproducible and approved for the controlled provider test/delivery-validation stage. It does not authorize public sale by itself.
+`PACKAGING_READY` means the exact distributable artifact is reproducible and approved for the controlled provider-gate stage. It does not authorize public sale by itself.
 
 ## Evidence boundary
 
@@ -126,27 +128,57 @@ F7_PORTABLE       NO
 
 Packaging determinism, CI success, deployment health, provider redirects, or payment UI must never be promoted into behavioral maturity claims.
 
-## Next gate
+## Provider gate
 
-The release path is now:
+Canonical protocol:
+
+`commercial/LEMONSQUEEZY_PROVIDER_GATE_V1.md`
+
+The provider path has three distinct evidence stages before public commerce:
 
 ```text
 PACKAGING_READY
     ↓
-configure payment provider
+PROVIDER_CUSTODY_PASS
     ↓
-controlled test checkout
+PROVIDER_INTEGRATION_PASS
     ↓
-signed provider order/webhook
+LIVE_DELIVERY_CANARY_PASS
     ↓
-verify exact delivered artifact
+PUBLIC_COMMERCE_READY
     ↓
-provider gate PASS
-    ↓
-public-sale decision / PQ-LAUNCH-0
+PQ-LAUNCH-0
 ```
 
-The provider test must bind delivery to exactly:
+### Provider integration test
+
+The controlled Lemon Squeezy Test Mode run proves:
+
+```text
+test checkout
+signed order_created webhook
+expected store/product/variant
+exact release custom data
+provider_test_order_accepted
+```
+
+It does **not** prove customer file delivery because Lemon Squeezy disables file downloads for Test Mode purchases.
+
+### Live delivery canary
+
+Before public sale, one controlled live order is required while the public CTA remains disabled. That order is tagged:
+
+```text
+pq_gate=live_canary
+```
+
+and may emit only:
+
+```text
+live_delivery_canary_order_accepted
+```
+
+The actual customer-delivered ZIP must then verify exactly:
 
 ```text
 version   1.1.0
@@ -154,4 +186,16 @@ bytes     86763
 sha256    546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009
 ```
 
-Checkout remains fail-closed until provider configuration and signed-order evidence are observed.
+A canary is delivery evidence, not `PQ-$1` revenue evidence.
+
+### Public sale
+
+Only after the provider custody, integration, and live-delivery canary gates pass may an explicit release decision set public sale to `LIVE`.
+
+Only then may a valid non-test order tagged `pq_gate=live` emit:
+
+```text
+purchase_completed
+```
+
+Checkout remains fail-closed until the applicable gate is explicitly configured and authorized.
