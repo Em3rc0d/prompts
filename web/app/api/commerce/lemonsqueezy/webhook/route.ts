@@ -1,4 +1,5 @@
 import { currentCommerceMode } from "@/lib/commerce-mode";
+import type { CommerceGate } from "@/lib/developer-pack-release";
 import { evaluateLemonSqueezyWebhook, type LemonSqueezyConfig } from "@/lib/lemonsqueezy";
 
 export const runtime = "nodejs";
@@ -7,6 +8,9 @@ function loadConfig(): LemonSqueezyConfig | null {
   const commerceMode = currentCommerceMode();
   if (commerceMode === "off") return null;
 
+  const publicSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
+  if (commerceMode === "test" && publicSaleLive) return null;
+
   const webhookSecret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
   const storeId = process.env.LEMONSQUEEZY_STORE_ID;
   const productId = process.env.LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID;
@@ -14,12 +18,19 @@ function loadConfig(): LemonSqueezyConfig | null {
 
   if (!webhookSecret || !storeId || !productId || !variantId) return null;
 
+  const commerceGate: CommerceGate = commerceMode === "test"
+    ? "provider_test"
+    : publicSaleLive
+      ? "live"
+      : "live_canary";
+
   return {
     webhookSecret,
     storeId,
     productId,
     variantId,
     commerceMode,
+    commerceGate,
   };
 }
 
@@ -65,6 +76,7 @@ export async function POST(request: Request) {
     ok: true,
     accepted: true,
     event: evaluation.evidence.event,
+    commerce_gate: evaluation.evidence.commerce_gate,
     provider_order_id: evaluation.evidence.provider_order_id,
     test_mode: evaluation.evidence.test_mode,
     release: evaluation.evidence.release,
