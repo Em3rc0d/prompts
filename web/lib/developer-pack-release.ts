@@ -8,7 +8,7 @@ export const DEVELOPER_PACK_RELEASE = Object.freeze({
   sourceCommit: "f0accde4aa12ecf4eae530249cb56175e5a28b66",
 } as const);
 
-export type CommerceGate = "provider_test" | "live";
+export type CommerceGate = "provider_test" | "live_canary" | "live";
 
 export function releaseCheckoutCustomData(gate: CommerceGate): Record<string, string> {
   return {
