@@ -1,7 +1,11 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 import type { CommerceMode } from "./commerce-mode";
-import { DEVELOPER_PACK_RELEASE, releaseCheckoutCustomData } from "./developer-pack-release";
+import {
+  DEVELOPER_PACK_RELEASE,
+  releaseCheckoutCustomData,
+  type CommerceGate,
+} from "./developer-pack-release";
 
 export type LemonSqueezyConfig = {
   webhookSecret: string;
@@ -9,6 +13,7 @@ export type LemonSqueezyConfig = {
   productId: string;
   variantId: string;
   commerceMode: Exclude<CommerceMode, "off">;
+  commerceGate: CommerceGate;
 };
 
 type Attribution = {
@@ -47,9 +52,10 @@ type OrderCreatedPayload = {
 };
 
 export type CommerceEvidence = {
-  event: "provider_test_order_accepted" | "purchase_completed";
+  event: "provider_test_order_accepted" | "live_delivery_canary_order_accepted" | "purchase_completed";
   source: "lemonsqueezy_webhook";
   evidence: "provider_signed_order_created";
+  commerce_gate: CommerceGate;
   provider_order_id: string;
   provider_identifier?: string;
   order_number?: number;
@@ -98,11 +104,22 @@ function cleanAttribution(customData: Record<string, unknown> | undefined): Attr
 
 function releaseIdentityMatches(
   customData: Record<string, unknown> | undefined,
-  commerceMode: Exclude<CommerceMode, "off">,
+  commerceGate: CommerceGate,
 ): boolean {
   if (!customData) return false;
-  const expected = releaseCheckoutCustomData(commerceMode === "test" ? "provider_test" : "live");
+  const expected = releaseCheckoutCustomData(commerceGate);
   return Object.entries(expected).every(([key, value]) => customData[key] === value);
+}
+
+function gateMatchesMode(config: LemonSqueezyConfig): boolean {
+  if (config.commerceMode === "test") return config.commerceGate === "provider_test";
+  return config.commerceGate === "live_canary" || config.commerceGate === "live";
+}
+
+function acceptedEvent(gate: CommerceGate): CommerceEvidence["event"] {
+  if (gate === "provider_test") return "provider_test_order_accepted";
+  if (gate === "live_canary") return "live_delivery_canary_order_accepted";
+  return "purchase_completed";
 }
 
 export function evaluateLemonSqueezyWebhook(input: {
@@ -112,6 +129,10 @@ export function evaluateLemonSqueezyWebhook(input: {
   config: LemonSqueezyConfig;
 }): WebhookEvaluation {
   const { rawBody, signature, eventName, config } = input;
+
+  if (!gateMatchesMode(config)) {
+    return { kind: "malformed", reason: "commerce_gate_configuration_mismatch" };
+  }
 
   if (!signaturesMatch(rawBody, signature, config.webhookSecret)) {
     return { kind: "invalid_signature" };
@@ -161,16 +182,17 @@ export function evaluateLemonSqueezyWebhook(input: {
     return { kind: "ignored", reason: "test_order_not_allowed_in_live_mode" };
   }
 
-  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceMode)) {
+  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceGate)) {
     return { kind: "ignored", reason: "release_identity_mismatch" };
   }
 
   return {
     kind: "accepted",
     evidence: {
-      event: testMode ? "provider_test_order_accepted" : "purchase_completed",
+      event: acceptedEvent(config.commerceGate),
       source: "lemonsqueezy_webhook",
       evidence: "provider_signed_order_created",
+      commerce_gate: config.commerceGate,
       provider_order_id: payload.data.id,
       provider_identifier: attributes.identifier,
       order_number: attributes.order_number,
