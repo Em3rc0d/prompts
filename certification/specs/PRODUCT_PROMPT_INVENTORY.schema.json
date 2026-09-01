@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prompt-quarry.dev/schemas/product-prompt-inventory-v1.json",
+  "title": "Prompt Quarry Product Prompt Inventory v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "inventory_id",
+    "frozen_at",
+    "baseline",
+    "classification_rule",
+    "counts",
+    "prompts",
+    "duplicate_analysis",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-product-prompt-inventory-v1"},
+    "inventory_id": {"const": "PQ-PCP-00-INV-0001"},
+    "frozen_at": {"type": "string", "format": "date-time"},
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "integration_branch", "observed_head", "packs"],
+      "properties": {
+        "repository": {"const": "Em3rc0d/prompts"},
+        "integration_branch": {"type": "string", "minLength": 1},
+        "observed_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "packs": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["product_id", "version", "tier", "manifest_path", "manifest_blob_sha"],
+            "properties": {
+              "product_id": {"type": "string", "minLength": 1},
+              "version": {"type": "string", "minLength": 1},
+              "tier": {"enum": ["FREE", "PAID"]},
+              "manifest_path": {"type": "string", "minLength": 1},
+              "manifest_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+              "source_fingerprint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+              "archive_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+    "classification_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["included", "excluded"],
+      "properties": {
+        "included": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "excluded": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packs", "customer_visible_assets", "prompt_artifacts", "non_prompt_assets", "semantic_families"],
+      "properties": {
+        "packs": {"const": 2},
+        "customer_visible_assets": {"const": 20},
+        "prompt_artifacts": {"const": 7},
+        "non_prompt_assets": {"const": 13},
+        "semantic_families": {"const": 4}
+      }
+    },
+    "prompts": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/prompt"}
+    },
+    "duplicate_analysis": {"$ref": "#/$defs/duplicateAnalysis"},
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["F4_TESTED", "F5_IMPROVED", "F6_CERTIFIED", "F7_PORTABLE", "not_observed"],
+      "properties": {
+        "F4_TESTED": {"const": false},
+        "F5_IMPROVED": {"const": false},
+        "F6_CERTIFIED": {"const": false},
+        "F7_PORTABLE": {"const": false},
+        "not_observed": {"const": "UNKNOWN"}
+      }
+    }
+  },
+  "$defs": {
+    "prompt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "prompt_id",
+        "family_id",
+        "title",
+        "artifact_kind",
+        "pack",
+        "category",
+        "purpose",
+        "target_users",
+        "input_contract_summary",
+        "output_contract_summary",
+        "source",
+        "release",
+        "claims",
+        "lifecycle"
+      ],
+      "properties": {
+        "prompt_id": {"type": "string", "pattern": "^PQ-PROMPT-[0-9]{4}$"},
+        "family_id": {"type": "string", "pattern": "^PQ-FAMILY-[A-Z0-9-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "artifact_kind": {"enum": ["FINISHED_WORKFLOW", "REUSABLE_SYSTEM_TEMPLATE"]},
+        "pack": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["product_id", "version", "tier"],
+          "properties": {
+            "product_id": {"type": "string", "minLength": 1},
+            "version": {"type": "string", "minLength": 1},
+            "tier": {"enum": ["FREE", "PAID"]}
+          }
+        },
+        "category": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["domain", "capability"],
+          "properties": {
+            "domain": {"type": "string", "minLength": 1},
+            "capability": {"type": "string", "minLength": 1}
+          }
+        },
+        "purpose": {"type": "string", "minLength": 1},
+        "target_users": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "input_contract_summary": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "output_contract_summary": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "source": {"$ref": "#/$defs/contentIdentity"},
+        "release": {"$ref": "#/$defs/releaseIdentity"},
+        "claims": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["static", "F4_TESTED", "F5_IMPROVED", "F6_CERTIFIED", "F7_PORTABLE"],
+          "properties": {
+            "static": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+            "F4_TESTED": {"const": false},
+            "F5_IMPROVED": {"const": false},
+            "F6_CERTIFIED": {"const": false},
+            "F7_PORTABLE": {"const": false}
+          }
+        },
+        "lifecycle": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "silent_edit_allowed", "successor_rule"],
+          "properties": {
+            "state": {"const": "FROZEN_BASELINE"},
+            "silent_edit_allowed": {"const": false},
+            "successor_rule": {"const": "NEW_VERSION_WITH_TRACEABILITY"}
+          }
+        }
+      }
+    },
+    "contentIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "git_blob_sha", "sha256", "size_bytes", "origin_class"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "git_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "origin_class": {"const": "PROMPT_QUARRY_PRODUCT_SOURCE"}
+      }
+    },
+    "releaseIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archive_path", "sha256", "size_bytes", "normalization"],
+      "properties": {
+        "archive_path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "normalization": {"enum": ["NONE", "DECLARED_MATURITY_LABEL_ONLY"]}
+      }
+    },
+    "duplicateAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact", "lexical_near_duplicate", "semantic_siblings"],
+      "properties": {
+        "exact": {"type": "object"},
+        "lexical_near_duplicate": {"type": "object"},
+        "semantic_siblings": {"type": "array"}
+      }
+    }
+  }
+}
