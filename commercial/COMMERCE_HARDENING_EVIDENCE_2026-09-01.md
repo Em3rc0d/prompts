@@ -1,6 +1,6 @@
 # Commerce Hardening Evidence — 2026-09-01
 
-Status: `HARDENED_ON_BRANCH / FULL_WEB_BUILD_NOT_OBSERVED`
+Status: `COMMERCE_BUILD_READY / PROVIDER_EVIDENCE_PENDING / NOT_DEPLOYED`
 
 ## Release identity
 
@@ -13,7 +13,7 @@ source_fingerprint  dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934f
 source_commit       f0accde4aa12ecf4eae530249cb56175e5a28b66
 ```
 
-## Implemented commerce semantics
+## Commerce semantics
 
 ```text
 provider_test -> provider_test_order_accepted
@@ -23,44 +23,73 @@ live          -> purchase_completed
 
 Only the public-live state can produce `purchase_completed`.
 
-## Executed validation
-
-Observed in an isolated validation harness against the current commerce module graph:
+## Local adversarial validation
 
 ```text
 TypeScript isolated module-graph typecheck   PASS
 Python provider verifier py_compile          PASS
 Python provider verifier CLI entrypoint      PASS
-provider verifier missing API key behavior   FAIL-CLOSED / PASS
+provider verifier missing API key            FAIL-CLOSED / PASS
 webhook adversarial contract                 16 / 16 PASS
 ```
 
-Adversarial cases covered:
+The adversarial contract covers valid provider-test/canary/public-live events plus invalid signature, unsupported event, unpaid order, store/product/variant mismatch, test/live mismatch, tampered or missing release identity, wrong commerce gate, invalid mode/gate configuration, malformed JSON, and missing order shape.
 
-1. provider-test accepted with the provider-test event;
-2. live canary accepted with the canary event;
-3. public live alone emits `purchase_completed`;
-4. invalid signature rejected;
-5. unsupported event ignored;
-6. unpaid order ignored;
-7. store mismatch ignored;
-8. product mismatch ignored;
-9. variant mismatch ignored;
-10. live order rejected during provider test;
-11. test order rejected in live mode;
-12. tampered release hash rejected;
-13. missing release metadata rejected;
-14. wrong signed gate rejected;
-15. invalid mode/gate configuration fails closed;
-16. malformed payload/order shape rejected.
+## Clean-checkout CI evidence
+
+Validated branch head:
+
+```text
+7d910cfbba537ac62dc8e8186b43282483b37dd0
+```
+
+### Test Commerce v0
+
+```text
+workflow_run     33509477412
+job              commerce-acceptance
+conclusion       SUCCESS
+compile tooling  PASS
+contract test    PASS
+```
+
+### Test Commercial Web v0
+
+```text
+workflow_run                   33509477240
+job                            nextjs-acceptance
+conclusion                     SUCCESS
+npm install                    PASS
+npm run typecheck              PASS
+npm run build                  PASS
+Free Pack materialization      PASS
+Free Pack bytes                23498
+Free Pack sha256               55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+Next.js compilation            PASS
+Golden Path build parity       PASS
+required build routes          7
+commercial boundary validator  PASS
+```
+
+The build was executed by GitHub Actions on a clean Ubuntu runner with Node 22. The Free Pack build materializer fetched the canonical public v1.1.0 release and verified its exact size/hash before Next.js compilation.
+
+## Defects discovered and closed during acceptance
+
+1. Clean-checkout typecheck initially could not resolve the build-materialized `@/generated/free-pack-archive` module. A declaration file now supplies compile-time shape while `prebuild` remains responsible for materializing and verifying actual bytes.
+2. Commerce acceptance still encoded the obsolete `test_mode_not_allowed`/single-checkout contract. It now validates `provider_test`, `live_canary`, and `live` semantics.
+3. Commercial Web acceptance still expected the removed `NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL`. It now requires the server commerce gate and default `NOT_FOR_SALE` public state.
+4. Commercial Web acceptance encoded a historical `Geist` font choice as a release invariant. It now validates the actual metadata, semantic navigation, accessibility labels, and Prompt Quarry brand shell instead of a non-semantic visual implementation detail.
+
+No release gate was weakened to obtain green CI; stale assertions were replaced with current security/evidence invariants.
 
 ## Evidence boundary
 
-The isolated TypeScript check used the current commerce modules with minimal environment declarations. It is not a substitute for the repository's production acceptance commands.
-
 ```text
-full repository npm run typecheck   NOT_OBSERVED
-full Next.js npm run build          NOT_OBSERVED
+full repository npm run typecheck   PASS
+full Next.js npm run build          PASS
+Golden Path build parity            PASS
+commercial web boundaries           PASS
+commerce acceptance                 PASS
 current branch preview deployment   NOT_OBSERVED
 production hardening deployment     NOT_OBSERVED
 provider custody                    NOT_OBSERVED
@@ -71,7 +100,7 @@ PQ-LAUNCH-0                         NO
 PQ-$1                               NO
 ```
 
-The latest Vercel deployments visible during this validation were created on 2026-08-29 and therefore predate the current commerce hardening. They are not used as evidence for these commits.
+The currently observed Vercel production deployment predates this hardening and is not evidence for these commits.
 
 Canonical protocol: `commercial/LEMONSQUEEZY_PROVIDER_GATE_V1.md`.
 
