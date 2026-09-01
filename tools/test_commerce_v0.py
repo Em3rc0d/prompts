@@ -116,7 +116,11 @@ def main() -> None:
             "PQ_COMMERCE_EVENT",
             "commerce_gate",
             'commerceMode === "test"',
-            'publicSaleLive ? "live" : "live_canary"',
+            "const commerceGate: CommerceGate",
+            '"provider_test"',
+            '"live_canary"',
+            '"live"',
+            'NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE"',
         ),
     )
 
