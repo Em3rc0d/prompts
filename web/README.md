@@ -1,6 +1,6 @@
 # Prompt Quarry Web v0
 
-Status: `PRODUCTION SURFACE DEPLOYED / COMMERCE HARDENING IMPLEMENTED / PROVIDER EVIDENCE PENDING`
+Status: `PRODUCTION SURFACE DEPLOYED / COMMERCE_BUILD_READY / PROVIDER EVIDENCE PENDING`
 
 Next.js App Router commercial surface for the path to `PQ-LAUNCH-0` and `PQ-$1`.
 
@@ -20,6 +20,8 @@ Next.js App Router commercial surface for the path to `PQ-LAUNCH-0` and `PQ-$1`.
 - `/free/developer-starter-pack` — Free Pack acquisition page
 - `/developer-pack` — paid Developer Pack v1 page
 - `/license` — commercial license summary
+- `/api/free-pack/v1` — build-materialized governed Free Pack delivery
+- `/api/free-pack/v1.1.0` — canonical Free Pack release
 - `/api/commerce/developer-pack/checkout` — fail-closed provider redirect
 - `/api/commerce/lemonsqueezy/webhook` — signed provider evidence endpoint
 
@@ -35,8 +37,6 @@ archive_sha256   546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc500
 Checkout custom data and accepted webhook evidence must bind to this exact identity.
 
 ## Commerce state machine
-
-The web surface separates provider testing, live delivery canary, and public commerce.
 
 | Commerce mode | Public sale | Checkout gate | Accepted webhook event |
 |---|---|---|---|
@@ -54,11 +54,9 @@ The public paid CTA is enabled only when:
 NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=LIVE
 ```
 
-Configuring a test or canary checkout cannot expose it through the normal public paid CTA.
+Configuring test or canary provider data cannot expose checkout through the normal public paid CTA.
 
 ## Configuration
-
-Copy `.env.example` to `.env.local` for local provider work.
 
 ```text
 NEXT_PUBLIC_FREE_PACK_URL=
@@ -77,15 +75,13 @@ LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID=
 LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID=
 ```
 
-Provider-test and live-canary tokens, webhook secret, and provider IDs are server-side configuration. Do not expose secrets through `NEXT_PUBLIC_*` variables.
+Provider-test/live-canary tokens, webhook secret, and provider IDs are server-side. Do not expose them through `NEXT_PUBLIC_*` variables.
 
 ## Provider protocol
 
 Canonical protocol:
 
 `commercial/LEMONSQUEEZY_PROVIDER_GATE_V1.md`
-
-The important evidence boundary is:
 
 ```text
 provider test checkout + signed test webhook
@@ -95,7 +91,36 @@ customer delivery
 public purchase
 ```
 
-Lemon Squeezy Test Mode can validate checkout/webhook integration, but file downloads are disabled for test purchases. Therefore actual customer delivery must be proved by a separate controlled live canary before public sale.
+Lemon Squeezy Test Mode validates integration, not customer file delivery. Actual customer delivery remains a separate controlled live-canary gate before public sale.
+
+## Clean CI acceptance
+
+Validated source/test head:
+
+```text
+7d910cfbba537ac62dc8e8186b43282483b37dd0
+```
+
+Observed GitHub Actions receipts:
+
+```text
+Test Commerce v0        33509477412  PASS
+Test Commercial Web v0  33509477240  PASS
+npm run typecheck                    PASS
+npm run build                        PASS
+Free Pack materialization            PASS
+Golden Path build parity             PASS
+commercial boundary validator        PASS
+```
+
+The clean build materialized and verified the Free Pack at exactly:
+
+```text
+bytes   23498
+sha256  55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+```
+
+Detailed evidence: `commercial/COMMERCE_HARDENING_EVIDENCE_2026-09-01.md`.
 
 ## Local development
 
@@ -105,23 +130,28 @@ npm install
 npm run dev
 ```
 
-Production acceptance remains:
+Production acceptance:
 
 ```bash
 npm run typecheck
 npm run build
 ```
 
-The latest commerce hardening has passed an isolated TypeScript module-graph typecheck and adversarial webhook-contract execution. A full repository `npm run typecheck` + `npm run build` for the current branch remains a required gate before deploying these commerce changes.
+## Deployment boundary
 
-## Deployment
+`web/` is the Prompt Quarry Vercel application. The currently observed production deployment predates the commerce-hardening commits. Therefore:
 
-`web/` is deployed as the Prompt Quarry public application on Vercel. The currently observed production deployment predates the latest commerce hardening changes; do not treat branch implementation as deployed evidence.
+```text
+COMMERCE_BUILD_READY  YES
+HARDENING_DEPLOYED    NOT_OBSERVED
+PROVIDER_CUSTODY      NOT_OBSERVED
+PUBLIC_SALE           NO
+```
 
-No custom customer account system is required for the current launch path. Lemon Squeezy remains the selected provider for checkout, signed order evidence, and file delivery.
+No production promotion is implied by CI success.
 
 ## Boundaries
 
-The surface may state that Developer Pack v1.1 is `PACKAGING_READY` and included assets are statically `VALID_CANDIDATE`. It must not claim F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE` without corresponding behavioral evidence.
+The surface may state that Developer Pack v1.1 is `PACKAGING_READY` and its included assets are statically `VALID_CANDIDATE`. It must not claim F4 `TESTED`, F5 `IMPROVED`, F6 `CERTIFIED`, or F7 `PORTABLE` without corresponding behavioral evidence.
 
 `IMPLEMENTED != DEPLOYED` and `not observed == unknown`.
