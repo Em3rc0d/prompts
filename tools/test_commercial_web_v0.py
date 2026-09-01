@@ -257,10 +257,13 @@ def main() -> None:
     package = (WEB / "package.json").read_text(encoding="utf-8")
     if '"next": "16.3.3"' not in package:
         fail("Next.js Active LTS security release 16.3.3 is not pinned")
+    if '"node": "24.x"' not in package:
+        fail("Node runtime is not pinned to Vercel deployment parity (24.x)")
 
     print("COMMERCIAL WEB V0: PASS")
     print(f"required_files={len(REQUIRED)}")
     print("framework=Next.js 16.3.3 App Router")
+    print("runtime=Node 24.x deployment parity")
     print("visual_system=premium technical/editorial + Quarry Engine")
     print("brand_shell=metadata + semantic navigation + accessible brand controls")
     print("free_delivery=v1.1 build-materialized ZIP + runtime SHA-256 fail-closed verification")
