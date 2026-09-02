@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-quarry-skill-structure-receipt-v1",
+  "receipt_id": "PQ-SKILL-STRUCTURE-0001",
+  "observed_at": "2026-09-02T13:44:50Z",
+  "repository": "Em3rc0d/prompts",
+  "branch": "feat/workflow-kits-product-model-20260902",
+  "source_commit": "ea3342ffdfa390f0bcb7582a1e1b2447057b780d",
+  "gate": "SKILL_STRUCTURE",
+  "status": "PASS",
+  "workflow": {
+    "name": "Validate Workflow Kit Skills v1.2",
+    "run_id": 33637606315,
+    "run_number": 3,
+    "job_id": 100272294654,
+    "conclusion": "success",
+    "artifact_id": 9849430027,
+    "artifact_sha256": "81c1d9acebbec687720b4b9e908fef83881a910ab7ef0bca5bb8078c6e22febb"
+  },
+  "skill_count": 4,
+  "skills": [
+    {"skill_id": "PQ-SKILL-0001", "name": "review-code-with-evidence", "status": "PASS", "sha256": "3d72f668710b07532af52152a44ffba827b5d6824e7d46d1f925a2fbb91ebf21", "warnings": 0},
+    {"skill_id": "PQ-SKILL-0002", "name": "diagnose-bugs-with-evidence", "status": "PASS", "sha256": "acd2574f4606a214968a8cfa14e8d3ec0cbac508f70de45b5b030d8bb8ca59b3", "warnings": 0},
+    {"skill_id": "PQ-SKILL-0003", "name": "make-technical-decisions", "status": "PASS", "sha256": "0492b7f281d336654be33232c8f11349387945d32c033f26c14c832d8d185502", "warnings": 0},
+    {"skill_id": "PQ-SKILL-0004", "name": "design-ai-workflows", "status": "PASS", "sha256": "6944ffa0d01d3cb9eb0578f86fce1f49acfb5cce9b6273f75b90698a14c5e8fa", "warnings": 0}
+  ],
+  "trigger_fixture_design": {
+    "matrix_id": "PQ-SKILL-TRIGGER-MATRIX-0001",
+    "fixture_count": 32,
+    "sha256": "224b42862cff10a56398d4c04ae560498cf61b55165d596b465f24b8096e28b3",
+    "state": "FIXTURES_DEFINED_UNEXECUTED"
+  },
+  "claims": {
+    "STRUCTURALLY_VALID": true,
+    "HOST_TESTED": false,
+    "SKILL_TRIGGER_EVAL_PASS": false,
+    "SKILL_FORWARD_TEST_PASS": false,
+    "WORKFLOW_CERTIFIED": false,
+    "PORTABLE": false
+  },
+  "evidence_boundary": "This receipt proves deterministic structural conformance only. It is not host discovery, behavioral execution, prompt/skill parity, certification, portability, or product-readiness evidence."
+}
