@@ -152,20 +152,46 @@ def main() -> int:
             )
             receipt_template = {
                 "schema": "prompt-quarry-pcp04-execution-receipt-v1",
-                "receipt_id": None,
+                "receipt_id": "FILL_AFTER_REAL_EXECUTION",
+                "campaign_id": "FILL_ONE_STABLE_CAMPAIGN_ID",
                 "work_order_id": work_order_id,
                 "prompt_id": prompt_id,
                 "prompt_sha256": observed_prompt_sha,
                 "fixture_set_id": fixtures["fixture_set_id"],
                 "case_id": case_id,
                 "case_class": case_class,
-                "repetition_index": None,
-                "runtime": None,
-                "execution": None,
-                "raw_output": None,
-                "evaluation": None,
+                "repetition_index": 1,
+                "runtime": {
+                    "provider": "FILL_OBSERVED_PROVIDER",
+                    "surface": "FILL_ALLOWED_SURFACE",
+                    "model_or_configuration": "FILL_OBSERVED_CONFIGURATION",
+                    "identity_evidence": "FILL_DURABLE_REFERENCE",
+                    "observed_at": "FILL_ISO8601"
+                },
+                "execution": {
+                    "execution_id": "FILL_UNIQUE_EXECUTION_ID",
+                    "fresh_independent_run": True,
+                    "prompt_bytes_verified": True,
+                    "input_bytes_verified": True,
+                    "synthetic": False
+                },
+                "raw_output": {
+                    "path": "FILL_REPOSITORY_RELATIVE_RAW_OUTPUT_PATH",
+                    "sha256": "FILL_64_HEX_SHA256",
+                    "complete_verbatim": True
+                },
+                "evaluation": {
+                    "blocking_dimensions": {dimension: "FILL_PASS_OR_FAIL" for dimension in matrix["blocking_dimensions"]},
+                    "special_assertions": [
+                        {"assertion": assertion, "result": "FILL_PASS_OR_FAIL", "evidence": "FILL_OUTPUT_EVIDENCE"}
+                        for assertion in sorted(set(matrix_row["special_assertions"]) | set(case["assertions"]))
+                    ],
+                    "outcome_signature": "FILL_REVIEWER_NORMALIZED_MATERIAL_OUTCOME",
+                    "unresolved_blocking_human_checks": 0,
+                    "blocking_failures": []
+                },
                 "promotion": {"case_pass": False, "eligible_for_prompt_tested": False},
-                "template_only": True,
+                "template_only": True
             }
             (case_dir / "receipt.template.json").write_text(
                 json.dumps(receipt_template, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
