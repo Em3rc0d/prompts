@@ -1,0 +1,93 @@
+name: Deploy Prompt Machine Staging
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-prompt-machine-staging.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prompt-machine-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_ORG_ID: team_FTC62CRbJz9veMUDYeVzf7yI
+      VERCEL_PROJECT_ID: prj_Srr2nUKq8fZWff6x9XMyrY3dkjJ7
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      STAGING_URL: https://prompt-quarry-stage.vercel.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Fail closed without Vercel credential
+        run: |
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo 'STAGING DEPLOY: BLOCKED — repository secret VERCEL_TOKEN is not configured.'
+            exit 1
+          fi
+
+      - name: Install web dependencies
+        working-directory: web
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+
+      - name: Pull staging-project environment
+        working-directory: web
+        run: npx --yes vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build for the isolated staging project
+        working-directory: web
+        run: npx --yes vercel@latest build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy to staging project only
+        id: deploy
+        working-directory: web
+        run: |
+          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN")"
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "### Prompt Machine staging deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Vercel project: prompt-quarry-stage ($VERCEL_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deployment: $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Public Prompt Quarry production project was not targeted." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify Prompt Machine staging identity
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            HTML="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
+            if printf '%s' "$HTML" | grep -Fq 'Prompt Machine — Reusable AI Workflows for Real Tasks' \
+              && printf '%s' "$HTML" | grep -Fq 'Start with the task. Not a blank chat.'; then
+              echo 'STAGING IDENTITY: PASS'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'STAGING IDENTITY: FAIL — canonical staging alias does not serve the new Prompt Machine build.'
+          exit 1
+
+      - name: Emit non-commercial observability smoke event
+        run: |
+          STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
+            -X POST "$STAGING_URL/api/analytics/intent" \
+            -H 'content-type: application/json' \
+            --data '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}')"
+          cat /tmp/intent-response.json
+          test "$STATUS" = '202'
+          echo 'INTENT SMOKE: ACCEPTED (synthetic staging evidence; not customer demand)'
