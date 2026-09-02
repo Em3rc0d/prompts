@@ -1,137 +1,128 @@
-# Prompt Quarry
+# Prompt Machine
 
-Private research, engineering, and product repository for turning prompt/skill knowledge into governed reusable AI workflows with explicit provenance and evidence boundaries.
+**Reusable AI workflows for real tasks — engineered and evidenced by Prompt Quarry.**
 
-## System model
+Prompt Machine is the customer-facing product direction of this repository: a platform where people discover AI workflows by **what they need to get done**, use useful workflows for free, and upgrade to curated collections when broader coverage earns the price.
 
-```text
-MK0 — KNOWLEDGE QUARRY
-"What exists, and what do we actually know about it?"
-        │
-        ▼
-MK1 — PROMPT FORGE
-"Can we engineer and evaluate reusable prompt artifacts?"
-        │
-        ▼
-MK2 — PROMPT ENGINE
-"Can the system automatically route, compose, test and improve them?"
-```
+Prompt Quarry is the internal factory that acquires knowledge, engineers artifacts, tests behavior, preserves provenance, and governs what Prompt Machine is allowed to claim.
 
-- **MK0** owns source evidence, semantic artifact identity, characterization, normalized metadata, mined techniques, fixtures, provenance, and human-readable materialization.
-- **MK1** owns prompt contracts, architecture selection, assembly, critique, runtime fixtures, baseline comparison, promotion receipts, and the Prompt Generator.
-- **MK2** remains the future orchestration layer and is intentionally deferred until MK1 evidence is mature enough to support it.
-
-Canonical stage entry points:
-
-- `mk0/README.md`
-- `mk1/README.md`
-- `mk2/README.md`
-- `docs/ROADMAP.md`
-
-## Core principles
-
-1. **Source first.** Keep original/official source identity whenever available.
-2. **Raw != normalized != derived != engineered.** Do not collapse evidence and transformation layers.
-3. **Provenance survives transformation and deduplication.**
-4. **Prompt != skill != workflow.** Semantic artifact identity precedes structural scoring.
-5. **Evidence before claims.** Unknown != pass; generated != valid; valid != tested; tested != improved; improved != certified; certified != portable.
-6. **No access-control bypass.** Collectors stop at authentication, CAPTCHA, paywalls, or changed authorization boundaries.
-7. **Minimize third-party body duplication.** Prefer metadata, URLs, fingerprints, structural observations, and repository-authored abstractions.
-8. **Promotion is gated.** Failed or unobserved gates are never bypassed to make an artifact look ready.
-9. **Human readability matters.** Machine evidence and human inspection surfaces are separate but both first-class.
-10. **Meaningful failures become fixtures.** Regression evidence replaces ad-hoc patch accumulation.
-11. **`not observed == unknown`.** This applies to model behavior, builds, deployment, payments, and product claims.
-
-## Architecture
+Canonical strategy: [`docs/PRODUCT_VISION_V3.md`](docs/PRODUCT_VISION_V3.md).
 
 ```text
-EXTERNAL SOURCES
-      │
-      ▼
-┌─────────────────────────────────────────┐
-│ MK0 — KNOWLEDGE QUARRY                  │
-│                                         │
-│ acquire → identify → characterize       │
-│         → normalize → derive            │
-│         → fixtures / Golden data        │
-│         → readable materialization      │
-└──────────────────┬──────────────────────┘
-                   │ governed knowledge
-                   ▼
-┌─────────────────────────────────────────┐
-│ MK1 — PROMPT FORGE                      │
-│                                         │
-│ brief → architecture → candidate        │
-│       → critic → runtime fixtures       │
-│       → baseline → rubric → receipt     │
-│       → promotion / rejection           │
-└──────────────────┬──────────────────────┘
-                   │ sufficiently evidenced artifacts
-                   ▼
-┌─────────────────────────────────────────┐
-│ MK2 — PROMPT ENGINE                     │
-│                                         │
-│ route → retrieve/compose → evaluate     │
-│       → select → execute → feedback     │
-└─────────────────────────────────────────┘
+CUSTOMER
+   │
+   ▼
+PROMPT MACHINE
+choose outcome → use workflow → verify → reuse → collection
+   │
+   │ powered by
+   ▼
+PROMPT QUARRY
+MK0 → MK1 → PCP → evidence → eligible product artifact
 ```
 
-See `docs/ARCHITECTURE.md` and `docs/ROADMAP.md` for the full design.
+## What this project is becoming
 
-## Repository map
+Prompt Machine is **not a store of raw prompt files**.
+
+The primary unit of customer value is a **workflow**: a reusable way to perform a task with clear inputs, process, output, fallback, boundaries, and verification guidance.
+
+The primary merchandising unit is a **collection**: related workflows grouped around an outcome.
+
+Initial outcome taxonomy:
+
+- **Build & Ship** — review work, diagnose problems, design solutions, validate changes.
+- **Research & Decide** — compare options, structure evidence, make defensible decisions.
+- **Learn & Create** — turn knowledge into projects and useful deliverables.
+- **Operate & Automate** — reduce repetitive administrative and operational work.
+
+Professions remain useful metadata, but discovery begins with:
+
+> **What are you trying to get done?**
+
+## Commercial model
+
+### Free Library
+
+The free layer must be useful by itself. It exists to create value, trust, repeat usage, and evidence of demand—not to intentionally cripple the customer experience.
+
+Current concrete free release:
 
 ```text
-prompts/
-├── mk0/                    # source knowledge + characterization
-├── mk1/                    # engineered artifacts + evidence pipeline
-├── mk2/                    # deferred orchestration architecture
-├── quarry/                 # raw / normalized / analysis / fixtures
-├── library/                # governed reusable material
-├── readable/               # human-readable materializations
-├── product/                # Free Pack + Developer Pack product sources
-├── commercial/             # landing / funnel / Golden Path / launch contracts
-├── web/                    # Next.js public product surface
-├── tools/                  # builders, validators, probes, harnesses
-├── .ci/                    # durable CI / release / Golden Path receipts
-├── .approvals/             # explicit approval evidence
-└── .github/workflows/      # automation entry points
+Developer Starter / Free Library
+version           1.1.0
+workflows         3
+customer files    7
+archive bytes     23,498
+SHA-256           55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+delivery          VERIFIED
 ```
 
-## Current integration state
+Available workflows:
 
-The active integration train is:
+1. Code Review
+2. Bug Diagnosis
+3. Technical Decision
+
+Public compatibility route:
+
+`https://prompt-quarry.vercel.app/free/developer-starter-pack`
+
+The current domain is a legacy naming surface. A domain migration is separate from the product-architecture decision.
+
+### Paid Collections
+
+First commercial experiment:
 
 ```text
-feat/mk1-prompt-generator-v0-20260827
+Developer Workflow Collection
+candidate          1.2.0-candidate
+workflow families  4
+skill candidates   4
+launch price        USD 19 one-time (hypothesis)
+checkout            DISABLED
+sale state          NOT_FOR_SALE
 ```
 
-It is tracked by draft PR `#2` into `main`.
+The paid collection is expected to earn the upgrade through broader workflow coverage, reusable operating contracts, skills, examples, adaptation guidance, and evidence—not by hiding the only useful version behind payment.
 
-`main` is intentionally not treated as the current product truth until that integration train is reconciled and promoted.
+No public checkout should be enabled before release and delivery gates close.
 
-### MK0
-
-MK0 has moved beyond simple corpus collection into semantic artifact and corpus governance. Reference material cannot silently become canonical Prompt Quarry truth, and structural quality evaluation is limited to artifacts whose semantic type is appropriate for that evaluation.
-
-Use `mk0/README.md` and current characterization receipts for exact corpus state.
-
-### MK1
-
-The repository now contains infrastructure across the Forge pipeline rather than stopping at F2.
-
-Prompt Generator v0 has a durable static CI receipt with:
+## Customer funnel
 
 ```text
-dependencies          PASS
-compile               PASS
-F1/F2 regression      PASS
-generator tests       PASS
-example generation    PASS
+content / search / social
+        ↓
+Prompt Machine home
+        ↓
+"What do you want to get done?"
+        ↓
+free workflow / outcome
+        ↓
+real task usage
+        ↓
+repeat usage + trust
+        ↓
+paid collection intent
+        ↓
+checkout
+        ↓
+repeat purchase / expansion
 ```
 
-That receipt establishes static generator behavior only. It does **not** establish behavioral superiority or certification.
+The product should measure observed movement through this funnel rather than assume market demand before launch.
 
-Canonical maturity ladder:
+## Trust model
+
+Prompt Quarry exists so Prompt Machine can make conservative, inspectable claims.
+
+Master rule:
+
+```text
+MARKETING CLAIM <= OBSERVED EVIDENCE
+```
+
+Canonical maturity ladder for engineered artifacts:
 
 ```text
 DRAFT
@@ -147,117 +138,166 @@ CERTIFIED
 PORTABLE
 ```
 
-No higher state may be inferred from CI success, generated examples, deployment health, or product packaging alone.
-
-### MK2
-
-`ARCHITECTURE ONLY / DEFERRED`
-
-MK2 should not become the active implementation front until MK1 has enough real behavioral evidence, certified families, portability evidence, and lifecycle/version semantics to justify automatic orchestration.
-
-## Product surfaces
-
-### Free Developer Starter Pack v1.1.0
-
-Current public state:
+Important distinctions:
 
 ```text
-DELIVERY          VERIFIED
-VERSION           1.1.0
-FILES             7
-ZIP BYTES         23498
-SHA-256           55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
+generated != valid
+valid != tested
+tested != improved
+improved != certified
+certified != portable
+packaged != behaviorally proven
+build pass != deployed
+provider test != customer purchase
+not observed == unknown
 ```
 
-Public surface:
+## Internal factory
 
-`https://prompt-quarry.vercel.app/free/developer-starter-pack`
+### MK0 — Knowledge Quarry
 
-The Free Pack is useful product material, not behavioral certification evidence.
+> What exists, and what do we actually know about it?
 
-### Developer Pack v1.1
+Owns source evidence, semantic artifact identity, characterization, normalized metadata, mined techniques, fixtures, provenance, and human-readable materialization.
 
-Current governed state:
+### MK1 — Prompt Forge
+
+> Can we engineer and evaluate reusable workflow artifacts?
+
+Owns prompt contracts, architecture selection, assembly, static critique, runtime fixtures, baseline comparison, promotion receipts, and generator infrastructure.
+
+### MK2 — Prompt Engine
+
+> Can the system automatically route, compose, test, and improve workflows?
+
+`ARCHITECTURE ONLY / DEFERRED` until MK1 and certification evidence are mature enough to justify orchestration.
+
+### PCP — Prompt Certification Program
+
+Owns frozen baselines, specifications, static audit, behavioral test matrices, real execution receipts, failure mining, improvements, regression, portability, and certification decisions.
+
+Current PCP execution boundary on this product branch:
 
 ```text
-RELEASE_CANDIDATE RC1
-NOT_FOR_SALE
-13 customer-visible assets
-static maturity: VALID_CANDIDATE
-F4 TESTED:    NO
-F5 IMPROVED:  NO
-F6 CERTIFIED: NO
-F7 PORTABLE:  NO
+PROMPT_INVENTORY_AUDITED    PASS
+PROMPT_SPEC_COMPLETE        PASS
+STATIC_AUDIT_COMPLETE       PASS
+PROMPT_TEST_MATRIX          PASS
+PCP04_FIXTURES              PASS
+PCP04_WORK_ORDERS           PASS
+PCP04_REQUIRED_EXECUTIONS   84
+PCP04_REAL_EXECUTIONS       NOT_COMPLETED
+
+F4_TESTED                   NO
+F5_IMPROVED                 NO
+F6_CERTIFIED                NO
+F7_PORTABLE                 NO
 ```
 
-The RC1 source inventory is frozen and its deterministic builder exists. The remaining release blocker is physical archive evidence: successful deterministic execution, two byte-identical builds, recorded archive SHA-256/size, and approval bound to that exact artifact.
+The 84-observation requirement includes three independent executions of every repeatability fixture. Synthetic or incomplete receipts cannot promote F4.
 
-Do not enable paid checkout before that gate closes.
+## Skills
 
-## Public Golden Path
+The first Developer Workflow Collection candidate contains four installable skill candidates:
 
-Canonical production domain:
+- `review-code-with-evidence`
+- `diagnose-bugs-with-evidence`
+- `make-technical-decisions`
+- `design-ai-workflows`
 
-`https://prompt-quarry.vercel.app`
-
-Required route behavior is defined by:
-
-`commercial/GOLDEN_PATH_CONTRACT_V1.json`
-
-Current durable resilience evidence:
-
-`.ci/golden-path/wave2-production-20260829.json`
-
-Observed infrastructure classification:
+Current evidence:
 
 ```text
-HEALTHY_THROUGH_C200_WITHIN_TESTED_ENVELOPE
-runtime_errors = 0
-free artifact integrity preserved
-checkout = intentional 503 HOLD
-webhook GET = expected 405 route presence
+SKILL_STRUCTURE             PASS
+TRIGGER/NON-TRIGGER INPUTS  DEFINED
+HOST BEHAVIORAL TEST        NOT_COMPLETED
+PROMPT/SKILL PARITY         NOT_COMPLETED
+PORTABILITY                 NOT_COMPLETED
 ```
 
-This is serving/infrastructure evidence only. It is not F4/F5/F6/F7 evidence and it is not payment proof.
+A structurally valid skill is not implicitly host-tested or portable.
 
-## Commercial status
+## Public web
 
-The canonical commercial execution snapshot is:
+`web/` is the Prompt Machine customer-facing application.
 
-`commercial/STATUS_V1.md`
+Primary routes on this branch:
 
-Current sequence:
+- `/` — outcome-first landing
+- `/collections` — collection discovery
+- `/free/developer-starter-pack` — current free developer workflows
+- `/developer-pack` — Developer Workflow Collection status; compatibility route
+- `/license` — license summary
+
+Frontend validation:
+
+`.github/workflows/validate-prompt-machine-web.yml`
+
+Acceptance runs TypeScript typecheck and a production Next.js build, including the existing governed Free Pack materialization and Golden Path build assertion.
+
+See [`web/README.md`](web/README.md).
+
+## Repository map
 
 ```text
-Developer Pack RC1 deterministic build
-        ↓
-exact archive fingerprint + approval
-        ↓
-packaging/commercial READY
-        ↓
-provider provisioning + controlled test order
-        ↓
-signed provider webhook + exact paid delivery
-        ↓
-PQ-LAUNCH-0
-        ↓
-real non-test purchase
-        ↓
-PQ-$1
+prompts/
+├── web/                    # Prompt Machine customer surface
+├── product/                # customer product sources / candidates
+├── commercial/             # funnel, commerce, provider and launch contracts
+├── certification/          # PCP + skill certification evidence
+├── mk0/                    # internal source knowledge + characterization
+├── mk1/                    # internal prompt/workflow engineering
+├── mk2/                    # deferred orchestration architecture
+├── quarry/                 # raw / normalized / analysis / fixtures
+├── library/                # governed reusable material
+├── readable/               # human-readable materializations
+├── tools/                  # builders, validators, probes and harnesses
+├── .ci/                    # durable CI / release receipts
+├── .approvals/             # explicit approval evidence
+└── .github/workflows/      # automation entry points
 ```
 
-The public Free Pack path is live. The paid path is intentionally held.
+## Revenue objective, product discipline
 
-## Current merge boundary
+Prompt Machine exists to become a real revenue channel. Revenue is the business outcome, but it must come from customer value rather than from inflating the catalog or claims.
 
-The draft integration PR should not be merged just because production serves correctly.
+North-star product signal:
 
-Before promotion to `main`, reconcile at least:
+> **A person successfully uses a workflow on a real task and comes back for another task.**
 
-1. canonical docs/status against observed repository and production state;
-2. branch-level CI and durable receipt inventory;
-3. Developer Pack RC1 physical release evidence or an explicit decision to keep that gate post-merge;
-4. obsolete branches as `MERGE`, `SUPERSEDED`, or `ARCHIVE`;
-5. claims so no `TESTED`, `IMPROVED`, `CERTIFIED`, `PORTABLE`, payment, or revenue statement exceeds evidence.
+Commercial signals follow:
 
-Prompt Quarry treats the distinction between **implemented**, **observed**, **validated**, **behaviorally proven**, and **commercially ready** as part of the product itself.
+```text
+visitor
+→ free activation
+→ repeat user
+→ paid intent
+→ purchase
+→ second purchase / expansion
+```
+
+There is no honest pre-launch variable that guarantees people will buy. Confidence grows through observed activation, repeat usage, conversion, purchases, support/refund signals, and demand for additional outcomes.
+
+## Current critical path
+
+```text
+Prompt Machine positioning      DONE ON PRODUCT BRANCH
+        ↓
+outcome/collection UX           IN PROGRESS
+        ↓
+PCP-04 real baseline execution  OPEN
+        ↓
+failure mining + improvement    OPEN
+        ↓
+skill behavioral/parity tests   OPEN
+        ↓
+paid collection release QA      OPEN
+        ↓
+provider + delivery canary       OPEN
+        ↓
+USD 19 public experiment         NOT ENABLED
+        ↓
+PQ-$1 + observed conversion      NOT OBSERVED
+```
+
+We do not call Prompt Machine commercially successful before the first real customer pays, and we do not call a workflow certified before its evidence earns that label.
