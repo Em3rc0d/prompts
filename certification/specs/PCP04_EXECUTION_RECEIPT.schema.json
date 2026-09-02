@@ -5,19 +5,22 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema", "receipt_id", "work_order_id", "prompt_id", "prompt_sha256",
-    "fixture_set_id", "case_id", "case_class", "runtime", "execution",
-    "raw_output", "evaluation", "promotion"
+    "schema", "receipt_id", "campaign_id", "work_order_id", "prompt_id",
+    "prompt_sha256", "fixture_set_id", "case_id", "case_class",
+    "repetition_index", "runtime", "execution", "raw_output", "evaluation",
+    "promotion"
   ],
   "properties": {
     "schema": {"const": "prompt-quarry-pcp04-execution-receipt-v1"},
     "receipt_id": {"type": "string", "pattern": "^PQ-PCP04-EXEC-[A-Z0-9-]+$"},
+    "campaign_id": {"type": "string", "pattern": "^PQ-PCP04-CAMPAIGN-[A-Z0-9-]+$"},
     "work_order_id": {"type": "string", "pattern": "^PQ-PCP04-WO-[A-Z0-9-]+$"},
     "prompt_id": {"type": "string", "pattern": "^PQ-PROMPT-[0-9]{4}$"},
     "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "fixture_set_id": {"const": "PQ-PCP-04-FIXTURES-0001"},
     "case_id": {"type": "string", "minLength": 3},
     "case_class": {"enum": ["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"]},
+    "repetition_index": {"type": "integer", "minimum": 1, "maximum": 3},
     "runtime": {
       "type": "object",
       "additionalProperties": false,
@@ -97,5 +100,12 @@
         "eligible_for_prompt_tested": {"type": "boolean"}
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"case_class": {"const": "REPEATABILITY"}}},
+      "then": {"properties": {"repetition_index": {"minimum": 1, "maximum": 3}}},
+      "else": {"properties": {"repetition_index": {"const": 1}}}
+    }
+  ]
 }
