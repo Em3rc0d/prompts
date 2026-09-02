@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "prompt-quarry-pcp04-execution-receipt-v1",
+  "title": "Prompt Quarry PCP-04 real execution receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "receipt_id", "work_order_id", "prompt_id", "prompt_sha256",
+    "fixture_set_id", "case_id", "case_class", "runtime", "execution",
+    "raw_output", "evaluation", "promotion"
+  ],
+  "properties": {
+    "schema": {"const": "prompt-quarry-pcp04-execution-receipt-v1"},
+    "receipt_id": {"type": "string", "pattern": "^PQ-PCP04-EXEC-[A-Z0-9-]+$"},
+    "work_order_id": {"type": "string", "pattern": "^PQ-PCP04-WO-[A-Z0-9-]+$"},
+    "prompt_id": {"type": "string", "pattern": "^PQ-PROMPT-[0-9]{4}$"},
+    "prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fixture_set_id": {"const": "PQ-PCP-04-FIXTURES-0001"},
+    "case_id": {"type": "string", "minLength": 3},
+    "case_class": {"enum": ["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"]},
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "surface", "model_or_configuration", "identity_evidence", "observed_at"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "surface": {"enum": ["api", "chatgpt-manual-observed", "codex-cli", "other-real-runtime"]},
+        "model_or_configuration": {"type": "string", "minLength": 1},
+        "identity_evidence": {"type": "string", "minLength": 1},
+        "observed_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_id", "fresh_independent_run", "prompt_bytes_verified", "input_bytes_verified", "synthetic"],
+      "properties": {
+        "execution_id": {"type": "string", "minLength": 1},
+        "fresh_independent_run": {"const": true},
+        "prompt_bytes_verified": {"const": true},
+        "input_bytes_verified": {"const": true},
+        "synthetic": {"const": false}
+      }
+    },
+    "raw_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "complete_verbatim"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "complete_verbatim": {"const": true}
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocking_dimensions", "special_assertions", "unresolved_blocking_human_checks", "blocking_failures"],
+      "properties": {
+        "blocking_dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["TASK_COMPLETION","INSTRUCTION_FOLLOWING","FACTUAL_DISCIPLINE","OUTPUT_STRUCTURE","ROBUSTNESS","USABILITY"],
+          "properties": {
+            "TASK_COMPLETION": {"enum": ["PASS","FAIL"]},
+            "INSTRUCTION_FOLLOWING": {"enum": ["PASS","FAIL"]},
+            "FACTUAL_DISCIPLINE": {"enum": ["PASS","FAIL"]},
+            "OUTPUT_STRUCTURE": {"enum": ["PASS","FAIL"]},
+            "ROBUSTNESS": {"enum": ["PASS","FAIL"]},
+            "USABILITY": {"enum": ["PASS","FAIL"]}
+          }
+        },
+        "special_assertions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["assertion", "result", "evidence"],
+            "properties": {
+              "assertion": {"type": "string", "minLength": 1},
+              "result": {"enum": ["PASS","FAIL"]},
+              "evidence": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "unresolved_blocking_human_checks": {"type": "integer", "minimum": 0},
+        "blocking_failures": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_pass", "eligible_for_prompt_tested"],
+      "properties": {
+        "case_pass": {"type": "boolean"},
+        "eligible_for_prompt_tested": {"type": "boolean"}
+      }
+    }
+  }
+}
