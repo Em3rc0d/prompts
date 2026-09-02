@@ -68,6 +68,7 @@ def main() -> int:
 
     work_orders: list[dict] = []
     prompt_summaries: list[dict] = []
+    required_execution_count = 0
 
     for prompt_id in sorted(inventory_prompts):
         inv = inventory_prompts[prompt_id]
@@ -96,12 +97,16 @@ def main() -> int:
         prompt_dir = args.output / prompt_id
         prompt_dir.mkdir()
         (prompt_dir / "prompt.txt").write_bytes(source_bytes)
+        prompt_required_executions = 0
 
         for case_class in EXPECTED_CLASSES:
             case = by_class[case_class]
             input_text = case["input"].rstrip() + "\n"
             input_bytes = input_text.encode("utf-8")
             case_id = case["case_id"]
+            required_repetitions = 3 if case_class == "REPEATABILITY" else 1
+            prompt_required_executions += required_repetitions
+            required_execution_count += required_repetitions
             work_order_id = f"PQ-PCP04-WO-{slug(prompt_id)}-{case_id}"
             order = {
                 "schema": "prompt-quarry-pcp04-work-order-v1",
@@ -120,6 +125,7 @@ def main() -> int:
                     "case_class": case_class,
                     "input_sha256": sha256_bytes(input_bytes),
                     "assertions": case["assertions"],
+                    "required_repetitions": required_repetitions,
                 },
                 "runtime_contract": {
                     "real_runtime_required": True,
@@ -127,6 +133,7 @@ def main() -> int:
                     "synthetic_allowed_for_promotion": False,
                     "runtime_identity_must_be_observed": True,
                     "full_raw_output_must_be_preserved": True,
+                    "repeatability_runs_must_have_distinct_execution_ids": case_class == "REPEATABILITY",
                 },
                 "evaluation_contract": {
                     "blocking_dimensions": matrix["blocking_dimensions"],
@@ -152,6 +159,7 @@ def main() -> int:
                 "fixture_set_id": fixtures["fixture_set_id"],
                 "case_id": case_id,
                 "case_class": case_class,
+                "repetition_index": None,
                 "runtime": None,
                 "execution": None,
                 "raw_output": None,
@@ -170,10 +178,13 @@ def main() -> int:
             "family_id": family_id,
             "prompt_sha256": observed_prompt_sha,
             "case_count": 10,
+            "required_execution_count": prompt_required_executions,
         })
 
     if len(work_orders) != 70:
         raise SystemExit(f"expected 70 work orders, got {len(work_orders)}")
+    if required_execution_count != 84:
+        raise SystemExit(f"expected 84 required executions, got {required_execution_count}")
 
     jsonl = "".join(json.dumps(row, ensure_ascii=False, sort_keys=True) + "\n" for row in work_orders)
     (args.output / "work-orders.jsonl").write_text(jsonl, encoding="utf-8")
@@ -186,11 +197,17 @@ def main() -> int:
         "inventory_id": inventory["inventory_id"],
         "prompt_count": len(prompt_summaries),
         "work_order_count": len(work_orders),
+        "required_execution_count": required_execution_count,
+        "repeatability_policy": {
+            "case_class": "REPEATABILITY",
+            "independent_runs_per_prompt": 3,
+            "distinct_execution_ids_required": True
+        },
         "prompt_summaries": prompt_summaries,
         "work_orders_jsonl_sha256": sha256_bytes(jsonl.encode("utf-8")),
         "behavioral_claim": "NONE",
         "F4_TESTED": False,
-        "next_gate": "Execute each work order on an identified real runtime and persist schema-valid receipts with verbatim raw outputs.",
+        "next_gate": "Execute 84 real observations across the 70 work orders, including three independent runs for every REPEATABILITY case, then persist schema-valid receipts with verbatim raw outputs.",
     }
     (args.output / "manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
