@@ -1,6 +1,6 @@
 # Prompt Quarry Skill Certification Profile v1
 
-Status: `FROZEN DESIGN / NO SKILL CERTIFIED`
+Status: `ACTIVE / STRUCTURE PASS / HOST TESTING NEXT / NO SKILL CERTIFIED`
 
 This profile extends the Prompt Certification Program to installable skills.
 It adds skill-specific evidence; it does not promote the maturity of any source
@@ -160,16 +160,39 @@ Every released skill must have:
 
 ## Current state
 
-```text
-PQ-SKILL-0001  SPEC_REQUIRED
-PQ-SKILL-0002  SPEC_REQUIRED
-PQ-SKILL-0003  SPEC_REQUIRED
-PQ-SKILL-0004  BLOCKED_BY_PQ-PROMPT-0005_STATIC_FAIL
+Deterministic structural validation is now complete against the exact v1.2
+candidate files. The durable receipt is:
 
-SKILL_STRUCTURE_PASS      NO
+`certification/receipts/skill-structure.v1.json`
+
+Observed CI evidence:
+
+```text
+workflow  Validate Workflow Kit Skills v1.2
+run       33637606315
+commit    ea3342ffdfa390f0bcb7582a1e1b2447057b780d
+result    PASS
+skills    4/4 PASS
+warnings  0
+trigger fixtures  32 DEFINED / UNEXECUTED
+```
+
+Current maturity remains deliberately bounded:
+
+```text
+PQ-SKILL-0001  STRUCTURALLY_VALID / HOST_TESTING_REQUIRED
+PQ-SKILL-0002  STRUCTURALLY_VALID / HOST_TESTING_REQUIRED
+PQ-SKILL-0003  STRUCTURALLY_VALID / HOST_TESTING_REQUIRED
+PQ-SKILL-0004  STRUCTURALLY_VALID / HOST_TESTING_REQUIRED
+
+SKILL_STRUCTURE_PASS      YES
+SKILL_TRIGGER_FIXTURES    DEFINED / UNEXECUTED
 SKILL_TRIGGER_EVAL_PASS   NO
 SKILL_FORWARD_TEST_PASS   NO
 PROMPT_SKILL_PARITY_PASS  NO
+WORKFLOW_CERTIFIED        NO
+PORTABLE                  NO
 ```
 
-No skill is currently claimed as tested, certified, portable, or sellable.
+A structural PASS is not installation evidence and does not prove discovery,
+execution quality, certification, portability, or sellability.
