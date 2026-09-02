@@ -1,5 +1,6 @@
 name: Probe Codex Host on WSL
 
+# Capability-only probe: never reads credential contents.
 on:
   workflow_dispatch:
   push:
