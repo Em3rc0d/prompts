@@ -163,8 +163,17 @@ def validate_skill(name: str, expected: dict[str, object]) -> dict[str, object]:
         successor = KIT / "prompts" / "general-operating-contract-v1.2.md"
         if not successor.is_file():
             fail(errors, "versioned PQ-PROMPT-0005 successor is missing")
-        elif "partial domain conclusion is not allowed" not in successor.read_text(encoding="utf-8").lower():
-            fail(errors, "v1.2 successor does not preserve the blocker resolution invariant")
+        else:
+            successor_text = successor.read_text(encoding="utf-8").lower()
+            required_invariants = [
+                "status: blocked",
+                "do not execute the domain task",
+                "safe partial evidence summary is allowed",
+                "partial domain conclusion is not",
+            ]
+            missing = [item for item in required_invariants if item not in successor_text]
+            if missing:
+                fail(errors, f"v1.2 successor does not preserve blocker resolution invariants: {missing}")
 
     return {
         "name": name,
