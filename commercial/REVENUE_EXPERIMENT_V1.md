@@ -6,9 +6,7 @@ Date: `2026-09-02`
 
 ## 1. Objective
 
-The first commercial objective is not to prove that Prompt Machine can generate prompts.
-
-It is to prove that a real person will pay for a workflow collection after receiving useful free value.
+Prompt Machine must prove that a real person will pay for a reusable AI workflow after receiving useful free value.
 
 Primary milestone:
 
@@ -35,7 +33,13 @@ DEVELOPER COLLECTION         USD 19 one-time
 SUBSCRIPTION                 DEFERRED
 ```
 
-All prices are hypotheses until real willingness-to-pay evidence exists.
+Pricing evidence state for both paid tiers:
+
+```text
+PRICE HYPOTHESIS
+```
+
+The $9 Starter is the primary first-launch paid offer. The $19 Developer Collection remains the broader premium option and price anchor. Subscription is deferred until recurring value is observed.
 
 ### Free Library — $0
 
@@ -49,23 +53,19 @@ The free layer is intentionally useful. It is not a crippled demo.
 
 ### Starter Collection — $9 one-time
 
-This is the primary first-launch paid offer.
-
 Candidate value:
 
-- 2–3 premium workflow surfaces selected around one coherent job family;
-- installable skill surfaces where structurally and behaviorally supported;
+- 2–3 premium workflow surfaces around one coherent job family;
+- installable skill surfaces only where evidence supports them;
 - real examples;
 - `START_HERE` task routing;
 - verification guidance;
-- adaptation cheatsheet;
+- adaptation guidance;
 - explicit evidence and limitations.
 
-The Starter Collection must solve complete tasks. It must not be the Developer Collection with arbitrary pieces removed merely to force an upgrade.
+The Starter must solve complete tasks. It must not be a deliberately broken subset of the $19 product.
 
 ### Developer Collection — $19 one-time
-
-This remains the broader premium offer and price anchor.
 
 Candidate value:
 
@@ -73,31 +73,14 @@ Candidate value:
 - four skill surfaces when corresponding gates pass;
 - operating contracts;
 - advanced adaptation guidance;
-- examples;
-- evidence cards;
+- examples and evidence cards;
 - full collection navigation and orchestration.
 
-The $19 offer should earn its price through broader reusable coverage, not through withholding the minimum needed to make the $9 product useful.
-
-### Subscription
-
-Subscription remains deferred until Prompt Machine observes a credible recurring value loop such as:
-
-- customers returning for new workflows;
-- meaningful update demand;
-- repeat purchases;
-- sustained collection usage;
-- a release cadence customers would rationally pay to continue receiving.
-
-Do not invent a monthly plan merely to create recurring revenue before recurring value exists.
+The $19 tier must earn the upgrade through broader reusable coverage.
 
 ## 3. Pricing experiment discipline
 
-The primary first paid experiment is now **USD $9 one-time**.
-
-The $19 Developer Collection remains visible as the premium/full option.
-
-Preferred commercial ladder:
+Preferred ladder:
 
 ```text
 $0 useful free value
@@ -109,7 +92,7 @@ $19 broader full collection
 repeat purchase / referral / future recurring model if earned
 ```
 
-Freeze the $9 Starter price during the first launch cohort unless there is a material legal, tax, provider, or product defect. Do not change price after every failed visit; that would confound product demand with pricing noise.
+Freeze the $9 price and Starter contents during the first observation cohort except for material product, legal, security, delivery, or provider defects.
 
 Suggested first observation window:
 
@@ -118,33 +101,17 @@ first 10 real Starter purchases OR first 30 days of public sale,
 whichever occurs first
 ```
 
-After the window, review the full funnel before changing price or package boundaries.
+Do not change price after every failed visit. Diagnose the complete funnel first.
 
-## 4. Why the free layer exists
+## 4. Value ladder
 
-The free layer is part of acquisition and trust, not an intentionally broken teaser.
+The free layer exists for acquisition, trust, and real utility.
 
-A user should be able to apply one of the current free workflows to a real task without paying.
+The $9 Starter must earn payment through less setup, coherent workflow coverage, examples, navigation, verification, and supported installable surfaces.
 
-The $9 Starter must earn the first purchase through:
+The $19 Developer Collection must earn the upgrade through broader coverage, deeper orchestration, stronger adaptation surfaces, and the full supported skill set.
 
-- less setup and trial-and-error;
-- coherent workflow coverage around a repeated job;
-- useful examples;
-- easier navigation;
-- installable surfaces where supported;
-- visible verification and limitations.
-
-The $19 Developer Collection must then earn the upgrade through:
-
-- broader related workflow coverage;
-- the full set of supported skill surfaces;
-- reusable operating contracts;
-- advanced adaptation guidance;
-- deeper orchestration across recurring tasks;
-- stronger evidence and known-limitations surfaces.
-
-If customers cannot explain why each paid tier is worth more than the tier below it, the product ladder has failed the value test even if checkout technically works.
+If customers cannot explain why each tier is worth more than the tier below it, the ladder has failed even if checkout works technically.
 
 ## 5. Acquisition model
 
@@ -157,8 +124,6 @@ technical / learning content
 search / GitHub discovery
 direct sharing / referrals
 ```
-
-Content should lead with useful information, examples, lessons, or workflows—not with repeated purchase requests.
 
 Preferred path:
 
@@ -180,29 +145,40 @@ Developer Collection interest
 $19 purchase when broader value is needed
 ```
 
-Direct-to-paid traffic is allowed, but the core product thesis assumes trust can be built by useful free value and transparent evidence.
+Content should lead with useful information and demonstrations, not repeated purchase requests. Campaigns should use UTM attribution when practical.
 
-Every campaign should use UTM attribution when practical.
+## 6. Observable funnel
 
-## 6. Funnel events
-
-Minimum observable events:
+Minimum funnel events:
 
 ```text
 landing_view
 free_product_viewed
 free_cta_clicked
+free_pack_acquired
 collections_viewed
 starter_product_viewed
 starter_cta_clicked
 paid_product_viewed
 paid_cta_clicked
-checkout_started          when provider integration exposes it safely
-purchase_completed        only from accepted real purchase evidence
-delivery_completed        only after exact customer artifact delivery is verified
+checkout_started
+purchase_completed
+delivery_completed
 ```
 
-Client-side events are intent evidence. Server/provider receipts are purchase evidence.
+Evidence classes are deliberately separated:
+
+```text
+browser/client intent          = UNTRUSTED_CLIENT_INTENT
+verified free artifact serve   = SERVER_DELIVERY_EVIDENCE
+checkout creation              = SERVER_CHECKOUT_EVIDENCE
+accepted paid provider event   = PROVIDER_SIGNED_PURCHASE_EVIDENCE
+verified artifact fulfillment  = DELIVERY_EVIDENCE
+```
+
+Client-side events are intent evidence only. They may be counted and segmented, but they can never manufacture revenue evidence.
+
+Prompt Machine's anonymous browser session identifier remains browser-session-only. The server intent sink must not receive it. Intent logs must avoid intentionally collecting names, email addresses, request headers, IP fields, or user-agent values.
 
 ## 7. Metrics
 
@@ -214,18 +190,9 @@ landing → free CTA
 content source → landing
 ```
 
-### Activation proxy
+### Activation proxies
 
-A download is not task success.
-
-Until the product has an explicit in-product completion signal, use conservative proxies such as:
-
-- repeat visit;
-- second workflow view/download;
-- voluntary feedback describing a completed real task;
-- attributable movement from free to collection inspection.
-
-Do not label these proxies as proven productivity improvement.
+A download is not proof of task success. Until explicit completion evidence exists, conservative proxies include repeat visits, a second workflow interaction, voluntary feedback describing a completed task, and movement from Free to paid collection inspection.
 
 ### Commercial intent
 
@@ -250,17 +217,9 @@ refund rate
 support contacts per purchase
 ```
 
-### Expansion
+## 8. Launch gates
 
-```text
-paid customer → repeat visit
-paid customer → second collection purchase
-paid customer → referral
-```
-
-## 8. Launch decision rules
-
-Public sale remains disabled unless all required product and delivery gates pass for the specific SKU being sold.
+Public sale remains disabled unless the required product and delivery gates pass for the exact SKU being sold.
 
 At minimum:
 
@@ -273,13 +232,15 @@ LIVE_DELIVERY_CANARY         PASS
 PUBLIC_COPY_EVIDENCE_AUDIT   PASS
 ```
 
-Behavioral maturity labels remain separately governed by PCP and skill certification.
+Behavioral maturity remains separately governed by PCP and skill certification.
 
-If a collection is sold before full F6 certification is earned, customer-facing copy must accurately describe the lower evidence state and known limitations. Packaging must never imply a stronger maturity level than receipts establish.
+Master rule:
+
+```text
+MARKETING CLAIM <= OBSERVED EVIDENCE
+```
 
 ## 9. First-launch cohort discipline
-
-During the first observation window:
 
 Keep stable where possible:
 
@@ -288,37 +249,27 @@ Keep stable where possible:
 - $19 Developer Collection anchor;
 - main value proposition;
 - checkout provider;
-- core landing CTA structure.
+- primary CTA structure.
 
-Changes are allowed for:
+Changes are allowed for broken delivery, security/privacy defects, misleading claims, severe usability failures, or payment/provider failures. Record material changes so results remain interpretable.
 
-- broken delivery;
-- security/privacy defects;
-- misleading claims;
-- severe usability failures;
-- payment/provider failures.
-
-Record every material change so conversion results can be interpreted against the version actually shown to customers.
-
-## 10. What we learn from failure
+## 10. Failure diagnosis
 
 No purchases does not automatically mean "lower the price."
 
 Investigate in order:
 
-1. **Traffic problem** — not enough relevant visitors.
-2. **Message problem** — visitors do not understand the result or audience.
-3. **Activation problem** — free users do not reach useful value.
-4. **Trust problem** — users do not believe the product is worth relying on.
-5. **Upgrade problem** — Starter does not look materially better than free.
-6. **Price problem** — value is understood but $9 still blocks purchase.
-7. **Checkout problem** — intent exists but payment/delivery fails.
+1. traffic;
+2. message;
+3. activation;
+4. trust;
+5. upgrade value;
+6. price;
+7. checkout/delivery.
 
-For the $19 tier, separately test whether Starter customers perceive enough additional breadth to justify the upgrade.
+For the $19 tier, separately test whether Starter customers perceive enough additional value to upgrade.
 
-Do not diagnose price before observing the earlier stages.
-
-## 11. What we learn from success
+## 11. Success interpretation
 
 One $9 purchase establishes only:
 
@@ -326,50 +277,26 @@ One $9 purchase establishes only:
 someone paid once
 ```
 
-It does not establish product-market fit.
+Ten distinct customers are stronger willingness-to-pay evidence but still do not prove product-market fit.
 
-Ten distinct customers establish stronger willingness-to-pay evidence but still do not prove repeatability at scale.
-
-A customer who later upgrades from $9 to $19 is stronger evidence that the product ladder creates expanding value rather than merely extracting a small impulse purchase.
-
-Repeat purchase, referral, low refund/support burden, and sustained conversion are stronger signals that Prompt Machine is becoming a business rather than a one-time novelty.
+A later $9 → $19 upgrade, repeat purchase, referral, low refund rate, and low support burden are progressively stronger business signals.
 
 ## 12. Expansion rule
 
-Do not build dozens of profession-specific packs because those professions exist.
+Do not build profession-specific collections simply because professions exist.
 
-New collections enter the roadmap when observed demand shows recurring jobs-to-be-done that are:
-
-- common enough to repeat;
-- structured enough to workflowize;
-- valuable enough that reducing setup/trial-and-error matters;
-- safe and lawful to package at the intended level of authority;
-- supportable with Prompt Quarry evidence.
+A new collection enters the roadmap when observed demand identifies a recurring job-to-be-done that is common, workflowizable, valuable, safe/lawful at the intended authority level, and supportable with Prompt Quarry evidence.
 
 Profession is metadata. Outcome is the primary product axis.
 
 ## 13. Content loop
 
-The founder/content channel can publish:
+Useful content can show workflow demonstrations, AI verification mistakes, before/after task structure, engineering lessons, build-in-public milestones, and product evidence/limitations.
 
-- real workflow demonstrations;
-- before/after task structure;
-- AI mistakes and verification lessons;
-- software and systems-engineering lessons;
-- university/project-building experience;
-- transparent build-in-public milestones;
-- product evidence and limitations in accessible language.
-
-Every useful content item should have one natural next step, usually:
+Preferred next step:
 
 ```text
 Try the related free workflow
-```
-
-not:
-
-```text
-Buy now
 ```
 
 Trust should compound before monetization pressure does.
@@ -393,12 +320,13 @@ verified delivery      == fulfilled purchase evidence
 Product Vision v3                     DONE
 Outcome-first public web              IMPLEMENTED ON PRODUCT BRANCH
 Collections surface                   IMPLEMENTED ON PRODUCT BRANCH
-Price ladder $0 → $9 → $19            FROZEN AS LAUNCH HYPOTHESIS
+Price ladder $0 → $9 → $19            PRICE HYPOTHESIS FROZEN
+Server-observed intent sink           IMPLEMENTED ON PRODUCT BRANCH
 Starter Collection scope              TO FREEZE
-Funnel telemetry                      IMPLEMENTED / BACKEND OBSERVATION TBD
 PCP-04 real execution                 OPEN
 Paid collection product QA            OPEN
-Provider + live delivery canary        OPEN
+Preview/staging verification          OPEN
+Provider + live delivery canary       OPEN
 Public $9 Starter checkout            OFF
 Public $19 Developer checkout         OFF
 PQ-$1                                 NOT OBSERVED
