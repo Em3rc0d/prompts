@@ -32,6 +32,9 @@ jobs:
           assert m['state'] == 'READY_FOR_REAL_EXECUTION', m
           assert m['prompt_count'] == 7, m
           assert m['work_order_count'] == 70, m
+          assert m['required_execution_count'] == 84, m
+          assert m['repeatability_policy']['independent_runs_per_prompt'] == 3, m
+          assert m['repeatability_policy']['distinct_execution_ids_required'] is True, m
           assert m['behavioral_claim'] == 'NONE', m
           assert m['F4_TESTED'] is False, m
           assert len(list(Path('build/pcp04-work-orders').glob('PQ-PROMPT-*/*/work-order.json'))) == 70
