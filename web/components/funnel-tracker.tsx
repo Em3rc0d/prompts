@@ -4,6 +4,16 @@ import { useEffect } from "react";
 
 const ATTRIBUTION_KEY = "pq:attribution";
 const SESSION_KEY = "pq:session-id";
+const CLIENT_INTENT_EVENTS = new Set([
+  "landing_view",
+  "collections_viewed",
+  "free_product_viewed",
+  "free_cta_clicked",
+  "starter_product_viewed",
+  "starter_cta_clicked",
+  "paid_product_viewed",
+  "paid_cta_clicked",
+]);
 
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
 type FunnelEvent = {
@@ -39,9 +49,25 @@ function sessionId(): string {
   return created;
 }
 
+function observeIntent(payload: FunnelEvent): void {
+  if (!CLIENT_INTENT_EVENTS.has(payload.event)) return;
+
+  void fetch("/api/analytics/intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...payload, ...readAttribution() }),
+    cache: "no-store",
+    credentials: "same-origin",
+    keepalive: true,
+  }).catch(() => {
+    // Analytics is best-effort and must never block the customer workflow.
+  });
+}
+
 function emit(payload: FunnelEvent) {
   const detail = { ...payload, timestamp: new Date().toISOString(), session_id: sessionId(), ...readAttribution() };
   if ((process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off") === "debug") console.info("[Prompt Machine analytics]", detail);
+  observeIntent(payload);
   window.dispatchEvent(new CustomEvent("pq:analytics", { detail }));
 }
 
