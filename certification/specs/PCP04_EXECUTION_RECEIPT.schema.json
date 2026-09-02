@@ -58,7 +58,7 @@
     "evaluation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["blocking_dimensions", "special_assertions", "unresolved_blocking_human_checks", "blocking_failures"],
+      "required": ["blocking_dimensions", "special_assertions", "outcome_signature", "unresolved_blocking_human_checks", "blocking_failures"],
       "properties": {
         "blocking_dimensions": {
           "type": "object",
@@ -86,6 +86,11 @@
               "evidence": {"type": "string", "minLength": 1}
             }
           }
+        },
+        "outcome_signature": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reviewer-normalized material outcome used only to detect repeatability drift; it does not replace the verbatim output."
         },
         "unresolved_blocking_human_checks": {"type": "integer", "minimum": 0},
         "blocking_failures": {"type": "array", "items": {"type": "string"}}
