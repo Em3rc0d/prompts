@@ -26,9 +26,23 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
     : (publicSaleLive ? "/api/commerce/developer-pack/checkout" : "/developer-pack");
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
-    window.dispatchEvent(new CustomEvent("pq:funnel", {
-      detail: { event: kind === "free" ? "free_cta_clicked" : "paid_cta_clicked" },
-    }));
+    const detail = kind === "free"
+      ? {
+          event: "free_cta_clicked",
+          product_id: "pq-developer-starter",
+          product_version: "1.1.0",
+          collection_id: "developer",
+          surface: "free-library",
+        }
+      : {
+          event: "paid_cta_clicked",
+          product_id: "pq-developer-pack",
+          product_version: "1.2.0-candidate",
+          collection_id: "developer",
+          surface: "paid-collection",
+        };
+
+    window.dispatchEvent(new CustomEvent("pq:funnel", { detail }));
     if (kind === "free" && freeExternal) return;
     event.preventDefault();
     window.location.assign(internalUrl(href));
