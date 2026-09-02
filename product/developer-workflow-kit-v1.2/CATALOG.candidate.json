@@ -2,12 +2,16 @@
   "schema": "prompt-quarry-workflow-kit-catalog-v1",
   "catalog_id": "PQ-WORKFLOW-KIT-1.2-CANDIDATE-0001",
   "created_at": "2026-09-02T12:45:01Z",
-  "state": "STRUCTURE_VALID_HOST_TESTING_REQUIRED",
+  "state": "STRUCTURE_VALID_CUSTOMER_EXPERIENCE_DESIGNED_HOST_TESTING_REQUIRED",
   "sale_status": "NOT_FOR_SALE",
+  "brand": {
+    "customer_facing": "Prompt Machine",
+    "internal_factory": "Prompt Quarry"
+  },
   "products": [
     {
       "product_id": "pq-developer-starter",
-      "display_name": "Prompt Quarry Developer Starter",
+      "display_name": "Prompt Machine Free Developer Workflows",
       "version": "1.2.0-candidate",
       "tier": "FREE",
       "price_usd": 0,
@@ -18,10 +22,14 @@
     },
     {
       "product_id": "pq-developer-pack",
-      "display_name": "Prompt Quarry Developer Workflow Kit",
+      "display_name": "Prompt Machine Developer Workflow Collection",
       "version": "1.2.0-candidate",
       "tier": "PAID",
-      "price": {"type": "ONE_TIME", "launch_usd": 19, "evidence_state": "PRIOR_DECISION_PRICE_HYPOTHESIS"},
+      "price": {
+        "type": "ONE_TIME",
+        "launch_usd": 19,
+        "evidence_state": "PRICE_HYPOTHESIS"
+      },
       "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003", "PQ-WF-0004"],
       "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003", "PQ-PROMPT-0004", "PQ-PROMPT-0005", "PQ-PROMPT-0006", "PQ-PROMPT-0007"],
       "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002", "PQ-SKILL-0003", "PQ-SKILL-0004"],
@@ -29,13 +37,68 @@
     }
   ],
   "workflows": [
-    {"workflow_id":"PQ-WF-0001","name":"Evidence-first Code Review","outcome":"Review a software change with explicit evidence, severity, verification, and ship-state semantics.","finished_prompt_id":"PQ-PROMPT-0002","system_prompt_id":"PQ-PROMPT-0006","skill":{"skill_id":"PQ-SKILL-0001","name":"review-code-with-evidence","free_preview":true},"state":"STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"},
-    {"workflow_id":"PQ-WF-0002","name":"Evidence-first Bug Diagnosis","outcome":"Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.","finished_prompt_id":"PQ-PROMPT-0001","system_prompt_id":"PQ-PROMPT-0004","skill":{"skill_id":"PQ-SKILL-0002","name":"diagnose-bugs-with-evidence","free_preview":false},"state":"STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"},
-    {"workflow_id":"PQ-WF-0003","name":"Technical Research and Decision","outcome":"Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.","finished_prompt_id":"PQ-PROMPT-0003","system_prompt_id":"PQ-PROMPT-0007","skill":{"skill_id":"PQ-SKILL-0003","name":"make-technical-decisions","free_preview":false},"state":"STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"},
-    {"workflow_id":"PQ-WF-0004","name":"AI Workflow Contract Designer","outcome":"Turn a recurring AI-assisted task into an explicit, inspectable operating contract.","finished_prompt_id":null,"system_prompt_id":"PQ-PROMPT-0005","successor_prompt_path":"product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md","skill":{"skill_id":"PQ-SKILL-0004","name":"design-ai-workflows","free_preview":false},"state":"STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"}
+    {
+      "workflow_id": "PQ-WF-0001",
+      "name": "Evidence-first Code Review",
+      "customer_task": "Review a software change",
+      "outcome": "Review a software change with explicit evidence, severity, verification, and ship-state semantics.",
+      "finished_prompt_id": "PQ-PROMPT-0002",
+      "system_prompt_id": "PQ-PROMPT-0006",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0001", "name": "review-code-with-evidence", "free_preview": true},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0002",
+      "name": "Evidence-first Bug Diagnosis",
+      "customer_task": "Diagnose a bug or regression",
+      "outcome": "Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.",
+      "finished_prompt_id": "PQ-PROMPT-0001",
+      "system_prompt_id": "PQ-PROMPT-0004",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0002", "name": "diagnose-bugs-with-evidence", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0003",
+      "name": "Technical Research and Decision",
+      "customer_task": "Make a technical decision",
+      "outcome": "Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.",
+      "finished_prompt_id": "PQ-PROMPT-0003",
+      "system_prompt_id": "PQ-PROMPT-0007",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0003", "name": "make-technical-decisions", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0004",
+      "name": "AI Workflow Contract Designer",
+      "customer_task": "Design a reusable AI workflow",
+      "outcome": "Turn a recurring AI-assisted task into an explicit, inspectable operating contract.",
+      "finished_prompt_id": null,
+      "system_prompt_id": "PQ-PROMPT-0005",
+      "successor_prompt_path": "product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md",
+      "customer_prompt_surface": "product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md",
+      "customer_prompt_state": "VERSIONED_CANDIDATE_TESTING_REQUIRED",
+      "skill": {"skill_id": "PQ-SKILL-0004", "name": "design-ai-workflows", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    }
   ],
+  "customer_experience": {
+    "entrypoint_design": "product/developer-workflow-kit-v1.2/START_HERE.candidate.md",
+    "release_entrypoint": "START_HERE.md",
+    "primary_discovery_axis": "CUSTOMER_TASK",
+    "ten_minute_activation_target": true,
+    "ten_minute_activation_observed": false,
+    "release_layout_frozen": false,
+    "pending_customer_prompt_surfaces": 3
+  },
   "delivery": {
-    "paid_archive_root": "prompt-quarry-developer-workflow-kit-v1.2.0",
+    "proposed_paid_archive_root": "prompt-machine-developer-workflow-collection-v1.2.0",
+    "archive_root_authoritative": false,
     "skill_format": "AGENT_SKILLS_DIRECTORY_WITH_SKILL_MD",
     "prompt_fallback": true,
     "individual_skill_archives": true,
@@ -56,6 +119,10 @@
     "skill_structure_pass": true,
     "skill_structure_receipt": "certification/receipts/skill-structure.v1.json",
     "skill_trigger_fixture_design": true,
+    "customer_experience_entrypoint_design": true,
+    "customer_prompt_surfaces_complete": false,
+    "customer_examples_complete": false,
+    "customer_evidence_cards_complete": false,
     "skill_trigger_eval_pass": false,
     "skill_forward_test_pass": false,
     "prompt_skill_parity_pass": false,
