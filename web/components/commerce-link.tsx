@@ -22,7 +22,7 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
   const freeExternal = process.env.NEXT_PUBLIC_FREE_PACK_URL;
   const publicSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
   const href = kind === "free"
-    ? (freeExternal || "/api/free-pack/v1.1.0")
+    ? (freeExternal || "/api/free-pack/v1")
     : (publicSaleLive ? "/api/commerce/developer-pack/checkout" : "/developer-pack");
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
