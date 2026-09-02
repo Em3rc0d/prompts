@@ -33,7 +33,7 @@ export default function CollectionsPage() {
             <p className="sectionIntro">The paid candidate adds installable skill surfaces, reusable operating contracts, adaptation guidance, examples, and evidence receipts around the workflows.</p>
             <div className="identity"><div><strong>04</strong><span>workflow families</span></div><div><strong>04</strong><span>skill candidates</span></div><div><strong>$19</strong><span>launch price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale yet</span></div></div>
           </div>
-          <aside className="purchasePanel"><span className="purchaseLabel">WHY PAY?</span><h3>Because the collection must save more setup and trial-and-error than the free workflows alone.</h3><p>The upgrade is being tested against that standard. Checkout remains disabled until the evidence and delivery gates close.</p><Link className="btn btnSecondary" href="/developer-pack">Inspect current status →</Link></aside>
+          <aside className="purchasePanel"><span className="purchaseLabel">WHY PAY?</span><h3>Because the collection must save more setup and trial-and-error than the free workflows alone.</h3><p>The upgrade is being tested against that standard. Checkout remains disabled until the evidence and delivery gates close.</p><CommerceLink kind="paid" className="btn btnSecondary">Check the $19 collection →</CommerceLink><p className="micro">While sale status is OFF, this records product interest and opens the release-status page. It does not create a purchase.</p></aside>
         </div>
       </div>
     </div></section>
