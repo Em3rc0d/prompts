@@ -1,0 +1,92 @@
+name: Probe Codex Host on WSL
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/probe-codex-host-wsl.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe-host:
+    runs-on: [self-hosted, Linux, X64, vigia]
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+
+      - name: Probe host without reading credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p certification/receipts
+
+          if grep -qiE 'microsoft|wsl' /proc/version 2>/dev/null; then
+            is_wsl=true
+          else
+            is_wsl=false
+          fi
+
+          if command -v codex >/dev/null 2>&1; then
+            codex_present=true
+            codex_version="$(codex --version 2>&1 | head -n 1 | tr -d '\r')"
+            echo "Codex detected: ${codex_version}"
+            echo '--- Codex command surface (help headings only) ---'
+            codex --help 2>&1 | sed -n '1,80p'
+          else
+            codex_present=false
+            codex_version="NOT_INSTALLED"
+            echo 'Codex CLI not found on PATH.'
+          fi
+
+          python_version="$(python3 --version 2>&1 | tr -d '\r')"
+          git_version="$(git --version 2>&1 | tr -d '\r')"
+          node_version="$(node --version 2>/dev/null | tr -d '\r' || true)"
+
+          CODEX_PRESENT="$codex_present" \
+          CODEX_VERSION="$codex_version" \
+          IS_WSL="$is_wsl" \
+          PYTHON_VERSION="$python_version" \
+          GIT_VERSION="$git_version" \
+          NODE_VERSION="$node_version" \
+          GITHUB_SHA_VALUE="$GITHUB_SHA" \
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          out = {
+              "schema": "prompt-quarry-host-capability-probe-v1",
+              "probe_id": "PQ-HOST-PROBE-0001",
+              "source_commit": os.environ["GITHUB_SHA_VALUE"],
+              "runner": {
+                  "required_labels": ["self-hosted", "Linux", "X64", "vigia"],
+                  "wsl_detected": os.environ["IS_WSL"] == "true",
+              },
+              "tools": {
+                  "codex_present": os.environ["CODEX_PRESENT"] == "true",
+                  "codex_version": os.environ["CODEX_VERSION"],
+                  "python": os.environ["PYTHON_VERSION"],
+                  "git": os.environ["GIT_VERSION"],
+                  "node": os.environ["NODE_VERSION"] or None,
+              },
+              "credential_contents_read": False,
+              "network_execution_attempted": False,
+              "behavioral_claim": "NONE",
+              "next_gate": "If Codex is present, inspect supported non-interactive commands before any real model execution."
+          }
+          Path("certification/receipts/host-capability-probe.report.json").write_text(
+              json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          print(json.dumps(out, indent=2, sort_keys=True))
+          PY
+
+      - name: Preserve probe report
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-quarry-host-capability-${{ github.sha }}
+          path: certification/receipts/host-capability-probe.report.json
+          if-no-files-found: error
+          retention-days: 14
