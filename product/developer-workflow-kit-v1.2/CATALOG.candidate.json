@@ -2,7 +2,7 @@
   "schema": "prompt-quarry-workflow-kit-catalog-v1",
   "catalog_id": "PQ-WORKFLOW-KIT-1.2-CANDIDATE-0001",
   "created_at": "2026-09-02T12:45:01Z",
-  "state": "DESIGN_FROZEN_IMPLEMENTATION_NOT_STARTED",
+  "state": "CANDIDATES_IMPLEMENTED_TESTING_REQUIRED",
   "sale_status": "NOT_FOR_SALE",
   "products": [
     {
@@ -29,42 +29,10 @@
     }
   ],
   "workflows": [
-    {
-      "workflow_id": "PQ-WF-0001",
-      "name": "Evidence-first Code Review",
-      "outcome": "Review a software change with explicit evidence, severity, verification, and ship-state semantics.",
-      "finished_prompt_id": "PQ-PROMPT-0002",
-      "system_prompt_id": "PQ-PROMPT-0006",
-      "skill": {"skill_id": "PQ-SKILL-0001", "name": "review-code-with-evidence", "free_preview": true},
-      "state": "SPEC_REQUIRED"
-    },
-    {
-      "workflow_id": "PQ-WF-0002",
-      "name": "Evidence-first Bug Diagnosis",
-      "outcome": "Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.",
-      "finished_prompt_id": "PQ-PROMPT-0001",
-      "system_prompt_id": "PQ-PROMPT-0004",
-      "skill": {"skill_id": "PQ-SKILL-0002", "name": "diagnose-bugs-with-evidence", "free_preview": false},
-      "state": "SPEC_REQUIRED"
-    },
-    {
-      "workflow_id": "PQ-WF-0003",
-      "name": "Technical Research and Decision",
-      "outcome": "Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.",
-      "finished_prompt_id": "PQ-PROMPT-0003",
-      "system_prompt_id": "PQ-PROMPT-0007",
-      "skill": {"skill_id": "PQ-SKILL-0003", "name": "make-technical-decisions", "free_preview": false},
-      "state": "SPEC_REQUIRED"
-    },
-    {
-      "workflow_id": "PQ-WF-0004",
-      "name": "AI Workflow Contract Designer",
-      "outcome": "Turn a recurring AI-assisted task into an explicit, inspectable operating contract.",
-      "finished_prompt_id": null,
-      "system_prompt_id": "PQ-PROMPT-0005",
-      "skill": {"skill_id": "PQ-SKILL-0004", "name": "design-ai-workflows", "free_preview": false},
-      "state": "BLOCKED_BY_PQ_PROMPT_0005_STATIC_FAIL"
-    }
+    {"workflow_id":"PQ-WF-0001","name":"Evidence-first Code Review","outcome":"Review a software change with explicit evidence, severity, verification, and ship-state semantics.","finished_prompt_id":"PQ-PROMPT-0002","system_prompt_id":"PQ-PROMPT-0006","skill":{"skill_id":"PQ-SKILL-0001","name":"review-code-with-evidence","free_preview":true},"state":"SKILL_CANDIDATE_IMPLEMENTED_UNTESTED"},
+    {"workflow_id":"PQ-WF-0002","name":"Evidence-first Bug Diagnosis","outcome":"Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.","finished_prompt_id":"PQ-PROMPT-0001","system_prompt_id":"PQ-PROMPT-0004","skill":{"skill_id":"PQ-SKILL-0002","name":"diagnose-bugs-with-evidence","free_preview":false},"state":"SKILL_CANDIDATE_IMPLEMENTED_UNTESTED"},
+    {"workflow_id":"PQ-WF-0003","name":"Technical Research and Decision","outcome":"Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.","finished_prompt_id":"PQ-PROMPT-0003","system_prompt_id":"PQ-PROMPT-0007","skill":{"skill_id":"PQ-SKILL-0003","name":"make-technical-decisions","free_preview":false},"state":"SKILL_CANDIDATE_IMPLEMENTED_UNTESTED"},
+    {"workflow_id":"PQ-WF-0004","name":"AI Workflow Contract Designer","outcome":"Turn a recurring AI-assisted task into an explicit, inspectable operating contract.","finished_prompt_id":null,"system_prompt_id":"PQ-PROMPT-0005","successor_prompt_path":"product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md","skill":{"skill_id":"PQ-SKILL-0004","name":"design-ai-workflows","free_preview":false},"state":"BLOCKER_RESOLVED_IN_VERSIONED_SUCCESSOR_TESTING_REQUIRED"}
   ],
   "delivery": {
     "paid_archive_root": "prompt-quarry-developer-workflow-kit-v1.2.0",
@@ -81,8 +49,10 @@
   },
   "gates": {
     "product_model_frozen": true,
-    "PCP_03_PROMPT_TEST_MATRIX": false,
-    "skill_specs_complete": false,
+    "PCP_03_PROMPT_TEST_MATRIX": true,
+    "versioned_prompt_blocker_resolution": true,
+    "skill_candidates_implemented": true,
+    "skill_specs_complete": true,
     "skill_structure_pass": false,
     "skill_trigger_eval_pass": false,
     "skill_forward_test_pass": false,
