@@ -6,7 +6,13 @@ const ATTRIBUTION_KEY = "pq:attribution";
 const SESSION_KEY = "pq:session-id";
 
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
-type FunnelEvent = { event: string; product_id?: string; product_version?: string };
+type FunnelEvent = {
+  event: string;
+  product_id?: string;
+  product_version?: string;
+  collection_id?: string;
+  surface?: string;
+};
 
 function readAttribution(): Attribution {
   try { return JSON.parse(sessionStorage.getItem(ATTRIBUTION_KEY) || "{}") as Attribution; }
@@ -35,7 +41,7 @@ function sessionId(): string {
 
 function emit(payload: FunnelEvent) {
   const detail = { ...payload, timestamp: new Date().toISOString(), session_id: sessionId(), ...readAttribution() };
-  if ((process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off") === "debug") console.info("[Prompt Quarry analytics]", detail);
+  if ((process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off") === "debug") console.info("[Prompt Machine analytics]", detail);
   window.dispatchEvent(new CustomEvent("pq:analytics", { detail }));
 }
 
@@ -43,8 +49,29 @@ export function FunnelTracker() {
   useEffect(() => {
     captureAttribution();
     sessionId();
-    if (window.location.pathname === "/") emit({ event: "landing_view" });
-    else if (window.location.pathname.startsWith("/developer-pack")) emit({ event: "paid_product_viewed", product_id: "pq-developer-pack", product_version: "1.1.0-draft" });
+
+    const path = window.location.pathname;
+    if (path === "/") {
+      emit({ event: "landing_view", surface: "home" });
+    } else if (path === "/collections") {
+      emit({ event: "collections_viewed", surface: "collections" });
+    } else if (path.startsWith("/free/developer-starter-pack")) {
+      emit({
+        event: "free_product_viewed",
+        product_id: "pq-developer-starter",
+        product_version: "1.1.0",
+        collection_id: "developer",
+        surface: "free-library",
+      });
+    } else if (path.startsWith("/developer-pack")) {
+      emit({
+        event: "paid_product_viewed",
+        product_id: "pq-developer-pack",
+        product_version: "1.2.0-candidate",
+        collection_id: "developer",
+        surface: "paid-collection",
+      });
+    }
 
     const handler = (event: Event) => {
       const detail = (event as CustomEvent<FunnelEvent>).detail;
