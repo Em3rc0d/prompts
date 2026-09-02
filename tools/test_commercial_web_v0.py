@@ -11,6 +11,10 @@ REQUIRED = [
     WEB / "app/layout.tsx",
     WEB / "app/page.tsx",
     WEB / "app/globals.css",
+    WEB / "app/collections/page.tsx",
+    WEB / "app/learn/page.tsx",
+    WEB / "app/learn/workflows-not-random-prompts/page.tsx",
+    WEB / "app/learn/test-ai-workflows/page.tsx",
     WEB / "app/free/developer-starter-pack/page.tsx",
     WEB / "app/developer-pack/page.tsx",
     WEB / "app/license/page.tsx",
@@ -29,6 +33,8 @@ REQUIRED = [
     WEB / "lib/developer-pack-release.ts",
     WEB / "lib/lemonsqueezy.ts",
     WEB / ".env.example",
+    ROOT / "docs/PRODUCT_VISION_V3.md",
+    ROOT / "commercial/REVENUE_EXPERIMENT_V1.md",
 ]
 
 FORBIDDEN_MARKETING = [
@@ -38,6 +44,8 @@ FORBIDDEN_MARKETING = [
     "guaranteed to improve",
     "works with every model",
     "universally portable",
+    "guaranteed revenue",
+    "guaranteed to sell",
 ]
 
 EXPECTED_FREE_SHA256 = "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
@@ -59,23 +67,26 @@ def require_tokens(label: str, source: str, tokens: tuple[str, ...]) -> None:
 def main() -> None:
     missing = [str(path.relative_to(ROOT)) for path in REQUIRED if not path.is_file()]
     if missing:
-        fail("missing required Next.js files: " + ", ".join(missing))
+        fail("missing required Prompt Machine files: " + ", ".join(missing))
 
     source_files = list((WEB / "app").rglob("*.tsx")) + list((WEB / "components").rglob("*.tsx"))
     source = "\n".join(path.read_text(encoding="utf-8") for path in source_files)
     lower = source.lower()
 
+    # Customer-facing product architecture. These tokens deliberately protect the
+    # outcome-first strategy without freezing an obsolete headline or developer-only brand.
     required_copy = [
-        "stop collecting random prompts",
-        "developer starter pack",
-        "developer pack v1",
-        "ready",
-        "valid",
-        "use it. adapt it",
-        "resell",
-        "redistribut",
-        "quarry engine",
-        "not observed = unknown",
+        "prompt machine",
+        "start with the task. not a blank chat",
+        "what are you trying to get done",
+        "free library",
+        "developer workflow collection",
+        "$19 one-time",
+        "not for sale",
+        "powered by prompt quarry",
+        "marketing claim",
+        "observed evidence",
+        "learn",
     ]
     for phrase in required_copy:
         if phrase not in lower:
@@ -85,6 +96,31 @@ def main() -> None:
         if phrase in lower:
             fail(f"unsupported marketing claim observed: {phrase}")
 
+    vision = (ROOT / "docs/PRODUCT_VISION_V3.md").read_text(encoding="utf-8")
+    revenue = (ROOT / "commercial/REVENUE_EXPERIMENT_V1.md").read_text(encoding="utf-8")
+    require_tokens(
+        "product vision contract",
+        vision,
+        (
+            "Prompt Machine is the customer-facing platform",
+            "Prompt Quarry is the internal factory",
+            "What are you trying to get done?",
+            "The ZIP is not the product experience",
+            "MARKETING CLAIM <= OBSERVED EVIDENCE",
+        ),
+    )
+    require_tokens(
+        "revenue experiment contract",
+        revenue,
+        (
+            "PQ-$1 = first real non-test paid purchase successfully delivered",
+            "USD 19",
+            "PRICE HYPOTHESIS",
+            "free download          != revenue",
+            "accepted real purchase == purchase evidence",
+        ),
+    )
+
     commerce_link = (WEB / "components/commerce-link.tsx").read_text(encoding="utf-8")
     require_tokens(
         "public commerce fail-closed contract",
@@ -93,10 +129,12 @@ def main() -> None:
             "NEXT_PUBLIC_FREE_PACK_URL",
             "NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS",
             '=== "LIVE"',
-            '"/api/free-pack/v1.1.0"',
+            '"/api/free-pack/v1"',
             '"/api/commerce/developer-pack/checkout"',
             '"/developer-pack"',
             "event.preventDefault()",
+            'event: "free_cta_clicked"',
+            'event: "paid_cta_clicked"',
         ),
     )
     if "NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL" in commerce_link:
@@ -124,19 +162,27 @@ def main() -> None:
             fail(f"legacy commerce environment key still present: {legacy}")
 
     free_route = (WEB / "app/api/free-pack/v1/route.ts").read_text(encoding="utf-8")
+    free_alias = (WEB / "app/api/free-pack/v1.1.0/route.ts").read_text(encoding="utf-8")
     free_materializer = (WEB / "scripts/fetch-free-pack.mjs").read_text(encoding="utf-8")
     free_declaration = (WEB / "generated/free-pack-archive.d.ts").read_text(encoding="utf-8")
     require_tokens(
-        "free pack runtime integrity contract",
+        "free pack deterministic runtime integrity contract",
         free_route,
         (
-            "FREE_PACK_BASE64",
-            EXPECTED_FREE_SHA256,
-            f"EXPECTED_SIZE = {EXPECTED_FREE_SIZE}",
+            "FREE_PACK_ARCHIVE_SHA256",
+            "FREE_PACK_ARCHIVE_SIZE",
+            "FREE_PACK_FILES",
+            "buildStoredZip",
             "free_pack_integrity_failure",
+            "PQ_FUNNEL_EVENT",
             "X-Prompt-Quarry-SHA256",
             "X-Prompt-Quarry-Version",
         ),
+    )
+    require_tokens(
+        "free release compatibility alias",
+        free_alias,
+        ('export { GET } from "../v1/route"',),
     )
     require_tokens(
         "free pack build materialization contract",
@@ -156,7 +202,11 @@ def main() -> None:
         fail("free pack generated snapshot is not bound to v1.1 release fingerprint")
     if 'FREE_PACK_VERSION = "1.1.0"' not in generated or f"FREE_PACK_ARCHIVE_SIZE = {EXPECTED_FREE_SIZE}" not in generated:
         fail("free pack generated snapshot does not identify v1.1 size/version")
+    if "FREE_PACK_FILES" not in generated:
+        fail("governed free payload is unavailable to deterministic runtime builder")
 
+    # Technical commerce identity remains frozen for provider compatibility while
+    # the public merchandising layer calls the next product Developer Workflow Collection.
     release = (WEB / "lib/developer-pack-release.ts").read_text(encoding="utf-8")
     require_tokens(
         "paid release identity contract",
@@ -211,7 +261,15 @@ def main() -> None:
     )
 
     tracker = (WEB / "components/funnel-tracker.tsx").read_text(encoding="utf-8")
-    for token in ("NEXT_PUBLIC_ANALYTICS_MODE", "landing_view", "paid_product_viewed", "utm_source", "sessionStorage"):
+    for token in (
+        "NEXT_PUBLIC_ANALYTICS_MODE",
+        "landing_view",
+        "free_product_viewed",
+        "collections_viewed",
+        "paid_product_viewed",
+        "utm_source",
+        "sessionStorage",
+    ):
         if token not in tracker:
             fail(f"analytics contract missing: {token}")
     for forbidden_event in (
@@ -229,28 +287,42 @@ def main() -> None:
     for breakpoint in ("@media(max-width:900px)", "@media(max-width:620px)"):
         if breakpoint not in css:
             fail(f"responsive gate missing: {breakpoint}")
-
     for visual_contract in (".heroPremium", ".engineShell", ".pipeline", ".productFrame", ".evidenceLadder", ".premiumCta"):
         if visual_contract not in css:
-            fail(f"premium visual system contract missing: {visual_contract}")
-
+            fail(f"visual system contract missing: {visual_contract}")
     if "prefers-reduced-motion:reduce" not in css:
         fail("reduced-motion accessibility gate missing")
 
     layout = (WEB / "app/layout.tsx").read_text(encoding="utf-8")
     require_tokens(
-        "brand shell/accessibility contract",
+        "Prompt Machine brand shell/accessibility contract",
         layout,
         (
-            'title: "Prompt Quarry — Structured Prompts for Developers"',
-            'applicationName: "Prompt Quarry"',
+            'title: "Prompt Machine — Reusable AI Workflows for Real Tasks"',
+            'applicationName: "Prompt Machine"',
             '<html lang="en">',
-            'aria-label="Prompt Quarry home"',
+            'aria-label="Prompt Machine home"',
             'aria-label="Primary"',
+            'href="/collections"',
+            'href="/learn"',
             "brandGlyph",
             "brandWord",
             "brandVersion",
             "FunnelTracker",
+        ),
+    )
+
+    engine = (WEB / "components/quarry-engine.tsx").read_text(encoding="utf-8")
+    require_tokens(
+        "customer workflow visualization",
+        engine,
+        (
+            "WORKFLOW ENGINE",
+            'name: "GOAL"',
+            'name: "WORKFLOW"',
+            'name: "VERIFY"',
+            'name: "REUSE"',
+            "powered by Prompt Quarry",
         ),
     )
 
@@ -262,16 +334,17 @@ def main() -> None:
 
     print("COMMERCIAL WEB V0: PASS")
     print(f"required_files={len(REQUIRED)}")
+    print("public_brand=Prompt Machine")
+    print("internal_factory=Prompt Quarry")
+    print("merchandising=outcome-first workflows + collections + learn")
     print("framework=Next.js 16.3.3 App Router")
     print("runtime=Node 24.x deployment parity")
-    print("visual_system=premium technical/editorial + Quarry Engine")
-    print("brand_shell=metadata + semantic navigation + accessible brand controls")
-    print("free_delivery=v1.1 build-materialized ZIP + runtime SHA-256 fail-closed verification")
-    print("paid_release=Developer Pack v1.1.0 exact 86763-byte release identity")
-    print("commerce=provider_test/live_canary/live gates; public CTA defaults NOT_FOR_SALE")
+    print("free_delivery=v1.1 governed payload + deterministic runtime ZIP + SHA-256 fail-closed verification")
+    print("paid_technical_identity=legacy Developer Pack v1.1.0 binding preserved until governed commerce migration")
+    print("public_paid_offer=Developer Workflow Collection candidate; $19 hypothesis; checkout off")
     print("purchase_evidence=signed public-live provider order only")
-    print("analytics=minimal UTM/session bridge; no client purchase/revenue inference")
-    print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
+    print("analytics=UTM/session + free/collections/paid intent; no client purchase/revenue inference")
+    print("boundary=MARKETING CLAIM <= OBSERVED EVIDENCE")
 
 
 if __name__ == "__main__":
