@@ -1,22 +1,22 @@
 const stages = [
-  { id: "01", name: "RAW", meta: "intent + context" },
-  { id: "02", name: "STRUCTURE", meta: "constraints + contract" },
-  { id: "03", name: "VALIDATE", meta: "quality + evidence" },
-  { id: "04", name: "PRODUCT", meta: "versioned artifact" },
+  { id: "01", name: "GOAL", meta: "what you need done" },
+  { id: "02", name: "WORKFLOW", meta: "inputs + process" },
+  { id: "03", name: "VERIFY", meta: "evidence + limits" },
+  { id: "04", name: "REUSE", meta: "repeatable result" },
 ];
 
 export function QuarryEngine() {
   return (
-    <div className="engineShell" aria-label="Prompt Quarry pipeline visualization">
+    <div className="engineShell" aria-label="Prompt Machine workflow visualization">
       <div className="engineChrome">
         <div className="engineTitle">
-          <span className="engineMark" aria-hidden="true">PQ</span>
+          <span className="engineMark" aria-hidden="true">PM</span>
           <div>
-            <strong>QUARRY ENGINE</strong>
-            <span>developer pipeline / build 01</span>
+            <strong>WORKFLOW ENGINE</strong>
+            <span>goal → workflow → verified output</span>
           </div>
         </div>
-        <div className="engineLive"><span /> SYSTEM READY</div>
+        <div className="engineLive"><span /> READY TO USE</div>
       </div>
 
       <div className="engineStageRail">
@@ -34,12 +34,12 @@ export function QuarryEngine() {
 
       <div className="engineWorkspace">
         <div className="engineInput">
-          <div className="enginePanelLabel">RAW REQUEST</div>
-          <p>“Review this service and tell me what&apos;s wrong.”</p>
+          <div className="enginePanelLabel">YOUR TASK</div>
+          <p>“Review this service and tell me what actually matters.”</p>
           <div className="engineSignalRow">
-            <span>context <b>?</b></span>
-            <span>constraints <b>?</b></span>
-            <span>output <b>?</b></span>
+            <span>context <b>✓</b></span>
+            <span>constraints <b>✓</b></span>
+            <span>output <b>✓</b></span>
           </div>
         </div>
 
@@ -49,20 +49,20 @@ export function QuarryEngine() {
         </div>
 
         <div className="engineOutput">
-          <div className="enginePanelLabel">STRUCTURED ASSET</div>
+          <div className="enginePanelLabel">REUSABLE WORKFLOW</div>
           <div className="engineCode">
-            <span><i>01</i><b>PURPOSE</b> review reliability + risk</span>
-            <span><i>02</i><b>CONTEXT</b> service role + boundaries</span>
-            <span><i>03</i><b>CONSTRAINTS</b> evidence before inference</span>
-            <span><i>04</i><b>OUTPUT</b> findings → severity → fix</span>
-            <span><i>05</i><b>UNKNOWN</b> not observed = unknown</span>
+            <span><i>01</i><b>INPUT</b> what the workflow needs</span>
+            <span><i>02</i><b>PROCESS</b> repeatable steps</span>
+            <span><i>03</i><b>BOUNDARY</b> evidence before inference</span>
+            <span><i>04</i><b>OUTPUT</b> structured deliverable</span>
+            <span><i>05</i><b>VERIFY</b> how to check the result</span>
           </div>
         </div>
       </div>
 
       <div className="engineFooter">
-        <span>artifact / pq-dev-review</span>
-        <span className="engineHash">sha256 · governed · VALID</span>
+        <span>powered by Prompt Quarry</span>
+        <span className="engineHash">versioned · governed · inspectable</span>
       </div>
     </div>
   );
