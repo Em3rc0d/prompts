@@ -8,6 +8,16 @@
     "customer_facing": "Prompt Machine",
     "internal_factory": "Prompt Quarry"
   },
+  "commercial_ladder": {
+    "evidence_state": "LAUNCH_HYPOTHESIS",
+    "free_usd": 0,
+    "starter_usd": 9,
+    "full_developer_usd": 19,
+    "primary_first_paid_offer": "STARTER_COLLECTION",
+    "subscription": "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED",
+    "starter_scope_state": "TO_FREEZE",
+    "principle": "EACH_TIER_MUST_SOLVE_COMPLETE_TASKS_AND_EARN_THE_NEXT_UPGRADE"
+  },
   "products": [
     {
       "product_id": "pq-developer-starter",
@@ -24,7 +34,7 @@
       "product_id": "pq-developer-pack",
       "display_name": "Prompt Machine Developer Workflow Collection",
       "version": "1.2.0-candidate",
-      "tier": "PAID",
+      "tier": "PAID_FULL",
       "price": {
         "type": "ONE_TIME",
         "launch_usd": 19,
@@ -33,7 +43,22 @@
       "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003", "PQ-WF-0004"],
       "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003", "PQ-PROMPT-0004", "PQ-PROMPT-0005", "PQ-PROMPT-0006", "PQ-PROMPT-0007"],
       "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002", "PQ-SKILL-0003", "PQ-SKILL-0004"],
-      "subscription": "DEFERRED_UNTIL_PQ_1"
+      "subscription": "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED"
+    }
+  ],
+  "planned_products": [
+    {
+      "product_id": "pq-developer-starter-collection",
+      "display_name": "Prompt Machine Starter Collection",
+      "tier": "PAID_STARTER",
+      "price": {
+        "type": "ONE_TIME",
+        "launch_usd": 9,
+        "evidence_state": "PRICE_HYPOTHESIS"
+      },
+      "scope_state": "TO_FREEZE",
+      "sale_status": "NOT_FOR_SALE",
+      "release_rule": "MUST_SOLVE_COMPLETE_TASKS_AND_MUST_NOT_BE_AN_ARTIFICIALLY_CRIPPLED_FULL_COLLECTION"
     }
   ],
   "workflows": [
@@ -120,6 +145,7 @@
     "skill_structure_receipt": "certification/receipts/skill-structure.v1.json",
     "skill_trigger_fixture_design": true,
     "customer_experience_entrypoint_design": true,
+    "starter_collection_scope_frozen": false,
     "customer_prompt_surfaces_complete": false,
     "customer_examples_complete": false,
     "customer_evidence_cards_complete": false,
