@@ -78,7 +78,7 @@ export default function HomePage() {
           <div className="productFrameTop"><span className="productEdition">PROMPT MACHINE / COLLECTION 01</span><span className="releaseBadge"><i /> CANDIDATE · NOT FOR SALE</span></div>
           <div className="productFrameGrid">
             <div className="productMain"><div className="eyebrow">03 / PAID COLLECTIONS</div><h2>Pay for a broader system, not for the missing half of a free prompt.</h2><p>The first commercial experiment is the Developer Workflow Collection: four governed workflow families, installable skill candidates, operating contracts, examples, adaptation guidance, and visible evidence boundaries.</p><p className="sectionIntro">Planned launch price: <strong>$19 one-time</strong>. This is a pricing hypothesis, not an active checkout.</p></div>
-            <aside className="purchasePanel"><span className="purchaseLabel">DEVELOPER COLLECTION</span><h3>Checkout stays off until the release earns it.</h3><p>Behavioral testing, prompt/skill parity, delivery evidence, and the commercial canary remain separate gates. We will not label them complete before they are observed.</p><Link className="btn btnSecondary" href="/developer-pack">Inspect collection status →</Link></aside>
+            <aside className="purchasePanel"><span className="purchaseLabel">DEVELOPER COLLECTION</span><h3>Would the $19 collection be useful to you?</h3><p>Checkout stays off until the release earns it. This CTA records paid-product interest without manufacturing a purchase.</p><CommerceLink kind="paid" className="btn btnSecondary">Check the $19 collection →</CommerceLink></aside>
           </div>
         </div></div>
       </section>
