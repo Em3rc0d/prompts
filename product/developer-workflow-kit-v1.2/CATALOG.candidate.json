@@ -1,0 +1,104 @@
+{
+  "schema": "prompt-quarry-workflow-kit-catalog-v1",
+  "catalog_id": "PQ-WORKFLOW-KIT-1.2-CANDIDATE-0001",
+  "created_at": "2026-09-02T12:45:01Z",
+  "state": "DESIGN_FROZEN_IMPLEMENTATION_NOT_STARTED",
+  "sale_status": "NOT_FOR_SALE",
+  "products": [
+    {
+      "product_id": "pq-developer-starter",
+      "display_name": "Prompt Quarry Developer Starter",
+      "version": "1.2.0-candidate",
+      "tier": "FREE",
+      "price_usd": 0,
+      "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003"],
+      "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003"],
+      "skill_ids": ["PQ-SKILL-0001"],
+      "acquisition_contract": "NO_ACCOUNT_NO_CARD_NO_CHECKOUT"
+    },
+    {
+      "product_id": "pq-developer-pack",
+      "display_name": "Prompt Quarry Developer Workflow Kit",
+      "version": "1.2.0-candidate",
+      "tier": "PAID",
+      "price": {"type": "ONE_TIME", "launch_usd": 19, "evidence_state": "PRIOR_DECISION_PRICE_HYPOTHESIS"},
+      "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003", "PQ-WF-0004"],
+      "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003", "PQ-PROMPT-0004", "PQ-PROMPT-0005", "PQ-PROMPT-0006", "PQ-PROMPT-0007"],
+      "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002", "PQ-SKILL-0003", "PQ-SKILL-0004"],
+      "subscription": "DEFERRED_UNTIL_PQ_1"
+    }
+  ],
+  "workflows": [
+    {
+      "workflow_id": "PQ-WF-0001",
+      "name": "Evidence-first Code Review",
+      "outcome": "Review a software change with explicit evidence, severity, verification, and ship-state semantics.",
+      "finished_prompt_id": "PQ-PROMPT-0002",
+      "system_prompt_id": "PQ-PROMPT-0006",
+      "skill": {"skill_id": "PQ-SKILL-0001", "name": "review-code-with-evidence", "free_preview": true},
+      "state": "SPEC_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0002",
+      "name": "Evidence-first Bug Diagnosis",
+      "outcome": "Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.",
+      "finished_prompt_id": "PQ-PROMPT-0001",
+      "system_prompt_id": "PQ-PROMPT-0004",
+      "skill": {"skill_id": "PQ-SKILL-0002", "name": "diagnose-bugs-with-evidence", "free_preview": false},
+      "state": "SPEC_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0003",
+      "name": "Technical Research and Decision",
+      "outcome": "Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.",
+      "finished_prompt_id": "PQ-PROMPT-0003",
+      "system_prompt_id": "PQ-PROMPT-0007",
+      "skill": {"skill_id": "PQ-SKILL-0003", "name": "make-technical-decisions", "free_preview": false},
+      "state": "SPEC_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0004",
+      "name": "AI Workflow Contract Designer",
+      "outcome": "Turn a recurring AI-assisted task into an explicit, inspectable operating contract.",
+      "finished_prompt_id": null,
+      "system_prompt_id": "PQ-PROMPT-0005",
+      "skill": {"skill_id": "PQ-SKILL-0004", "name": "design-ai-workflows", "free_preview": false},
+      "state": "BLOCKED_BY_PQ_PROMPT_0005_STATIC_FAIL"
+    }
+  ],
+  "delivery": {
+    "paid_archive_root": "prompt-quarry-developer-workflow-kit-v1.2.0",
+    "skill_format": "AGENT_SKILLS_DIRECTORY_WITH_SKILL_MD",
+    "prompt_fallback": true,
+    "individual_skill_archives": true,
+    "deterministic_build_required": true
+  },
+  "compatibility_claims": {
+    "structural_target": ["OPENAI_CODEX_SKILLS", "OPENAI_API_SKILLS", "AGENT_SKILLS_STRUCTURE"],
+    "behaviorally_tested_hosts": [],
+    "portable_hosts": [],
+    "blanket_llm_compatibility": false
+  },
+  "gates": {
+    "product_model_frozen": true,
+    "PCP_03_PROMPT_TEST_MATRIX": false,
+    "skill_specs_complete": false,
+    "skill_structure_pass": false,
+    "skill_trigger_eval_pass": false,
+    "skill_forward_test_pass": false,
+    "prompt_skill_parity_pass": false,
+    "pack_value_review_pass": false,
+    "deterministic_archive_pass": false,
+    "provider_custody_pass": false,
+    "provider_integration_pass": false,
+    "live_delivery_canary_pass": false,
+    "PRODUCT_READY": false,
+    "READY_TO_SELL": false
+  },
+  "historical_boundary": {
+    "developer_pack_v1_1_mutated": false,
+    "existing_checkout_changed": false,
+    "public_sale_enabled": false,
+    "production_deployed": false
+  }
+}
