@@ -1,0 +1,73 @@
+name: Validate Starter Launch Checkpoint v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'web/app/page.tsx'
+      - 'web/app/collections/page.tsx'
+      - 'web/app/starter-collection/page.tsx'
+      - 'tools/validate_starter_launch_checkpoint_v1.py'
+      - '.github/workflows/validate-starter-launch-checkpoint-v1.yml'
+  pull_request:
+    paths:
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'web/app/page.tsx'
+      - 'web/app/collections/page.tsx'
+      - 'web/app/starter-collection/page.tsx'
+      - 'tools/validate_starter_launch_checkpoint_v1.py'
+      - '.github/workflows/validate-starter-launch-checkpoint-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-starter-launch-checkpoint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile checkpoint validator
+        run: python -m py_compile tools/validate_starter_launch_checkpoint_v1.py
+
+      - name: Validate current Starter launch checkpoint
+        run: python tools/validate_starter_launch_checkpoint_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Launch Checkpoint v1
+
+          | Signal | State |
+          |---|---|
+          | Governed Starter workflows | 2 |
+          | Required archive assets | 9/9 |
+          | Supported Starter skills | 0 |
+          | Structural skill candidates | 2 / DEFERRED |
+          | Current copy re-audit | PASS |
+          | Provider preflight | PASS STATIC / DISARMED |
+          | Provider side effects | 0 |
+          | Starter runtime observations | 0 |
+          | Public checkout | BLOCKED |
+          | READY_TO_SELL | NO |
+          | Model calls | 0 |
+          | Provider calls | 0 |
+          EOF
