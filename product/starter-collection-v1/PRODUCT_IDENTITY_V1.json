@@ -1,0 +1,43 @@
+{
+  "schema": "prompt-machine-product-identity-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "product": {
+    "canonical_product_id": "prompt-machine-starter-collection",
+    "display_name": "Prompt Machine Starter Collection",
+    "product_version": "1.0.0-candidate",
+    "tier": "PAID_STARTER",
+    "price_hypothesis_usd": 9,
+    "sale_status": "NOT_FOR_SALE"
+  },
+  "legacy_aliases": [
+    {
+      "product_id": "pq-developer-starter-collection",
+      "origin": "pre-Prompt-Machine customer-product migration",
+      "allowed_use": "HISTORICAL_ANALYTICS_OR_CATALOG_REFERENCE_DURING_MIGRATION",
+      "provider_identity_allowed": false,
+      "new_customer_event_identity_allowed": false
+    }
+  ],
+  "canonical_bindings": {
+    "release_gate": "commercial/STARTER_RELEASE_GATE_V1.json",
+    "activation_contract": "commercial/STARTER_ACTIVATION_EVIDENCE_V1.json",
+    "commerce_release": "web/lib/starter-collection-release.ts",
+    "provider_custody_contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json"
+  },
+  "rules": {
+    "provider_custom_data_uses_canonical_id": true,
+    "new_analytics_events_use_canonical_id": true,
+    "purchase_receipts_use_canonical_id": true,
+    "delivery_receipts_use_canonical_id": true,
+    "legacy_alias_may_be_silently_treated_as_new_canonical_event": false,
+    "historical_records_rewritten": false
+  },
+  "current_truth": {
+    "canonical_id_frozen": true,
+    "legacy_alias_count": 1,
+    "provider_provisioned": false,
+    "real_purchases": 0,
+    "ready_to_sell": false
+  }
+}
