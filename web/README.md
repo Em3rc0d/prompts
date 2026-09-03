@@ -1,12 +1,13 @@
 # Prompt Machine Web
 
-Status: `CUSTOMER EXPERIENCE REFACTOR / BUILD PASS / PUBLIC SALE OFF`
+Status: `CUSTOMER EXPERIENCE IMPLEMENTED / STAGING OBSERVED / PUBLIC SALE OFF`
 
 `web/` is the customer-facing Next.js application for **Prompt Machine**.
 
-The internal engineering and certification factory remains **Prompt Quarry**. The frontend should expose customer value, collection discovery, workflow guidance, and compact evidence states without requiring users to understand MK0/MK1/PCP internals.
+The internal engineering and certification factory remains **Prompt Quarry**. The frontend exposes customer value, collection discovery, workflow guidance, and compact evidence states without requiring users to understand MK0/MK1/PCP internals.
 
 Canonical product direction: `docs/PRODUCT_VISION_V3.md`.
+Commercial experiment: `commercial/REVENUE_EXPERIMENT_V1.md`.
 
 ## Brand boundary
 
@@ -31,22 +32,34 @@ The technical repository, API route names, environment variables, and historical
 
 ## Customer routes
 
-- `/` — outcome-first Prompt Machine landing
-- `/collections` — workflow collection discovery
+- `/` — outcome-first Prompt Machine landing with `$0 → $9 → $19` ladder
+- `/collections` — Starter + Full collection discovery
 - `/free/developer-starter-pack` — current free developer workflow entry
-- `/developer-pack` — current Developer Workflow Collection status; legacy route retained for compatibility
+- `/starter-collection` — $9 Starter Collection scope/status
+- `/developer-pack` — $19 Full Developer Workflow Collection status; legacy route retained for compatibility
+- `/learn` — learning/acquisition/trust hub
 - `/license` — commercial license summary
 
 ## Technical delivery routes
 
 - `/api/free-pack/v1` — build-materialized governed free artifact delivery
 - `/api/free-pack/v1.1.0` — canonical free artifact release
-- `/api/commerce/developer-pack/checkout` — fail-closed provider redirect
+- `/api/analytics/intent` — allowlisted server-observed client intent sink
+- `/api/commerce/developer-pack/checkout` — fail-closed legacy/full provider redirect
 - `/api/commerce/lemonsqueezy/webhook` — signed provider evidence endpoint
 
 The route names do not define the customer-facing product architecture.
 
-## Current commercial experiments
+## Current commercial ladder
+
+```text
+FREE LIBRARY                 USD 0
+STARTER COLLECTION           USD 9 one-time   ← primary first paid hypothesis
+FULL DEVELOPER COLLECTION    USD 19 one-time  ← broader premium / upsell
+SUBSCRIPTION                 DEFERRED
+```
+
+Both paid tiers are `PRICE_HYPOTHESIS` and `NOT_FOR_SALE`.
 
 ### Free Library
 
@@ -64,26 +77,52 @@ It contains three developer workflows: Code Review, Bug Diagnosis, and Technical
 
 The free layer is intended to be useful by itself. Delivery integrity does not imply behavioral certification.
 
-### Developer Workflow Collection
-
-Customer-facing name:
-
-`Developer Workflow Collection`
-
-Current commercial hypothesis:
+### Starter Collection — $9 hypothesis
 
 ```text
-collection       developer
-candidate        1.2.0-candidate
-launch price     USD 19 one-time
-public checkout  disabled
+product_id        pq-developer-starter-collection
+candidate         1.2.0-candidate
+workflow families 2
+skill candidates  2
+scope              FROZEN
+launch price       USD 9 one-time / PRICE_HYPOTHESIS
+public checkout    disabled
+sale state         NOT_FOR_SALE
+```
+
+Frozen scope:
+
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- `review-code-with-evidence`;
+- `diagnose-bugs-with-evidence`;
+- `START_HERE` + task chooser;
+- worked examples;
+- verification guidance;
+- adaptation cheatsheet.
+
+Scope freeze is not runtime/certification evidence.
+
+The Starter CTA currently routes to `/starter-collection` and emits intent only. There is deliberately no public Starter checkout path yet.
+
+### Full Developer Workflow Collection — $19 hypothesis
+
+```text
+product_id        pq-developer-pack
+candidate         1.2.0-candidate
+workflow families 4
+skill candidates  4
+launch price       USD 19 one-time / PRICE_HYPOTHESIS
+public checkout    disabled
 ```
 
 Historical commerce bindings still use `pq-developer-pack` and the existing `developer-pack` route/API vocabulary. Do not migrate those identifiers casually.
 
-The collection is not for sale until the required behavioral, product, archive, provider, and live-delivery gates close.
+The Full collection is not for sale until the required behavioral, product, archive, provider, and live-delivery gates close. It must earn the upgrade through additional coverage rather than artificial limitations in Starter.
 
 ## Commerce state machine
+
+The existing provider state machine applies to the governed legacy/full commerce path while the Starter provider path remains intentionally unimplemented.
 
 | Commerce mode | Public sale | Checkout gate | Accepted webhook event |
 |---|---|---|---|
@@ -95,7 +134,7 @@ The collection is not for sale until the required behavioral, product, archive, 
 
 Only the final state can emit `purchase_completed`.
 
-The public paid CTA is enabled only when:
+The public Full paid CTA is enabled only when:
 
 ```text
 NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=LIVE
@@ -104,8 +143,6 @@ NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=LIVE
 Configuring test or canary provider data cannot expose checkout through the normal public paid CTA.
 
 ## Funnel model
-
-The customer funnel is now:
 
 ```text
 content / search / social
@@ -118,23 +155,43 @@ activation on a real task
         ↓
 collections
         ↓
-paid intent
+Starter view / intent
         ↓
-checkout when enabled
+$9 purchase when eventually enabled
         ↓
-repeat usage / expansion
+Full view / intent
+        ↓
+$19 upgrade when broader value is needed
 ```
 
-Current client telemetry preserves UTM attribution and session identity and distinguishes at least:
+Client intent telemetry distinguishes:
 
 - `landing_view`
 - `free_product_viewed`
 - `free_cta_clicked`
 - `collections_viewed`
+- `starter_product_viewed`
+- `starter_cta_clicked`
 - `paid_product_viewed`
 - `paid_cta_clicked`
 
-These events are instrumentation surfaces, not revenue evidence.
+These events are **UNTRUSTED_CLIENT_INTENT**, not revenue evidence.
+
+The same-origin server sink is:
+
+`POST /api/analytics/intent`
+
+Runtime logs use:
+
+```text
+PM_INTENT_EVENT
+schema         prompt-machine-intent-v1
+evidence_class UNTRUSTED_CLIENT_INTENT
+```
+
+A synthetic staging `landing_view` has been observed end-to-end with HTTP 202 and runtime log evidence. That proves the observability path works; it does not prove customer demand.
+
+The browser-local anonymous `pq:session-id` remains browser-session-only and is not sent to the intent sink.
 
 ## Configuration
 
@@ -175,21 +232,21 @@ Provider Test Mode validates integration, not customer file delivery. Actual cus
 
 ## Web validation
 
-Canonical workflow:
+Canonical build validation:
 
 `.github/workflows/validate-prompt-machine-web.yml`
 
-It runs:
+Isolated staging deployment:
 
-```text
-npm install
-npm run typecheck
-npm run build
-```
+`.github/workflows/deploy-prompt-machine-staging.yml`
 
-The build includes the governed Free Pack materialization and the existing Golden Path postbuild assertion.
+The staging workflow is hard-bound to the Vercel `prompt-quarry-stage` project. It verifies the project identity before deployment, typechecks the app, deploys, verifies the Prompt Machine title/hero on the canonical alias, then emits a synthetic intent event and requires HTTP 202.
 
-A successful build proves that the customer surface compiles and its build-time contracts pass. It does not prove deployment, behavior, purchase demand, or revenue.
+It never targets the separate public `prompt-quarry` production project.
+
+The production build includes governed Free Pack materialization and Golden Path route assertion, including `/starter-collection`.
+
+A successful build proves that the customer surface compiles and its build-time contracts pass. A successful staging smoke proves the deployed staging route/intent path was observed. Neither proves behavioral workflow quality, purchase demand, or revenue.
 
 ## Local development
 
@@ -214,8 +271,13 @@ Customer-facing copy follows:
 MARKETING CLAIM <= OBSERVED EVIDENCE
 ```
 
-The frontend may describe versioned artifacts, verified archive integrity, structural validation, candidates, and explicit release status when those facts are evidenced.
+The frontend may describe versioned artifacts, verified archive integrity, structural validation, frozen scope, candidates, and explicit release status when those facts are evidenced.
 
-It must not claim runtime testing, improvement, certification, portability, purchase completion, or revenue without the corresponding receipts.
+It must not claim runtime workflow testing, improvement, certification, portability, purchase completion, or revenue without the corresponding receipts.
 
-`IMPLEMENTED != DEPLOYED` and `not observed == unknown`.
+```text
+SCOPE FROZEN != BEHAVIOR PROVEN
+IMPLEMENTED != DEPLOYED
+INTENT != PURCHASE
+NOT OBSERVED == UNKNOWN
+```
