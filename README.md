@@ -2,11 +2,12 @@
 
 **Reusable AI workflows for real tasks — engineered and evidenced by Prompt Quarry.**
 
-Prompt Machine is the customer-facing product direction of this repository: a platform where people discover AI workflows by **what they need to get done**, use useful workflows for free, and upgrade to curated collections when broader coverage earns the price.
+Prompt Machine is the customer-facing product direction of this repository: a platform where people discover AI workflows by **what they need to get done**, use useful workflows for free, and upgrade only when broader reusable coverage earns the price.
 
 Prompt Quarry is the internal factory that acquires knowledge, engineers artifacts, tests behavior, preserves provenance, and governs what Prompt Machine is allowed to claim.
 
 Canonical strategy: [`docs/PRODUCT_VISION_V3.md`](docs/PRODUCT_VISION_V3.md).
+Commercial experiment: [`commercial/REVENUE_EXPERIMENT_V1.md`](commercial/REVENUE_EXPERIMENT_V1.md).
 
 ```text
 CUSTOMER
@@ -42,14 +43,25 @@ Professions remain useful metadata, but discovery begins with:
 
 ## Commercial model
 
-### Free Library
+Current launch hypothesis:
+
+```text
+FREE LIBRARY                 USD 0
+STARTER COLLECTION           USD 9 one-time   ← primary first paid offer
+FULL DEVELOPER COLLECTION    USD 19 one-time  ← broader premium / upsell
+SUBSCRIPTION                 DEFERRED
+```
+
+Both paid prices remain `PRICE_HYPOTHESIS`. Public checkout remains disabled.
+
+### Free Library — $0
 
 The free layer must be useful by itself. It exists to create value, trust, repeat usage, and evidence of demand—not to intentionally cripple the customer experience.
 
 Current concrete free release:
 
 ```text
-Developer Starter / Free Library
+Prompt Machine Free Developer Workflows
 version           1.1.0
 workflows         3
 customer files    7
@@ -64,29 +76,56 @@ Available workflows:
 2. Bug Diagnosis
 3. Technical Decision
 
-Public compatibility route:
+The historical route `/free/developer-starter-pack` remains for compatibility. Naming compatibility does not redefine the paid Starter Collection.
 
-`https://prompt-quarry.vercel.app/free/developer-starter-pack`
+### Starter Collection — $9 one-time hypothesis
 
-The current domain is a legacy naming surface. A domain migration is separate from the product-architecture decision.
+The Starter Collection is the primary first-purchase experiment.
 
-### Paid Collections
+Frozen commercial scope:
 
-First commercial experiment:
+- Evidence-first Code Review workflow;
+- Evidence-first Bug Diagnosis workflow;
+- `review-code-with-evidence` skill candidate;
+- `diagnose-bugs-with-evidence` skill candidate;
+- `START_HERE` entrypoint and task chooser;
+- worked examples;
+- verification guidance;
+- adaptation cheatsheet;
+- explicit evidence and limitations.
 
 ```text
-Developer Workflow Collection
+product id       pq-developer-starter-collection
+candidate        1.2.0-candidate
+workflow families 2
+skill candidates 2
+launch price      USD 9 one-time (PRICE_HYPOTHESIS)
+scope             FROZEN
+checkout          DISABLED
+sale state        NOT_FOR_SALE
+```
+
+`SCOPE FROZEN` is a product decision only. It does not imply runtime testing, certification, portability, deterministic packaging, provider custody, or readiness to sell.
+
+### Full Developer Workflow Collection — $19 one-time hypothesis
+
+The full collection is the broader upsell only when additional coverage earns it.
+
+```text
+product id         pq-developer-pack
 candidate          1.2.0-candidate
 workflow families  4
 skill candidates   4
-launch price        USD 19 one-time (hypothesis)
+launch price        USD 19 one-time (PRICE_HYPOTHESIS)
 checkout            DISABLED
 sale state          NOT_FOR_SALE
 ```
 
-The paid collection is expected to earn the upgrade through broader workflow coverage, reusable operating contracts, skills, examples, adaptation guidance, and evidence—not by hiding the only useful version behind payment.
+Full adds Technical Decision and AI Workflow Design coverage, the complete four-skill candidate set, broader operating contracts, examples, adaptation guidance, and collection-level orchestration.
 
-No public checkout should be enabled before release and delivery gates close.
+The $19 tier must win on **additional value**, not artificial restrictions in Free or Starter.
+
+No public checkout should be enabled before the exact SKU's release and delivery gates close.
 
 ## Customer funnel
 
@@ -103,14 +142,49 @@ real task usage
         ↓
 repeat usage + trust
         ↓
-paid collection intent
+$9 Starter intent / purchase
         ↓
-checkout
+$19 Full intent / upgrade when needed
         ↓
-repeat purchase / expansion
+repeat purchase / referral / expansion
 ```
 
 The product should measure observed movement through this funnel rather than assume market demand before launch.
+
+Primary commercial milestone:
+
+```text
+PQ-$1 = first real non-test paid purchase successfully delivered
+```
+
+A CTA click, checkout creation, provider test order, or synthetic smoke event does not satisfy `PQ-$1`.
+
+## Observability
+
+The customer-facing app forwards only allowlisted intent events to:
+
+`POST /api/analytics/intent`
+
+Server runtime emits:
+
+```text
+PM_INTENT_EVENT
+evidence_class = UNTRUSTED_CLIENT_INTENT
+```
+
+The intent path is now runtime-observed on the isolated staging project. Synthetic staging events are explicitly not customer demand and not purchase evidence.
+
+Important evidence boundaries:
+
+```text
+client intent                 != purchase evidence
+free artifact serve           != revenue
+checkout created              != revenue
+provider test order           != revenue
+accepted real paid provider event == purchase evidence
+```
+
+The anonymous browser session identifier stays browser-session-only and is not intentionally sent to the server intent sink.
 
 ## Trust model
 
@@ -147,7 +221,10 @@ tested != improved
 improved != certified
 certified != portable
 packaged != behaviorally proven
+scope frozen != behavior proven
 build pass != deployed
+deployed != used
+CTA != revenue
 provider test != customer purchase
 not observed == unknown
 ```
@@ -186,7 +263,7 @@ PROMPT_TEST_MATRIX          PASS
 PCP04_FIXTURES              PASS
 PCP04_WORK_ORDERS           PASS
 PCP04_REQUIRED_EXECUTIONS   84
-PCP04_REAL_EXECUTIONS       NOT_COMPLETED
+PCP04_REAL_EXECUTIONS       0 / 84
 
 F4_TESTED                   NO
 F5_IMPROVED                 NO
@@ -198,12 +275,14 @@ The 84-observation requirement includes three independent executions of every re
 
 ## Skills
 
-The first Developer Workflow Collection candidate contains four installable skill candidates:
+The full Developer Workflow Collection candidate contains four installable skill candidates:
 
 - `review-code-with-evidence`
 - `diagnose-bugs-with-evidence`
 - `make-technical-decisions`
 - `design-ai-workflows`
+
+Starter's frozen commercial scope contains the first two only.
 
 Current evidence:
 
@@ -223,17 +302,23 @@ A structurally valid skill is not implicitly host-tested or portable.
 
 Primary routes on this branch:
 
-- `/` — outcome-first landing
-- `/collections` — collection discovery
+- `/` — outcome-first landing and `$0 → $9 → $19` ladder
+- `/collections` — Starter + Full collection discovery
 - `/free/developer-starter-pack` — current free developer workflows
-- `/developer-pack` — Developer Workflow Collection status; compatibility route
+- `/starter-collection` — $9 Starter scope/status
+- `/developer-pack` — $19 Full collection status; compatibility route
+- `/learn` — education/acquisition layer
 - `/license` — license summary
 
 Frontend validation:
 
 `.github/workflows/validate-prompt-machine-web.yml`
 
-Acceptance runs TypeScript typecheck and a production Next.js build, including the existing governed Free Pack materialization and Golden Path build assertion.
+Staging deployment:
+
+`.github/workflows/deploy-prompt-machine-staging.yml`
+
+The deployment workflow is hard-bound to the isolated `prompt-quarry-stage` Vercel project, verifies Prompt Machine identity, and requires an HTTP 202 synthetic intent smoke before passing. The separate public production project is not targeted by this workflow.
 
 See [`web/README.md`](web/README.md).
 
@@ -271,9 +356,10 @@ Commercial signals follow:
 visitor
 → free activation
 → repeat user
-→ paid intent
-→ purchase
-→ second purchase / expansion
+→ Starter intent
+→ $9 purchase
+→ Full intent / $19 upgrade
+→ repeat purchase / referral
 ```
 
 There is no honest pre-launch variable that guarantees people will buy. Confidence grows through observed activation, repeat usage, conversion, purchases, support/refund signals, and demand for additional outcomes.
@@ -283,21 +369,27 @@ There is no honest pre-launch variable that guarantees people will buy. Confiden
 ```text
 Prompt Machine positioning      DONE ON PRODUCT BRANCH
         ↓
-outcome/collection UX           IN PROGRESS
+$0 → $9 → $19 customer UX       IMPLEMENTED + STAGING OBSERVED
         ↓
-PCP-04 real baseline execution  OPEN
+Starter commercial scope        FROZEN / NOT FOR SALE
+        ↓
+PCP-04 real baseline execution  0 / 84
         ↓
 failure mining + improvement    OPEN
         ↓
 skill behavioral/parity tests   OPEN
         ↓
-paid collection release QA      OPEN
+final customer surfaces         OPEN
+        ↓
+Starter deterministic archive   OPEN
         ↓
 provider + delivery canary       OPEN
         ↓
-USD 19 public experiment         NOT ENABLED
+USD 9 public experiment          NOT ENABLED
         ↓
 PQ-$1 + observed conversion      NOT OBSERVED
+        ↓
+USD 19 upgrade behavior          NOT OBSERVED
 ```
 
-We do not call Prompt Machine commercially successful before the first real customer pays, and we do not call a workflow certified before its evidence earns that label.
+We do not call Prompt Machine commercially successful before a real customer pays, and we do not call a workflow certified before its evidence earns that label.
