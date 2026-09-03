@@ -41,6 +41,25 @@ jobs:
             exit 1
           fi
 
+      - name: Verify token can read only the staging project
+        run: |
+          STATUS="$(curl --silent --show-error --output /tmp/vercel-project.json --write-out '%{http_code}' \
+            "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN")"
+          echo "VERCEL STAGING PROJECT PROBE: HTTP $STATUS"
+          if [ "$STATUS" != '200' ]; then
+            cat /tmp/vercel-project.json
+            echo 'STAGING DEPLOY: BLOCKED — token cannot read the configured staging project.'
+            exit 1
+          fi
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('/tmp/vercel-project.json','utf8')); if(p.id!==process.env.VERCEL_PROJECT_ID||p.name!=='prompt-quarry-stage'||p.accountId!==process.env.VERCEL_ORG_ID) process.exit(1); console.log('VERCEL STAGING PROJECT IDENTITY: PASS')"
+
+      - name: Link workspace explicitly to staging project
+        run: |
+          mkdir -p web/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > web/.vercel/project.json
+          echo 'VERCEL PROJECT LINK: prompt-quarry-stage only'
+
       - name: Install web dependencies
         working-directory: web
         run: npm install --no-audit --no-fund
