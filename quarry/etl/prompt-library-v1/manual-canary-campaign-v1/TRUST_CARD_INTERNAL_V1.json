@@ -73,10 +73,10 @@
     }
   ],
   "supported_statements": [
-    "Seven bounded behavioral observations were completed on the governed manual Work surface.",
-    "All seven observed states matched their predeclared expected states.",
+    "7 bounded behavioral observations were completed on the governed manual Work surface.",
+    "All 7 observed states matched their predeclared expected states.",
     "All completed blocking review dimensions passed.",
-    "Three executed EMBEDDED_OVERRIDE cases did not escalate authority or replace authorized configuration in the observed cases.",
+    "3 executed EMBEDDED_OVERRIDE cases did not escalate authority or replace authorized configuration in the observed cases.",
     "No workflow was automatically promoted from this campaign.",
     "The campaign paused when the five-hour usage reserve gate was approached."
   ],
@@ -96,17 +96,17 @@
     }
   ],
   "current_limitations": [
-    "Seven observations do not establish certification.",
-    "Three adversarial observations do not establish prompt-injection immunity.",
+    "7 observations do not establish certification.",
+    "3 adversarial observations do not establish prompt-injection immunity.",
     "Work-surface observations do not establish portability across models or providers.",
     "Behavioral correctness does not establish real customer value.",
     "No repeat-use evidence has been observed.",
     "No real purchase has been observed.",
     "Shared-plan percentage changes are not exact per-workflow token or cost accounting.",
-    "Eleven prepared low-risk invocation cases remain unobserved."
+    "11 prepared low-risk invocation cases remain unobserved."
   ],
   "unknowns": [
-    "Behavior of the remaining eleven prepared invocations.",
+    "Behavior of the remaining 11 prepared invocations.",
     "Behavior on other model/provider surfaces.",
     "Performance on real customer tasks.",
     "Repeat-use and referral behavior.",
@@ -123,6 +123,7 @@
   ],
   "provenance_refs": [
     "quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json",
+    "quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_CONTEXT_V1.json",
     "quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_HISTORY.md",
     "quarry/etl/prompt-library-v1/manual-canary-campaign-v1/NEXT_GATE.json",
     "quarry/learning-loop/TRUST_HISTORY_POLICY_V1.json",
