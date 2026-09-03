@@ -183,7 +183,8 @@
     "provider_preflight": "PASS_STATIC_DISARMED",
     "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
     "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
-    "live_delivery_canary": "PREPARED_DISARMED_NOT_EXECUTED",
+    "live_delivery_preflight": "PASS_STATIC_PREPARED_DISARMED",
+    "live_delivery_canary": "NOT_STARTED",
     "public_checkout": "BLOCKED",
     "pq_dollar_one": "NOT_OBSERVED"
   },
