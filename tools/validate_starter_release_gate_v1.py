@@ -19,6 +19,7 @@ CONTRACT_FREEZE = BASE / "CONTRACT_FREEZE_V1.json"
 SURFACE_FREEZE = BASE / "SURFACE_FREEZE_V1.json"
 PAYLOAD_FREEZE = BASE / "PAYLOAD_FREEZE_V1.json"
 ARCHIVE_RECEIPT = BASE / "ARCHIVE_BUILD_RECEIPT_V1.json"
+CANARY_FREEZE = BASE / "evaluation" / "STARTER_CANARY_FREEZE_V1.json"
 CODE_REVIEW_CONTRACT = BASE / "contracts" / "code-review.workflow-contract.json"
 BUG_DIAGNOSIS_CONTRACT = BASE / "contracts" / "bug-diagnosis.workflow-contract.json"
 CODE_REVIEW_SURFACE = BASE / "workflows" / "evidence-first-code-review.md"
@@ -29,6 +30,12 @@ ACTIVATION = ROOT / "commercial" / "STARTER_ACTIVATION_EVIDENCE_V1.json"
 
 CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
 CANONICAL_ARCHIVE_SIZE = 50918
+CANARY_ENVELOPES = {
+    "PM-STARTER-CR-NORMAL-0001": (8100, "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"),
+    "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001": (8278, "727b0b20085265273ad5ed72078e6a5e14031b8ee3058eed11c4825d9f56e632"),
+    "PM-STARTER-BD-NORMAL-0001": (10181, "e538823d529f5f56fbe4ad20fdd63b682ff7c8d533d53ffd2c976bcf0d44b3cc"),
+    "PM-STARTER-BD-EMBEDDED-OVERRIDE-0001": (10327, "7e257bdf2dae640ae4d9e91ee5b599f34f7136b4270ee494f9c2fe1e1787e9fe"),
+}
 
 EXPECTED_SOURCE_SHAS = {
     "pm-starter-evidence-first-code-review": {
@@ -47,6 +54,8 @@ REQUIRED_BOUNDARIES = {
     "payload_complete_implies_product_ready": False,
     "archive_build_implies_provider_custody": False,
     "archive_build_implies_delivery": False,
+    "static_canary_freeze_implies_runtime_evidence": False,
+    "generated_envelope_implies_behavioral_pass": False,
     "architecture_observations_imply_starter_sku_evidence": False,
     "scope_frozen_implies_product_ready": False,
     "skill_candidate_implies_supported_skill": False,
@@ -101,7 +110,7 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
 def main() -> int:
     gate = read_json(GATE_PATH)
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.3"
+    assert gate["version"] == "1.0.4"
 
     product = gate["product"]
     assert product == {
@@ -121,6 +130,10 @@ def main() -> int:
     assert truth["starter_required_customer_assets_present"] == 9
     assert truth["starter_required_customer_assets_total"] == 9
     assert truth["starter_reproducible_archive_builds_observed"] == 1
+    assert truth["starter_canary_cases_prepared"] == 4
+    assert truth["starter_evaluation_contracts_frozen"] == 4
+    assert truth["starter_exact_runtime_envelopes_frozen"] == 4
+    assert truth["starter_canary_cases_armed"] == 0
     assert truth["starter_sku_workflow_runtime_observations"] == 0
     assert truth["starter_skill_behavioral_observations"] == 0
     assert truth["real_customer_outcomes"] == 0
@@ -141,7 +154,7 @@ def main() -> int:
     payload_freeze = read_json(PAYLOAD_FREEZE)
     assert payload_freeze["state"] == "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT"
     assert payload_freeze["required_customer_assets_present"] == 9
-    assert payload_freeze["truth"]["archive_built"] is False  # historical pre-build snapshot
+    assert payload_freeze["truth"]["archive_built"] is False
 
     archive = read_json(ARCHIVE_RECEIPT)
     assert archive["state"] == "DETERMINISTIC_ARCHIVE_BUILD_PASS"
@@ -154,11 +167,35 @@ def main() -> int:
     assert archive["evidence_boundary"]["archive_build_is_customer_delivery_evidence"] is False
     assert archive["evidence_boundary"]["archive_build_is_ready_to_sell"] is False
 
+    canary = read_json(CANARY_FREEZE)
+    assert canary["schema"] == "prompt-machine-starter-canary-freeze-v1"
+    assert canary["receipt_id"] == "PM-STARTER-CANARY-FREEZE-V1-0001"
+    assert canary["state"] == "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED"
+    assert canary["runtime_input_order"] == ["FROZEN_STARTER_WORKFLOW_SURFACE", "UNTRUSTED_INSTANCE_DATA"]
+    assert canary["evaluation_contract_is_runtime_input"] is False
+    assert canary["expected_result_is_runtime_input"] is False
+    assert len(canary["cases"]) == 4
+    for row in canary["cases"]:
+        expected_size, expected_sha = CANARY_ENVELOPES[row["case_id"]]
+        assert row["runtime_envelope_size_bytes"] == expected_size
+        assert row["runtime_envelope_sha256"] == expected_sha
+        assert row["armed"] is False
+        assert row["runtime_executed"] is False
+    assert canary["static_validation"]["conclusion"] == "success"
+    assert canary["static_validation"]["run_id"] == 33798196867
+    assert canary["truth"]["out_of_band_evaluation_contracts"] == 4
+    assert canary["truth"]["exact_runtime_envelopes"] == 4
+    assert canary["truth"]["armed_cases"] == 0
+    assert canary["truth"]["runtime_observations"] == 0
+    assert canary["truth"]["model_calls"] == 0
+    assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
+    assert canary["next_permitted_runtime_sequence"]["automatic_retries"] == 0
+    assert canary["next_permitted_runtime_sequence"]["automatic_second_case"] is False
+
     validate_contract(read_json(CODE_REVIEW_CONTRACT), "pm-starter-evidence-first-code-review")
     validate_contract(read_json(BUG_DIAGNOSIS_CONTRACT), "pm-starter-evidence-first-bug-diagnosis")
     assert "UNTRUSTED TASK DATA" in CODE_REVIEW_SURFACE.read_text(encoding="utf-8")
     assert "UNTRUSTED TASK DATA" in BUG_DIAGNOSIS_SURFACE.read_text(encoding="utf-8")
-
     validate_trust_context(CODE_TRUST, "pm-starter-evidence-first-code-review")
     validate_trust_context(BUG_TRUST, "pm-starter-evidence-first-bug-diagnosis")
 
@@ -189,6 +226,7 @@ def main() -> int:
     assert gates["final_executable_starter_prompt_surfaces"] == "PASS_STATIC_ONLY"
     assert gates["required_customer_payload"] == "PASS_STATIC_9_OF_9"
     assert gates["deterministic_starter_artifact"] == "PASS_PACKAGING_ONLY"
+    assert gates["starter_specific_behavioral_canary_readiness"] == "PASS_STATIC_PREPARED_DISARMED"
     assert gates["starter_specific_behavioral_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["customer_activation_instrumentation"] == "DESIGNED_NOT_LIVE"
@@ -201,15 +239,17 @@ def main() -> int:
 
     spend = gate["next_model_spend_gate"]
     assert spend["authorized_now"] is False
+    assert spend["preferred_first_case_when_reopened"] == "PM-STARTER-CR-NORMAL-0001"
+    assert spend["maximum_submissions_before_human_review"] == 1
     assert spend["automatic_wave"] is False
     assert spend["automatic_retries"] == 0
+    assert spend["automatic_second_case"] is False
 
     page = STARTER_PAGE.read_text(encoding="utf-8")
     assert "NOT FOR SALE" in page
     assert "$9" in page
     assert "PRICE HYPOTHESIS" in page
     assert "checkout" in page.lower()
-
     assert not STARTER_CHECKOUT_ROUTE.exists(), (
         "Starter checkout route exists while STARTER_RELEASE_GATE_V1 blocks public checkout"
     )
@@ -222,6 +262,10 @@ def main() -> int:
     print("required_customer_payload=9/9")
     print("deterministic_archive=true")
     print(f"archive_sha256={CANONICAL_ARCHIVE_SHA256}")
+    print("starter_canary_cases_prepared=4")
+    print("starter_evaluation_contracts_frozen=4")
+    print("starter_exact_runtime_envelopes_frozen=4")
+    print("starter_canary_cases_armed=0")
     print("starter_sku_runtime_observations=0")
     print("starter_skill_behavioral_observations=0")
     print("activated_users=0")
