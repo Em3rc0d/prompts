@@ -29,9 +29,9 @@ export default function CollectionsPage() {
           <div className="productMain">
             <div className="eyebrow">FIRST PURCHASE EXPERIMENT</div>
             <h2>Starter Collection</h2>
-            <p>Two complete recurring developer jobs: evidence-first Code Review and Bug Diagnosis, with their two skill candidates and a reusable customer experience around them.</p>
-            <p className="sectionIntro">Scope is frozen around START_HERE, task selection, worked examples, verification guidance, and an adaptation cheatsheet. Scope freeze is a product decision—not evidence that the workflows are behaviorally certified.</p>
-            <div className="identity"><div><strong>02</strong><span>workflow families</span></div><div><strong>02</strong><span>skill candidates</span></div><div><strong>$9</strong><span>price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale</span></div></div>
+            <p>Two complete recurring developer jobs: evidence-first Code Review and Bug Diagnosis, delivered through a reusable customer experience around those workflows.</p>
+            <p className="sectionIntro">The current governed archive is the 9-file workflow product: START_HERE, task selection, two workflows, worked examples, verification guidance, adaptation, evidence disclosure, and license. Two related skill surfaces are tracked separately as structural candidates; they are not supported or included in the current Starter archive unless they later earn trigger, forward-behavior, and workflow-parity evidence.</p>
+            <div className="identity"><div><strong>02</strong><span>workflow families</span></div><div><strong>00</strong><span>supported skills today</span></div><div><strong>$9</strong><span>price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale</span></div></div>
           </div>
           <aside className="purchasePanel"><span className="purchaseLabel">LOWER-FRICTION ENTRY</span><h3>Pay for a complete focused system, not an intentionally broken free tier.</h3><p>The Free Library remains useful by itself. Starter must earn $9 by reducing setup and repeat work around two high-frequency jobs.</p><CommerceLink kind="starter" className="btn btnSecondary">Check the $9 Starter →</CommerceLink><p className="micro">This records Starter intent and opens its release-status page. It cannot create a purchase while checkout is off.</p></aside>
         </div>
@@ -52,14 +52,14 @@ export default function CollectionsPage() {
           <aside className="purchasePanel"><span className="purchaseLabel">UPSELL ONLY WHEN EARNED</span><h3>The full collection should win on breadth, not artificial restrictions.</h3><p>A customer should be able to stay with Starter if those two jobs are enough. The $19 tier must justify itself with genuinely broader reusable coverage.</p><CommerceLink kind="paid" className="btn btnSecondary">Compare the $19 Full →</CommerceLink></aside>
         </div>
       </div>
-    </div></section>
+    </section>
 
     <section className="section"><div className="wrap">
       <div className="sectionHeader splitHeader"><div><div className="eyebrow">NEXT / DEMAND FIRST</div><h2>We will not manufacture a catalog nobody asked for.</h2></div><p className="sectionIntro">Prompt Machine can expand beyond software, but new collections should follow observed tasks, repeat usage, and buying intent.</p></div>
       <div className="grid3">
         {futureCollections.map(([code, title, copy]) => <article className="card" key={code}><code>{code}</code><h3>{title}</h3><p>{copy}</p></article>)}
       </div>
-    </div></section>
+    </section>
 
     <section className="cta"><div className="wrap"><h2>Not sure what collection you need?</h2><p>Start with a real task and a free workflow. Your usage tells us more than a demographic label ever could.</p><div className="actions"><CommerceLink kind="free">Use the Free Library →</CommerceLink></div></div></section>
   </main>;
