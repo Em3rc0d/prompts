@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the static Starter customer payload without creating runtime evidence."""
+"""Validate the Starter customer payload and packaging identity without runtime evidence."""
 
 from __future__ import annotations
 
@@ -10,8 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "product" / "starter-collection-v1"
 LAYOUT = BASE / "ARTIFACT_LAYOUT_V1.json"
 FREEZE = BASE / "PAYLOAD_FREEZE_V1.json"
+BUILD_RECEIPT = BASE / "ARCHIVE_BUILD_RECEIPT_V1.json"
 
 SYNTHETIC_LABEL = "SYNTHETIC EXAMPLE — NOT A RUNTIME OBSERVATION — NOT CUSTOMER EVIDENCE"
+CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+CANONICAL_ARCHIVE_SIZE = 50918
 
 
 def read_json(path: Path) -> dict:
@@ -21,10 +24,11 @@ def read_json(path: Path) -> dict:
 def main() -> int:
     layout = read_json(LAYOUT)
     freeze = read_json(FREEZE)
+    build_receipt = read_json(BUILD_RECEIPT)
 
     assert layout["schema"] == "prompt-machine-starter-artifact-layout-v1"
-    assert layout["version"] == "1.0.1"
-    assert layout["artifact_state"] == "REQUIRED_CUSTOMER_PAYLOAD_PRESENT_ARCHIVE_NOT_BUILT"
+    assert layout["version"] == "1.0.2"
+    assert layout["artifact_state"] == "DETERMINISTIC_ARCHIVE_BUILD_OBSERVED"
 
     required = layout["customer_visible_assets"]
     assert len(required) == 9
@@ -39,12 +43,19 @@ def main() -> int:
     assert layout["truth"]["required_customer_assets_total"] == 9
     assert layout["truth"]["required_customer_assets_present"] == 9
     assert layout["truth"]["required_customer_assets_pending"] == 0
-    assert layout["truth"]["archive_built"] is False
-    assert layout["archive_identity"]["filename"] is None
-    assert layout["archive_identity"]["size_bytes"] is None
-    assert layout["archive_identity"]["sha256"] is None
-    assert layout["archive_identity"]["source_commit"] is None
-    assert layout["archive_identity"]["state"] == "UNKNOWN_UNTIL_DETERMINISTIC_BUILD"
+    assert layout["truth"]["archive_built"] is True
+    assert layout["truth"]["archive_reproducible"] is True
+    assert layout["truth"]["provider_custody"] is False
+    assert layout["truth"]["customer_delivery_observed"] is False
+    assert layout["truth"]["ready_to_sell"] is False
+
+    archive = layout["archive_identity"]
+    assert archive["filename"] == "prompt-machine-starter-collection-v1.zip"
+    assert archive["size_bytes"] == CANONICAL_ARCHIVE_SIZE
+    assert archive["sha256"] == CANONICAL_ARCHIVE_SHA256
+    assert archive["canonical_build_source_commit"] == "167faad0758b3e746b48ac7c898f876525d30ee3"
+    assert archive["build_receipt"] == "PM-STARTER-ARCHIVE-BUILD-V1-0001"
+    assert archive["state"] == "REPRODUCIBLE_BUILD_OBSERVED"
 
     code_example = (BASE / "examples" / "code-review-worked-example.md").read_text(encoding="utf-8")
     bug_example = (BASE / "examples" / "bug-diagnosis-worked-example.md").read_text(encoding="utf-8")
@@ -72,6 +83,7 @@ def main() -> int:
     ]:
         assert statement in license_text
 
+    # PAYLOAD_FREEZE is an immutable pre-build snapshot. Its historical archive=false truth stays valid.
     assert freeze["schema"] == "prompt-machine-starter-payload-freeze-v1"
     assert freeze["receipt_id"] == "PM-STARTER-PAYLOAD-FREEZE-V1-0001"
     assert freeze["state"] == "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT"
@@ -87,8 +99,20 @@ def main() -> int:
     assert freeze["truth"]["provider_custody"] is False
     assert freeze["truth"]["public_checkout"] is False
     assert freeze["truth"]["ready_to_sell"] is False
-    assert freeze["truth"]["external_model_calls_created_by_freeze"] == 0
-    assert freeze["truth"]["provider_calls_created_by_freeze"] == 0
+
+    assert build_receipt["schema"] == "prompt-machine-starter-archive-build-receipt-v1"
+    assert build_receipt["receipt_id"] == "PM-STARTER-ARCHIVE-BUILD-V1-0001"
+    assert build_receipt["state"] == "DETERMINISTIC_ARCHIVE_BUILD_PASS"
+    assert build_receipt["workflow_run"]["conclusion"] == "success"
+    assert build_receipt["customer_archive"]["required_customer_assets"] == 9
+    assert build_receipt["customer_archive"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
+    assert build_receipt["customer_archive"]["sha256"] == CANONICAL_ARCHIVE_SHA256
+    assert build_receipt["customer_archive"]["reproducibility_check"] == "PASS_BYTE_FOR_BYTE_TWO_BUILDS"
+    assert build_receipt["validation"]["model_calls"] == 0
+    assert build_receipt["validation"]["provider_calls"] == 0
+    assert build_receipt["evidence_boundary"]["github_actions_artifact_is_commerce_provider_custody"] is False
+    assert build_receipt["evidence_boundary"]["archive_build_is_customer_delivery_evidence"] is False
+    assert build_receipt["evidence_boundary"]["archive_build_is_ready_to_sell"] is False
 
     conditional = layout["conditional_assets"]
     assert len(conditional) == 4
@@ -99,8 +123,12 @@ def main() -> int:
     print("STARTER CUSTOMER PAYLOAD V1: PASS")
     print("required_assets=9/9")
     print("synthetic_examples_labeled=true")
-    print("archive_built=false")
+    print("archive_built=true")
+    print("archive_reproducible=true")
+    print(f"archive_size_bytes={CANONICAL_ARCHIVE_SIZE}")
+    print(f"archive_sha256={CANONICAL_ARCHIVE_SHA256}")
     print("provider_custody=false")
+    print("customer_delivery_observed=false")
     print("starter_runtime_observations=0")
     print("model_calls=0")
     print("provider_calls=0")
