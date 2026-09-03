@@ -1,0 +1,80 @@
+name: Run PCP-04 OpenAI Observation Wave
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/pcp04-openai-wave-trigger'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pcp04-openai-gpt56-luna-v1
+  cancel-in-progress: false
+
+jobs:
+  observe-frozen-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      PCP04_PROVIDER: openai
+      PCP04_MODEL: gpt-5.6-luna
+      PCP04_FAMILY: openai-gpt-5.6
+      PCP04_CAMPAIGN_ID: PQ-PCP04-CAMPAIGN-OPENAI-GPT56-LUNA-V1
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install runtime dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fail closed without API credential
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo 'PCP-04 WAVE: BLOCKED — OPENAI_API_KEY is not configured in repository Actions secrets.' >&2
+            exit 3
+          fi
+
+      - name: Materialize frozen PCP-04 packet
+        run: python tools/prepare_pcp04_work_orders.py --output build/pcp04-work-orders
+
+      - name: Execute all 84 real observations serially
+        run: |
+          python tools/execute_pcp04_api_campaign.py \
+            --provider "$PCP04_PROVIDER" \
+            --model "$PCP04_MODEL" \
+            --family "$PCP04_FAMILY" \
+            --campaign-id "$PCP04_CAMPAIGN_ID" \
+            --work-orders-dir build/pcp04-work-orders \
+            --output-dir build/pcp04-openai-wave
+
+      - name: Guard campaign cardinality and review boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f build/pcp04-openai-wave/campaign.unreviewed.json
+          test "$(find build/pcp04-openai-wave/raw -type f -name '*.txt' | wc -l)" -eq 84
+          test "$(find build/pcp04-openai-wave/evidence -type f -name '*.json' | wc -l)" -eq 84
+          test "$(find build/pcp04-openai-wave/review -type f -name '*.review.json' | wc -l)" -eq 84
+          test "$(find build/pcp04-openai-wave -type f \( -name 'receipt.json' -o -name '*.receipt.json' \) | wc -l)" -eq 0
+          grep -Fq '"selected_execution_count": 84' build/pcp04-openai-wave/campaign.unreviewed.json
+          grep -Fq '"full_campaign_required_execution_count": 84' build/pcp04-openai-wave/campaign.unreviewed.json
+          grep -Fq '"review_required": true' build/pcp04-openai-wave/campaign.unreviewed.json
+          grep -Fq '"receipts_created": 0' build/pcp04-openai-wave/campaign.unreviewed.json
+          grep -Fq '"promotion_claim": "NONE"' build/pcp04-openai-wave/campaign.unreviewed.json
+          echo 'PCP-04 OBSERVATION WAVE: PASS — 84 real outputs preserved; review still required; zero promotion receipts created.'
+
+      - name: Preserve unreviewed campaign evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp04-openai-gpt56-luna-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/pcp04-openai-wave/
+          if-no-files-found: error
+          retention-days: 30
