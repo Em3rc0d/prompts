@@ -13,6 +13,7 @@ on:
       - 'web/app/api/commerce/starter-collection/**'
       - 'tools/validate_starter_release_gate_v1.py'
       - 'tools/validate_starter_workflow_surfaces_v1.py'
+      - 'tools/validate_starter_payload_v1.py'
       - '.github/workflows/validate-starter-release-gate-v1.yml'
 
 permissions:
@@ -36,6 +37,9 @@ jobs:
       - name: Validate Starter contract-to-prompt parity
         run: python tools/validate_starter_workflow_surfaces_v1.py
 
+      - name: Validate Starter customer payload
+        run: python tools/validate_starter_payload_v1.py
+
       - name: Validate Starter release truth boundaries
         run: python tools/validate_starter_release_gate_v1.py
 
@@ -50,6 +54,8 @@ jobs:
           | Price | $9 HYPOTHESIS |
           | Final workflow contracts | 2 / 2 STATIC PASS |
           | Executable prompt surfaces | 2 / 2 STATIC PARITY PASS |
+          | Required customer payload | 9 / 9 STATIC PRESENT |
+          | Synthetic examples | LABELED / NOT EVIDENCE |
           | Instruction/data boundary | PRESENT |
           | Architecture observations | 7 |
           | Starter SKU workflow observations | 0 |
@@ -62,5 +68,5 @@ jobs:
           | Provider calls created by validation | 0 |
           | Model calls created by validation | 0 |
 
-          Contract/surface freeze is not runtime evidence. Architecture evidence is not silently promoted into Starter SKU evidence.
+          Static payload completeness is not runtime evidence or product readiness. Architecture evidence is not silently promoted into Starter SKU evidence.
           EOF
