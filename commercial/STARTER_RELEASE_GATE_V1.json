@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -14,6 +14,7 @@
     "architecture_expected_state_matches": 7,
     "architecture_blocking_review_failures": 0,
     "starter_workflow_contracts_frozen": 2,
+    "starter_executable_prompt_surfaces_frozen": 2,
     "starter_sku_workflow_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
     "real_customer_outcomes": 0,
@@ -48,10 +49,19 @@
     ],
     "runtime_evidence_created": 0
   },
+  "surface_freeze": {
+    "receipt": "product/starter-collection-v1/SURFACE_FREEZE_V1.json",
+    "state": "STATIC_SURFACE_CONTRACT_PARITY_PASS",
+    "surfaces": [
+      "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+      "product/starter-collection-v1/workflows/evidence-first-bug-diagnosis.md"
+    ],
+    "runtime_evidence_created": 0
+  },
   "gates": {
     "current_product_truth": "PASS",
     "final_starter_workflow_contracts": "PASS_STATIC_ONLY",
-    "final_executable_starter_prompt_surfaces": "OPEN_ALIGNMENT_REQUIRED",
+    "final_executable_starter_prompt_surfaces": "PASS_STATIC_ONLY",
     "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
     "customer_surfaces": "PARTIAL",
@@ -74,6 +84,7 @@
   },
   "boundaries": {
     "contract_freeze_implies_runtime_evidence": false,
+    "surface_freeze_implies_runtime_evidence": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
     "skill_candidate_implies_supported_skill": false,
@@ -89,15 +100,15 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "align_final_code_review_prompt_surface_to_frozen_contract",
-    "align_final_bug_diagnosis_prompt_surface_to_frozen_contract",
+    "build_START_HERE_and_task_chooser",
     "prepare_starter_artifact_layout_without_archive_claim",
     "prepare_starter_activation_evidence_contract",
-    "prepare_workflow_level_trust_card_inputs"
+    "prepare_workflow_level_trust_card_inputs",
+    "prepare_worked_examples_as_synthetic_labeled_fixtures"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "Manual architecture campaign remains paused under the configured five-hour usage reserve policy, and final executable Starter prompt surfaces must first match the frozen contracts.",
+    "reason": "Manual architecture campaign remains paused under the configured five-hour usage reserve policy. Starter contracts and executable prompt surfaces are now statically frozen, so future spend can target Starter-specific behavior rather than prompt drafting.",
     "when_reopened": "Use the smallest Starter-specific behavioral observation capable of changing the release decision; no automatic wave or retry."
   },
   "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
