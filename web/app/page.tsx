@@ -80,8 +80,8 @@ export default function HomePage() {
             <div className="productMain">
               <div className="eyebrow">03 / PAID COLLECTIONS</div>
               <h2>Start smaller. Upgrade only when broader coverage earns it.</h2>
-              <p>The primary first-purchase experiment is the Starter Collection: Code Review + Bug Diagnosis, their two skill candidates, a clear entrypoint, examples, verification guidance, and adaptation support.</p>
-              <p className="sectionIntro"><strong>$9 one-time Starter</strong> is the entry hypothesis. <strong>$19 one-time Full</strong> remains the broader developer-system hypothesis. Both checkouts stay off until release evidence closes.</p>
+              <p>The primary first-purchase experiment is the Starter Collection: two governed workflows for Code Review and Bug Diagnosis, plus a clear entrypoint, worked examples, verification guidance, evidence disclosure, and adaptation support.</p>
+              <p className="sectionIntro">Two related skill surfaces exist only as evidence-gated candidates and are not part of the current 9-file Starter archive. <strong>$9 one-time Starter</strong> remains the entry hypothesis; <strong>$19 one-time Full</strong> remains the broader developer-system hypothesis. Both checkouts stay off until release evidence closes.</p>
               <div className="identity"><div><strong>$0</strong><span>Free Library</span></div><div><strong>$9</strong><span>Starter</span></div><div><strong>$19</strong><span>Full</span></div><div><strong>OFF</strong><span>checkout</span></div></div>
             </div>
             <aside className="purchasePanel"><span className="purchaseLabel">PRIMARY FIRST PAID OFFER</span><h3>Would the $9 Starter Collection earn a place in your workflow?</h3><p>Its scope is frozen, but it is still not for sale. This CTA records Starter interest without manufacturing a purchase.</p><CommerceLink kind="starter" className="btn btnSecondary">Check the $9 Starter →</CommerceLink><CommerceLink kind="paid" className="btn btnGhost">Compare the $19 Full →</CommerceLink></aside>
