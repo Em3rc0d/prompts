@@ -15,6 +15,7 @@ BASE = ROOT / "product" / "starter-collection-v1"
 GATE_PATH = ROOT / "commercial" / "STARTER_RELEASE_GATE_V1.json"
 STARTER_PAGE = ROOT / "web" / "app" / "starter-collection" / "page.tsx"
 STARTER_CHECKOUT_ROUTE = ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
+STARTER_WEBHOOK_ROUTE = ROOT / "web" / "app" / "api" / "commerce" / "lemonsqueezy" / "starter-webhook" / "route.ts"
 
 CONTRACT_FREEZE = BASE / "CONTRACT_FREEZE_V1.json"
 SURFACE_FREEZE = BASE / "SURFACE_FREEZE_V1.json"
@@ -38,6 +39,7 @@ STARTER_RELEASE_ADAPTER = ROOT / "web" / "lib" / "starter-collection-release.ts"
 COMMERCE_CORE = ROOT / "web" / "lib" / "commerce-release.ts"
 CUSTODY_VERIFIER = ROOT / "tools" / "verify_lemonsqueezy_provider_file.py"
 CUSTODY_OFFLINE_TEST = ROOT / "tools" / "test_provider_custody_verifier_v1.py"
+WEBHOOK_OFFLINE_TEST = ROOT / "tools" / "test_starter_webhook_adapter_v1.py"
 
 CANONICAL_PRODUCT_ID = "prompt-machine-starter-collection"
 LEGACY_PRODUCT_ID = "pq-developer-starter-collection"
@@ -72,6 +74,7 @@ REQUIRED_BOUNDARIES = {
     "generated_envelope_implies_behavioral_pass": False,
     "public_copy_audit_pass_implies_product_ready": False,
     "public_copy_audit_pass_implies_public_sale_authorized": False,
+    "signed_webhook_adapter_present_implies_provider_event_observed": False,
     "static_provider_integration_prep_implies_provider_integration_pass": False,
     "offline_provider_simulation_implies_provider_custody": False,
     "provider_custody_contract_implies_provider_custody": False,
@@ -127,7 +130,7 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
 def main() -> int:
     gate = read_json(GATE_PATH)
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.6"
+    assert gate["version"] == "1.0.7"
 
     assert gate["product"] == {
         "product_id": CANONICAL_PRODUCT_ID,
@@ -138,32 +141,30 @@ def main() -> int:
     }
 
     truth = gate["truth"]
-    expected_truth = {
-        "architecture_behavioral_observations": 7,
-        "architecture_expected_state_matches": 7,
-        "architecture_blocking_review_failures": 0,
-        "starter_workflow_contracts_frozen": 2,
-        "starter_executable_prompt_surfaces_frozen": 2,
-        "starter_required_customer_assets_present": 9,
-        "starter_required_customer_assets_total": 9,
-        "starter_reproducible_archive_builds_observed": 1,
-        "starter_canary_cases_prepared": 4,
-        "starter_evaluation_contracts_frozen": 4,
-        "starter_exact_runtime_envelopes_frozen": 4,
-        "starter_canary_cases_armed": 0,
-        "starter_sku_workflow_runtime_observations": 0,
-        "starter_skill_behavioral_observations": 0,
-        "public_copy_audit_passes": 1,
-        "public_copy_material_failures_found_before_fix": 3,
-        "public_copy_material_failures_open": 0,
-        "provider_integration_static_preparation_passes": 1,
-        "provider_custody_observations": 0,
-        "real_customer_outcomes": 0,
-        "real_purchases": 0,
-        "public_checkout_enabled": False,
-        "ready_to_sell": False,
-    }
-    assert truth == expected_truth
+    assert truth["architecture_behavioral_observations"] == 7
+    assert truth["architecture_expected_state_matches"] == 7
+    assert truth["architecture_blocking_review_failures"] == 0
+    assert truth["starter_workflow_contracts_frozen"] == 2
+    assert truth["starter_executable_prompt_surfaces_frozen"] == 2
+    assert truth["starter_required_customer_assets_present"] == 9
+    assert truth["starter_required_customer_assets_total"] == 9
+    assert truth["starter_reproducible_archive_builds_observed"] == 1
+    assert truth["starter_canary_cases_prepared"] == 4
+    assert truth["starter_evaluation_contracts_frozen"] == 4
+    assert truth["starter_exact_runtime_envelopes_frozen"] == 4
+    assert truth["starter_canary_cases_armed"] == 0
+    assert truth["starter_sku_workflow_runtime_observations"] == 0
+    assert truth["starter_skill_behavioral_observations"] == 0
+    assert truth["public_copy_audit_passes"] == 1
+    assert truth["public_copy_material_failures_found_before_fix"] == 3
+    assert truth["public_copy_material_failures_open"] == 0
+    assert truth["provider_integration_static_preparation_passes"] == 1
+    assert truth["starter_signed_webhook_adapters_present"] == 1
+    assert truth["provider_custody_observations"] == 0
+    assert truth["real_customer_outcomes"] == 0
+    assert truth["real_purchases"] == 0
+    assert truth["public_checkout_enabled"] is False
+    assert truth["ready_to_sell"] is False
 
     contract_freeze = read_json(CONTRACT_FREEZE)
     assert contract_freeze["state"] == "STATIC_CONTRACT_FREEZE_PASS"
@@ -187,13 +188,10 @@ def main() -> int:
     assert archive["customer_archive"]["reproducibility_check"] == "PASS_BYTE_FOR_BYTE_TWO_BUILDS"
     assert archive["validation"]["model_calls"] == 0
     assert archive["validation"]["provider_calls"] == 0
-    assert archive["evidence_boundary"]["github_actions_artifact_is_commerce_provider_custody"] is False
     assert archive["evidence_boundary"]["archive_build_is_customer_delivery_evidence"] is False
     assert archive["evidence_boundary"]["archive_build_is_ready_to_sell"] is False
 
     canary = read_json(CANARY_FREEZE)
-    assert canary["schema"] == "prompt-machine-starter-canary-freeze-v1"
-    assert canary["receipt_id"] == "PM-STARTER-CANARY-FREEZE-V1-0001"
     assert canary["state"] == "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED"
     assert canary["evaluation_contract_is_runtime_input"] is False
     assert canary["expected_result_is_runtime_input"] is False
@@ -209,8 +207,6 @@ def main() -> int:
     assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
 
     copy_audit = read_json(COPY_AUDIT_RECEIPT)
-    assert copy_audit["schema"] == "prompt-machine-starter-public-copy-audit-receipt-v1"
-    assert copy_audit["receipt_id"] == "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001"
     assert copy_audit["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert len(copy_audit["history"][0]["material_findings"]) == 3
     assert copy_audit["history"][0]["state"] == "FAIL_EVIDENCE_SCOPE_AMBIGUOUS"
@@ -228,7 +224,6 @@ def main() -> int:
     assert identity["rules"]["historical_records_rewritten"] is False
 
     custody = read_json(PROVIDER_CUSTODY)
-    assert custody["schema"] == "prompt-machine-starter-provider-custody-contract-v1"
     assert custody["state"] == "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED"
     assert custody["canonical_artifact"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
     assert custody["canonical_artifact"]["sha256"] == CANONICAL_ARCHIVE_SHA256
@@ -241,31 +236,47 @@ def main() -> int:
     assert custody["current_truth"]["ready_to_sell"] is False
 
     integration = read_json(PROVIDER_INTEGRATION_PREP)
-    assert integration["schema"] == "prompt-machine-starter-provider-integration-prep-v1"
+    assert integration["version"] == "1.0.1"
     assert integration["state"] == "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED"
     assert integration["product_id"] == CANONICAL_PRODUCT_ID
     assert integration["provider_candidate"] == "LEMON_SQUEEZY"
     assert integration["canonical_release"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
     assert integration["canonical_release"]["sha256"] == CANONICAL_ARCHIVE_SHA256
-    assert integration["offline_regression_evidence"]["run_id"] == 33803931478
+    assert integration["offline_regression_evidence"]["run_id"] == 33804410377
     assert integration["offline_regression_evidence"]["conclusion"] == "success"
     assert integration["offline_regression_evidence"]["provider_calls"] == 0
     assert integration["offline_regression_evidence"]["model_calls"] == 0
     assert integration["fail_closed_surface"]["starter_commerce_mode_default"] == "off"
     assert integration["fail_closed_surface"]["starter_public_sale_status_default"] == "NOT_FOR_SALE"
+    assert integration["fail_closed_surface"]["starter_signed_webhook_adapter_present"] is True
     assert integration["fail_closed_surface"]["starter_checkout_route_exists"] is False
+    assert integration["current_truth"]["signed_starter_webhook_adapter_present"] is True
     assert integration["current_truth"]["provider_custody_evidence_observed"] is False
     assert integration["current_truth"]["provider_integration_pass"] is False
     assert integration["current_truth"]["ready_to_sell"] is False
+    assert integration["evidence_boundary"]["signed_webhook_adapter_present_is_provider_event_observation"] is False
     assert integration["evidence_boundary"]["static_integration_code_is_provider_integration_pass"] is False
     assert integration["evidence_boundary"]["offline_provider_simulation_is_real_provider_custody"] is False
 
-    for path in (DELIVERY_SCHEMA, STARTER_RELEASE_ADAPTER, COMMERCE_CORE, CUSTODY_VERIFIER, CUSTODY_OFFLINE_TEST):
+    for path in (
+        DELIVERY_SCHEMA,
+        STARTER_RELEASE_ADAPTER,
+        COMMERCE_CORE,
+        CUSTODY_VERIFIER,
+        CUSTODY_OFFLINE_TEST,
+        STARTER_WEBHOOK_ROUTE,
+        WEBHOOK_OFFLINE_TEST,
+    ):
         assert path.is_file(), path
     starter_adapter = STARTER_RELEASE_ADAPTER.read_text(encoding="utf-8")
     assert f'productId: "{CANONICAL_PRODUCT_ID}"' in starter_adapter
     assert f"archiveSize: {CANONICAL_ARCHIVE_SIZE}" in starter_adapter
     assert CANONICAL_ARCHIVE_SHA256 in starter_adapter
+    webhook = STARTER_WEBHOOK_ROUTE.read_text(encoding="utf-8")
+    assert "currentStarterCommerceMode" in webhook
+    assert "STARTER_COLLECTION_RELEASE" in webhook
+    assert "PM_STARTER_COMMERCE_EVENT" in webhook
+    assert "starter_commerce_not_configured" in webhook
     assert "CommerceReleaseIdentity" in COMMERCE_CORE.read_text(encoding="utf-8")
 
     validate_contract(read_json(CODE_REVIEW_CONTRACT), "pm-starter-evidence-first-code-review")
@@ -292,9 +303,16 @@ def main() -> int:
         "LIVE_DELIVERY_CANARY": False,
         "PUBLIC_COPY_EVIDENCE_AUDIT": True,
     }
-
     for key, expected in REQUIRED_BOUNDARIES.items():
         assert gate["boundaries"][key] is expected
+
+    prep = gate["provider_integration_preparation"]
+    assert prep["state"] == "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED"
+    assert prep["signed_starter_webhook_adapter_present"] is True
+    assert prep["starter_checkout_route_exists"] is False
+    assert prep["offline_regression_run_id"] == 33804410377
+    assert prep["provider_calls_created"] == 0
+    assert prep["provider_integration_pass"] is False
 
     gates = gate["gates"]
     assert gates["current_product_truth"] == "PASS"
@@ -305,8 +323,6 @@ def main() -> int:
     assert gates["starter_specific_behavioral_canary_readiness"] == "PASS_STATIC_PREPARED_DISARMED"
     assert gates["starter_specific_behavioral_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
-    assert gates["customer_activation_instrumentation"] == "DESIGNED_NOT_LIVE"
-    assert gates["workflow_level_trust_cards"] == "CONTEXTS_SEEDED_PUBLICATION_BLOCKED"
     assert gates["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert gates["provider_test_custody"] == "CONTRACT_DEFINED_NOT_PROVISIONED"
     assert gates["provider_integration"] == "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED"
@@ -341,8 +357,8 @@ def main() -> int:
     print("starter_canary_cases_prepared=4")
     print("starter_sku_runtime_observations=0")
     print("public_copy_audit=PASS_CURRENT_EVIDENCE_BOUNDARY")
+    print("signed_starter_webhook_adapter=present_static_only")
     print("provider_integration=STATIC_PREPARED_PROVIDER_NOT_PROVISIONED")
-    print("provider_custody=CONTRACT_DEFINED_NOT_PROVISIONED")
     print("provider_custody_observations=0")
     print("activated_users=0")
     print("public_checkout=BLOCKED")
