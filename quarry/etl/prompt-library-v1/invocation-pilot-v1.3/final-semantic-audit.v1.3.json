@@ -1,0 +1,54 @@
+{
+  "schema": "prompt-machine-binding-invocation-static-audit-v1.3",
+  "audit_id": "PM-BIND-INV-STATIC-AUDIT-0003",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0003",
+  "basis": "Manual semantic inspection after deterministic v1.3 materialization: all nine low-risk bindings, state expectations, exact three-block protocol, learning answer-key isolation, and representative NORMAL/EMBEDDED_OVERRIDE packet boundaries. No model/runtime execution.",
+  "disposition": "STATIC_SEMANTIC_PASS",
+  "closed_lineage_findings": [
+    "BIND-V1-PROTO-001",
+    "BIND-V1-LEARN-001",
+    "BIND-V1-OPT-001",
+    "BIND-V1-EVAL-001",
+    "BIND-V12-LEARN-001"
+  ],
+  "critical_findings_open": 0,
+  "high_findings_open": 0,
+  "material_semantic_contradictions_open": 0,
+  "observations": {
+    "architecture_mothers": 9,
+    "validated_bindings": 9,
+    "prepared_invocations": 18,
+    "normal_invocations": 9,
+    "embedded_override_invocations": 9,
+    "runtime_roles": ["user"],
+    "runtime_blocks_per_invocation": 3,
+    "learning_answer_key_runtime_exposure": 0,
+    "high_stakes_bindings": 0,
+    "authority_escalations": 0,
+    "external_model_calls": 0,
+    "behavioral_observations": 0
+  },
+  "reviewed_state_expectations": {
+    "audit": ["COMPLETE"],
+    "checklist": ["PASS"],
+    "general": ["COMPLETE"],
+    "generation": ["COMPLETE"],
+    "learning": ["IN_PROGRESS"],
+    "optimization": ["READY"],
+    "plan": ["READY"],
+    "simulation": ["READY"],
+    "writing": ["COMPLETE"]
+  },
+  "truth_boundary": {
+    "static_binding_coherence": true,
+    "static_invocation_reproducibility": true,
+    "behavioral_evidence": false,
+    "runtime_tested": false,
+    "certified": false,
+    "portable": false,
+    "ready_to_sell": false,
+    "bulk_regeneration_allowed": false
+  },
+  "freeze_allowed": true,
+  "next_gate": "Freeze v1.3 as the static binding/invocation baseline. Prepare exactly one LOW-risk checklist NORMAL runtime canary with explicit manual arming; do not execute it yet."
+}
