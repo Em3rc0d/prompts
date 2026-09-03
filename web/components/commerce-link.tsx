@@ -4,7 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 
 const ATTRIBUTION_KEY = "pq:attribution";
 
-type Props = { kind: "free" | "paid"; children: ReactNode; className?: string };
+type Props = { kind: "free" | "starter" | "paid"; children: ReactNode; className?: string };
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
 
 function readAttribution(): Attribution {
@@ -20,10 +20,12 @@ function internalUrl(path: string): string {
 
 export function CommerceLink({ kind, children, className = "btn btnPrimary" }: Props) {
   const freeExternal = process.env.NEXT_PUBLIC_FREE_PACK_URL;
-  const publicSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
+  const publicFullSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
   const href = kind === "free"
     ? (freeExternal || "/api/free-pack/v1")
-    : (publicSaleLive ? "/api/commerce/developer-pack/checkout" : "/developer-pack");
+    : kind === "starter"
+      ? "/starter-collection"
+      : (publicFullSaleLive ? "/api/commerce/developer-pack/checkout" : "/developer-pack");
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
     const detail = kind === "free"
@@ -34,13 +36,21 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
           collection_id: "developer",
           surface: "free-library",
         }
-      : {
-          event: "paid_cta_clicked",
-          product_id: "pq-developer-pack",
-          product_version: "1.2.0-candidate",
-          collection_id: "developer",
-          surface: "paid-collection",
-        };
+      : kind === "starter"
+        ? {
+            event: "starter_cta_clicked",
+            product_id: "pq-developer-starter-collection",
+            product_version: "1.2.0-candidate",
+            collection_id: "developer",
+            surface: "starter-collection",
+          }
+        : {
+            event: "paid_cta_clicked",
+            product_id: "pq-developer-pack",
+            product_version: "1.2.0-candidate",
+            collection_id: "developer",
+            surface: "full-collection",
+          };
 
     window.dispatchEvent(new CustomEvent("pq:funnel", { detail }));
     if (kind === "free" && freeExternal) return;
