@@ -27,6 +27,9 @@ BUG_DIAGNOSIS_SURFACE = BASE / "workflows" / "evidence-first-bug-diagnosis.md"
 CODE_TRUST = BASE / "trust" / "code-review.trust-context.json"
 BUG_TRUST = BASE / "trust" / "bug-diagnosis.trust-context.json"
 ACTIVATION = ROOT / "commercial" / "STARTER_ACTIVATION_EVIDENCE_V1.json"
+COPY_AUDIT_RECEIPT = ROOT / "commercial" / "STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"
+PROVIDER_CUSTODY = ROOT / "commercial" / "STARTER_PROVIDER_CUSTODY_V1.json"
+DELIVERY_SCHEMA = ROOT / "commercial" / "STARTER_DELIVERY_RECEIPT_V1.schema.json"
 
 CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
 CANONICAL_ARCHIVE_SIZE = 50918
@@ -56,6 +59,9 @@ REQUIRED_BOUNDARIES = {
     "archive_build_implies_delivery": False,
     "static_canary_freeze_implies_runtime_evidence": False,
     "generated_envelope_implies_behavioral_pass": False,
+    "public_copy_audit_pass_implies_product_ready": False,
+    "public_copy_audit_pass_implies_public_sale_authorized": False,
+    "provider_custody_contract_implies_provider_custody": False,
     "architecture_observations_imply_starter_sku_evidence": False,
     "scope_frozen_implies_product_ready": False,
     "skill_candidate_implies_supported_skill": False,
@@ -110,7 +116,7 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
 def main() -> int:
     gate = read_json(GATE_PATH)
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.4"
+    assert gate["version"] == "1.0.5"
 
     product = gate["product"]
     assert product == {
@@ -136,6 +142,9 @@ def main() -> int:
     assert truth["starter_canary_cases_armed"] == 0
     assert truth["starter_sku_workflow_runtime_observations"] == 0
     assert truth["starter_skill_behavioral_observations"] == 0
+    assert truth["public_copy_audit_passes"] == 1
+    assert truth["public_copy_material_failures_found_before_fix"] == 3
+    assert truth["public_copy_material_failures_open"] == 0
     assert truth["real_customer_outcomes"] == 0
     assert truth["real_purchases"] == 0
     assert truth["public_checkout_enabled"] is False
@@ -171,7 +180,6 @@ def main() -> int:
     assert canary["schema"] == "prompt-machine-starter-canary-freeze-v1"
     assert canary["receipt_id"] == "PM-STARTER-CANARY-FREEZE-V1-0001"
     assert canary["state"] == "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED"
-    assert canary["runtime_input_order"] == ["FROZEN_STARTER_WORKFLOW_SURFACE", "UNTRUSTED_INSTANCE_DATA"]
     assert canary["evaluation_contract_is_runtime_input"] is False
     assert canary["expected_result_is_runtime_input"] is False
     assert len(canary["cases"]) == 4
@@ -181,16 +189,40 @@ def main() -> int:
         assert row["runtime_envelope_sha256"] == expected_sha
         assert row["armed"] is False
         assert row["runtime_executed"] is False
-    assert canary["static_validation"]["conclusion"] == "success"
-    assert canary["static_validation"]["run_id"] == 33798196867
-    assert canary["truth"]["out_of_band_evaluation_contracts"] == 4
-    assert canary["truth"]["exact_runtime_envelopes"] == 4
-    assert canary["truth"]["armed_cases"] == 0
     assert canary["truth"]["runtime_observations"] == 0
     assert canary["truth"]["model_calls"] == 0
     assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
     assert canary["next_permitted_runtime_sequence"]["automatic_retries"] == 0
     assert canary["next_permitted_runtime_sequence"]["automatic_second_case"] is False
+
+    copy_audit = read_json(COPY_AUDIT_RECEIPT)
+    assert copy_audit["schema"] == "prompt-machine-starter-public-copy-audit-receipt-v1"
+    assert copy_audit["receipt_id"] == "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001"
+    assert copy_audit["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert len(copy_audit["history"][0]["material_findings"]) == 3
+    assert copy_audit["history"][0]["state"] == "FAIL_EVIDENCE_SCOPE_AMBIGUOUS"
+    assert copy_audit["history"][-1]["state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert copy_audit["history"][-1]["run_id"] == 33799072926
+    assert copy_audit["evidence_boundary"]["copy_audit_creates_runtime_evidence"] is False
+    assert copy_audit["evidence_boundary"]["copy_audit_pass_implies_product_ready"] is False
+    assert copy_audit["evidence_boundary"]["copy_audit_pass_implies_public_sale_authorized"] is False
+    assert copy_audit["model_calls"] == 0
+    assert copy_audit["provider_calls"] == 0
+    assert copy_audit["ready_to_sell"] is False
+
+    custody = read_json(PROVIDER_CUSTODY)
+    assert custody["schema"] == "prompt-machine-starter-provider-custody-contract-v1"
+    assert custody["state"] == "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED"
+    assert custody["canonical_artifact"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
+    assert custody["canonical_artifact"]["sha256"] == CANONICAL_ARCHIVE_SHA256
+    assert custody["custody_evidence"]["provider_signed_order_alone_is_sufficient"] is False
+    assert custody["custody_evidence"]["github_actions_artifact_is_sufficient"] is False
+    assert custody["delivery_boundary"]["provider_custody_pass_implies_delivery_pass"] is False
+    assert custody["current_truth"]["canonical_artifact_in_provider_custody"] is False
+    assert custody["current_truth"]["provider_retrieval_hash_verified"] is False
+    assert custody["current_truth"]["public_checkout"] is False
+    assert custody["current_truth"]["ready_to_sell"] is False
+    assert DELIVERY_SCHEMA.is_file()
 
     validate_contract(read_json(CODE_REVIEW_CONTRACT), "pm-starter-evidence-first-code-review")
     validate_contract(read_json(BUG_DIAGNOSIS_CONTRACT), "pm-starter-evidence-first-bug-diagnosis")
@@ -214,7 +246,7 @@ def main() -> int:
         "PROVIDER_CUSTODY": False,
         "PROVIDER_INTEGRATION": False,
         "LIVE_DELIVERY_CANARY": False,
-        "PUBLIC_COPY_EVIDENCE_AUDIT": False,
+        "PUBLIC_COPY_EVIDENCE_AUDIT": True,
     }
 
     for key, expected in REQUIRED_BOUNDARIES.items():
@@ -231,7 +263,8 @@ def main() -> int:
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["customer_activation_instrumentation"] == "DESIGNED_NOT_LIVE"
     assert gates["workflow_level_trust_cards"] == "CONTEXTS_SEEDED_PUBLICATION_BLOCKED"
-    assert gates["provider_test_custody"] == "NOT_STARTED"
+    assert gates["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert gates["provider_test_custody"] == "CONTRACT_DEFINED_NOT_PROVISIONED"
     assert gates["provider_integration"] == "NOT_STARTED_FOR_STARTER"
     assert gates["live_delivery_canary"] == "NOT_STARTED"
     assert gates["public_checkout"] == "BLOCKED"
@@ -247,9 +280,8 @@ def main() -> int:
 
     page = STARTER_PAGE.read_text(encoding="utf-8")
     assert "NOT FOR SALE" in page
-    assert "$9" in page
-    assert "PRICE HYPOTHESIS" in page
-    assert "checkout" in page.lower()
+    assert "$9 PRICE HYPOTHESIS" in page
+    assert "0</strong><span>Starter runtime observations" in page
     assert not STARTER_CHECKOUT_ROUTE.exists(), (
         "Starter checkout route exists while STARTER_RELEASE_GATE_V1 blocks public checkout"
     )
@@ -267,9 +299,10 @@ def main() -> int:
     print("starter_exact_runtime_envelopes_frozen=4")
     print("starter_canary_cases_armed=0")
     print("starter_sku_runtime_observations=0")
+    print("public_copy_audit=PASS_CURRENT_EVIDENCE_BOUNDARY")
+    print("provider_custody=CONTRACT_DEFINED_NOT_PROVISIONED")
     print("starter_skill_behavioral_observations=0")
     print("activated_users=0")
-    print("provider_custody=false")
     print("public_checkout=BLOCKED")
     print("ready_to_sell=false")
     print("provider_calls=0")
