@@ -13,7 +13,7 @@ const howItWorks = [
   ["01", "Choose the outcome", "Start with what you need to get done, not with a prompt format or a profession."],
   ["02", "Run the workflow", "Follow a reusable input, process, output, fallback, and verification contract instead of improvising every session."],
   ["03", "Inspect the boundaries", "See what is versioned, what has been checked, what remains unknown, and what the workflow must not claim."],
-  ["04", "Upgrade when useful", "Use standalone workflows for free. Buy a collection when broader coverage, skills, examples, and adaptation guidance earn the upgrade."],
+  ["04", "Upgrade when useful", "Use standalone workflows for free. Start with a focused paid collection when it earns the upgrade, then move to the full collection only if broader coverage is worth it."],
 ];
 
 export default function HomePage() {
@@ -33,8 +33,8 @@ export default function HomePage() {
             </div>
             <div className="heroProof">
               <div><strong>$0</strong><span>useful free entry</span></div>
-              <div><strong>03</strong><span>available workflows</span></div>
-              <div><strong>$19</strong><span>paid launch hypothesis</span></div>
+              <div><strong>$9</strong><span>Starter hypothesis</span></div>
+              <div><strong>$19</strong><span>Full hypothesis</span></div>
               <div><strong>TRACE</strong><span>version + evidence</span></div>
             </div>
             <p className="trust heroTrust"><span>◆</span> The customer sees the workflow. Prompt Quarry handles the engineering and evidence underneath.</p>
@@ -75,10 +75,16 @@ export default function HomePage() {
 
       <section className="section productSection" id="collections">
         <div className="wrap"><div className="productFrame">
-          <div className="productFrameTop"><span className="productEdition">PROMPT MACHINE / COLLECTION 01</span><span className="releaseBadge"><i /> CANDIDATE · NOT FOR SALE</span></div>
+          <div className="productFrameTop"><span className="productEdition">PROMPT MACHINE / COMMERCIAL LADDER</span><span className="releaseBadge"><i /> CANDIDATE · CHECKOUT OFF</span></div>
           <div className="productFrameGrid">
-            <div className="productMain"><div className="eyebrow">03 / PAID COLLECTIONS</div><h2>Pay for a broader system, not for the missing half of a free prompt.</h2><p>The first commercial experiment is the Developer Workflow Collection: four governed workflow families, installable skill candidates, operating contracts, examples, adaptation guidance, and visible evidence boundaries.</p><p className="sectionIntro">Planned launch price: <strong>$19 one-time</strong>. This is a pricing hypothesis, not an active checkout.</p></div>
-            <aside className="purchasePanel"><span className="purchaseLabel">DEVELOPER COLLECTION</span><h3>Would the $19 collection be useful to you?</h3><p>Checkout stays off until the release earns it. This CTA records paid-product interest without manufacturing a purchase.</p><CommerceLink kind="paid" className="btn btnSecondary">Check the $19 collection →</CommerceLink></aside>
+            <div className="productMain">
+              <div className="eyebrow">03 / PAID COLLECTIONS</div>
+              <h2>Start smaller. Upgrade only when broader coverage earns it.</h2>
+              <p>The primary first-purchase experiment is the Starter Collection: Code Review + Bug Diagnosis, their two skill candidates, a clear entrypoint, examples, verification guidance, and adaptation support.</p>
+              <p className="sectionIntro"><strong>$9 one-time Starter</strong> is the entry hypothesis. <strong>$19 one-time Full</strong> remains the broader developer-system hypothesis. Both checkouts stay off until release evidence closes.</p>
+              <div className="identity"><div><strong>$0</strong><span>Free Library</span></div><div><strong>$9</strong><span>Starter</span></div><div><strong>$19</strong><span>Full</span></div><div><strong>OFF</strong><span>checkout</span></div></div>
+            </div>
+            <aside className="purchasePanel"><span className="purchaseLabel">PRIMARY FIRST PAID OFFER</span><h3>Would the $9 Starter Collection earn a place in your workflow?</h3><p>Its scope is frozen, but it is still not for sale. This CTA records Starter interest without manufacturing a purchase.</p><CommerceLink kind="starter" className="btn btnSecondary">Check the $9 Starter →</CommerceLink><CommerceLink kind="paid" className="btn btnGhost">Compare the $19 Full →</CommerceLink></aside>
           </div>
         </div></div>
       </section>
