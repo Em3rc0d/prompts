@@ -89,13 +89,21 @@ export function FunnelTracker() {
         collection_id: "developer",
         surface: "free-library",
       });
+    } else if (path.startsWith("/starter-collection")) {
+      emit({
+        event: "starter_product_viewed",
+        product_id: "pq-developer-starter-collection",
+        product_version: "1.2.0-candidate",
+        collection_id: "developer",
+        surface: "starter-collection",
+      });
     } else if (path.startsWith("/developer-pack")) {
       emit({
         event: "paid_product_viewed",
         product_id: "pq-developer-pack",
         product_version: "1.2.0-candidate",
         collection_id: "developer",
-        surface: "paid-collection",
+        surface: "full-collection",
       });
     }
 
