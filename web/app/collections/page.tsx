@@ -52,14 +52,14 @@ export default function CollectionsPage() {
           <aside className="purchasePanel"><span className="purchaseLabel">UPSELL ONLY WHEN EARNED</span><h3>The full collection should win on breadth, not artificial restrictions.</h3><p>A customer should be able to stay with Starter if those two jobs are enough. The $19 tier must justify itself with genuinely broader reusable coverage.</p><CommerceLink kind="paid" className="btn btnSecondary">Compare the $19 Full →</CommerceLink></aside>
         </div>
       </div>
-    </section>
+    </div></section>
 
     <section className="section"><div className="wrap">
       <div className="sectionHeader splitHeader"><div><div className="eyebrow">NEXT / DEMAND FIRST</div><h2>We will not manufacture a catalog nobody asked for.</h2></div><p className="sectionIntro">Prompt Machine can expand beyond software, but new collections should follow observed tasks, repeat usage, and buying intent.</p></div>
       <div className="grid3">
         {futureCollections.map(([code, title, copy]) => <article className="card" key={code}><code>{code}</code><h3>{title}</h3><p>{copy}</p></article>)}
       </div>
-    </section>
+    </div></section>
 
     <section className="cta"><div className="wrap"><h2>Not sure what collection you need?</h2><p>Start with a real task and a free workflow. Your usage tells us more than a demographic label ever could.</p><div className="actions"><CommerceLink kind="free">Use the Free Library →</CommerceLink></div></div></section>
   </main>;
