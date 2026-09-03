@@ -4,22 +4,40 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feat/mk1-prompt-generator-v0-20260827
+      - feat/workflow-kits-product-model-20260902
     paths:
       - 'web/app/api/commerce/**'
+      - 'web/lib/commerce-release.ts'
+      - 'web/lib/developer-pack-release.ts'
+      - 'web/lib/starter-collection-release.ts'
+      - 'web/lib/commerce-mode.ts'
       - 'web/lib/lemonsqueezy.ts'
       - 'web/components/commerce-link.tsx'
       - 'web/components/funnel-tracker.tsx'
       - 'web/.env.example'
+      - 'product/starter-collection-v1/PRODUCT_IDENTITY_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'tools/build_starter_collection_v1.py'
+      - 'tools/verify_lemonsqueezy_provider_file.py'
+      - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_commerce_v0.py'
       - '.github/workflows/test-commerce-v0.yml'
   pull_request:
     paths:
       - 'web/app/api/commerce/**'
+      - 'web/lib/commerce-release.ts'
+      - 'web/lib/developer-pack-release.ts'
+      - 'web/lib/starter-collection-release.ts'
+      - 'web/lib/commerce-mode.ts'
       - 'web/lib/lemonsqueezy.ts'
       - 'web/components/commerce-link.tsx'
       - 'web/components/funnel-tracker.tsx'
       - 'web/.env.example'
+      - 'product/starter-collection-v1/PRODUCT_IDENTITY_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'tools/build_starter_collection_v1.py'
+      - 'tools/verify_lemonsqueezy_provider_file.py'
+      - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_commerce_v0.py'
       - '.github/workflows/test-commerce-v0.yml'
 
@@ -35,6 +53,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile commerce acceptance tooling
-        run: python -m py_compile tools/test_commerce_v0.py
+        run: |
+          python -m py_compile tools/test_commerce_v0.py
+          python -m py_compile tools/verify_lemonsqueezy_provider_file.py
+          python -m py_compile tools/test_provider_custody_verifier_v1.py
       - name: Validate commerce evidence contract
         run: python tools/test_commerce_v0.py
+      - name: Validate provider custody semantics offline
+        run: python tools/test_provider_custody_verifier_v1.py
