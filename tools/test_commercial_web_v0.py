@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
+CATALOG = ROOT / "product/developer-workflow-kit-v1.2/CATALOG.candidate.json"
 
 REQUIRED = [
     WEB / "package.json",
@@ -16,6 +18,7 @@ REQUIRED = [
     WEB / "app/learn/workflows-not-random-prompts/page.tsx",
     WEB / "app/learn/test-ai-workflows/page.tsx",
     WEB / "app/free/developer-starter-pack/page.tsx",
+    WEB / "app/starter-collection/page.tsx",
     WEB / "app/developer-pack/page.tsx",
     WEB / "app/license/page.tsx",
     WEB / "app/api/free-pack/v1/route.ts",
@@ -35,6 +38,7 @@ REQUIRED = [
     WEB / ".env.example",
     ROOT / "docs/PRODUCT_VISION_V3.md",
     ROOT / "commercial/REVENUE_EXPERIMENT_V1.md",
+    CATALOG,
 ]
 
 FORBIDDEN_MARKETING = [
@@ -73,15 +77,16 @@ def main() -> None:
     source = "\n".join(path.read_text(encoding="utf-8") for path in source_files)
     lower = source.lower()
 
-    # Customer-facing product architecture. These tokens deliberately protect the
-    # outcome-first strategy without freezing an obsolete headline or developer-only brand.
     required_copy = [
         "prompt machine",
         "start with the task. not a blank chat",
         "what are you trying to get done",
         "free library",
+        "starter collection",
         "developer workflow collection",
+        "$9 one-time",
         "$19 one-time",
+        "price hypothesis",
         "not for sale",
         "powered by prompt quarry",
         "marketing claim",
@@ -114,12 +119,28 @@ def main() -> None:
         revenue,
         (
             "PQ-$1 = first real non-test paid purchase successfully delivered",
+            "USD 9",
             "USD 19",
             "PRICE HYPOTHESIS",
             "free download          != revenue",
             "accepted real purchase == purchase evidence",
         ),
     )
+
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    ladder = catalog.get("commercial_ladder", {})
+    if (ladder.get("free_usd"), ladder.get("starter_usd"), ladder.get("full_developer_usd")) != (0, 9, 19):
+        fail("catalog commercial ladder is not $0 -> $9 -> $19")
+    if ladder.get("primary_first_paid_offer") != "STARTER_COLLECTION":
+        fail("catalog no longer identifies Starter as the primary first paid offer")
+    if ladder.get("starter_scope_state") != "FROZEN":
+        fail("Starter scope must be frozen before customer merchandising")
+    planned = {row.get("product_id"): row for row in catalog.get("planned_products", [])}
+    starter = planned.get("pq-developer-starter-collection", {})
+    if starter.get("scope_state") != "FROZEN" or starter.get("sale_status") != "NOT_FOR_SALE":
+        fail("Starter catalog state must be FROZEN / NOT_FOR_SALE")
+    if starter.get("workflows") != ["PQ-WF-0001", "PQ-WF-0002"] or starter.get("skill_ids") != ["PQ-SKILL-0001", "PQ-SKILL-0002"]:
+        fail("Starter frozen scope does not match the customer-facing two-workflow/two-skill offer")
 
     commerce_link = (WEB / "components/commerce-link.tsx").read_text(encoding="utf-8")
     require_tokens(
@@ -129,11 +150,14 @@ def main() -> None:
             "NEXT_PUBLIC_FREE_PACK_URL",
             "NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS",
             '=== "LIVE"',
+            'kind: "free" | "starter" | "paid"',
             '"/api/free-pack/v1"',
+            '"/starter-collection"',
             '"/api/commerce/developer-pack/checkout"',
             '"/developer-pack"',
             "event.preventDefault()",
             'event: "free_cta_clicked"',
+            'event: "starter_cta_clicked"',
             'event: "paid_cta_clicked"',
         ),
     )
@@ -179,11 +203,7 @@ def main() -> None:
             "X-Prompt-Quarry-Version",
         ),
     )
-    require_tokens(
-        "free release compatibility alias",
-        free_alias,
-        ('export { GET } from "../v1/route"',),
-    )
+    require_tokens("free release compatibility alias", free_alias, ('export { GET } from "../v1/route"',))
     require_tokens(
         "free pack build materialization contract",
         free_materializer,
@@ -205,8 +225,6 @@ def main() -> None:
     if "FREE_PACK_FILES" not in generated:
         fail("governed free payload is unavailable to deterministic runtime builder")
 
-    # Technical commerce identity remains frozen for provider compatibility while
-    # the public merchandising layer calls the next product Developer Workflow Collection.
     release = (WEB / "lib/developer-pack-release.ts").read_text(encoding="utf-8")
     require_tokens(
         "paid release identity contract",
@@ -266,7 +284,9 @@ def main() -> None:
         "landing_view",
         "free_product_viewed",
         "collections_viewed",
+        "starter_product_viewed",
         "paid_product_viewed",
+        'path.startsWith("/starter-collection")',
         "utm_source",
         "sessionStorage",
     ):
@@ -336,14 +356,15 @@ def main() -> None:
     print(f"required_files={len(REQUIRED)}")
     print("public_brand=Prompt Machine")
     print("internal_factory=Prompt Quarry")
-    print("merchandising=outcome-first workflows + collections + learn")
+    print("merchandising=outcome-first workflows + $0 -> $9 Starter -> $19 Full + learn")
     print("framework=Next.js 16.3.3 App Router")
     print("runtime=Node 24.x deployment parity")
     print("free_delivery=v1.1 governed payload + deterministic runtime ZIP + SHA-256 fail-closed verification")
-    print("paid_technical_identity=legacy Developer Pack v1.1.0 binding preserved until governed commerce migration")
-    print("public_paid_offer=Developer Workflow Collection candidate; $19 hypothesis; checkout off")
+    print("starter_offer=pq-developer-starter-collection; $9 PRICE_HYPOTHESIS; scope FROZEN; checkout off")
+    print("full_offer=Developer Workflow Collection; $19 PRICE_HYPOTHESIS; checkout off")
+    print("paid_technical_identity=legacy Developer Pack v1.1.0 provider binding preserved until governed commerce migration")
     print("purchase_evidence=signed public-live provider order only")
-    print("analytics=UTM/session + free/collections/paid intent; no client purchase/revenue inference")
+    print("analytics=UTM/session + free/starter/full intent; no client purchase/revenue inference")
     print("boundary=MARKETING CLAIM <= OBSERVED EVIDENCE")
 
 
