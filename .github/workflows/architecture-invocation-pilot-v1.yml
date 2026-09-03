@@ -1,4 +1,4 @@
-name: Architecture Binding + Invocation Pilot v1
+name: Architecture Binding + Invocation Pilot v1.2
 
 on:
   workflow_dispatch:
@@ -8,7 +8,9 @@ on:
     paths:
       - 'tools/build_architecture_invocation_pilot_v1.py'
       - 'tools/build_architecture_invocation_pilot_v1_1.py'
+      - 'tools/build_architecture_invocation_pilot_v1_2.py'
       - 'tools/test_architecture_invocation_pilot_v1.py'
+      - 'tools/test_architecture_invocation_pilot_v1_2.py'
       - 'docs/ARCHITECTURE_BINDING_INVOCATION_V1.md'
       - '.github/workflows/architecture-invocation-pilot-v1.yml'
 
@@ -35,32 +37,42 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run binding and invocation regression tests
+      - name: Preserve historical v1 regression tests
         run: python tools/test_architecture_invocation_pilot_v1.py
 
-      - name: Materialize exact low-risk invocation packets
-        run: |
-          python tools/build_architecture_invocation_pilot_v1_1.py \
-            --output-dir quarry/etl/prompt-library-v1/invocation-pilot-v1
+      - name: Run active v1.2 semantic regression tests
+        run: python tools/test_architecture_invocation_pilot_v1_2.py
 
-      - name: Enforce fail-closed truth boundary
+      - name: Materialize exact v1.2 low-risk invocation packets
+        run: |
+          python tools/build_architecture_invocation_pilot_v1_2.py \
+            --output-dir quarry/etl/prompt-library-v1/invocation-pilot-v1.2
+
+      - name: Enforce v1.2 fail-closed truth boundary
         run: |
           python - <<'PY'
           import hashlib
           import json
           from pathlib import Path
 
-          root = Path('quarry/etl/prompt-library-v1/invocation-pilot-v1')
+          root = Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.2')
           manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
           bindings = [json.loads(line) for line in (root / 'bindings.jsonl').read_text(encoding='utf-8').splitlines() if line]
           invocations = [json.loads(line) for line in (root / 'invocations.jsonl').read_text(encoding='utf-8').splitlines() if line]
 
+          assert manifest['pilot_version'] == '1.2.0', manifest
+          assert manifest['pilot_id'] == 'PM-ARCH-INVOCATION-PILOT-0002', manifest
+          assert manifest['closed_findings'] == [
+              'BIND-V1-PROTO-001',
+              'BIND-V1-LEARN-001',
+              'BIND-V1-OPT-001',
+              'BIND-V1-EVAL-001',
+          ], manifest
           assert manifest['architecture_count'] == 9, manifest
           assert manifest['binding_count'] == 9, manifest
           assert manifest['invocation_count'] == 18, manifest
-          assert manifest['rendered_packet_count'] == 18, manifest
-          assert manifest['renderer_version'] == '1.1.0', manifest
           assert manifest['protocol'] == 'same-role-three-verbatim-text-blocks-v1', manifest
+          assert manifest['renderer_version'] == '1.2.0', manifest
           assert manifest['risk_class'] == 'LOW_ONLY', manifest
           assert manifest['high_stakes_bindings'] == 0, manifest
           assert manifest['authority_escalations'] == 0, manifest
@@ -68,9 +80,8 @@ jobs:
           assert manifest['behavioral_observations'] == 0, manifest
           assert manifest['behavioral_claims_created'] == 0, manifest
           assert manifest['automatic_product_promotions'] == 0, manifest
-          assert manifest['runtime_envelope_added'] is False, manifest
           assert manifest['bulk_regeneration_allowed'] is False, manifest
-          assert manifest['state'] == 'STATIC_BINDING_AND_INVOCATION_PASS_BEHAVIOR_UNEXECUTED', manifest
+          assert manifest['state'] == 'STATIC_SUCCESSOR_READY_FOR_FINAL_PACKET_REVIEW_BEHAVIOR_UNEXECUTED', manifest
 
           assert len(bindings) == 9
           assert all(row['risk_class'] == 'LOW' for row in bindings)
@@ -78,6 +89,11 @@ jobs:
           assert all(row['high_stakes'] is False for row in bindings)
           assert all(row['behavioral_evidence'] is False for row in bindings)
           assert all(row['ready_to_sell'] is False for row in bindings)
+
+          learning = next(row for row in bindings if row['mode'] == 'learning')
+          assert len(learning['instance']['assessment_examples']) == 5, learning
+          optimization = next(row for row in bindings if row['mode'] == 'optimization')
+          assert len(optimization['instance']['current_baseline'].split()) > 25, optimization
 
           assert len(invocations) == 18
           assert sum(row['variant'] == 'NORMAL' for row in invocations) == 9
@@ -94,19 +110,33 @@ jobs:
                   'AUTHORIZED_CONFIGURATION',
                   'UNTRUSTED_INSTANCE_DATA',
               ]
+              evaluation = row['evaluation_contract']
+              assert evaluation['expected_state_set'], row
+              assert evaluation['evaluation_metadata_is_runtime_input'] is False, row
+              assert len(evaluation['cross_cutting_assertions']) >= 6, row
               assert len(row['block_paths']) == 3
+
               payloads = []
               for index, rel in enumerate(row['block_paths']):
                   path = root / rel
                   assert path.is_file(), path
                   data = path.read_bytes()
                   payloads.append(data)
-                  observed = hashlib.sha256(data).hexdigest()
-                  assert observed == row['blocks'][index]['sha256'], (row['invocation_id'], index + 1)
-                  assert len(data) == row['blocks'][index]['bytes'], (row['invocation_id'], index + 1)
+                  assert hashlib.sha256(data).hexdigest() == row['blocks'][index]['sha256']
+                  assert len(data) == row['blocks'][index]['bytes']
+                  assert b'expected_state_set' not in data
+                  assert b'cross_cutting_assertions' not in data
 
               assert payloads[1].startswith(b'AUTHORIZED_WORKFLOW_CONFIGURATION_V1\n')
               assert payloads[2].startswith(b'TASK_INSTANCE_DATA_V1\n')
+              config = json.loads(payloads[1].decode('utf-8').split('\n', 1)[1])
+              semantics = config['binding_semantics']
+              assert semantics['configuration_surface'] == 'THIS_BLOCK_ONLY'
+              assert 'configuration' in semantics['source_roots']
+              assert 'instance' in semantics['source_roots']
+              assert 'BLOCKED' in semantics['unresolved_rule']
+              assert 'UNTRUSTED_TASK_DATA' in semantics['data_rule']
+
               assert b'OVERRIDE_ACCEPTED' not in payloads[0]
               assert b'OVERRIDE_ACCEPTED' not in payloads[1]
               if row['variant'] == 'NORMAL':
@@ -114,27 +144,29 @@ jobs:
               else:
                   assert b'OVERRIDE_ACCEPTED' in payloads[2]
 
-          print('ARCHITECTURE BINDING + INVOCATION PILOT V1: PASS')
+          print('ARCHITECTURE BINDING + INVOCATION PILOT V1.2: PASS')
           print('bindings=9')
           print('prepared_invocations=18')
+          print('closed_semantic_findings=4')
           print('external_model_calls=0')
           print('behavioral_observations=0')
           print('bulk_regeneration=BLOCKED')
           PY
 
-      - name: Summarize pilot
+      - name: Summarize active pilot
         run: |
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
-          m = json.loads(Path('quarry/etl/prompt-library-v1/invocation-pilot-v1/manifest.json').read_text(encoding='utf-8'))
-          print('## Architecture Binding + Invocation Pilot v1')
+          m = json.loads(Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.2/manifest.json').read_text(encoding='utf-8'))
+          print('## Architecture Binding + Invocation Pilot v1.2')
           print()
           print('| Signal | Observed |')
           print('|---|---:|')
           print(f"| Frozen architecture mothers | {m['architecture_count']} |")
           print(f"| Deterministic bindings | {m['binding_count']} |")
           print(f"| Exact invocation packets prepared | {m['invocation_count']} |")
+          print(f"| Closed v1 semantic findings | {len(m['closed_findings'])} |")
           print('| NORMAL packets | 9 |')
           print('| EMBEDDED_OVERRIDE packets | 9 |')
           print(f"| External model calls | {m['external_model_calls']} |")
@@ -143,21 +175,21 @@ jobs:
           print('| Authority escalation | 0 |')
           print('| Bulk regeneration | BLOCKED |')
           print()
-          print('**Prepared != executed. Static binding quality != behavioral proof.**')
+          print('**Prepared != executed. Evaluation metadata remains outside model input.**')
           PY
 
-      - name: Persist static pilot evidence only
+      - name: Persist active static pilot evidence only
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
-          git add quarry/etl/prompt-library-v1/invocation-pilot-v1
+          git add quarry/etl/prompt-library-v1/invocation-pilot-v1.2
 
           if git diff --cached --quiet; then
-            echo 'Invocation pilot evidence is already current.'
+            echo 'Invocation pilot v1.2 evidence is already current.'
             exit 0
           fi
 
-          git commit -m 'quarry(binding): materialize deterministic invocation pilot'
+          git commit -m 'quarry(binding): materialize invocation pilot v1.2'
           git push origin HEAD:feat/workflow-kits-product-model-20260902
