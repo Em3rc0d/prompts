@@ -8,6 +8,8 @@ on:
     paths:
       - 'tools/etl_prompt_library_v1.py'
       - 'tools/test_prompt_library_etl_v1.py'
+      - 'tools/build_prompt_architecture_pilot_v1.py'
+      - 'tools/test_prompt_architecture_pilot_v1.py'
       - 'docs/PROMPT_LIBRARY_ETL_V1.md'
       - '.github/workflows/prompt-library-etl-v1.yml'
       - '.github/prompt-library-etl-v1-trigger'
@@ -37,6 +39,42 @@ jobs:
 
       - name: Run ETL tests
         run: python tools/test_prompt_library_etl_v1.py
+
+      - name: Run architecture pilot tests
+        run: python tools/test_prompt_architecture_pilot_v1.py
+
+      - name: Build nine quality-first architecture blueprints
+        run: |
+          python tools/build_prompt_architecture_pilot_v1.py \
+            --output-dir quarry/etl/prompt-library-v1/architecture-pilot
+
+      - name: Enforce architecture pilot truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('quarry/etl/prompt-library-v1/architecture-pilot')
+          m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          rows = [
+              json.loads(line)
+              for line in (root / 'blueprints.jsonl').read_text(encoding='utf-8').splitlines()
+              if line.strip()
+          ]
+
+          assert m['architecture_count'] == 9, m
+          assert len(rows) == 9, len(rows)
+          assert len({row['mode'] for row in rows}) == 9, rows
+          assert len({row['prompt_sha256'] for row in rows}) == 9, rows
+          assert m['automatic_product_promotions'] == 0, m
+          assert m['external_model_calls'] == 0, m
+          assert m['behavioral_claims_created'] == 0, m
+          assert m['ready_to_sell_claims_created'] == 0, m
+          assert all(row['state'] == 'STATIC_REVIEW_REQUIRED' for row in rows), rows
+          assert all(not row['ready_to_sell'] for row in rows), rows
+
+          print('ARCHITECTURE PILOT TRUTH GATE: PASS')
+          PY
 
       - name: Run quality-first ETL on real corpus
         run: |
@@ -76,12 +114,14 @@ jobs:
           from pathlib import Path
 
           m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
+          p = json.loads(Path('quarry/etl/prompt-library-v1/architecture-pilot/manifest.json').read_text(encoding='utf-8'))
           print('## Prompt Library ETL v1')
           print()
           print('| Signal | Observed |')
           print('|---|---:|')
           print(f"| Premium reconstructions joined | {m['joined_records']} |")
-          print(f"| Structural skeletons | {m['structural_skeletons']} |")
+          print(f"| Structural skeletons observed | {m['structural_skeletons']} |")
+          print(f"| Quality-first architecture blueprints | {p['architecture_count']} |")
           print(f"| Representative review records | {m['representative_review_records']} |")
           print(f"| Clone-heavy records | {m['clone_heavy_records']} |")
           print(f"| Missing instruction/data boundary | {m['missing_instruction_data_boundary_records']} |")
@@ -92,7 +132,7 @@ jobs:
           print('| Automatic sellable promotions | 0 |')
           print('| External model calls | 0 |')
           print()
-          print('**Static qualification is not behavioral proof and is not READY_TO_SELL.**')
+          print('**Architecture pilot and static qualification are not behavioral proof and are not READY_TO_SELL.**')
           PY
 
       - name: Persist ETL evidence only
