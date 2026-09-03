@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -24,6 +24,9 @@
     "starter_canary_cases_armed": 0,
     "starter_sku_workflow_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
+    "public_copy_audit_passes": 1,
+    "public_copy_material_failures_found_before_fix": 3,
+    "public_copy_material_failures_open": 0,
     "real_customer_outcomes": 0,
     "real_purchases": 0,
     "public_checkout_enabled": false,
@@ -83,6 +86,22 @@
     "runtime_observations": 0,
     "first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001"
   },
+  "public_copy_audit": {
+    "contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
+    "receipt": "commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json",
+    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "initial_material_findings": 3,
+    "open_material_findings": 0,
+    "retest_run_id": 33799072926,
+    "audited_commit": "ba157d7fb364e9f18bf9bd0bbaa4b737a6010751",
+    "stale_on_material_copy_or_evidence_change": true
+  },
+  "provider_custody": {
+    "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
+    "state": "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED",
+    "canonical_artifact_in_provider_custody": false,
+    "provider_retrieval_hash_verified": false
+  },
   "activation": {
     "contract": "commercial/STARTER_ACTIVATION_EVIDENCE_V1.json",
     "state": "DESIGNED_NOT_LIVE",
@@ -106,10 +125,10 @@
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
-    "provider_test_custody": "NOT_STARTED",
+    "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
     "provider_integration": "NOT_STARTED_FOR_STARTER",
     "live_delivery_canary": "NOT_STARTED",
-    "public_copy_evidence_audit": "OPEN",
     "public_checkout": "BLOCKED",
     "pq_dollar_one": "NOT_OBSERVED"
   },
@@ -119,7 +138,7 @@
     "PROVIDER_CUSTODY": false,
     "PROVIDER_INTEGRATION": false,
     "LIVE_DELIVERY_CANARY": false,
-    "PUBLIC_COPY_EVIDENCE_AUDIT": false
+    "PUBLIC_COPY_EVIDENCE_AUDIT": true
   },
   "boundaries": {
     "contract_freeze_implies_runtime_evidence": false,
@@ -129,6 +148,9 @@
     "archive_build_implies_delivery": false,
     "static_canary_freeze_implies_runtime_evidence": false,
     "generated_envelope_implies_behavioral_pass": false,
+    "public_copy_audit_pass_implies_product_ready": false,
+    "public_copy_audit_pass_implies_public_sale_authorized": false,
+    "provider_custody_contract_implies_provider_custody": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
     "skill_candidate_implies_supported_skill": false,
@@ -144,11 +166,10 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "design_starter_provider_custody_contract_without_creating_live_checkout",
-    "prepare_public_copy_evidence_audit_checklist",
-    "decide_skill_launch_scope_based_on_cost_of_required_skill_evidence",
-    "prepare_provider_test_delivery_receipt_schema",
-    "keep_workflow_trust_histories_ready_for_first_runtime_observation"
+    "design_starter_provider_integration_from_existing_commerce_primitives_without_enabling_checkout",
+    "define_provider_test_custody_receipt_and verification harness",
+    "decide_skill_launch_scope_based_on cost of required skill evidence",
+    "keep_workflow_trust_histories ready for first runtime observation"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
