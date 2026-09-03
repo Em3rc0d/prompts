@@ -1,0 +1,71 @@
+{
+  "schema": "prompt-machine-starter-provider-receipt-schema-freeze-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-PROVIDER-RECEIPT-SCHEMA-FREEZE-V1-0001",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_PROVIDER_RECEIPT_SCHEMAS_PASS_EXTERNAL_EVIDENCE_UNOBSERVED",
+  "product_id": "prompt-machine-starter-collection",
+  "validated_by": {
+    "workflow": "Validate Starter Provider Receipts v1",
+    "run_id": 33810663527,
+    "conclusion": "success"
+  },
+  "schemas": {
+    "provisioning": {
+      "path": "commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json",
+      "evidence_class": "PROVIDER_PROVISIONING_OBSERVATION",
+      "may_claim_custody": false,
+      "may_claim_delivery": false,
+      "may_claim_purchase": false,
+      "may_claim_revenue": false
+    },
+    "custody": {
+      "path": "commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json",
+      "evidence_class": "PROVIDER_ARTIFACT_CUSTODY_EVIDENCE",
+      "requires_provider_retrieval": true,
+      "requires_local_byte_verification": true,
+      "required_size_bytes": 50918,
+      "required_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+      "may_claim_delivery": false,
+      "may_claim_purchase": false,
+      "may_claim_revenue": false,
+      "may_claim_customer_value": false,
+      "may_claim_ready_to_sell": false
+    },
+    "delivery": {
+      "path": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+      "evidence_class": "DELIVERY_EVIDENCE_WHEN_VALID_OBSERVATION_IS_PERSISTED",
+      "distinct_from_provisioning": true,
+      "distinct_from_custody": true,
+      "distinct_from_revenue": true
+    }
+  },
+  "privacy": {
+    "customer_pii_allowed_in_governed_provider_receipts": false,
+    "provider_secret_values_allowed_in_governed_provider_receipts": false,
+    "non_secret_provider_ids_allowed": true
+  },
+  "current_truth": {
+    "provider_provisioning_receipts_observed": 0,
+    "provider_custody_receipts_observed": 0,
+    "delivery_receipts_observed": 0,
+    "provider_side_effects_created_by_freeze": 0,
+    "provider_calls_created_by_freeze": 0,
+    "model_calls_created_by_freeze": 0,
+    "real_purchases": 0,
+    "public_checkout": false,
+    "ready_to_sell": false
+  },
+  "evidence_boundary": {
+    "schema_pass_is_external_provider_evidence": false,
+    "schema_pass_is_provider_provisioning_observation": false,
+    "schema_pass_is_provider_custody": false,
+    "schema_pass_is_delivery": false,
+    "schema_pass_is_purchase": false,
+    "schema_pass_is_revenue": false,
+    "schema_pass_authorizes_provider_execution": false,
+    "schema_pass_authorizes_public_checkout": false
+  },
+  "next_external_evidence_rule": "ONLY AN EXPLICITLY ARMED PROVIDER EXPERIMENT MAY POPULATE A GOVERNED RECEIPT WITH OBSERVED EXTERNAL FACTS",
+  "master_rule": "THE RECEIPT FORMAT MAY BE FROZEN BEFORE THE EVIDENCE EXISTS; AN EMPTY FORMAT IS NOT EVIDENCE"
+}
