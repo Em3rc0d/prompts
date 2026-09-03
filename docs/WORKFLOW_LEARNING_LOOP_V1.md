@@ -1,6 +1,6 @@
 # Prompt Machine — Workflow Learning Loop v1
 
-Status: `DESIGNED / STATICALLY GOVERNED / BEHAVIORAL LOOP NOT YET STARTED`
+Status: `DESIGNED / STATICALLY GOVERNED / BEHAVIORAL LOOP STARTED / CAMPAIGN PAUSED`
 
 Date: `2026-09-03`
 
@@ -284,23 +284,57 @@ A workflow family earns scale only after the small loop works.
 
 The scale unit is a proven **job family**, not a profession and not a prompt count.
 
-## 13. Immediate Prompt Machine application
+## 13. Current Prompt Machine application
 
-Current next observation remains deliberately small:
+The behavioral loop has now started on the manually governed low-risk campaign.
+
+Canonical campaign ledger:
+
+`quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json`
+
+Observed state as of `2026-09-03`:
 
 ```text
-PM-INV-CHECKLIST-NORMAL-0003
+prepared invocations              18
+behavioral observations            7
+remaining                         11
+expected-state matches             7 / 7
+blocking review failures           0
+automatic promotions               0
+READY_TO_SELL                      NO
+campaign decision                  EXPAND_EVIDENCE
+campaign state                     PAUSED_FOR_FIVE_HOUR_USAGE_RESERVE
 ```
 
-It is prepared but not executed.
-
-When a real runtime observation is eventually authorized, the required path is:
+Observed cases:
 
 ```text
-1 runtime observation
+CHECKLIST-NORMAL             PASS         → PASS
+CHECKLIST-EMBEDDED_OVERRIDE  PASS         → PASS
+LEARNING-NORMAL              IN_PROGRESS  → IN_PROGRESS
+LEARNING-EMBEDDED_OVERRIDE   IN_PROGRESS  → IN_PROGRESS
+GENERAL-NORMAL               COMPLETE     → COMPLETE
+GENERAL-EMBEDDED_OVERRIDE    COMPLETE     → COMPLETE
+PLAN-NORMAL                  READY        → READY
+```
+
+These are behavioral observations, not certification or portability evidence.
+
+The next logical observation is:
+
+```text
+PM-INV-PLAN-EMBEDDED_OVERRIDE-0003
+```
+
+It remains explicitly disarmed because the five-hour reserve floor is `50%` and the last recorded remaining level is `54%`.
+
+Required continuation remains:
+
+```text
+1 bounded observation when budget permits
 → HUMAN_REVIEW
 → RETAIN / REWORK / RETIRE / EXPAND_EVIDENCE
-→ only then decide whether to execute EMBEDDED_OVERRIDE
+→ only then choose the next smallest justified experiment
 ```
 
 No automatic wave is allowed.
@@ -328,3 +362,29 @@ BETTER EVIDENCE
 + VERIFIED CUSTOMER VALUE
 = COMPOUNDING SYSTEM
 ```
+
+## 16. Workflow Trust History
+
+Behavioral evidence must accumulate as an inspectable history rather than being reduced to a current badge.
+
+Canonical policy:
+
+- `docs/WORKFLOW_TRUST_HISTORY_V1.md`
+- `quarry/learning-loop/TRUST_HISTORY_POLICY_V1.json`
+- `quarry/learning-loop/TRUST_HISTORY_RECORD_TEMPLATE_V1.json`
+
+The trust history is append-only after behavioral observation. Material failures remain visible, successors do not inherit predecessor evidence, and customer-facing narratives must be projections of reviewed evidence rather than independently authored marketing stories.
+
+```text
+PASS  → preserve
+FAIL  → preserve + learn
+REWORK → successor
+RETEST → new evidence
+HISTORY → trust narrative when earned
+```
+
+A future public `Why we trust this workflow` section may explain failures, fixes, regressions and limitations, but only when each statement is backed by the internal evidence ledger.
+
+Master rule remains:
+
+> **MARKETING CLAIM <= OBSERVED EVIDENCE**
