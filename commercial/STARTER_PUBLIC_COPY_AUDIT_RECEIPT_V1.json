@@ -1,12 +1,14 @@
 {
   "schema": "prompt-machine-starter-public-copy-audit-receipt-v1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "receipt_id": "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001",
   "recorded_on": "2026-09-03",
   "audit_contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
   "evidence_ceiling": {
     "starter_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
+    "starter_supported_skills": 0,
+    "starter_structural_skill_candidates": 2,
     "real_customer_task_outcomes": 0,
     "real_purchases": 0,
     "provider_custody": false,
@@ -81,6 +83,76 @@
       }
     }
   ],
+  "subsequent_reaudits": [
+    {
+      "reason": "STARTER_SKILL_LAUNCH_SCOPE_V1 froze the v1 launch as workflow-led and deferred the two structural skill candidates from the supported launch payload.",
+      "pre_retest_review": {
+        "state": "FAIL_PRODUCT_SCOPE_AMBIGUOUS",
+        "material_findings": [
+          {
+            "surface": "/",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The paid-collection copy grouped the two skill candidates with the Starter offer in wording that could be read as included supported value.",
+            "impact": "The current deterministic Starter archive contains zero skill assets and the candidates have no host/trigger/forward/parity evidence."
+          },
+          {
+            "surface": "/collections",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The Starter card described the two skill candidates inside the product scope and displayed a two-skill count without clearly separating candidates from supported launch assets.",
+            "impact": "A customer could reasonably interpret structural candidates as current product features."
+          },
+          {
+            "surface": "/starter-collection",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The frozen-scope list placed the two skill candidates next to required archive assets rather than making the deferred launch boundary primary.",
+            "impact": "The page did not reflect the later evidence-based decision that Starter v1 must earn $9 through the workflow product alone."
+          }
+        ]
+      },
+      "fixes": [
+        {
+          "commit": "45110cfae7800f7cfd37bd9dafda4516f7d8d833",
+          "surface": "/",
+          "result": "Starter value copy changed to the two governed workflows and nine-file product; skills are described only as separate structural candidates."
+        },
+        {
+          "commit": "14e6fec8f1d51714bad5ee5092165c517e73a09a",
+          "surface": "/collections",
+          "result": "Starter now states zero supported skills today and separates the two structural candidates from the governed archive."
+        },
+        {
+          "commit": "bf6c3948725f15e91822739af6825866a96c495c",
+          "surface": "/starter-collection",
+          "result": "The Starter status page now makes the 0-supported-skills / 2-deferred-candidates boundary explicit."
+        },
+        {
+          "commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+          "surface": "copy audit policy",
+          "result": "The deterministic audit now rejects future copy that presents Starter skill candidates as included or supported launch features."
+        }
+      ],
+      "retest": {
+        "audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+        "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "workflow": "Audit Starter Public Copy v1",
+        "run_id": 33805620505,
+        "conclusion": "success",
+        "observed_truth": {
+          "starter_checkout_route_present": false,
+          "starter_runtime_observations_claimed": 0,
+          "starter_supported_skills_claimed": 0,
+          "starter_structural_skill_candidates_disclosed": 2,
+          "skill_candidates_marketed_as_included_supported_features": false
+        }
+      }
+    }
+  ],
+  "current_retest": {
+    "run_id": 33805620505,
+    "audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+    "conclusion": "success",
+    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY"
+  },
   "final_state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
   "staleness_rule": "Any material Starter evidence-state change or audited public-copy change requires a new audit/retest before relying on this receipt for launch.",
   "evidence_boundary": {
