@@ -1,0 +1,123 @@
+{
+  "schema": "prompt-machine-starter-artifact-layout-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "collection": "starter-collection-v1",
+  "artifact_state": "LAYOUT_DEFINED_ARCHIVE_NOT_BUILT",
+  "planned_price_usd": 9,
+  "price_state": "HYPOTHESIS",
+  "customer_visible_assets": [
+    {
+      "path": "START_HERE.md",
+      "role": "entrypoint_and_task_chooser",
+      "state": "PRESENT"
+    },
+    {
+      "path": "workflows/evidence-first-code-review.md",
+      "role": "primary_workflow",
+      "state": "PRESENT_STATIC_FROZEN"
+    },
+    {
+      "path": "workflows/evidence-first-bug-diagnosis.md",
+      "role": "primary_workflow",
+      "state": "PRESENT_STATIC_FROZEN"
+    },
+    {
+      "path": "VERIFICATION_GUIDE.md",
+      "role": "result_verification",
+      "state": "PRESENT"
+    },
+    {
+      "path": "ADAPTATION_CHEATSHEET.md",
+      "role": "workflow_adaptation",
+      "state": "PRESENT"
+    },
+    {
+      "path": "examples/code-review-worked-example.md",
+      "role": "synthetic_labeled_worked_example",
+      "state": "PENDING"
+    },
+    {
+      "path": "examples/bug-diagnosis-worked-example.md",
+      "role": "synthetic_labeled_worked_example",
+      "state": "PENDING"
+    },
+    {
+      "path": "EVIDENCE_AND_LIMITATIONS.md",
+      "role": "customer_evidence_boundary",
+      "state": "PENDING"
+    },
+    {
+      "path": "LICENSE.md",
+      "role": "customer_license",
+      "state": "PENDING_STARTER_SPECIFIC_REVIEW"
+    }
+  ],
+  "conditional_assets": [
+    {
+      "path": "skills/review-code-with-evidence/",
+      "role": "installable_skill_surface",
+      "state": "CONDITIONAL_ON_SKILL_EVIDENCE",
+      "required_before_inclusion": [
+        "STRUCTURAL_VALIDITY",
+        "TRIGGER_EVIDENCE",
+        "FORWARD_EXECUTION_EVIDENCE",
+        "PROMPT_SKILL_PARITY",
+        "KNOWN_LIMITATIONS"
+      ]
+    },
+    {
+      "path": "skills/diagnose-bugs-with-evidence/",
+      "role": "installable_skill_surface",
+      "state": "CONDITIONAL_ON_SKILL_EVIDENCE",
+      "required_before_inclusion": [
+        "STRUCTURAL_VALIDITY",
+        "TRIGGER_EVIDENCE",
+        "FORWARD_EXECUTION_EVIDENCE",
+        "PROMPT_SKILL_PARITY",
+        "KNOWN_LIMITATIONS"
+      ]
+    },
+    {
+      "path": "trust/code-review-trust-card.json",
+      "role": "workflow_level_trust_card",
+      "state": "CONDITIONAL_ON_STARTER_RUNTIME_EVIDENCE_AND_HUMAN_REVIEW"
+    },
+    {
+      "path": "trust/bug-diagnosis-trust-card.json",
+      "role": "workflow_level_trust_card",
+      "state": "CONDITIONAL_ON_STARTER_RUNTIME_EVIDENCE_AND_HUMAN_REVIEW"
+    }
+  ],
+  "internal_only_not_packaged": [
+    "contracts/",
+    "CONTRACT_FREEZE_V1.json",
+    "SURFACE_FREEZE_V1.json",
+    "internal_evaluation_packets/",
+    "raw_runtime_outputs/"
+  ],
+  "archive_identity": {
+    "filename": null,
+    "size_bytes": null,
+    "sha256": null,
+    "source_commit": null,
+    "state": "UNKNOWN_UNTIL_DETERMINISTIC_BUILD"
+  },
+  "rules": {
+    "pending_asset_may_be_silently_omitted": false,
+    "conditional_skill_may_be_marketed_as_supported_before_evidence": false,
+    "internal_forensic_evidence_must_be_shipped_to_customer": false,
+    "synthetic_examples_must_be_labeled_synthetic": true,
+    "archive_hash_may_be_invented_before_build": false,
+    "artifact_layout_defined_implies_product_ready": false
+  },
+  "truth": {
+    "required_customer_assets_total": 9,
+    "required_customer_assets_present": 5,
+    "required_customer_assets_pending": 4,
+    "conditional_assets": 4,
+    "archive_built": false,
+    "provider_custody": false,
+    "ready_to_sell": false
+  }
+}
