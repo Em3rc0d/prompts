@@ -89,32 +89,49 @@ jobs:
         run: |
           for attempt in 1 2 3 4 5 6 7 8 9 10; do
             HTML="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
+            STARTER="$(curl --fail --silent --show-error "$STAGING_URL/starter-collection" || true)"
             if printf '%s' "$HTML" | grep -Fq 'Prompt Machine — Reusable AI Workflows for Real Tasks' \
-              && printf '%s' "$HTML" | grep -Fq 'Start with the task. Not a blank chat.'; then
-              echo 'STAGING IDENTITY: PASS'
+              && printf '%s' "$HTML" | grep -Fq 'Start with the task. Not a blank chat.' \
+              && printf '%s' "$HTML" | grep -Fq '$9 one-time Starter' \
+              && printf '%s' "$HTML" | grep -Fq '$19 one-time Full' \
+              && printf '%s' "$STARTER" | grep -Fq 'NOT FOR SALE · SCOPE FROZEN · RELEASE HARDENING' \
+              && printf '%s' "$STARTER" | grep -Fq 'Planned launch price: $9 one-time.'; then
+              echo 'STAGING IDENTITY + COMMERCIAL LADDER: PASS'
               exit 0
             fi
             sleep 5
           done
-          echo 'STAGING IDENTITY: FAIL — canonical staging alias does not serve the new Prompt Machine build.'
+          echo 'STAGING IDENTITY: FAIL — canonical staging alias does not serve the governed Prompt Machine $0 -> $9 -> $19 surface.'
           exit 1
 
-      - name: Emit non-commercial observability smoke event
+      - name: Emit non-commercial observability smoke events
         run: |
-          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
-            STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
-              -X POST "$STAGING_URL/api/analytics/intent" \
-              -H 'content-type: application/json' \
-              --data '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}')"
-            if [ "$STATUS" = '202' ]; then
-              node -e "const fs=require('fs'); const body=JSON.parse(fs.readFileSync('/tmp/intent-response.json','utf8')); if(body.accepted!==true) process.exit(1);"
-              echo 'INTENT SMOKE: ACCEPTED (synthetic staging evidence; not customer demand)'
-              exit 0
-            fi
-            echo "INTENT SMOKE: waiting for canonical alias propagation (HTTP $STATUS, attempt $attempt/12)"
-            sleep 5
-          done
-          echo 'INTENT SMOKE: FAIL — canonical staging alias never accepted the intent event.'
-          head -c 300 /tmp/intent-response.json || true
-          echo
-          exit 1
+          post_intent() {
+            local payload="$1"
+            local label="$2"
+            for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
+                -X POST "$STAGING_URL/api/analytics/intent" \
+                -H 'content-type: application/json' \
+                --data "$payload")"
+              if [ "$STATUS" = '202' ]; then
+                node -e "const fs=require('fs'); const body=JSON.parse(fs.readFileSync('/tmp/intent-response.json','utf8')); if(body.accepted!==true) process.exit(1);"
+                echo "INTENT SMOKE: $label ACCEPTED (synthetic staging evidence; not customer demand)"
+                return 0
+              fi
+              echo "INTENT SMOKE: waiting for canonical alias propagation ($label HTTP $STATUS, attempt $attempt/12)"
+              sleep 5
+            done
+            echo "INTENT SMOKE: FAIL — $label was never accepted by canonical staging alias."
+            head -c 300 /tmp/intent-response.json || true
+            echo
+            return 1
+          }
+
+          post_intent \
+            '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            'landing_view'
+
+          post_intent \
+            '{"event":"starter_cta_clicked","product_id":"pq-developer-starter-collection","product_version":"1.2.0-candidate","collection_id":"developer","surface":"starter-collection-staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            'starter_cta_clicked'
