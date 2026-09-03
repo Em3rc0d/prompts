@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - '.github/codex-host-probe-trigger'
       - '.github/workflows/probe-codex-host-wsl.yml'
 
 permissions:
