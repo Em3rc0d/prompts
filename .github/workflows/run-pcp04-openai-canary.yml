@@ -1,0 +1,80 @@
+name: Run PCP-04 OpenAI Canary
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/pcp04-openai-canary-trigger'
+
+permissions:
+  contents: read
+
+jobs:
+  observe-one-real-case:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      PCP04_PROVIDER: openai
+      PCP04_MODEL: gpt-5.6-luna
+      PCP04_FAMILY: openai-gpt-5.6
+      PCP04_CAMPAIGN_ID: PQ-PCP04-CAMPAIGN-OPENAI-GPT56-LUNA-V1-CANARY
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install runtime dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fail closed without API credential
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo 'PCP-04 CANARY: BLOCKED — OPENAI_API_KEY is not configured in repository Actions secrets.' >&2
+            exit 3
+          fi
+
+      - name: Materialize and fingerprint frozen PCP-04 work orders
+        run: python tools/prepare_pcp04_work_orders.py --output build/pcp04-work-orders
+
+      - name: Syntax-check execution-only runtime lane
+        run: python -m py_compile tools/execute_pcp04_api_campaign.py
+
+      - name: Execute one real frozen observation
+        run: |
+          python tools/execute_pcp04_api_campaign.py \
+            --provider "$PCP04_PROVIDER" \
+            --model "$PCP04_MODEL" \
+            --family "$PCP04_FAMILY" \
+            --campaign-id "$PCP04_CAMPAIGN_ID" \
+            --work-orders-dir build/pcp04-work-orders \
+            --output-dir build/pcp04-openai-canary \
+            --prompt-id PQ-PROMPT-0001 \
+            --case-class NORMAL \
+            --limit 1
+
+      - name: Guard review and promotion boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f build/pcp04-openai-canary/campaign.unreviewed.json
+          test "$(find build/pcp04-openai-canary/raw -type f -name '*.txt' | wc -l)" -eq 1
+          test "$(find build/pcp04-openai-canary/evidence -type f -name '*.json' | wc -l)" -eq 1
+          test "$(find build/pcp04-openai-canary/review -type f -name '*.review.json' | wc -l)" -eq 1
+          test "$(find build/pcp04-openai-canary -type f \( -name 'receipt.json' -o -name '*.receipt.json' \) | wc -l)" -eq 0
+          grep -Fq 'REAL_EXECUTIONS_OBSERVED_REVIEW_REQUIRED' build/pcp04-openai-canary/campaign.unreviewed.json
+          grep -Fq '"receipts_created": 0' build/pcp04-openai-canary/campaign.unreviewed.json
+          grep -Fq '"promotion_claim": "NONE"' build/pcp04-openai-canary/campaign.unreviewed.json
+          echo 'PCP-04 CANARY BOUNDARY: PASS — one real output observed; no review/promotion manufactured.'
+
+      - name: Preserve unreviewed canary evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp04-openai-canary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: build/pcp04-openai-canary/
+          if-no-files-found: error
+          retention-days: 30
