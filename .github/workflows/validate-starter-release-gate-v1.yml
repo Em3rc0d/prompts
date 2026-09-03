@@ -8,6 +8,7 @@ on:
     paths:
       - 'commercial/EXECUTION_PLAN_V2.md'
       - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'product/starter-collection-v1/**'
       - 'web/app/starter-collection/page.tsx'
       - 'web/app/api/commerce/starter-collection/**'
       - 'tools/validate_starter_release_gate_v1.py'
@@ -43,9 +44,11 @@ jobs:
           |---|---|
           | Starter scope | FROZEN |
           | Price | $9 HYPOTHESIS |
+          | Final workflow contracts | 2 / 2 STATIC PASS |
           | Architecture observations | 7 |
           | Starter SKU workflow observations | 0 |
           | Starter skill observations | 0 |
+          | Executable prompt surfaces aligned | OPEN |
           | Deterministic paid archive | NOT BUILT |
           | Provider custody | NOT STARTED |
           | Live delivery canary | NOT STARTED |
@@ -54,5 +57,5 @@ jobs:
           | Provider calls created by validation | 0 |
           | Model calls created by validation | 0 |
 
-          Architecture evidence is not silently promoted into Starter SKU evidence.
+          Contract freeze is not runtime evidence. Architecture evidence is not silently promoted into Starter SKU evidence.
           EOF
