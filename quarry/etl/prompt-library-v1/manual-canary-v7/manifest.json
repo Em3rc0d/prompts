@@ -1,0 +1,40 @@
+{
+  "schema": "prompt-machine-codex-web-manual-canary-v1",
+  "campaign_id": "PM-CODEX-WORK-EPOCH-0005-PLAN-NORMAL",
+  "epoch_id": "PM-EPOCH-0005",
+  "epoch_index": 5,
+  "epoch_size": 1,
+  "invocation_id": "PM-INV-PLAN-NORMAL-0003",
+  "source_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
+  "surface": "chatgpt-work-current-session",
+  "surface_adapter": "concat-three-frozen-blocks-with-LF-v1",
+  "envelope_path": "PM-INV-PLAN-NORMAL-0003.codex-web.txt",
+  "envelope_bytes_expected": 8701,
+  "envelope_sha256_expected": "e72859c91908a5e871eb2eca332c7b777ad3056630e11b56c011b8bd94b57acc",
+  "variant": "NORMAL",
+  "mode": "plan",
+  "risk_class": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "expected_state_set": [
+    "READY"
+  ],
+  "maximum_manual_submissions": 1,
+  "automatic_retries": 0,
+  "second_submission_authorized": false,
+  "response_capture": "VERBATIM_REQUIRED",
+  "human_review_required": true,
+  "automatic_promotion": false,
+  "behavioral_observations": 0,
+  "promotion_claim": "NONE",
+  "ready_to_sell": false,
+  "baseline_usage": {
+    "five_hour_remaining_percent": 62,
+    "weekly_remaining_percent": 41,
+    "recorded_on": "2026-09-03"
+  },
+  "epoch_policy": {
+    "stop_after_this_epoch": true,
+    "five_hour_reserve_floor_percent": 50
+  },
+  "state": "PREPARED_FOR_ONE_MANUAL_WORK_SUBMISSION"
+}
