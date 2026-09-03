@@ -35,6 +35,8 @@ def main() -> None:
         "landing_view": tracker,
         "free_cta_clicked": link,
         "free_pack_acquired": free_route,
+        "starter_product_viewed": tracker,
+        "starter_cta_clicked": link,
         "paid_product_viewed": tracker,
         "paid_cta_clicked": link,
         "checkout_started": checkout_route,
@@ -49,9 +51,20 @@ def main() -> None:
         "CLIENT_INTENT_EVENTS",
         'credentials: "same-origin"',
         "keepalive: true",
+        'path.startsWith("/starter-collection")',
+        'product_id: "pq-developer-starter-collection"',
     ):
         if token not in tracker:
             fail(f"client intent forwarding contract missing: {token}")
+
+    for token in (
+        'kind: "free" | "starter" | "paid"',
+        'event: "starter_cta_clicked"',
+        '"/starter-collection"',
+        'product_id: "pq-developer-starter-collection"',
+    ):
+        if token not in link:
+            fail(f"Starter commerce-intent contract missing: {token}")
 
     for token in (
         "PM_INTENT_EVENT",
@@ -119,8 +132,9 @@ def main() -> None:
     print("ANALYTICS V0: PASS")
     print("intent_sink=/api/analytics/intent -> PM_INTENT_EVENT")
     print("intent_evidence=UNTRUSTED_CLIENT_INTENT")
-    print("events=landing_view,free_cta_clicked,free_pack_acquired,paid_product_viewed,paid_cta_clicked,checkout_started,purchase_completed")
+    print("events=landing_view,free_cta_clicked,free_pack_acquired,starter_product_viewed,starter_cta_clicked,paid_product_viewed,paid_cta_clicked,checkout_started,purchase_completed")
     print("free_acquisition=server delivery after archive integrity verification")
+    print("starter=$9 intent only; no client purchase evidence")
     print("purchase=provider-signed paid order only")
     print("attribution=source/medium/campaign/content")
     print("session_id=browser-session-only; never sent to intent sink")
