@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -18,6 +18,10 @@
     "starter_required_customer_assets_present": 9,
     "starter_required_customer_assets_total": 9,
     "starter_reproducible_archive_builds_observed": 1,
+    "starter_canary_cases_prepared": 4,
+    "starter_evaluation_contracts_frozen": 4,
+    "starter_exact_runtime_envelopes_frozen": 4,
+    "starter_canary_cases_armed": 0,
     "starter_sku_workflow_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
     "real_customer_outcomes": 0,
@@ -68,6 +72,17 @@
     "provider_custody_created": false,
     "delivery_evidence_created": false
   },
+  "starter_behavioral_canary_freeze": {
+    "plan": "product/starter-collection-v1/evaluation/STARTER_CANARY_PLAN_V1.json",
+    "receipt": "product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json",
+    "state": "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED",
+    "prepared_cases": 4,
+    "out_of_band_evaluation_contracts": 4,
+    "exact_runtime_envelopes": 4,
+    "armed_cases": 0,
+    "runtime_observations": 0,
+    "first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001"
+  },
   "activation": {
     "contract": "commercial/STARTER_ACTIVATION_EVIDENCE_V1.json",
     "state": "DESIGNED_NOT_LIVE",
@@ -86,6 +101,7 @@
     "final_executable_starter_prompt_surfaces": "PASS_STATIC_ONLY",
     "required_customer_payload": "PASS_STATIC_9_OF_9",
     "deterministic_starter_artifact": "PASS_PACKAGING_ONLY",
+    "starter_specific_behavioral_canary_readiness": "PASS_STATIC_PREPARED_DISARMED",
     "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
@@ -111,6 +127,8 @@
     "payload_complete_implies_product_ready": false,
     "archive_build_implies_provider_custody": false,
     "archive_build_implies_delivery": false,
+    "static_canary_freeze_implies_runtime_evidence": false,
+    "generated_envelope_implies_behavioral_pass": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
     "skill_candidate_implies_supported_skill": false,
@@ -126,18 +144,20 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "prepare_exact_starter_specific_runtime_canary_packets_without_executing_them",
-    "define_starter_behavioral_review_contracts_before_runtime",
     "design_starter_provider_custody_contract_without_creating_live_checkout",
     "prepare_public_copy_evidence_audit_checklist",
-    "decide_skill_launch_scope_based_on_cost_of_required_skill_evidence"
+    "decide_skill_launch_scope_based_on_cost_of_required_skill_evidence",
+    "prepare_provider_test_delivery_receipt_schema",
+    "keep_workflow_trust_histories_ready_for_first_runtime_observation"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "The shared-plan reserve policy remains in force. Packaging is now deterministic, so the next inference spend should buy Starter-specific behavioral evidence rather than more architecture evidence.",
-    "preferred_first_case_when_reopened": "ONE_LOW_RISK_STARTER_WORKFLOW_NORMAL_CANARY_THEN_HUMAN_REVIEW",
+    "reason": "The shared-plan reserve policy remains in force. Exact Starter-specific runtime envelopes and out-of-band evaluations are frozen, so the next inference spend can directly buy SKU behavioral evidence.",
+    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001",
+    "maximum_submissions_before_human_review": 1,
     "automatic_wave": false,
-    "automatic_retries": 0
+    "automatic_retries": 0,
+    "automatic_second_case": false
   },
   "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
 }
