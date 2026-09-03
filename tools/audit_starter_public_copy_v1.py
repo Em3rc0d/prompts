@@ -2,15 +2,17 @@
 """Audit Prompt Machine Starter public copy against the current evidence ceiling.
 
 This is a deterministic static copy audit. It creates no model, provider,
-customer-value, delivery, certification, or revenue evidence.
+customer-value, delivery, certification, skill-behavior, or revenue evidence.
 """
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
+SKILL_SCOPE = ROOT / "commercial" / "STARTER_SKILL_LAUNCH_SCOPE_V1.json"
 
 FILES = {
     "home": WEB / "app" / "page.tsx",
@@ -39,6 +41,9 @@ def reject(haystack: str, needles: list[str], scope: str) -> None:
 
 
 def main() -> int:
+    assert SKILL_SCOPE.is_file(), "Starter skill launch scope is missing"
+    skill_scope = json.loads(SKILL_SCOPE.read_text(encoding="utf-8"))
+
     home = text("home")
     collections = text("collections")
     starter = text("starter")
@@ -57,15 +62,45 @@ def main() -> int:
     assert "PRICE HYPOTHESIS, not an active checkout" in starter
     assert "0</strong><span>Starter runtime observations" in starter
     assert "Four product-specific canaries are prepared. None has been executed." in starter
-    assert "skill candidate — conditional on skill evidence" in starter
-    assert "packaging evidence != behavioral evidence" in starter
+    assert "0 supported skill assets" in starter
+    assert "workflow evidence != skill evidence" in starter
+
+    # The skill launch decision is an evidence boundary, not merely marketing wording.
+    assert skill_scope["state"] == "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN"
+    assert skill_scope["decision"]["skills_are_launch_blocking"] is False
+    assert skill_scope["decision"]["skills_are_required_customer_payload_assets"] is False
+    assert skill_scope["decision"]["skills_are_currently_supported_product_features"] is False
+    assert skill_scope["decision"]["skills_may_be_described_as_candidates"] is True
+    assert skill_scope["decision"]["skills_may_be_marketed_as_included_or_tested"] is False
+    assert skill_scope["launch_payload_boundary"]["skills_in_current_deterministic_archive"] == 0
+    assert skill_scope["current_truth"]["starter_supported_skills"] == 0
+    assert skill_scope["current_truth"]["starter_skill_behavioral_observations"] == 0
+    assert skill_scope["existing_evidence"]["HOST_TESTED"] is False
+    assert skill_scope["existing_evidence"]["SKILL_TRIGGER_EVAL_PASS"] is False
+    assert skill_scope["existing_evidence"]["SKILL_FORWARD_TEST_PASS"] is False
+    assert skill_scope["existing_evidence"]["PROMPT_SKILL_PARITY_PASS"] is False
+
+    # Customer copy must not convert candidate surfaces into present Starter value.
+    assert "not part of the current 9-file Starter archive" in home
+    assert "not supported or included in the current Starter archive" in collections
+    assert "00</strong><span>supported skills today" in collections
+    reject(
+        home + "\n" + collections + "\n" + starter,
+        [
+            "their two skill candidates",
+            "two installable skills",
+            "2 supported skills",
+            "skills included in Starter",
+            "Starter includes two skills",
+        ],
+        "Starter public skill claims",
+    )
 
     # Packaging may be claimed precisely, but not promoted into behavioral/customer proof.
     assert "9/9" in starter
     assert "50,918" in starter
     assert "4eceb1ee…" in starter
-    assert "byte-for-byte deterministic" in starter
-    assert "does not imply provider custody or customer delivery" in starter
+    assert "does not imply provider custody or customer delivery" in home + starter
 
     # Other key surfaces preserve hypothesis/checkout language.
     assert "$9" in home and "Starter hypothesis" in home
@@ -94,7 +129,6 @@ def main() -> int:
     assert '? "/starter-collection"' in commerce
     assert not STARTER_CHECKOUT.exists(), "public Starter checkout route exists while audit expects checkout OFF"
 
-    # Fail obvious unsupported Starter claims on the directly audited Starter surface.
     reject(
         starter,
         [
@@ -120,9 +154,10 @@ def main() -> int:
     print("audited_surfaces=8")
     print("starter_checkout_route_present=false")
     print("starter_runtime_observations_claimed=0")
+    print("starter_supported_skills_claimed=0")
+    print("starter_skill_candidates_are_archive_assets=false")
     print("price_hypothesis_visible=true")
     print("license_identity=Prompt Machine")
-    print("historical_stale_license_copy_present=false")
     print("model_calls=0")
     print("provider_calls=0")
     print("customer_outcomes_created=0")
