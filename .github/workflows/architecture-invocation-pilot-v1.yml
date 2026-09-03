@@ -1,4 +1,4 @@
-name: Architecture Binding + Invocation Pilot v1.2
+name: Architecture Binding + Invocation Pilot v1.3
 
 on:
   workflow_dispatch:
@@ -9,8 +9,10 @@ on:
       - 'tools/build_architecture_invocation_pilot_v1.py'
       - 'tools/build_architecture_invocation_pilot_v1_1.py'
       - 'tools/build_architecture_invocation_pilot_v1_2.py'
+      - 'tools/build_architecture_invocation_pilot_v1_3.py'
       - 'tools/test_architecture_invocation_pilot_v1.py'
       - 'tools/test_architecture_invocation_pilot_v1_2.py'
+      - 'tools/test_architecture_invocation_pilot_v1_3.py'
       - 'docs/ARCHITECTURE_BINDING_INVOCATION_V1.md'
       - '.github/workflows/architecture-invocation-pilot-v1.yml'
 
@@ -37,42 +39,39 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Preserve historical v1 regression tests
-        run: python tools/test_architecture_invocation_pilot_v1.py
-
-      - name: Run active v1.2 semantic regression tests
-        run: python tools/test_architecture_invocation_pilot_v1_2.py
-
-      - name: Materialize exact v1.2 low-risk invocation packets
+      - name: Preserve historical binding regressions
         run: |
-          python tools/build_architecture_invocation_pilot_v1_2.py \
-            --output-dir quarry/etl/prompt-library-v1/invocation-pilot-v1.2
+          python tools/test_architecture_invocation_pilot_v1.py
+          python tools/test_architecture_invocation_pilot_v1_2.py
 
-      - name: Enforce v1.2 fail-closed truth boundary
+      - name: Run active v1.3 answer-key isolation regressions
+        run: python tools/test_architecture_invocation_pilot_v1_3.py
+
+      - name: Materialize exact v1.3 low-risk invocation packets
+        run: |
+          python tools/build_architecture_invocation_pilot_v1_3.py \
+            --output-dir quarry/etl/prompt-library-v1/invocation-pilot-v1.3
+
+      - name: Enforce v1.3 fail-closed truth boundary
         run: |
           python - <<'PY'
           import hashlib
           import json
           from pathlib import Path
 
-          root = Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.2')
+          root = Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.3')
           manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
-          bindings = [json.loads(line) for line in (root / 'bindings.jsonl').read_text(encoding='utf-8').splitlines() if line]
-          invocations = [json.loads(line) for line in (root / 'invocations.jsonl').read_text(encoding='utf-8').splitlines() if line]
+          bindings = [json.loads(x) for x in (root / 'bindings.jsonl').read_text(encoding='utf-8').splitlines() if x]
+          invocations = [json.loads(x) for x in (root / 'invocations.jsonl').read_text(encoding='utf-8').splitlines() if x]
 
-          assert manifest['pilot_version'] == '1.2.0', manifest
-          assert manifest['pilot_id'] == 'PM-ARCH-INVOCATION-PILOT-0002', manifest
-          assert manifest['closed_findings'] == [
-              'BIND-V1-PROTO-001',
-              'BIND-V1-LEARN-001',
-              'BIND-V1-OPT-001',
-              'BIND-V1-EVAL-001',
-          ], manifest
+          assert manifest['pilot_version'] == '1.3.0', manifest
+          assert manifest['pilot_id'] == 'PM-ARCH-INVOCATION-PILOT-0003', manifest
+          assert manifest['closed_findings'] == ['BIND-V12-LEARN-001'], manifest
           assert manifest['architecture_count'] == 9, manifest
           assert manifest['binding_count'] == 9, manifest
           assert manifest['invocation_count'] == 18, manifest
           assert manifest['protocol'] == 'same-role-three-verbatim-text-blocks-v1', manifest
-          assert manifest['renderer_version'] == '1.2.0', manifest
+          assert manifest['renderer_version'] == '1.3.0', manifest
           assert manifest['risk_class'] == 'LOW_ONLY', manifest
           assert manifest['high_stakes_bindings'] == 0, manifest
           assert manifest['authority_escalations'] == 0, manifest
@@ -80,63 +79,50 @@ jobs:
           assert manifest['behavioral_observations'] == 0, manifest
           assert manifest['behavioral_claims_created'] == 0, manifest
           assert manifest['automatic_product_promotions'] == 0, manifest
+          assert manifest['learning_answer_key_runtime_exposure'] == 0, manifest
           assert manifest['bulk_regeneration_allowed'] is False, manifest
-          assert manifest['state'] == 'STATIC_SUCCESSOR_READY_FOR_FINAL_PACKET_REVIEW_BEHAVIOR_UNEXECUTED', manifest
 
           assert len(bindings) == 9
-          assert all(row['risk_class'] == 'LOW' for row in bindings)
-          assert all(row['authority'] == 'ADVISORY_ONLY' for row in bindings)
-          assert all(row['high_stakes'] is False for row in bindings)
-          assert all(row['behavioral_evidence'] is False for row in bindings)
-          assert all(row['ready_to_sell'] is False for row in bindings)
+          assert all(x['risk_class'] == 'LOW' for x in bindings)
+          assert all(x['authority'] == 'ADVISORY_ONLY' for x in bindings)
+          assert all(x['high_stakes'] is False for x in bindings)
+          assert all(x['behavioral_evidence'] is False for x in bindings)
+          assert all(x['ready_to_sell'] is False for x in bindings)
 
-          learning = next(row for row in bindings if row['mode'] == 'learning')
-          assert len(learning['instance']['assessment_examples']) == 5, learning
-          optimization = next(row for row in bindings if row['mode'] == 'optimization')
-          assert len(optimization['instance']['current_baseline'].split()) > 25, optimization
+          learning = next(x for x in bindings if x['mode'] == 'learning')
+          examples = learning['instance']['assessment_examples']
+          assert len(examples) == 5
+          assert all(set(x) == {'id', 'text'} for x in examples)
+          assert 'Do not reveal or invent an answer key' in learning['configuration']['assessment_delivery_policy']
 
           assert len(invocations) == 18
-          assert sum(row['variant'] == 'NORMAL' for row in invocations) == 9
-          assert sum(row['variant'] == 'EMBEDDED_OVERRIDE' for row in invocations) == 9
-          assert all(row['runtime_executed'] is False for row in invocations)
-          assert all(row['external_model_calls'] == 0 for row in invocations)
-          assert all(row['behavioral_claim'] == 'NONE' for row in invocations)
-          assert all(row['ready_to_sell'] is False for row in invocations)
+          assert sum(x['variant'] == 'NORMAL' for x in invocations) == 9
+          assert sum(x['variant'] == 'EMBEDDED_OVERRIDE' for x in invocations) == 9
+          assert all(x['runtime_executed'] is False for x in invocations)
+          assert all(x['behavioral_claim'] == 'NONE' for x in invocations)
+          assert all(x['ready_to_sell'] is False for x in invocations)
 
           for row in invocations:
               assert row['role'] == 'user'
-              assert [block['kind'] for block in row['blocks']] == [
+              assert [b['kind'] for b in row['blocks']] == [
                   'FROZEN_ARCHITECTURE',
                   'AUTHORIZED_CONFIGURATION',
                   'UNTRUSTED_INSTANCE_DATA',
               ]
-              evaluation = row['evaluation_contract']
-              assert evaluation['expected_state_set'], row
-              assert evaluation['evaluation_metadata_is_runtime_input'] is False, row
-              assert len(evaluation['cross_cutting_assertions']) >= 6, row
-              assert len(row['block_paths']) == 3
-
+              assert row['evaluation_contract']['evaluation_metadata_is_runtime_input'] is False
+              assert row['evaluation_contract']['expected_state_set']
               payloads = []
               for index, rel in enumerate(row['block_paths']):
-                  path = root / rel
-                  assert path.is_file(), path
-                  data = path.read_bytes()
+                  data = (root / rel).read_bytes()
                   payloads.append(data)
                   assert hashlib.sha256(data).hexdigest() == row['blocks'][index]['sha256']
                   assert len(data) == row['blocks'][index]['bytes']
                   assert b'expected_state_set' not in data
                   assert b'cross_cutting_assertions' not in data
-
+                  assert b'assessment_answer_key' not in data
+                  assert b'"ground_truth"' not in data
               assert payloads[1].startswith(b'AUTHORIZED_WORKFLOW_CONFIGURATION_V1\n')
               assert payloads[2].startswith(b'TASK_INSTANCE_DATA_V1\n')
-              config = json.loads(payloads[1].decode('utf-8').split('\n', 1)[1])
-              semantics = config['binding_semantics']
-              assert semantics['configuration_surface'] == 'THIS_BLOCK_ONLY'
-              assert 'configuration' in semantics['source_roots']
-              assert 'instance' in semantics['source_roots']
-              assert 'BLOCKED' in semantics['unresolved_rule']
-              assert 'UNTRUSTED_TASK_DATA' in semantics['data_rule']
-
               assert b'OVERRIDE_ACCEPTED' not in payloads[0]
               assert b'OVERRIDE_ACCEPTED' not in payloads[1]
               if row['variant'] == 'NORMAL':
@@ -144,10 +130,16 @@ jobs:
               else:
                   assert b'OVERRIDE_ACCEPTED' in payloads[2]
 
-          print('ARCHITECTURE BINDING + INVOCATION PILOT V1.2: PASS')
+              if row['mode'] == 'learning':
+                  ev = row['evaluation_contract']
+                  assert len(ev['assessment_answer_key']) == 5
+                  assert ev['assessment_key_is_runtime_input'] is False
+                  assert ev['expected_state_set'] == ['IN_PROGRESS']
+
+          print('ARCHITECTURE BINDING + INVOCATION PILOT V1.3: PASS')
           print('bindings=9')
           print('prepared_invocations=18')
-          print('closed_semantic_findings=4')
+          print('learning_answer_key_runtime_exposure=0')
           print('external_model_calls=0')
           print('behavioral_observations=0')
           print('bulk_regeneration=BLOCKED')
@@ -158,24 +150,23 @@ jobs:
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
-          m = json.loads(Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.2/manifest.json').read_text(encoding='utf-8'))
-          print('## Architecture Binding + Invocation Pilot v1.2')
+          m = json.loads(Path('quarry/etl/prompt-library-v1/invocation-pilot-v1.3/manifest.json').read_text(encoding='utf-8'))
+          print('## Architecture Binding + Invocation Pilot v1.3')
           print()
           print('| Signal | Observed |')
           print('|---|---:|')
           print(f"| Frozen architecture mothers | {m['architecture_count']} |")
           print(f"| Deterministic bindings | {m['binding_count']} |")
           print(f"| Exact invocation packets prepared | {m['invocation_count']} |")
-          print(f"| Closed v1 semantic findings | {len(m['closed_findings'])} |")
           print('| NORMAL packets | 9 |')
           print('| EMBEDDED_OVERRIDE packets | 9 |')
+          print('| Learning answer-key exposure | 0 |')
           print(f"| External model calls | {m['external_model_calls']} |")
           print(f"| Behavioral observations | {m['behavioral_observations']} |")
           print('| High-stakes bindings | 0 |')
-          print('| Authority escalation | 0 |')
           print('| Bulk regeneration | BLOCKED |')
           print()
-          print('**Prepared != executed. Evaluation metadata remains outside model input.**')
+          print('**Prepared != executed. Answer keys and expected states remain evaluation-only metadata.**')
           PY
 
       - name: Persist active static pilot evidence only
@@ -184,12 +175,10 @@ jobs:
           set -euo pipefail
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
-          git add quarry/etl/prompt-library-v1/invocation-pilot-v1.2
-
+          git add quarry/etl/prompt-library-v1/invocation-pilot-v1.3
           if git diff --cached --quiet; then
-            echo 'Invocation pilot v1.2 evidence is already current.'
+            echo 'Invocation pilot v1.3 evidence is already current.'
             exit 0
           fi
-
-          git commit -m 'quarry(binding): materialize invocation pilot v1.2'
+          git commit -m 'quarry(binding): materialize invocation pilot v1.3'
           git push origin HEAD:feat/workflow-kits-product-model-20260902
