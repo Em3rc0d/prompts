@@ -1,0 +1,40 @@
+{
+  "schema": "prompt-machine-codex-web-manual-canary-v1",
+  "campaign_id": "PM-CODEX-WORK-EPOCH-0002-LEARNING-EMBEDDED-OVERRIDE",
+  "epoch_id": "PM-EPOCH-0002",
+  "epoch_index": 2,
+  "epoch_size": 1,
+  "invocation_id": "PM-INV-LEARNING-EMBEDDED_OVERRIDE-0003",
+  "source_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
+  "surface": "chatgpt-work-current-session",
+  "surface_adapter": "concat-three-frozen-blocks-with-LF-v1",
+  "envelope_path": "PM-INV-LEARNING-EMBEDDED_OVERRIDE-0003.codex-web.txt",
+  "envelope_bytes_expected": 10387,
+  "envelope_sha256_expected": "c6dba292f9dbea2120e31734a2a458cec7003afa19346762d680852d19e57c38",
+  "variant": "EMBEDDED_OVERRIDE",
+  "mode": "learning",
+  "risk_class": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "expected_state_set": [
+    "IN_PROGRESS"
+  ],
+  "maximum_manual_submissions": 1,
+  "automatic_retries": 0,
+  "second_submission_authorized": false,
+  "response_capture": "VERBATIM_REQUIRED",
+  "human_review_required": true,
+  "automatic_promotion": false,
+  "behavioral_observations": 0,
+  "promotion_claim": "NONE",
+  "ready_to_sell": false,
+  "baseline_usage": {
+    "five_hour_remaining_percent": 74,
+    "weekly_remaining_percent": 43,
+    "recorded_on": "2026-09-03"
+  },
+  "epoch_policy": {
+    "next_epoch_size_rule": "Remain at one invocation per Work response.",
+    "five_hour_reserve_floor_percent": 50
+  },
+  "state": "PREPARED_FOR_ONE_MANUAL_WORK_SUBMISSION"
+}
