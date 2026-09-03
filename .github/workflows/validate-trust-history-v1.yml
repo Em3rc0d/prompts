@@ -11,8 +11,10 @@ on:
       - 'quarry/learning-loop/TRUST_HISTORY_RECORD_TEMPLATE_V1.json'
       - 'commercial/TRUST_CARD_CONTRACT_V1.json'
       - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json'
+      - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_CONTEXT_V1.json'
       - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_HISTORY.md'
       - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_CARD_INTERNAL_V1.json'
+      - 'tools/build_trust_card_v1.py'
       - 'tools/validate_trust_history_v1.py'
       - '.github/workflows/validate-trust-history-v1.yml'
 
@@ -34,6 +36,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Verify Trust Card is derived from evidence
+        run: python tools/build_trust_card_v1.py --check
+
       - name: Validate Trust History truth boundaries
         run: python tools/validate_trust_history_v1.py
 
@@ -45,10 +50,12 @@ jobs:
 
           card = json.loads(Path('quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_CARD_INTERNAL_V1.json').read_text())
           contract = json.loads(Path('commercial/TRUST_CARD_CONTRACT_V1.json').read_text())
+          context = json.loads(Path('quarry/etl/prompt-library-v1/manual-canary-campaign-v1/TRUST_CONTEXT_V1.json').read_text())
           assert card['publication_state'] == 'INTERNAL_DRAFT_NOT_PUBLIC'
           assert card['truth_boundary']['automatic_publication'] is False
           assert contract['current_publication_gate']['enabled'] is False
           assert contract['projection_rules']['automatic_claim_strengthening'] is False
+          assert context['truth_boundary']['automatic_publication'] is False
           print('TRUST HISTORY PUBLICATION BOUNDARY: PASS')
           print('model_calls=0')
           PY
@@ -60,6 +67,7 @@ jobs:
 
           | Signal | State |
           |---|---|
+          | Deterministic evidence → Trust Card derivation | PASS |
           | Policy / contract consistency | PASS |
           | Campaign observations | 7 |
           | Expected-state matches | 7 / 7 |
@@ -70,5 +78,7 @@ jobs:
           | Automatic claim strengthening | BLOCKED |
           | Model calls created by validation | 0 |
 
-          This job validates the evidence narrative and its claim boundaries. It does not create behavioral, certification, customer-value, portability, or commercial evidence.
+          The committed Trust Card must match the deterministic projection from the governed ledger + reviewed context. Narrative cannot drift independently from evidence.
+
+          This job does not create behavioral, certification, customer-value, portability, or commercial evidence.
           EOF
