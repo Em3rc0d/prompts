@@ -138,7 +138,7 @@ def main() -> int:
     assert "0 supported skill assets" in starter
     assert "remain separate skill candidates—not supported Starter v1 assets" in starter
     assert "00</strong><span>supported skills today" in collections
-    assert "not part of the current Starter archive" in home
+    assert "not part of the current 9-file Starter archive" in home
     assert not STARTER_CHECKOUT.exists()
 
     # Nothing in this checkpoint may promote sale/revenue truth.
