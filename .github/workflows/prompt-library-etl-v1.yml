@@ -12,7 +12,8 @@ on:
       - 'tools/build_prompt_architecture_pilot_v2.py'
       - 'tools/build_prompt_architecture_pilot_v2_1.py'
       - 'tools/build_prompt_architecture_pilot_v2_2.py'
-      - 'tools/test_prompt_architecture_pilot_v2_2.py'
+      - 'tools/build_prompt_architecture_pilot_v2_3.py'
+      - 'tools/test_prompt_architecture_pilot_v2_3.py'
       - 'docs/PROMPT_LIBRARY_ETL_V1.md'
       - '.github/workflows/prompt-library-etl-v1.yml'
       - '.github/prompt-library-etl-v1-trigger'
@@ -43,21 +44,21 @@ jobs:
       - name: Run ETL regression tests
         run: python tools/test_prompt_library_etl_v1.py
 
-      - name: Run active architecture v2.2 tests
-        run: python tools/test_prompt_architecture_pilot_v2_2.py
+      - name: Run active architecture v2.3 tests
+        run: python tools/test_prompt_architecture_pilot_v2_3.py
 
-      - name: Build active nine architecture mothers v2.2
+      - name: Build active nine architecture mothers v2.3
         run: |
-          python tools/build_prompt_architecture_pilot_v2_2.py \
-            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.2
+          python tools/build_prompt_architecture_pilot_v2_3.py \
+            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.3
 
-      - name: Enforce architecture v2.2 fail-closed boundary
+      - name: Enforce architecture v2.3 fail-closed boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.2')
+          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.3')
           m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
           rows = [json.loads(line) for line in (root / 'blueprints.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
 
@@ -65,8 +66,8 @@ jobs:
           assert len(rows) == 9, rows
           assert len({row['mode'] for row in rows}) == 9, rows
           assert len({row['prompt_sha256'] for row in rows}) == 9, rows
-          assert m['closed_static_audit_v2_1_findings'] == [
-              'ARCH-V21-COMMON-001', 'ARCH-V21-SIM-001', 'ARCH-V21-GEN-001'
+          assert m['closed_static_freeze_findings'] == [
+              'ARCH-V22-COMMON-001', 'ARCH-V22-GEN-001', 'ARCH-V22-LEARN-001'
           ], m
           assert m['automatic_product_promotions'] == 0, m
           assert m['external_model_calls'] == 0, m
@@ -75,8 +76,7 @@ jobs:
           assert m['bulk_regeneration_allowed'] is False, m
           assert all(row['state'] == 'STATIC_REVIEW_REQUIRED' for row in rows), rows
           assert all(not row['ready_to_sell'] for row in rows), rows
-
-          print('ARCHITECTURE V2.2 GATE: PASS')
+          print('ARCHITECTURE V2.3 GATE: PASS')
           PY
 
       - name: Run quality-first ETL on legacy reconstruction corpus
@@ -91,7 +91,6 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-
           m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
           assert m['source_records'] == 530, m
           assert m['premium_source_records'] == 478, m
@@ -109,10 +108,9 @@ jobs:
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
-
           root = Path('quarry/etl/prompt-library-v1')
           corpus = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
-          arch = json.loads((root / 'architecture-pilot-v2.2/manifest.json').read_text(encoding='utf-8'))
+          arch = json.loads((root / 'architecture-pilot-v2.3/manifest.json').read_text(encoding='utf-8'))
           print('## Prompt Library ETL — quality first')
           print()
           print('| Signal | Observed |')
@@ -128,7 +126,7 @@ jobs:
           print('| Bulk regeneration | BLOCKED |')
           print('| External model calls | 0 |')
           print()
-          print('**Next gate: final static semantic freeze audit of the nine v2.2 mothers.**')
+          print('**Next gate: final static semantic freeze audit of the nine v2.3 mothers.**')
           PY
 
       - name: Persist ETL evidence only
@@ -138,11 +136,9 @@ jobs:
           git config user.name 'prompt-quarry-bot'
           git config user.email 'prompt-quarry-bot@users.noreply.github.com'
           git add quarry/etl/prompt-library-v1
-
           if git diff --cached --quiet; then
             echo 'ETL evidence is already current.'
             exit 0
           fi
-
           git commit -m 'quarry(etl): materialize static prompt quality funnel'
           git push origin HEAD:feat/workflow-kits-product-model-20260902
