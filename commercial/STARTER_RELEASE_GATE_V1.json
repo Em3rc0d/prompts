@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -27,6 +27,8 @@
     "public_copy_audit_passes": 1,
     "public_copy_material_failures_found_before_fix": 3,
     "public_copy_material_failures_open": 0,
+    "provider_integration_static_preparation_passes": 1,
+    "provider_custody_observations": 0,
     "real_customer_outcomes": 0,
     "real_purchases": 0,
     "public_checkout_enabled": false,
@@ -96,6 +98,16 @@
     "audited_commit": "ba157d7fb364e9f18bf9bd0bbaa4b737a6010751",
     "stale_on_material_copy_or_evidence_change": true
   },
+  "provider_integration_preparation": {
+    "receipt": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
+    "state": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
+    "provider_candidate": "LEMON_SQUEEZY",
+    "offline_regression_run_id": 33803931478,
+    "offline_regression_conclusion": "success",
+    "provider_calls_created": 0,
+    "model_calls_created": 0,
+    "provider_integration_pass": false
+  },
   "provider_custody": {
     "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
     "state": "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED",
@@ -127,7 +139,7 @@
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
     "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
-    "provider_integration": "NOT_STARTED_FOR_STARTER",
+    "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
     "live_delivery_canary": "NOT_STARTED",
     "public_checkout": "BLOCKED",
     "pq_dollar_one": "NOT_OBSERVED"
@@ -150,6 +162,8 @@
     "generated_envelope_implies_behavioral_pass": false,
     "public_copy_audit_pass_implies_product_ready": false,
     "public_copy_audit_pass_implies_public_sale_authorized": false,
+    "static_provider_integration_prep_implies_provider_integration_pass": false,
+    "offline_provider_simulation_implies_provider_custody": false,
     "provider_custody_contract_implies_provider_custody": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
@@ -166,10 +180,10 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "design_starter_provider_integration_from_existing_commerce_primitives_without_enabling_checkout",
-    "define_provider_test_custody_receipt_and verification harness",
-    "decide_skill_launch_scope_based_on cost of required skill evidence",
-    "keep_workflow_trust_histories ready for first runtime observation"
+    "define controlled Starter provider provisioning receipt and exact custody execution packet without running it",
+    "define live delivery canary receipt and failure semantics before provider execution",
+    "decide skill launch scope based on cost of required skill evidence",
+    "keep workflow trust histories ready for first runtime observation"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
