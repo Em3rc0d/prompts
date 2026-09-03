@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Fail-closed validation for Prompt Machine Workflow Learning Loop v1.
+"""Fail-closed validation for the frozen Prompt Machine Learning Loop v1 baseline.
 
-This validator is deterministic. It does not execute a model and cannot create
-behavioral, certification, product-readiness, or revenue evidence.
+This validator intentionally checks the immutable pre-behavior policy snapshot.
+Current behavioral campaign truth lives in the governed campaign ledger and must
+not be confused with the frozen baseline. This validator is deterministic, makes
+no model calls, and creates no behavioral, certification, product-readiness, or
+revenue evidence.
 """
 
 from __future__ import annotations
@@ -12,6 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "quarry" / "learning-loop" / "LEARNING_LOOP_POLICY_V1.json"
+LEDGER = ROOT / "quarry" / "etl" / "prompt-library-v1" / "manual-canary-campaign-v1" / "ledger.json"
 
 EXPECTED_EVIDENCE_CLASSES = {
     "UNTRUSTED_CLIENT_INTENT",
@@ -44,12 +48,13 @@ REQUIRED_FAILURES = {
 
 def main() -> int:
     policy = json.loads(POLICY.read_text(encoding="utf-8"))
+    ledger = json.loads(LEDGER.read_text(encoding="utf-8"))
 
     assert policy["schema"] == "prompt-machine-learning-loop-policy-v1"
     assert policy["version"] == "1.0.0"
     assert policy["state"] == "STATIC_POLICY_DEFINED_BEHAVIOR_UNEXECUTED"
 
-    # No unattended maturity or spend escalation.
+    # No unattended maturity or spend escalation in the frozen baseline.
     assert policy["automatic_promotion"] is False
     assert policy["automatic_wave_execution"] is False
     assert policy["overwrite_observed_versions"] is False
@@ -80,25 +85,38 @@ def main() -> int:
     assert boundaries["user_report_implies_runtime_reliability"] is False
     assert boundaries["purchase_implies_retention"] is False
 
-    canary = policy["current_canary"]
-    assert canary["invocation_id"] == "PM-INV-CHECKLIST-NORMAL-0003"
-    assert canary["state"] == "PREPARED_NOT_EXECUTED"
-    assert canary["maximum_calls_before_review"] == 1
-    assert canary["next_step_after_observation"] == "HUMAN_REVIEW"
-    assert set(canary["allowed_post_review_decisions"]) == EXPECTED_DECISIONS
+    baseline_canary = policy["current_canary"]
+    assert baseline_canary["invocation_id"] == "PM-INV-CHECKLIST-NORMAL-0003"
+    assert baseline_canary["state"] == "PREPARED_NOT_EXECUTED"
+    assert baseline_canary["maximum_calls_before_review"] == 1
+    assert baseline_canary["next_step_after_observation"] == "HUMAN_REVIEW"
+    assert set(baseline_canary["allowed_post_review_decisions"]) == EXPECTED_DECISIONS
 
-    truth = policy["truth"]
-    assert truth["behavioral_observations"] == 0
-    assert truth["real_customer_outcomes"] == 0
-    assert truth["real_purchases"] == 0
-    assert truth["ready_to_sell"] is False
+    baseline_truth = policy["truth"]
+    assert baseline_truth["behavioral_observations"] == 0
+    assert baseline_truth["real_customer_outcomes"] == 0
+    assert baseline_truth["real_purchases"] == 0
+    assert baseline_truth["ready_to_sell"] is False
 
-    print("WORKFLOW LEARNING LOOP POLICY V1: PASS")
-    print("external_model_calls=0")
-    print("behavioral_claims_created=0")
+    # Current campaign truth is deliberately separate from the frozen policy.
+    assert ledger["campaign_id"] == "PM-MANUAL-CANARY-CAMPAIGN-V1"
+    assert ledger["observations_completed"] == 7
+    assert ledger["expected_state_matches"] == 7
+    assert ledger["blocking_review_failures"] == 0
+    assert ledger["ready_to_sell"] is False
+    assert ledger["next_gate"]["armed"] is False
+
+    print("WORKFLOW LEARNING LOOP FROZEN BASELINE V1: PASS")
+    print("frozen_baseline_behavioral_observations=0")
+    print("current_campaign_behavioral_observations=7")
+    print("current_campaign_expected_state_matches=7/7")
+    print("current_campaign_blocking_review_failures=0")
+    print("external_model_calls_created=0")
     print("automatic_promotion=BLOCKED")
     print("automatic_wave_execution=BLOCKED")
-    print("current_canary=PM-INV-CHECKLIST-NORMAL-0003")
+    print("frozen_baseline_canary=PM-INV-CHECKLIST-NORMAL-0003")
+    print("current_next_gate=PM-INV-PLAN-EMBEDDED_OVERRIDE-0003")
+    print("current_next_gate_armed=false")
     return 0
 
 
