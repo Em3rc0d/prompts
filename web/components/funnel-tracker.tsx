@@ -92,8 +92,8 @@ export function FunnelTracker() {
     } else if (path.startsWith("/starter-collection")) {
       emit({
         event: "starter_product_viewed",
-        product_id: "pq-developer-starter-collection",
-        product_version: "1.2.0-candidate",
+        product_id: "prompt-machine-starter-collection",
+        product_version: "1.0.0-candidate",
         collection_id: "developer",
         surface: "starter-collection",
       });
