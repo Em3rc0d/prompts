@@ -4,7 +4,7 @@ import { CommerceLink } from "@/components/commerce-link";
 
 export const metadata: Metadata = {
   title: "Workflow Collections | Prompt Machine",
-  description: "Browse Prompt Machine collections by the outcome you need, starting with the Developer Workflow Collection.",
+  description: "Browse Prompt Machine collections by outcome, from the Free Library to the $9 Starter and $19 Full developer collection hypotheses.",
 };
 
 const futureCollections = [
@@ -18,22 +18,38 @@ export default function CollectionsPage() {
     <section className="pageHero"><div className="wrap">
       <div className="eyebrow">PROMPT MACHINE / COLLECTIONS</div>
       <h1>Buy a collection when the problem repeats.</h1>
-      <p className="lead">Collections group reusable workflows around an outcome. The goal is not to give you more prompt files. It is to give you a broader system you can reuse across related tasks.</p>
+      <p className="lead">Collections group reusable workflows around an outcome. Start free, pay $9 when a focused reusable setup earns it, and move to the $19 full collection only when broader coverage is worth the upgrade.</p>
       <div className="actions"><CommerceLink kind="free">Start with the Free Library →</CommerceLink><Link className="btn btnSecondary" href="/#how-it-works">How Prompt Machine works</Link></div>
     </div></section>
 
     <section className="section"><div className="wrap">
       <div className="productFrame">
-        <div className="productFrameTop"><span className="productEdition">COLLECTION 01 / BUILD & SHIP</span><span className="releaseBadge"><i /> CANDIDATE · CHECKOUT OFF</span></div>
+        <div className="productFrameTop"><span className="productEdition">STARTER / BUILD & SHIP</span><span className="releaseBadge"><i /> PRIMARY PAID HYPOTHESIS · CHECKOUT OFF</span></div>
         <div className="productFrameGrid">
           <div className="productMain">
-            <div className="eyebrow">FIRST COMMERCIAL EXPERIMENT</div>
-            <h2>Developer Workflow Collection</h2>
-            <p>Designed for recurring software work: evidence-first code review, bug diagnosis, technical decisions, and AI workflow design.</p>
-            <p className="sectionIntro">The paid candidate adds installable skill surfaces, reusable operating contracts, adaptation guidance, examples, and evidence receipts around the workflows.</p>
-            <div className="identity"><div><strong>04</strong><span>workflow families</span></div><div><strong>04</strong><span>skill candidates</span></div><div><strong>$19</strong><span>launch price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale yet</span></div></div>
+            <div className="eyebrow">FIRST PURCHASE EXPERIMENT</div>
+            <h2>Starter Collection</h2>
+            <p>Two complete recurring developer jobs: evidence-first Code Review and Bug Diagnosis, with their two skill candidates and a reusable customer experience around them.</p>
+            <p className="sectionIntro">Scope is frozen around START_HERE, task selection, worked examples, verification guidance, and an adaptation cheatsheet. Scope freeze is a product decision—not evidence that the workflows are behaviorally certified.</p>
+            <div className="identity"><div><strong>02</strong><span>workflow families</span></div><div><strong>02</strong><span>skill candidates</span></div><div><strong>$9</strong><span>price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale</span></div></div>
           </div>
-          <aside className="purchasePanel"><span className="purchaseLabel">WHY PAY?</span><h3>Because the collection must save more setup and trial-and-error than the free workflows alone.</h3><p>The upgrade is being tested against that standard. Checkout remains disabled until the evidence and delivery gates close.</p><CommerceLink kind="paid" className="btn btnSecondary">Check the $19 collection →</CommerceLink><p className="micro">While sale status is OFF, this records product interest and opens the release-status page. It does not create a purchase.</p></aside>
+          <aside className="purchasePanel"><span className="purchaseLabel">LOWER-FRICTION ENTRY</span><h3>Pay for a complete focused system, not an intentionally broken free tier.</h3><p>The Free Library remains useful by itself. Starter must earn $9 by reducing setup and repeat work around two high-frequency jobs.</p><CommerceLink kind="starter" className="btn btnSecondary">Check the $9 Starter →</CommerceLink><p className="micro">This records Starter intent and opens its release-status page. It cannot create a purchase while checkout is off.</p></aside>
+        </div>
+      </div>
+    </div></section>
+
+    <section className="section"><div className="wrap">
+      <div className="productFrame">
+        <div className="productFrameTop"><span className="productEdition">FULL / BUILD & SHIP</span><span className="releaseBadge"><i /> PREMIUM HYPOTHESIS · CHECKOUT OFF</span></div>
+        <div className="productFrameGrid">
+          <div className="productMain">
+            <div className="eyebrow">BROADER DEVELOPER SYSTEM</div>
+            <h2>Developer Workflow Collection</h2>
+            <p>Extends the system to technical decisions and AI workflow design alongside Code Review and Bug Diagnosis.</p>
+            <p className="sectionIntro">The full candidate targets four workflow families, four skill candidates, reusable operating contracts, examples, adaptation guidance, and visible evidence boundaries.</p>
+            <div className="identity"><div><strong>04</strong><span>workflow families</span></div><div><strong>04</strong><span>skill candidates</span></div><div><strong>$19</strong><span>price hypothesis</span></div><div><strong>HOLD</strong><span>not for sale</span></div></div>
+          </div>
+          <aside className="purchasePanel"><span className="purchaseLabel">UPSELL ONLY WHEN EARNED</span><h3>The full collection should win on breadth, not artificial restrictions.</h3><p>A customer should be able to stay with Starter if those two jobs are enough. The $19 tier must justify itself with genuinely broader reusable coverage.</p><CommerceLink kind="paid" className="btn btnSecondary">Compare the $19 Full →</CommerceLink></aside>
         </div>
       </div>
     </div></section>
