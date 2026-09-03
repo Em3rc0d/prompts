@@ -128,14 +128,15 @@ def main() -> int:
     assert gate["gates"]["live_delivery_preflight"] == "PASS_STATIC_PREPARED_DISARMED"
     assert gate["gates"]["live_delivery_canary"] == "NOT_STARTED"
 
-    # Customer-visible copy must reflect the launch decision.
+    # Customer-visible copy must reflect the launch decision. These assertions
+    # validate meaning, not an arbitrary marketing sentence.
     starter = STARTER_PAGE.read_text(encoding="utf-8")
     collections = COLLECTIONS_PAGE.read_text(encoding="utf-8")
     home = HOME_PAGE.read_text(encoding="utf-8")
     for source in (starter, collections, home):
         assert "two installable skill candidates" not in source.lower()
     assert "0 supported skill assets" in starter
-    assert "2 deferred candidates" in starter
+    assert "remain separate skill candidates—not supported Starter v1 assets" in starter
     assert "00</strong><span>supported skills today" in collections
     assert "not part of the current Starter archive" in home
     assert not STARTER_CHECKOUT.exists()
