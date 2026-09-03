@@ -1,0 +1,112 @@
+name: Prompt Library ETL v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'tools/etl_prompt_library_v1.py'
+      - 'tools/test_prompt_library_etl_v1.py'
+      - 'docs/PROMPT_LIBRARY_ETL_V1.md'
+      - '.github/workflows/prompt-library-etl-v1.yml'
+      - '.github/prompt-library-etl-v1-trigger'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prompt-library-etl-v1
+  cancel-in-progress: true
+
+jobs:
+  static-etl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run ETL tests
+        run: python tools/test_prompt_library_etl_v1.py
+
+      - name: Run quality-first ETL on real corpus
+        run: |
+          python tools/etl_prompt_library_v1.py \
+            --source quarry/normalized/alpacka-ai-prompt-metadata.jsonl \
+            --derived library/prompts/alpacka/derived-premium/catalog.jsonl \
+            --output-dir quarry/etl/prompt-library-v1
+
+      - name: Enforce ETL truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('quarry/etl/prompt-library-v1/manifest.json')
+          m = json.loads(path.read_text(encoding='utf-8'))
+
+          assert m['source_records'] == 530, m
+          assert m['premium_source_records'] == 478, m
+          assert m['derived_records'] == 478, m
+          assert m['joined_records'] == 478, m
+          assert m['representative_review_records'] == m['structural_skeletons'], m
+          assert m['structural_skeletons'] <= 478, m
+          assert m['automatic_sellable_promotions'] == 0, m
+          assert m['external_model_calls'] == 0, m
+          assert m['behavioral_claims_created'] == 0, m
+          assert m['ready_to_sell_claims_created'] == 0, m
+
+          print('PROMPT LIBRARY ETL TRUTH GATE: PASS')
+          print(json.dumps(m, ensure_ascii=False, indent=2, sort_keys=True))
+          PY
+
+      - name: Summarize quality funnel
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
+          print('## Prompt Library ETL v1')
+          print()
+          print('| Signal | Observed |')
+          print('|---|---:|')
+          print(f"| Premium reconstructions joined | {m['joined_records']} |")
+          print(f"| Structural skeletons | {m['structural_skeletons']} |")
+          print(f"| Representative review records | {m['representative_review_records']} |")
+          print(f"| Clone-heavy records | {m['clone_heavy_records']} |")
+          print(f"| Missing instruction/data boundary | {m['missing_instruction_data_boundary_records']} |")
+          print(f"| High-stakes records | {m['high_stakes_records']} |")
+          print(f"| Largest clone cluster | {m['largest_clone_cluster']} |")
+          for state, count in sorted(m['state_counts'].items()):
+              print(f'| `{state}` | {count} |')
+          print('| Automatic sellable promotions | 0 |')
+          print('| External model calls | 0 |')
+          print()
+          print('**Static qualification is not behavioral proof and is not READY_TO_SELL.**')
+          PY
+
+      - name: Persist ETL evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/etl/prompt-library-v1
+
+          if git diff --cached --quiet; then
+            echo 'ETL evidence is already current.'
+            exit 0
+          fi
+
+          git commit -m 'quarry(etl): materialize static prompt quality funnel'
+          git push origin HEAD:feat/workflow-kits-product-model-20260902
