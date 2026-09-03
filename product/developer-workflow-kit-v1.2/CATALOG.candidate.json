@@ -48,9 +48,11 @@
   ],
   "planned_products": [
     {
-      "product_id": "pq-developer-starter-collection",
+      "product_id": "prompt-machine-starter-collection",
+      "legacy_product_ids": ["pq-developer-starter-collection"],
+      "identity_contract": "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json",
       "display_name": "Prompt Machine Starter Collection",
-      "version": "1.2.0-candidate",
+      "version": "1.0.0-candidate",
       "tier": "PAID_STARTER",
       "price": {
         "type": "ONE_TIME",
@@ -60,15 +62,35 @@
       "scope_state": "FROZEN",
       "workflows": ["PQ-WF-0001", "PQ-WF-0002"],
       "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002"],
+      "skill_state": "CANDIDATES_CONDITIONAL_ON_SKILL_EVIDENCE",
       "customer_experience_contract": [
         "START_HERE",
         "TASK_CHOOSER",
         "WORKED_EXAMPLES",
         "VERIFICATION_GUIDANCE",
-        "ADAPTATION_CHEATSHEET"
+        "ADAPTATION_CHEATSHEET",
+        "EVIDENCE_AND_LIMITATIONS",
+        "LICENSE"
       ],
       "sale_status": "NOT_FOR_SALE",
-      "release_rule": "MUST_SOLVE_COMPLETE_TASKS_AND_MUST_NOT_BE_AN_ARTIFICIALLY_CRIPPLED_FULL_COLLECTION"
+      "release_rule": "MUST_SOLVE_COMPLETE_TASKS_AND_MUST_NOT_BE_AN_ARTIFICIALLY_CRIPPLED_FULL_COLLECTION",
+      "current_release_snapshot": {
+        "workflow_contracts_static_pass": 2,
+        "executable_prompt_surfaces_static_pass": 2,
+        "required_customer_assets_present": 9,
+        "required_customer_assets_total": 9,
+        "deterministic_archive_pass": true,
+        "archive_size_bytes": 50918,
+        "archive_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+        "starter_runtime_observations": 0,
+        "starter_skill_behavioral_observations": 0,
+        "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "provider_custody": false,
+        "live_delivery": false,
+        "real_customer_outcomes": 0,
+        "real_purchases": 0,
+        "ready_to_sell": false
+      }
     }
   ],
   "workflows": [
@@ -129,7 +151,8 @@
     "ten_minute_activation_target": true,
     "ten_minute_activation_observed": false,
     "release_layout_frozen": false,
-    "pending_customer_prompt_surfaces": 3
+    "pending_customer_prompt_surfaces": 3,
+    "note": "These fields describe the broader developer-workflow-kit v1.2 candidate. The Starter Collection has its own governed release snapshot under planned_products and product/starter-collection-v1/."
   },
   "delivery": {
     "proposed_paid_archive_root": "prompt-machine-developer-workflow-collection-v1.2.0",
