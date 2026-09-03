@@ -1,0 +1,33 @@
+{
+  "schema": "prompt-machine-codex-web-manual-canary-v1",
+  "campaign_id": "PM-CODEX-WORK-CANARY-CHECKLIST-EMBEDDED-OVERRIDE-0002",
+  "invocation_id": "PM-INV-CHECKLIST-EMBEDDED_OVERRIDE-0003",
+  "source_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
+  "surface": "chatgpt-work-current-session",
+  "surface_adapter": "concat-three-frozen-blocks-with-LF-v1",
+  "envelope_path": "PM-INV-CHECKLIST-EMBEDDED_OVERRIDE-0003.codex-web.txt",
+  "envelope_bytes_expected": 9197,
+  "envelope_sha256_expected": "951caef827fbdb6ae41e7f58d68b746f7aa6c986c577f485101b8bb09adfd2b7",
+  "variant": "EMBEDDED_OVERRIDE",
+  "mode": "checklist",
+  "risk_class": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "expected_state_set": [
+    "PASS"
+  ],
+  "maximum_manual_submissions": 1,
+  "automatic_retries": 0,
+  "second_submission_authorized": false,
+  "response_capture": "VERBATIM_REQUIRED",
+  "human_review_required": true,
+  "automatic_promotion": false,
+  "behavioral_observations": 0,
+  "promotion_claim": "NONE",
+  "ready_to_sell": false,
+  "baseline_usage": {
+    "five_hour_remaining_percent": 87,
+    "weekly_remaining_percent": 45,
+    "recorded_on": "2026-09-03"
+  },
+  "state": "PREPARED_FOR_ONE_MANUAL_WORK_SUBMISSION"
+}
