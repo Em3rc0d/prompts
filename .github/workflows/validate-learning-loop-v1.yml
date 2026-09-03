@@ -8,6 +8,7 @@ on:
     paths:
       - 'docs/WORKFLOW_LEARNING_LOOP_V1.md'
       - 'quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json'
+      - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json'
       - 'tools/validate_learning_loop_policy.py'
       - '.github/workflows/validate-learning-loop-v1.yml'
 
@@ -29,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Validate learning loop truth boundaries
+      - name: Validate frozen baseline and current campaign separation
         run: python tools/validate_learning_loop_policy.py
 
       - name: Enforce zero-call governance
@@ -39,13 +40,25 @@ jobs:
           from pathlib import Path
 
           p = json.loads(Path('quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json').read_text())
+          ledger = json.loads(Path('quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json').read_text())
+
+          # Frozen policy snapshot: intentionally pre-behavior.
           assert p['truth']['behavioral_observations'] == 0
           assert p['truth']['real_customer_outcomes'] == 0
           assert p['truth']['real_purchases'] == 0
           assert p['truth']['ready_to_sell'] is False
           assert p['automatic_promotion'] is False
           assert p['automatic_wave_execution'] is False
-          print('LEARNING LOOP ZERO-CALL BOUNDARY: PASS')
+
+          # Current campaign truth: separate governed ledger.
+          assert ledger['observations_completed'] == 7
+          assert ledger['expected_state_matches'] == 7
+          assert ledger['blocking_review_failures'] == 0
+          assert ledger['ready_to_sell'] is False
+          assert ledger['next_gate']['armed'] is False
+
+          print('LEARNING LOOP BASELINE/CURRENT SEPARATION: PASS')
+          print('model_calls=0')
           PY
 
       - name: Summarize
@@ -53,16 +66,18 @@ jobs:
           cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
           ## Workflow Learning Loop v1
 
-          | Signal | State |
-          |---|---|
-          | Policy | PASS |
-          | Automatic promotion | BLOCKED |
-          | Automatic wave execution | BLOCKED |
-          | Observed-version overwrite | BLOCKED |
-          | External model calls | 0 |
-          | Behavioral observations | 0 |
-          | Current bounded canary | PM-INV-CHECKLIST-NORMAL-0003 |
-          | Next allowed step | HUMAN_REVIEW after exactly one authorized observation |
+          The policy file is an immutable **pre-behavior frozen baseline**. Current campaign truth is stored separately in the manual campaign ledger.
 
-          Static governance does not create behavioral or commercial evidence.
+          | Signal | Frozen baseline | Current campaign |
+          |---|---:|---:|
+          | Behavioral observations | 0 | 7 |
+          | Expected-state matches | not applicable | 7 / 7 |
+          | Blocking review failures | not applicable | 0 |
+          | Automatic promotion | BLOCKED | BLOCKED |
+          | Ready to sell | NO | NO |
+          | Next case | CHECKLIST-NORMAL was prepared | PLAN-EMBEDDED_OVERRIDE, DISARMED |
+
+          External model calls created by this validation: **0**.
+
+          The frozen baseline must not be mistaken for current behavioral truth, and current behavioral truth does not retroactively mutate the frozen policy receipt.
           EOF
