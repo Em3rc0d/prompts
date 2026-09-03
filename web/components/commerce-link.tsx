@@ -39,8 +39,8 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
       : kind === "starter"
         ? {
             event: "starter_cta_clicked",
-            product_id: "pq-developer-starter-collection",
-            product_version: "1.2.0-candidate",
+            product_id: "prompt-machine-starter-collection",
+            product_version: "1.0.0-candidate",
             collection_id: "developer",
             surface: "starter-collection",
           }
