@@ -53,17 +53,21 @@ The free layer is intentionally useful. It is not a crippled demo.
 
 ### Starter Collection — $9 one-time
 
-Candidate value:
+Frozen commercial scope:
 
-- 2–3 premium workflow surfaces around one coherent job family;
-- installable skill surfaces only where evidence supports them;
-- real examples;
-- `START_HERE` task routing;
+- Evidence-first Code Review workflow;
+- Evidence-first Bug Diagnosis workflow;
+- `review-code-with-evidence` skill candidate;
+- `diagnose-bugs-with-evidence` skill candidate;
+- `START_HERE` entrypoint and task chooser;
+- worked examples;
 - verification guidance;
-- adaptation guidance;
+- adaptation cheatsheet;
 - explicit evidence and limitations.
 
 The Starter must solve complete tasks. It must not be a deliberately broken subset of the $19 product.
+
+Scope freeze is a product decision only. It does not imply runtime testing, certification, portability, packaging, provider custody, or readiness to sell.
 
 ### Developer Collection — $19 one-time
 
@@ -321,13 +325,14 @@ Product Vision v3                     DONE
 Outcome-first public web              IMPLEMENTED ON PRODUCT BRANCH
 Collections surface                   IMPLEMENTED ON PRODUCT BRANCH
 Price ladder $0 → $9 → $19            PRICE HYPOTHESIS FROZEN
-Server-observed intent sink           IMPLEMENTED ON PRODUCT BRANCH
-Starter Collection scope              TO FREEZE
+Server-observed intent sink           IMPLEMENTED + RUNTIME OBSERVED ON STAGING
+Starter Collection scope              FROZEN / NOT FOR SALE
 PCP-04 real execution                 OPEN
 Paid collection product QA            OPEN
-Preview/staging verification          OPEN
+Preview/staging verification          PASS FOR PROMPT MACHINE IDENTITY + INTENT SMOKE
 Provider + live delivery canary       OPEN
 Public $9 Starter checkout            OFF
 Public $19 Developer checkout         OFF
+Public production promotion           NOT STARTED
 PQ-$1                                 NOT OBSERVED
 ```
