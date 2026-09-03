@@ -18,11 +18,18 @@ STARTER_CHECKOUT_ROUTE = (
     ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
 )
 CONTRACT_FREEZE = ROOT / "product" / "starter-collection-v1" / "CONTRACT_FREEZE_V1.json"
+SURFACE_FREEZE = ROOT / "product" / "starter-collection-v1" / "SURFACE_FREEZE_V1.json"
 CODE_REVIEW_CONTRACT = (
     ROOT / "product" / "starter-collection-v1" / "contracts" / "code-review.workflow-contract.json"
 )
 BUG_DIAGNOSIS_CONTRACT = (
     ROOT / "product" / "starter-collection-v1" / "contracts" / "bug-diagnosis.workflow-contract.json"
+)
+CODE_REVIEW_SURFACE = (
+    ROOT / "product" / "starter-collection-v1" / "workflows" / "evidence-first-code-review.md"
+)
+BUG_DIAGNOSIS_SURFACE = (
+    ROOT / "product" / "starter-collection-v1" / "workflows" / "evidence-first-bug-diagnosis.md"
 )
 
 REQUIRED_LAUNCH_GATES = {
@@ -36,6 +43,7 @@ REQUIRED_LAUNCH_GATES = {
 
 REQUIRED_BOUNDARIES = {
     "contract_freeze_implies_runtime_evidence": False,
+    "surface_freeze_implies_runtime_evidence": False,
     "architecture_observations_imply_starter_sku_evidence": False,
     "scope_frozen_implies_product_ready": False,
     "skill_candidate_implies_supported_skill": False,
@@ -93,7 +101,7 @@ def main() -> int:
     gate = read_json(GATE_PATH)
 
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.1"
+    assert gate["version"] == "1.0.2"
 
     product = gate["product"]
     assert product["product_id"] == "prompt-machine-starter-collection"
@@ -107,7 +115,8 @@ def main() -> int:
     assert truth["architecture_expected_state_matches"] == 7
     assert truth["architecture_blocking_review_failures"] == 0
     assert truth["starter_workflow_contracts_frozen"] == 2
-    # Architecture/static contract evidence must not be silently counted as SKU runtime evidence.
+    assert truth["starter_executable_prompt_surfaces_frozen"] == 2
+    # Architecture/static contract/surface evidence must not become SKU runtime evidence.
     assert truth["starter_sku_workflow_runtime_observations"] == 0
     assert truth["starter_skill_behavioral_observations"] == 0
     assert truth["real_customer_outcomes"] == 0
@@ -115,18 +124,33 @@ def main() -> int:
     assert truth["public_checkout_enabled"] is False
     assert truth["ready_to_sell"] is False
 
-    freeze = read_json(CONTRACT_FREEZE)
-    assert freeze["schema"] == "prompt-machine-starter-contract-freeze-v1"
-    assert freeze["receipt_id"] == "PM-STARTER-CONTRACT-FREEZE-V1-0001"
-    assert freeze["state"] == "STATIC_CONTRACT_FREEZE_PASS"
-    assert freeze["truth"]["contract_count"] == 2
-    assert freeze["truth"]["external_model_calls"] == 0
-    assert freeze["truth"]["starter_sku_runtime_observations"] == 0
-    assert freeze["truth"]["ready_to_sell"] is False
-    assert freeze["next_gate_armed"] is False
+    contract_freeze = read_json(CONTRACT_FREEZE)
+    assert contract_freeze["schema"] == "prompt-machine-starter-contract-freeze-v1"
+    assert contract_freeze["receipt_id"] == "PM-STARTER-CONTRACT-FREEZE-V1-0001"
+    assert contract_freeze["state"] == "STATIC_CONTRACT_FREEZE_PASS"
+    assert contract_freeze["truth"]["contract_count"] == 2
+    assert contract_freeze["truth"]["external_model_calls"] == 0
+    assert contract_freeze["truth"]["starter_sku_runtime_observations"] == 0
+    assert contract_freeze["truth"]["ready_to_sell"] is False
+    assert contract_freeze["next_gate_armed"] is False
+
+    surface_freeze = read_json(SURFACE_FREEZE)
+    assert surface_freeze["schema"] == "prompt-machine-starter-surface-freeze-v1"
+    assert surface_freeze["receipt_id"] == "PM-STARTER-SURFACE-FREEZE-V1-0001"
+    assert surface_freeze["state"] == "STATIC_SURFACE_CONTRACT_PARITY_PASS"
+    assert surface_freeze["truth"]["surface_count"] == 2
+    assert surface_freeze["truth"]["external_model_calls"] == 0
+    assert surface_freeze["truth"]["starter_sku_runtime_observations"] == 0
+    assert surface_freeze["truth"]["ready_to_sell"] is False
+    assert surface_freeze["next_gate_armed"] is False
 
     validate_contract(read_json(CODE_REVIEW_CONTRACT), "pm-starter-evidence-first-code-review")
     validate_contract(read_json(BUG_DIAGNOSIS_CONTRACT), "pm-starter-evidence-first-bug-diagnosis")
+
+    assert CODE_REVIEW_SURFACE.exists()
+    assert BUG_DIAGNOSIS_SURFACE.exists()
+    assert "UNTRUSTED TASK DATA" in CODE_REVIEW_SURFACE.read_text(encoding="utf-8")
+    assert "UNTRUSTED TASK DATA" in BUG_DIAGNOSIS_SURFACE.read_text(encoding="utf-8")
 
     assert set(gate["launch_requirements"]) == REQUIRED_LAUNCH_GATES
     assert all(value is False for value in gate["launch_requirements"].values())
@@ -138,7 +162,7 @@ def main() -> int:
     gates = gate["gates"]
     assert gates["current_product_truth"] == "PASS"
     assert gates["final_starter_workflow_contracts"] == "PASS_STATIC_ONLY"
-    assert gates["final_executable_starter_prompt_surfaces"] == "OPEN_ALIGNMENT_REQUIRED"
+    assert gates["final_executable_starter_prompt_surfaces"] == "PASS_STATIC_ONLY"
     assert gates["starter_specific_behavioral_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["deterministic_starter_artifact"] == "NOT_BUILT"
@@ -168,6 +192,7 @@ def main() -> int:
     print("price_hypothesis_usd=9")
     print("architecture_behavioral_observations=7")
     print("starter_workflow_contracts_frozen=2")
+    print("starter_executable_prompt_surfaces_frozen=2")
     print("starter_sku_workflow_runtime_observations=0")
     print("starter_skill_behavioral_observations=0")
     print("public_checkout=BLOCKED")
