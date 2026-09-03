@@ -34,6 +34,16 @@ EXPECTED_TASKS = {
     "PQ-WF-0004": "Design a reusable AI workflow",
 }
 
+EXPECTED_STARTER_WORKFLOWS = ["PQ-WF-0001", "PQ-WF-0002"]
+EXPECTED_STARTER_SKILLS = ["PQ-SKILL-0001", "PQ-SKILL-0002"]
+EXPECTED_STARTER_EXPERIENCE = [
+    "START_HERE",
+    "TASK_CHOOSER",
+    "WORKED_EXAMPLES",
+    "VERIFICATION_GUIDANCE",
+    "ADAPTATION_CHEATSHEET",
+]
+
 
 def fail(errors: list[str], message: str) -> None:
     errors.append(message)
@@ -69,6 +79,16 @@ def main() -> int:
     if brand.get("internal_factory") != "Prompt Quarry":
         fail(errors, "internal factory must remain Prompt Quarry")
 
+    ladder = catalog.get("commercial_ladder", {})
+    if ladder.get("free_usd") != 0 or ladder.get("starter_usd") != 9 or ladder.get("full_developer_usd") != 19:
+        fail(errors, "commercial ladder must remain $0 -> $9 -> $19")
+    if ladder.get("primary_first_paid_offer") != "STARTER_COLLECTION":
+        fail(errors, "$9 Starter Collection must remain the primary first paid offer")
+    if ladder.get("starter_scope_state") != "FROZEN":
+        fail(errors, "Starter Collection scope must be frozen before customer merchandising")
+    if ladder.get("subscription") != "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED":
+        fail(errors, "subscription must remain deferred until recurring value is observed")
+
     products = {row.get("product_id"): row for row in catalog.get("products", [])}
     paid = products.get("pq-developer-pack")
     if not paid:
@@ -79,6 +99,29 @@ def main() -> int:
         price = paid.get("price", {})
         if price.get("launch_usd") != 19 or price.get("evidence_state") != "PRICE_HYPOTHESIS":
             fail(errors, "$19 price must remain explicitly a PRICE_HYPOTHESIS")
+
+    planned = {row.get("product_id"): row for row in catalog.get("planned_products", [])}
+    starter = planned.get("pq-developer-starter-collection")
+    if not starter:
+        fail(errors, "Starter Collection product identity missing")
+    else:
+        if starter.get("display_name") != "Prompt Machine Starter Collection":
+            fail(errors, "Starter customer display name mismatch")
+        if starter.get("tier") != "PAID_STARTER" or starter.get("version") != "1.2.0-candidate":
+            fail(errors, "Starter tier/version contract mismatch")
+        starter_price = starter.get("price", {})
+        if starter_price.get("launch_usd") != 9 or starter_price.get("evidence_state") != "PRICE_HYPOTHESIS":
+            fail(errors, "$9 Starter price must remain explicitly a PRICE_HYPOTHESIS")
+        if starter.get("scope_state") != "FROZEN":
+            fail(errors, "Starter scope must remain FROZEN")
+        if starter.get("workflows") != EXPECTED_STARTER_WORKFLOWS:
+            fail(errors, "Starter must contain Code Review + Bug Diagnosis workflow families")
+        if starter.get("skill_ids") != EXPECTED_STARTER_SKILLS:
+            fail(errors, "Starter must contain the two corresponding skill candidates")
+        if starter.get("customer_experience_contract") != EXPECTED_STARTER_EXPERIENCE:
+            fail(errors, "Starter customer-experience contract mismatch")
+        if starter.get("sale_status") != "NOT_FOR_SALE":
+            fail(errors, "Starter must remain NOT_FOR_SALE until downstream evidence closes")
 
     workflows = {row.get("workflow_id"): row for row in catalog.get("workflows", [])}
     if set(workflows) != set(EXPECTED_SKILLS):
@@ -121,6 +164,8 @@ def main() -> int:
     gates = catalog.get("gates", {})
     if gates.get("customer_experience_entrypoint_design") is not True:
         fail(errors, "customer experience entrypoint design gate not recorded")
+    if gates.get("starter_collection_scope_frozen") is not True:
+        fail(errors, "Starter Collection scope freeze gate not recorded")
     if gates.get("customer_prompt_surfaces_complete") != (pending_surfaces == 0):
         fail(errors, "customer_prompt_surfaces_complete gate contradicts actual surfaces")
     for blocked in (
@@ -190,6 +235,9 @@ def main() -> int:
         "state": state,
         "customer_brand": brand.get("customer_facing"),
         "internal_factory": brand.get("internal_factory"),
+        "commercial_ladder": "$0->$9->$19",
+        "starter_scope_frozen": gates.get("starter_collection_scope_frozen"),
+        "starter_workflow_count": len(starter.get("workflows", [])) if starter else 0,
         "workflow_count": len(workflows),
         "skill_entrypoints_verified": len(EXPECTED_SKILLS),
         "pending_customer_prompt_surfaces": pending_surfaces,
