@@ -1,0 +1,68 @@
+name: Validate Workflow Learning Loop v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'docs/WORKFLOW_LEARNING_LOOP_V1.md'
+      - 'quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json'
+      - 'tools/validate_learning_loop_policy.py'
+      - '.github/workflows/validate-learning-loop-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-learning-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate learning loop truth boundaries
+        run: python tools/validate_learning_loop_policy.py
+
+      - name: Enforce zero-call governance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = json.loads(Path('quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json').read_text())
+          assert p['truth']['behavioral_observations'] == 0
+          assert p['truth']['real_customer_outcomes'] == 0
+          assert p['truth']['real_purchases'] == 0
+          assert p['truth']['ready_to_sell'] is False
+          assert p['automatic_promotion'] is False
+          assert p['automatic_wave_execution'] is False
+          print('LEARNING LOOP ZERO-CALL BOUNDARY: PASS')
+          PY
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Workflow Learning Loop v1
+
+          | Signal | State |
+          |---|---|
+          | Policy | PASS |
+          | Automatic promotion | BLOCKED |
+          | Automatic wave execution | BLOCKED |
+          | Observed-version overwrite | BLOCKED |
+          | External model calls | 0 |
+          | Behavioral observations | 0 |
+          | Current bounded canary | PM-INV-CHECKLIST-NORMAL-0003 |
+          | Next allowed step | HUMAN_REVIEW after exactly one authorized observation |
+
+          Static governance does not create behavioral or commercial evidence.
+          EOF
