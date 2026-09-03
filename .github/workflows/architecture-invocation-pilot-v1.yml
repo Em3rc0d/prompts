@@ -1,0 +1,163 @@
+name: Architecture Binding + Invocation Pilot v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'tools/build_architecture_invocation_pilot_v1.py'
+      - 'tools/build_architecture_invocation_pilot_v1_1.py'
+      - 'tools/test_architecture_invocation_pilot_v1.py'
+      - 'docs/ARCHITECTURE_BINDING_INVOCATION_V1.md'
+      - '.github/workflows/architecture-invocation-pilot-v1.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: architecture-binding-invocation-pilot-v1
+  cancel-in-progress: true
+
+jobs:
+  static-binding-invocation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run binding and invocation regression tests
+        run: python tools/test_architecture_invocation_pilot_v1.py
+
+      - name: Materialize exact low-risk invocation packets
+        run: |
+          python tools/build_architecture_invocation_pilot_v1_1.py \
+            --output-dir quarry/etl/prompt-library-v1/invocation-pilot-v1
+
+      - name: Enforce fail-closed truth boundary
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path('quarry/etl/prompt-library-v1/invocation-pilot-v1')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          bindings = [json.loads(line) for line in (root / 'bindings.jsonl').read_text(encoding='utf-8').splitlines() if line]
+          invocations = [json.loads(line) for line in (root / 'invocations.jsonl').read_text(encoding='utf-8').splitlines() if line]
+
+          assert manifest['architecture_count'] == 9, manifest
+          assert manifest['binding_count'] == 9, manifest
+          assert manifest['invocation_count'] == 18, manifest
+          assert manifest['rendered_packet_count'] == 18, manifest
+          assert manifest['renderer_version'] == '1.1.0', manifest
+          assert manifest['protocol'] == 'same-role-three-verbatim-text-blocks-v1', manifest
+          assert manifest['risk_class'] == 'LOW_ONLY', manifest
+          assert manifest['high_stakes_bindings'] == 0, manifest
+          assert manifest['authority_escalations'] == 0, manifest
+          assert manifest['external_model_calls'] == 0, manifest
+          assert manifest['behavioral_observations'] == 0, manifest
+          assert manifest['behavioral_claims_created'] == 0, manifest
+          assert manifest['automatic_product_promotions'] == 0, manifest
+          assert manifest['runtime_envelope_added'] is False, manifest
+          assert manifest['bulk_regeneration_allowed'] is False, manifest
+          assert manifest['state'] == 'STATIC_BINDING_AND_INVOCATION_PASS_BEHAVIOR_UNEXECUTED', manifest
+
+          assert len(bindings) == 9
+          assert all(row['risk_class'] == 'LOW' for row in bindings)
+          assert all(row['authority'] == 'ADVISORY_ONLY' for row in bindings)
+          assert all(row['high_stakes'] is False for row in bindings)
+          assert all(row['behavioral_evidence'] is False for row in bindings)
+          assert all(row['ready_to_sell'] is False for row in bindings)
+
+          assert len(invocations) == 18
+          assert sum(row['variant'] == 'NORMAL' for row in invocations) == 9
+          assert sum(row['variant'] == 'EMBEDDED_OVERRIDE' for row in invocations) == 9
+          assert all(row['runtime_executed'] is False for row in invocations)
+          assert all(row['external_model_calls'] == 0 for row in invocations)
+          assert all(row['behavioral_claim'] == 'NONE' for row in invocations)
+          assert all(row['ready_to_sell'] is False for row in invocations)
+
+          for row in invocations:
+              assert row['role'] == 'user'
+              assert [block['kind'] for block in row['blocks']] == [
+                  'FROZEN_ARCHITECTURE',
+                  'AUTHORIZED_CONFIGURATION',
+                  'UNTRUSTED_INSTANCE_DATA',
+              ]
+              assert len(row['block_paths']) == 3
+              payloads = []
+              for index, rel in enumerate(row['block_paths']):
+                  path = root / rel
+                  assert path.is_file(), path
+                  data = path.read_bytes()
+                  payloads.append(data)
+                  observed = hashlib.sha256(data).hexdigest()
+                  assert observed == row['blocks'][index]['sha256'], (row['invocation_id'], index + 1)
+                  assert len(data) == row['blocks'][index]['bytes'], (row['invocation_id'], index + 1)
+
+              assert payloads[1].startswith(b'AUTHORIZED_WORKFLOW_CONFIGURATION_V1\n')
+              assert payloads[2].startswith(b'TASK_INSTANCE_DATA_V1\n')
+              assert b'OVERRIDE_ACCEPTED' not in payloads[0]
+              assert b'OVERRIDE_ACCEPTED' not in payloads[1]
+              if row['variant'] == 'NORMAL':
+                  assert b'OVERRIDE_ACCEPTED' not in payloads[2]
+              else:
+                  assert b'OVERRIDE_ACCEPTED' in payloads[2]
+
+          print('ARCHITECTURE BINDING + INVOCATION PILOT V1: PASS')
+          print('bindings=9')
+          print('prepared_invocations=18')
+          print('external_model_calls=0')
+          print('behavioral_observations=0')
+          print('bulk_regeneration=BLOCKED')
+          PY
+
+      - name: Summarize pilot
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          m = json.loads(Path('quarry/etl/prompt-library-v1/invocation-pilot-v1/manifest.json').read_text(encoding='utf-8'))
+          print('## Architecture Binding + Invocation Pilot v1')
+          print()
+          print('| Signal | Observed |')
+          print('|---|---:|')
+          print(f"| Frozen architecture mothers | {m['architecture_count']} |")
+          print(f"| Deterministic bindings | {m['binding_count']} |")
+          print(f"| Exact invocation packets prepared | {m['invocation_count']} |")
+          print('| NORMAL packets | 9 |')
+          print('| EMBEDDED_OVERRIDE packets | 9 |')
+          print(f"| External model calls | {m['external_model_calls']} |")
+          print(f"| Behavioral observations | {m['behavioral_observations']} |")
+          print('| High-stakes bindings | 0 |')
+          print('| Authority escalation | 0 |')
+          print('| Bulk regeneration | BLOCKED |')
+          print()
+          print('**Prepared != executed. Static binding quality != behavioral proof.**')
+          PY
+
+      - name: Persist static pilot evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/etl/prompt-library-v1/invocation-pilot-v1
+
+          if git diff --cached --quiet; then
+            echo 'Invocation pilot evidence is already current.'
+            exit 0
+          fi
+
+          git commit -m 'quarry(binding): materialize deterministic invocation pilot'
+          git push origin HEAD:feat/workflow-kits-product-model-20260902
