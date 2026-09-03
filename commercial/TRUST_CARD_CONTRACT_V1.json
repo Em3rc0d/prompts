@@ -1,0 +1,66 @@
+{
+  "schema": "prompt-machine-trust-card-contract-v1",
+  "version": "1.0.0",
+  "state": "STATIC_CONTRACT_PUBLICATION_DISABLED",
+  "recorded_on": "2026-09-03",
+  "purpose": "Define the evidence-safe projection from internal workflow or campaign history into a future customer-facing Trust Card.",
+  "card_scopes": [
+    "WORKFLOW_VERSION",
+    "WORKFLOW_FAMILY",
+    "BOUNDED_CAMPAIGN"
+  ],
+  "required_fields": [
+    "trust_card_id",
+    "scope_type",
+    "subject_id",
+    "evidence_snapshot",
+    "supported_statements",
+    "historical_failures",
+    "historical_pre_runtime_issues",
+    "current_limitations",
+    "unknowns",
+    "explicit_non_claims",
+    "provenance_refs",
+    "publication_state",
+    "last_evidence_update"
+  ],
+  "publication_states": [
+    "INTERNAL_DRAFT_NOT_PUBLIC",
+    "HUMAN_REVIEW_REQUIRED",
+    "PUBLICATION_ELIGIBLE",
+    "PUBLISHED",
+    "WITHDRAWN"
+  ],
+  "projection_rules": {
+    "source_of_truth": "INTERNAL_EVIDENCE_LEDGER",
+    "automatic_publication": false,
+    "automatic_claim_strengthening": false,
+    "human_review_required_before_publication": true,
+    "material_campaign_failures_must_be_included": true,
+    "historical_failures_must_keep_original_class": true,
+    "pre_runtime_issue_must_not_be_relabelled_runtime_fail": true,
+    "inconclusive_must_not_be_relabelled_pass": true,
+    "unknowns_must_remain_unknown": true,
+    "material_limitations_must_remain_visible": true,
+    "synthetic_evidence_must_be_labelled": true,
+    "customer_private_data_requires_redaction_or_authorization": true,
+    "claim_ceiling_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
+  },
+  "forbidden_shortcuts": [
+    "CHERRY_PICK_ONLY_PASS_RESULTS",
+    "COLLAPSE_CAMPAIGN_TO_OPAQUE_SCORE",
+    "INHERIT_PREDECESSOR_EVIDENCE",
+    "HIDE_MATERIAL_FAILURE_AFTER_SUCCESSOR",
+    "CALL_STATIC_ISSUE_RUNTIME_FAILURE",
+    "CALL_RUNTIME_PASS_CERTIFICATION",
+    "CALL_ADVERSARIAL_CASES_PROMPT_INJECTION_IMMUNITY",
+    "CALL_WORK_SURFACE_PORTABILITY",
+    "CALL_BEHAVIORAL_PASS_CUSTOMER_VALUE",
+    "CALL_PURCHASE_RETENTION"
+  ],
+  "current_publication_gate": {
+    "enabled": false,
+    "reason": "Current campaign evidence is internal behavioral evidence only; product/customer/publication gates remain open.",
+    "automatic_publication": false
+  }
+}
