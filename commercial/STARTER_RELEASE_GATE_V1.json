@@ -37,7 +37,10 @@
     "provider_integration_static_preparation_passes": 1,
     "starter_signed_webhook_adapters_present": 1,
     "provider_preflight_static_passes": 1,
+    "provider_receipt_schema_static_passes": 1,
+    "provider_provisioning_receipts_observed": 0,
     "provider_custody_observations": 0,
+    "delivery_receipts_observed": 0,
     "real_customer_outcomes": 0,
     "real_purchases": 0,
     "public_checkout_enabled": false,
@@ -149,6 +152,21 @@
     "provider_calls_created": 0,
     "model_calls_created": 0
   },
+  "provider_receipt_schema_freeze": {
+    "receipt": "commercial/STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-PROVIDER-RECEIPT-SCHEMA-FREEZE-V1-0001",
+    "state": "STATIC_PROVIDER_RECEIPT_SCHEMAS_PASS_EXTERNAL_EVIDENCE_UNOBSERVED",
+    "validation_run_id": 33810663527,
+    "validation_conclusion": "success",
+    "provisioning_receipt_schema": "commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json",
+    "custody_receipt_schema": "commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json",
+    "delivery_receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+    "actual_provisioning_receipts": 0,
+    "actual_custody_receipts": 0,
+    "actual_delivery_receipts": 0,
+    "provider_calls_created": 0,
+    "model_calls_created": 0
+  },
   "provider_custody": {
     "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
     "state": "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED",
@@ -181,6 +199,7 @@
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
     "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "provider_preflight": "PASS_STATIC_DISARMED",
+    "provider_receipt_schemas": "PASS_STATIC_EXTERNAL_EVIDENCE_UNOBSERVED",
     "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
     "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
     "live_delivery_preflight": "PASS_STATIC_PREPARED_DISARMED",
@@ -209,6 +228,7 @@
     "signed_webhook_adapter_present_implies_provider_event_observed": false,
     "static_provider_integration_prep_implies_provider_integration_pass": false,
     "provider_preflight_pass_implies_side_effect_authorization": false,
+    "provider_receipt_schema_pass_implies_external_provider_evidence": false,
     "offline_provider_simulation_implies_provider_custody": false,
     "provider_custody_contract_implies_provider_custody": false,
     "architecture_observations_imply_starter_sku_evidence": false,
@@ -227,9 +247,9 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "define a non-secret provider provisioning observation receipt before any Lemon Squeezy side effect",
-    "define the provider custody result receipt that records exact retrieved bytes without customer PII",
-    "keep workflow Trust Histories ready for the first Starter runtime observation",
+    "freeze the exact decision rule for when observed provisioning plus custody plus signed provider behavior qualifies PROVIDER_INTEGRATION_PASS",
+    "define provider experiment failure receipts and retry policy without enabling execution",
+    "freeze the Trust History update transaction for the first Starter runtime observation",
     "keep public copy audit stale-on-change after any new evidence or customer-facing claim"
   ],
   "next_model_spend_gate": {
