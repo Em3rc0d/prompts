@@ -1,0 +1,98 @@
+{
+  "schema": "prompt-machine-starter-public-copy-audit-receipt-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001",
+  "recorded_on": "2026-09-03",
+  "audit_contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
+  "evidence_ceiling": {
+    "starter_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "real_customer_task_outcomes": 0,
+    "real_purchases": 0,
+    "provider_custody": false,
+    "live_delivery": false,
+    "public_checkout": false,
+    "deterministic_packaging": true
+  },
+  "history": [
+    {
+      "phase": "INITIAL_AUDIT",
+      "audited_commit": "f6b1f8b230bbacfe7d5d2e25ffd2f6d59f4910c4",
+      "state": "FAIL_EVIDENCE_SCOPE_AMBIGUOUS",
+      "material_findings": [
+        {
+          "surface": "/license",
+          "class": "CUSTOMER_PRODUCT_IDENTITY_STALE",
+          "finding": "The page still identified the commercial license as Prompt Quarry rather than Prompt Machine.",
+          "impact": "Customer-facing product identity contradicted the canonical Prompt Machine / internal Prompt Quarry boundary."
+        },
+        {
+          "surface": "/license",
+          "class": "SALE_STATE_MISMATCH",
+          "finding": "The page referred to LICENSE.md delivered with the purchased Pack as authoritative while public paid sale is currently off.",
+          "impact": "The wording could imply an existing purchase/delivery state not supported by current evidence."
+        },
+        {
+          "surface": "/starter-collection",
+          "class": "EVIDENCE_STATE_STALE",
+          "finding": "The page still described packaging/customer surfaces as pending after the 9/9 payload and deterministic archive build had passed.",
+          "impact": "The page understated current packaging evidence and no longer matched the release gate."
+        }
+      ]
+    },
+    {
+      "phase": "FIX",
+      "changes": [
+        {
+          "commit": "cc64e7dc3ff0f4e44af924db660b6594ce36d98e",
+          "surface": "/license",
+          "result": "Prompt Machine identity restored; public checkout-off state and collection-specific future license semantics made explicit."
+        },
+        {
+          "commit": "77c8e4118002c076a219d92aa7c6d9260a79553f",
+          "surface": "/starter-collection",
+          "result": "Current 9/9 payload, deterministic archive evidence, four disarmed product canaries, zero Starter runtime observations, conditional skill status, and checkout-off state made explicit."
+        }
+      ]
+    },
+    {
+      "phase": "RETEST",
+      "audited_commit": "ba157d7fb364e9f18bf9bd0bbaa4b737a6010751",
+      "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+      "workflow": "Audit Starter Public Copy v1",
+      "run_id": 33799072926,
+      "conclusion": "success",
+      "audited_surfaces": [
+        "/",
+        "/collections",
+        "/starter-collection",
+        "/developer-pack",
+        "/free/developer-starter-pack",
+        "/license",
+        "shared layout/footer",
+        "CommerceLink routing"
+      ],
+      "observed_truth": {
+        "starter_checkout_route_present": false,
+        "starter_price_hypothesis_visible": true,
+        "starter_runtime_observations_claimed": 0,
+        "unsupported_tested_certified_customer_claims_detected": false,
+        "stale_prompt_quarry_license_identity_detected": false
+      }
+    }
+  ],
+  "final_state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+  "staleness_rule": "Any material Starter evidence-state change or audited public-copy change requires a new audit/retest before relying on this receipt for launch.",
+  "evidence_boundary": {
+    "copy_audit_creates_runtime_evidence": false,
+    "copy_audit_creates_customer_value_evidence": false,
+    "copy_audit_creates_provider_custody": false,
+    "copy_audit_creates_delivery_evidence": false,
+    "copy_audit_creates_revenue_evidence": false,
+    "copy_audit_pass_implies_product_ready": false,
+    "copy_audit_pass_implies_public_sale_authorized": false
+  },
+  "model_calls": 0,
+  "provider_calls": 0,
+  "ready_to_sell": false
+}
