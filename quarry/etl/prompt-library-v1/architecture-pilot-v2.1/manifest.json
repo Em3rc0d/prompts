@@ -1,0 +1,28 @@
+{
+  "architecture_count": 9,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "closed_static_audit_v2_findings": [
+    "ARCH-V2-SIM-001",
+    "ARCH-V2-AUDIT-001",
+    "ARCH-V2-GEN-001"
+  ],
+  "external_model_calls": 0,
+  "lineage": "successor-to-architecture-pilot-v2-after-static-audit-v2",
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "next_gate": "Final static semantic audit of all nine v2.1 blueprints before any bulk regeneration.",
+  "pilot_version": "2.1.0",
+  "ready_to_sell_claims_created": 0,
+  "schema": "prompt-machine-architecture-pilot-manifest-v2.1",
+  "status": "STATIC_REVIEW_REQUIRED"
+}
