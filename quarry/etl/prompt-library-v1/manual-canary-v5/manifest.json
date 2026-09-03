@@ -4,6 +4,7 @@
   "epoch_id": "PM-EPOCH-0003",
   "epoch_index": 3,
   "epoch_size": 1,
+  "usage_group_id": "PM-USAGE-GROUP-EPOCHS-0003-0004",
   "invocation_id": "PM-INV-GENERAL-NORMAL-0003",
   "source_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
   "surface": "chatgpt-work-current-session",
@@ -19,22 +20,28 @@
     "COMPLETE"
   ],
   "maximum_manual_submissions": 1,
+  "manual_submissions_used": 1,
   "automatic_retries": 0,
   "second_submission_authorized": false,
-  "response_capture": "VERBATIM_REQUIRED",
+  "response_capture": "VERBATIM_CAPTURED",
+  "response_capture_path": "assistant-response.verbatim.md",
   "human_review_required": true,
   "automatic_promotion": false,
-  "behavioral_observations": 0,
+  "behavioral_observations": 1,
   "promotion_claim": "NONE",
   "ready_to_sell": false,
   "baseline_usage": {
     "five_hour_remaining_percent": 70,
     "weekly_remaining_percent": 43,
-    "recorded_on": "2026-09-03"
+    "recorded_on": "2026-09-03",
+    "scope": "GROUPED_EPOCHS_0003_0004"
   },
-  "epoch_policy": {
-    "next_epoch_size_rule": "Remain at one invocation per Work response.",
-    "five_hour_reserve_floor_percent": 50
+  "observed_usage": {
+    "five_hour_remaining_percent": 62,
+    "weekly_remaining_percent": 41,
+    "recorded_on": "2026-09-03",
+    "scope": "GROUPED_EPOCHS_0003_0004"
   },
-  "state": "PREPARED_FOR_ONE_MANUAL_WORK_SUBMISSION"
+  "decision": "EXPAND_EVIDENCE",
+  "state": "OBSERVED_AWAITING_INDEPENDENT_REPLICATION"
 }
