@@ -1,6 +1,6 @@
 # Prompt Machine — Product Vision v3
 
-Status: `FROZEN STRATEGIC DIRECTION / CUSTOMER EXPERIENCE REFACTOR REQUIRED`
+Status: `FROZEN STRATEGIC DIRECTION / CUSTOMER EXPERIENCE IMPLEMENTED ON PRODUCT BRANCH`
 
 Date: `2026-09-02`
 
@@ -71,7 +71,18 @@ Future collections may serve additional domains, but expansion requires real dem
 
 ## 4. Commercial model
 
-### Free Library
+The initial commercial ladder is:
+
+```text
+FREE LIBRARY                 USD 0
+STARTER COLLECTION           USD 9 one-time   ← primary first paid offer
+FULL DEVELOPER COLLECTION    USD 19 one-time  ← broader premium / upsell
+SUBSCRIPTION                 DEFERRED
+```
+
+Both paid prices are `PRICE_HYPOTHESIS` until real willingness-to-pay evidence exists.
+
+### Free Library — $0
 
 Purpose: acquisition, proof of usefulness, trust, sharing, and repeat usage.
 
@@ -85,23 +96,36 @@ Success signals:
 - referral/share;
 - movement from free workflow to related collection.
 
-### Paid Collections
+### Starter Collection — $9 one-time hypothesis
 
-A collection packages multiple related workflows around an outcome family.
+The Starter Collection is the primary first-purchase experiment. It reduces first-purchase friction while still solving complete tasks.
 
-Initial commercial experiment:
+Frozen initial scope:
 
-```text
-Developer Workflow Collection
-launch price hypothesis: USD 19 one-time
-checkout: disabled until release gates pass
-```
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- the two corresponding skill candidates;
+- `START_HERE` and task routing;
+- worked examples;
+- verification guidance;
+- adaptation cheatsheet;
+- visible evidence and limitations.
 
-The paid upgrade must earn its price through breadth, orchestration, examples, reusable operating contracts, skills, adaptation guidance, and evidence—not by hiding the only useful version behind payment.
+The Starter must not be an artificially crippled version of Full.
+
+Scope freeze does **not** imply behavioral testing, certification, portability, packaging, provider custody, delivery readiness, or sale readiness.
+
+### Full Developer Workflow Collection — $19 one-time hypothesis
+
+The Full collection extends the developer system to four workflow families and four skill candidates, including Technical Decision and AI Workflow Design.
+
+The $19 upgrade must earn its price through genuinely broader workflow coverage, reusable operating contracts, examples, adaptation guidance, orchestration, and evidence—not by withholding completion of Starter's jobs.
+
+Public checkout remains disabled until the exact SKU's release and delivery gates pass.
 
 ### Later monetization
 
-Defer until real purchase evidence exists:
+Defer until real purchase and recurring-value evidence exists:
 
 - additional outcome collections;
 - bundles;
@@ -121,15 +145,15 @@ PROMPT MACHINE HOME
           ↓
 "WHAT DO YOU WANT TO GET DONE?"
           ↓
-OUTCOME / COLLECTION
-          ↓
-USE A FREE WORKFLOW
+OUTCOME / FREE WORKFLOW
           ↓
 OBSERVE VALUE + TRUST
           ↓
-PAID COLLECTION
+$9 STARTER
           ↓
-REPEAT USAGE / NEW COLLECTION
+$19 FULL WHEN BROADER VALUE IS NEEDED
+          ↓
+REPEAT USAGE / REFERRAL / NEW COLLECTION
 ```
 
 Content is part of the product distribution system.
@@ -167,14 +191,20 @@ Master rule:
 MARKETING CLAIM <= OBSERVED EVIDENCE
 ```
 
-Free usefulness, infrastructure health, archive integrity, and beautiful packaging do not imply behavioral certification.
+Free usefulness, infrastructure health, archive integrity, scope freeze, and beautiful packaging do not imply behavioral certification.
 
 ## 7. Website information architecture
 
-Primary navigation should move toward:
+Primary navigation should support:
 
 ```text
-Workflows | Collections | Learn | How it works | Free
+Workflows | Collections | Learn | How it works | Evidence | Free
+```
+
+Paid discovery should visibly distinguish:
+
+```text
+Free Library → Starter $9 hypothesis → Full $19 hypothesis
 ```
 
 The home page should answer, in this order:
@@ -183,28 +213,31 @@ The home page should answer, in this order:
 2. What can I use right now?
 3. How do I find the right workflow?
 4. Why should I trust it?
-5. What do I get by paying?
-6. How do I start?
+5. What does Starter add?
+6. What does Full add beyond Starter?
+7. How do I start?
 
 Do not open with internal architecture terminology.
 
 ## 8. Product hierarchy
 
 ```text
-Prompt Machine                         platform / public brand
-├── Free Library                       useful standalone workflows
-├── Collections                        paid outcome-oriented libraries
-│   └── Developer Workflow Collection  first commercial experiment
-├── Workflow                           primary unit of customer value
-├── Skill                              optional installable execution surface
-├── Learn                              education + acquisition + trust
-└── Evidence                           visible trust layer
+Prompt Machine                              platform / public brand
+├── Free Library                            useful standalone workflows
+├── Collections                             paid outcome-oriented libraries
+│   └── Build & Ship / Developer
+│       ├── Starter Collection              USD 9 hypothesis / primary first paid offer
+│       └── Full Developer Collection       USD 19 hypothesis / broader upsell
+├── Workflow                                primary unit of customer value
+├── Skill                                   optional installable execution surface
+├── Learn                                   education + acquisition + trust
+└── Evidence                                visible trust layer
 
-Prompt Quarry                          internal factory
-├── MK0                                knowledge quarry
-├── MK1                                prompt forge
-├── MK2                                future orchestration
-└── PCP                                certification program
+Prompt Quarry                               internal factory
+├── MK0                                     knowledge quarry
+├── MK1                                     prompt forge
+├── MK2                                     future orchestration
+└── PCP                                     certification program
 ```
 
 ## 9. Metrics
@@ -222,16 +255,22 @@ visitor
   → free workflow use/download
   → activated user
   → repeat user
-  → paid collection conversion
-  → second purchase / expansion
+  → Starter view / intent
+  → $9 purchase
+  → Full view / intent
+  → $19 upgrade
+  → repeat purchase / referral
 ```
 
 Track at minimum:
 
 - landing → free conversion;
 - free → repeat use;
-- free → paid intent;
+- free → Starter intent;
+- Starter view → Starter CTA;
 - checkout conversion once enabled;
+- $9 purchase → verified delivery;
+- $9 → $19 upgrade behavior;
 - revenue per collection;
 - refund/support signal;
 - most requested outcomes;
@@ -242,14 +281,18 @@ There is no honest pre-launch variable that guarantees a 99% purchase probabilit
 ## 10. Immediate execution order
 
 ```text
-P0  Freeze this vision
-P1  Refactor website positioning from developer-only to outcome-first
-P2  Keep Developer Workflow Collection as the first paid experiment
-P3  Build Collections surface without pretending future collections already exist
-P4  Add Learning/content surface and distribution loop
-P5  Complete real behavioral testing and release gates
-P6  Enable USD 19 checkout only when product + delivery evidence permits it
-P7  Measure PQ-$1, usage, repeat behavior, and demand before expanding catalog
+P0  Freeze this vision                                      DONE
+P1  Refactor website from developer-only to outcome-first   DONE ON PRODUCT BRANCH
+P2  Make $9 Starter the primary first paid hypothesis       DONE / SCOPE FROZEN
+P3  Keep $19 Full as broader premium / upsell               DONE IN CUSTOMER UX
+P4  Build Collections + Learn distribution surfaces         DONE ON PRODUCT BRANCH
+P5  Observe staging identity + intent runtime                DONE
+P6  Complete PCP-04 → PCP-07 behavioral evidence             OPEN
+P7  Complete skill trigger / forward / parity evidence      OPEN
+P8  Finalize customer surfaces + deterministic Starter       OPEN
+P9  Provider custody + integration + live delivery canary    OPEN
+P10 Enable USD 9 checkout only when evidence permits it      OFF
+P11 Measure PQ-$1 and $9 → $19 behavior before expansion     NOT OBSERVED
 ```
 
 ## 11. Non-goals
