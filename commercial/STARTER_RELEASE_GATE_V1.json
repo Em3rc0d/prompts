@@ -1,0 +1,92 @@
+{
+  "schema": "prompt-machine-starter-release-gate-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "product": {
+    "product_id": "prompt-machine-starter-collection",
+    "price_hypothesis_usd": 9,
+    "billing_model": "ONE_TIME",
+    "scope_state": "FROZEN",
+    "sale_state": "NOT_FOR_SALE"
+  },
+  "truth": {
+    "architecture_behavioral_observations": 7,
+    "architecture_expected_state_matches": 7,
+    "architecture_blocking_review_failures": 0,
+    "starter_sku_workflow_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "real_customer_outcomes": 0,
+    "real_purchases": 0,
+    "public_checkout_enabled": false,
+    "ready_to_sell": false
+  },
+  "scope": {
+    "workflows": [
+      "evidence-first-code-review",
+      "evidence-first-bug-diagnosis"
+    ],
+    "skill_candidates": [
+      "review-code-with-evidence",
+      "diagnose-bugs-with-evidence"
+    ],
+    "customer_surfaces": [
+      "START_HERE",
+      "task_chooser",
+      "worked_examples",
+      "verification_guidance",
+      "adaptation_cheatsheet",
+      "evidence_and_limitations"
+    ]
+  },
+  "gates": {
+    "current_product_truth": "PASS",
+    "final_starter_workflow_contracts": "OPEN",
+    "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
+    "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
+    "customer_surfaces": "PARTIAL",
+    "workflow_level_trust_cards": "NOT_READY",
+    "deterministic_starter_artifact": "NOT_BUILT",
+    "provider_test_custody": "NOT_STARTED",
+    "provider_integration": "NOT_STARTED_FOR_STARTER",
+    "live_delivery_canary": "NOT_STARTED",
+    "public_copy_evidence_audit": "OPEN",
+    "public_checkout": "BLOCKED",
+    "pq_dollar_one": "NOT_OBSERVED"
+  },
+  "launch_requirements": {
+    "STARTER_PRODUCT_READY": false,
+    "DETERMINISTIC_STARTER_ARCHIVE": false,
+    "PROVIDER_CUSTODY": false,
+    "PROVIDER_INTEGRATION": false,
+    "LIVE_DELIVERY_CANARY": false,
+    "PUBLIC_COPY_EVIDENCE_AUDIT": false
+  },
+  "boundaries": {
+    "architecture_observations_imply_starter_sku_evidence": false,
+    "scope_frozen_implies_product_ready": false,
+    "skill_candidate_implies_supported_skill": false,
+    "provider_test_implies_revenue": false,
+    "live_canary_implies_public_revenue": false,
+    "runtime_pass_implies_certification": false,
+    "public_checkout_may_bypass_requirements": false,
+    "automatic_sale_enablement": false
+  },
+  "current_checkout_surface": {
+    "starter_public_checkout_route_expected": false,
+    "historical_developer_pack_checkout_code_may_exist": true,
+    "developer_pack_checkout_is_not_starter_provider_evidence": true
+  },
+  "next_zero_model_work": [
+    "freeze_final_code_review_customer_contract",
+    "freeze_final_bug_diagnosis_customer_contract",
+    "prepare_starter_artifact_layout_without_archive_claim",
+    "prepare_starter_activation_evidence_contract",
+    "prepare_workflow_level_trust_card_inputs"
+  ],
+  "next_model_spend_gate": {
+    "authorized_now": false,
+    "reason": "Manual architecture campaign remains paused under the configured five-hour usage reserve policy.",
+    "when_reopened": "Use the smallest Starter-specific behavioral observation capable of changing the release decision; no automatic wave or retry."
+  },
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
+}
