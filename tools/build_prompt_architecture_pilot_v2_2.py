@@ -113,7 +113,7 @@ def main() -> None:
         "external_model_calls": 0,
         "behavioral_claims_created": 0,
         "ready_to_sell_claims_created": 0,
-        "bulk_regeneration_allowed": false,
+        "bulk_regeneration_allowed": False,
         "next_gate": "Final static semantic freeze audit before designing deterministic category binding and invocation rendering."
     }
     (output_dir / "manifest.json").write_text(
