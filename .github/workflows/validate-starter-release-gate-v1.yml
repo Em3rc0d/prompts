@@ -1,0 +1,58 @@
+name: Validate Starter Release Gate v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/EXECUTION_PLAN_V2.md'
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'web/app/starter-collection/page.tsx'
+      - 'web/app/api/commerce/starter-collection/**'
+      - 'tools/validate_starter_release_gate_v1.py'
+      - '.github/workflows/validate-starter-release-gate-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-starter-release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate Starter release truth boundaries
+        run: python tools/validate_starter_release_gate_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Release Gate v1
+
+          | Signal | State |
+          |---|---|
+          | Starter scope | FROZEN |
+          | Price | $9 HYPOTHESIS |
+          | Architecture observations | 7 |
+          | Starter SKU workflow observations | 0 |
+          | Starter skill observations | 0 |
+          | Deterministic paid archive | NOT BUILT |
+          | Provider custody | NOT STARTED |
+          | Live delivery canary | NOT STARTED |
+          | Public checkout | BLOCKED |
+          | READY_TO_SELL | NO |
+          | Provider calls created by validation | 0 |
+          | Model calls created by validation | 0 |
+
+          Architecture evidence is not silently promoted into Starter SKU evidence.
+          EOF
