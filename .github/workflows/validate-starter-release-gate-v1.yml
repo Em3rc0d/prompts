@@ -8,6 +8,9 @@ on:
     paths:
       - 'commercial/EXECUTION_PLAN_V2.md'
       - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json'
       - 'product/starter-collection-v1/**'
       - 'web/app/starter-collection/page.tsx'
       - 'web/app/api/commerce/starter-collection/**'
@@ -55,18 +58,20 @@ jobs:
           | Final workflow contracts | 2 / 2 STATIC PASS |
           | Executable prompt surfaces | 2 / 2 STATIC PARITY PASS |
           | Required customer payload | 9 / 9 STATIC PRESENT |
-          | Synthetic examples | LABELED / NOT EVIDENCE |
-          | Instruction/data boundary | PRESENT |
-          | Architecture observations | 7 |
+          | Deterministic Starter archive | PASS PACKAGING ONLY |
+          | Starter-specific canaries | 4 PREPARED / 0 ARMED / 0 RUN |
+          | Out-of-band evaluation contracts | 4 / 4 FROZEN |
           | Starter SKU workflow observations | 0 |
           | Starter skill observations | 0 |
-          | Deterministic paid archive | NOT BUILT |
-          | Provider custody | NOT STARTED |
+          | Public copy evidence audit | PASS_CURRENT_EVIDENCE_BOUNDARY |
+          | Historical copy findings | 3 FOUND / 3 FIXED / 0 OPEN |
+          | Provider custody | CONTRACT DEFINED / NOT PROVISIONED |
           | Live delivery canary | NOT STARTED |
+          | Activated users | 0 |
           | Public checkout | BLOCKED |
           | READY_TO_SELL | NO |
           | Provider calls created by validation | 0 |
           | Model calls created by validation | 0 |
 
-          Static payload completeness is not runtime evidence or product readiness. Architecture evidence is not silently promoted into Starter SKU evidence.
+          Every PASS advances only its own evidence class. Packaging, copy review, and static canary readiness are not silently promoted into runtime, delivery, customer-value, certification, or revenue evidence.
           EOF
