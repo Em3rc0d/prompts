@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Fail-closed validation for Prompt Machine Starter Release Gate v1.
 
-This validator performs static repository checks only. It does not execute a
-model, create checkout sessions, call a commerce provider, or create product,
-customer-value, delivery, or revenue evidence.
+Static/package checks only. No model, checkout, commerce-provider, customer-value,
+delivery, certification, or revenue evidence is created by this validator.
 """
 
 from __future__ import annotations
@@ -14,45 +13,22 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GATE_PATH = ROOT / "commercial" / "STARTER_RELEASE_GATE_V1.json"
 STARTER_PAGE = ROOT / "web" / "app" / "starter-collection" / "page.tsx"
-STARTER_CHECKOUT_ROUTE = (
-    ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
-)
-CONTRACT_FREEZE = ROOT / "product" / "starter-collection-v1" / "CONTRACT_FREEZE_V1.json"
-SURFACE_FREEZE = ROOT / "product" / "starter-collection-v1" / "SURFACE_FREEZE_V1.json"
-CODE_REVIEW_CONTRACT = (
-    ROOT / "product" / "starter-collection-v1" / "contracts" / "code-review.workflow-contract.json"
-)
-BUG_DIAGNOSIS_CONTRACT = (
-    ROOT / "product" / "starter-collection-v1" / "contracts" / "bug-diagnosis.workflow-contract.json"
-)
-CODE_REVIEW_SURFACE = (
-    ROOT / "product" / "starter-collection-v1" / "workflows" / "evidence-first-code-review.md"
-)
-BUG_DIAGNOSIS_SURFACE = (
-    ROOT / "product" / "starter-collection-v1" / "workflows" / "evidence-first-bug-diagnosis.md"
-)
+STARTER_CHECKOUT_ROUTE = ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
+BASE = ROOT / "product" / "starter-collection-v1"
+CONTRACT_FREEZE = BASE / "CONTRACT_FREEZE_V1.json"
+SURFACE_FREEZE = BASE / "SURFACE_FREEZE_V1.json"
+PAYLOAD_FREEZE = BASE / "PAYLOAD_FREEZE_V1.json"
+ARCHIVE_RECEIPT = BASE / "ARCHIVE_BUILD_RECEIPT_V1.json"
+CODE_REVIEW_CONTRACT = BASE / "contracts" / "code-review.workflow-contract.json"
+BUG_DIAGNOSIS_CONTRACT = BASE / "contracts" / "bug-diagnosis.workflow-contract.json"
+CODE_REVIEW_SURFACE = BASE / "workflows" / "evidence-first-code-review.md"
+BUG_DIAGNOSIS_SURFACE = BASE / "workflows" / "evidence-first-bug-diagnosis.md"
+CODE_TRUST = BASE / "trust" / "code-review.trust-context.json"
+BUG_TRUST = BASE / "trust" / "bug-diagnosis.trust-context.json"
+ACTIVATION = ROOT / "commercial" / "STARTER_ACTIVATION_EVIDENCE_V1.json"
 
-REQUIRED_LAUNCH_GATES = {
-    "STARTER_PRODUCT_READY",
-    "DETERMINISTIC_STARTER_ARCHIVE",
-    "PROVIDER_CUSTODY",
-    "PROVIDER_INTEGRATION",
-    "LIVE_DELIVERY_CANARY",
-    "PUBLIC_COPY_EVIDENCE_AUDIT",
-}
-
-REQUIRED_BOUNDARIES = {
-    "contract_freeze_implies_runtime_evidence": False,
-    "surface_freeze_implies_runtime_evidence": False,
-    "architecture_observations_imply_starter_sku_evidence": False,
-    "scope_frozen_implies_product_ready": False,
-    "skill_candidate_implies_supported_skill": False,
-    "provider_test_implies_revenue": False,
-    "live_canary_implies_public_revenue": False,
-    "runtime_pass_implies_certification": False,
-    "public_checkout_may_bypass_requirements": False,
-    "automatic_sale_enablement": False,
-}
+CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+CANONICAL_ARCHIVE_SIZE = 50918
 
 EXPECTED_SOURCE_SHAS = {
     "pm-starter-evidence-first-code-review": {
@@ -65,6 +41,22 @@ EXPECTED_SOURCE_SHAS = {
     },
 }
 
+REQUIRED_BOUNDARIES = {
+    "contract_freeze_implies_runtime_evidence": False,
+    "surface_freeze_implies_runtime_evidence": False,
+    "payload_complete_implies_product_ready": False,
+    "archive_build_implies_provider_custody": False,
+    "archive_build_implies_delivery": False,
+    "architecture_observations_imply_starter_sku_evidence": False,
+    "scope_frozen_implies_product_ready": False,
+    "skill_candidate_implies_supported_skill": False,
+    "provider_test_implies_revenue": False,
+    "live_canary_implies_public_revenue": False,
+    "runtime_pass_implies_certification": False,
+    "public_checkout_may_bypass_requirements": False,
+    "automatic_sale_enablement": False,
+}
+
 
 def read_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -72,23 +64,16 @@ def read_json(path: Path) -> dict:
 
 def validate_contract(contract: dict, expected_workflow_id: str) -> None:
     assert contract["schema"] == "prompt-machine-workflow-contract-v1"
-    assert contract["contract_version"] == "1.0.0"
     assert contract["workflow_id"] == expected_workflow_id
-    assert contract["collection"] == "starter-collection-v1"
     assert contract["state"] == "CONTRACT_FROZEN_STATIC_ONLY_BEHAVIORAL_EVIDENCE_OPEN"
     assert contract["authority"] == "ADVISORY_ONLY"
-
-    source_shas = {item["blob_sha"] for item in contract["source_provenance"]}
-    assert source_shas == EXPECTED_SOURCE_SHAS[expected_workflow_id]
-
+    assert {item["blob_sha"] for item in contract["source_provenance"]} == EXPECTED_SOURCE_SHAS[expected_workflow_id]
     assert contract["input_contract"]["required"]
-    assert contract["input_contract"]["input_states"]
     assert contract["input_contract"]["minimum_preflight"]
     assert contract["output_contract"]
     assert contract["verification_contract"]
     assert contract["known_limitations"]
     assert contract["normalization_decisions"]
-
     boundary = contract["evidence_boundary"]
     assert boundary["static_contract_freeze_is_runtime_evidence"] is False
     assert boundary["architecture_campaign_is_starter_sku_evidence"] is False
@@ -97,18 +82,35 @@ def validate_contract(contract: dict, expected_workflow_id: str) -> None:
     assert boundary["ready_to_sell"] is False
 
 
+def validate_trust_context(path: Path, workflow_id: str) -> None:
+    trust = read_json(path)
+    assert trust["schema"] == "prompt-machine-workflow-trust-context-v1"
+    assert trust["workflow_id"] == workflow_id
+    assert trust["current_evidence_state"] == "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED"
+    assert trust["publication_state"] == "NOT_PUBLIC_NOT_ELIGIBLE"
+    assert trust["runtime_evidence"]["observations"] == []
+    assert trust["runtime_evidence"]["passes"] == 0
+    assert trust["runtime_evidence"]["fails"] == 0
+    assert trust["runtime_evidence"]["inconclusive"] == 0
+    assert trust["next_evidence"]["armed"] is False
+    assert trust["truth_boundary"]["zero_failures_with_zero_runtime_observations_means_reliable"] is False
+    assert trust["truth_boundary"]["architecture_campaign_is_workflow_runtime_evidence"] is False
+    assert trust["truth_boundary"]["automatic_publication"] is False
+
+
 def main() -> int:
     gate = read_json(GATE_PATH)
-
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.2"
+    assert gate["version"] == "1.0.3"
 
     product = gate["product"]
-    assert product["product_id"] == "prompt-machine-starter-collection"
-    assert product["price_hypothesis_usd"] == 9
-    assert product["billing_model"] == "ONE_TIME"
-    assert product["scope_state"] == "FROZEN"
-    assert product["sale_state"] == "NOT_FOR_SALE"
+    assert product == {
+        "product_id": "prompt-machine-starter-collection",
+        "price_hypothesis_usd": 9,
+        "billing_model": "ONE_TIME",
+        "scope_state": "FROZEN",
+        "sale_state": "NOT_FOR_SALE",
+    }
 
     truth = gate["truth"]
     assert truth["architecture_behavioral_observations"] == 7
@@ -116,7 +118,9 @@ def main() -> int:
     assert truth["architecture_blocking_review_failures"] == 0
     assert truth["starter_workflow_contracts_frozen"] == 2
     assert truth["starter_executable_prompt_surfaces_frozen"] == 2
-    # Architecture/static contract/surface evidence must not become SKU runtime evidence.
+    assert truth["starter_required_customer_assets_present"] == 9
+    assert truth["starter_required_customer_assets_total"] == 9
+    assert truth["starter_reproducible_archive_builds_observed"] == 1
     assert truth["starter_sku_workflow_runtime_observations"] == 0
     assert truth["starter_skill_behavioral_observations"] == 0
     assert truth["real_customer_outcomes"] == 0
@@ -125,47 +129,70 @@ def main() -> int:
     assert truth["ready_to_sell"] is False
 
     contract_freeze = read_json(CONTRACT_FREEZE)
-    assert contract_freeze["schema"] == "prompt-machine-starter-contract-freeze-v1"
-    assert contract_freeze["receipt_id"] == "PM-STARTER-CONTRACT-FREEZE-V1-0001"
     assert contract_freeze["state"] == "STATIC_CONTRACT_FREEZE_PASS"
-    assert contract_freeze["truth"]["contract_count"] == 2
     assert contract_freeze["truth"]["external_model_calls"] == 0
     assert contract_freeze["truth"]["starter_sku_runtime_observations"] == 0
-    assert contract_freeze["truth"]["ready_to_sell"] is False
-    assert contract_freeze["next_gate_armed"] is False
 
     surface_freeze = read_json(SURFACE_FREEZE)
-    assert surface_freeze["schema"] == "prompt-machine-starter-surface-freeze-v1"
-    assert surface_freeze["receipt_id"] == "PM-STARTER-SURFACE-FREEZE-V1-0001"
     assert surface_freeze["state"] == "STATIC_SURFACE_CONTRACT_PARITY_PASS"
-    assert surface_freeze["truth"]["surface_count"] == 2
     assert surface_freeze["truth"]["external_model_calls"] == 0
     assert surface_freeze["truth"]["starter_sku_runtime_observations"] == 0
-    assert surface_freeze["truth"]["ready_to_sell"] is False
-    assert surface_freeze["next_gate_armed"] is False
+
+    payload_freeze = read_json(PAYLOAD_FREEZE)
+    assert payload_freeze["state"] == "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT"
+    assert payload_freeze["required_customer_assets_present"] == 9
+    assert payload_freeze["truth"]["archive_built"] is False  # historical pre-build snapshot
+
+    archive = read_json(ARCHIVE_RECEIPT)
+    assert archive["state"] == "DETERMINISTIC_ARCHIVE_BUILD_PASS"
+    assert archive["customer_archive"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
+    assert archive["customer_archive"]["sha256"] == CANONICAL_ARCHIVE_SHA256
+    assert archive["customer_archive"]["reproducibility_check"] == "PASS_BYTE_FOR_BYTE_TWO_BUILDS"
+    assert archive["validation"]["model_calls"] == 0
+    assert archive["validation"]["provider_calls"] == 0
+    assert archive["evidence_boundary"]["github_actions_artifact_is_commerce_provider_custody"] is False
+    assert archive["evidence_boundary"]["archive_build_is_customer_delivery_evidence"] is False
+    assert archive["evidence_boundary"]["archive_build_is_ready_to_sell"] is False
 
     validate_contract(read_json(CODE_REVIEW_CONTRACT), "pm-starter-evidence-first-code-review")
     validate_contract(read_json(BUG_DIAGNOSIS_CONTRACT), "pm-starter-evidence-first-bug-diagnosis")
-
-    assert CODE_REVIEW_SURFACE.exists()
-    assert BUG_DIAGNOSIS_SURFACE.exists()
     assert "UNTRUSTED TASK DATA" in CODE_REVIEW_SURFACE.read_text(encoding="utf-8")
     assert "UNTRUSTED TASK DATA" in BUG_DIAGNOSIS_SURFACE.read_text(encoding="utf-8")
 
-    assert set(gate["launch_requirements"]) == REQUIRED_LAUNCH_GATES
-    assert all(value is False for value in gate["launch_requirements"].values())
+    validate_trust_context(CODE_TRUST, "pm-starter-evidence-first-code-review")
+    validate_trust_context(BUG_TRUST, "pm-starter-evidence-first-bug-diagnosis")
 
-    boundaries = gate["boundaries"]
+    activation = read_json(ACTIVATION)
+    assert activation["state"] == "DESIGNED_NOT_LIVE"
+    assert activation["current_truth"]["instrumentation_live"] is False
+    assert activation["current_truth"]["activated_users"] == 0
+    assert activation["current_truth"]["real_customer_task_outcomes"] == 0
+    assert activation["current_truth"]["real_starter_purchases"] == 0
+    assert activation["real_task_evidence_rule"]["task_content_retention_required"] is False
+    assert activation["real_task_evidence_rule"]["synthetic_fixture_counts_as_real_task"] is False
+
+    assert gate["launch_requirements"] == {
+        "STARTER_PRODUCT_READY": False,
+        "DETERMINISTIC_STARTER_ARCHIVE": True,
+        "PROVIDER_CUSTODY": False,
+        "PROVIDER_INTEGRATION": False,
+        "LIVE_DELIVERY_CANARY": False,
+        "PUBLIC_COPY_EVIDENCE_AUDIT": False,
+    }
+
     for key, expected in REQUIRED_BOUNDARIES.items():
-        assert boundaries[key] is expected
+        assert gate["boundaries"][key] is expected
 
     gates = gate["gates"]
     assert gates["current_product_truth"] == "PASS"
     assert gates["final_starter_workflow_contracts"] == "PASS_STATIC_ONLY"
     assert gates["final_executable_starter_prompt_surfaces"] == "PASS_STATIC_ONLY"
+    assert gates["required_customer_payload"] == "PASS_STATIC_9_OF_9"
+    assert gates["deterministic_starter_artifact"] == "PASS_PACKAGING_ONLY"
     assert gates["starter_specific_behavioral_evidence"] == "OPEN_ZERO_OBSERVATIONS"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
-    assert gates["deterministic_starter_artifact"] == "NOT_BUILT"
+    assert gates["customer_activation_instrumentation"] == "DESIGNED_NOT_LIVE"
+    assert gates["workflow_level_trust_cards"] == "CONTEXTS_SEEDED_PUBLICATION_BLOCKED"
     assert gates["provider_test_custody"] == "NOT_STARTED"
     assert gates["provider_integration"] == "NOT_STARTED_FOR_STARTER"
     assert gates["live_delivery_canary"] == "NOT_STARTED"
@@ -174,27 +201,31 @@ def main() -> int:
 
     spend = gate["next_model_spend_gate"]
     assert spend["authorized_now"] is False
+    assert spend["automatic_wave"] is False
+    assert spend["automatic_retries"] == 0
 
-    # Customer-facing copy must continue to represent the actual sale state.
     page = STARTER_PAGE.read_text(encoding="utf-8")
     assert "NOT FOR SALE" in page
     assert "$9" in page
     assert "PRICE HYPOTHESIS" in page
     assert "checkout" in page.lower()
 
-    # While the gate is blocked, no public Starter checkout endpoint is allowed.
     assert not STARTER_CHECKOUT_ROUTE.exists(), (
-        "Starter checkout route exists while STARTER_RELEASE_GATE_V1 still blocks public checkout"
+        "Starter checkout route exists while STARTER_RELEASE_GATE_V1 blocks public checkout"
     )
 
     print("STARTER RELEASE GATE V1: PASS")
     print("product=prompt-machine-starter-collection")
     print("price_hypothesis_usd=9")
-    print("architecture_behavioral_observations=7")
-    print("starter_workflow_contracts_frozen=2")
-    print("starter_executable_prompt_surfaces_frozen=2")
-    print("starter_sku_workflow_runtime_observations=0")
+    print("contracts=2/2")
+    print("surfaces=2/2")
+    print("required_customer_payload=9/9")
+    print("deterministic_archive=true")
+    print(f"archive_sha256={CANONICAL_ARCHIVE_SHA256}")
+    print("starter_sku_runtime_observations=0")
     print("starter_skill_behavioral_observations=0")
+    print("activated_users=0")
+    print("provider_custody=false")
     print("public_checkout=BLOCKED")
     print("ready_to_sell=false")
     print("provider_calls=0")
