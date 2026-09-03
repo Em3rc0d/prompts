@@ -1,0 +1,213 @@
+{
+  "schema": "prompt-machine-starter-release-dag-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "product_id": "prompt-machine-starter-collection",
+  "purpose": "Represent the Starter path to PQ-$1 as an evidence dependency graph so no downstream state can close merely because implementation exists.",
+  "status_vocabulary": [
+    "STATIC_CLOSED",
+    "OBSERVED_CLOSED",
+    "DEFERRED_NON_BLOCKING",
+    "OPEN_REQUIRES_MODEL_AUTH",
+    "OPEN_REQUIRES_PROVIDER_AUTH",
+    "BLOCKED_BY_UPSTREAM_EVIDENCE",
+    "BLOCKED_BY_HUMAN_RELEASE_DECISION",
+    "NOT_STARTED"
+  ],
+  "nodes": [
+    {
+      "id": "N01_PRODUCT_SCOPE",
+      "label": "Starter scope and customer jobs",
+      "status": "STATIC_CLOSED",
+      "evidence": ["commercial/STARTER_RELEASE_GATE_V1.json"],
+      "depends_on": []
+    },
+    {
+      "id": "N02_WORKFLOW_CONTRACTS",
+      "label": "Two final workflow contracts",
+      "status": "STATIC_CLOSED",
+      "evidence": ["product/starter-collection-v1/CONTRACT_FREEZE_V1.json"],
+      "depends_on": ["N01_PRODUCT_SCOPE"]
+    },
+    {
+      "id": "N03_EXECUTABLE_SURFACES",
+      "label": "Two executable customer workflow surfaces",
+      "status": "STATIC_CLOSED",
+      "evidence": ["product/starter-collection-v1/SURFACE_FREEZE_V1.json"],
+      "depends_on": ["N02_WORKFLOW_CONTRACTS"]
+    },
+    {
+      "id": "N04_CUSTOMER_PAYLOAD",
+      "label": "Nine required customer assets",
+      "status": "STATIC_CLOSED",
+      "evidence": ["product/starter-collection-v1/PAYLOAD_FREEZE_V1.json"],
+      "depends_on": ["N03_EXECUTABLE_SURFACES"]
+    },
+    {
+      "id": "N05_DETERMINISTIC_ARCHIVE",
+      "label": "Exact reproducible Starter ZIP",
+      "status": "OBSERVED_CLOSED",
+      "evidence": ["product/starter-collection-v1/ARCHIVE_BUILD_RECEIPT_V1.json"],
+      "depends_on": ["N04_CUSTOMER_PAYLOAD"]
+    },
+    {
+      "id": "N06_SKILL_SCOPE",
+      "label": "Skill launch scope decision",
+      "status": "DEFERRED_NON_BLOCKING",
+      "evidence": ["commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json"],
+      "depends_on": ["N01_PRODUCT_SCOPE"]
+    },
+    {
+      "id": "N07_PUBLIC_COPY_BOUNDARY",
+      "label": "Public copy matches current evidence ceiling",
+      "status": "OBSERVED_CLOSED",
+      "evidence": ["commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"],
+      "depends_on": ["N05_DETERMINISTIC_ARCHIVE", "N06_SKILL_SCOPE"]
+    },
+    {
+      "id": "N08_STARTER_CANARY_READINESS",
+      "label": "Exact Starter behavioral canaries and out-of-band evaluations",
+      "status": "STATIC_CLOSED",
+      "evidence": ["product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json"],
+      "depends_on": ["N03_EXECUTABLE_SURFACES"]
+    },
+    {
+      "id": "N09_STARTER_RUNTIME_EVIDENCE",
+      "label": "Reviewed Starter SKU behavioral evidence",
+      "status": "OPEN_REQUIRES_MODEL_AUTH",
+      "evidence": [],
+      "depends_on": ["N08_STARTER_CANARY_READINESS"],
+      "next_experiment": "PM-STARTER-CR-NORMAL-0001",
+      "maximum_calls_before_review": 1,
+      "automatic_retries": 0
+    },
+    {
+      "id": "N10_PROVIDER_STATIC_PREP",
+      "label": "Commerce primitives, signed webhook adapter, custody verifier",
+      "status": "STATIC_CLOSED",
+      "evidence": ["commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json"],
+      "depends_on": ["N05_DETERMINISTIC_ARCHIVE"]
+    },
+    {
+      "id": "N11_PROVIDER_PREFLIGHT",
+      "label": "Provider execution criteria frozen and disarmed",
+      "status": "STATIC_CLOSED",
+      "evidence": ["commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json"],
+      "depends_on": ["N10_PROVIDER_STATIC_PREP"]
+    },
+    {
+      "id": "N12_PROVIDER_RECEIPT_SCHEMAS",
+      "label": "Provisioning, custody, delivery and failure evidence formats",
+      "status": "STATIC_CLOSED",
+      "evidence": [
+        "commercial/STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1.json",
+        "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json"
+      ],
+      "depends_on": ["N11_PROVIDER_PREFLIGHT"]
+    },
+    {
+      "id": "N13_EXECUTION_DECISIONS",
+      "label": "Provider integration and runtime-to-Trust success/failure semantics",
+      "status": "STATIC_CLOSED",
+      "evidence": ["commercial/STARTER_EXECUTION_DECISION_FREEZE_V1.json"],
+      "depends_on": ["N08_STARTER_CANARY_READINESS", "N12_PROVIDER_RECEIPT_SCHEMAS"]
+    },
+    {
+      "id": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
+      "label": "Observed provider provisioning plus exact-byte custody",
+      "status": "OPEN_REQUIRES_PROVIDER_AUTH",
+      "evidence": [],
+      "depends_on": ["N13_EXECUTION_DECISIONS"],
+      "maximum_custody_attempts_before_review": 1,
+      "automatic_retries": 0
+    },
+    {
+      "id": "N15_PROVIDER_INTEGRATION_PASS",
+      "label": "Provisioning + exact custody + signed provider_test event",
+      "status": "BLOCKED_BY_UPSTREAM_EVIDENCE",
+      "evidence": [],
+      "depends_on": ["N14_PROVIDER_PROVISIONING_AND_CUSTODY"]
+    },
+    {
+      "id": "N16_LIVE_DELIVERY_CANARY",
+      "label": "One controlled live order and exact post-order delivery",
+      "status": "BLOCKED_BY_UPSTREAM_EVIDENCE",
+      "evidence": [],
+      "depends_on": ["N15_PROVIDER_INTEGRATION_PASS"],
+      "maximum_live_transactions": 1,
+      "automatic_retries": 0
+    },
+    {
+      "id": "N17_STARTER_PRODUCT_READY_REVIEW",
+      "label": "Human review of product behavior, delivery and current claims",
+      "status": "BLOCKED_BY_UPSTREAM_EVIDENCE",
+      "evidence": [],
+      "depends_on": [
+        "N09_STARTER_RUNTIME_EVIDENCE",
+        "N16_LIVE_DELIVERY_CANARY",
+        "N07_PUBLIC_COPY_BOUNDARY"
+      ]
+    },
+    {
+      "id": "N18_PUBLIC_CHECKOUT_DECISION",
+      "label": "Explicit human authorization to expose the $9 checkout",
+      "status": "BLOCKED_BY_HUMAN_RELEASE_DECISION",
+      "evidence": [],
+      "depends_on": ["N17_STARTER_PRODUCT_READY_REVIEW"]
+    },
+    {
+      "id": "N19_PQ_DOLLAR_ONE",
+      "label": "First real non-test purchase successfully delivered",
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "depends_on": ["N18_PUBLIC_CHECKOUT_DECISION"]
+    },
+    {
+      "id": "N20_REAL_ACTIVATION_AND_RETENTION",
+      "label": "Real task activation, repeat use, referral and upgrade evidence",
+      "status": "NOT_STARTED",
+      "evidence": [],
+      "depends_on": ["N19_PQ_DOLLAR_ONE"]
+    }
+  ],
+  "current_frontier": {
+    "closed_or_intentionally_deferred_nodes": [
+      "N01_PRODUCT_SCOPE",
+      "N02_WORKFLOW_CONTRACTS",
+      "N03_EXECUTABLE_SURFACES",
+      "N04_CUSTOMER_PAYLOAD",
+      "N05_DETERMINISTIC_ARCHIVE",
+      "N06_SKILL_SCOPE",
+      "N07_PUBLIC_COPY_BOUNDARY",
+      "N08_STARTER_CANARY_READINESS",
+      "N10_PROVIDER_STATIC_PREP",
+      "N11_PROVIDER_PREFLIGHT",
+      "N12_PROVIDER_RECEIPT_SCHEMAS",
+      "N13_EXECUTION_DECISIONS"
+    ],
+    "next_evidence_purchase_options": [
+      {
+        "node": "N09_STARTER_RUNTIME_EVIDENCE",
+        "requires": "EXPLICIT_MODEL_BUDGET_AUTHORIZATION",
+        "smallest_experiment": "ONE PM-STARTER-CR-NORMAL-0001 EXECUTION THEN HUMAN REVIEW"
+      },
+      {
+        "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
+        "requires": "EXPLICIT_PROVIDER_SIDE_EFFECT_AUTHORIZATION",
+        "smallest_experiment": "ONE CONTROLLED PROVIDER CUSTODY ATTEMPT THEN HUMAN REVIEW"
+      }
+    ],
+    "automatic_choice_between_frontier_nodes": false
+  },
+  "truth": {
+    "starter_runtime_observations": 0,
+    "provider_custody_observations": 0,
+    "provider_integration_pass": false,
+    "live_delivery_canary_pass": false,
+    "starter_product_ready": false,
+    "public_checkout": false,
+    "real_purchases": 0,
+    "pq_dollar_one": false
+  },
+  "master_rule": "A DOWNSTREAM NODE MAY CLOSE ONLY FROM THE EVIDENCE REQUIRED BY ITS INCOMING DEPENDENCIES"
+}
