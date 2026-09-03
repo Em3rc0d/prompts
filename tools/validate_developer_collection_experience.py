@@ -2,8 +2,12 @@
 """Validate the Developer Workflow Collection customer-experience candidate.
 
 This gate is intentionally structural/product-level. It does not execute a model,
-claim runtime behavior, or make the collection sellable. Its purpose is to make
-"a ZIP customers must reverse-engineer" an explicit release failure.
+claim runtime behavior, or make any collection sellable.
+
+Important state split:
+- product/developer-workflow-kit-v1.2 remains the broader Full candidate.
+- product/starter-collection-v1 is the independent governed Starter release line.
+The validator must not erase or merge those evidence states.
 """
 
 from __future__ import annotations
@@ -19,6 +23,12 @@ CATALOG = PRODUCT / "CATALOG.candidate.json"
 SPEC = PRODUCT / "SPEC.md"
 START_CANDIDATE = PRODUCT / "START_HERE.candidate.md"
 START_RELEASE = PRODUCT / "START_HERE.md"
+STARTER_IDENTITY = ROOT / "product" / "starter-collection-v1" / "PRODUCT_IDENTITY_V1.json"
+
+CANONICAL_STARTER_ID = "prompt-machine-starter-collection"
+LEGACY_STARTER_ID = "pq-developer-starter-collection"
+STARTER_ARCHIVE_SIZE = 50918
+STARTER_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
 
 EXPECTED_SKILLS = {
     "PQ-WF-0001": "review-code-with-evidence",
@@ -42,6 +52,8 @@ EXPECTED_STARTER_EXPERIENCE = [
     "WORKED_EXAMPLES",
     "VERIFICATION_GUIDANCE",
     "ADAPTATION_CHEATSHEET",
+    "EVIDENCE_AND_LIMITATIONS",
+    "LICENSE",
 ]
 
 
@@ -57,7 +69,7 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
 
-    for path in (CATALOG, SPEC, START_CANDIDATE):
+    for path in (CATALOG, SPEC, START_CANDIDATE, STARTER_IDENTITY):
         if not path.is_file():
             fail(errors, f"required product experience file missing: {path.relative_to(ROOT)}")
 
@@ -67,6 +79,7 @@ def main() -> int:
         return 1
 
     catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    identity = json.loads(STARTER_IDENTITY.read_text(encoding="utf-8"))
     spec = SPEC.read_text(encoding="utf-8")
     start = START_CANDIDATE.read_text(encoding="utf-8")
 
@@ -80,12 +93,12 @@ def main() -> int:
         fail(errors, "internal factory must remain Prompt Quarry")
 
     ladder = catalog.get("commercial_ladder", {})
-    if ladder.get("free_usd") != 0 or ladder.get("starter_usd") != 9 or ladder.get("full_developer_usd") != 19:
+    if (ladder.get("free_usd"), ladder.get("starter_usd"), ladder.get("full_developer_usd")) != (0, 9, 19):
         fail(errors, "commercial ladder must remain $0 -> $9 -> $19")
     if ladder.get("primary_first_paid_offer") != "STARTER_COLLECTION":
         fail(errors, "$9 Starter Collection must remain the primary first paid offer")
     if ladder.get("starter_scope_state") != "FROZEN":
-        fail(errors, "Starter Collection scope must be frozen before customer merchandising")
+        fail(errors, "Starter Collection scope must remain frozen")
     if ladder.get("subscription") != "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED":
         fail(errors, "subscription must remain deferred until recurring value is observed")
 
@@ -95,19 +108,23 @@ def main() -> int:
         fail(errors, "technical paid product identity pq-developer-pack missing")
     else:
         if paid.get("display_name") != "Prompt Machine Developer Workflow Collection":
-            fail(errors, "paid customer display name is not aligned with Prompt Machine")
+            fail(errors, "Full collection display name is not Prompt Machine aligned")
         price = paid.get("price", {})
         if price.get("launch_usd") != 19 or price.get("evidence_state") != "PRICE_HYPOTHESIS":
             fail(errors, "$19 price must remain explicitly a PRICE_HYPOTHESIS")
 
     planned = {row.get("product_id"): row for row in catalog.get("planned_products", [])}
-    starter = planned.get("pq-developer-starter-collection")
+    starter = planned.get(CANONICAL_STARTER_ID)
     if not starter:
-        fail(errors, "Starter Collection product identity missing")
+        fail(errors, "canonical Starter Collection product identity missing")
     else:
+        if starter.get("legacy_product_ids") != [LEGACY_STARTER_ID]:
+            fail(errors, "Starter legacy identity must remain one explicit historical alias")
+        if starter.get("identity_contract") != "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json":
+            fail(errors, "Starter catalog is not bound to its identity contract")
         if starter.get("display_name") != "Prompt Machine Starter Collection":
             fail(errors, "Starter customer display name mismatch")
-        if starter.get("tier") != "PAID_STARTER" or starter.get("version") != "1.2.0-candidate":
+        if starter.get("tier") != "PAID_STARTER" or starter.get("version") != "1.0.0-candidate":
             fail(errors, "Starter tier/version contract mismatch")
         starter_price = starter.get("price", {})
         if starter_price.get("launch_usd") != 9 or starter_price.get("evidence_state") != "PRICE_HYPOTHESIS":
@@ -118,11 +135,50 @@ def main() -> int:
             fail(errors, "Starter must contain Code Review + Bug Diagnosis workflow families")
         if starter.get("skill_ids") != EXPECTED_STARTER_SKILLS:
             fail(errors, "Starter must contain the two corresponding skill candidates")
+        if starter.get("skill_state") != "CANDIDATES_CONDITIONAL_ON_SKILL_EVIDENCE":
+            fail(errors, "Starter skill candidates are being overstated as supported skills")
         if starter.get("customer_experience_contract") != EXPECTED_STARTER_EXPERIENCE:
             fail(errors, "Starter customer-experience contract mismatch")
         if starter.get("sale_status") != "NOT_FOR_SALE":
             fail(errors, "Starter must remain NOT_FOR_SALE until downstream evidence closes")
 
+        snapshot = starter.get("current_release_snapshot", {})
+        expected_snapshot = {
+            "workflow_contracts_static_pass": 2,
+            "executable_prompt_surfaces_static_pass": 2,
+            "required_customer_assets_present": 9,
+            "required_customer_assets_total": 9,
+            "deterministic_archive_pass": True,
+            "archive_size_bytes": STARTER_ARCHIVE_SIZE,
+            "archive_sha256": STARTER_ARCHIVE_SHA256,
+            "starter_runtime_observations": 0,
+            "starter_skill_behavioral_observations": 0,
+            "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+            "provider_custody": False,
+            "live_delivery": False,
+            "real_customer_outcomes": 0,
+            "real_purchases": 0,
+            "ready_to_sell": False,
+        }
+        if snapshot != expected_snapshot:
+            fail(errors, "Starter catalog release snapshot drifted from governed Starter truth")
+
+    identity_product = identity.get("product", {})
+    identity_rules = identity.get("rules", {})
+    identity_aliases = identity.get("legacy_aliases", [])
+    if identity_product.get("canonical_product_id") != CANONICAL_STARTER_ID:
+        fail(errors, "Starter identity contract canonical product id mismatch")
+    if identity_product.get("product_version") != "1.0.0-candidate":
+        fail(errors, "Starter identity contract version mismatch")
+    if not any(row.get("product_id") == LEGACY_STARTER_ID for row in identity_aliases):
+        fail(errors, "Starter identity contract lost legacy alias provenance")
+    if identity_rules.get("historical_records_rewritten") is not False:
+        fail(errors, "identity migration may not rewrite historical records")
+    if identity_rules.get("legacy_alias_may_be_silently_treated_as_new_canonical_event") is not False:
+        fail(errors, "legacy Starter alias may not silently become a new canonical event")
+
+    # The broader Full candidate remains a separate, older workstream with its own
+    # still-open prompt surfaces. Starter completion must not falsify this state.
     workflows = {row.get("workflow_id"): row for row in catalog.get("workflows", [])}
     if set(workflows) != set(EXPECTED_SKILLS):
         fail(errors, f"workflow set mismatch: {sorted(workflows)}")
@@ -132,7 +188,6 @@ def main() -> int:
         row = workflows.get(workflow_id, {})
         if row.get("customer_task") != EXPECTED_TASKS[workflow_id]:
             fail(errors, f"{workflow_id}: customer task does not match frozen task chooser")
-
         skill = row.get("skill", {})
         if skill.get("name") != skill_name:
             fail(errors, f"{workflow_id}: expected skill {skill_name}")
@@ -153,13 +208,15 @@ def main() -> int:
 
     experience = catalog.get("customer_experience", {})
     if experience.get("entrypoint_design") != "product/developer-workflow-kit-v1.2/START_HERE.candidate.md":
-        fail(errors, "candidate entrypoint path is not canonical")
+        fail(errors, "Full candidate entrypoint path is not canonical")
     if experience.get("primary_discovery_axis") != "CUSTOMER_TASK":
-        fail(errors, "collection must remain task-first rather than repository/profession-first")
+        fail(errors, "collection must remain task-first rather than profession/repository-first")
     if experience.get("ten_minute_activation_observed") is not False:
         fail(errors, "ten-minute activation must remain unobserved until usability evidence exists")
     if experience.get("pending_customer_prompt_surfaces") != pending_surfaces:
-        fail(errors, "catalog pending_customer_prompt_surfaces does not match workflow inventory")
+        fail(errors, "Full candidate pending_customer_prompt_surfaces contradict actual inventory")
+    if "Starter Collection has its own governed release snapshot" not in str(experience.get("note", "")):
+        fail(errors, "catalog no longer explains the Full-vs-Starter evidence-state split")
 
     gates = catalog.get("gates", {})
     if gates.get("customer_experience_entrypoint_design") is not True:
@@ -167,7 +224,7 @@ def main() -> int:
     if gates.get("starter_collection_scope_frozen") is not True:
         fail(errors, "Starter Collection scope freeze gate not recorded")
     if gates.get("customer_prompt_surfaces_complete") != (pending_surfaces == 0):
-        fail(errors, "customer_prompt_surfaces_complete gate contradicts actual surfaces")
+        fail(errors, "Full candidate customer_prompt_surfaces_complete contradicts actual surfaces")
     for blocked in (
         "customer_examples_complete",
         "customer_evidence_cards_complete",
@@ -183,7 +240,7 @@ def main() -> int:
         "READY_TO_SELL",
     ):
         if gates.get(blocked) is not False:
-            fail(errors, f"pre-release gate must remain false at current evidence state: {blocked}")
+            fail(errors, f"Full candidate pre-release gate must remain false: {blocked}")
 
     required_start_tokens = (
         "You do not need to read the whole collection",
@@ -196,36 +253,27 @@ def main() -> int:
     )
     for token in required_start_tokens:
         if token not in start:
-            fail(errors, f"START_HERE candidate missing customer-experience boundary: {token}")
-
+            fail(errors, f"START_HERE candidate missing boundary: {token}")
     if start.count("PENDING_GOVERNED_V1_2_SURFACE") < pending_surfaces:
-        fail(errors, "START_HERE does not visibly expose every pending customer prompt surface")
-
+        fail(errors, "START_HERE does not expose every pending Full customer prompt surface")
     for skill_name in EXPECTED_SKILLS.values():
         if f"skills/{skill_name}/SKILL.md" not in start:
             fail(errors, f"START_HERE chooser does not link skill: {skill_name}")
 
     if "CANDIDATE IMPLEMENTED / STRUCTURE PASS" not in spec:
         fail(errors, "SPEC status is stale relative to implemented/validated candidate")
-    for token in (
-        "START_HERE.md",
-        "MARKETING CLAIM <= OBSERVED EVIDENCE",
-        "READY_TO_SELL                 NO",
-    ):
+    for token in ("START_HERE.md", "MARKETING CLAIM <= OBSERVED EVIDENCE", "READY_TO_SELL                 NO"):
         if token not in spec:
             fail(errors, f"SPEC missing release/customer boundary: {token}")
 
-    # A final customer START_HERE is forbidden while the customer prompt surface
-    # is incomplete. This prevents a candidate UX document from being mistaken for
-    # a release-ready archive entrypoint.
     if pending_surfaces and START_RELEASE.exists():
-        fail(errors, "release START_HERE.md exists while customer prompt surfaces are incomplete")
+        fail(errors, "Full release START_HERE.md exists while Full prompt surfaces are incomplete")
 
     delivery = catalog.get("delivery", {})
     if delivery.get("proposed_paid_archive_root") != "prompt-machine-developer-workflow-collection-v1.2.0":
-        fail(errors, "proposed customer archive root is not Prompt Machine aligned")
+        fail(errors, "Full proposed customer archive root is not Prompt Machine aligned")
     if delivery.get("archive_root_authoritative") is not False:
-        fail(errors, "archive root cannot be authoritative before deterministic archive receipt")
+        fail(errors, "Full archive root cannot be authoritative before its deterministic receipt")
 
     state = "DESIGN_VALID_RELEASE_BLOCKED" if not errors and pending_surfaces else ("RELEASE_SURFACES_COMPLETE" if not errors else "FAIL")
     report = {
@@ -236,12 +284,16 @@ def main() -> int:
         "customer_brand": brand.get("customer_facing"),
         "internal_factory": brand.get("internal_factory"),
         "commercial_ladder": "$0->$9->$19",
+        "starter_product_id": CANONICAL_STARTER_ID,
+        "starter_legacy_alias": LEGACY_STARTER_ID,
         "starter_scope_frozen": gates.get("starter_collection_scope_frozen"),
         "starter_workflow_count": len(starter.get("workflows", [])) if starter else 0,
+        "starter_static_surfaces": starter.get("current_release_snapshot", {}).get("executable_prompt_surfaces_static_pass") if starter else None,
+        "starter_runtime_observations": starter.get("current_release_snapshot", {}).get("starter_runtime_observations") if starter else None,
         "workflow_count": len(workflows),
         "skill_entrypoints_verified": len(EXPECTED_SKILLS),
-        "pending_customer_prompt_surfaces": pending_surfaces,
-        "final_start_here_exists": START_RELEASE.exists(),
+        "full_pending_customer_prompt_surfaces": pending_surfaces,
+        "full_final_start_here_exists": START_RELEASE.exists(),
         "behavioral_claim": "NONE",
         "sale_status": catalog.get("sale_status"),
         "PRODUCT_READY": gates.get("PRODUCT_READY"),
