@@ -101,10 +101,20 @@ jobs:
 
       - name: Emit non-commercial observability smoke event
         run: |
-          STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
-            -X POST "$STAGING_URL/api/analytics/intent" \
-            -H 'content-type: application/json' \
-            --data '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}')"
-          cat /tmp/intent-response.json
-          test "$STATUS" = '202'
-          echo 'INTENT SMOKE: ACCEPTED (synthetic staging evidence; not customer demand)'
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
+              -X POST "$STAGING_URL/api/analytics/intent" \
+              -H 'content-type: application/json' \
+              --data '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}')"
+            if [ "$STATUS" = '202' ]; then
+              node -e "const fs=require('fs'); const body=JSON.parse(fs.readFileSync('/tmp/intent-response.json','utf8')); if(body.accepted!==true) process.exit(1);"
+              echo 'INTENT SMOKE: ACCEPTED (synthetic staging evidence; not customer demand)'
+              exit 0
+            fi
+            echo "INTENT SMOKE: waiting for canonical alias propagation (HTTP $STATUS, attempt $attempt/12)"
+            sleep 5
+          done
+          echo 'INTENT SMOKE: FAIL — canonical staging alias never accepted the intent event.'
+          head -c 300 /tmp/intent-response.json || true
+          echo
+          exit 1
