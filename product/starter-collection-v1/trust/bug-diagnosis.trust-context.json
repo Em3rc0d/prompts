@@ -1,0 +1,86 @@
+{
+  "schema": "prompt-machine-workflow-trust-context-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+  "workflow_version": "1.0.0-candidate",
+  "intended_job": "Diagnose a software defect or incident from supplied evidence without collapsing observations, hypotheses, mitigation, and confirmed cause into the same claim.",
+  "current_evidence_state": "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED",
+  "publication_state": "NOT_PUBLIC_NOT_ELIGIBLE",
+  "static_evidence": {
+    "contract_path": "product/starter-collection-v1/contracts/bug-diagnosis.workflow-contract.json",
+    "contract_freeze_receipt": "PM-STARTER-CONTRACT-FREEZE-V1-0001",
+    "surface_path": "product/starter-collection-v1/workflows/evidence-first-bug-diagnosis.md",
+    "surface_freeze_receipt": "PM-STARTER-SURFACE-FREEZE-V1-0001",
+    "contract_surface_parity": "PASS_STATIC_ONLY",
+    "authority": "ADVISORY_ONLY",
+    "instruction_data_boundary": "PRESENT"
+  },
+  "runtime_evidence": {
+    "observations": [],
+    "human_reviews": [],
+    "passes": 0,
+    "fails": 0,
+    "inconclusive": 0,
+    "regressions": []
+  },
+  "historical_failures": [],
+  "historical_pre_runtime_issues": [
+    {
+      "issue_class": "STATE_AND_PREFLIGHT_NORMALIZATION",
+      "runtime_failure": false,
+      "summary": "The earlier finished Free prompt exposed only DIAGNOSE_FIRST, MITIGATE_NOW, and FIX_SUPPORTED and did not formalize a separate input-state vocabulary.",
+      "resolution": "Starter adopted INSUFFICIENT_EVIDENCE and CAUSE_CONFIRMED plus DIAGNOSABLE input states so missing evidence and confirmed cause remain explicit rather than compressed.",
+      "runtime_follow_up_required": true
+    }
+  ],
+  "customer_value_evidence": {
+    "real_task_outcomes": [],
+    "repeat_use": [],
+    "referrals": []
+  },
+  "commercial_evidence": {
+    "purchases": [],
+    "deliveries": [],
+    "refunds": []
+  },
+  "known_limitations": [
+    "No Starter-specific runtime observation exists yet.",
+    "No adversarial Starter-specific runtime observation exists yet.",
+    "No cross-model/provider portability evidence exists.",
+    "No real customer task outcome exists.",
+    "No repeat-use evidence exists.",
+    "No purchase or delivery evidence exists.",
+    "The skill candidate has no trigger/forward/parity behavioral evidence."
+  ],
+  "unknowns": [
+    "Whether the final surface blocks responsibly when required evidence is insufficient.",
+    "Whether task-data embedded override text remains non-authoritative in the final SKU surface.",
+    "Whether runtime output preserves observation vs inference vs confirmed cause semantics.",
+    "Whether recommended diagnostic checks genuinely discriminate hypotheses in realistic tasks.",
+    "Whether users can understand and apply the verification guidance.",
+    "Whether customers receive enough value to pay or return."
+  ],
+  "next_evidence": {
+    "preferred_first_case": "ONE_LOW_RISK_STARTER_BUG_DIAGNOSIS_NORMAL_CASE",
+    "automatic_execution": false,
+    "automatic_retries": 0,
+    "human_review_required": true,
+    "armed": false
+  },
+  "explicit_non_claims": [
+    "NOT_RUNTIME_TESTED_FOR_STARTER_SKU",
+    "NOT_CERTIFIED",
+    "NOT_PORTABLE",
+    "NO_CUSTOMER_VALUE_CLAIM",
+    "NO_REVENUE_CLAIM",
+    "NOT_READY_TO_SELL"
+  ],
+  "truth_boundary": {
+    "zero_failures_with_zero_runtime_observations_means_reliable": false,
+    "architecture_campaign_is_workflow_runtime_evidence": false,
+    "static_parity_is_behavioral_evidence": false,
+    "automatic_publication": false,
+    "marketing_claim_lte_observed_evidence": true
+  }
+}
