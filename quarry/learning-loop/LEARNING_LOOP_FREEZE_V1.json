@@ -1,0 +1,45 @@
+{
+  "schema": "prompt-machine-learning-loop-freeze-v1",
+  "receipt_id": "PM-LEARNING-LOOP-FREEZE-V1-0001",
+  "state": "STATIC_LEARNING_LOOP_POLICY_PASS",
+  "policy": {
+    "path": "quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json",
+    "version": "1.0.0",
+    "blob_sha": "695ea7237e428d7123d5ea0044fac730b0bcb356"
+  },
+  "validation": {
+    "workflow": "Validate Workflow Learning Loop v1",
+    "workflow_path": ".github/workflows/validate-learning-loop-v1.yml",
+    "run_id": 33763075386,
+    "run_number": 1,
+    "commit_sha": "2b2667ef634ce06b6c98043e821e92f35b1cb829",
+    "event": "push",
+    "result": "PASS"
+  },
+  "governance": {
+    "automatic_promotion": false,
+    "automatic_wave_execution": false,
+    "overwrite_observed_versions": false,
+    "predecessor_evidence_inheritance": false,
+    "next_permitted_step": "ONE_AUTHORIZED_LOW_RISK_CANARY_THEN_HUMAN_REVIEW"
+  },
+  "truth": {
+    "external_model_calls_created_by_freeze": 0,
+    "behavioral_observations": 0,
+    "real_customer_outcomes": 0,
+    "real_purchases": 0,
+    "ready_to_sell": false
+  },
+  "current_canary": {
+    "invocation_id": "PM-INV-CHECKLIST-NORMAL-0003",
+    "state": "PREPARED_NOT_EXECUTED",
+    "maximum_calls_before_review": 1
+  },
+  "non_claims": [
+    "STATIC_POLICY_PASS_DOES_NOT_IMPLY_RUNTIME_TESTED",
+    "STATIC_POLICY_PASS_DOES_NOT_IMPLY_IMPROVED",
+    "STATIC_POLICY_PASS_DOES_NOT_IMPLY_CERTIFIED",
+    "STATIC_POLICY_PASS_DOES_NOT_IMPLY_PRODUCT_READY",
+    "STATIC_POLICY_PASS_DOES_NOT_IMPLY_READY_TO_SELL"
+  ]
+}
