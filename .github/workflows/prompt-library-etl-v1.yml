@@ -12,6 +12,8 @@ on:
       - 'tools/test_prompt_architecture_pilot_v1.py'
       - 'tools/build_prompt_architecture_pilot_v2.py'
       - 'tools/test_prompt_architecture_pilot_v2.py'
+      - 'tools/build_prompt_architecture_pilot_v2_1.py'
+      - 'tools/test_prompt_architecture_pilot_v2_1.py'
       - 'docs/PROMPT_LIBRARY_ETL_V1.md'
       - '.github/workflows/prompt-library-etl-v1.yml'
       - '.github/prompt-library-etl-v1-trigger'
@@ -50,21 +52,29 @@ jobs:
           python tools/build_prompt_architecture_pilot_v1.py \
             --output-dir quarry/etl/prompt-library-v1/architecture-pilot
 
-      - name: Run revised architecture pilot v2 tests
+      - name: Run architecture pilot v2 tests
         run: python tools/test_prompt_architecture_pilot_v2.py
 
-      - name: Build revised nine architecture blueprints
+      - name: Build architecture pilot v2 evidence baseline
         run: |
           python tools/build_prompt_architecture_pilot_v2.py \
             --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2
 
-      - name: Enforce architecture pilot v2 truth boundary
+      - name: Run architecture pilot v2.1 regression tests
+        run: python tools/test_prompt_architecture_pilot_v2_1.py
+
+      - name: Build revised nine architecture blueprints v2.1
+        run: |
+          python tools/build_prompt_architecture_pilot_v2_1.py \
+            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.1
+
+      - name: Enforce architecture pilot v2.1 truth boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2')
+          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.1')
           m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
           rows = [
               json.loads(line)
@@ -76,6 +86,7 @@ jobs:
           assert len(rows) == 9, len(rows)
           assert len({row['mode'] for row in rows}) == 9, rows
           assert len({row['prompt_sha256'] for row in rows}) == 9, rows
+          assert m['closed_static_audit_v2_findings'] == ['ARCH-V2-SIM-001', 'ARCH-V2-AUDIT-001', 'ARCH-V2-GEN-001'], m
           assert m['automatic_product_promotions'] == 0, m
           assert m['external_model_calls'] == 0, m
           assert m['behavioral_claims_created'] == 0, m
@@ -83,7 +94,7 @@ jobs:
           assert all(row['state'] == 'STATIC_REVIEW_REQUIRED' for row in rows), rows
           assert all(not row['ready_to_sell'] for row in rows), rows
 
-          print('ARCHITECTURE PILOT V2 TRUTH GATE: PASS')
+          print('ARCHITECTURE PILOT V2.1 TRUTH GATE: PASS')
           PY
 
       - name: Run quality-first ETL on real corpus
@@ -123,9 +134,11 @@ jobs:
           import json
           from pathlib import Path
 
-          m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
-          p1 = json.loads(Path('quarry/etl/prompt-library-v1/architecture-pilot/manifest.json').read_text(encoding='utf-8'))
-          p2 = json.loads(Path('quarry/etl/prompt-library-v1/architecture-pilot-v2/manifest.json').read_text(encoding='utf-8'))
+          root = Path('quarry/etl/prompt-library-v1')
+          m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          p1 = json.loads((root / 'architecture-pilot/manifest.json').read_text(encoding='utf-8'))
+          p2 = json.loads((root / 'architecture-pilot-v2/manifest.json').read_text(encoding='utf-8'))
+          p21 = json.loads((root / 'architecture-pilot-v2.1/manifest.json').read_text(encoding='utf-8'))
           print('## Prompt Library ETL v1')
           print()
           print('| Signal | Observed |')
@@ -133,7 +146,8 @@ jobs:
           print(f"| Premium reconstructions joined | {m['joined_records']} |")
           print(f"| Structural skeletons observed | {m['structural_skeletons']} |")
           print(f"| v1 architecture blueprints | {p1['architecture_count']} |")
-          print(f"| revised v2 architecture blueprints | {p2['architecture_count']} |")
+          print(f"| v2 architecture blueprints | {p2['architecture_count']} |")
+          print(f"| v2.1 architecture blueprints | {p21['architecture_count']} |")
           print(f"| Representative review records | {m['representative_review_records']} |")
           print(f"| Clone-heavy records | {m['clone_heavy_records']} |")
           print(f"| Missing instruction/data boundary in legacy reconstructions | {m['missing_instruction_data_boundary_records']} |")
@@ -144,7 +158,7 @@ jobs:
           print('| Automatic sellable promotions | 0 |')
           print('| External model calls | 0 |')
           print()
-          print('**v2 remains STATIC_REVIEW_REQUIRED. No bulk regeneration occurs in this workflow.**')
+          print('**v2.1 remains STATIC_REVIEW_REQUIRED. No bulk regeneration occurs in this workflow.**')
           PY
 
       - name: Persist ETL evidence only
