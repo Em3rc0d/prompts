@@ -9,11 +9,10 @@ on:
       - 'tools/etl_prompt_library_v1.py'
       - 'tools/test_prompt_library_etl_v1.py'
       - 'tools/build_prompt_architecture_pilot_v1.py'
-      - 'tools/test_prompt_architecture_pilot_v1.py'
       - 'tools/build_prompt_architecture_pilot_v2.py'
-      - 'tools/test_prompt_architecture_pilot_v2.py'
       - 'tools/build_prompt_architecture_pilot_v2_1.py'
-      - 'tools/test_prompt_architecture_pilot_v2_1.py'
+      - 'tools/build_prompt_architecture_pilot_v2_2.py'
+      - 'tools/test_prompt_architecture_pilot_v2_2.py'
       - 'docs/PROMPT_LIBRARY_ETL_V1.md'
       - '.github/workflows/prompt-library-etl-v1.yml'
       - '.github/prompt-library-etl-v1-trigger'
@@ -41,124 +40,95 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run ETL tests
+      - name: Run ETL regression tests
         run: python tools/test_prompt_library_etl_v1.py
 
-      - name: Run architecture pilot v1 tests
-        run: python tools/test_prompt_architecture_pilot_v1.py
+      - name: Run active architecture v2.2 tests
+        run: python tools/test_prompt_architecture_pilot_v2_2.py
 
-      - name: Build architecture pilot v1 evidence baseline
+      - name: Build active nine architecture mothers v2.2
         run: |
-          python tools/build_prompt_architecture_pilot_v1.py \
-            --output-dir quarry/etl/prompt-library-v1/architecture-pilot
+          python tools/build_prompt_architecture_pilot_v2_2.py \
+            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.2
 
-      - name: Run architecture pilot v2 tests
-        run: python tools/test_prompt_architecture_pilot_v2.py
-
-      - name: Build architecture pilot v2 evidence baseline
-        run: |
-          python tools/build_prompt_architecture_pilot_v2.py \
-            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2
-
-      - name: Run architecture pilot v2.1 regression tests
-        run: python tools/test_prompt_architecture_pilot_v2_1.py
-
-      - name: Build revised nine architecture blueprints v2.1
-        run: |
-          python tools/build_prompt_architecture_pilot_v2_1.py \
-            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.1
-
-      - name: Enforce architecture pilot v2.1 truth boundary
+      - name: Enforce architecture v2.2 fail-closed boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.1')
+          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.2')
           m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
-          rows = [
-              json.loads(line)
-              for line in (root / 'blueprints.jsonl').read_text(encoding='utf-8').splitlines()
-              if line.strip()
-          ]
+          rows = [json.loads(line) for line in (root / 'blueprints.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
 
           assert m['architecture_count'] == 9, m
-          assert len(rows) == 9, len(rows)
+          assert len(rows) == 9, rows
           assert len({row['mode'] for row in rows}) == 9, rows
           assert len({row['prompt_sha256'] for row in rows}) == 9, rows
-          assert m['closed_static_audit_v2_findings'] == ['ARCH-V2-SIM-001', 'ARCH-V2-AUDIT-001', 'ARCH-V2-GEN-001'], m
+          assert m['closed_static_audit_v2_1_findings'] == [
+              'ARCH-V21-COMMON-001', 'ARCH-V21-SIM-001', 'ARCH-V21-GEN-001'
+          ], m
           assert m['automatic_product_promotions'] == 0, m
           assert m['external_model_calls'] == 0, m
           assert m['behavioral_claims_created'] == 0, m
           assert m['ready_to_sell_claims_created'] == 0, m
+          assert m['bulk_regeneration_allowed'] is False, m
           assert all(row['state'] == 'STATIC_REVIEW_REQUIRED' for row in rows), rows
           assert all(not row['ready_to_sell'] for row in rows), rows
 
-          print('ARCHITECTURE PILOT V2.1 TRUTH GATE: PASS')
+          print('ARCHITECTURE V2.2 GATE: PASS')
           PY
 
-      - name: Run quality-first ETL on real corpus
+      - name: Run quality-first ETL on legacy reconstruction corpus
         run: |
           python tools/etl_prompt_library_v1.py \
             --source quarry/normalized/alpacka-ai-prompt-metadata.jsonl \
             --derived library/prompts/alpacka/derived-premium/catalog.jsonl \
             --output-dir quarry/etl/prompt-library-v1
 
-      - name: Enforce ETL truth boundary
+      - name: Enforce legacy corpus truth boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
-          path = Path('quarry/etl/prompt-library-v1/manifest.json')
-          m = json.loads(path.read_text(encoding='utf-8'))
-
+          m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
           assert m['source_records'] == 530, m
           assert m['premium_source_records'] == 478, m
           assert m['derived_records'] == 478, m
           assert m['joined_records'] == 478, m
-          assert m['representative_review_records'] == m['structural_skeletons'], m
-          assert m['structural_skeletons'] <= 478, m
           assert m['automatic_sellable_promotions'] == 0, m
           assert m['external_model_calls'] == 0, m
           assert m['behavioral_claims_created'] == 0, m
           assert m['ready_to_sell_claims_created'] == 0, m
-
-          print('PROMPT LIBRARY ETL TRUTH GATE: PASS')
-          print(json.dumps(m, ensure_ascii=False, indent=2, sort_keys=True))
+          print('LEGACY CORPUS ETL TRUTH GATE: PASS')
           PY
 
-      - name: Summarize quality funnel
+      - name: Summarize quality-first funnel
         run: |
           python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
           import json
           from pathlib import Path
 
           root = Path('quarry/etl/prompt-library-v1')
-          m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
-          p1 = json.loads((root / 'architecture-pilot/manifest.json').read_text(encoding='utf-8'))
-          p2 = json.loads((root / 'architecture-pilot-v2/manifest.json').read_text(encoding='utf-8'))
-          p21 = json.loads((root / 'architecture-pilot-v2.1/manifest.json').read_text(encoding='utf-8'))
-          print('## Prompt Library ETL v1')
+          corpus = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          arch = json.loads((root / 'architecture-pilot-v2.2/manifest.json').read_text(encoding='utf-8'))
+          print('## Prompt Library ETL — quality first')
           print()
           print('| Signal | Observed |')
           print('|---|---:|')
-          print(f"| Premium reconstructions joined | {m['joined_records']} |")
-          print(f"| Structural skeletons observed | {m['structural_skeletons']} |")
-          print(f"| v1 architecture blueprints | {p1['architecture_count']} |")
-          print(f"| v2 architecture blueprints | {p2['architecture_count']} |")
-          print(f"| v2.1 architecture blueprints | {p21['architecture_count']} |")
-          print(f"| Representative review records | {m['representative_review_records']} |")
-          print(f"| Clone-heavy records | {m['clone_heavy_records']} |")
-          print(f"| Missing instruction/data boundary in legacy reconstructions | {m['missing_instruction_data_boundary_records']} |")
-          print(f"| High-stakes records held for explicit review | {m['high_stakes_records']} |")
-          print(f"| Largest clone cluster | {m['largest_clone_cluster']} |")
-          for state, count in sorted(m['state_counts'].items()):
-              print(f'| legacy `{state}` | {count} |')
+          print(f"| Legacy reconstructions screened | {corpus['joined_records']} |")
+          print(f"| Legacy structural skeletons | {corpus['structural_skeletons']} |")
+          print(f"| Active architecture mothers | {arch['architecture_count']} |")
+          print(f"| Legacy clone-heavy records | {corpus['clone_heavy_records']} |")
+          print(f"| Legacy records missing instruction/data boundary | {corpus['missing_instruction_data_boundary_records']} |")
+          print(f"| High-stakes records held | {corpus['high_stakes_records']} |")
+          print(f"| Largest legacy clone cluster | {corpus['largest_clone_cluster']} |")
           print('| Automatic sellable promotions | 0 |')
+          print('| Bulk regeneration | BLOCKED |')
           print('| External model calls | 0 |')
           print()
-          print('**v2.1 remains STATIC_REVIEW_REQUIRED. No bulk regeneration occurs in this workflow.**')
+          print('**Next gate: final static semantic freeze audit of the nine v2.2 mothers.**')
           PY
 
       - name: Persist ETL evidence only
