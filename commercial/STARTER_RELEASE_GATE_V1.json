@@ -38,6 +38,8 @@
     "starter_signed_webhook_adapters_present": 1,
     "provider_preflight_static_passes": 1,
     "provider_receipt_schema_static_passes": 1,
+    "execution_decision_governance_static_passes": 1,
+    "release_dag_static_passes": 1,
     "provider_provisioning_receipts_observed": 0,
     "provider_custody_observations": 0,
     "delivery_receipts_observed": 0,
@@ -161,11 +163,37 @@
     "provisioning_receipt_schema": "commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json",
     "custody_receipt_schema": "commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json",
     "delivery_receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+    "failure_receipt_schema": "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json",
     "actual_provisioning_receipts": 0,
     "actual_custody_receipts": 0,
     "actual_delivery_receipts": 0,
+    "actual_failure_receipts": 0,
     "provider_calls_created": 0,
     "model_calls_created": 0
+  },
+  "execution_decision_freeze": {
+    "receipt": "commercial/STARTER_EXECUTION_DECISION_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-EXECUTION-DECISION-FREEZE-V1-0001",
+    "state": "STATIC_EXECUTION_DECISION_GOVERNANCE_PASS_REAL_EXECUTION_UNAUTHORIZED",
+    "validation_run_id": 33811089084,
+    "validation_conclusion": "success",
+    "provider_integration_decision": "commercial/STARTER_PROVIDER_INTEGRATION_DECISION_V1.json",
+    "runtime_trust_update_protocol": "commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json",
+    "provider_failure_receipt_schema": "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json",
+    "model_execution_authorized_now": false,
+    "provider_execution_authorized_now": false
+  },
+  "release_dag_freeze": {
+    "receipt": "commercial/STARTER_RELEASE_DAG_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-RELEASE-DAG-FREEZE-V1-0001",
+    "state": "STATIC_RELEASE_DAG_PASS_TWO_REAL_EVIDENCE_FRONTIERS",
+    "validation_run_id": 33811290994,
+    "validation_conclusion": "success",
+    "nodes": 20,
+    "cycles": 0,
+    "closed_or_intentionally_deferred_nodes": 12,
+    "open_real_evidence_frontiers": 2,
+    "continue_zero_evidence_architecture_by_default": false
   },
   "provider_custody": {
     "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
@@ -200,6 +228,8 @@
     "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "provider_preflight": "PASS_STATIC_DISARMED",
     "provider_receipt_schemas": "PASS_STATIC_EXTERNAL_EVIDENCE_UNOBSERVED",
+    "execution_decision_governance": "PASS_STATIC_REAL_EXECUTION_UNAUTHORIZED",
+    "release_evidence_dag": "PASS_STATIC_TWO_REAL_EVIDENCE_FRONTIERS",
     "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
     "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
     "live_delivery_preflight": "PASS_STATIC_PREPARED_DISARMED",
@@ -229,6 +259,8 @@
     "static_provider_integration_prep_implies_provider_integration_pass": false,
     "provider_preflight_pass_implies_side_effect_authorization": false,
     "provider_receipt_schema_pass_implies_external_provider_evidence": false,
+    "execution_decision_freeze_implies_runtime_or_provider_evidence": false,
+    "release_dag_pass_implies_downstream_evidence": false,
     "offline_provider_simulation_implies_provider_custody": false,
     "provider_custody_contract_implies_provider_custody": false,
     "architecture_observations_imply_starter_sku_evidence": false,
@@ -246,15 +278,29 @@
     "historical_developer_pack_checkout_code_may_exist": true,
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
+  "launch_critical_static_stop_line": {
+    "state": "REACHED",
+    "additional_zero_evidence_architecture_required_before_frontier": false,
+    "model_frontier": {
+      "node": "N09_STARTER_RUNTIME_EVIDENCE",
+      "authorized_now": false,
+      "smallest_experiment": "ONE PM-STARTER-CR-NORMAL-0001 EXECUTION THEN HUMAN REVIEW"
+    },
+    "provider_frontier": {
+      "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
+      "authorized_now": false,
+      "smallest_experiment": "ONE CONTROLLED PROVIDER CUSTODY ATTEMPT THEN HUMAN REVIEW"
+    },
+    "automatic_frontier_selection": false
+  },
   "next_zero_model_work": [
-    "freeze the exact decision rule for when observed provisioning plus custody plus signed provider behavior qualifies PROVIDER_INTEGRATION_PASS",
-    "define provider experiment failure receipts and retry policy without enabling execution",
-    "freeze the Trust History update transaction for the first Starter runtime observation",
-    "keep public copy audit stale-on-change after any new evidence or customer-facing claim"
+    "non-launch maintenance only unless it closes a newly discovered material risk",
+    "keep public copy audit stale-on-change after any new evidence or customer-facing claim",
+    "keep frozen Trust History and provider evidence protocols synchronized if upstream contracts materially change"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "The shared-plan reserve policy remains in force. Exact Starter-specific runtime envelopes and out-of-band evaluations are frozen, so the next inference spend can directly buy SKU behavioral evidence.",
+    "reason": "The launch-critical static dependency graph is closed to the real-evidence frontier. The next model spend should buy one Starter SKU observation rather than more architecture.",
     "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001",
     "maximum_submissions_before_human_review": 1,
     "automatic_wave": false,
