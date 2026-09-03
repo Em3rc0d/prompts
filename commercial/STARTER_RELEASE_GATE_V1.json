@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -15,6 +15,9 @@
     "architecture_blocking_review_failures": 0,
     "starter_workflow_contracts_frozen": 2,
     "starter_executable_prompt_surfaces_frozen": 2,
+    "starter_required_customer_assets_present": 9,
+    "starter_required_customer_assets_total": 9,
+    "starter_reproducible_archive_builds_observed": 1,
     "starter_sku_workflow_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
     "real_customer_outcomes": 0,
@@ -31,42 +34,62 @@
       "review-code-with-evidence",
       "diagnose-bugs-with-evidence"
     ],
-    "customer_surfaces": [
-      "START_HERE",
-      "task_chooser",
-      "worked_examples",
-      "verification_guidance",
-      "adaptation_cheatsheet",
-      "evidence_and_limitations"
+    "required_customer_assets": 9,
+    "conditional_assets": [
+      "review-code-with-evidence skill",
+      "diagnose-bugs-with-evidence skill",
+      "code-review workflow Trust Card",
+      "bug-diagnosis workflow Trust Card"
     ]
   },
   "contract_freeze": {
     "receipt": "product/starter-collection-v1/CONTRACT_FREEZE_V1.json",
     "state": "STATIC_CONTRACT_FREEZE_PASS",
-    "contracts": [
-      "product/starter-collection-v1/contracts/code-review.workflow-contract.json",
-      "product/starter-collection-v1/contracts/bug-diagnosis.workflow-contract.json"
-    ],
     "runtime_evidence_created": 0
   },
   "surface_freeze": {
     "receipt": "product/starter-collection-v1/SURFACE_FREEZE_V1.json",
     "state": "STATIC_SURFACE_CONTRACT_PARITY_PASS",
-    "surfaces": [
-      "product/starter-collection-v1/workflows/evidence-first-code-review.md",
-      "product/starter-collection-v1/workflows/evidence-first-bug-diagnosis.md"
-    ],
     "runtime_evidence_created": 0
+  },
+  "payload_freeze": {
+    "receipt": "product/starter-collection-v1/PAYLOAD_FREEZE_V1.json",
+    "state": "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT",
+    "historical_snapshot": true,
+    "required_assets": "9/9"
+  },
+  "archive_build": {
+    "receipt": "product/starter-collection-v1/ARCHIVE_BUILD_RECEIPT_V1.json",
+    "state": "DETERMINISTIC_ARCHIVE_BUILD_PASS",
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "canonical_build_source_commit": "167faad0758b3e746b48ac7c898f876525d30ee3",
+    "provider_custody_created": false,
+    "delivery_evidence_created": false
+  },
+  "activation": {
+    "contract": "commercial/STARTER_ACTIVATION_EVIDENCE_V1.json",
+    "state": "DESIGNED_NOT_LIVE",
+    "activated_users": 0
+  },
+  "workflow_trust_history": {
+    "code_review_context": "product/starter-collection-v1/trust/code-review.trust-context.json",
+    "bug_diagnosis_context": "product/starter-collection-v1/trust/bug-diagnosis.trust-context.json",
+    "contexts_seeded": 2,
+    "runtime_events": 0,
+    "public_cards": 0
   },
   "gates": {
     "current_product_truth": "PASS",
     "final_starter_workflow_contracts": "PASS_STATIC_ONLY",
     "final_executable_starter_prompt_surfaces": "PASS_STATIC_ONLY",
+    "required_customer_payload": "PASS_STATIC_9_OF_9",
+    "deterministic_starter_artifact": "PASS_PACKAGING_ONLY",
     "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
-    "customer_surfaces": "PARTIAL",
-    "workflow_level_trust_cards": "NOT_READY",
-    "deterministic_starter_artifact": "NOT_BUILT",
+    "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
+    "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
     "provider_test_custody": "NOT_STARTED",
     "provider_integration": "NOT_STARTED_FOR_STARTER",
     "live_delivery_canary": "NOT_STARTED",
@@ -76,7 +99,7 @@
   },
   "launch_requirements": {
     "STARTER_PRODUCT_READY": false,
-    "DETERMINISTIC_STARTER_ARCHIVE": false,
+    "DETERMINISTIC_STARTER_ARCHIVE": true,
     "PROVIDER_CUSTODY": false,
     "PROVIDER_INTEGRATION": false,
     "LIVE_DELIVERY_CANARY": false,
@@ -85,6 +108,9 @@
   "boundaries": {
     "contract_freeze_implies_runtime_evidence": false,
     "surface_freeze_implies_runtime_evidence": false,
+    "payload_complete_implies_product_ready": false,
+    "archive_build_implies_provider_custody": false,
+    "archive_build_implies_delivery": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
     "skill_candidate_implies_supported_skill": false,
@@ -100,16 +126,18 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "build_START_HERE_and_task_chooser",
-    "prepare_starter_artifact_layout_without_archive_claim",
-    "prepare_starter_activation_evidence_contract",
-    "prepare_workflow_level_trust_card_inputs",
-    "prepare_worked_examples_as_synthetic_labeled_fixtures"
+    "prepare_exact_starter_specific_runtime_canary_packets_without_executing_them",
+    "define_starter_behavioral_review_contracts_before_runtime",
+    "design_starter_provider_custody_contract_without_creating_live_checkout",
+    "prepare_public_copy_evidence_audit_checklist",
+    "decide_skill_launch_scope_based_on_cost_of_required_skill_evidence"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "Manual architecture campaign remains paused under the configured five-hour usage reserve policy. Starter contracts and executable prompt surfaces are now statically frozen, so future spend can target Starter-specific behavior rather than prompt drafting.",
-    "when_reopened": "Use the smallest Starter-specific behavioral observation capable of changing the release decision; no automatic wave or retry."
+    "reason": "The shared-plan reserve policy remains in force. Packaging is now deterministic, so the next inference spend should buy Starter-specific behavioral evidence rather than more architecture evidence.",
+    "preferred_first_case_when_reopened": "ONE_LOW_RISK_STARTER_WORKFLOW_NORMAL_CANARY_THEN_HUMAN_REVIEW",
+    "automatic_wave": false,
+    "automatic_retries": 0
   },
   "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
 }
