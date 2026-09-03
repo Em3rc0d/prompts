@@ -11,6 +11,10 @@ FREE_ROUTE = WEB / "app" / "api" / "free-pack" / "v1" / "route.ts"
 CHECKOUT_ROUTE = WEB / "app" / "api" / "commerce" / "developer-pack" / "checkout" / "route.ts"
 WEBHOOK_ROUTE = WEB / "app" / "api" / "commerce" / "lemonsqueezy" / "webhook" / "route.ts"
 LEMON = WEB / "lib" / "lemonsqueezy.ts"
+STARTER_IDENTITY = ROOT / "product" / "starter-collection-v1" / "PRODUCT_IDENTITY_V1.json"
+
+CANONICAL_STARTER_PRODUCT_ID = "prompt-machine-starter-collection"
+LEGACY_STARTER_PRODUCT_ID = "pq-developer-starter-collection"
 
 
 def fail(message: str) -> None:
@@ -18,7 +22,7 @@ def fail(message: str) -> None:
 
 
 def main() -> None:
-    paths = (TRACKER, LINK, INTENT_ROUTE, FREE_ROUTE, CHECKOUT_ROUTE, WEBHOOK_ROUTE, LEMON)
+    paths = (TRACKER, LINK, INTENT_ROUTE, FREE_ROUTE, CHECKOUT_ROUTE, WEBHOOK_ROUTE, LEMON, STARTER_IDENTITY)
     for path in paths:
         if not path.is_file():
             fail(f"missing analytics surface: {path.relative_to(ROOT)}")
@@ -30,6 +34,7 @@ def main() -> None:
     checkout_route = CHECKOUT_ROUTE.read_text(encoding="utf-8")
     webhook_route = WEBHOOK_ROUTE.read_text(encoding="utf-8")
     lemon = LEMON.read_text(encoding="utf-8")
+    identity = STARTER_IDENTITY.read_text(encoding="utf-8")
 
     event_contract = {
         "landing_view": tracker,
@@ -52,7 +57,8 @@ def main() -> None:
         'credentials: "same-origin"',
         "keepalive: true",
         'path.startsWith("/starter-collection")',
-        'product_id: "pq-developer-starter-collection"',
+        f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
+        'product_version: "1.0.0-candidate"',
     ):
         if token not in tracker:
             fail(f"client intent forwarding contract missing: {token}")
@@ -61,10 +67,18 @@ def main() -> None:
         'kind: "free" | "starter" | "paid"',
         'event: "starter_cta_clicked"',
         '"/starter-collection"',
-        'product_id: "pq-developer-starter-collection"',
+        f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
+        'product_version: "1.0.0-candidate"',
     ):
         if token not in link:
             fail(f"Starter commerce-intent contract missing: {token}")
+
+    if LEGACY_STARTER_PRODUCT_ID in tracker or LEGACY_STARTER_PRODUCT_ID in link:
+        fail("new Starter client intent still emits legacy product identity")
+    if f'"product_id": "{LEGACY_STARTER_PRODUCT_ID}"' not in identity:
+        fail("legacy Starter product identity is not preserved in the explicit identity contract")
+    if '"new_analytics_events_use_canonical_id": true' not in identity:
+        fail("Starter identity contract does not require canonical ids for new analytics")
 
     for token in (
         "PM_INTENT_EVENT",
@@ -134,6 +148,7 @@ def main() -> None:
     print("intent_evidence=UNTRUSTED_CLIENT_INTENT")
     print("events=landing_view,free_cta_clicked,free_pack_acquired,starter_product_viewed,starter_cta_clicked,paid_product_viewed,paid_cta_clicked,checkout_started,purchase_completed")
     print("free_acquisition=server delivery after archive integrity verification")
+    print(f"starter_identity={CANONICAL_STARTER_PRODUCT_ID}; legacy alias historical only")
     print("starter=$9 intent only; no client purchase evidence")
     print("purchase=provider-signed paid order only")
     print("attribution=source/medium/campaign/content")
