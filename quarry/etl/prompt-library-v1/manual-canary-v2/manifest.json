@@ -16,12 +16,14 @@
     "PASS"
   ],
   "maximum_manual_submissions": 1,
+  "manual_submissions_used": 1,
   "automatic_retries": 0,
   "second_submission_authorized": false,
-  "response_capture": "VERBATIM_REQUIRED",
+  "response_capture": "VERBATIM_CAPTURED",
+  "response_capture_path": "assistant-response.verbatim.md",
   "human_review_required": true,
   "automatic_promotion": false,
-  "behavioral_observations": 0,
+  "behavioral_observations": 1,
   "promotion_claim": "NONE",
   "ready_to_sell": false,
   "baseline_usage": {
@@ -29,5 +31,11 @@
     "weekly_remaining_percent": 45,
     "recorded_on": "2026-09-03"
   },
-  "state": "PREPARED_FOR_ONE_MANUAL_WORK_SUBMISSION"
+  "observed_usage": {
+    "five_hour_remaining_percent": 80,
+    "weekly_remaining_percent": 44,
+    "recorded_on": "2026-09-03"
+  },
+  "decision": "EXPAND_EVIDENCE",
+  "state": "OBSERVED_AWAITING_INDEPENDENT_REPLICATION"
 }
