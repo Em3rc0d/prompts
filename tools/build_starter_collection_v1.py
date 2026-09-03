@@ -27,6 +27,11 @@ ARCHIVE_ROOT = "prompt-machine-starter-collection-v1"
 FIXED_TIMESTAMP = (2026, 9, 3, 0, 0, 0)
 FILE_MODE = 0o100644 << 16
 
+ALLOWED_LAYOUT_STATES = {
+    "REQUIRED_CUSTOMER_PAYLOAD_PRESENT_ARCHIVE_NOT_BUILT",
+    "DETERMINISTIC_ARCHIVE_BUILD_OBSERVED",
+}
+
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -39,7 +44,7 @@ def load_layout() -> dict:
 def build(output_dir: Path) -> tuple[Path, dict]:
     layout = load_layout()
     assert layout["schema"] == "prompt-machine-starter-artifact-layout-v1"
-    assert layout["artifact_state"] == "REQUIRED_CUSTOMER_PAYLOAD_PRESENT_ARCHIVE_NOT_BUILT"
+    assert layout["artifact_state"] in ALLOWED_LAYOUT_STATES
 
     assets = sorted(item["path"] for item in layout["customer_visible_assets"])
     assert len(assets) == 9
@@ -71,18 +76,34 @@ def build(output_dir: Path) -> tuple[Path, dict]:
             })
 
     archive_bytes = archive_path.read_bytes()
+    archive_hash = sha256_bytes(archive_bytes)
+    archive_size = len(archive_bytes)
+
+    canonical = layout["archive_identity"]
+    if canonical.get("state") == "REPRODUCIBLE_BUILD_OBSERVED":
+        assert canonical["filename"] == ARCHIVE_NAME
+        assert canonical["sha256"] == archive_hash, (
+            f"archive drift: expected {canonical['sha256']} observed {archive_hash}"
+        )
+        assert canonical["size_bytes"] == archive_size
+
     manifest = {
         "schema": "prompt-machine-starter-archive-build-v1",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "product_id": "prompt-machine-starter-collection",
         "archive_name": ARCHIVE_NAME,
         "archive_format": "ZIP_STORED_FIXED_METADATA",
         "archive_root": ARCHIVE_ROOT,
         "required_customer_assets": len(entries),
         "entries": entries,
-        "archive_size_bytes": len(archive_bytes),
-        "archive_sha256": sha256_bytes(archive_bytes),
+        "archive_size_bytes": archive_size,
+        "archive_sha256": archive_hash,
         "source_commit": os.environ.get("GITHUB_SHA", "UNKNOWN_LOCAL_BUILD"),
+        "canonical_archive_match": (
+            canonical.get("state") == "REPRODUCIBLE_BUILD_OBSERVED"
+            and canonical.get("sha256") == archive_hash
+            and canonical.get("size_bytes") == archive_size
+        ),
         "evidence_boundary": {
             "archive_build_is_runtime_evidence": False,
             "archive_build_is_provider_custody": False,
@@ -133,6 +154,7 @@ def main() -> int:
     print(f"archive_size_bytes={manifest['archive_size_bytes']}")
     print(f"archive_sha256={manifest['archive_sha256']}")
     print(f"source_commit={manifest['source_commit']}")
+    print(f"canonical_archive_match={str(manifest['canonical_archive_match']).lower()}")
     print("reproducible_check=" + ("PASS" if args.verify_reproducible else "NOT_REQUESTED"))
     print("model_calls=0")
     print("provider_calls=0")
