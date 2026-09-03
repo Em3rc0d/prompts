@@ -1,6 +1,7 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
   "version": "1.0.7",
+  "checkpoint_revision": "skill-scope-and-provider-preflight-20260903",
   "recorded_on": "2026-09-03",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -24,11 +25,18 @@
     "starter_canary_cases_armed": 0,
     "starter_sku_workflow_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
+    "starter_supported_skills": 0,
+    "starter_structural_skill_candidates": 2,
+    "starter_skills_in_current_archive": 0,
     "public_copy_audit_passes": 1,
     "public_copy_material_failures_found_before_fix": 3,
     "public_copy_material_failures_open": 0,
+    "public_copy_additional_scope_ambiguities_found_and_fixed": 3,
+    "public_copy_reaudits_after_scope_change": 1,
+    "public_copy_total_successful_retests": 2,
     "provider_integration_static_preparation_passes": 1,
     "starter_signed_webhook_adapters_present": 1,
+    "provider_preflight_static_passes": 1,
     "provider_custody_observations": 0,
     "real_customer_outcomes": 0,
     "real_purchases": 0,
@@ -44,13 +52,28 @@
       "review-code-with-evidence",
       "diagnose-bugs-with-evidence"
     ],
+    "supported_skills_in_v1": [],
     "required_customer_assets": 9,
     "conditional_assets": [
-      "review-code-with-evidence skill",
-      "diagnose-bugs-with-evidence skill",
       "code-review workflow Trust Card",
       "bug-diagnosis workflow Trust Card"
+    ],
+    "deferred_non_launch_candidates": [
+      "review-code-with-evidence skill",
+      "diagnose-bugs-with-evidence skill"
     ]
+  },
+  "skill_launch_scope": {
+    "contract": "commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json",
+    "state": "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN",
+    "starter_v1_launch_value_is_workflow_led": true,
+    "supported_skills": 0,
+    "structural_candidates": 2,
+    "skills_in_current_archive": 0,
+    "skills_are_launch_blocking": false,
+    "material_semantic_drift_observed": 2,
+    "workflow_runtime_evidence_counts_as_skill_evidence": false,
+    "future_skill_addition_requires_new_governed_artifact_version": true
   },
   "contract_freeze": {
     "receipt": "product/starter-collection-v1/CONTRACT_FREEZE_V1.json",
@@ -94,9 +117,11 @@
     "receipt": "commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json",
     "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "initial_material_findings": 3,
+    "additional_skill_scope_findings": 3,
     "open_material_findings": 0,
-    "retest_run_id": 33799072926,
-    "audited_commit": "ba157d7fb364e9f18bf9bd0bbaa4b737a6010751",
+    "historical_initial_retest_run_id": 33799072926,
+    "current_retest_run_id": 33805620505,
+    "current_audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
     "stale_on_material_copy_or_evidence_change": true
   },
   "provider_integration_preparation": {
@@ -110,6 +135,19 @@
     "provider_calls_created": 0,
     "model_calls_created": 0,
     "provider_integration_pass": false
+  },
+  "provider_preflight_freeze": {
+    "receipt": "commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-PROVIDER-PREFLIGHT-FREEZE-V1-0001",
+    "state": "STATIC_PROVIDER_EXECUTION_PRECONDITIONS_PASS_DISARMED",
+    "validation_run_id": 33804846142,
+    "validation_conclusion": "success",
+    "custody_packet_armed": false,
+    "delivery_canary_armed": false,
+    "maximum_live_transactions": 1,
+    "automatic_retries": 0,
+    "provider_calls_created": 0,
+    "model_calls_created": 0
   },
   "provider_custody": {
     "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
@@ -138,12 +176,14 @@
     "starter_specific_behavioral_canary_readiness": "PASS_STATIC_PREPARED_DISARMED",
     "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
+    "starter_skill_launch_scope": "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
     "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "provider_preflight": "PASS_STATIC_DISARMED",
     "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
     "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
-    "live_delivery_canary": "NOT_STARTED",
+    "live_delivery_canary": "PREPARED_DISARMED_NOT_EXECUTED",
     "public_checkout": "BLOCKED",
     "pq_dollar_one": "NOT_OBSERVED"
   },
@@ -167,11 +207,13 @@
     "public_copy_audit_pass_implies_public_sale_authorized": false,
     "signed_webhook_adapter_present_implies_provider_event_observed": false,
     "static_provider_integration_prep_implies_provider_integration_pass": false,
+    "provider_preflight_pass_implies_side_effect_authorization": false,
     "offline_provider_simulation_implies_provider_custody": false,
     "provider_custody_contract_implies_provider_custody": false,
     "architecture_observations_imply_starter_sku_evidence": false,
     "scope_frozen_implies_product_ready": false,
     "skill_candidate_implies_supported_skill": false,
+    "workflow_evidence_implies_skill_evidence": false,
     "provider_test_implies_revenue": false,
     "live_canary_implies_public_revenue": false,
     "runtime_pass_implies_certification": false,
@@ -184,10 +226,10 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "next_zero_model_work": [
-    "define controlled Starter provider provisioning receipt and exact custody execution packet without running it",
-    "define live delivery canary receipt and failure semantics before provider execution",
-    "decide skill launch scope based on cost of required skill evidence",
-    "keep workflow trust histories ready for first runtime observation"
+    "define a non-secret provider provisioning observation receipt before any Lemon Squeezy side effect",
+    "define the provider custody result receipt that records exact retrieved bytes without customer PII",
+    "keep workflow Trust Histories ready for the first Starter runtime observation",
+    "keep public copy audit stale-on-change after any new evidence or customer-facing claim"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
