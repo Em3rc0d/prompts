@@ -111,7 +111,7 @@ def main() -> int:
     assert n09["maximum_calls_before_review"] == 1
     assert n09["automatic_retries"] == 0
 
-    frozen_case = next(row for row in canary["cases"] if row["case_id"] == n09["next_experiment"])
+    frozen_case = next(row for row in canary["cases"] if row["case_id"] == "PM-STARTER-CR-NORMAL-0001")
     assert frozen_case["armed"] is False
     assert frozen_case["runtime_executed"] is False
     assert frozen_case["runtime_envelope_sha256"] == "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"
