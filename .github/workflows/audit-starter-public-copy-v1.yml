@@ -49,8 +49,14 @@ jobs:
           | Product identity | PROMPT MACHINE |
           | Starter price | $9 HYPOTHESIS |
           | Starter checkout | OFF / NO ROUTE |
-          | Starter runtime observations | 0 |
+          | Starter runtime observations | 1 |
+          | Clean independent runtime observations | 0 |
+          | Effective runtime PASS / FAIL / INCONCLUSIVE | 0 / 0 / 1 |
+          | Runtime classification | INCONCLUSIVE_PROTOCOL_CONTAMINATION |
+          | Historical FAIL / REWORK artifact | PRESERVED / NOT EFFECTIVE WORKFLOW FAIL |
+          | Same frozen candidate clean retest | REQUIRED / DISARMED |
           | Deterministic packaging claim | SCOPED / ALLOWED |
+          | Supported Starter skills | 0 |
           | Unsupported tested/certified/customer claims | ABSENT |
           | License stale Prompt Quarry purchase wording | ABSENT AFTER FIX |
           | Final audit state | PASS_CURRENT_EVIDENCE_BOUNDARY |
