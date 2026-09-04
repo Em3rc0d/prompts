@@ -1,8 +1,8 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.7",
-  "checkpoint_revision": "skill-scope-and-provider-preflight-20260903",
-  "recorded_on": "2026-09-03",
+  "version": "1.0.8",
+  "checkpoint_revision": "first-starter-runtime-failure-20260904",
+  "recorded_on": "2026-09-04",
   "product": {
     "product_id": "prompt-machine-starter-collection",
     "price_hypothesis_usd": 9,
@@ -23,7 +23,7 @@
     "starter_evaluation_contracts_frozen": 4,
     "starter_exact_runtime_envelopes_frozen": 4,
     "starter_canary_cases_armed": 0,
-    "starter_sku_workflow_runtime_observations": 0,
+    "starter_sku_workflow_runtime_observations": 1,
     "starter_skill_behavioral_observations": 0,
     "starter_supported_skills": 0,
     "starter_structural_skill_candidates": 2,
@@ -46,7 +46,10 @@
     "real_customer_outcomes": 0,
     "real_purchases": 0,
     "public_checkout_enabled": false,
-    "ready_to_sell": false
+    "ready_to_sell": false,
+    "starter_sku_workflow_runtime_passes": 0,
+    "starter_sku_workflow_runtime_fails": 1,
+    "starter_sku_workflow_runtime_inconclusive": 0
   },
   "scope": {
     "workflows": [
@@ -109,25 +112,29 @@
   "starter_behavioral_canary_freeze": {
     "plan": "product/starter-collection-v1/evaluation/STARTER_CANARY_PLAN_V1.json",
     "receipt": "product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json",
-    "state": "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED",
+    "state": "ONE_RUNTIME_OBSERVATION_REVIEWED_FAIL_REWORK_REQUIRED",
     "prepared_cases": 4,
     "out_of_band_evaluation_contracts": 4,
     "exact_runtime_envelopes": 4,
     "armed_cases": 0,
-    "runtime_observations": 0,
-    "first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001"
+    "runtime_observations": 1,
+    "first_case_when_reopened": "SUCCESSOR_REWORK_REQUIRED_BEFORE_ANY_NEW_RUNTIME",
+    "runtime_passes": 0,
+    "runtime_fails": 1,
+    "runtime_inconclusive": 0
   },
   "public_copy_audit": {
     "contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
     "receipt": "commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json",
-    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "state": "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE",
     "initial_material_findings": 3,
     "additional_skill_scope_findings": 3,
     "open_material_findings": 0,
     "historical_initial_retest_run_id": 33799072926,
     "current_retest_run_id": 33805620505,
     "current_audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
-    "stale_on_material_copy_or_evidence_change": true
+    "stale_on_material_copy_or_evidence_change": true,
+    "stale_reason": "The audited public evidence boundary predates the first Starter runtime observation and reviewed failure."
   },
   "provider_integration_preparation": {
     "receipt": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
@@ -210,8 +217,11 @@
     "code_review_context": "product/starter-collection-v1/trust/code-review.trust-context.json",
     "bug_diagnosis_context": "product/starter-collection-v1/trust/bug-diagnosis.trust-context.json",
     "contexts_seeded": 2,
-    "runtime_events": 0,
-    "public_cards": 0
+    "runtime_events": 1,
+    "public_cards": 0,
+    "reviewed_passes": 0,
+    "reviewed_fails": 1,
+    "reviewed_inconclusive": 0
   },
   "gates": {
     "current_product_truth": "PASS",
@@ -220,12 +230,12 @@
     "required_customer_payload": "PASS_STATIC_9_OF_9",
     "deterministic_starter_artifact": "PASS_PACKAGING_ONLY",
     "starter_specific_behavioral_canary_readiness": "PASS_STATIC_PREPARED_DISARMED",
-    "starter_specific_behavioral_evidence": "OPEN_ZERO_OBSERVATIONS",
+    "starter_specific_behavioral_evidence": "OBSERVED_ONE_FAIL_REWORK_REQUIRED",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_launch_scope": "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
-    "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "public_copy_evidence_audit": "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE",
     "provider_preflight": "PASS_STATIC_DISARMED",
     "provider_receipt_schemas": "PASS_STATIC_EXTERNAL_EVIDENCE_UNOBSERVED",
     "execution_decision_governance": "PASS_STATIC_REAL_EXECUTION_UNAUTHORIZED",
@@ -279,12 +289,13 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "launch_critical_static_stop_line": {
-    "state": "REACHED",
+    "state": "RUNTIME_FRONTIER_OBSERVED_FAIL_REWORK_REQUIRED",
     "additional_zero_evidence_architecture_required_before_frontier": false,
     "model_frontier": {
       "node": "N09_STARTER_RUNTIME_EVIDENCE",
       "authorized_now": false,
-      "smallest_experiment": "ONE PM-STARTER-CR-NORMAL-0001 EXECUTION THEN HUMAN REVIEW"
+      "current_result": "ONE_OBSERVATION_REVIEWED_FAIL",
+      "next_step": "CREATE_NEW_SUCCESSOR_VERSION_AND_RETEST_ONLY_AFTER_FRESH_AUTHORIZATION"
     },
     "provider_frontier": {
       "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
@@ -294,14 +305,15 @@
     "automatic_frontier_selection": false
   },
   "next_zero_model_work": [
-    "non-launch maintenance only unless it closes a newly discovered material risk",
-    "keep public copy audit stale-on-change after any new evidence or customer-facing claim",
-    "keep frozen Trust History and provider evidence protocols synchronized if upstream contracts materially change"
+    "create a new successor version of the code-review workflow that caps unobserved upstream authorization concerns at LIKELY / REVIEW_REQUIRED",
+    "add the route-level authorization guard regression case",
+    "update validators and rebuild a governed successor artifact without rewriting the observed candidate",
+    "reaudit public copy because the zero-runtime-observation statement is now stale"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "The launch-critical static dependency graph is closed to the real-evidence frontier. The next model spend should buy one Starter SKU observation rather than more architecture.",
-    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001",
+    "reason": "The only authorized Starter canary completed and failed human review. No further model execution is permitted until a successor is frozen and separately authorized.",
+    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001 against a new successor workflow version",
     "maximum_submissions_before_human_review": 1,
     "automatic_wave": false,
     "automatic_retries": 0,
