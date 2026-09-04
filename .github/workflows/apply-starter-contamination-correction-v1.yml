@@ -35,6 +35,9 @@ jobs:
       - name: Patch validators for corrected effective state
         run: python tools/patch_starter_contamination_validators_v1.py
 
+      - name: Patch execution-decision validator
+        run: python tools/patch_starter_execution_decisions_for_contamination_v1.py
+
       - name: Validate corrected release gate
         run: python tools/validate_starter_release_gate_v1.py
 
