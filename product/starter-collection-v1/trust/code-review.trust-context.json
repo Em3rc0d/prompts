@@ -1,11 +1,11 @@
 {
   "schema": "prompt-machine-workflow-trust-context-v1",
-  "version": "1.0.0",
-  "recorded_on": "2026-09-03",
+  "version": "1.0.1",
+  "recorded_on": "2026-09-04",
   "workflow_id": "pm-starter-evidence-first-code-review",
   "workflow_version": "1.0.0-candidate",
   "intended_job": "Review a supplied software change and surface the smallest set of evidence-backed material risks before a human ship decision.",
-  "current_evidence_state": "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED",
+  "current_evidence_state": "ONE_RUNTIME_OBSERVATION_REVIEWED_FAIL_REWORK_REQUIRED",
   "publication_state": "NOT_PUBLIC_NOT_ELIGIBLE",
   "static_evidence": {
     "contract_path": "product/starter-collection-v1/contracts/code-review.workflow-contract.json",
@@ -17,14 +17,41 @@
     "instruction_data_boundary": "PRESENT"
   },
   "runtime_evidence": {
-    "observations": [],
-    "human_reviews": [],
+    "observations": [
+      {
+        "observation_id": "PM-STARTER-CR-NORMAL-0001-OBS-0001",
+        "receipt": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.observation.json",
+        "raw_output": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.raw-output.md",
+        "execution_status": "COMPLETED"
+      }
+    ],
+    "human_reviews": [
+      {
+        "review_id": "PM-STARTER-CR-NORMAL-0001-HR-0001",
+        "path": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.human-review.json",
+        "result": "FAIL",
+        "decision": "REWORK"
+      }
+    ],
     "passes": 0,
-    "fails": 0,
+    "fails": 1,
     "inconclusive": 0,
-    "regressions": []
+    "regressions": [
+      "PM-STARTER-CR-NORMAL-0001",
+      "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+      "route-level owner/admin guard case"
+    ]
   },
-  "historical_failures": [],
+  "historical_failures": [
+    {
+      "failure_id": "PM-STARTER-CR-NORMAL-0001-FAIL-0001",
+      "path": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.failure.json",
+      "runtime_failure": true,
+      "summary": "The runtime detected the authorization risk but overstated unobserved route-level evidence as CONFIRMED and recommended BLOCK instead of preserving LIKELY / REVIEW_REQUIRED.",
+      "decision": "REWORK",
+      "successor_requires_new_version": true
+    }
+  ],
   "historical_pre_runtime_issues": [
     {
       "issue_class": "STATE_SEMANTICS_NORMALIZATION",
@@ -45,7 +72,7 @@
     "refunds": []
   },
   "known_limitations": [
-    "No Starter-specific runtime observation exists yet.",
+    "The only Starter-specific code-review runtime observation failed human review because evidence uncertainty was overstated.",
     "No adversarial Starter-specific runtime observation exists yet.",
     "No cross-model/provider portability evidence exists.",
     "No real customer task outcome exists.",
@@ -54,21 +81,21 @@
     "The skill candidate has no trigger/forward/parity behavioral evidence."
   ],
   "unknowns": [
-    "Whether the final surface produces the intended states under a bounded normal runtime case.",
+    "Whether a successor surface can preserve LIKELY / REVIEW_REQUIRED when upstream authorization remains unobserved.",
     "Whether task-data embedded override text remains non-authoritative in the final SKU surface.",
     "Whether findings remain evidence-backed under realistic customer code changes.",
     "Whether users can understand and apply the verification guidance.",
     "Whether customers receive enough value to pay or return."
   ],
   "next_evidence": {
-    "preferred_first_case": "ONE_LOW_RISK_STARTER_CODE_REVIEW_NORMAL_CASE",
+    "preferred_first_case": "REWORK_SUCCESSOR_THEN_RETEST_PM-STARTER-CR-NORMAL-0001",
     "automatic_execution": false,
     "automatic_retries": 0,
     "human_review_required": true,
     "armed": false
   },
   "explicit_non_claims": [
-    "NOT_RUNTIME_TESTED_FOR_STARTER_SKU",
+    "NO_RUNTIME_PASS_CLAIM",
     "NOT_CERTIFIED",
     "NOT_PORTABLE",
     "NO_CUSTOMER_VALUE_CLAIM",
