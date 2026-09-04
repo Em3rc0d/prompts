@@ -29,6 +29,29 @@ jobs:
       - name: Apply append-only correction
         run: python tools/apply_starter_runtime_contamination_correction_v1.py
 
+      - name: Make validator migration idempotent
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tools/patch_starter_contamination_validators_v1.py')
+          t = p.read_text(encoding='utf-8')
+          old = '''def replace_required(text: str, old: str, new: str, label: str) -> str:
+              if old not in text:
+                  raise AssertionError(f"missing expected legacy assertion: {label}: {old}")
+              return text.replace(old, new)
+          '''
+          new = '''def replace_required(text: str, old: str, new: str, label: str) -> str:
+              if old in text:
+                  return text.replace(old, new)
+              if new in text:
+                  return text
+              raise AssertionError(f"missing both legacy and corrected assertion: {label}")
+          '''
+          if old not in t and new not in t:
+              raise SystemExit('replace_required helper shape drifted')
+          p.write_text(t.replace(old, new), encoding='utf-8')
+          PY
+
       - name: Patch validators for corrected effective state
         run: python tools/patch_starter_contamination_validators_v1.py
 
