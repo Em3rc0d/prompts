@@ -29,6 +29,9 @@ jobs:
       - name: Apply append-only correction
         run: python tools/apply_starter_runtime_contamination_correction_v1.py
 
+      - name: Finalize corrected next-model gate
+        run: python tools/finalize_starter_contamination_gate_v1.py
+
       - name: Patch validators for corrected effective state
         run: python tools/patch_starter_contamination_validators_v1.py
 
