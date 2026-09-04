@@ -32,7 +32,7 @@ export default function LicensePage() {
           <li>Claim ownership of Prompt Machine-authored materials</li>
         </ul></article>
       </div>
-      <p className="notice">Commercial availability never implies that a workflow is behaviorally tested, certified, portable, or guaranteed unless the exact product evidence states so. Current Starter runtime observations remain zero.</p>
+      <p className="notice">Commercial availability never implies that a workflow is behaviorally tested, certified, portable, or guaranteed unless the exact product evidence states so. Starter currently has one preserved runtime observation whose effective classification is <strong>INCONCLUSIVE_PROTOCOL_CONTAMINATION</strong>, with 0 effective PASS and 0 effective FAIL; no clean independent Starter runtime observation exists yet.</p>
       <div className="actions"><Link className="btn btnPrimary" href="/starter-collection">Inspect Starter status</Link><Link className="btn btnSecondary" href="/collections">Back to Collections</Link></div>
     </div></section>
   </main>;
