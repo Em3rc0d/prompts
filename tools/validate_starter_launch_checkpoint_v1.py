@@ -43,7 +43,7 @@ def main() -> int:
 
     assert gate["product"]["product_id"] == CANONICAL_PRODUCT_ID
     assert gate["product"]["sale_state"] == "NOT_FOR_SALE"
-    assert gate["checkpoint_revision"] == "skill-scope-and-provider-preflight-20260903"
+    assert gate["checkpoint_revision"] == "first-starter-runtime-failure-20260904"
 
     # Skill launch scope: candidates remain visible as engineering inventory,
     # but Starter v1 has zero supported/installable skill assets.
@@ -94,7 +94,8 @@ def main() -> int:
     assert copy["ready_to_sell"] is False
 
     gate_copy = gate["public_copy_audit"]
-    assert gate_copy["state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert gate_copy["state"] == "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE"
+    assert gate_copy["stale_reason"]
     assert gate_copy["additional_skill_scope_findings"] == 3
     assert gate_copy["open_material_findings"] == 0
     assert gate_copy["current_retest_run_id"] == 33805620505
@@ -141,6 +142,14 @@ def main() -> int:
     assert "not part of the current 9-file Starter archive" in home
     assert not STARTER_CHECKOUT.exists()
 
+    # Runtime failure must be recorded without promotion or automatic continuation.
+    assert gate["truth"]["starter_sku_workflow_runtime_observations"] == 1
+    assert gate["truth"]["starter_sku_workflow_runtime_passes"] == 0
+    assert gate["truth"]["starter_sku_workflow_runtime_fails"] == 1
+    assert gate["starter_behavioral_canary_freeze"]["armed_cases"] == 0
+    assert gate["gates"]["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_FAIL_REWORK_REQUIRED"
+    assert gate["gates"]["public_copy_evidence_audit"] == "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE"
+
     # Nothing in this checkpoint may promote sale/revenue truth.
     assert gate["launch_requirements"]["STARTER_PRODUCT_READY"] is False
     assert gate["launch_requirements"]["PROVIDER_CUSTODY"] is False
@@ -154,13 +163,16 @@ def main() -> int:
     print("starter_supported_skills=0")
     print("starter_structural_skill_candidates=2")
     print("skill_launch_scope=DEFERRED_NON_BLOCKING")
-    print("public_copy_current_retest=33805620505:success")
+    print("public_copy_historical_retest=33805620505:success")
+    print("public_copy_current_state=STALE_AFTER_RUNTIME_EVIDENCE_CHANGE")
     print("provider_preflight=PASS_STATIC_DISARMED")
     print("provider_side_effects=0")
-    print("starter_runtime_observations=0")
+    print("starter_runtime_observations=1")
+    print("starter_runtime_passes=0")
+    print("starter_runtime_fails=1")
     print("public_checkout=BLOCKED")
     print("ready_to_sell=false")
-    print("model_calls=0")
+    print("additional_model_calls_after_canary=0")
     print("provider_calls=0")
     return 0
 
