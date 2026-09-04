@@ -59,12 +59,17 @@ jobs:
           | Executable prompt surfaces | 2 / 2 STATIC PARITY PASS |
           | Required customer payload | 9 / 9 STATIC PRESENT |
           | Deterministic Starter archive | PASS PACKAGING ONLY |
-          | Starter-specific canaries | 4 PREPARED / 0 ARMED / 0 RUN |
+          | Starter-specific canaries | 4 PREPARED / 0 ARMED / 1 OBSERVATION |
           | Out-of-band evaluation contracts | 4 / 4 FROZEN |
-          | Starter SKU workflow observations | 0 |
+          | Starter SKU workflow observations | 1 INCONCLUSIVE (PROTOCOL CONTAMINATION) |
+          | Starter SKU workflow passes | 0 |
+          | Starter SKU workflow failures | 0 |
+          | Clean Starter runtime observations | 0 |
           | Starter skill observations | 0 |
-          | Public copy evidence audit | PASS_CURRENT_EVIDENCE_BOUNDARY |
-          | Historical copy findings | 3 FOUND / 3 FIXED / 0 OPEN |
+          | Public copy evidence audit | STALE / REAUDIT REQUIRED |
+          | Historical runtime review artifact | FAIL / REWORK PRESERVED; NOT EFFECTIVE WORKFLOW FAIL |
+          | Next runtime candidate | SAME FROZEN PM-STARTER-CR-NORMAL-0001 / DISARMED |
+          | Clean independent surface | REQUIRED BEFORE RETEST |
           | Provider custody | CONTRACT DEFINED / NOT PROVISIONED |
           | Live delivery canary | NOT STARTED |
           | Activated users | 0 |
@@ -73,5 +78,5 @@ jobs:
           | Provider calls created by validation | 0 |
           | Model calls created by validation | 0 |
 
-          Every PASS advances only its own evidence class. Packaging, copy review, and static canary readiness are not silently promoted into runtime, delivery, customer-value, certification, or revenue evidence.
+          The raw runtime output, original FAIL/REWORK review, and original failure record remain append-only historical artifacts. The effective workflow classification is INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior exposure to evaluation expectations. A clean retest requires the same frozen candidate, a clean independent surface, fresh explicit authorization, one submission maximum, and zero retries.
           EOF
