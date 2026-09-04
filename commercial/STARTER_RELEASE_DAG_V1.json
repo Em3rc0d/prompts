@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-release-dag-v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "recorded_on": "2026-09-04",
   "product_id": "prompt-machine-starter-collection",
   "purpose": "Represent the Starter path to PQ-$1 as an evidence dependency graph so no downstream state can close merely because implementation exists.",
@@ -94,7 +94,7 @@
         "N06_SKILL_SCOPE",
         "N09_STARTER_RUNTIME_EVIDENCE"
       ],
-      "next_action": "Re-audit customer-facing copy against one observed runtime failure; public checkout remains blocked."
+      "next_action": "Re-audit customer-facing copy against one protocol-contaminated INCONCLUSIVE runtime observation; public checkout remains blocked."
     },
     {
       "id": "N08_STARTER_CANARY_READINESS",
@@ -110,21 +110,26 @@
     {
       "id": "N09_STARTER_RUNTIME_EVIDENCE",
       "label": "Reviewed Starter SKU behavioral evidence",
-      "status": "OPEN_REQUIRES_SUCCESSOR_REWORK",
+      "status": "OPEN_REQUIRES_MODEL_AUTH",
       "evidence": [
         "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.observation.json",
         "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.human-review.json",
         "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.failure.json",
-        "product/starter-collection-v1/trust/code-review.trust-context.json"
+        "product/starter-collection-v1/trust/code-review.trust-context.json",
+        "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json",
+        "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json"
       ],
       "depends_on": [
         "N08_STARTER_CANARY_READINESS"
       ],
-      "next_experiment": "NEW_SUCCESSOR_VERSION_THEN_PM-STARTER-CR-NORMAL-0001_RETEST",
+      "next_experiment": "RETEST_PM-STARTER-CR-NORMAL-0001_CLEAN_INDEPENDENT_SURFACE",
       "maximum_calls_before_review": 1,
       "automatic_retries": 0,
-      "observed_result": "FAIL",
-      "decision": "REWORK"
+      "observed_result": "INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+      "decision": "EXPAND_EVIDENCE",
+      "candidate_mutation_required": false,
+      "fresh_authorization_required": true,
+      "clean_independent_surface_required": true
     },
     {
       "id": "N10_PROVIDER_STATIC_PREP",
@@ -259,8 +264,8 @@
     "next_evidence_purchase_options": [
       {
         "node": "N09_STARTER_RUNTIME_EVIDENCE",
-        "requires": "GOVERNED_SUCCESSOR_FREEZE_THEN_EXPLICIT_MODEL_BUDGET_AUTHORIZATION",
-        "smallest_experiment": "CREATE NEW SUCCESSOR VERSION; RETEST PM-STARTER-CR-NORMAL-0001 ONCE; HUMAN REVIEW"
+        "requires": "CLEAN_INDEPENDENT_SURFACE_THEN_FRESH_EXPLICIT_MODEL_BUDGET_AUTHORIZATION",
+        "smallest_experiment": "RETEST SAME FROZEN PM-STARTER-CR-NORMAL-0001 ONCE; ZERO RETRIES; HUMAN REVIEW"
       },
       {
         "node": "N07_PUBLIC_COPY_BOUNDARY",
@@ -285,8 +290,8 @@
     "real_purchases": 0,
     "pq_dollar_one": false,
     "starter_runtime_passes": 0,
-    "starter_runtime_fails": 1,
-    "starter_runtime_inconclusive": 0
+    "starter_runtime_fails": 0,
+    "starter_runtime_inconclusive": 1
   },
   "master_rule": "A DOWNSTREAM NODE MAY CLOSE ONLY FROM THE EVIDENCE REQUIRED BY ITS INCOMING DEPENDENCIES"
 }

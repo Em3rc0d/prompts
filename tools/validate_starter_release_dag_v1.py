@@ -27,7 +27,7 @@ CLOSED = {"STATIC_CLOSED", "OBSERVED_CLOSED", "DEFERRED_NON_BLOCKING"}
 OPEN_FRONTIER = {
     "OPEN_REQUIRES_MODEL_AUTH",
     "OPEN_REQUIRES_PROVIDER_AUTH",
-    "OPEN_REQUIRES_SUCCESSOR_REWORK",
+    "OPEN_REQUIRES_MODEL_AUTH",
     "OPEN_REQUIRES_COPY_REAUDIT",
 }
 BLOCKED = {"BLOCKED_BY_UPSTREAM_EVIDENCE", "BLOCKED_BY_HUMAN_RELEASE_DECISION", "NOT_STARTED"}
@@ -93,7 +93,7 @@ def main() -> int:
             for dep in node["depends_on"]:
                 assert nodes[dep]["status"] in CLOSED, f"{node['id']} closed above unresolved {dep}"
 
-    # Current frontier preserves the reviewed runtime failure, required successor rework,
+    # Current frontier preserves the protocol-contaminated observation, clean retest requirement,
     # stale public-copy audit, and independently disarmed provider lane.
     frontier_ids = {node_id for node_id, row in nodes.items() if row["status"] in OPEN_FRONTIER}
     assert frontier_ids == {"N07_PUBLIC_COPY_BOUNDARY", "N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
@@ -102,14 +102,17 @@ def main() -> int:
     assert dag["current_frontier"]["automatic_choice_between_frontier_nodes"] is False
 
     n09 = nodes["N09_STARTER_RUNTIME_EVIDENCE"]
-    assert n09["status"] == "OPEN_REQUIRES_SUCCESSOR_REWORK"
-    assert n09["observed_result"] == "FAIL"
-    assert n09["decision"] == "REWORK"
-    assert len(n09["evidence"]) == 4
+    assert n09["status"] == "OPEN_REQUIRES_MODEL_AUTH"
+    assert n09["observed_result"] == "INCONCLUSIVE_PROTOCOL_CONTAMINATION"
+    assert n09["decision"] == "EXPAND_EVIDENCE"
+    assert len(n09["evidence"]) == 6
     assert all((ROOT / relative).is_file() for relative in n09["evidence"])
-    assert n09["next_experiment"] == "NEW_SUCCESSOR_VERSION_THEN_PM-STARTER-CR-NORMAL-0001_RETEST"
+    assert n09["next_experiment"] == "RETEST_PM-STARTER-CR-NORMAL-0001_CLEAN_INDEPENDENT_SURFACE"
     assert n09["maximum_calls_before_review"] == 1
     assert n09["automatic_retries"] == 0
+    assert n09["candidate_mutation_required"] is False
+    assert n09["fresh_authorization_required"] is True
+    assert n09["clean_independent_surface_required"] is True
 
     frozen_case = next(row for row in canary["cases"] if row["case_id"] == "PM-STARTER-CR-NORMAL-0001")
     assert frozen_case["armed"] is False
@@ -145,8 +148,8 @@ def main() -> int:
     truth = dag["truth"]
     assert truth["starter_runtime_observations"] == gate["truth"]["starter_sku_workflow_runtime_observations"] == 1
     assert truth["starter_runtime_passes"] == gate["truth"]["starter_sku_workflow_runtime_passes"] == 0
-    assert truth["starter_runtime_fails"] == gate["truth"]["starter_sku_workflow_runtime_fails"] == 1
-    assert truth["starter_runtime_inconclusive"] == gate["truth"]["starter_sku_workflow_runtime_inconclusive"] == 0
+    assert truth["starter_runtime_fails"] == gate["truth"]["starter_sku_workflow_runtime_fails"] == 0
+    assert truth["starter_runtime_inconclusive"] == gate["truth"]["starter_sku_workflow_runtime_inconclusive"] == 1
     assert truth["provider_custody_observations"] == gate["truth"]["provider_custody_observations"] == 0
     assert truth["provider_integration_pass"] is False
     assert gate["launch_requirements"]["PROVIDER_INTEGRATION"] is False
@@ -168,8 +171,9 @@ def main() -> int:
     print("frontier_nodes=3")
     print("frontier=N07_PUBLIC_COPY_BOUNDARY,N09_STARTER_RUNTIME_EVIDENCE,N14_PROVIDER_PROVISIONING_AND_CUSTODY")
     print("starter_runtime_observations=1")
-    print("starter_runtime_fails=1")
-    print("starter_runtime_decision=REWORK")
+    print("starter_runtime_fails=0")
+    print("starter_runtime_inconclusive=1")
+    print("starter_runtime_decision=EXPAND_EVIDENCE")
     print("runtime_authorized_now=false")
     print("provider_authorized_now=false")
     print("public_checkout=false")

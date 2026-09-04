@@ -116,12 +116,22 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
     trust = read_json(path)
     assert trust["schema"] == "prompt-machine-workflow-trust-context-v1"
     assert trust["workflow_id"] == workflow_id
-    assert trust["current_evidence_state"] == "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED"
     assert trust["publication_state"] == "NOT_PUBLIC_NOT_ELIGIBLE"
-    assert trust["runtime_evidence"]["observations"] == []
-    assert trust["runtime_evidence"]["passes"] == 0
-    assert trust["runtime_evidence"]["fails"] == 0
-    assert trust["runtime_evidence"]["inconclusive"] == 0
+    if workflow_id == "pm-starter-evidence-first-code-review":
+        assert trust["current_evidence_state"] == "ONE_RUNTIME_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
+        assert len(trust["runtime_evidence"]["observations"]) == 1
+        assert trust["runtime_evidence"]["passes"] == 0
+        assert trust["runtime_evidence"]["fails"] == 0
+        assert trust["runtime_evidence"]["inconclusive"] == 1
+        assert trust["runtime_evidence"]["review_corrections"][0]["effective_result"] == "INCONCLUSIVE"
+        assert trust["protocol_corrections"][0]["correction_id"] == "PM-STARTER-CR-NORMAL-0001-CORR-0001"
+        assert trust["truth_boundary"]["protocol_contaminated_execution_counts_as_workflow_fail"] is False
+    else:
+        assert trust["current_evidence_state"] == "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED"
+        assert trust["runtime_evidence"]["observations"] == []
+        assert trust["runtime_evidence"]["passes"] == 0
+        assert trust["runtime_evidence"]["fails"] == 0
+        assert trust["runtime_evidence"]["inconclusive"] == 0
     assert trust["next_evidence"]["armed"] is False
     assert trust["truth_boundary"]["zero_failures_with_zero_runtime_observations_means_reliable"] is False
     assert trust["truth_boundary"]["automatic_publication"] is False
@@ -130,7 +140,7 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
 def main() -> int:
     gate = read_json(GATE_PATH)
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.7"
+    assert gate["version"] == "1.0.9"
 
     assert gate["product"] == {
         "product_id": CANONICAL_PRODUCT_ID,
@@ -153,7 +163,10 @@ def main() -> int:
     assert truth["starter_evaluation_contracts_frozen"] == 4
     assert truth["starter_exact_runtime_envelopes_frozen"] == 4
     assert truth["starter_canary_cases_armed"] == 0
-    assert truth["starter_sku_workflow_runtime_observations"] == 0
+    assert truth["starter_sku_workflow_runtime_observations"] == 1
+    assert truth["starter_sku_workflow_runtime_passes"] == 0
+    assert truth["starter_sku_workflow_runtime_fails"] == 0
+    assert truth["starter_sku_workflow_runtime_inconclusive"] == 1
     assert truth["starter_skill_behavioral_observations"] == 0
     assert truth["public_copy_audit_passes"] == 1
     assert truth["public_copy_material_failures_found_before_fix"] == 3
@@ -321,9 +334,9 @@ def main() -> int:
     assert gates["required_customer_payload"] == "PASS_STATIC_9_OF_9"
     assert gates["deterministic_starter_artifact"] == "PASS_PACKAGING_ONLY"
     assert gates["starter_specific_behavioral_canary_readiness"] == "PASS_STATIC_PREPARED_DISARMED"
-    assert gates["starter_specific_behavioral_evidence"] == "OPEN_ZERO_OBSERVATIONS"
+    assert gates["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
-    assert gates["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert gates["public_copy_evidence_audit"] == "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE"
     assert gates["provider_test_custody"] == "CONTRACT_DEFINED_NOT_PROVISIONED"
     assert gates["provider_integration"] == "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED"
     assert gates["live_delivery_canary"] == "NOT_STARTED"
@@ -355,8 +368,11 @@ def main() -> int:
     print("deterministic_archive=true")
     print(f"archive_sha256={CANONICAL_ARCHIVE_SHA256}")
     print("starter_canary_cases_prepared=4")
-    print("starter_sku_runtime_observations=0")
-    print("public_copy_audit=PASS_CURRENT_EVIDENCE_BOUNDARY")
+    print("starter_sku_runtime_observations=1")
+    print("starter_sku_runtime_passes=0")
+    print("starter_sku_runtime_fails=0")
+    print("starter_sku_runtime_inconclusive=1")
+    print("public_copy_audit=STALE_AFTER_RUNTIME_EVIDENCE_CHANGE")
     print("signed_starter_webhook_adapter=present_static_only")
     print("provider_integration=STATIC_PREPARED_PROVIDER_NOT_PROVISIONED")
     print("provider_custody_observations=0")

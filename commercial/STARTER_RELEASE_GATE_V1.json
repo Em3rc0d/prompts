@@ -1,7 +1,7 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.8",
-  "checkpoint_revision": "first-starter-runtime-failure-20260904",
+  "version": "1.0.9",
+  "checkpoint_revision": "runtime-protocol-contamination-correction-20260904",
   "recorded_on": "2026-09-04",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -48,8 +48,8 @@
     "public_checkout_enabled": false,
     "ready_to_sell": false,
     "starter_sku_workflow_runtime_passes": 0,
-    "starter_sku_workflow_runtime_fails": 1,
-    "starter_sku_workflow_runtime_inconclusive": 0
+    "starter_sku_workflow_runtime_fails": 0,
+    "starter_sku_workflow_runtime_inconclusive": 1
   },
   "scope": {
     "workflows": [
@@ -112,16 +112,16 @@
   "starter_behavioral_canary_freeze": {
     "plan": "product/starter-collection-v1/evaluation/STARTER_CANARY_PLAN_V1.json",
     "receipt": "product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json",
-    "state": "ONE_RUNTIME_OBSERVATION_REVIEWED_FAIL_REWORK_REQUIRED",
+    "state": "ONE_RUNTIME_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED",
     "prepared_cases": 4,
     "out_of_band_evaluation_contracts": 4,
     "exact_runtime_envelopes": 4,
     "armed_cases": 0,
     "runtime_observations": 1,
-    "first_case_when_reopened": "SUCCESSOR_REWORK_REQUIRED_BEFORE_ANY_NEW_RUNTIME",
+    "first_case_when_reopened": "RETEST_SAME_FROZEN_PM-STARTER-CR-NORMAL-0001_ON_CLEAN_INDEPENDENT_SURFACE_AFTER_FRESH_AUTHORIZATION",
     "runtime_passes": 0,
-    "runtime_fails": 1,
-    "runtime_inconclusive": 0
+    "runtime_fails": 0,
+    "runtime_inconclusive": 1
   },
   "public_copy_audit": {
     "contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
@@ -134,7 +134,7 @@
     "current_retest_run_id": 33805620505,
     "current_audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
     "stale_on_material_copy_or_evidence_change": true,
-    "stale_reason": "The audited public evidence boundary predates the first Starter runtime observation and reviewed failure."
+    "stale_reason": "The audited public evidence boundary predates the first Starter runtime observation and its protocol-contamination correction; current effective runtime state is one INCONCLUSIVE observation, zero PASS, zero FAIL."
   },
   "provider_integration_preparation": {
     "receipt": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
@@ -220,8 +220,8 @@
     "runtime_events": 1,
     "public_cards": 0,
     "reviewed_passes": 0,
-    "reviewed_fails": 1,
-    "reviewed_inconclusive": 0
+    "reviewed_fails": 0,
+    "reviewed_inconclusive": 1
   },
   "gates": {
     "current_product_truth": "PASS",
@@ -230,7 +230,7 @@
     "required_customer_payload": "PASS_STATIC_9_OF_9",
     "deterministic_starter_artifact": "PASS_PACKAGING_ONLY",
     "starter_specific_behavioral_canary_readiness": "PASS_STATIC_PREPARED_DISARMED",
-    "starter_specific_behavioral_evidence": "OBSERVED_ONE_FAIL_REWORK_REQUIRED",
+    "starter_specific_behavioral_evidence": "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED",
     "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
     "starter_skill_launch_scope": "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
@@ -281,7 +281,9 @@
     "live_canary_implies_public_revenue": false,
     "runtime_pass_implies_certification": false,
     "public_checkout_may_bypass_requirements": false,
-    "automatic_sale_enablement": false
+    "automatic_sale_enablement": false,
+    "protocol_contaminated_execution_implies_workflow_fail": false,
+    "protocol_contaminated_execution_implies_successor_required": false
   },
   "current_checkout_surface": {
     "starter_public_checkout_route_expected": false,
@@ -289,13 +291,13 @@
     "developer_pack_checkout_is_not_starter_provider_evidence": true
   },
   "launch_critical_static_stop_line": {
-    "state": "RUNTIME_FRONTIER_OBSERVED_FAIL_REWORK_REQUIRED",
+    "state": "RUNTIME_FRONTIER_OBSERVED_INCONCLUSIVE_CLEAN_RETEST_REQUIRED",
     "additional_zero_evidence_architecture_required_before_frontier": false,
     "model_frontier": {
       "node": "N09_STARTER_RUNTIME_EVIDENCE",
       "authorized_now": false,
-      "current_result": "ONE_OBSERVATION_REVIEWED_FAIL",
-      "next_step": "CREATE_NEW_SUCCESSOR_VERSION_AND_RETEST_ONLY_AFTER_FRESH_AUTHORIZATION"
+      "current_result": "ONE_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+      "next_step": "RETEST_SAME_FROZEN_CASE_ON_CLEAN_INDEPENDENT_SURFACE_ONLY_AFTER_FRESH_AUTHORIZATION"
     },
     "provider_frontier": {
       "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
@@ -305,19 +307,35 @@
     "automatic_frontier_selection": false
   },
   "next_zero_model_work": [
-    "create a new successor version of the code-review workflow that caps unobserved upstream authorization concerns at LIKELY / REVIEW_REQUIRED",
-    "add the route-level authorization guard regression case",
-    "update validators and rebuild a governed successor artifact without rewriting the observed candidate",
-    "reaudit public copy because the zero-runtime-observation statement is now stale"
+    "re-audit customer-facing copy against the corrected runtime evidence state before treating copy evidence as current",
+    "preserve the original raw output, original FAIL/REWORK review, and original failure record as historical artifacts superseded only for effective workflow classification"
   ],
   "next_model_spend_gate": {
     "authorized_now": false,
-    "reason": "The only authorized Starter canary completed and failed human review. No further model execution is permitted until a successor is frozen and separately authorized.",
-    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001 against a new successor workflow version",
+    "reason": "The only Starter runtime observation is protocol-contaminated and supports neither PASS nor FAIL. A clean retest of the same frozen candidate requires fresh explicit authorization.",
+    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001",
     "maximum_submissions_before_human_review": 1,
     "automatic_wave": false,
     "automatic_retries": 0,
-    "automatic_second_case": false
+    "automatic_second_case": false,
+    "same_frozen_candidate": true,
+    "successor_required_before_retest": false,
+    "clean_independent_surface_required": true,
+    "fresh_explicit_authorization_required": true
   },
-  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE",
+  "runtime_protocol_correction": {
+    "correction": "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json",
+    "clean_surface_requirements": "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json",
+    "historical_fail_review_preserved": true,
+    "effective_result": "INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+    "effective_decision": "EXPAND_EVIDENCE",
+    "successor_required_before_clean_retest": false,
+    "same_frozen_candidate_retest_required": true,
+    "armed": false
+  },
+  "next_external_evidence_options": [
+    "freshly authorize one clean independent retest of the same frozen PM-STARTER-CR-NORMAL-0001 candidate",
+    "separately authorize one controlled provider provisioning/custody attempt"
+  ]
 }

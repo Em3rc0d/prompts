@@ -140,12 +140,12 @@ def main() -> int:
     assert canary["next_permitted_runtime_sequence"]["automatic_second_case"] is False
 
     assert trust["workflow_id"] == WORKFLOW_ID
-    assert trust["current_evidence_state"] == "ONE_RUNTIME_OBSERVATION_REVIEWED_FAIL_REWORK_REQUIRED"
+    assert trust["current_evidence_state"] == "ONE_RUNTIME_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
     assert len(trust["runtime_evidence"]["observations"]) == 1
     assert len(trust["runtime_evidence"]["human_reviews"]) == 1
     assert trust["runtime_evidence"]["passes"] == 0
-    assert trust["runtime_evidence"]["fails"] == 1
-    assert trust["runtime_evidence"]["inconclusive"] == 0
+    assert trust["runtime_evidence"]["fails"] == 0
+    assert trust["runtime_evidence"]["inconclusive"] == 1
     assert observation["case_id"] == CASE_ID
     assert observation["runtime_envelope_sha256"] == ENVELOPE_SHA
     assert observation["execution_status"] == "COMPLETED"
@@ -160,6 +160,33 @@ def main() -> int:
     assert runtime_failure["observation_id"] == observation["observation_id"]
     assert runtime_failure["successor_requires_new_version"] is True
     assert runtime_failure["observed_workflow_version_mutated"] is False
+    correction_ref = trust["runtime_evidence"]["review_corrections"][0]
+    assert correction_ref["historical_review_id"] == human_review["review_id"]
+    assert correction_ref["historical_result"] == "FAIL"
+    assert correction_ref["effective_result"] == "INCONCLUSIVE"
+    assert correction_ref["effective_decision"] == "EXPAND_EVIDENCE"
+    assert correction_ref["reason"] == "PROTOCOL_CONTAMINATION"
+    correction_path = ROOT / correction_ref["path"]
+    correction = load(correction_path)
+    assert correction["correction_class"] == "PROTOCOL_CONTAMINATION"
+    assert correction["historical_classification"]["review_result"] == "FAIL"
+    assert correction["historical_classification"]["decision"] == "REWORK"
+    assert correction["historical_classification"]["status"] == "PRESERVED_AS_HISTORICAL_MISCLASSIFICATION"
+    assert correction["effective_classification"]["review_result"] == "INCONCLUSIVE"
+    assert correction["effective_classification"]["decision"] == "EXPAND_EVIDENCE"
+    assert correction["effective_classification"]["workflow_pass_count"] == 0
+    assert correction["effective_classification"]["workflow_fail_count"] == 0
+    assert correction["effective_classification"]["workflow_inconclusive_count"] == 1
+    assert correction["workflow_mutation"]["observed_candidate_mutated"] is False
+    assert correction["workflow_mutation"]["successor_required_by_this_observation"] is False
+    assert correction["next_evidence"]["candidate"] == "SAME_FROZEN_1.0.0_CANDIDATE"
+    assert correction["next_evidence"]["requires_clean_independent_surface"] is True
+    assert correction["next_evidence"]["requires_fresh_explicit_authorization"] is True
+    assert correction["next_evidence"]["automatic_retries"] == 0
+    historical_failure = next(row for row in trust["historical_failures"] if row["failure_id"] == runtime_failure["failure_id"])
+    assert historical_failure["historical_classification_artifact"] is True
+    assert historical_failure["effective_workflow_failure"] is False
+    assert historical_failure["superseded_by_correction"] == correction_ref["path"]
     assert trust["publication_state"] == "NOT_PUBLIC_NOT_ELIGIBLE"
 
     review = runtime["human_review_transaction"]
@@ -207,8 +234,9 @@ def main() -> int:
     print("trust_update=RAW_OBSERVATION_THEN_HUMAN_REVIEW_THEN_APPEND")
     print("starter_runtime_observations=1")
     print("starter_runtime_passes=0")
-    print("starter_runtime_fails=1")
-    print("starter_runtime_decision=REWORK")
+    print("starter_runtime_fails=0")
+    print("starter_runtime_inconclusive=1")
+    print("starter_runtime_decision=EXPAND_EVIDENCE")
     print("runtime_authorized_now=false")
     print("provider_authorized_now=false")
     print("provider_calls=0")

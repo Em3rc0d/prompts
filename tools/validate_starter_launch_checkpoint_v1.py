@@ -43,7 +43,7 @@ def main() -> int:
 
     assert gate["product"]["product_id"] == CANONICAL_PRODUCT_ID
     assert gate["product"]["sale_state"] == "NOT_FOR_SALE"
-    assert gate["checkpoint_revision"] == "first-starter-runtime-failure-20260904"
+    assert gate["checkpoint_revision"] == "runtime-protocol-contamination-correction-20260904"
 
     # Skill launch scope: candidates remain visible as engineering inventory,
     # but Starter v1 has zero supported/installable skill assets.
@@ -142,12 +142,19 @@ def main() -> int:
     assert "not part of the current 9-file Starter archive" in home
     assert not STARTER_CHECKOUT.exists()
 
-    # Runtime failure must be recorded without promotion or automatic continuation.
+    # Protocol-contaminated runtime is preserved but cannot count as workflow PASS or FAIL.
     assert gate["truth"]["starter_sku_workflow_runtime_observations"] == 1
     assert gate["truth"]["starter_sku_workflow_runtime_passes"] == 0
-    assert gate["truth"]["starter_sku_workflow_runtime_fails"] == 1
+    assert gate["truth"]["starter_sku_workflow_runtime_fails"] == 0
+    assert gate["truth"]["starter_sku_workflow_runtime_inconclusive"] == 1
     assert gate["starter_behavioral_canary_freeze"]["armed_cases"] == 0
-    assert gate["gates"]["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_FAIL_REWORK_REQUIRED"
+    assert gate["runtime_protocol_correction"]["effective_result"] == "INCONCLUSIVE_PROTOCOL_CONTAMINATION"
+    assert gate["runtime_protocol_correction"]["effective_decision"] == "EXPAND_EVIDENCE"
+    assert gate["runtime_protocol_correction"]["historical_fail_review_preserved"] is True
+    assert gate["runtime_protocol_correction"]["successor_required_before_clean_retest"] is False
+    assert gate["runtime_protocol_correction"]["same_frozen_candidate_retest_required"] is True
+    assert gate["runtime_protocol_correction"]["armed"] is False
+    assert gate["gates"]["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
     assert gate["gates"]["public_copy_evidence_audit"] == "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE"
 
     # Nothing in this checkpoint may promote sale/revenue truth.
@@ -169,7 +176,8 @@ def main() -> int:
     print("provider_side_effects=0")
     print("starter_runtime_observations=1")
     print("starter_runtime_passes=0")
-    print("starter_runtime_fails=1")
+    print("starter_runtime_fails=0")
+    print("starter_runtime_inconclusive=1")
     print("public_checkout=BLOCKED")
     print("ready_to_sell=false")
     print("additional_model_calls_after_canary=0")
