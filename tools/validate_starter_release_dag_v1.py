@@ -24,7 +24,12 @@ EXECUTION_FREEZE_PATH = COMMERCIAL / "STARTER_EXECUTION_DECISION_FREEZE_V1.json"
 STARTER_CHECKOUT = ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
 
 CLOSED = {"STATIC_CLOSED", "OBSERVED_CLOSED", "DEFERRED_NON_BLOCKING"}
-OPEN_FRONTIER = {"OPEN_REQUIRES_MODEL_AUTH", "OPEN_REQUIRES_PROVIDER_AUTH"}
+OPEN_FRONTIER = {
+    "OPEN_REQUIRES_MODEL_AUTH",
+    "OPEN_REQUIRES_PROVIDER_AUTH",
+    "OPEN_REQUIRES_SUCCESSOR_REWORK",
+    "OPEN_REQUIRES_COPY_REAUDIT",
+}
 BLOCKED = {"BLOCKED_BY_UPSTREAM_EVIDENCE", "BLOCKED_BY_HUMAN_RELEASE_DECISION", "NOT_STARTED"}
 
 
@@ -88,16 +93,21 @@ def main() -> int:
             for dep in node["depends_on"]:
                 assert nodes[dep]["status"] in CLOSED, f"{node['id']} closed above unresolved {dep}"
 
-    # Current frontier is exactly the two explicit evidence purchases.
+    # Current frontier preserves the reviewed runtime failure, required successor rework,
+    # stale public-copy audit, and independently disarmed provider lane.
     frontier_ids = {node_id for node_id, row in nodes.items() if row["status"] in OPEN_FRONTIER}
-    assert frontier_ids == {"N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
+    assert frontier_ids == {"N07_PUBLIC_COPY_BOUNDARY", "N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
     configured_frontier = {row["node"] for row in dag["current_frontier"]["next_evidence_purchase_options"]}
     assert configured_frontier == frontier_ids
     assert dag["current_frontier"]["automatic_choice_between_frontier_nodes"] is False
 
     n09 = nodes["N09_STARTER_RUNTIME_EVIDENCE"]
-    assert n09["status"] == "OPEN_REQUIRES_MODEL_AUTH"
-    assert n09["next_experiment"] == "PM-STARTER-CR-NORMAL-0001"
+    assert n09["status"] == "OPEN_REQUIRES_SUCCESSOR_REWORK"
+    assert n09["observed_result"] == "FAIL"
+    assert n09["decision"] == "REWORK"
+    assert len(n09["evidence"]) == 4
+    assert all((ROOT / relative).is_file() for relative in n09["evidence"])
+    assert n09["next_experiment"] == "NEW_SUCCESSOR_VERSION_THEN_PM-STARTER-CR-NORMAL-0001_RETEST"
     assert n09["maximum_calls_before_review"] == 1
     assert n09["automatic_retries"] == 0
 
@@ -106,6 +116,10 @@ def main() -> int:
     assert frozen_case["runtime_executed"] is False
     assert frozen_case["runtime_envelope_sha256"] == "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"
     assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
+
+    n07 = nodes["N07_PUBLIC_COPY_BOUNDARY"]
+    assert n07["status"] == "OPEN_REQUIRES_COPY_REAUDIT"
+    assert gate["public_copy_audit"]["state"] == "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE"
 
     n14 = nodes["N14_PROVIDER_PROVISIONING_AND_CUSTODY"]
     assert n14["status"] == "OPEN_REQUIRES_PROVIDER_AUTH"
@@ -129,7 +143,10 @@ def main() -> int:
     assert execution_freeze["state"] == "STATIC_EXECUTION_DECISION_GOVERNANCE_PASS_REAL_EXECUTION_UNAUTHORIZED"
 
     truth = dag["truth"]
-    assert truth["starter_runtime_observations"] == gate["truth"]["starter_sku_workflow_runtime_observations"] == 0
+    assert truth["starter_runtime_observations"] == gate["truth"]["starter_sku_workflow_runtime_observations"] == 1
+    assert truth["starter_runtime_passes"] == gate["truth"]["starter_sku_workflow_runtime_passes"] == 0
+    assert truth["starter_runtime_fails"] == gate["truth"]["starter_sku_workflow_runtime_fails"] == 1
+    assert truth["starter_runtime_inconclusive"] == gate["truth"]["starter_sku_workflow_runtime_inconclusive"] == 0
     assert truth["provider_custody_observations"] == gate["truth"]["provider_custody_observations"] == 0
     assert truth["provider_integration_pass"] is False
     assert gate["launch_requirements"]["PROVIDER_INTEGRATION"] is False
@@ -147,15 +164,18 @@ def main() -> int:
     print("STARTER RELEASE DAG V1: PASS")
     print("nodes=20")
     print("cycles=0")
-    print("closed_or_deferred_nodes=12")
-    print("frontier_nodes=2")
-    print("frontier=N09_STARTER_RUNTIME_EVIDENCE,N14_PROVIDER_PROVISIONING_AND_CUSTODY")
+    print("closed_or_deferred_nodes=11")
+    print("frontier_nodes=3")
+    print("frontier=N07_PUBLIC_COPY_BOUNDARY,N09_STARTER_RUNTIME_EVIDENCE,N14_PROVIDER_PROVISIONING_AND_CUSTODY")
+    print("starter_runtime_observations=1")
+    print("starter_runtime_fails=1")
+    print("starter_runtime_decision=REWORK")
     print("runtime_authorized_now=false")
     print("provider_authorized_now=false")
     print("public_checkout=false")
     print("pq_dollar_one=false")
     print("provider_calls=0")
-    print("model_calls=0")
+    print("additional_model_calls_after_canary=0")
     return 0
 
 
