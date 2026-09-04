@@ -8,6 +8,7 @@ No provider or model execution occurs.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -22,6 +23,10 @@ PROVIDER_SCHEMA_FREEZE = COMMERCIAL / "STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1
 PROVIDER_PREFLIGHT = COMMERCIAL / "STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json"
 CANARY_FREEZE = BASE / "evaluation" / "STARTER_CANARY_FREEZE_V1.json"
 CODE_TRUST = BASE / "trust" / "code-review.trust-context.json"
+OBSERVATION = BASE / "evaluation" / "observations" / f"{CASE_ID}.observation.json"
+RAW_OUTPUT = BASE / "evaluation" / "observations" / f"{CASE_ID}.raw-output.md"
+HUMAN_REVIEW = BASE / "evaluation" / "human-reviews" / f"{CASE_ID}.human-review.json"
+RUNTIME_FAILURE = BASE / "evaluation" / "failures" / f"{CASE_ID}.failure.json"
 
 PRODUCT_ID = "prompt-machine-starter-collection"
 CASE_ID = "PM-STARTER-CR-NORMAL-0001"
@@ -45,6 +50,9 @@ def main() -> int:
     preflight = load(PROVIDER_PREFLIGHT)
     canary = load(CANARY_FREEZE)
     trust = load(CODE_TRUST)
+    observation = load(OBSERVATION)
+    human_review = load(HUMAN_REVIEW)
+    runtime_failure = load(RUNTIME_FAILURE)
 
     # Provider integration PASS must require all external layers rather than a
     # configuration-only or metadata-only shortcut.
@@ -132,12 +140,26 @@ def main() -> int:
     assert canary["next_permitted_runtime_sequence"]["automatic_second_case"] is False
 
     assert trust["workflow_id"] == WORKFLOW_ID
-    assert trust["current_evidence_state"] == "STATIC_CONTRACT_AND_SURFACE_FROZEN_RUNTIME_UNOBSERVED"
-    assert trust["runtime_evidence"]["observations"] == []
-    assert trust["runtime_evidence"]["human_reviews"] == []
+    assert trust["current_evidence_state"] == "ONE_RUNTIME_OBSERVATION_REVIEWED_FAIL_REWORK_REQUIRED"
+    assert len(trust["runtime_evidence"]["observations"]) == 1
+    assert len(trust["runtime_evidence"]["human_reviews"]) == 1
     assert trust["runtime_evidence"]["passes"] == 0
-    assert trust["runtime_evidence"]["fails"] == 0
+    assert trust["runtime_evidence"]["fails"] == 1
     assert trust["runtime_evidence"]["inconclusive"] == 0
+    assert observation["case_id"] == CASE_ID
+    assert observation["runtime_envelope_sha256"] == ENVELOPE_SHA
+    assert observation["execution_status"] == "COMPLETED"
+    assert observation["automatic_retries_observed"] == 0
+    assert observation["submissions_observed"] == 1
+    assert hashlib.sha256(RAW_OUTPUT.read_bytes()).hexdigest() == observation["raw_output_sha256"]
+    assert human_review["observation_id"] == observation["observation_id"]
+    assert human_review["result"] == "FAIL"
+    assert human_review["decision"] == "REWORK"
+    assert human_review["dimensions"]["material_authorization_risk_detected"]["result"] == "PASS"
+    assert human_review["dimensions"]["evidence_uncertainty_preserved"]["result"] == "FAIL"
+    assert runtime_failure["observation_id"] == observation["observation_id"]
+    assert runtime_failure["successor_requires_new_version"] is True
+    assert runtime_failure["observed_workflow_version_mutated"] is False
     assert trust["publication_state"] == "NOT_PUBLIC_NOT_ELIGIBLE"
 
     review = runtime["human_review_transaction"]
@@ -164,6 +186,7 @@ def main() -> int:
     assert release["one_pass_may_claim_portability"] is False
     assert release["one_pass_may_claim_customer_value"] is False
     assert runtime["execution_authorization"]["authorized_now"] is False
+    # The protocol is an immutable pre-execution snapshot; current evidence lives in Trust History.
     assert runtime["current_truth"]["starter_runtime_observations"] == 0
 
     # Existing provider freezes must still state zero external evidence.
@@ -182,10 +205,14 @@ def main() -> int:
     print(f"first_runtime_case={CASE_ID}")
     print(f"first_runtime_envelope_sha256={ENVELOPE_SHA}")
     print("trust_update=RAW_OBSERVATION_THEN_HUMAN_REVIEW_THEN_APPEND")
+    print("starter_runtime_observations=1")
+    print("starter_runtime_passes=0")
+    print("starter_runtime_fails=1")
+    print("starter_runtime_decision=REWORK")
     print("runtime_authorized_now=false")
     print("provider_authorized_now=false")
     print("provider_calls=0")
-    print("model_calls=0")
+    print("additional_model_calls_after_canary=0")
     print("ready_to_sell=false")
     return 0
 
