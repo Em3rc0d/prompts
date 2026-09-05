@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -125,13 +125,18 @@
   "minimal_generation_control": {
     "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PLAN.json",
     "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
-    "state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+    "plan_state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+    "status": "PREFLIGHT_PASS_FRESH_AUTH_REQUIRED",
     "preflight": "tools/probe_starter_n09_gemini_minimal_generation_control_001.py",
+    "preflight_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PREFLIGHT_RECEIPT_2026-09-05.json",
+    "preflight_verdict": "PASS",
+    "preflight_source_commit": "5692ceba4f5b4e67c9179d1dcd795f5bec0ffa16",
     "executor": "tools/execute_starter_n09_gemini_minimal_generation_control_001.py",
     "model": "gemini-3.5-flash",
     "prompt": "Return exactly: OK",
     "workflow_candidate_sent": false,
     "maximum_provider_requests": 1,
+    "provider_requests_so_far": 0,
     "automatic_retries": 0,
     "fresh_explicit_authorization_required": true,
     "g05_claim": "NONE"
@@ -143,6 +148,6 @@
     "certification_scope_must_record_exact_model": true
   },
   "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
-  "next_gate": "ZERO_MODEL_PREFLIGHT_FOR_MINIMAL_GENERATION_CONTROL_THEN_FRESH_DIAGNOSTIC_AUTHORIZATION",
-  "truth_boundary": "METADATA_200_AND_EXACT_ENVELOPE_COUNT_TOKENS_200_FOR_BOTH_MODELS; FOUR_GENERATION_503S; MINIMAL_GENERATION_CONTROL_PREPARED; ZERO_G05_BEHAVIORAL_EVIDENCE"
+  "next_gate": "FRESH_EXPLICIT_AUTHORIZATION_FOR_PM_GEMINI_MINIMAL_GEN_CTRL_001",
+  "truth_boundary": "METADATA_200_AND_EXACT_ENVELOPE_COUNT_TOKENS_200_FOR_BOTH_MODELS; FOUR_GENERATION_503S; MINIMAL_GENERATION_CONTROL_PREFLIGHT_PASS; ZERO_CONTROL_GENERATION_REQUESTS; ZERO_G05_BEHAVIORAL_EVIDENCE"
 }
