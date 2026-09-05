@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -53,7 +53,20 @@
       "PUBLIC_SALE"
     ]
   },
-  "current_authorization_state": "DISARMED_PREVIOUS_V3_AUTHORIZATION_CONSUMED",
-  "next_gate": "LOCAL_WSL_GEMINI_CAPABILITY_CHECK_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
-  "truth_boundary": "LOCAL_EXECUTION_POLICY_ONLY_NOT_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
+  "latest_attempt": {
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_001_2026-09-05.json",
+    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-4778B3F358CE",
+    "provider_http_status": 503,
+    "provider_error_status": "UNAVAILABLE",
+    "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503",
+    "surface_submissions": 1,
+    "provider_requests_attempted": 1,
+    "automatic_retries": 0,
+    "model_output_observed": false,
+    "behavioral_observation_created": false,
+    "g05_pass_demonstrated": false
+  },
+  "current_authorization_state": "DISARMED_GEMINI_WSL_001_AUTHORIZATION_CONSUMED",
+  "next_gate": "FRESH_EXPLICIT_RUNTIME_AUTHORIZATION_FOR_A_NEW_SINGLE_ATTEMPT_AFTER_PROVIDER_CAPACITY_RECOVERS",
+  "truth_boundary": "LOCAL_EXECUTION_POLICY_PLUS_PROVIDER_AVAILABILITY_EVIDENCE_NOT_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
 }
