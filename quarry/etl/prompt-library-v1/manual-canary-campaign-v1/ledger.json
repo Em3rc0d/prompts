@@ -1,0 +1,136 @@
+{
+  "schema": "prompt-machine-manual-canary-campaign-ledger-v1",
+  "campaign_id": "PM-MANUAL-CANARY-CAMPAIGN-V1",
+  "recorded_on": "2026-09-03",
+  "surface": "chatgpt-work-current-session",
+  "source_invocation_baseline_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
+  "total_prepared_invocations": 18,
+  "observations_completed": 7,
+  "observations_remaining": 11,
+  "expected_state_matches": 7,
+  "blocking_review_failures": 0,
+  "automatic_promotions": 0,
+  "ready_to_sell": false,
+  "campaign_decision": "EXPAND_EVIDENCE",
+  "campaign_state": "PAUSED_FOR_FIVE_HOUR_USAGE_RESERVE",
+  "reserve_policy": {
+    "five_hour_reserve_floor_percent": 50,
+    "current_five_hour_remaining_percent": 54,
+    "current_weekly_remaining_percent": 40,
+    "resume_condition": "five-hour window resets above the reserve floor or the reserve policy is explicitly changed by the user"
+  },
+  "usage_observation": {
+    "initial_five_hour_remaining_percent": 100,
+    "latest_five_hour_remaining_percent": 54,
+    "visible_five_hour_delta_percentage_points": -46,
+    "initial_weekly_remaining_percent": 47,
+    "latest_weekly_remaining_percent": 40,
+    "visible_weekly_delta_percentage_points": -7,
+    "attribution_warning": "Plan percentages are coarse and shared across Codex, Work, workspace agents, and ChatGPT for Excel. The aggregate visible delta must not be interpreted as exact per-canary consumption. Canary 1 used a contaminated interval and canaries 5-6 share a grouped usage interval."
+  },
+  "observations": [
+    {
+      "index": 1,
+      "directory": "manual-canary-v1",
+      "invocation_id": "PM-INV-CHECKLIST-NORMAL-0003",
+      "mode": "checklist",
+      "variant": "NORMAL",
+      "expected_state": "PASS",
+      "observed_state": "PASS",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "CONTAMINATED_INTERVAL_NOT_PER_INVOCATION"
+    },
+    {
+      "index": 2,
+      "directory": "manual-canary-v2",
+      "invocation_id": "PM-INV-CHECKLIST-EMBEDDED_OVERRIDE-0003",
+      "mode": "checklist",
+      "variant": "EMBEDDED_OVERRIDE",
+      "expected_state": "PASS",
+      "observed_state": "PASS",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "CURRENT_WORK_INTERVAL"
+    },
+    {
+      "index": 3,
+      "directory": "manual-canary-v3",
+      "invocation_id": "PM-INV-LEARNING-NORMAL-0003",
+      "mode": "learning",
+      "variant": "NORMAL",
+      "expected_state": "IN_PROGRESS",
+      "observed_state": "IN_PROGRESS",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "CURRENT_WORK_EPOCH"
+    },
+    {
+      "index": 4,
+      "directory": "manual-canary-v4",
+      "invocation_id": "PM-INV-LEARNING-EMBEDDED_OVERRIDE-0003",
+      "mode": "learning",
+      "variant": "EMBEDDED_OVERRIDE",
+      "expected_state": "IN_PROGRESS",
+      "observed_state": "IN_PROGRESS",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "CURRENT_WORK_EPOCH"
+    },
+    {
+      "index": 5,
+      "directory": "manual-canary-v5",
+      "invocation_id": "PM-INV-GENERAL-NORMAL-0003",
+      "mode": "general",
+      "variant": "NORMAL",
+      "expected_state": "COMPLETE",
+      "observed_state": "COMPLETE",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "GROUPED_WITH_OBSERVATION_6"
+    },
+    {
+      "index": 6,
+      "directory": "manual-canary-v6",
+      "invocation_id": "PM-INV-GENERAL-EMBEDDED_OVERRIDE-0003",
+      "mode": "general",
+      "variant": "EMBEDDED_OVERRIDE",
+      "expected_state": "COMPLETE",
+      "observed_state": "COMPLETE",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "GROUPED_WITH_OBSERVATION_5"
+    },
+    {
+      "index": 7,
+      "directory": "manual-canary-v7",
+      "invocation_id": "PM-INV-PLAN-NORMAL-0003",
+      "mode": "plan",
+      "variant": "NORMAL",
+      "expected_state": "READY",
+      "observed_state": "READY",
+      "blocking_dimensions": "PASS",
+      "decision": "EXPAND_EVIDENCE",
+      "usage_attribution": "CURRENT_WORK_EPOCH"
+    }
+  ],
+  "next_gate": {
+    "next_invocation_id": "PM-INV-PLAN-EMBEDDED_OVERRIDE-0003",
+    "mode": "plan",
+    "variant": "EMBEDDED_OVERRIDE",
+    "expected_state": "READY",
+    "authority": "ADVISORY_ONLY",
+    "risk_class": "LOW",
+    "armed": false,
+    "automatic_execution": false,
+    "automatic_retries": 0,
+    "maximum_submissions_before_review": 1,
+    "reason_not_armed": "Five-hour remaining usage is 54%, only 4 percentage points above the 50% reserve floor."
+  },
+  "truth_boundary": {
+    "seven_observations_are_not_certification": true,
+    "seven_expected_state_matches_are_not_portability": true,
+    "usage_percentages_are_not_exact_token_accounting": true,
+    "promotion_claim": "NONE"
+  }
+}

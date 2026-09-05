@@ -1,0 +1,42 @@
+name: Validate Prompt Machine Web
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'web/**'
+      - 'docs/PRODUCT_VISION_V3.md'
+      - '.github/workflows/validate-prompt-machine-web.yml'
+  pull_request:
+    paths:
+      - 'web/**'
+      - 'docs/PRODUCT_VISION_V3.md'
+      - '.github/workflows/validate-prompt-machine-web.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Install web dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build production surface
+        run: npm run build

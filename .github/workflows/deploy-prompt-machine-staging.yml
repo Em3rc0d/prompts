@@ -1,0 +1,137 @@
+name: Deploy Prompt Machine Staging
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-prompt-machine-staging.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prompt-machine-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_ORG_ID: team_FTC62CRbJz9veMUDYeVzf7yI
+      VERCEL_PROJECT_ID: prj_Srr2nUKq8fZWff6x9XMyrY3dkjJ7
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      STAGING_URL: https://prompt-quarry-stage.vercel.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Fail closed without Vercel credential
+        run: |
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo 'STAGING DEPLOY: BLOCKED — repository secret VERCEL_TOKEN is not configured.'
+            exit 1
+          fi
+
+      - name: Verify token can read only the staging project
+        run: |
+          STATUS="$(curl --silent --show-error --output /tmp/vercel-project.json --write-out '%{http_code}' \
+            "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN")"
+          echo "VERCEL STAGING PROJECT PROBE: HTTP $STATUS"
+          if [ "$STATUS" != '200' ]; then
+            cat /tmp/vercel-project.json
+            echo 'STAGING DEPLOY: BLOCKED — token cannot read the configured staging project.'
+            exit 1
+          fi
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('/tmp/vercel-project.json','utf8')); if(p.id!==process.env.VERCEL_PROJECT_ID||p.name!=='prompt-quarry-stage'||p.accountId!==process.env.VERCEL_ORG_ID) process.exit(1); console.log('VERCEL STAGING PROJECT IDENTITY: PASS')"
+
+      - name: Link workspace explicitly to staging project
+        run: |
+          mkdir -p web/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > web/.vercel/project.json
+          echo 'VERCEL PROJECT LINK: prompt-quarry-stage only'
+
+      - name: Install web dependencies
+        working-directory: web
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+
+      - name: Deploy source to staging project only
+        id: deploy
+        working-directory: web
+        run: |
+          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy \
+            --prod \
+            --yes \
+            --project "$VERCEL_PROJECT_ID" \
+            -T "$VERCEL_ORG_ID" \
+            --token="$VERCEL_TOKEN")"
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "### Prompt Machine staging deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Vercel project: prompt-quarry-stage ($VERCEL_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Team: $VERCEL_ORG_ID" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deployment: $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Public Prompt Quarry production project was not targeted." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify Prompt Machine staging identity
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            HTML="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
+            STARTER="$(curl --fail --silent --show-error "$STAGING_URL/starter-collection" || true)"
+            if printf '%s' "$HTML" | grep -Fq 'Prompt Machine — Reusable AI Workflows for Real Tasks' \
+              && printf '%s' "$HTML" | grep -Fq 'Start with the task. Not a blank chat.' \
+              && printf '%s' "$HTML" | grep -Fq '$9 one-time Starter' \
+              && printf '%s' "$HTML" | grep -Fq '$19 one-time Full' \
+              && printf '%s' "$STARTER" | grep -Fq 'NOT FOR SALE · SCOPE FROZEN · RELEASE HARDENING' \
+              && printf '%s' "$STARTER" | grep -Fq 'Planned launch price: $9 one-time.'; then
+              echo 'STAGING IDENTITY + COMMERCIAL LADDER: PASS'
+              exit 0
+            fi
+            sleep 5
+          done
+          echo 'STAGING IDENTITY: FAIL — canonical staging alias does not serve the governed Prompt Machine $0 -> $9 -> $19 surface.'
+          exit 1
+
+      - name: Emit non-commercial observability smoke events
+        run: |
+          post_intent() {
+            local payload="$1"
+            local label="$2"
+            for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              STATUS="$(curl --silent --show-error --output /tmp/intent-response.json --write-out '%{http_code}' \
+                -X POST "$STAGING_URL/api/analytics/intent" \
+                -H 'content-type: application/json' \
+                --data "$payload")"
+              if [ "$STATUS" = '202' ]; then
+                node -e "const fs=require('fs'); const body=JSON.parse(fs.readFileSync('/tmp/intent-response.json','utf8')); if(body.accepted!==true) process.exit(1);"
+                echo "INTENT SMOKE: $label ACCEPTED (synthetic staging evidence; not customer demand)"
+                return 0
+              fi
+              echo "INTENT SMOKE: waiting for canonical alias propagation ($label HTTP $STATUS, attempt $attempt/12)"
+              sleep 5
+            done
+            echo "INTENT SMOKE: FAIL — $label was never accepted by canonical staging alias."
+            head -c 300 /tmp/intent-response.json || true
+            echo
+            return 1
+          }
+
+          post_intent \
+            '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            'landing_view'
+
+          post_intent \
+            '{"event":"starter_cta_clicked","product_id":"pq-developer-starter-collection","product_version":"1.2.0-candidate","collection_id":"developer","surface":"starter-collection-staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            'starter_cta_clicked'

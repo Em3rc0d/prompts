@@ -1,0 +1,69 @@
+name: Validate Starter Provider Receipts v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'tools/validate_starter_provider_receipt_schemas_v1.py'
+      - '.github/workflows/validate-starter-provider-receipts-v1.yml'
+  pull_request:
+    paths:
+      - 'commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'tools/validate_starter_provider_receipt_schemas_v1.py'
+      - '.github/workflows/validate-starter-provider-receipts-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-provider-receipts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile receipt schema validator
+        run: python -m py_compile tools/validate_starter_provider_receipt_schemas_v1.py
+
+      - name: Validate provider receipt boundaries
+        run: python tools/validate_starter_provider_receipt_schemas_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Provider Receipt Schemas v1
+
+          | Signal | State |
+          |---|---|
+          | Provisioning receipt | SCHEMA DEFINED |
+          | Provisioning == custody | NO |
+          | Custody receipt | SCHEMA DEFINED |
+          | Custody exact bytes required | YES |
+          | Custody == delivery | NO |
+          | Custody == revenue | NO |
+          | Customer PII persisted | NO |
+          | Provider secrets persisted | NO |
+          | Provider side effects | 0 |
+          | Provider calls | 0 |
+          | Model calls | 0 |
+          | READY_TO_SELL | NO |
+          EOF

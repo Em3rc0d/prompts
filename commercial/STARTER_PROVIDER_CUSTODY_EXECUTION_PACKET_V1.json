@@ -1,0 +1,103 @@
+{
+  "schema": "prompt-machine-starter-provider-custody-execution-packet-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "PREPARED_DISARMED_PROVIDER_SIDE_EFFECTS_NOT_AUTHORIZED",
+  "product_id": "prompt-machine-starter-collection",
+  "provider": "LEMON_SQUEEZY",
+  "purpose": "Define the smallest external provider experiment capable of producing real Starter provider artifact custody evidence without enabling public checkout, executing a model, creating a customer purchase, or claiming delivery.",
+  "arm_contract": {
+    "required_explicit_arm": "EXECUTE_STARTER_PROVIDER_CUSTODY_TEST",
+    "armed_now": false,
+    "automatic_execution": false,
+    "automatic_retries": 0,
+    "automatic_next_gate": false
+  },
+  "canonical_artifact": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "build_receipt": "product/starter-collection-v1/ARCHIVE_BUILD_RECEIPT_V1.json"
+  },
+  "required_configuration_names_only": {
+    "secret_values_must_not_be_persisted": true,
+    "environment_keys": [
+      "LEMONSQUEEZY_API_KEY",
+      "LEMONSQUEEZY_WEBHOOK_SECRET",
+      "LEMONSQUEEZY_STORE_ID",
+      "LEMONSQUEEZY_STARTER_PRODUCT_ID",
+      "LEMONSQUEEZY_STARTER_VARIANT_ID"
+    ],
+    "non_secret_identity_to_record": [
+      "store_id",
+      "provider_product_id",
+      "provider_variant_id",
+      "provider_file_id",
+      "provider_file_identifier_when_available"
+    ]
+  },
+  "provider_setup_requirements": [
+    "Starter provider product and variant exist on a non-public controlled surface",
+    "provider product remains unavailable through Prompt Machine public checkout",
+    "exact canonical Starter ZIP is uploaded or bound to the Starter provider variant",
+    "provider file metadata names prompt-machine-starter-collection-v1.zip",
+    "signed Starter webhook may be configured but no purchase is required for custody proof"
+  ],
+  "verification": {
+    "tool": "tools/verify_lemonsqueezy_provider_file.py",
+    "profile": "starter",
+    "mode": "test_or_controlled_live_as_explicitly_authorized",
+    "verify_bytes_required_for_custody": true,
+    "metadata_only_state": "PROVIDER_METADATA_OBSERVED_NOT_CUSTODY",
+    "success_state": "PROVIDER_ARTIFACT_CUSTODY_PASS",
+    "maximum_verification_attempts_before_review": 1,
+    "downloaded_size_must_equal": 50918,
+    "downloaded_sha256_must_equal": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+  },
+  "stop_conditions": [
+    "store identity mismatch",
+    "provider product identity mismatch",
+    "provider variant identity mismatch",
+    "provider file missing or duplicated",
+    "provider file is not published on the authorized controlled surface",
+    "provider file version mismatch",
+    "provider metadata size mismatch",
+    "provider retrieval unavailable",
+    "retrieved size mismatch",
+    "retrieved SHA-256 mismatch",
+    "public Starter checkout becomes reachable",
+    "secret or customer PII would need to be persisted in evidence"
+  ],
+  "allowed_receipt_on_success": {
+    "evidence_class": "PROVIDER_ARTIFACT_CUSTODY_EVIDENCE",
+    "must_include": [
+      "provider non-secret identities",
+      "artifact filename",
+      "expected size and SHA-256",
+      "observed retrieved size and SHA-256",
+      "test/live mode",
+      "timestamp",
+      "explicit delivery_observed=false",
+      "explicit purchase_observed=false unless separately evidenced"
+    ]
+  },
+  "forbidden_promotions": [
+    "STARTER_PRODUCT_READY",
+    "READY_TO_SELL",
+    "PUBLIC_CHECKOUT_ENABLED",
+    "DELIVERY_PASS",
+    "PQ_DOLLAR_ONE",
+    "CUSTOMER_VALUE",
+    "RUNTIME_CERTIFIED"
+  ],
+  "current_truth": {
+    "provider_side_effects_executed": false,
+    "provider_calls": 0,
+    "provider_custody_observations": 0,
+    "purchases": 0,
+    "deliveries": 0,
+    "model_calls": 0,
+    "ready_to_sell": false
+  },
+  "master_rule": "CUSTODY REQUIRES EXACT PROVIDER-RETRIEVED BYTES; IT DOES NOT REQUIRE OR IMPLY A PURCHASE"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-count-tokens-receipt-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "observed_at": "2026-09-05T21:16:48.768657Z",
+  "source_commit": "05213067b6ac5a6080491b4c8e8727773ddfa0eb",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "provider": "GOOGLE_GEMINI_API",
+  "execution_location": "USER_WSL",
+  "diagnostic": "EXACT_FROZEN_ENVELOPE_COUNT_TOKENS",
+  "runtime_envelope_bytes": 8100,
+  "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "provider_requests_attempted": 2,
+  "automatic_retries": 0,
+  "generate_content_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "behavioral_observations": 0,
+  "credential_value_recorded": false,
+  "results": [
+    {
+      "model": "gemini-3.8-flash",
+      "http_status": 200,
+      "total_tokens": 1898,
+      "response_body_sha256": "6c096680ef697462563d69f7ca8b57f7c9b39388c89b9b17fcf3cb54a1b7ce5f"
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "http_status": 200,
+      "total_tokens": 1898,
+      "response_body_sha256": "6c096680ef697462563d69f7ca8b57f7c9b39388c89b9b17fcf3cb54a1b7ce5f"
+    }
+  ],
+  "classification": "EXACT_ENVELOPE_TOKENIZATION_PATH_ACCEPTED_GENERATION_PATH_REMAINS_ISOLATED_FAILURE",
+  "g05_claim": "NONE",
+  "candidate_mutation_justified": false,
+  "additional_blind_g05_generation_justified": false,
+  "minimal_generation_control_justified": true,
+  "truth_boundary": "TOKENIZATION_ONLY_NO_MODEL_OUTPUT_NO_BEHAVIORAL_EVIDENCE"
+}

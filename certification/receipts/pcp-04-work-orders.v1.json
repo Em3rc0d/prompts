@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-quarry-pcp04-work-order-preparation-receipt-v1",
+  "receipt_id": "PQ-PCP04-PREP-0001",
+  "observed_at": "2026-09-02T13:59:17Z",
+  "repository": "Em3rc0d/prompts",
+  "branch": "feat/workflow-kits-product-model-20260902",
+  "source_commit": "994b61adf2f54e922d1d8ccc6afd559269c52d47",
+  "status": "READY_FOR_REAL_EXECUTION",
+  "inputs": {
+    "inventory_id": "PQ-PCP-00-INV-0001",
+    "matrix_id": "PQ-PCP-03-MATRIX-0001",
+    "fixture_set_id": "PQ-PCP-04-FIXTURES-0001"
+  },
+  "packet": {
+    "manifest_id": "PQ-PCP04-WORK-ORDERS-0001",
+    "prompt_count": 7,
+    "work_order_count": 70,
+    "required_execution_count": 84,
+    "work_orders_jsonl_sha256": "9a4e3c87457295aa90f1280297d97270bb1e7ba0f0d92162b3d70dbc6aacd213",
+    "repeatability_runs_per_prompt": 3
+  },
+  "workflow": {
+    "name": "Prepare PCP-04 Work Orders",
+    "run_id": 33639114500,
+    "job_id": 100277401492,
+    "conclusion": "success",
+    "artifact_id": 9850041484,
+    "artifact_size_bytes": 212088,
+    "artifact_sha256": "f13550df3abf86a1bc32ab360024b617c81a9ecea2eadf2c0acc339c1dc8caef"
+  },
+  "claims": {
+    "FIXTURE_INPUTS_FROZEN": true,
+    "WORK_ORDERS_PREPARED": true,
+    "REAL_EXECUTIONS_OBSERVED": 0,
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false
+  },
+  "evidence_boundary": "This receipt proves that the baseline execution packet is complete, fingerprint-bound and reproducibly materialized. It does not prove any model behavior. PCP-04 remains open until 84 real observations are ingested and pass the strict receipt aggregate gate."
+}

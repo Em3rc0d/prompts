@@ -1,0 +1,144 @@
+name: Prompt Library ETL v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'tools/etl_prompt_library_v1.py'
+      - 'tools/test_prompt_library_etl_v1.py'
+      - 'tools/build_prompt_architecture_pilot_v1.py'
+      - 'tools/build_prompt_architecture_pilot_v2.py'
+      - 'tools/build_prompt_architecture_pilot_v2_1.py'
+      - 'tools/build_prompt_architecture_pilot_v2_2.py'
+      - 'tools/build_prompt_architecture_pilot_v2_3.py'
+      - 'tools/test_prompt_architecture_pilot_v2_3.py'
+      - 'docs/PROMPT_LIBRARY_ETL_V1.md'
+      - '.github/workflows/prompt-library-etl-v1.yml'
+      - '.github/prompt-library-etl-v1-trigger'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prompt-library-etl-v1
+  cancel-in-progress: true
+
+jobs:
+  static-etl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run ETL regression tests
+        run: python tools/test_prompt_library_etl_v1.py
+
+      - name: Run active architecture v2.3 tests
+        run: python tools/test_prompt_architecture_pilot_v2_3.py
+
+      - name: Build active nine architecture mothers v2.3
+        run: |
+          python tools/build_prompt_architecture_pilot_v2_3.py \
+            --output-dir quarry/etl/prompt-library-v1/architecture-pilot-v2.3
+
+      - name: Enforce architecture v2.3 fail-closed boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('quarry/etl/prompt-library-v1/architecture-pilot-v2.3')
+          m = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          rows = [json.loads(line) for line in (root / 'blueprints.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()]
+
+          assert m['architecture_count'] == 9, m
+          assert len(rows) == 9, rows
+          assert len({row['mode'] for row in rows}) == 9, rows
+          assert len({row['prompt_sha256'] for row in rows}) == 9, rows
+          assert m['closed_static_freeze_findings'] == [
+              'ARCH-V22-COMMON-001', 'ARCH-V22-GEN-001', 'ARCH-V22-LEARN-001'
+          ], m
+          assert m['automatic_product_promotions'] == 0, m
+          assert m['external_model_calls'] == 0, m
+          assert m['behavioral_claims_created'] == 0, m
+          assert m['ready_to_sell_claims_created'] == 0, m
+          assert m['bulk_regeneration_allowed'] is False, m
+          assert all(row['state'] == 'STATIC_REVIEW_REQUIRED' for row in rows), rows
+          assert all(not row['ready_to_sell'] for row in rows), rows
+          print('ARCHITECTURE V2.3 GATE: PASS')
+          PY
+
+      - name: Run quality-first ETL on legacy reconstruction corpus
+        run: |
+          python tools/etl_prompt_library_v1.py \
+            --source quarry/normalized/alpacka-ai-prompt-metadata.jsonl \
+            --derived library/prompts/alpacka/derived-premium/catalog.jsonl \
+            --output-dir quarry/etl/prompt-library-v1
+
+      - name: Enforce legacy corpus truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('quarry/etl/prompt-library-v1/manifest.json').read_text(encoding='utf-8'))
+          assert m['source_records'] == 530, m
+          assert m['premium_source_records'] == 478, m
+          assert m['derived_records'] == 478, m
+          assert m['joined_records'] == 478, m
+          assert m['automatic_sellable_promotions'] == 0, m
+          assert m['external_model_calls'] == 0, m
+          assert m['behavioral_claims_created'] == 0, m
+          assert m['ready_to_sell_claims_created'] == 0, m
+          print('LEGACY CORPUS ETL TRUTH GATE: PASS')
+          PY
+
+      - name: Summarize quality-first funnel
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          root = Path('quarry/etl/prompt-library-v1')
+          corpus = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          arch = json.loads((root / 'architecture-pilot-v2.3/manifest.json').read_text(encoding='utf-8'))
+          print('## Prompt Library ETL — quality first')
+          print()
+          print('| Signal | Observed |')
+          print('|---|---:|')
+          print(f"| Legacy reconstructions screened | {corpus['joined_records']} |")
+          print(f"| Legacy structural skeletons | {corpus['structural_skeletons']} |")
+          print(f"| Active architecture mothers | {arch['architecture_count']} |")
+          print(f"| Legacy clone-heavy records | {corpus['clone_heavy_records']} |")
+          print(f"| Legacy records missing instruction/data boundary | {corpus['missing_instruction_data_boundary_records']} |")
+          print(f"| High-stakes records held | {corpus['high_stakes_records']} |")
+          print(f"| Largest legacy clone cluster | {corpus['largest_clone_cluster']} |")
+          print('| Automatic sellable promotions | 0 |')
+          print('| Bulk regeneration | BLOCKED |')
+          print('| External model calls | 0 |')
+          print()
+          print('**Next gate: final static semantic freeze audit of the nine v2.3 mothers.**')
+          PY
+
+      - name: Persist ETL evidence only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add quarry/etl/prompt-library-v1
+          if git diff --cached --quiet; then
+            echo 'ETL evidence is already current.'
+            exit 0
+          fi
+          git commit -m 'quarry(etl): materialize static prompt quality funnel'
+          git push origin HEAD:feat/workflow-kits-product-model-20260902

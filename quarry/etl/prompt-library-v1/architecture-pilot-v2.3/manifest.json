@@ -1,0 +1,29 @@
+{
+  "architecture_count": 9,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "bulk_regeneration_allowed": false,
+  "closed_static_freeze_findings": [
+    "ARCH-V22-COMMON-001",
+    "ARCH-V22-GEN-001",
+    "ARCH-V22-LEARN-001"
+  ],
+  "external_model_calls": 0,
+  "lineage": "successor-to-architecture-pilot-v2.2-after-final-freeze-audit",
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "next_gate": "Final static semantic freeze audit. If PASS, freeze architecture mothers and move only to deterministic binding/invocation design.",
+  "pilot_version": "2.3.0",
+  "ready_to_sell_claims_created": 0,
+  "schema": "prompt-machine-architecture-pilot-manifest-v2.3",
+  "status": "STATIC_REVIEW_REQUIRED"
+}

@@ -1,0 +1,886 @@
+[
+  {
+    "categories": [
+      "Astrología",
+      "Copywriting",
+      "Crear logos",
+      "Desarrollo Personal",
+      "E-commerce",
+      "Educación",
+      "Empleo",
+      "Ganar Dinero",
+      "IG reels",
+      "Ideas de Negocio",
+      "Idiomas",
+      "Imagen",
+      "Ingeniería",
+      "Marketing",
+      "Negocios",
+      "Productividad",
+      "Profesores",
+      "Programación",
+      "Redes Sociales"
+    ],
+    "cluster_size": 306,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_00544aa7-4504-4050-85cd-d54b9b3defaa",
+      "derived_alpacka_prompt_01c42643-a48a-44df-8a34-abe3b867700c",
+      "derived_alpacka_prompt_0254168a-248a-4651-8c80-40c5c6501754",
+      "derived_alpacka_prompt_03ef8d32-f19f-4b3f-afbb-f0f769b99437",
+      "derived_alpacka_prompt_04494a2e-9a7e-408a-a3c4-ddf93d813a3a",
+      "derived_alpacka_prompt_04d2b76c-4d9d-4b5e-9578-fc1e8945a7af",
+      "derived_alpacka_prompt_05c7aaba-93b9-4686-9f3d-80caae061c1c",
+      "derived_alpacka_prompt_05ebf63c-0b24-49e9-882e-c3597436001c",
+      "derived_alpacka_prompt_064565cf-71d2-40f6-848e-16d989d87d40",
+      "derived_alpacka_prompt_06ce9f37-5571-4987-a138-ce06c2b502c0",
+      "derived_alpacka_prompt_0b465957-3ea7-45f9-b32f-6ffb7bafc690",
+      "derived_alpacka_prompt_0c09d1a8-f911-467b-b97d-a28f1cd797ca",
+      "derived_alpacka_prompt_0c496dd4-fd37-440d-a6dd-fff818cf82d6",
+      "derived_alpacka_prompt_0f0e771d-4988-4d96-b814-b210b51db952",
+      "derived_alpacka_prompt_0f24151c-b28b-4d0f-b924-e5b37316ce12",
+      "derived_alpacka_prompt_1103efce-7e69-40b3-a9e4-457cdcb0ae76",
+      "derived_alpacka_prompt_112b8432-af1a-48be-bcb2-23796f93dd07",
+      "derived_alpacka_prompt_116a2f0f-4f95-48bb-ad3e-1cf5c0fc9e37",
+      "derived_alpacka_prompt_1234149b-d413-4aa6-9e25-4adeb45957b4",
+      "derived_alpacka_prompt_125b9b1d-79fa-4472-bb97-7bd30db819a2",
+      "derived_alpacka_prompt_131016e8-fc5a-4029-8f23-904c4aab4623",
+      "derived_alpacka_prompt_13483529-1de9-4cd5-9523-a863a39f7fe8",
+      "derived_alpacka_prompt_168f84cb-a8e4-443a-a377-e3fbaf2905b4",
+      "derived_alpacka_prompt_1819f2c6-1c5e-4e2c-a22d-ccb72b358610",
+      "derived_alpacka_prompt_185298fc-fd6d-486c-ad5b-54feea143154",
+      "derived_alpacka_prompt_1ca6ed19-4859-4521-bd19-ce526d79e618",
+      "derived_alpacka_prompt_1cdba764-f4b1-4c65-8829-e643bfb6756d",
+      "derived_alpacka_prompt_1d6f4ad5-ec1c-427f-9ddd-48b4f48cc90f",
+      "derived_alpacka_prompt_1db34b07-8dc1-4513-aa1c-dac20e1cdfe7",
+      "derived_alpacka_prompt_1de1d076-6a1c-4e07-a03f-9797067b9f59",
+      "derived_alpacka_prompt_1deb510c-3ff7-47f2-b87c-c2149e2cff4c",
+      "derived_alpacka_prompt_1f4ea0f8-2f2e-4437-8c14-65035d375bec",
+      "derived_alpacka_prompt_1f8ed291-f669-4dd4-b719-ae06ea5e9153",
+      "derived_alpacka_prompt_1fa818ae-c219-4961-bd20-7e6db7c23d2a",
+      "derived_alpacka_prompt_201dbd1c-6a56-4f1c-b6ae-941e6319f305",
+      "derived_alpacka_prompt_20ea4a88-32dd-4c58-8d2d-92eb6f951906",
+      "derived_alpacka_prompt_23cf56ef-83f9-45f0-b72b-38d3cd00f639",
+      "derived_alpacka_prompt_23f5edd3-beae-4755-b8e6-3025fc631555",
+      "derived_alpacka_prompt_244263dd-50c6-467b-8c1b-e5e9764198bc",
+      "derived_alpacka_prompt_246aefe7-4e42-434c-bb64-71f7186debe7",
+      "derived_alpacka_prompt_25c0d778-069c-4a62-80de-082df879b011",
+      "derived_alpacka_prompt_261fbcd9-2d4b-4ad1-b6b0-c1cfb0f39c98",
+      "derived_alpacka_prompt_262e64f4-a534-49f8-9acb-9cf67dd84349",
+      "derived_alpacka_prompt_26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+      "derived_alpacka_prompt_27ecd94a-ba74-4f57-925b-8f0d80dd8ecc",
+      "derived_alpacka_prompt_2a0abfb7-a7dd-42f8-b6ae-e84364dd9ee5",
+      "derived_alpacka_prompt_2a876f2a-723c-4894-a770-fe28096531a8",
+      "derived_alpacka_prompt_2a8ccba0-c674-4de8-a615-e116c26fecb1",
+      "derived_alpacka_prompt_2ac80f71-b7a8-43fd-bfc2-ef06d21f508e",
+      "derived_alpacka_prompt_2b29ecd5-ab8e-4bec-b518-7e44bb446940",
+      "derived_alpacka_prompt_2c98901d-1adb-48cd-938e-021ab6eeb082",
+      "derived_alpacka_prompt_2cc9110f-14bf-41a2-9134-2ee5383c058a",
+      "derived_alpacka_prompt_2d66f93b-2cad-4985-b7fa-60f273d311e0",
+      "derived_alpacka_prompt_2da26952-4545-4dcc-beb0-f1c47acb5c0a",
+      "derived_alpacka_prompt_2db1a4c2-b4e5-41d7-a4e6-7ae494a30f05",
+      "derived_alpacka_prompt_2dc2c721-f750-493f-b9a8-438f6801d1a4",
+      "derived_alpacka_prompt_2edeb30a-b49c-450b-a63f-b9064a6f2980",
+      "derived_alpacka_prompt_2f52c878-0735-4014-aeba-4c63f953a80e",
+      "derived_alpacka_prompt_30cbde02-fe3c-476c-989d-2db08a837774",
+      "derived_alpacka_prompt_30e616d2-4138-4079-bf71-8c4cda1b0caa",
+      "derived_alpacka_prompt_31dacb50-7601-4bfb-ad77-18ec96204e83",
+      "derived_alpacka_prompt_334d5c8b-ebb1-410e-9149-7e3b6ca10748",
+      "derived_alpacka_prompt_3574561b-60be-42af-85a6-76e7c3687670",
+      "derived_alpacka_prompt_3642c4dd-063f-4153-b9d3-3cee97459d81",
+      "derived_alpacka_prompt_36f09ba6-a74a-4bf6-ab1c-33c614cd1f98",
+      "derived_alpacka_prompt_3701d1d0-710e-4ee4-ba0c-864ccc22830e",
+      "derived_alpacka_prompt_37767add-e11c-4674-b2ef-930b3e1e5745",
+      "derived_alpacka_prompt_37f8b7cd-53ed-4ab6-9f13-45f18953265a",
+      "derived_alpacka_prompt_38533e14-2c07-4f46-b39d-8ecea04d8f99",
+      "derived_alpacka_prompt_38a8d841-da92-48bc-a9e4-90594af7111f",
+      "derived_alpacka_prompt_3b4f62c1-7cea-4cf0-94ca-73305f1a30fa",
+      "derived_alpacka_prompt_3be075c0-3b37-4300-b2b8-f6ba2f38d2fa",
+      "derived_alpacka_prompt_3de1d98d-95f4-4772-be92-cf8eb189aba3",
+      "derived_alpacka_prompt_3e4dd93a-95b9-4aac-aa44-04608dbea77b",
+      "derived_alpacka_prompt_3f7d5bf1-9047-4cc9-911f-d95e14f994cc",
+      "derived_alpacka_prompt_4033ed5c-ba53-4602-8745-2c5600a340c4",
+      "derived_alpacka_prompt_40b045db-5207-4d28-8009-fde45d42857a",
+      "derived_alpacka_prompt_422771c2-4832-40b2-9d7c-0fae2e2c99ec",
+      "derived_alpacka_prompt_42adbb29-093e-46f4-9f7b-1df654a5342e",
+      "derived_alpacka_prompt_435c29a1-9b04-4f90-80cd-0514f4422664",
+      "derived_alpacka_prompt_442da1ba-18b0-49ea-abd6-95fc2b1cd2ef",
+      "derived_alpacka_prompt_44da8ab4-783a-4349-88b3-70ed885cc84d",
+      "derived_alpacka_prompt_44f3d235-b5d4-4804-9c1f-8877036af4b9",
+      "derived_alpacka_prompt_46a59528-33ef-48b5-8635-7f6f5e7c2f97",
+      "derived_alpacka_prompt_46c1abcd-c125-4474-9c28-e68d25507563",
+      "derived_alpacka_prompt_46fec96d-9360-48d4-b329-032fb5af6a87",
+      "derived_alpacka_prompt_47735bb1-0217-439c-a617-97a907f0c29d",
+      "derived_alpacka_prompt_479dab1f-d55f-416e-84a9-dc012db7c6d9",
+      "derived_alpacka_prompt_47ac539d-6632-4914-ad1e-a02aa231b68c",
+      "derived_alpacka_prompt_481f228a-5d0c-41da-b69d-8132b31a0d63",
+      "derived_alpacka_prompt_48f80b7d-aae9-4dc1-aed3-37e85d1d361b",
+      "derived_alpacka_prompt_48fcee94-d357-42be-9846-a02173aa0242",
+      "derived_alpacka_prompt_491ed35c-446b-4eac-b48a-58e87490ae8c",
+      "derived_alpacka_prompt_49ad80ed-303e-4deb-8f0c-86da88a38a70",
+      "derived_alpacka_prompt_4bc64b98-fe1d-4021-acf3-f268d13629fe",
+      "derived_alpacka_prompt_4bf87b51-1e6f-4c80-89ac-2108c1aa9294",
+      "derived_alpacka_prompt_4cc09aee-e336-4066-812e-e07463dda899",
+      "derived_alpacka_prompt_4d3025c7-cbdc-488a-8c92-07cffcc7f53b",
+      "derived_alpacka_prompt_4d6f67e8-e1b3-486c-851a-47b88461a8bb",
+      "derived_alpacka_prompt_4fb6484c-8eaa-49b7-91f8-c4ad2279d0e9",
+      "derived_alpacka_prompt_4fec4069-be0e-446a-ac03-09e750330217",
+      "derived_alpacka_prompt_507f1c64-6b62-470e-859f-25ccbcc692c3",
+      "derived_alpacka_prompt_53cb59bb-1d59-4028-9daf-40191f4a1aec",
+      "derived_alpacka_prompt_54574f15-dd57-49f1-8eb8-c54ffb496ea3",
+      "derived_alpacka_prompt_54c5f027-c0ee-45d0-add1-9fe0b45b1864",
+      "derived_alpacka_prompt_553737f8-8ac2-4bd1-995c-e6d6c11fdaf8",
+      "derived_alpacka_prompt_5558d1bf-cb7f-49e6-8afb-93be08e43a35",
+      "derived_alpacka_prompt_55b09c07-731c-4a78-9a4b-e9a7291c4640",
+      "derived_alpacka_prompt_55f2c7f0-4ecf-47c2-a365-5a47717070f3",
+      "derived_alpacka_prompt_565d46d3-0a18-445d-a829-d8dad008b678",
+      "derived_alpacka_prompt_584c0349-1275-415b-abfb-3834d1051fe0",
+      "derived_alpacka_prompt_5928728f-3163-4f63-a3ce-e4f067e52f3b",
+      "derived_alpacka_prompt_59595634-6e6e-4903-b8dd-b2a35b64e7f8",
+      "derived_alpacka_prompt_59d3caf4-b639-4b10-8fbf-ce0b0f5423b1",
+      "derived_alpacka_prompt_59d9987e-f096-4f5b-aad0-c8314dd6429d",
+      "derived_alpacka_prompt_5ab8b511-56bb-4481-a597-5db60de58b52",
+      "derived_alpacka_prompt_5b99ce69-5cd7-41ea-b8f1-b104ceb4ec08",
+      "derived_alpacka_prompt_5c83f010-039d-4ed9-9eba-f7d09b17606b",
+      "derived_alpacka_prompt_5c94b83b-ef62-4d69-8b73-6a1ca34c0463",
+      "derived_alpacka_prompt_5ce21cb1-0787-4d55-8c32-9d2f32d2b665",
+      "derived_alpacka_prompt_5d4fc42b-5d97-4c60-85f3-3e2c524fe00e",
+      "derived_alpacka_prompt_5e29c4ef-c8e4-45fd-b272-55d235c56f06",
+      "derived_alpacka_prompt_5e45aebe-cbcf-41ba-959a-4461a96123ca",
+      "derived_alpacka_prompt_5fa4234a-cde1-4ee1-8246-4327e6c635b6",
+      "derived_alpacka_prompt_608c9543-c68e-47e0-97c8-19c32c3758d4",
+      "derived_alpacka_prompt_648c439e-6c23-432a-88e3-ddeff9e0a56e",
+      "derived_alpacka_prompt_66c81698-03e3-49f3-8257-e46face30c19",
+      "derived_alpacka_prompt_6809b7c4-a485-4cdb-ab30-3897548636d3",
+      "derived_alpacka_prompt_686a6251-d30f-4d4a-9e22-996029d7df29",
+      "derived_alpacka_prompt_68f9f7ee-817d-4dd7-a574-bdb56e24049e",
+      "derived_alpacka_prompt_6af12aec-4e3b-42f3-b18e-57eea4b4f4f6",
+      "derived_alpacka_prompt_6e8e91f7-0054-4e8e-8273-9aba221d2172",
+      "derived_alpacka_prompt_6ea9d6c6-c52e-46d8-a799-ce87fff10b51",
+      "derived_alpacka_prompt_6eb73bda-bfbb-458c-9cf6-98f4bccde5ee",
+      "derived_alpacka_prompt_6f0950f4-f580-48fb-b145-289a3840e674",
+      "derived_alpacka_prompt_6f249ab8-901a-493c-8c3c-ab7b0bd15ae6",
+      "derived_alpacka_prompt_717f4f12-5636-4ef5-9ecb-1da145e39d3c",
+      "derived_alpacka_prompt_71c8e110-ce63-4f52-ab96-2ee9cab3e48d",
+      "derived_alpacka_prompt_725c89f6-7482-4a6a-af76-736797300b37",
+      "derived_alpacka_prompt_7319cc72-8a23-46ad-909c-45e0d600fc11",
+      "derived_alpacka_prompt_7449b362-d581-47a6-938b-9c7d84ff0448",
+      "derived_alpacka_prompt_74a38693-c3f2-4a61-bb0d-50080b1b5bef",
+      "derived_alpacka_prompt_752fd45d-22de-4c0c-915c-a81a3dc277c1",
+      "derived_alpacka_prompt_777866ca-2a26-47b7-85aa-91108e456178",
+      "derived_alpacka_prompt_794ef91b-a19e-4ffa-8963-4a5a53e0340e",
+      "derived_alpacka_prompt_79a98839-1cd1-4c0f-87a4-1be135d2c26c",
+      "derived_alpacka_prompt_7a55c045-17a3-4555-80f4-f5681dec0187",
+      "derived_alpacka_prompt_7aa299b5-eb21-4622-98d2-02f20da35486",
+      "derived_alpacka_prompt_7b75d8f4-4a8e-43ed-82e6-ab30524236a0",
+      "derived_alpacka_prompt_7bf10b8e-d43a-453d-b881-98755580ad54",
+      "derived_alpacka_prompt_7c2922f3-c935-4793-8eae-09932f84713b",
+      "derived_alpacka_prompt_7c330bb6-1fdb-4363-988f-a072e3454b55",
+      "derived_alpacka_prompt_7c4018fb-1879-42b0-99ae-7d451de4adfa",
+      "derived_alpacka_prompt_7c952b8d-abe3-4f3e-babb-617e08097d17",
+      "derived_alpacka_prompt_7fa9672c-f617-49ff-b8da-5db08930ac1e",
+      "derived_alpacka_prompt_818c15c4-7d8c-4ed1-82d9-49a7263a4df4",
+      "derived_alpacka_prompt_81e6603a-ee0d-4dd4-b04b-a611751988c6",
+      "derived_alpacka_prompt_8279219e-701c-4c9f-8695-d34a39247584",
+      "derived_alpacka_prompt_82b258eb-dd95-47a8-b9a8-53e97b356761",
+      "derived_alpacka_prompt_83183cc7-2b4a-4b1d-9cf1-f89e6f9abc1b",
+      "derived_alpacka_prompt_83b89785-5689-407a-a303-e1cfcd62b9ea",
+      "derived_alpacka_prompt_87b51cb6-3ef5-44a3-ba38-e6e60b02667f",
+      "derived_alpacka_prompt_87f30862-0766-439a-a86b-dcffe35a0eb5",
+      "derived_alpacka_prompt_8818d318-6b62-45a0-9dd6-1bdfdb9b9f76",
+      "derived_alpacka_prompt_8999edf3-b91d-44cc-bd89-7e845c14a9d9",
+      "derived_alpacka_prompt_8a8e716f-3f30-4a99-b0da-718b1102f224",
+      "derived_alpacka_prompt_8ad4bef9-7bf2-42ea-929a-1f938c3fe33d",
+      "derived_alpacka_prompt_8adc4b46-2002-48ab-b012-f38823261b8a",
+      "derived_alpacka_prompt_8b1ea09e-2797-4cf6-8e5a-16b40731836a",
+      "derived_alpacka_prompt_8b4229ee-b119-4bfc-8cde-e116459d549e",
+      "derived_alpacka_prompt_8be7e04c-defc-47dc-bc00-ca85597bf7cd",
+      "derived_alpacka_prompt_8c6b3434-d1c9-4342-96fa-c8b31464281b",
+      "derived_alpacka_prompt_8d526d50-f63b-4478-95b0-bbe53423f5e6",
+      "derived_alpacka_prompt_8d563661-8e21-4215-9992-db9e39250701",
+      "derived_alpacka_prompt_8e78dc86-536b-48b5-950a-55f2f7fd0064",
+      "derived_alpacka_prompt_8efd9daa-c8c4-4061-a383-1740404b5e49",
+      "derived_alpacka_prompt_8f02bdbf-bbc0-4f03-8d16-a2fb0dd32f4d",
+      "derived_alpacka_prompt_8f7a471c-0367-4da7-a51a-375a03e308df",
+      "derived_alpacka_prompt_8fe4d788-5007-4ba9-9395-bef1dc3cc052",
+      "derived_alpacka_prompt_918487a8-7352-4dd7-a50a-867ce26ba50c",
+      "derived_alpacka_prompt_91f6e3a6-d258-44a6-b4a6-bd8775e1be41",
+      "derived_alpacka_prompt_9258ab43-a125-4f5c-973a-0a4c77a996cc",
+      "derived_alpacka_prompt_9548a94a-c68e-4345-bec9-ff0a5b197577",
+      "derived_alpacka_prompt_95ea52ef-45b3-4753-92b8-70e5b9fabded",
+      "derived_alpacka_prompt_96655382-ddda-417c-9143-b6f9eb017ddb",
+      "derived_alpacka_prompt_9906da8b-f0f4-49f4-ac80-1191c5ff5634",
+      "derived_alpacka_prompt_9969dc2a-c885-447b-97af-d110a09ced35",
+      "derived_alpacka_prompt_996dc332-f72c-48a6-8ed0-3120f0106d0c",
+      "derived_alpacka_prompt_998c042b-65f7-4ea7-9456-52cae3c2da48",
+      "derived_alpacka_prompt_9a01cd13-26b3-4b5c-97c8-5a9a9fe1c2eb",
+      "derived_alpacka_prompt_9c52b7ff-a100-4615-842f-cf8fb8e6ed6d",
+      "derived_alpacka_prompt_9cf06add-7dd9-40f8-9434-6044e335ac3c",
+      "derived_alpacka_prompt_9e877b3a-eff8-4b82-a2e8-955019e7cdb1",
+      "derived_alpacka_prompt_9ed05c0d-2205-48a4-ab13-0d98c19d3020",
+      "derived_alpacka_prompt_9edb7533-a2b0-4a60-8673-c6394bbc7346",
+      "derived_alpacka_prompt_9f5db947-448c-4595-8b0b-dd9926fb8c69",
+      "derived_alpacka_prompt_a193c168-1471-4aca-9f2b-3e3fa3651751",
+      "derived_alpacka_prompt_a2758d2a-0b1c-4daa-810b-76d44946c7cb",
+      "derived_alpacka_prompt_a2ba810a-69ae-424a-ab3c-dd6cfd51bdd3",
+      "derived_alpacka_prompt_a2d41f92-a3c1-467f-9e03-94d430b7a2dd",
+      "derived_alpacka_prompt_a8cc689a-fada-448b-8fb7-572efe353976",
+      "derived_alpacka_prompt_a8d54652-6571-48ab-89ad-e61f10f056b6",
+      "derived_alpacka_prompt_a95b3fe6-b201-4499-994c-2c42fd5195e1",
+      "derived_alpacka_prompt_aaeb0aea-2e0a-4cb1-a095-963bd0b065cf",
+      "derived_alpacka_prompt_ab0c9cd9-d996-4b46-b2e2-a9b75134f82a",
+      "derived_alpacka_prompt_ab485789-fe0a-44a6-b38c-53175e410e3e",
+      "derived_alpacka_prompt_ac463683-f80f-45a0-b990-16a37a7d14d7",
+      "derived_alpacka_prompt_accffe96-8903-45be-9fea-1eb55d2febc8",
+      "derived_alpacka_prompt_acea2092-0276-45ed-8722-1d2480520580",
+      "derived_alpacka_prompt_ad173bd6-6f83-4f8f-b599-f5e971651703",
+      "derived_alpacka_prompt_ae4d7031-02bd-4042-83ef-a88ac24c4fad",
+      "derived_alpacka_prompt_af05de3a-855a-4aa4-96c7-2ca8098c5842",
+      "derived_alpacka_prompt_b0739809-ad6a-4f68-bc26-376802e2ec7a",
+      "derived_alpacka_prompt_b598e084-66eb-49aa-b62e-c3249502a9f7",
+      "derived_alpacka_prompt_b619f341-3447-463c-a133-722c16d4adc3",
+      "derived_alpacka_prompt_b61d2295-80ab-421e-a5be-458705fc098b",
+      "derived_alpacka_prompt_b6bba937-9b6c-43fe-9bde-9d2f17b09f38",
+      "derived_alpacka_prompt_b7316b87-dc82-4b36-a1b9-206ae987cee9",
+      "derived_alpacka_prompt_b7ec3476-7269-4e68-a29f-dd5a27ebc4b5",
+      "derived_alpacka_prompt_b8571470-2308-45a6-aea6-981f2d2aa87e",
+      "derived_alpacka_prompt_b94d8402-7fe4-4b10-9c4c-493d263ee24d",
+      "derived_alpacka_prompt_bac39e36-8f67-4944-bfb3-e67c381bffe8",
+      "derived_alpacka_prompt_bae4bad0-9152-467c-85b3-7c3b7c26ed6e",
+      "derived_alpacka_prompt_bb05f2a9-958c-492e-95f1-ddecc3b9dc33",
+      "derived_alpacka_prompt_bbe5d3ee-4f6e-454b-a98b-8ddc9607429b",
+      "derived_alpacka_prompt_bcb4e84e-0013-4063-af3e-528ee3d7ddd4",
+      "derived_alpacka_prompt_bec8cf06-2f56-46a4-915d-1d9242d47397",
+      "derived_alpacka_prompt_c2665e9e-1860-4dda-b2f1-f50daa1dee6e",
+      "derived_alpacka_prompt_c323a2e2-124a-449d-85f0-c6667974aacf",
+      "derived_alpacka_prompt_c33709e4-d806-4567-a89f-b3a3f996c773",
+      "derived_alpacka_prompt_c33891f7-4415-4e3a-a185-9c0ecfb10dba",
+      "derived_alpacka_prompt_c49e3586-a199-4b3b-b7e4-b6a350e63862",
+      "derived_alpacka_prompt_c4e55c91-5fc5-474b-9d7a-854a3d43c9f6",
+      "derived_alpacka_prompt_c521da47-55a1-48d6-a8a0-b0b389c891c5",
+      "derived_alpacka_prompt_c7be2463-3e42-4459-bb73-9e49f36a08d5",
+      "derived_alpacka_prompt_c7bf3765-ff7c-4a1a-aa03-84aa17a2eb6f",
+      "derived_alpacka_prompt_c810da93-8cc8-4bc2-b193-872ab7392bb5",
+      "derived_alpacka_prompt_c9ba8195-63fa-4c7c-8645-4c22d8a47ca9",
+      "derived_alpacka_prompt_cad78c90-2aac-4cf7-bdcf-6a3466f19e67",
+      "derived_alpacka_prompt_ceb80ec4-8a4f-41f8-8960-d65b6fb5343d",
+      "derived_alpacka_prompt_cfb040c3-be4b-45bd-ab93-7cf30daf06f2",
+      "derived_alpacka_prompt_d084d7bb-5c45-46dc-bff0-e4d120586bbd",
+      "derived_alpacka_prompt_d0dbb8fc-db84-444b-bd19-9a57c0abf502",
+      "derived_alpacka_prompt_d56775f4-999e-4caa-9f9b-2c48e011ded5",
+      "derived_alpacka_prompt_d582784a-04db-4df8-82d4-96fa0cbb41d4",
+      "derived_alpacka_prompt_d7a03e65-81b8-4860-a591-9de642da8c77",
+      "derived_alpacka_prompt_d7f3bed9-a040-4b2d-bb05-35f9db422d27",
+      "derived_alpacka_prompt_d93ab96f-0e32-4c61-b823-650487e0870c",
+      "derived_alpacka_prompt_d973cb56-b5e3-4ab2-a578-cfab53243c53",
+      "derived_alpacka_prompt_d98b50f5-0977-4389-92f5-091e5f77e5a2",
+      "derived_alpacka_prompt_da608f01-0c77-4c59-b0d1-933459aebbc5",
+      "derived_alpacka_prompt_dbb03874-c983-4f2c-9933-8c0457b1a866",
+      "derived_alpacka_prompt_dd3d10e7-f15b-4724-aa04-3e4d5c35ef49",
+      "derived_alpacka_prompt_dea1871d-c007-47b9-b1ac-d48a918be6c8",
+      "derived_alpacka_prompt_df42248d-de08-4e58-8771-2a15ae74659f",
+      "derived_alpacka_prompt_dfb98adf-8ead-4284-982c-31e812b2339f",
+      "derived_alpacka_prompt_e068c686-87e6-4c42-9300-474a9d93858e",
+      "derived_alpacka_prompt_e072df14-5095-4f2a-91fd-05bc125459e9",
+      "derived_alpacka_prompt_e0b83aae-4181-4127-9e30-12b30d46f45c",
+      "derived_alpacka_prompt_e19a1366-7564-4b40-a23f-034475baeee5",
+      "derived_alpacka_prompt_e1c87a9a-1c4b-4c3e-9587-578c59a39f7e",
+      "derived_alpacka_prompt_e1fe83d9-ea39-4756-9fbe-9df28f111a62",
+      "derived_alpacka_prompt_e315bad2-e6b5-46c9-bed9-803b534b4565",
+      "derived_alpacka_prompt_e3def5ee-fec8-44bb-a4ac-9d4a9661d4b2",
+      "derived_alpacka_prompt_e4518243-e1c2-487d-a902-0d0c001e21a7",
+      "derived_alpacka_prompt_e4bed724-bb86-439f-b067-915aa11e2ad7",
+      "derived_alpacka_prompt_e4bf67e5-a047-4846-bafe-08408b8cae34",
+      "derived_alpacka_prompt_e5c3c0c4-5318-4aee-bc62-48a3124b31ef",
+      "derived_alpacka_prompt_e6c87f4f-a38a-4e94-a903-ca33bcbf4e94",
+      "derived_alpacka_prompt_e746c083-53ac-4680-8d50-976ad9b934a2",
+      "derived_alpacka_prompt_e7a4af26-11be-4b99-a148-93fd414a34eb",
+      "derived_alpacka_prompt_e7f7cf71-8dc0-45f1-a00b-57c126b2bbe4",
+      "derived_alpacka_prompt_e8cc4a63-f699-450f-be85-ee37a57ec270",
+      "derived_alpacka_prompt_e907c446-d4c5-41e2-a732-de271d762011",
+      "derived_alpacka_prompt_e90c80b3-9fe1-46a1-a2bd-5ab42c52d2e8",
+      "derived_alpacka_prompt_ea6d06b6-8b3b-4f91-a9ec-07e6cb2b1456",
+      "derived_alpacka_prompt_eb9d605f-eefd-4831-bcff-85d4b3d2c15f",
+      "derived_alpacka_prompt_ebfedcfa-96c5-41dc-9957-35f6670be510",
+      "derived_alpacka_prompt_ec263e2d-3546-4538-b66d-6a63a86f35b1",
+      "derived_alpacka_prompt_ecbc8fc8-63fb-435e-b9db-757748163856",
+      "derived_alpacka_prompt_eced1f4a-9bf1-4e5d-96c0-fa9b75c46d84",
+      "derived_alpacka_prompt_ecf5da15-0177-46d6-8c82-36025e8b4eb9",
+      "derived_alpacka_prompt_ee4745ac-c531-44f1-bf26-c1162251d06f",
+      "derived_alpacka_prompt_f008ec65-13ad-49e7-b0fb-cdb38127aeaf",
+      "derived_alpacka_prompt_f070fe94-bdee-4fcc-9486-77d3de0e3d09",
+      "derived_alpacka_prompt_f1684874-777d-41e0-9e94-2a559da2f7a6",
+      "derived_alpacka_prompt_f1b2de0b-f9c8-480e-acbd-baeac62e6455",
+      "derived_alpacka_prompt_f1d856da-1d42-4f68-9e28-4d692a5b12a3",
+      "derived_alpacka_prompt_f33445b3-0f38-4faf-a261-a5f491a5e4aa",
+      "derived_alpacka_prompt_f3addae0-120e-4e44-a371-170359b3bf5d",
+      "derived_alpacka_prompt_f3cf9313-380b-43b5-90fd-0417a3985753",
+      "derived_alpacka_prompt_f48c741f-acfd-4877-9c98-e9d0f4c6bcca",
+      "derived_alpacka_prompt_f4a265ec-8c57-4947-9e3a-57bf9d4bd739",
+      "derived_alpacka_prompt_f69b244b-2990-42a4-b4ad-038dfbabf54f",
+      "derived_alpacka_prompt_f6e4da81-7312-4eb1-8498-030012b3f78a",
+      "derived_alpacka_prompt_f73b7796-134c-4a80-9490-9501576cb285",
+      "derived_alpacka_prompt_f9d137cc-324e-4887-9015-c260544c0d29",
+      "derived_alpacka_prompt_f9d1e162-a68b-4392-87bd-8e926f1c2848",
+      "derived_alpacka_prompt_fa9765aa-bbde-45d0-93c2-93e84d344772",
+      "derived_alpacka_prompt_facdfbc3-6568-4f21-bd73-5914ef15b6c1",
+      "derived_alpacka_prompt_fb3b0407-56a7-4647-b40a-85169a4d0c85",
+      "derived_alpacka_prompt_fc028b0c-1589-4876-8beb-67d38b2b69f0",
+      "derived_alpacka_prompt_fd2eb9fb-0cab-4541-bd92-0de12dc29dfa",
+      "derived_alpacka_prompt_fd8358b8-d5c8-42f2-83b6-ce97fd2421bc",
+      "derived_alpacka_prompt_fd98c80c-fbb9-4996-9447-fdff5ec7f015",
+      "derived_alpacka_prompt_fd9a2fd0-3a8b-45e7-9c73-3ec106fba8eb"
+    ],
+    "modes": [
+      "general"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_246aefe7-4e42-434c-bb64-71f7186debe7",
+    "representative_title": "Arquitecto de Astroeconómica",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:ec5965f1ae11704b5a3a225152ce875f3003f029e81aaa1eb1df6c7739d63d4c",
+    "state_counts": {
+      "REWORK_REQUIRED": 306
+    }
+  },
+  {
+    "categories": [
+      "Abogados",
+      "Finanzas Personales",
+      "Salud"
+    ],
+    "cluster_size": 38,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_0756b941-538d-41bd-ad5d-77f7b0197b52",
+      "derived_alpacka_prompt_0e01c978-064f-40b5-b1d2-32f7911283f3",
+      "derived_alpacka_prompt_2381b49b-b673-4d47-8339-11a659e50aba",
+      "derived_alpacka_prompt_28470516-ff36-4c56-af86-521b4dfe1f60",
+      "derived_alpacka_prompt_36b6afcf-3f19-4d09-996d-9711349a2a77",
+      "derived_alpacka_prompt_36d9c64e-7fcd-4281-8c78-62c2e4fd6221",
+      "derived_alpacka_prompt_414b0dad-4afd-42d3-96d8-00b9d9927d26",
+      "derived_alpacka_prompt_540a6914-c000-4e1a-ba8b-78ef28fbfea6",
+      "derived_alpacka_prompt_5962bca4-d536-4d04-8e30-cbd9573a53c6",
+      "derived_alpacka_prompt_620d863a-58f1-48d6-8064-a506d6753fdf",
+      "derived_alpacka_prompt_72359c10-dbb3-4fd5-a8b0-0bb6dffc53e7",
+      "derived_alpacka_prompt_750e76a9-60e6-4d14-b4dc-bee40dc35bbd",
+      "derived_alpacka_prompt_78f0103e-d4e6-498f-8042-a483eadd261f",
+      "derived_alpacka_prompt_80ecc6d9-b9a2-4b24-af46-02b3c59d6873",
+      "derived_alpacka_prompt_86725fe9-4775-439c-a2b7-3ef8fe07d4cb",
+      "derived_alpacka_prompt_86a08e55-ef77-448b-9396-b718c45f5090",
+      "derived_alpacka_prompt_8783b015-d9c7-448c-8c23-feacaac7d626",
+      "derived_alpacka_prompt_8b5c53fe-0f19-40e4-adb6-7a93a6bfcf31",
+      "derived_alpacka_prompt_91d577e3-3e4d-4629-bb98-33a7ae58042f",
+      "derived_alpacka_prompt_9c255d85-4db5-4785-86d0-7e66cfac89f9",
+      "derived_alpacka_prompt_a46e0437-fb26-47b2-88df-f67d63c3fae5",
+      "derived_alpacka_prompt_a585a4eb-0458-4ae1-b94b-f0b28121c534",
+      "derived_alpacka_prompt_af83f512-31ad-4f19-89e4-3615831a13a5",
+      "derived_alpacka_prompt_b502b710-effa-4b46-8bfd-a56a6bc25d5c",
+      "derived_alpacka_prompt_b68ec314-4662-4ed3-b2ff-2975f6dbc54f",
+      "derived_alpacka_prompt_b72a4be9-0099-4832-8e84-10331c5af50a",
+      "derived_alpacka_prompt_b9af892a-8aff-488c-816b-ccc7366e9926",
+      "derived_alpacka_prompt_bafe15d9-d5b5-49c8-96a9-f480a1a7edcf",
+      "derived_alpacka_prompt_c2598643-4661-416c-b837-55a6f7ca5efb",
+      "derived_alpacka_prompt_c60b81b1-1a01-4c22-b4da-9d41247688ec",
+      "derived_alpacka_prompt_c728c59b-6929-4f0a-8b60-475109d0492a",
+      "derived_alpacka_prompt_c7edb3e8-965a-48f6-ae34-bd21c49eab74",
+      "derived_alpacka_prompt_e4f54911-97ef-4267-bb40-ab99909fa052",
+      "derived_alpacka_prompt_e846bf89-938d-48a4-8926-83acfcc9cf49",
+      "derived_alpacka_prompt_efa374d2-fa06-4f0d-81a1-dbda46981e6f",
+      "derived_alpacka_prompt_f4c13161-af83-4c0f-81ea-1f5865ada953",
+      "derived_alpacka_prompt_f6602ed2-5a2b-452e-8af8-0888c5da07e7",
+      "derived_alpacka_prompt_ffdb2ac2-16d3-45d4-b669-8cbdeaf14520"
+    ],
+    "modes": [
+      "general"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_f6602ed2-5a2b-452e-8af8-0888c5da07e7",
+    "representative_title": "Borrador Clínico de Amparo / Tutela Fundamental",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:af3637ebb2698d8933ffbe8281d937f69c300fc78c64570a4222b48a1e0dddf2",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 38
+    }
+  },
+  {
+    "categories": [
+      "Astrología",
+      "Crear logos",
+      "Desarrollo Personal",
+      "E-commerce",
+      "Educación",
+      "Ganar Dinero",
+      "Ideas de Negocio",
+      "Idiomas",
+      "Marketing",
+      "Negocios",
+      "Productividad",
+      "Programación",
+      "Redes Sociales"
+    ],
+    "cluster_size": 37,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_04811881-f7ed-44d4-887f-beba2a4df73a",
+      "derived_alpacka_prompt_08de2ba9-5e2d-4a66-b459-0f4cf8cfa1cb",
+      "derived_alpacka_prompt_0df63676-9966-4b5f-81c5-0a70986cb042",
+      "derived_alpacka_prompt_1550853c-ebe4-4aef-9d36-c2dcf431ccd4",
+      "derived_alpacka_prompt_27cc07cd-f952-466b-8d3b-5d4abd918864",
+      "derived_alpacka_prompt_32a732cc-7f51-4536-993f-6983d120f30c",
+      "derived_alpacka_prompt_499e9f8e-6764-4a47-9c34-5db16d2106ed",
+      "derived_alpacka_prompt_564dbdca-7dd4-4763-96a4-77e6237ee29c",
+      "derived_alpacka_prompt_6559a4fa-aa25-44c9-9228-19ebc375d272",
+      "derived_alpacka_prompt_692c649c-21f7-4ee2-98b2-08b8a252ab5b",
+      "derived_alpacka_prompt_6adaf855-4fef-4452-9002-12562315c9f1",
+      "derived_alpacka_prompt_6c6296a1-9497-4dfc-8fc9-44df5c3bb77e",
+      "derived_alpacka_prompt_7466ac18-6e9d-488d-9b92-aaa651a97246",
+      "derived_alpacka_prompt_79631458-9928-42d5-a484-028624161b5a",
+      "derived_alpacka_prompt_83ad3b5d-4b7a-412a-b563-7ebbd2f6579c",
+      "derived_alpacka_prompt_87c20b13-fdfe-4048-86f7-b97c25c7930f",
+      "derived_alpacka_prompt_8bcf971b-5160-4135-b8b7-879475809fae",
+      "derived_alpacka_prompt_9285c1aa-02f2-4ceb-a9d7-e297dc79d5c8",
+      "derived_alpacka_prompt_941b1534-6672-4a62-b936-66bd97e9cec2",
+      "derived_alpacka_prompt_97d67528-f646-4f6a-bb53-b8473ee50d00",
+      "derived_alpacka_prompt_9e2e0af0-b5d5-4090-bca6-90909c239885",
+      "derived_alpacka_prompt_a03a93bb-964c-4aba-8abe-a4985f6326be",
+      "derived_alpacka_prompt_a22e650e-b738-46bc-9423-e834d9901538",
+      "derived_alpacka_prompt_ac8e3249-c107-4278-b2a4-24c69fc86cef",
+      "derived_alpacka_prompt_b86ed18c-a3a6-4bf6-9634-06b5afbaa8fa",
+      "derived_alpacka_prompt_beca8b65-7a53-449b-b665-954c0e359f38",
+      "derived_alpacka_prompt_c8c745f8-c5d1-45a7-b28d-f58d4595906d",
+      "derived_alpacka_prompt_ceb5622f-c871-4a86-b4d2-020a3ad1f3f1",
+      "derived_alpacka_prompt_d9a03a63-bd59-4884-a4ce-87a4b12217bf",
+      "derived_alpacka_prompt_d9d137d7-62f0-49d3-9783-f5285f9a0a7a",
+      "derived_alpacka_prompt_dd29d25d-aa74-4750-a534-bad9ac15b022",
+      "derived_alpacka_prompt_e0fd7528-6a67-4e0a-af7b-5e6f6e597b4b",
+      "derived_alpacka_prompt_eabace70-0763-465a-b763-a06a6b1f2070",
+      "derived_alpacka_prompt_eda99eff-8650-41e7-9a1c-5dcd4fc61e2b",
+      "derived_alpacka_prompt_ef9a1e13-1962-4050-b157-708c328a89d0",
+      "derived_alpacka_prompt_f47e226d-77b3-4b41-b506-0e4107103fef",
+      "derived_alpacka_prompt_f90528a8-1ff2-4ced-a6c6-b35f271e701a"
+    ],
+    "modes": [
+      "plan"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_32a732cc-7f51-4536-993f-6983d120f30c",
+    "representative_title": "Analista de Ciclos Planetarios de Generación",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:fd1e71615c4cfd33bee322cd4d04c80030664551ac4d2f61f0893cb6856d0de7",
+    "state_counts": {
+      "REWORK_REQUIRED": 37
+    }
+  },
+  {
+    "categories": [
+      "Copywriting",
+      "Educación",
+      "Ganar Dinero",
+      "IG reels",
+      "Ideas de Negocio",
+      "Productividad",
+      "Profesores",
+      "Programación"
+    ],
+    "cluster_size": 21,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_15f59d6b-6b9b-429c-bf92-96d6ce64808e",
+      "derived_alpacka_prompt_19a4073b-a997-4e45-828a-a23a0b39591f",
+      "derived_alpacka_prompt_32890b69-3547-4f03-afb8-ea401c8a0fa6",
+      "derived_alpacka_prompt_550a6a0f-6c07-4432-bee7-914c312883ed",
+      "derived_alpacka_prompt_5d92523d-9524-416b-8f59-c7ffd067701e",
+      "derived_alpacka_prompt_5dd6b342-879e-4a0f-9a5d-b8ad1b9c95eb",
+      "derived_alpacka_prompt_69d2a09f-ce09-463e-a517-bb3ca9e329f9",
+      "derived_alpacka_prompt_81087dd5-a350-493c-8cab-d98faf6bdc6b",
+      "derived_alpacka_prompt_87a974bb-105f-4cbc-9aa0-d6a5e209d9d9",
+      "derived_alpacka_prompt_880e6c0d-a968-475d-af5e-7f73826b5975",
+      "derived_alpacka_prompt_a9fc72b1-252e-4b4c-accd-7aa68aaa4a2b",
+      "derived_alpacka_prompt_b78c7dc1-eab9-4443-b401-3c30c3350bef",
+      "derived_alpacka_prompt_beeed7f8-337a-4aa9-999a-58e2f75d5fd9",
+      "derived_alpacka_prompt_c0aecaae-b7a6-4f04-a2e8-66ad72e31558",
+      "derived_alpacka_prompt_d4345ead-7892-493e-a5fe-0e69c06c53cb",
+      "derived_alpacka_prompt_dd637b89-0654-439b-9c66-608c2ef7f127",
+      "derived_alpacka_prompt_ddfcc0b3-7291-4535-81ed-6579eca5bc49",
+      "derived_alpacka_prompt_df54263e-b4e9-4ab6-8152-ee41712fdc1e",
+      "derived_alpacka_prompt_e1ad3614-ebdb-4c90-8b0c-d9a1301afeed",
+      "derived_alpacka_prompt_e9221239-612d-4360-ac87-1b4b772b25c7",
+      "derived_alpacka_prompt_f5445c0a-4b45-451e-925a-14a82cc07cdb"
+    ],
+    "modes": [
+      "generation"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_15f59d6b-6b9b-429c-bf92-96d6ce64808e",
+    "representative_title": "El Generador de Naming: nombre, tagline y claim para tu marca",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:17ec49f8864ebdfad9a34438a9015f4ff5c20e857c54ee80964a8a2a18ceacf0",
+    "state_counts": {
+      "REWORK_REQUIRED": 21
+    }
+  },
+  {
+    "categories": [
+      "Astrología",
+      "Copywriting",
+      "E-commerce",
+      "Educación",
+      "Empleo",
+      "Ganar Dinero",
+      "IG reels",
+      "Marketing",
+      "Redes Sociales"
+    ],
+    "cluster_size": 15,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_0f0f8bad-1994-4eb0-ade2-105ef8f4bc42",
+      "derived_alpacka_prompt_435cc284-62f6-4d64-b3d2-3e614ddc0404",
+      "derived_alpacka_prompt_6a3bfe2e-f7bb-4981-b622-ec3bec41cb00",
+      "derived_alpacka_prompt_914bb6f9-9d2c-4704-ab1a-08bcd5c0510c",
+      "derived_alpacka_prompt_aad407ca-a624-41f5-9db6-367dd85170a0",
+      "derived_alpacka_prompt_b60c305a-78b5-4469-99ce-05ffce391577",
+      "derived_alpacka_prompt_bbe663a4-0982-413d-af5d-826ab556aba6",
+      "derived_alpacka_prompt_c3bdfca3-f74e-4d39-b194-157d4bd53716",
+      "derived_alpacka_prompt_ce147b46-3463-4840-bd56-20fe4065d861",
+      "derived_alpacka_prompt_d5ee8aa3-43ec-46c7-b1af-561527c1eea2",
+      "derived_alpacka_prompt_eef4967a-a0eb-4b16-befe-8fc2f9341b30",
+      "derived_alpacka_prompt_f3187516-0545-4b48-9dfe-18269286e98c",
+      "derived_alpacka_prompt_f65504a6-c221-4de1-a2ca-c0d157c140a2",
+      "derived_alpacka_prompt_f6593987-295a-4910-b185-57c69e4ab22a",
+      "derived_alpacka_prompt_f75c30fa-00ea-4919-b3eb-bc4d3acd55eb"
+    ],
+    "modes": [
+      "writing"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_6a3bfe2e-f7bb-4981-b622-ec3bec41cb00",
+    "representative_title": "Crear descripción detallada de un signo zodiacal",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:6d7653a9eb7df30007bffd588d5fe64b8ecd35ae882777b5720bcf72f3520e7d",
+    "state_counts": {
+      "REWORK_REQUIRED": 15
+    }
+  },
+  {
+    "categories": [
+      "Abogados",
+      "Finanzas Personales",
+      "Salud"
+    ],
+    "cluster_size": 9,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_0f8abea5-8645-4510-ad00-1c0ea65816ab",
+      "derived_alpacka_prompt_20f22c35-256a-4d18-a764-805b08836338",
+      "derived_alpacka_prompt_3cf4ec66-180d-4b01-bb07-817f82f19ca5",
+      "derived_alpacka_prompt_6ed6ec76-4983-404a-83c7-c7cf14a175c9",
+      "derived_alpacka_prompt_7dafbac0-698b-4621-87b7-2ed9a0635376",
+      "derived_alpacka_prompt_81a6b9fd-db17-4d7f-9e1c-3028cb25ebb3",
+      "derived_alpacka_prompt_b7f356b8-b2d9-4b64-a8f9-08c7fa49293e",
+      "derived_alpacka_prompt_e83e2d7b-c467-4277-95b2-4fbeb307ecc4",
+      "derived_alpacka_prompt_fa3fcd2a-4692-49fe-b07f-ee4716b51f4a"
+    ],
+    "modes": [
+      "plan"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_81a6b9fd-db17-4d7f-9e1c-3028cb25ebb3",
+    "representative_title": "Arquitecto de Planificación Sucesoria y Testamentos",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:041b9e5b4ef53cd2589d558fe9225d90dc57a4ea2571fb23488e539ca31b7354",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 9
+    }
+  },
+  {
+    "categories": [
+      "Abogados",
+      "Finanzas Personales"
+    ],
+    "cluster_size": 9,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_2da5c05a-d1ca-4527-bc4c-963231027d8b",
+      "derived_alpacka_prompt_3c43858a-b059-4fbc-afb8-60fe5fa9bc53",
+      "derived_alpacka_prompt_3ee1eb55-d484-4844-affe-3c1550ae3d17",
+      "derived_alpacka_prompt_40a3972c-8822-4095-8a1c-f6f45d2f496f",
+      "derived_alpacka_prompt_6d93630d-1232-432c-a9fc-86c04bc3492f",
+      "derived_alpacka_prompt_92909166-0876-4820-8f0d-f81deb49b49a",
+      "derived_alpacka_prompt_c20de7dc-7f1c-442f-9e06-d4e23b6612b7",
+      "derived_alpacka_prompt_f1c59cec-234f-44b5-96e5-ac93bebf8318",
+      "derived_alpacka_prompt_fdd1594a-79c4-44f4-8760-9f8418daf10b"
+    ],
+    "modes": [
+      "audit"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_f1c59cec-234f-44b5-96e5-ac93bebf8318",
+    "representative_title": "Analista Criminológico de Cadena de Custodia",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:29cca38478bdbb668fcade8394754d7723abde4a7cbb51afe38e4bcb4ccc1f6b",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 9
+    }
+  },
+  {
+    "categories": [
+      "Educación",
+      "Empleo",
+      "Idiomas",
+      "Negocios",
+      "Programación"
+    ],
+    "cluster_size": 9,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_0bd60af3-ec98-4379-abcc-f3ab76440414",
+      "derived_alpacka_prompt_0dd9d3ca-2b2a-43d5-b650-e770d301a4fa",
+      "derived_alpacka_prompt_456eaffb-cb9c-47a3-974b-cd1f5bbb77b5",
+      "derived_alpacka_prompt_4a425fc6-da06-421e-a2ce-ae40b160e620",
+      "derived_alpacka_prompt_5ca83817-9676-4883-be78-4022f1ac3a0a",
+      "derived_alpacka_prompt_74276539-fe06-47b9-8e90-983eeea475fb",
+      "derived_alpacka_prompt_84d41b31-66fd-4ea1-ac10-e86db5964c2a",
+      "derived_alpacka_prompt_c1683388-fd3c-42a0-b8a9-c0eb716d83bc",
+      "derived_alpacka_prompt_d9601766-c7e7-44b6-acaa-14ab330c37ea"
+    ],
+    "modes": [
+      "simulation"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_0bd60af3-ec98-4379-abcc-f3ab76440414",
+    "representative_title": "Simulador de Entrevista Universitaria",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:9c0392c8d0dff5f5d92adfba06431ab3ab1676c849b6195884964b46f534efa4",
+    "state_counts": {
+      "REWORK_REQUIRED": 9
+    }
+  },
+  {
+    "categories": [
+      "Astrología",
+      "E-commerce",
+      "Educación",
+      "Ideas de Negocio",
+      "Productividad"
+    ],
+    "cluster_size": 8,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_021783ab-92ce-426f-adb6-92757d6c0634",
+      "derived_alpacka_prompt_0859f751-c7c9-4bde-9d75-0d2acf27266d",
+      "derived_alpacka_prompt_24639c2b-0828-4141-a1d0-1307905b554b",
+      "derived_alpacka_prompt_25e7a513-fef9-4031-ab96-fb8c4755789e",
+      "derived_alpacka_prompt_7bdf14f8-604a-406a-9bf8-7203572872ea",
+      "derived_alpacka_prompt_b09bad63-a4e2-457f-a385-2c5b23fc93c1",
+      "derived_alpacka_prompt_e952af11-5b0b-4b52-83ba-cb8247d8a958",
+      "derived_alpacka_prompt_f5b600c2-1631-4a94-8802-ae91fb8fd047"
+    ],
+    "modes": [
+      "audit"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_b09bad63-a4e2-457f-a385-2c5b23fc93c1",
+    "representative_title": "Analista de Carta Natal Evolutiva",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:35aaa7061fe4113b2e397a086bfb3e7b87b59a73e95ba4fe90b93d8d2d50fe22",
+    "state_counts": {
+      "REWORK_REQUIRED": 8
+    }
+  },
+  {
+    "categories": [
+      "Educación",
+      "Ganar Dinero",
+      "Ideas de Negocio",
+      "Idiomas"
+    ],
+    "cluster_size": 8,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_2257f7eb-0a3f-40a5-af49-e44213a3e7d5",
+      "derived_alpacka_prompt_28a97e15-b6ea-4ffe-a0ec-f8874ee7d646",
+      "derived_alpacka_prompt_3548cf04-1ee7-4c74-82a2-386c3a45e3d8",
+      "derived_alpacka_prompt_61a375ca-54fe-4b03-bd1f-4f2c12d9f816",
+      "derived_alpacka_prompt_982250fe-2155-4481-82d7-9659ce5ecb87",
+      "derived_alpacka_prompt_b47e9470-526d-4f84-b2b6-3c1eac81055b",
+      "derived_alpacka_prompt_b5bc3fc9-1abc-457e-8b83-83b31f17f6f3",
+      "derived_alpacka_prompt_c6e65e45-375f-48bc-a0f7-8f47d7269ee1"
+    ],
+    "modes": [
+      "learning"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_2257f7eb-0a3f-40a5-af49-e44213a3e7d5",
+    "representative_title": "Tutor Socrático",
+    "score_max": 84,
+    "score_min": 84,
+    "skeleton_sha256": "sha256:c29dd596a91ba23ce2a63c067e69e4388f3cae2212a9e8861fc18fa0eb6c1b95",
+    "state_counts": {
+      "REWORK_REQUIRED": 8
+    }
+  },
+  {
+    "categories": [
+      "Abogados"
+    ],
+    "cluster_size": 4,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_0747c91a-effc-41b8-a86c-fdce17fd58c5",
+      "derived_alpacka_prompt_848afa71-3dda-4446-ae8e-753971019598",
+      "derived_alpacka_prompt_ac615a77-fa3e-4562-ba61-7ef2f0af67fa",
+      "derived_alpacka_prompt_b5622c77-5cbe-4674-8801-9c219a7fa5d6"
+    ],
+    "modes": [
+      "writing"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_b5622c77-5cbe-4674-8801-9c219a7fa5d6",
+    "representative_title": " Redactor profesional de escritos jurídicos",
+    "score_max": 86,
+    "score_min": 86,
+    "skeleton_sha256": "sha256:4e576692852d5bb3ad0a65fb2c6dfb09c1e84e10d92febe65f80876f025dbc3c",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 4
+    }
+  },
+  {
+    "categories": [
+      "E-commerce",
+      "IG reels",
+      "Marketing",
+      "Programación"
+    ],
+    "cluster_size": 4,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_2f379961-58af-41a1-b333-a8cc8528b121",
+      "derived_alpacka_prompt_5b4737e2-2907-40e7-8dc0-7b23896497ca",
+      "derived_alpacka_prompt_811161f4-71e9-46f3-bee1-f32b596fdc1b",
+      "derived_alpacka_prompt_9764af06-19e1-4546-a6da-9705fd3ad6a1"
+    ],
+    "modes": [
+      "optimization"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_9764af06-19e1-4546-a6da-9705fd3ad6a1",
+    "representative_title": "Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo",
+    "score_max": 86,
+    "score_min": 86,
+    "skeleton_sha256": "sha256:6e5e4491d854994bf14c050446b954edfdbe5f7b3746eb9274ad7badf01d92d5",
+    "state_counts": {
+      "REWORK_REQUIRED": 4
+    }
+  },
+  {
+    "categories": [
+      "Abogados"
+    ],
+    "cluster_size": 3,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_298dbc1e-1ae0-48fe-b3e5-a08240723595",
+      "derived_alpacka_prompt_9161347c-1de9-4e59-a330-1ef585f81ccb",
+      "derived_alpacka_prompt_f11fe1ec-93ae-4d0d-beac-e316ce24380e"
+    ],
+    "modes": [
+      "simulation"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_298dbc1e-1ae0-48fe-b3e5-a08240723595",
+    "representative_title": "Simulador de Contrainterrogatorio",
+    "score_max": 88,
+    "score_min": 88,
+    "skeleton_sha256": "sha256:c155920c2366cade94f76a400e8430ce227c006ec23069cb8b3aab11b6f88700",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 3
+    }
+  },
+  {
+    "categories": [
+      "Salud"
+    ],
+    "cluster_size": 2,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_9d966547-0ab9-4b77-ab6c-c94e0510af7f",
+      "derived_alpacka_prompt_e424745b-b2d6-4eb2-a5fb-8ec9296bfdce"
+    ],
+    "modes": [
+      "optimization"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_9d966547-0ab9-4b77-ab6c-c94e0510af7f",
+    "representative_title": "Guía de Mindful Eating: Mejora tu Relación con la Comida",
+    "score_max": 88,
+    "score_min": 88,
+    "skeleton_sha256": "sha256:6fbf0aa37108bbd0bbcf9e07c46cf1652172c026e56c1b62ff07f6797930f858",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 2
+    }
+  },
+  {
+    "categories": [
+      "Abogados"
+    ],
+    "cluster_size": 2,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_1ea4bd49-cb2a-419e-9265-dd2a793eb3c2",
+      "derived_alpacka_prompt_5e688c1e-de6c-41ff-9194-e70ba30ec31b"
+    ],
+    "modes": [
+      "generation"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_1ea4bd49-cb2a-419e-9265-dd2a793eb3c2",
+    "representative_title": "Creador de Políticas de Privacidad (GDPR / LFPDPPP)",
+    "score_max": 88,
+    "score_min": 88,
+    "skeleton_sha256": "sha256:b002ad94b5945589adb8a98ce115a02ef09ae777cb03a9f51235be63b3de66ac",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 2
+    }
+  },
+  {
+    "categories": [
+      "Abogados"
+    ],
+    "cluster_size": 1,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_710ec2ff-4445-47a5-ac74-779d395cc93b"
+    ],
+    "modes": [
+      "learning"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_710ec2ff-4445-47a5-ac74-779d395cc93b",
+    "representative_title": "Tutor Socrático de Análisis Jurisprudencial Constitucional",
+    "score_max": 90,
+    "score_min": 90,
+    "skeleton_sha256": "sha256:1151a3ee99bb93c475cf0d0ed47d1c403045e4cfff1539a39257ab3c7713cf42",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 1
+    }
+  },
+  {
+    "categories": [
+      "E-commerce"
+    ],
+    "cluster_size": 1,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_8132c37f-4460-4697-9d9a-a8eb30e71e43"
+    ],
+    "modes": [
+      "checklist"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_8132c37f-4460-4697-9d9a-a8eb30e71e43",
+    "representative_title": "Prepara tu Tienda para Temporada Alta: el checklist operativo completo",
+    "score_max": 90,
+    "score_min": 90,
+    "skeleton_sha256": "sha256:55a5c406944be30ce3f0aa0adf56ec557beb1075ccce8c057b4bcfa53d6bc3ed",
+    "state_counts": {
+      "REWORK_REQUIRED": 1
+    }
+  },
+  {
+    "categories": [
+      "Abogados"
+    ],
+    "cluster_size": 1,
+    "member_candidate_ids": [
+      "derived_alpacka_prompt_3d61cc24-1ac0-4cd6-b038-d9dfbffbb58b"
+    ],
+    "modes": [
+      "checklist"
+    ],
+    "representative_candidate_id": "derived_alpacka_prompt_3d61cc24-1ac0-4cd6-b038-d9dfbffbb58b",
+    "representative_title": "Checklist de Debida Diligencia (Due Diligence)",
+    "score_max": 90,
+    "score_min": 90,
+    "skeleton_sha256": "sha256:8c15b073109583dad598551b44587cd9fb2835ba920eb6eb532281fdcb4398d0",
+    "state_counts": {
+      "HIGH_STAKES_REVIEW_REQUIRED": 1
+    }
+  }
+]

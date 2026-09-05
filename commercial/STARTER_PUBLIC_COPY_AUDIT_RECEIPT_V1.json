@@ -1,0 +1,246 @@
+{
+  "schema": "prompt-machine-starter-public-copy-audit-receipt-v1",
+  "version": "1.2.0",
+  "receipt_id": "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001",
+  "recorded_on": "2026-09-04",
+  "audit_contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
+  "evidence_ceiling": {
+    "starter_runtime_observations": 1,
+    "starter_runtime_passes": 0,
+    "starter_runtime_fails": 0,
+    "starter_runtime_inconclusive": 1,
+    "starter_clean_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "starter_supported_skills": 0,
+    "starter_structural_skill_candidates": 2,
+    "real_customer_task_outcomes": 0,
+    "real_purchases": 0,
+    "provider_custody": false,
+    "live_delivery": false,
+    "public_checkout": false,
+    "deterministic_packaging": true
+  },
+  "history": [
+    {
+      "phase": "INITIAL_AUDIT",
+      "audited_commit": "f6b1f8b230bbacfe7d5d2e25ffd2f6d59f4910c4",
+      "state": "FAIL_EVIDENCE_SCOPE_AMBIGUOUS",
+      "material_findings": [
+        {
+          "surface": "/license",
+          "class": "CUSTOMER_PRODUCT_IDENTITY_STALE",
+          "finding": "The page still identified the commercial license as Prompt Quarry rather than Prompt Machine.",
+          "impact": "Customer-facing product identity contradicted the canonical Prompt Machine / internal Prompt Quarry boundary."
+        },
+        {
+          "surface": "/license",
+          "class": "SALE_STATE_MISMATCH",
+          "finding": "The page referred to LICENSE.md delivered with the purchased Pack as authoritative while public paid sale is currently off.",
+          "impact": "The wording could imply an existing purchase/delivery state not supported by current evidence."
+        },
+        {
+          "surface": "/starter-collection",
+          "class": "EVIDENCE_STATE_STALE",
+          "finding": "The page still described packaging/customer surfaces as pending after the 9/9 payload and deterministic archive build had passed.",
+          "impact": "The page understated current packaging evidence and no longer matched the release gate."
+        }
+      ]
+    },
+    {
+      "phase": "FIX",
+      "changes": [
+        {
+          "commit": "cc64e7dc3ff0f4e44af924db660b6594ce36d98e",
+          "surface": "/license",
+          "result": "Prompt Machine identity restored; public checkout-off state and collection-specific future license semantics made explicit."
+        },
+        {
+          "commit": "77c8e4118002c076a219d92aa7c6d9260a79553f",
+          "surface": "/starter-collection",
+          "result": "Current 9/9 payload, deterministic archive evidence, four disarmed product canaries, zero Starter runtime observations, conditional skill status, and checkout-off state made explicit."
+        }
+      ]
+    },
+    {
+      "phase": "RETEST",
+      "audited_commit": "ba157d7fb364e9f18bf9bd0bbaa4b737a6010751",
+      "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+      "workflow": "Audit Starter Public Copy v1",
+      "run_id": 33799072926,
+      "conclusion": "success",
+      "audited_surfaces": [
+        "/",
+        "/collections",
+        "/starter-collection",
+        "/developer-pack",
+        "/free/developer-starter-pack",
+        "/license",
+        "shared layout/footer",
+        "CommerceLink routing"
+      ],
+      "observed_truth": {
+        "starter_checkout_route_present": false,
+        "starter_price_hypothesis_visible": true,
+        "starter_runtime_observations_claimed": 0,
+        "unsupported_tested_certified_customer_claims_detected": false,
+        "stale_prompt_quarry_license_identity_detected": false
+      }
+    }
+  ],
+  "subsequent_reaudits": [
+    {
+      "reason": "STARTER_SKILL_LAUNCH_SCOPE_V1 froze the v1 launch as workflow-led and deferred the two structural skill candidates from the supported launch payload.",
+      "pre_retest_review": {
+        "state": "FAIL_PRODUCT_SCOPE_AMBIGUOUS",
+        "material_findings": [
+          {
+            "surface": "/",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The paid-collection copy grouped the two skill candidates with the Starter offer in wording that could be read as included supported value.",
+            "impact": "The current deterministic Starter archive contains zero skill assets and the candidates have no host/trigger/forward/parity evidence."
+          },
+          {
+            "surface": "/collections",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The Starter card described the two skill candidates inside the product scope and displayed a two-skill count without clearly separating candidates from supported launch assets.",
+            "impact": "A customer could reasonably interpret structural candidates as current product features."
+          },
+          {
+            "surface": "/starter-collection",
+            "class": "SKILL_SCOPE_AMBIGUOUS",
+            "finding": "The frozen-scope list placed the two skill candidates next to required archive assets rather than making the deferred launch boundary primary.",
+            "impact": "The page did not reflect the later evidence-based decision that Starter v1 must earn $9 through the workflow product alone."
+          }
+        ]
+      },
+      "fixes": [
+        {
+          "commit": "45110cfae7800f7cfd37bd9dafda4516f7d8d833",
+          "surface": "/",
+          "result": "Starter value copy changed to the two governed workflows and nine-file product; skills are described only as separate structural candidates."
+        },
+        {
+          "commit": "14e6fec8f1d51714bad5ee5092165c517e73a09a",
+          "surface": "/collections",
+          "result": "Starter now states zero supported skills today and separates the two structural candidates from the governed archive."
+        },
+        {
+          "commit": "bf6c3948725f15e91822739af6825866a96c495c",
+          "surface": "/starter-collection",
+          "result": "The Starter status page now makes the 0-supported-skills / 2-deferred-candidates boundary explicit."
+        },
+        {
+          "commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+          "surface": "copy audit policy",
+          "result": "The deterministic audit now rejects future copy that presents Starter skill candidates as included or supported launch features."
+        }
+      ],
+      "retest": {
+        "audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+        "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "workflow": "Audit Starter Public Copy v1",
+        "run_id": 33805620505,
+        "conclusion": "success",
+        "observed_truth": {
+          "starter_checkout_route_present": false,
+          "starter_runtime_observations_claimed": 0,
+          "starter_supported_skills_claimed": 0,
+          "starter_structural_skill_candidates_disclosed": 2,
+          "skill_candidates_marketed_as_included_supported_features": false
+        }
+      }
+    },
+    {
+      "reason": "The first Starter runtime execution was later reclassified from historical FAIL/REWORK to effective INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior access to evaluation expectations. Public copy that still claimed zero runtime observations became stale.",
+      "pre_retest_review": {
+        "state": "FAIL_EVIDENCE_STATE_STALE",
+        "material_findings": [
+          {
+            "surface": "/starter-collection",
+            "class": "RUNTIME_EVIDENCE_STATE_STALE",
+            "finding": "The page still said runtime was unobserved, that no canary had been executed, and that Starter runtime observations were zero.",
+            "impact": "The current governed truth is one runtime observation, zero PASS, zero FAIL, one INCONCLUSIVE due to protocol contamination, and zero clean independent observations."
+          },
+          {
+            "surface": "/license",
+            "class": "RUNTIME_EVIDENCE_STATE_STALE",
+            "finding": "The license page still stated that current Starter runtime observations remain zero.",
+            "impact": "That sentence contradicted the corrected append-only Trust History and Release Gate."
+          },
+          {
+            "surface": "copy audit policy",
+            "class": "AUDIT_CEILING_STALE",
+            "finding": "The audit contract and deterministic assertions still treated zero runtime observations as the current allowed truth.",
+            "impact": "A green audit could otherwise certify stale customer-facing evidence wording."
+          }
+        ]
+      },
+      "fixes": [
+        {
+          "commit": "76fded11f6b7aae9380b62ba59531141d0e44768",
+          "surface": "/starter-collection",
+          "result": "Starter now discloses one protocol-contaminated INCONCLUSIVE runtime observation, zero PASS, zero FAIL, zero clean observations, and the clean same-candidate retest requirement."
+        },
+        {
+          "commit": "ed8d00645d2347b4e0e8d9b3432fae8543e7c579",
+          "surface": "/license",
+          "result": "The stale zero-observation statement was replaced with the current 1 observation / 0 PASS / 0 FAIL / 1 INCONCLUSIVE boundary."
+        },
+        {
+          "commit": "232ebb3090cc979837665606464f64bcbcad3e53",
+          "surface": "copy audit contract",
+          "result": "The evidence ceiling and allowed wording were updated to distinguish observed-but-contaminated runtime evidence from clean behavioral evidence."
+        },
+        {
+          "commit": "da35b120019558bbe2d4e2d953bf639c77971f0e",
+          "surface": "copy audit validator",
+          "result": "The deterministic audit now requires one observation, zero PASS, zero FAIL, one INCONCLUSIVE, zero clean observations, and rejects legacy zero-observation wording."
+        },
+        {
+          "commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+          "surface": "copy audit workflow summary",
+          "result": "The workflow summary now reports the corrected runtime evidence state."
+        }
+      ],
+      "retest": {
+        "audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+        "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "workflow": "Audit Starter Public Copy v1",
+        "run_id": 33834092608,
+        "job_id": 100902919487,
+        "conclusion": "success",
+        "observed_truth": {
+          "starter_checkout_route_present": false,
+          "starter_runtime_observations_claimed": 1,
+          "starter_runtime_passes_claimed": 0,
+          "starter_runtime_fails_claimed": 0,
+          "starter_runtime_inconclusive_claimed": 1,
+          "starter_clean_runtime_observations_claimed": 0,
+          "starter_supported_skills_claimed": 0,
+          "unsupported_tested_certified_customer_claims_detected": false
+        }
+      }
+    }
+  ],
+  "current_retest": {
+    "run_id": 33834092608,
+    "job_id": 100902919487,
+    "audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+    "conclusion": "success",
+    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY"
+  },
+  "final_state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+  "staleness_rule": "Any material Starter evidence-state change or audited public-copy change requires a new audit/retest before relying on this receipt for launch.",
+  "evidence_boundary": {
+    "copy_audit_creates_runtime_evidence": false,
+    "copy_audit_creates_customer_value_evidence": false,
+    "copy_audit_creates_provider_custody": false,
+    "copy_audit_creates_delivery_evidence": false,
+    "copy_audit_creates_revenue_evidence": false,
+    "copy_audit_pass_implies_product_ready": false,
+    "copy_audit_pass_implies_public_sale_authorized": false
+  },
+  "model_calls": 0,
+  "provider_calls": 0,
+  "ready_to_sell": false
+}

@@ -1,0 +1,7 @@
+PM-STARTER-CR-NORMAL-0001 protocol contamination correction v1
+retry=2 after validator migration fix
+retry=3 idempotent validator migration
+retry=4 semantic validator migration
+retry=5 normalize next-model gate
+retry=6 migrate execution-decision validator
+retry=7 push without workflow-file mutation

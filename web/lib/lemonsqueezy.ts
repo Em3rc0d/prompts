@@ -2,10 +2,10 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 import type { CommerceMode } from "./commerce-mode";
 import {
-  DEVELOPER_PACK_RELEASE,
   releaseCheckoutCustomData,
   type CommerceGate,
-} from "./developer-pack-release";
+  type CommerceReleaseIdentity,
+} from "./commerce-release";
 
 export type LemonSqueezyConfig = {
   webhookSecret: string;
@@ -14,6 +14,7 @@ export type LemonSqueezyConfig = {
   variantId: string;
   commerceMode: Exclude<CommerceMode, "off">;
   commerceGate: CommerceGate;
+  release: CommerceReleaseIdentity;
 };
 
 type Attribution = {
@@ -69,10 +70,10 @@ export type CommerceEvidence = {
   created_at?: string;
   attribution?: Attribution;
   release: {
-    product_id: typeof DEVELOPER_PACK_RELEASE.productId;
-    product_version: typeof DEVELOPER_PACK_RELEASE.version;
-    archive_sha256: typeof DEVELOPER_PACK_RELEASE.archiveSha256;
-    archive_size: typeof DEVELOPER_PACK_RELEASE.archiveSize;
+    product_id: string;
+    product_version: string;
+    archive_sha256: string;
+    archive_size: number;
   };
 };
 
@@ -105,9 +106,10 @@ function cleanAttribution(customData: Record<string, unknown> | undefined): Attr
 function releaseIdentityMatches(
   customData: Record<string, unknown> | undefined,
   commerceGate: CommerceGate,
+  release: CommerceReleaseIdentity,
 ): boolean {
   if (!customData) return false;
-  const expected = releaseCheckoutCustomData(commerceGate);
+  const expected = releaseCheckoutCustomData(release, commerceGate);
   return Object.entries(expected).every(([key, value]) => customData[key] === value);
 }
 
@@ -182,7 +184,7 @@ export function evaluateLemonSqueezyWebhook(input: {
     return { kind: "ignored", reason: "test_order_not_allowed_in_live_mode" };
   }
 
-  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceGate)) {
+  if (!releaseIdentityMatches(payload.meta?.custom_data, config.commerceGate, config.release)) {
     return { kind: "ignored", reason: "release_identity_mismatch" };
   }
 
@@ -206,10 +208,10 @@ export function evaluateLemonSqueezyWebhook(input: {
       created_at: attributes.created_at,
       attribution: cleanAttribution(payload.meta?.custom_data),
       release: {
-        product_id: DEVELOPER_PACK_RELEASE.productId,
-        product_version: DEVELOPER_PACK_RELEASE.version,
-        archive_sha256: DEVELOPER_PACK_RELEASE.archiveSha256,
-        archive_size: DEVELOPER_PACK_RELEASE.archiveSize,
+        product_id: config.release.productId,
+        product_version: config.release.version,
+        archive_sha256: config.release.archiveSha256,
+        archive_size: config.release.archiveSize,
       },
     },
   };

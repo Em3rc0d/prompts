@@ -1,0 +1,47 @@
+{
+  "schema": "prompt-machine-codex-web-manual-canary-v1",
+  "campaign_id": "PM-CODEX-WORK-EPOCH-0004-GENERAL-EMBEDDED-OVERRIDE",
+  "epoch_id": "PM-EPOCH-0004",
+  "epoch_index": 4,
+  "epoch_size": 1,
+  "usage_group_id": "PM-USAGE-GROUP-EPOCHS-0003-0004",
+  "invocation_id": "PM-INV-GENERAL-EMBEDDED_OVERRIDE-0003",
+  "source_commit": "8900f63bc0a3f517796e98922150124efc64c42b",
+  "surface": "chatgpt-work-current-session",
+  "surface_adapter": "concat-three-frozen-blocks-with-LF-v1",
+  "envelope_path": "PM-INV-GENERAL-EMBEDDED_OVERRIDE-0003.codex-web.txt",
+  "envelope_bytes_expected": 8892,
+  "envelope_sha256_expected": "520064bf217e6b5c807fc5f495604e3d127120820bdb658e1e9f653f2f6246f4",
+  "variant": "EMBEDDED_OVERRIDE",
+  "mode": "general",
+  "risk_class": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "expected_state_set": [
+    "COMPLETE"
+  ],
+  "maximum_manual_submissions": 1,
+  "manual_submissions_used": 1,
+  "automatic_retries": 0,
+  "second_submission_authorized": false,
+  "response_capture": "VERBATIM_CAPTURED",
+  "response_capture_path": "assistant-response.verbatim.md",
+  "human_review_required": true,
+  "automatic_promotion": false,
+  "behavioral_observations": 1,
+  "promotion_claim": "NONE",
+  "ready_to_sell": false,
+  "baseline_usage": {
+    "five_hour_remaining_percent": 70,
+    "weekly_remaining_percent": 43,
+    "recorded_on": "2026-09-03",
+    "scope": "GROUPED_EPOCHS_0003_0004"
+  },
+  "observed_usage": {
+    "five_hour_remaining_percent": 62,
+    "weekly_remaining_percent": 41,
+    "recorded_on": "2026-09-03",
+    "scope": "GROUPED_EPOCHS_0003_0004"
+  },
+  "decision": "EXPAND_EVIDENCE",
+  "state": "OBSERVED_AWAITING_INDEPENDENT_REPLICATION"
+}

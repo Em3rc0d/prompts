@@ -1,0 +1,82 @@
+name: Validate Starter Release Gate v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/EXECUTION_PLAN_V2.md'
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json'
+      - 'product/starter-collection-v1/**'
+      - 'web/app/starter-collection/page.tsx'
+      - 'web/app/api/commerce/starter-collection/**'
+      - 'tools/validate_starter_release_gate_v1.py'
+      - 'tools/validate_starter_workflow_surfaces_v1.py'
+      - 'tools/validate_starter_payload_v1.py'
+      - '.github/workflows/validate-starter-release-gate-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-starter-release-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate Starter contract-to-prompt parity
+        run: python tools/validate_starter_workflow_surfaces_v1.py
+
+      - name: Validate Starter customer payload
+        run: python tools/validate_starter_payload_v1.py
+
+      - name: Validate Starter release truth boundaries
+        run: python tools/validate_starter_release_gate_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Release Gate v1
+
+          | Signal | State |
+          |---|---|
+          | Starter scope | FROZEN |
+          | Price | $9 HYPOTHESIS |
+          | Final workflow contracts | 2 / 2 STATIC PASS |
+          | Executable prompt surfaces | 2 / 2 STATIC PARITY PASS |
+          | Required customer payload | 9 / 9 STATIC PRESENT |
+          | Deterministic Starter archive | PASS PACKAGING ONLY |
+          | Starter-specific canaries | 4 PREPARED / 0 ARMED / 1 OBSERVATION |
+          | Out-of-band evaluation contracts | 4 / 4 FROZEN |
+          | Starter SKU workflow observations | 1 INCONCLUSIVE (PROTOCOL CONTAMINATION) |
+          | Starter SKU workflow passes | 0 |
+          | Starter SKU workflow failures | 0 |
+          | Clean Starter runtime observations | 0 |
+          | Starter skill observations | 0 |
+          | Public copy evidence audit | PASS CURRENT / RUN 33834092608 |
+          | Historical runtime review artifact | FAIL / REWORK PRESERVED; NOT EFFECTIVE WORKFLOW FAIL |
+          | Next runtime candidate | SAME FROZEN PM-STARTER-CR-NORMAL-0001 / DISARMED |
+          | Clean independent surface | REQUIRED BEFORE RETEST |
+          | Provider custody | CONTRACT DEFINED / NOT PROVISIONED |
+          | Live delivery canary | NOT STARTED |
+          | Activated users | 0 |
+          | Public checkout | BLOCKED |
+          | READY_TO_SELL | NO |
+          | Provider calls created by validation | 0 |
+          | Model calls created by validation | 0 |
+
+          The raw runtime output, original FAIL/REWORK review, and original failure record remain append-only historical artifacts. The effective workflow classification is INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior exposure to evaluation expectations. Public copy has been re-audited against that corrected evidence boundary and is current. A clean retest requires the same frozen candidate, a clean independent surface, fresh explicit authorization, one submission maximum, and zero retries.
+          EOF

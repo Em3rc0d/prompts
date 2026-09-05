@@ -1,0 +1,36 @@
+name: Validate Developer Collection Experience
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'product/developer-workflow-kit-v1.2/**'
+      - 'tools/validate_developer_collection_experience.py'
+      - '.github/workflows/validate-developer-collection-experience.yml'
+  pull_request:
+    paths:
+      - 'product/developer-workflow-kit-v1.2/**'
+      - 'tools/validate_developer_collection_experience.py'
+      - '.github/workflows/validate-developer-collection-experience.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-customer-experience:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate zero-confusion collection entrypoint
+        run: |
+          python3 tools/validate_developer_collection_experience.py \
+            --json-out certification/receipts/developer-collection-experience-ci.report.json
+
+      - name: Preserve customer-experience report
+        uses: actions/upload-artifact@v4
+        with:
+          name: developer-collection-experience-${{ github.sha }}
+          path: certification/receipts/developer-collection-experience-ci.report.json
+          if-no-files-found: error
+          retention-days: 30

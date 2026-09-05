@@ -1,0 +1,36 @@
+{
+  "schema": "prompt-machine-architecture-pilot-static-audit-v2.1",
+  "audit_version": "2.1.0",
+  "basis": "Static semantic review only; no model calls.",
+  "overall_disposition": "PASS_WITH_MEDIUM_REWORK_BEFORE_FREEZE",
+  "findings": [
+    {
+      "id": "ARCH-V21-COMMON-001",
+      "severity": "MEDIUM",
+      "finding": "The common STATE POLICY and FALLBACK use 'weakest state' language even though several mode states are semantic branches rather than a single ordered strength scale.",
+      "required_change": "Choose the state whose declared condition is satisfied; when conditions overlap, choose the state that does not overstate execution/completion."
+    },
+    {
+      "id": "ARCH-V21-SIM-001",
+      "mode": "simulation",
+      "severity": "MEDIUM",
+      "finding": "BATCH_DEBRIEF permits an explicitly generated practice transcript, but the contract does not explicitly prohibit treating that generated transcript as evidence of the user's ability.",
+      "required_change": "Generated turns may be evaluated as simulated scenario/dialogue output, never as evidence of user performance unless actual user turns are supplied."
+    },
+    {
+      "id": "ARCH-V21-GEN-001",
+      "mode": "generation",
+      "severity": "MEDIUM",
+      "finding": "HOLD correctly forbids a forced winner, but the output wording can be read as removing the shortlist itself.",
+      "required_change": "HOLD may return a tied viable shortlist, but recommended winner must be NONE. NO_VALID_CANDIDATE returns no shortlist."
+    }
+  ],
+  "high_or_critical_findings": 0,
+  "truth_boundary": {
+    "external_model_calls": 0,
+    "behavioral_evidence": false,
+    "product_promotions": 0,
+    "ready_to_sell": false
+  },
+  "next_gate": "Close the three medium findings in a v2.2 successor, run regression tests, then freeze the nine architecture mothers for binding/invocation design."
+}

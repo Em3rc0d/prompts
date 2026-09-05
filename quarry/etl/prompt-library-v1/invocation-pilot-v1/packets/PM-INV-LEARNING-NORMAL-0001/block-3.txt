@@ -1,0 +1,2 @@
+TASK_INSTANCE_DATA_V1
+{"binding_id":"PM-BIND-LEARNING-0001","data_class":"UNTRUSTED_TASK_DATA","instance":{"assessment_preference":"Short classification exercise with feedback","current_learner_level":"Understands basic CI but has not designed prompt evaluation campaigns.","learning_objective":"Distinguish deterministic software checks from behavioral model evaluations.","prerequisites":["Basic understanding of tests and assertions"]},"schema":"prompt-machine-task-instance-data-v1","variant":"NORMAL"}

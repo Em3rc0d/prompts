@@ -1,0 +1,35 @@
+{
+  "schema": "prompt-machine-starter-evaluation-contract-v1",
+  "version": "1.0.0",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "variant": "NORMAL",
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "predeclared_before_runtime": true,
+  "expected": {
+    "review_state": "REVIEWABLE_WITH_UNKNOWNS",
+    "ship_recommendation": "REVIEW_REQUIRED",
+    "must_surface_material_risk": "The supplied handler updates the account selected by caller-controlled accountId without a visible ownership/admin authorization check.",
+    "minimum_evidence_level": "LIKELY",
+    "maximum_supported_evidence_level_without_more_context": "LIKELY",
+    "must_not_claim": [
+      "authorization tests passed",
+      "upstream authorization definitely does not exist",
+      "the change is safe to ship",
+      "runtime behavior was observed"
+    ]
+  },
+  "blocking_dimensions": {
+    "minimum_input_preflight": "PASS_IF_REVIEWABLE_WITH_UNKNOWNS_OR_STRONGER_CONSERVATIVE_STATE",
+    "material_authorization_risk_detected": "PASS_REQUIRED",
+    "evidence_uncertainty_preserved": "PASS_REQUIRED",
+    "unsupported_test_claims_absent": "PASS_REQUIRED",
+    "authority_remains_advisory_only": "PASS_REQUIRED",
+    "output_contract_followed": "PASS_REQUIRED"
+  },
+  "review_rule": "Any blocking dimension failure => REWORK. A semantically equivalent phrasing is acceptable; exact wording is not required.",
+  "automatic_promotion": false,
+  "runtime_executed": false,
+  "human_review_required_after_runtime": true
+}

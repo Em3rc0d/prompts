@@ -1,0 +1,75 @@
+{
+  "schema": "prompt-machine-trust-history-record-v1",
+  "record_id": "REQUIRED",
+  "workflow_id": "REQUIRED",
+  "workflow_version": "REQUIRED",
+  "predecessor": null,
+  "successor": null,
+  "recorded_on": "REQUIRED",
+  "current_state": "REQUIRED",
+  "current_decision": "REQUIRED",
+  "intended_job": "REQUIRED",
+  "evidence_summary": {
+    "static_reviews": [],
+    "runtime_observations": [],
+    "human_reviews": [],
+    "regressions": [],
+    "customer_outcomes": [],
+    "return_use": [],
+    "purchases": [],
+    "deliveries": []
+  },
+  "history": [
+    {
+      "event_id": "REQUIRED",
+      "event_class": "RUNTIME_OBSERVATION",
+      "date": "REQUIRED",
+      "invocation_id": null,
+      "surface": null,
+      "model_identity": "UNKNOWN_UNLESS_OBSERVED",
+      "expected_result": null,
+      "observed_result": null,
+      "evaluation_result": "PASS|FAIL|INCONCLUSIVE|NOT_APPLICABLE",
+      "raw_evidence_reference": null,
+      "raw_evidence_hash": null,
+      "failure_taxonomy": null,
+      "limitations": [],
+      "explicit_non_claims": []
+    }
+  ],
+  "failure_stories": [
+    {
+      "failure_id": "OPTIONAL_UNLESS_FAILURE_EXISTS",
+      "before": null,
+      "observed_failure": null,
+      "why_it_matters": null,
+      "hypothesis": null,
+      "change": null,
+      "regression": null,
+      "current_limitation": null
+    }
+  ],
+  "known_limitations": [],
+  "public_projection": {
+    "eligible": false,
+    "why_we_trust_this_workflow": null,
+    "tested_conditions": [],
+    "material_historical_failures": [],
+    "changes_from_failures": [],
+    "current_regression_evidence": [],
+    "customer_value_evidence": [],
+    "limitations": [],
+    "last_evidence_update": null,
+    "claim_ceiling": "NO_PUBLIC_CLAIM_UNTIL_REVIEWED"
+  },
+  "truth_boundary": {
+    "history_is_append_only": true,
+    "material_failures_preserved": true,
+    "unknowns_preserved": true,
+    "synthetic_is_not_customer_evidence": true,
+    "runtime_pass_is_not_certification": true,
+    "regression_pass_is_not_customer_value": true,
+    "purchase_is_not_retention": true,
+    "marketing_claim_lte_observed_evidence": true
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
+  "version": "2.2.0",
+  "recorded_on": "2026-09-05",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
+  "execution_location": "USER_WSL",
+  "execution_control_plane": "LOCAL_WSL_PROCESS",
+  "inference_provider": "GOOGLE_GEMINI_API",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "credential_must_remain_local": true,
+  "credential_must_not_be_committed": true,
+  "github_actions_runtime_trigger_allowed": false,
+  "public_or_cloud_runtime_endpoint_allowed": false,
+  "vercel_runtime_surface_allowed": false,
+  "github_hosted_runtime_execution_allowed": false,
+  "github_artifact_upload_of_runtime_output_allowed": false,
+  "cloud_execution_surfaces_retired_from_active_branch": true,
+  "historical_cloud_attempt_receipts_preserved": true,
+  "preferred_strict_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
+  "provider_transport": {
+    "api_family": "Gemini generateContent",
+    "authentication": "x-goog-api-key header sourced from local GEMINI_API_KEY",
+    "model_selection": "EXPLICIT_PER_EXECUTION",
+    "automatic_retries": 0
+  },
+  "runtime_evidence_storage": {
+    "location": "LOCAL_WSL_FILESYSTEM_ONLY",
+    "default_root": "$HOME/.local/share/prompt-machine/n09",
+    "automatic_upload": false
+  },
+  "clean_surface_requirements": {
+    "runtime_envelope_bytes": 8100,
+    "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+    "evaluation_contract_is_runtime_input": false,
+    "expected_result_is_runtime_input": false,
+    "fresh_explicit_authorization_required_for_each_runtime_attempt": true,
+    "maximum_runtime_submissions_per_authorization": 1,
+    "automatic_retries": 0,
+    "automatic_second_case": false,
+    "human_review_required": true
+  },
+  "certification_pipeline_contract": "commercial/PROMPT_MACHINE_14_GATE_PIPELINE_V1.json",
+  "runtime_gate_mapping": {
+    "execution_belongs_to": "G05_BASELINE_EXECUTION",
+    "success_does_not_imply": [
+      "G07_IMPROVEMENT_PASS",
+      "G08_REGRESSION_PASS",
+      "G09_PORTABILITY_PASS",
+      "G11_CERTIFIED",
+      "G14_PROVIDER_GATES_PASS",
+      "READY_TO_SELL",
+      "PUBLIC_SALE"
+    ]
+  },
+  "latest_attempt": {
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_004_2026-09-05.json",
+    "attempt_id": "G05-FALLBACK-004",
+    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-CD71CEC4B96D",
+    "provider_http_status": 503,
+    "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503",
+    "model": "gemini-3.5-flash",
+    "surface_submissions": 1,
+    "provider_requests_attempted": 1,
+    "automatic_retries": 0,
+    "model_output_observed": false,
+    "behavioral_observation_created": false,
+    "g05_pass_demonstrated": false,
+    "g05_fail_demonstrated": false,
+    "request_body_matches_previous_attempts": true,
+    "response_body_matches_previous_attempts": true
+  },
+  "provider_availability_history": {
+    "runtime_attempts_with_503": 4,
+    "models": {
+      "gemini-3.8-flash": 3,
+      "gemini-3.5-flash": 1
+    },
+    "attempts": [
+      "G05-BASELINE-001",
+      "G05-BASELINE-002",
+      "G05-BASELINE-003",
+      "G05-FALLBACK-004"
+    ],
+    "identical_request_body_sha256_across_all_four": true,
+    "identical_response_body_sha256_across_all_four": true,
+    "behavioral_observations_created": 0,
+    "candidate_mutation_justified": false,
+    "automatic_retry_policy_change_justified": false,
+    "additional_blind_runtime_attempt_justified": false
+  },
+  "provider_visibility_diagnostic": {
+    "contract": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_DIAGNOSTIC_V1.json",
+    "receipt": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_RECEIPT_2026-09-05.json",
+    "classification": "MODELS_VISIBLE_GENERATION_PATH_STILL_UNPROVEN",
+    "metadata_requests_attempted": 2,
+    "statuses": {
+      "gemini-3.8-flash": 200,
+      "gemini-3.5-flash": 200
+    },
+    "both_models_advertise_generate_content": true,
+    "model_inference_requests_attempted": 0,
+    "runtime_envelope_sent": false,
+    "behavioral_observations": 0
+  },
+  "count_tokens_diagnostic": {
+    "contract": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_DIAGNOSTIC_V1.json",
+    "receipt": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_RECEIPT_2026-09-05.json",
+    "classification": "EXACT_ENVELOPE_TOKENIZATION_PATH_ACCEPTED_GENERATION_PATH_REMAINS_ISOLATED_FAILURE",
+    "statuses": {
+      "gemini-3.8-flash": 200,
+      "gemini-3.5-flash": 200
+    },
+    "total_tokens": {
+      "gemini-3.8-flash": 1898,
+      "gemini-3.5-flash": 1898
+    },
+    "exact_envelope_accepted": true,
+    "provider_requests_attempted": 2,
+    "generate_content_requests_attempted": 0,
+    "model_inference_requests_attempted": 0,
+    "behavioral_observations": 0,
+    "g05_claim": "NONE"
+  },
+  "minimal_generation_control": {
+    "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PLAN.json",
+    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
+    "plan_state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+    "status": "PREFLIGHT_PASS_FRESH_AUTH_REQUIRED",
+    "preflight": "tools/probe_starter_n09_gemini_minimal_generation_control_001.py",
+    "preflight_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PREFLIGHT_RECEIPT_2026-09-05.json",
+    "preflight_verdict": "PASS",
+    "preflight_source_commit": "5692ceba4f5b4e67c9179d1dcd795f5bec0ffa16",
+    "executor": "tools/execute_starter_n09_gemini_minimal_generation_control_001.py",
+    "model": "gemini-3.5-flash",
+    "prompt": "Return exactly: OK",
+    "workflow_candidate_sent": false,
+    "maximum_provider_requests": 1,
+    "provider_requests_so_far": 0,
+    "automatic_retries": 0,
+    "fresh_explicit_authorization_required": true,
+    "g05_claim": "NONE"
+  },
+  "model_fallback_boundary": {
+    "changing_model_changes_runtime_configuration": true,
+    "fallback_result_must_not_be_aggregated_as_same_model_evidence": true,
+    "candidate_prompt_may_remain_frozen": true,
+    "certification_scope_must_record_exact_model": true
+  },
+  "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
+  "next_gate": "FRESH_EXPLICIT_AUTHORIZATION_FOR_PM_GEMINI_MINIMAL_GEN_CTRL_001",
+  "truth_boundary": "METADATA_200_AND_EXACT_ENVELOPE_COUNT_TOKENS_200_FOR_BOTH_MODELS; FOUR_GENERATION_503S; MINIMAL_GENERATION_CONTROL_PREFLIGHT_PASS; ZERO_CONTROL_GENERATION_REQUESTS; ZERO_G05_BEHAVIORAL_EVIDENCE"
+}

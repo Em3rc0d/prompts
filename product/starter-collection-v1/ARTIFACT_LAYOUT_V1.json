@@ -1,0 +1,134 @@
+{
+  "schema": "prompt-machine-starter-artifact-layout-v1",
+  "version": "1.0.2",
+  "recorded_on": "2026-09-03",
+  "collection": "starter-collection-v1",
+  "artifact_state": "DETERMINISTIC_ARCHIVE_BUILD_OBSERVED",
+  "planned_price_usd": 9,
+  "price_state": "HYPOTHESIS",
+  "customer_visible_assets": [
+    {
+      "path": "START_HERE.md",
+      "role": "entrypoint_and_task_chooser",
+      "state": "PRESENT"
+    },
+    {
+      "path": "workflows/evidence-first-code-review.md",
+      "role": "primary_workflow",
+      "state": "PRESENT_STATIC_FROZEN"
+    },
+    {
+      "path": "workflows/evidence-first-bug-diagnosis.md",
+      "role": "primary_workflow",
+      "state": "PRESENT_STATIC_FROZEN"
+    },
+    {
+      "path": "VERIFICATION_GUIDE.md",
+      "role": "result_verification",
+      "state": "PRESENT"
+    },
+    {
+      "path": "ADAPTATION_CHEATSHEET.md",
+      "role": "workflow_adaptation",
+      "state": "PRESENT"
+    },
+    {
+      "path": "examples/code-review-worked-example.md",
+      "role": "synthetic_labeled_worked_example",
+      "state": "PRESENT_SYNTHETIC_LABELED"
+    },
+    {
+      "path": "examples/bug-diagnosis-worked-example.md",
+      "role": "synthetic_labeled_worked_example",
+      "state": "PRESENT_SYNTHETIC_LABELED"
+    },
+    {
+      "path": "EVIDENCE_AND_LIMITATIONS.md",
+      "role": "customer_evidence_boundary",
+      "state": "PRESENT"
+    },
+    {
+      "path": "LICENSE.md",
+      "role": "customer_license",
+      "state": "PRESENT_STARTER_SPECIFIC"
+    }
+  ],
+  "conditional_assets": [
+    {
+      "path": "skills/review-code-with-evidence/",
+      "role": "installable_skill_surface",
+      "state": "CONDITIONAL_ON_SKILL_EVIDENCE",
+      "required_before_inclusion": [
+        "STRUCTURAL_VALIDITY",
+        "TRIGGER_EVIDENCE",
+        "FORWARD_EXECUTION_EVIDENCE",
+        "PROMPT_SKILL_PARITY",
+        "KNOWN_LIMITATIONS"
+      ]
+    },
+    {
+      "path": "skills/diagnose-bugs-with-evidence/",
+      "role": "installable_skill_surface",
+      "state": "CONDITIONAL_ON_SKILL_EVIDENCE",
+      "required_before_inclusion": [
+        "STRUCTURAL_VALIDITY",
+        "TRIGGER_EVIDENCE",
+        "FORWARD_EXECUTION_EVIDENCE",
+        "PROMPT_SKILL_PARITY",
+        "KNOWN_LIMITATIONS"
+      ]
+    },
+    {
+      "path": "trust/code-review-trust-card.json",
+      "role": "workflow_level_trust_card",
+      "state": "CONDITIONAL_ON_STARTER_RUNTIME_EVIDENCE_AND_HUMAN_REVIEW"
+    },
+    {
+      "path": "trust/bug-diagnosis-trust-card.json",
+      "role": "workflow_level_trust_card",
+      "state": "CONDITIONAL_ON_STARTER_RUNTIME_EVIDENCE_AND_HUMAN_REVIEW"
+    }
+  ],
+  "internal_only_not_packaged": [
+    "contracts/",
+    "trust/*.trust-context.json",
+    "CONTRACT_FREEZE_V1.json",
+    "SURFACE_FREEZE_V1.json",
+    "PAYLOAD_FREEZE_V1.json",
+    "ARCHIVE_BUILD_RECEIPT_V1.json",
+    "internal_evaluation_packets/",
+    "raw_runtime_outputs/"
+  ],
+  "archive_identity": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "canonical_build_source_commit": "167faad0758b3e746b48ac7c898f876525d30ee3",
+    "build_receipt": "PM-STARTER-ARCHIVE-BUILD-V1-0001",
+    "state": "REPRODUCIBLE_BUILD_OBSERVED"
+  },
+  "rules": {
+    "pending_asset_may_be_silently_omitted": false,
+    "conditional_skill_may_be_marketed_as_supported_before_evidence": false,
+    "internal_forensic_evidence_must_be_shipped_to_customer": false,
+    "synthetic_examples_must_be_labeled_synthetic": true,
+    "archive_hash_may_be_invented_before_build": false,
+    "payload_complete_implies_product_ready": false,
+    "archive_build_implies_provider_custody": false,
+    "archive_build_implies_customer_delivery": false,
+    "archive_build_implies_ready_to_sell": false
+  },
+  "truth": {
+    "required_customer_assets_total": 9,
+    "required_customer_assets_present": 9,
+    "required_customer_assets_pending": 0,
+    "conditional_assets": 4,
+    "skills_in_required_payload": 0,
+    "workflow_trust_cards_in_required_payload": 0,
+    "archive_built": true,
+    "archive_reproducible": true,
+    "provider_custody": false,
+    "customer_delivery_observed": false,
+    "ready_to_sell": false
+  }
+}

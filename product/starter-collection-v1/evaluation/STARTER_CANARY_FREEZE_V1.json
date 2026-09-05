@@ -1,0 +1,87 @@
+{
+  "schema": "prompt-machine-starter-canary-freeze-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-CANARY-FREEZE-V1-0001",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_CANARY_ENVELOPE_FREEZE_PASS_RUNTIME_UNEXECUTED",
+  "rendering_protocol": "two-labeled-blocks-fixed-order-v1",
+  "runtime_input_order": [
+    "FROZEN_STARTER_WORKFLOW_SURFACE",
+    "UNTRUSTED_INSTANCE_DATA"
+  ],
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "cases": [
+    {
+      "case_id": "PM-STARTER-CR-NORMAL-0001",
+      "variant": "NORMAL",
+      "runtime_envelope_size_bytes": 8100,
+      "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+      "armed": false,
+      "runtime_executed": false
+    },
+    {
+      "case_id": "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+      "variant": "EMBEDDED_OVERRIDE",
+      "runtime_envelope_size_bytes": 8278,
+      "runtime_envelope_sha256": "727b0b20085265273ad5ed72078e6a5e14031b8ee3058eed11c4825d9f56e632",
+      "armed": false,
+      "runtime_executed": false
+    },
+    {
+      "case_id": "PM-STARTER-BD-NORMAL-0001",
+      "variant": "NORMAL",
+      "runtime_envelope_size_bytes": 10181,
+      "runtime_envelope_sha256": "e538823d529f5f56fbe4ad20fdd63b682ff7c8d533d53ffd2c976bcf0d44b3cc",
+      "armed": false,
+      "runtime_executed": false
+    },
+    {
+      "case_id": "PM-STARTER-BD-EMBEDDED-OVERRIDE-0001",
+      "variant": "EMBEDDED_OVERRIDE",
+      "runtime_envelope_size_bytes": 10327,
+      "runtime_envelope_sha256": "7e257bdf2dae640ae4d9e91ee5b599f34f7136b4270ee494f9c2fe1e1787e9fe",
+      "armed": false,
+      "runtime_executed": false
+    }
+  ],
+  "static_validation": {
+    "workflow": "Validate Starter Canary v1",
+    "run_id": 33798196867,
+    "job_id": 100790898409,
+    "conclusion": "success",
+    "source_commit": "a47de5686e94613865cc52ab1bcce7a0cd5c455c",
+    "generated_artifact_id": 9910001643,
+    "generated_artifact_name": "prompt-machine-starter-canary-v1-33798196867",
+    "generated_artifact_wrapper_sha256": "24e8f52c74c6907ce0f2b693db43c8b54978893634f808cf03b6bb08a64dfc36",
+    "artifact_is_behavioral_evidence": false
+  },
+  "truth": {
+    "prepared_cases": 4,
+    "out_of_band_evaluation_contracts": 4,
+    "exact_runtime_envelopes": 4,
+    "armed_cases": 0,
+    "runtime_observations": 0,
+    "model_calls": 0,
+    "provider_calls": 0,
+    "behavioral_claims_created_by_freeze": 0,
+    "starter_product_ready": false,
+    "ready_to_sell": false
+  },
+  "next_permitted_runtime_sequence": {
+    "first_case": "PM-STARTER-CR-NORMAL-0001",
+    "authorized_now": false,
+    "maximum_submissions_before_human_review": 1,
+    "automatic_retries": 0,
+    "automatic_second_case": false,
+    "automatic_wave": false,
+    "automatic_promotion": false
+  },
+  "boundaries": {
+    "static_canary_freeze_implies_runtime_evidence": false,
+    "generated_envelope_implies_behavioral_pass": false,
+    "architecture_evidence_implies_starter_sku_evidence": false,
+    "one_runtime_pass_implies_product_ready": false,
+    "runtime_pass_implies_certification": false
+  }
+}

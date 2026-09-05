@@ -5,6 +5,10 @@ export function parseCommerceMode(value: string | undefined): CommerceMode {
   return "off";
 }
 
-export function currentCommerceMode(): CommerceMode {
-  return parseCommerceMode(process.env.DEVELOPER_PACK_COMMERCE_MODE);
+export function currentCommerceMode(envKey = "DEVELOPER_PACK_COMMERCE_MODE"): CommerceMode {
+  return parseCommerceMode(process.env[envKey]);
+}
+
+export function currentStarterCommerceMode(): CommerceMode {
+  return currentCommerceMode("STARTER_COLLECTION_COMMERCE_MODE");
 }

@@ -1,0 +1,20 @@
+{
+  "schema": "prompt-machine-starter-runtime-failure-v1",
+  "failure_id": "PM-STARTER-CR-NORMAL-0001-FAIL-0001",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "observation_id": "PM-STARTER-CR-NORMAL-0001-OBS-0001",
+  "review_id": "PM-STARTER-CR-NORMAL-0001-HR-0001",
+  "BEFORE": "The frozen candidate requires visible uncertainty and caps this case at LIKELY with REVIEW_REQUIRED unless the upstream authorization boundary is observed.",
+  "OBSERVED_FAILURE": "The response classified the issue as CONFIRMED, selected REVIEWABLE, and recommended BLOCK while simultaneously acknowledging that a route-level guard could invalidate the finding.",
+  "WHY_IT_MATTERS": "Overstating evidence weakens the workflow's central evidence-first promise and can cause an unnecessarily authoritative ship recommendation.",
+  "HYPOTHESIS": "The general evidence-level rubric is insufficiently explicit for missing authorization checks located outside the supplied handler or diff.",
+  "PROPOSED_CHANGE": "Create a successor workflow version that states: absence of a visible authorization check in supplied code is not proof that upstream authorization is absent; without route composition or equivalent evidence, cap the finding at LIKELY and use REVIEW_REQUIRED.",
+  "REGRESSION_CASES_REQUIRED": [
+    "PM-STARTER-CR-NORMAL-0001",
+    "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+    "A route-level owner/admin guard case where the handler alone lacks the check"
+  ],
+  "successor_requires_new_version": true,
+  "observed_workflow_version_mutated": false,
+  "recorded_at": "2026-09-04T02:05:01Z"
+}

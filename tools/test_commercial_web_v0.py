@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 WEB = ROOT / "web"
+CATALOG = ROOT / "product/developer-workflow-kit-v1.2/CATALOG.candidate.json"
+STARTER_IDENTITY = ROOT / "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json"
+STARTER_CHECKOUT_ROUTE = WEB / "app/api/commerce/starter-collection/checkout/route.ts"
 
 REQUIRED = [
     WEB / "package.json",
@@ -11,7 +15,12 @@ REQUIRED = [
     WEB / "app/layout.tsx",
     WEB / "app/page.tsx",
     WEB / "app/globals.css",
+    WEB / "app/collections/page.tsx",
+    WEB / "app/learn/page.tsx",
+    WEB / "app/learn/workflows-not-random-prompts/page.tsx",
+    WEB / "app/learn/test-ai-workflows/page.tsx",
     WEB / "app/free/developer-starter-pack/page.tsx",
+    WEB / "app/starter-collection/page.tsx",
     WEB / "app/developer-pack/page.tsx",
     WEB / "app/license/page.tsx",
     WEB / "app/api/free-pack/v1/route.ts",
@@ -26,9 +35,16 @@ REQUIRED = [
     WEB / "scripts/fetch-free-pack.mjs",
     WEB / "scripts/assert-golden-path-build.mjs",
     WEB / "lib/commerce-mode.ts",
+    WEB / "lib/commerce-release.ts",
     WEB / "lib/developer-pack-release.ts",
+    WEB / "lib/starter-collection-release.ts",
+    WEB / "lib/starter-commerce.ts",
     WEB / "lib/lemonsqueezy.ts",
     WEB / ".env.example",
+    ROOT / "docs/PRODUCT_VISION_V3.md",
+    ROOT / "commercial/REVENUE_EXPERIMENT_V1.md",
+    STARTER_IDENTITY,
+    CATALOG,
 ]
 
 FORBIDDEN_MARKETING = [
@@ -38,12 +54,18 @@ FORBIDDEN_MARKETING = [
     "guaranteed to improve",
     "works with every model",
     "universally portable",
+    "guaranteed revenue",
+    "guaranteed to sell",
 ]
 
 EXPECTED_FREE_SHA256 = "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
 EXPECTED_FREE_SIZE = "23498"
 EXPECTED_PAID_SHA256 = "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009"
 EXPECTED_PAID_SIZE = "86763"
+EXPECTED_STARTER_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+EXPECTED_STARTER_SIZE = "50918"
+CANONICAL_STARTER_PRODUCT_ID = "prompt-machine-starter-collection"
+LEGACY_STARTER_PRODUCT_ID = "pq-developer-starter-collection"
 
 
 def fail(message: str) -> None:
@@ -59,23 +81,27 @@ def require_tokens(label: str, source: str, tokens: tuple[str, ...]) -> None:
 def main() -> None:
     missing = [str(path.relative_to(ROOT)) for path in REQUIRED if not path.is_file()]
     if missing:
-        fail("missing required Next.js files: " + ", ".join(missing))
+        fail("missing required Prompt Machine files: " + ", ".join(missing))
 
     source_files = list((WEB / "app").rglob("*.tsx")) + list((WEB / "components").rglob("*.tsx"))
     source = "\n".join(path.read_text(encoding="utf-8") for path in source_files)
     lower = source.lower()
 
     required_copy = [
-        "stop collecting random prompts",
-        "developer starter pack",
-        "developer pack v1",
-        "ready",
-        "valid",
-        "use it. adapt it",
-        "resell",
-        "redistribut",
-        "quarry engine",
-        "not observed = unknown",
+        "prompt machine",
+        "start with the task. not a blank chat",
+        "what are you trying to get done",
+        "free library",
+        "starter collection",
+        "developer workflow collection",
+        "$9 one-time",
+        "$19 one-time",
+        "price hypothesis",
+        "not for sale",
+        "powered by prompt quarry",
+        "marketing claim",
+        "observed evidence",
+        "learn",
     ]
     for phrase in required_copy:
         if phrase not in lower:
@@ -85,6 +111,71 @@ def main() -> None:
         if phrase in lower:
             fail(f"unsupported marketing claim observed: {phrase}")
 
+    vision = (ROOT / "docs/PRODUCT_VISION_V3.md").read_text(encoding="utf-8")
+    revenue = (ROOT / "commercial/REVENUE_EXPERIMENT_V1.md").read_text(encoding="utf-8")
+    require_tokens(
+        "product vision contract",
+        vision,
+        (
+            "Prompt Machine is the customer-facing platform",
+            "Prompt Quarry is the internal factory",
+            "What are you trying to get done?",
+            "The ZIP is not the product experience",
+            "MARKETING CLAIM <= OBSERVED EVIDENCE",
+        ),
+    )
+    require_tokens(
+        "revenue experiment contract",
+        revenue,
+        (
+            "PQ-$1 = first real non-test paid purchase successfully delivered",
+            "USD 9",
+            "USD 19",
+            "PRICE HYPOTHESIS",
+            "free download          != revenue",
+            "accepted real purchase == purchase evidence",
+        ),
+    )
+
+    identity = json.loads(STARTER_IDENTITY.read_text(encoding="utf-8"))
+    if identity["product"]["canonical_product_id"] != CANONICAL_STARTER_PRODUCT_ID:
+        fail("Starter product identity contract does not expose the canonical Prompt Machine product id")
+    aliases = {row["product_id"] for row in identity["legacy_aliases"]}
+    if aliases != {LEGACY_STARTER_PRODUCT_ID}:
+        fail("Starter legacy product-id alias is not explicitly preserved")
+    if identity["rules"]["provider_custom_data_uses_canonical_id"] is not True:
+        fail("provider custom data must use canonical Starter product id")
+    if identity["rules"]["new_analytics_events_use_canonical_id"] is not True:
+        fail("new analytics must use canonical Starter product id")
+    if identity["rules"]["historical_records_rewritten"] is not False:
+        fail("historical Starter product-id records must not be rewritten")
+
+    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
+    ladder = catalog.get("commercial_ladder", {})
+    if (ladder.get("free_usd"), ladder.get("starter_usd"), ladder.get("full_developer_usd")) != (0, 9, 19):
+        fail("catalog commercial ladder is not $0 -> $9 -> $19")
+    if ladder.get("primary_first_paid_offer") != "STARTER_COLLECTION":
+        fail("catalog no longer identifies Starter as the primary first paid offer")
+    if ladder.get("starter_scope_state") != "FROZEN":
+        fail("Starter scope must be frozen before customer merchandising")
+    planned = {row.get("product_id"): row for row in catalog.get("planned_products", [])}
+    starter = planned.get(CANONICAL_STARTER_PRODUCT_ID, {})
+    if starter.get("scope_state") != "FROZEN" or starter.get("sale_status") != "NOT_FOR_SALE":
+        fail("Starter catalog state must be FROZEN / NOT_FOR_SALE")
+    if starter.get("legacy_product_ids") != [LEGACY_STARTER_PRODUCT_ID]:
+        fail("Starter catalog does not preserve its legacy product-id alias")
+    if starter.get("workflows") != ["PQ-WF-0001", "PQ-WF-0002"] or starter.get("skill_ids") != ["PQ-SKILL-0001", "PQ-SKILL-0002"]:
+        fail("Starter frozen scope does not match the customer-facing two-workflow/two-skill-candidate offer")
+    snapshot = starter.get("current_release_snapshot", {})
+    if snapshot.get("required_customer_assets_present") != 9 or snapshot.get("required_customer_assets_total") != 9:
+        fail("Starter catalog release snapshot is not 9/9")
+    if snapshot.get("deterministic_archive_pass") is not True:
+        fail("Starter catalog release snapshot lost deterministic archive PASS")
+    if snapshot.get("archive_size_bytes") != int(EXPECTED_STARTER_SIZE) or snapshot.get("archive_sha256") != EXPECTED_STARTER_SHA256:
+        fail("Starter catalog archive identity differs from canonical build")
+    if snapshot.get("starter_runtime_observations") != 0 or snapshot.get("ready_to_sell") is not False:
+        fail("Starter catalog overstates runtime/product readiness")
+
     commerce_link = (WEB / "components/commerce-link.tsx").read_text(encoding="utf-8")
     require_tokens(
         "public commerce fail-closed contract",
@@ -93,29 +184,48 @@ def main() -> None:
             "NEXT_PUBLIC_FREE_PACK_URL",
             "NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS",
             '=== "LIVE"',
-            '"/api/free-pack/v1.1.0"',
+            'kind: "free" | "starter" | "paid"',
+            '"/api/free-pack/v1"',
+            '"/starter-collection"',
             '"/api/commerce/developer-pack/checkout"',
             '"/developer-pack"',
             "event.preventDefault()",
+            'event: "free_cta_clicked"',
+            'event: "starter_cta_clicked"',
+            f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
+            'product_version: "1.0.0-candidate"',
+            'event: "paid_cta_clicked"',
         ),
     )
+    if LEGACY_STARTER_PRODUCT_ID in commerce_link:
+        fail("new Starter analytics still emits the legacy product id")
     if "NEXT_PUBLIC_DEVELOPER_PACK_CHECKOUT_URL" in commerce_link:
         fail("customer-facing CTA bypasses the governed server checkout gate")
+    if STARTER_CHECKOUT_ROUTE.exists():
+        fail("public Starter checkout route exists before Starter release gate authorizes it")
 
     env = (WEB / ".env.example").read_text(encoding="utf-8")
     for key in (
         "NEXT_PUBLIC_FREE_PACK_URL=",
         "NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS=NOT_FOR_SALE",
+        "NEXT_PUBLIC_STARTER_COLLECTION_SALE_STATUS=NOT_FOR_SALE",
         "NEXT_PUBLIC_ANALYTICS_MODE=off",
         "DEVELOPER_PACK_COMMERCE_MODE=off",
+        "STARTER_COLLECTION_COMMERCE_MODE=off",
         "LEMONSQUEEZY_DEVELOPER_PACK_TEST_CHECKOUT_URL=",
         "LEMONSQUEEZY_DEVELOPER_PACK_LIVE_CHECKOUT_URL=",
+        "LEMONSQUEEZY_STARTER_TEST_CHECKOUT_URL=",
+        "LEMONSQUEEZY_STARTER_LIVE_CHECKOUT_URL=",
         "LEMONSQUEEZY_PROVIDER_TEST_TOKEN=",
         "LEMONSQUEEZY_LIVE_CANARY_TOKEN=",
+        "LEMONSQUEEZY_STARTER_PROVIDER_TEST_TOKEN=",
+        "LEMONSQUEEZY_STARTER_LIVE_CANARY_TOKEN=",
         "LEMONSQUEEZY_WEBHOOK_SECRET=",
         "LEMONSQUEEZY_STORE_ID=",
         "LEMONSQUEEZY_DEVELOPER_PACK_PRODUCT_ID=",
         "LEMONSQUEEZY_DEVELOPER_PACK_VARIANT_ID=",
+        "LEMONSQUEEZY_STARTER_PRODUCT_ID=",
+        "LEMONSQUEEZY_STARTER_VARIANT_ID=",
     ):
         if key not in env:
             fail(f"commerce environment contract missing: {key}")
@@ -124,20 +234,24 @@ def main() -> None:
             fail(f"legacy commerce environment key still present: {legacy}")
 
     free_route = (WEB / "app/api/free-pack/v1/route.ts").read_text(encoding="utf-8")
+    free_alias = (WEB / "app/api/free-pack/v1.1.0/route.ts").read_text(encoding="utf-8")
     free_materializer = (WEB / "scripts/fetch-free-pack.mjs").read_text(encoding="utf-8")
     free_declaration = (WEB / "generated/free-pack-archive.d.ts").read_text(encoding="utf-8")
     require_tokens(
-        "free pack runtime integrity contract",
+        "free pack deterministic runtime integrity contract",
         free_route,
         (
-            "FREE_PACK_BASE64",
-            EXPECTED_FREE_SHA256,
-            f"EXPECTED_SIZE = {EXPECTED_FREE_SIZE}",
+            "FREE_PACK_ARCHIVE_SHA256",
+            "FREE_PACK_ARCHIVE_SIZE",
+            "FREE_PACK_FILES",
+            "buildStoredZip",
             "free_pack_integrity_failure",
+            "PQ_FUNNEL_EVENT",
             "X-Prompt-Quarry-SHA256",
             "X-Prompt-Quarry-Version",
         ),
     )
+    require_tokens("free release compatibility alias", free_alias, ('export { GET } from "../v1/route"',))
     require_tokens(
         "free pack build materialization contract",
         free_materializer,
@@ -156,22 +270,67 @@ def main() -> None:
         fail("free pack generated snapshot is not bound to v1.1 release fingerprint")
     if 'FREE_PACK_VERSION = "1.1.0"' not in generated or f"FREE_PACK_ARCHIVE_SIZE = {EXPECTED_FREE_SIZE}" not in generated:
         fail("free pack generated snapshot does not identify v1.1 size/version")
+    if "FREE_PACK_FILES" not in generated:
+        fail("governed free payload is unavailable to deterministic runtime builder")
+
+    commerce_release = (WEB / "lib/commerce-release.ts").read_text(encoding="utf-8")
+    require_tokens(
+        "generic commerce release identity contract",
+        commerce_release,
+        (
+            'export type CommerceGate = "provider_test" | "live_canary" | "live"',
+            "CommerceReleaseIdentity",
+            "releaseCheckoutCustomData",
+            "pq_product_id",
+            "pq_product_version",
+            "pq_archive_sha256",
+            "pq_archive_size",
+            "pq_gate",
+        ),
+    )
 
     release = (WEB / "lib/developer-pack-release.ts").read_text(encoding="utf-8")
     require_tokens(
-        "paid release identity contract",
+        "Developer Pack release identity adapter",
         release,
         (
             'productId: "pq-developer-pack"',
             'version: "1.1.0"',
             f"archiveSize: {EXPECTED_PAID_SIZE}",
             EXPECTED_PAID_SHA256,
-            'export type CommerceGate = "provider_test" | "live_canary" | "live"',
-            "pq_product_id",
-            "pq_product_version",
-            "pq_archive_sha256",
-            "pq_archive_size",
-            "pq_gate",
+            "buildReleaseCheckoutCustomData(DEVELOPER_PACK_RELEASE, gate)",
+        ),
+    )
+
+    starter_release = (WEB / "lib/starter-collection-release.ts").read_text(encoding="utf-8")
+    require_tokens(
+        "Starter canonical release identity adapter",
+        starter_release,
+        (
+            f'productId: "{CANONICAL_STARTER_PRODUCT_ID}"',
+            'version: "1.0.0-candidate"',
+            'archiveName: "prompt-machine-starter-collection-v1.zip"',
+            f"archiveSize: {EXPECTED_STARTER_SIZE}",
+            EXPECTED_STARTER_SHA256,
+            "buildReleaseCheckoutCustomData(STARTER_COLLECTION_RELEASE, gate)",
+        ),
+    )
+    if LEGACY_STARTER_PRODUCT_ID in starter_release:
+        fail("provider-facing Starter release identity contains legacy product id")
+
+    starter_commerce = (WEB / "lib/starter-commerce.ts").read_text(encoding="utf-8")
+    require_tokens(
+        "Starter commerce adapter",
+        starter_commerce,
+        (
+            "currentStarterCommerceMode",
+            "NEXT_PUBLIC_STARTER_COLLECTION_SALE_STATUS",
+            "LEMONSQUEEZY_STARTER_PRODUCT_ID",
+            "LEMONSQUEEZY_STARTER_VARIANT_ID",
+            "LEMONSQUEEZY_STARTER_TEST_CHECKOUT_URL",
+            "LEMONSQUEEZY_STARTER_LIVE_CHECKOUT_URL",
+            "release: STARTER_COLLECTION_RELEASE",
+            'parsed.protocol !== "https:"',
         ),
     )
 
@@ -196,7 +355,7 @@ def main() -> None:
 
     webhook_lib = (WEB / "lib/lemonsqueezy.ts").read_text(encoding="utf-8")
     require_tokens(
-        "signed provider evidence contract",
+        "release-agnostic signed provider evidence contract",
         webhook_lib,
         (
             'createHmac("sha256"',
@@ -207,11 +366,36 @@ def main() -> None:
             '"live_delivery_canary_order_accepted"',
             '"purchase_completed"',
             'evidence: "provider_signed_order_created"',
+            "release: CommerceReleaseIdentity",
+            "config.release.productId",
+            "config.release.archiveSha256",
+        ),
+    )
+
+    webhook_route = (WEB / "app/api/commerce/lemonsqueezy/webhook/route.ts").read_text(encoding="utf-8")
+    require_tokens(
+        "legacy Developer Pack webhook adapter preservation",
+        webhook_route,
+        (
+            "DEVELOPER_PACK_RELEASE",
+            "release: DEVELOPER_PACK_RELEASE",
+            "evaluateLemonSqueezyWebhook",
+            "PQ_COMMERCE_EVENT",
         ),
     )
 
     tracker = (WEB / "components/funnel-tracker.tsx").read_text(encoding="utf-8")
-    for token in ("NEXT_PUBLIC_ANALYTICS_MODE", "landing_view", "paid_product_viewed", "utm_source", "sessionStorage"):
+    for token in (
+        "NEXT_PUBLIC_ANALYTICS_MODE",
+        "landing_view",
+        "free_product_viewed",
+        "collections_viewed",
+        "starter_product_viewed",
+        "paid_product_viewed",
+        'path.startsWith("/starter-collection")',
+        "utm_source",
+        "sessionStorage",
+    ):
         if token not in tracker:
             fail(f"analytics contract missing: {token}")
     for forbidden_event in (
@@ -229,28 +413,42 @@ def main() -> None:
     for breakpoint in ("@media(max-width:900px)", "@media(max-width:620px)"):
         if breakpoint not in css:
             fail(f"responsive gate missing: {breakpoint}")
-
     for visual_contract in (".heroPremium", ".engineShell", ".pipeline", ".productFrame", ".evidenceLadder", ".premiumCta"):
         if visual_contract not in css:
-            fail(f"premium visual system contract missing: {visual_contract}")
-
+            fail(f"visual system contract missing: {visual_contract}")
     if "prefers-reduced-motion:reduce" not in css:
         fail("reduced-motion accessibility gate missing")
 
     layout = (WEB / "app/layout.tsx").read_text(encoding="utf-8")
     require_tokens(
-        "brand shell/accessibility contract",
+        "Prompt Machine brand shell/accessibility contract",
         layout,
         (
-            'title: "Prompt Quarry — Structured Prompts for Developers"',
-            'applicationName: "Prompt Quarry"',
+            'title: "Prompt Machine — Reusable AI Workflows for Real Tasks"',
+            'applicationName: "Prompt Machine"',
             '<html lang="en">',
-            'aria-label="Prompt Quarry home"',
+            'aria-label="Prompt Machine home"',
             'aria-label="Primary"',
+            'href="/collections"',
+            'href="/learn"',
             "brandGlyph",
             "brandWord",
             "brandVersion",
             "FunnelTracker",
+        ),
+    )
+
+    engine = (WEB / "components/quarry-engine.tsx").read_text(encoding="utf-8")
+    require_tokens(
+        "customer workflow visualization",
+        engine,
+        (
+            "WORKFLOW ENGINE",
+            'name: "GOAL"',
+            'name: "WORKFLOW"',
+            'name: "VERIFY"',
+            'name: "REUSE"',
+            "powered by Prompt Quarry",
         ),
     )
 
@@ -262,16 +460,21 @@ def main() -> None:
 
     print("COMMERCIAL WEB V0: PASS")
     print(f"required_files={len(REQUIRED)}")
+    print("public_brand=Prompt Machine")
+    print("internal_factory=Prompt Quarry")
+    print("merchandising=outcome-first workflows + $0 -> $9 Starter -> $19 Full + learn")
     print("framework=Next.js 16.3.3 App Router")
     print("runtime=Node 24.x deployment parity")
-    print("visual_system=premium technical/editorial + Quarry Engine")
-    print("brand_shell=metadata + semantic navigation + accessible brand controls")
-    print("free_delivery=v1.1 build-materialized ZIP + runtime SHA-256 fail-closed verification")
-    print("paid_release=Developer Pack v1.1.0 exact 86763-byte release identity")
-    print("commerce=provider_test/live_canary/live gates; public CTA defaults NOT_FOR_SALE")
+    print("free_delivery=v1.1 governed payload + deterministic runtime ZIP + SHA-256 fail-closed verification")
+    print(f"starter_offer={CANONICAL_STARTER_PRODUCT_ID}; $9 PRICE_HYPOTHESIS; scope FROZEN; checkout off")
+    print(f"starter_archive={EXPECTED_STARTER_SIZE} bytes; sha256={EXPECTED_STARTER_SHA256}; packaging only")
+    print(f"starter_legacy_alias={LEGACY_STARTER_PRODUCT_ID}; historical only")
+    print("starter_commerce_adapter=prepared fail-closed; no public Starter checkout route")
+    print("full_offer=Developer Workflow Collection; $19 PRICE_HYPOTHESIS; checkout off")
+    print("paid_technical_identity=legacy Developer Pack v1.1.0 provider binding preserved through generic commerce evaluator")
     print("purchase_evidence=signed public-live provider order only")
-    print("analytics=minimal UTM/session bridge; no client purchase/revenue inference")
-    print("boundary=READY/VALID only; F4-F7 superiority/certification claims remain unasserted")
+    print("analytics=UTM/session + free/starter/full intent; no client purchase/revenue inference")
+    print("boundary=MARKETING CLAIM <= OBSERVED EVIDENCE")
 
 
 if __name__ == "__main__":

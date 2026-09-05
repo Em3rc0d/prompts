@@ -1,0 +1,29 @@
+{
+  "architecture_count": 9,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "bulk_regeneration_allowed": false,
+  "closed_static_audit_v2_1_findings": [
+    "ARCH-V21-COMMON-001",
+    "ARCH-V21-SIM-001",
+    "ARCH-V21-GEN-001"
+  ],
+  "external_model_calls": 0,
+  "lineage": "successor-to-architecture-pilot-v2.1-after-static-audit-v2.1",
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "next_gate": "Final static semantic freeze audit before designing deterministic category binding and invocation rendering.",
+  "pilot_version": "2.2.0",
+  "ready_to_sell_claims_created": 0,
+  "schema": "prompt-machine-architecture-pilot-manifest-v2.2",
+  "status": "STATIC_REVIEW_REQUIRED"
+}

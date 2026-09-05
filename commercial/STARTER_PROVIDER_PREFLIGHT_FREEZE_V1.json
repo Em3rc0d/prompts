@@ -1,0 +1,68 @@
+{
+  "schema": "prompt-machine-starter-provider-preflight-freeze-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-PROVIDER-PREFLIGHT-FREEZE-V1-0001",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_PROVIDER_EXECUTION_PRECONDITIONS_PASS_DISARMED",
+  "product_id": "prompt-machine-starter-collection",
+  "provider_candidate": "LEMON_SQUEEZY",
+  "validated_by": {
+    "workflow": "Validate Starter Provider Preflight v1",
+    "run_id": 33804846142,
+    "conclusion": "success"
+  },
+  "frozen_inputs": {
+    "integration_prep": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
+    "custody_contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
+    "custody_execution_packet": "commercial/STARTER_PROVIDER_CUSTODY_EXECUTION_PACKET_V1.json",
+    "live_delivery_canary_plan": "commercial/STARTER_LIVE_DELIVERY_CANARY_PLAN_V1.json",
+    "delivery_receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+    "product_identity": "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json",
+    "signed_webhook_adapter": "web/app/api/commerce/lemonsqueezy/starter-webhook/route.ts"
+  },
+  "execution_limits": {
+    "custody_packet_armed": false,
+    "custody_required_explicit_arm": "EXECUTE_STARTER_PROVIDER_CUSTODY_TEST",
+    "custody_automatic_retries": 0,
+    "custody_maximum_verification_attempts_before_review": 1,
+    "delivery_canary_armed": false,
+    "delivery_required_explicit_arm": "EXECUTE_ONE_STARTER_LIVE_DELIVERY_CANARY",
+    "maximum_live_transactions": 1,
+    "delivery_automatic_retries": 0,
+    "automatic_public_launch": false
+  },
+  "canonical_artifact": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+  },
+  "current_truth": {
+    "provider_calls_created_by_preflight": 0,
+    "model_calls_created_by_preflight": 0,
+    "provider_side_effects_executed": false,
+    "provider_custody_observations": 0,
+    "provider_test_orders": 0,
+    "live_canary_orders": 0,
+    "verified_deliveries": 0,
+    "real_customer_purchases": 0,
+    "pq_dollar_one_observed": false,
+    "public_checkout": false,
+    "ready_to_sell": false
+  },
+  "evidence_boundary": {
+    "preflight_pass_is_provider_custody": false,
+    "preflight_pass_is_provider_integration_pass": false,
+    "preflight_pass_is_delivery_evidence": false,
+    "preflight_pass_is_purchase_evidence": false,
+    "preflight_pass_is_revenue": false,
+    "preflight_pass_is_product_ready": false,
+    "preflight_pass_authorizes_side_effects": false
+  },
+  "next_permitted_external_sequence": [
+    "EXPLICITLY_ARM_CUSTODY_TEST",
+    "EXECUTE_AT_MOST_ONE_CONTROLLED_CUSTODY_VERIFICATION",
+    "HUMAN_REVIEW",
+    "ONLY_THEN_DECIDE_WHETHER_PROVIDER_INTEGRATION_OR_DELIVERY_CANARY_IS_JUSTIFIED"
+  ],
+  "master_rule": "PRECONDITIONS MAY BE FROZEN BEFORE EXECUTION; EXTERNAL EVIDENCE MAY ONLY COME FROM THE EXTERNAL SYSTEM ITSELF"
+}

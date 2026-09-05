@@ -1,5 +1,5 @@
 import { currentCommerceMode } from "@/lib/commerce-mode";
-import type { CommerceGate } from "@/lib/developer-pack-release";
+import { DEVELOPER_PACK_RELEASE, type CommerceGate } from "@/lib/developer-pack-release";
 import { evaluateLemonSqueezyWebhook, type LemonSqueezyConfig } from "@/lib/lemonsqueezy";
 
 export const runtime = "nodejs";
@@ -31,6 +31,7 @@ function loadConfig(): LemonSqueezyConfig | null {
     variantId,
     commerceMode,
     commerceGate,
+    release: DEVELOPER_PACK_RELEASE,
   };
 }
 

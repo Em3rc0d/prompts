@@ -1,0 +1,22 @@
+{
+  "architecture_count": 9,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "external_model_calls": 0,
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "next_gate": "Static semantic review of all nine architecture blueprints before any bulk regeneration.",
+  "pilot_version": "1.0.0",
+  "ready_to_sell_claims_created": 0,
+  "schema": "prompt-machine-architecture-pilot-manifest-v1",
+  "status": "STATIC_REVIEW_REQUIRED"
+}
