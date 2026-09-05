@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -54,11 +54,12 @@
     ]
   },
   "latest_attempt": {
-    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_003_2026-09-05.json",
-    "attempt_id": "G05-BASELINE-003",
-    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-5D26DCEC2561",
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_004_2026-09-05.json",
+    "attempt_id": "G05-FALLBACK-004",
+    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-CD71CEC4B96D",
     "provider_http_status": 503,
     "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503",
+    "model": "gemini-3.5-flash",
     "surface_submissions": 1,
     "provider_requests_attempted": 1,
     "automatic_retries": 0,
@@ -66,20 +67,28 @@
     "behavioral_observation_created": false,
     "g05_pass_demonstrated": false,
     "g05_fail_demonstrated": false,
-    "request_body_matches_attempt_001_and_002": true,
-    "response_body_matches_attempt_001_and_002": true
+    "request_body_matches_previous_attempts": true,
+    "response_body_matches_previous_attempts": true
   },
   "provider_availability_history": {
-    "consecutive_gemini_3_8_flash_503_attempts": 3,
+    "runtime_attempts_with_503": 4,
+    "models": {
+      "gemini-3.8-flash": 3,
+      "gemini-3.5-flash": 1
+    },
     "attempts": [
       "G05-BASELINE-001",
       "G05-BASELINE-002",
-      "G05-BASELINE-003"
+      "G05-BASELINE-003",
+      "G05-FALLBACK-004"
     ],
+    "identical_request_body_sha256_across_all_four": true,
+    "identical_response_body_sha256_across_all_four": true,
     "behavioral_observations_created": 0,
     "candidate_mutation_justified": false,
     "automatic_retry_policy_change_justified": false,
-    "model_fallback_experiment_justified": true
+    "additional_blind_runtime_attempt_justified": false,
+    "provider_or_project_visibility_diagnostic_justified": true
   },
   "model_fallback_boundary": {
     "changing_model_changes_runtime_configuration": true,
@@ -87,21 +96,19 @@
     "candidate_prompt_may_remain_frozen": true,
     "certification_scope_must_record_exact_model": true
   },
-  "next_attempt": {
-    "plan": "commercial/STARTER_N09_GEMINI_WSL_FALLBACK_004_PLAN.json",
-    "attempt_id": "G05-FALLBACK-004",
-    "state": "PREPARED_FRESH_AUTH_REQUIRED",
-    "executor": "tools/execute_starter_n09_gemini_wsl_v4.py",
-    "preflight": "tools/probe_starter_n09_gemini_wsl_fallback_004.py",
-    "preflight_receipt": "commercial/STARTER_N09_GEMINI_WSL_FALLBACK_004_PREFLIGHT_RECEIPT_2026-09-05.json",
-    "preflight_verdict": "PASS",
-    "preflight_source_commit": "ae62aa428a5da3c76d1e4fe49e3d40e7c4e631f4",
-    "model": "gemini-3.5-flash",
-    "candidate_prompt_mutated": false,
-    "runtime_configuration_changed": true,
-    "provider_requests_so_far": 0
+  "provider_visibility_diagnostic": {
+    "contract": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_DIAGNOSTIC_V1.json",
+    "tool": "tools/probe_starter_n09_gemini_provider_visibility_v1.py",
+    "generate_content_allowed": false,
+    "model_inference_allowed": false,
+    "runtime_authorization_consumed": false,
+    "automatic_retries": 0,
+    "targets": [
+      "gemini-3.8-flash",
+      "gemini-3.5-flash"
+    ]
   },
-  "current_authorization_state": "DISARMED_GEMINI_WSL_003_AUTHORIZATION_CONSUMED",
-  "next_gate": "FRESH_EXPLICIT_RUNTIME_AUTHORIZATION_FOR_G05_FALLBACK_004",
-  "truth_boundary": "FALLBACK_004_PREFLIGHT_PASS_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
+  "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
+  "next_gate": "NON_INFERENCE_PROVIDER_VISIBILITY_DIAGNOSTIC_BEFORE_ANY_NEW_G05_RUNTIME_ATTEMPT",
+  "truth_boundary": "FOUR_PROVIDER_503_ATTEMPTS_ACROSS_TWO_MODELS_ZERO_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
 }
