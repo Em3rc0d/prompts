@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Execute one clean Starter N09 observation from the user's WSL only.
+"""Execute exactly one clean Starter N09 observation from the user's WSL via Gemini API.
 
 Properties:
 - exact case PM-STARTER-CR-NORMAL-0001
 - exact 8,100-byte frozen envelope + SHA-256 gate
-- one HTTP request maximum, zero retry loop
+- GEMINI_API_KEY is read only from the local WSL environment
+- one generateContent transport attempt maximum; zero application retries
 - no evaluation contract / answer key in runtime input
 - evidence written only to a caller-supplied local WSL directory
-- no GitHub artifact upload, no Vercel deployment, no promotion
-
-The model itself is remote unless a future local-model surface is separately governed.
+- no GitHub Actions trigger, no GitHub artifact upload, no Vercel deployment
+- runtime output is evidence only; never automatic certification or promotion
 """
 
 from __future__ import annotations
@@ -18,8 +18,10 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import secrets
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -30,9 +32,14 @@ CASE_ID = "PM-STARTER-CR-NORMAL-0001"
 CASE_PATH = ROOT / "product/starter-collection-v1/evaluation/cases/PM-STARTER-CR-NORMAL-0001.json"
 CLEAN_SURFACE_PATH = ROOT / "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json"
 POLICY_PATH = ROOT / "commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json"
+PIPELINE_PATH = ROOT / "commercial/PROMPT_MACHINE_14_GATE_PIPELINE_V1.json"
 EXPECTED_SHA = "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"
 EXPECTED_BYTES = 8100
-SURFACE = "WSL_LOCAL_SINGLE_REQUEST_RESPONSES_API"
+SURFACE = "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API"
+PROVIDER = "GOOGLE_GEMINI_API"
+AUTH_ENV = "GEMINI_API_KEY"
+EXACT_AUTH = "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos."
+MODEL_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 
 
 def utc_now() -> str:
@@ -64,15 +71,19 @@ def render(surface: str, instance: str) -> bytes:
 
 
 def assert_wsl() -> None:
-    version = Path("/proc/version").read_text(encoding="utf-8", errors="ignore").lower()
+    version_path = Path("/proc/version")
+    if not version_path.exists():
+        raise RuntimeError("blocked: /proc/version missing; WSL could not be verified")
+    version = version_path.read_text(encoding="utf-8", errors="ignore").lower()
     if "microsoft" not in version and "wsl" not in version:
         raise RuntimeError("blocked: this executor is WSL-local only")
 
 
-def load_envelope() -> tuple[bytes, dict, dict, dict]:
+def load_contracts() -> tuple[bytes, dict, dict, dict, dict]:
     case = json.loads(CASE_PATH.read_text(encoding="utf-8"))
     clean = json.loads(CLEAN_SURFACE_PATH.read_text(encoding="utf-8"))
     policy = json.loads(POLICY_PATH.read_text(encoding="utf-8"))
+    pipeline = json.loads(PIPELINE_PATH.read_text(encoding="utf-8"))
 
     if case.get("case_id") != CASE_ID:
         raise RuntimeError("case identity mismatch")
@@ -82,8 +93,23 @@ def load_envelope() -> tuple[bytes, dict, dict, dict]:
         raise RuntimeError("clean-surface retry boundary drifted")
     if policy.get("policy_state") != "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER":
         raise RuntimeError("local-only policy is not active")
+    if policy.get("execution_location") != "USER_WSL":
+        raise RuntimeError("execution-location boundary drifted")
+    if policy.get("inference_provider") != PROVIDER:
+        raise RuntimeError("provider boundary drifted")
+    if policy.get("credential_environment_variable") != AUTH_ENV:
+        raise RuntimeError("credential boundary drifted")
+    if policy.get("github_actions_runtime_trigger_allowed") is not False:
+        raise RuntimeError("GitHub Actions runtime trigger must remain disabled")
+    if policy.get("github_artifact_upload_of_runtime_output_allowed") is not False:
+        raise RuntimeError("GitHub artifact runtime upload must remain disabled")
     if policy.get("current_authorization_state") != "DISARMED_PREVIOUS_V3_AUTHORIZATION_CONSUMED":
-        raise RuntimeError("repository policy must remain disarmed; runtime authorization is supplied separately")
+        raise RuntimeError("repository policy must remain disarmed; fresh authorization is supplied per invocation")
+    if pipeline.get("master_invariant") != "NO PROMPT MAY ENTER A RELEASE WITHOUT A PROMPT_ID + SPEC + TEST EVIDENCE + CERTIFICATION DECISION":
+        raise RuntimeError("14-gate pipeline invariant drifted")
+    gates = pipeline.get("gates") or []
+    if len(gates) != 14 or gates[4].get("id") != "G05_BASELINE_EXECUTION":
+        raise RuntimeError("14-gate certification pipeline drifted")
 
     workflow = (ROOT / case["workflow_surface_path"]).read_text(encoding="utf-8")
     envelope = render(workflow, case["instance_data_markdown"])
@@ -95,61 +121,76 @@ def load_envelope() -> tuple[bytes, dict, dict, dict]:
     forbidden = [b"expected_state", b"blocking_dimensions", b"assessment_answer_key"]
     if any(marker in envelope for marker in forbidden):
         raise RuntimeError("evaluation-only material leaked into runtime input")
-    return envelope, case, clean, policy
+    return envelope, case, clean, policy, pipeline
 
 
-def extract_output(payload: dict) -> str:
+def extract_text(payload: dict) -> str:
     chunks: list[str] = []
-    for item in payload.get("output") or []:
-        if item.get("type") != "message":
-            continue
-        for content in item.get("content") or []:
-            if content.get("type") == "output_text" and content.get("text"):
-                chunks.append(str(content["text"]))
+    for candidate in payload.get("candidates") or []:
+        content = candidate.get("content") or {}
+        for part in content.get("parts") or []:
+            text = part.get("text")
+            if isinstance(text, str) and text:
+                chunks.append(text)
     return "\n".join(chunks).strip()
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", required=True)
+    parser.add_argument("--model", required=True, help="Exact Gemini model ID to record for this execution")
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--authorization", required=True)
     parser.add_argument("--max-output-tokens", type=int, default=4096)
     args = parser.parse_args()
 
     assert_wsl()
-    exact_auth = "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos."
-    if args.authorization.strip() != exact_auth:
+    if args.authorization.strip() != EXACT_AUTH:
         raise SystemExit("blocked: fresh exact runtime authorization missing")
+    if not MODEL_RE.fullmatch(args.model):
+        raise SystemExit("blocked: invalid Gemini model ID syntax")
+    if args.max_output_tokens < 1:
+        raise SystemExit("blocked: max-output-tokens must be positive")
 
-    key = os.environ.get("OPENAI_API_KEY")
+    key = os.environ.get(AUTH_ENV)
     if not key:
-        raise SystemExit("blocked before model use: OPENAI_API_KEY is not present in local WSL environment")
+        raise SystemExit(f"blocked before model use: {AUTH_ENV} is not present in the local WSL environment")
 
-    envelope, case, clean, policy = load_envelope()
+    envelope, case, clean, policy, pipeline = load_contracts()
     out = args.output_dir.expanduser().resolve()
     if out.exists():
         raise SystemExit("blocked: output directory already exists")
     out.mkdir(parents=True)
 
-    execution_id = f"PM-STARTER-CR-NORMAL-0001-WSL-{secrets.token_hex(6).upper()}"
+    execution_id = f"PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-{secrets.token_hex(6).upper()}"
     started_at = utc_now()
-    body = {
-        "model": args.model,
-        "input": [{"role": "user", "content": [{"type": "input_text", "text": envelope.decode("utf-8")}]}],
-        "store": False,
-        "max_output_tokens": args.max_output_tokens,
-    }
-    encoded = json.dumps(body, ensure_ascii=False).encode("utf-8")
 
+    body = {
+        "contents": [
+            {
+                "role": "user",
+                "parts": [{"text": envelope.decode("utf-8")}],
+            }
+        ],
+        "generationConfig": {
+            "maxOutputTokens": args.max_output_tokens,
+        },
+    }
+    encoded = json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    request_body_sha256 = sha256(encoded)
+
+    model_path = urllib.parse.quote(args.model, safe="")
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{model_path}:generateContent"
     request = urllib.request.Request(
-        "https://api.openai.com/v1/responses",
+        endpoint,
         data=encoded,
         method="POST",
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+        headers={
+            "x-goog-api-key": key,
+            "Content-Type": "application/json",
+        },
     )
 
-    # Exactly one transport attempt. No retry loop exists below.
+    # Exactly one transport attempt. No application retry loop exists below.
     try:
         with urllib.request.urlopen(request, timeout=240) as response:
             raw = response.read()
@@ -158,100 +199,170 @@ def main() -> int:
     except urllib.error.HTTPError as exc:
         raw = exc.read()
         failure = {
-            "schema": "prompt-machine-starter-n09-wsl-local-failure-v1",
+            "schema": "prompt-machine-starter-n09-gemini-wsl-failure-v1",
             "execution_id": execution_id,
             "case_id": CASE_ID,
+            "provider": PROVIDER,
             "execution_surface": SURFACE,
+            "execution_location": "USER_WSL",
             "model_requested": args.model,
             "started_at": started_at,
             "failed_at": utc_now(),
             "surface_submissions": 1,
-            "provider_requests": 1,
+            "provider_requests_attempted": 1,
             "automatic_retries": 0,
             "behavioral_observations": 0,
             "http_status": exc.code,
             "runtime_envelope_bytes": EXPECTED_BYTES,
             "runtime_envelope_sha256": EXPECTED_SHA,
+            "request_body_sha256": request_body_sha256,
             "response_body_sha256": sha256(raw),
-            "state": "LOCAL_WSL_PROVIDER_FAILURE_NO_RETRY_HUMAN_REVIEW_REQUIRED",
+            "certification_gate": "G05_BASELINE_EXECUTION",
+            "state": "LOCAL_WSL_GEMINI_PROVIDER_FAILURE_NO_RETRY_HUMAN_REVIEW_REQUIRED",
         }
         (out / "raw-provider-error.bin").write_bytes(raw)
         write_json(out / "receipt.json", failure)
-        print(json.dumps({k: failure[k] for k in failure if k not in {"response_body"}}, indent=2, sort_keys=True))
+        print(json.dumps(failure, indent=2, sort_keys=True))
         return 2
     except Exception as exc:
         failure = {
-            "schema": "prompt-machine-starter-n09-wsl-local-failure-v1",
+            "schema": "prompt-machine-starter-n09-gemini-wsl-failure-v1",
             "execution_id": execution_id,
             "case_id": CASE_ID,
+            "provider": PROVIDER,
             "execution_surface": SURFACE,
+            "execution_location": "USER_WSL",
             "model_requested": args.model,
             "started_at": started_at,
             "failed_at": utc_now(),
             "surface_submissions": 1,
-            "provider_requests": 1,
+            "provider_requests_attempted": 1,
             "automatic_retries": 0,
             "behavioral_observations": 0,
             "runtime_envelope_bytes": EXPECTED_BYTES,
             "runtime_envelope_sha256": EXPECTED_SHA,
+            "request_body_sha256": request_body_sha256,
             "error_type": type(exc).__name__,
-            "state": "LOCAL_WSL_TRANSPORT_FAILURE_NO_RETRY_HUMAN_REVIEW_REQUIRED",
+            "certification_gate": "G05_BASELINE_EXECUTION",
+            "state": "LOCAL_WSL_GEMINI_TRANSPORT_FAILURE_NO_RETRY_HUMAN_REVIEW_REQUIRED",
         }
         write_json(out / "receipt.json", failure)
         print(json.dumps(failure, indent=2, sort_keys=True))
         return 2
 
-    payload = json.loads(raw.decode("utf-8"))
-    output = extract_output(payload)
+    try:
+        payload = json.loads(raw.decode("utf-8"))
+    except Exception:
+        failure = {
+            "schema": "prompt-machine-starter-n09-gemini-wsl-invalid-response-v1",
+            "execution_id": execution_id,
+            "case_id": CASE_ID,
+            "provider": PROVIDER,
+            "execution_surface": SURFACE,
+            "model_requested": args.model,
+            "http_status": http_status,
+            "provider_requests_attempted": 1,
+            "automatic_retries": 0,
+            "behavioral_observations": 0,
+            "raw_provider_response_sha256": sha256(raw),
+            "state": "INVALID_PROVIDER_RESPONSE_NO_RETRY_HUMAN_REVIEW_REQUIRED",
+        }
+        (out / "raw-provider-response.bin").write_bytes(raw)
+        write_json(out / "receipt.json", failure)
+        print(json.dumps(failure, indent=2, sort_keys=True))
+        return 3
+
+    output = extract_text(payload)
+    if not output:
+        failure = {
+            "schema": "prompt-machine-starter-n09-gemini-wsl-empty-output-v1",
+            "execution_id": execution_id,
+            "case_id": CASE_ID,
+            "provider": PROVIDER,
+            "execution_surface": SURFACE,
+            "model_requested": args.model,
+            "http_status": http_status,
+            "provider_requests_attempted": 1,
+            "automatic_retries": 0,
+            "behavioral_observations": 0,
+            "raw_provider_response_sha256": sha256(raw),
+            "finish_reasons": [c.get("finishReason") for c in payload.get("candidates") or []],
+            "state": "EMPTY_OUTPUT_NO_RETRY_HUMAN_REVIEW_REQUIRED",
+        }
+        (out / "raw-provider-response.json").write_bytes(raw)
+        write_json(out / "receipt.json", failure)
+        print(json.dumps(failure, indent=2, sort_keys=True))
+        return 3
+
     raw_output = output.encode("utf-8")
     (out / "raw-provider-response.json").write_bytes(raw)
     (out / "raw-output.md").write_bytes(raw_output)
 
     evidence = {
-        "schema": "prompt-machine-starter-n09-wsl-local-observation-v1",
+        "schema": "prompt-machine-starter-n09-gemini-wsl-observation-v1",
         "version": "1.0.0",
         "execution_id": execution_id,
         "case_id": CASE_ID,
         "workflow_id": case["workflow_id"],
+        "provider": PROVIDER,
         "execution_surface": SURFACE,
         "execution_location": "USER_WSL",
+        "credential_source": "LOCAL_ENVIRONMENT_ONLY",
+        "credential_value_recorded": False,
         "fresh_independent_surface": True,
         "evaluation_contract_is_runtime_input": False,
         "expected_result_is_runtime_input": False,
         "model_requested": args.model,
+        "provider_model_version": payload.get("modelVersion"),
+        "provider_response_id": payload.get("responseId"),
         "runtime_envelope_bytes": EXPECTED_BYTES,
         "runtime_envelope_sha256": EXPECTED_SHA,
+        "request_body_sha256": request_body_sha256,
+        "max_output_tokens": args.max_output_tokens,
         "started_at": started_at,
         "completed_at": utc_now(),
         "http_status": http_status,
         "request_id": headers.get("x-request-id") or headers.get("X-Request-Id"),
         "surface_submissions": 1,
-        "provider_requests": 1,
+        "provider_requests_attempted": 1,
         "automatic_retries": 0,
         "automatic_second_case": False,
         "raw_output_sha256": sha256(raw_output),
         "raw_output_bytes": len(raw_output),
         "raw_provider_response_sha256": sha256(raw),
+        "usage_metadata": payload.get("usageMetadata"),
         "github_artifact_uploaded": False,
+        "github_actions_used_for_runtime": False,
         "vercel_deployment_created": False,
         "human_review_required": True,
         "automatic_promotion": False,
-        "state": "CLEAN_LOCAL_WSL_RUNTIME_OBSERVED_HUMAN_REVIEW_REQUIRED",
+        "certification_pipeline_version": pipeline["version"],
+        "certification_gate": "G05_BASELINE_EXECUTION",
+        "certification_claim": "NONE",
+        "release_claim": "NONE",
+        "state": "CLEAN_LOCAL_WSL_GEMINI_RUNTIME_OBSERVED_HUMAN_REVIEW_REQUIRED",
         "clean_surface_contract_version": clean["version"],
         "local_policy_version": policy["version"],
     }
     write_json(out / "runtime-evidence.json", evidence)
-    write_json(out / "review-packet.json", {
-        "schema": "prompt-machine-starter-n09-wsl-local-review-packet-v1",
-        "execution_id": execution_id,
-        "case_id": CASE_ID,
-        "review_status": "HUMAN_REVIEW_REQUIRED",
-        "automatic_retry": False,
-        "automatic_next_case": False,
-        "promotion_claim": "NONE",
-    })
+    write_json(
+        out / "review-packet.json",
+        {
+            "schema": "prompt-machine-starter-n09-gemini-wsl-review-packet-v1",
+            "execution_id": execution_id,
+            "case_id": CASE_ID,
+            "certification_gate": "G05_BASELINE_EXECUTION",
+            "review_status": "HUMAN_REVIEW_REQUIRED",
+            "automatic_retry": False,
+            "automatic_next_case": False,
+            "automatic_certification": False,
+            "automatic_pack_rebuild": False,
+            "automatic_provider_gate": False,
+            "promotion_claim": "NONE",
+        },
+    )
 
-    # Deliberately print metadata only; raw model output stays on local disk.
+    # Metadata only. Raw model output remains on the local WSL filesystem.
     print(json.dumps(evidence, indent=2, sort_keys=True))
     return 0
 
