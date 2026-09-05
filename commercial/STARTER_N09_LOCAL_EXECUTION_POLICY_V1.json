@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -93,12 +93,15 @@
     "state": "PREPARED_FRESH_AUTH_REQUIRED",
     "executor": "tools/execute_starter_n09_gemini_wsl_v4.py",
     "preflight": "tools/probe_starter_n09_gemini_wsl_fallback_004.py",
+    "preflight_receipt": "commercial/STARTER_N09_GEMINI_WSL_FALLBACK_004_PREFLIGHT_RECEIPT_2026-09-05.json",
+    "preflight_verdict": "PASS",
+    "preflight_source_commit": "ae62aa428a5da3c76d1e4fe49e3d40e7c4e631f4",
     "model": "gemini-3.5-flash",
     "candidate_prompt_mutated": false,
     "runtime_configuration_changed": true,
     "provider_requests_so_far": 0
   },
   "current_authorization_state": "DISARMED_GEMINI_WSL_003_AUTHORIZATION_CONSUMED",
-  "next_gate": "G05_FALLBACK_004_PREFLIGHT_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
-  "truth_boundary": "FALLBACK_004_PREPARED_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
+  "next_gate": "FRESH_EXPLICIT_RUNTIME_AUTHORIZATION_FOR_G05_FALLBACK_004",
+  "truth_boundary": "FALLBACK_004_PREFLIGHT_PASS_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
 }
