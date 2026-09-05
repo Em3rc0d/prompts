@@ -1,0 +1,193 @@
+name: Probe Starter N09 Vercel OIDC v1
+
+on:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - '.github/starter-n09-vercel-oidc-probe-trigger-v1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starter-n09-vercel-oidc-probe-v1
+  cancel-in-progress: false
+
+jobs:
+  probe-surface-without-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VERCEL_ORG_ID: team_FTC62CRbJz9veMUDYeVzf7yI
+      VERCEL_PROJECT_ID: prj_Srr2nUKq8fZWff6x9XMyrY3dkjJ7
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      CASE_ID: PM-STARTER-CR-NORMAL-0001
+      EXPECTED_ENVELOPE_SHA256: d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207
+      MODEL_ID: openai/gpt-5.6-sol
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Assert this workflow is non-inference only
+        shell: bash
+        run: |
+          set -euo pipefail
+          trigger="$(cat .github/starter-n09-vercel-oidc-probe-trigger-v1)"
+          test "$trigger" = 'PROBE N09 SURFACE / NO MODEL CALL'
+          echo 'N09 OIDC PROBE: non-inference contract PASS'
+
+      - name: Rebuild exact frozen envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf build/n09-envelope
+          python tools/build_starter_canary_envelopes_v1.py --output-dir build/n09-envelope --verify-reproducible
+          ENVELOPE='build/n09-envelope/final/PM-STARTER-CR-NORMAL-0001.runtime-envelope.txt'
+          test "$(wc -c < "$ENVELOPE" | tr -d ' ')" = '8100'
+          test "$(sha256sum "$ENVELOPE" | awk '{print $1}')" = "$EXPECTED_ENVELOPE_SHA256"
+          echo "N09_RUNTIME_ENVELOPE_B64=$(base64 -w0 "$ENVELOPE")" >> "$GITHUB_ENV"
+
+      - name: Fail closed unless Vercel credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${VERCEL_TOKEN:-}"
+
+      - name: Mint project-scoped Vercel OIDC token
+        shell: bash
+        run: |
+          set -euo pipefail
+          OIDC_JSON="$(curl --fail --silent --show-error \
+            -X POST "https://api.vercel.com/v1/projects/$VERCEL_PROJECT_ID/token?teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H 'content-type: application/json' \
+            --data '{"source":"prompt-machine-n09-surface-probe"}')"
+          OIDC_TOKEN="$(printf '%s' "$OIDC_JSON" | python -c 'import json,sys; print(json.load(sys.stdin)["token"])')"
+          test -n "$OIDC_TOKEN"
+          echo "::add-mask::$OIDC_TOKEN"
+          echo "N09_GATEWAY_OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
+          echo 'N09 OIDC MINT: PASS — token present; contents not logged'
+
+      - name: Link staging project and validate web
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p web/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > web/.vercel/project.json
+          cd web
+          npm install --no-audit --no-fund
+          npm run typecheck
+
+      - name: Generate one-time route token
+        shell: bash
+        run: |
+          set -euo pipefail
+          TOKEN="$(openssl rand -hex 32)"
+          echo "::add-mask::$TOKEN"
+          echo "N09_EXECUTION_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+
+      - name: Deploy isolated preview for readiness probe
+        id: deploy
+        working-directory: web
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy \
+            --yes \
+            --project "$VERCEL_PROJECT_ID" \
+            -T "$VERCEL_ORG_ID" \
+            --token="$VERCEL_TOKEN" \
+            --env N09_EXECUTION_TOKEN="$N09_EXECUTION_TOKEN" \
+            --env N09_RUNTIME_ENVELOPE_B64="$N09_RUNTIME_ENVELOPE_B64" \
+            --env N09_GATEWAY_OIDC_TOKEN="$N09_GATEWAY_OIDC_TOKEN" \
+            --env N09_MODEL="$MODEL_ID")"
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Probe readiness with GET only
+        working-directory: web
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/build/n09-oidc-probe"
+          DEPLOYMENT_URL='${{ steps.deploy.outputs.url }}'
+          HTTP_STATUS="$(npx --yes vercel@latest curl /api/n09-clean-retest \
+            --deployment "$DEPLOYMENT_URL" \
+            -- \
+            --silent \
+            --show-error \
+            --output "$GITHUB_WORKSPACE/build/n09-oidc-probe/response.json" \
+            --write-out '%{http_code}')"
+          printf '%s\n' "$HTTP_STATUS" > "$GITHUB_WORKSPACE/build/n09-oidc-probe/http-status.txt"
+          test "$HTTP_STATUS" = '200'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('../build/n09-oidc-probe/response.json').read_text())
+          assert p['ok'] is True, p
+          assert p['state'] == 'SURFACE_ARMED_NO_MODEL_CALL', p
+          assert p['case_id'] == 'PM-STARTER-CR-NORMAL-0001', p
+          assert p['runtime_envelope_bytes'] == 8100, p
+          assert p['runtime_envelope_sha256'] == 'd8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207', p
+          assert p['oidc_present'] is True, p
+          assert p['model_requested'] == 'openai/gpt-5.6-sol', p
+          assert p['model_call_made'] is False, p
+          print('N09 CLEAN SURFACE READINESS: PASS / MODEL CALLS 0')
+          PY
+
+      - name: Write probe receipt
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('build/n09-oidc-probe')
+          status = int((root / 'http-status.txt').read_text().strip()) if (root / 'http-status.txt').exists() else None
+          payload = None
+          if (root / 'response.json').exists():
+              try:
+                  payload = json.loads((root / 'response.json').read_text())
+              except Exception:
+                  pass
+          receipt = {
+              'schema': 'prompt-machine-starter-n09-oidc-surface-probe-v1',
+              'case_id': 'PM-STARTER-CR-NORMAL-0001',
+              'execution_surface': 'VERCEL_AI_GATEWAY_PREVIEW_AUTHENTICATED_CLI',
+              'http_status': status,
+              'surface_armed': bool(status == 200 and isinstance(payload, dict) and payload.get('state') == 'SURFACE_ARMED_NO_MODEL_CALL'),
+              'oidc_present': bool(isinstance(payload, dict) and payload.get('oidc_present') is True),
+              'runtime_envelope_bytes': 8100,
+              'runtime_envelope_sha256': 'd8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207',
+              'model_requested_for_future_authorized_runtime': 'openai/gpt-5.6-sol',
+              'model_calls': 0,
+              'gateway_generation_calls': 0,
+              'behavioral_observations': 0,
+              'authorization_consumed': False,
+          }
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'probe-receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(receipt, indent=2, sort_keys=True))
+          PY
+
+      - name: Preserve readiness evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PM-STARTER-N09-OIDC-SURFACE-PROBE-V1
+          path: build/n09-oidc-probe
+          if-no-files-found: error
+          retention-days: 30
