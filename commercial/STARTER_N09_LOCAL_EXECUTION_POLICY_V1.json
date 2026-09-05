@@ -1,25 +1,29 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.0.0",
-  "recorded_on": "2026-09-04",
+  "version": "1.1.0",
+  "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
-  "self_hosted_runner_labels": [
-    "self-hosted",
-    "Linux",
-    "X64",
-    "vigia"
-  ],
+  "execution_control_plane": "LOCAL_WSL_PROCESS",
+  "inference_provider": "GOOGLE_GEMINI_API",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "credential_must_remain_local": true,
+  "credential_must_not_be_committed": true,
+  "github_actions_runtime_trigger_allowed": false,
   "public_or_cloud_runtime_endpoint_allowed": false,
   "vercel_runtime_surface_allowed": false,
   "github_hosted_runtime_execution_allowed": false,
   "github_artifact_upload_of_runtime_output_allowed": false,
   "cloud_execution_surfaces_retired_from_active_branch": true,
   "historical_cloud_attempt_receipts_preserved": true,
-  "preferred_strict_surface": "WSL_LOCAL_SINGLE_REQUEST_RESPONSES_API",
-  "secondary_surface_candidate": "WSL_LOCAL_CODEX_CLI",
-  "secondary_surface_status": "PROBE_ONLY_UNTIL_SINGLE_SUBMISSION_AND_ZERO_RETRY_SEMANTICS_ARE_VERIFIED",
+  "preferred_strict_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
+  "provider_transport": {
+    "api_family": "Gemini generateContent",
+    "authentication": "x-goog-api-key header sourced from local GEMINI_API_KEY",
+    "model_selection": "EXPLICIT_PER_EXECUTION",
+    "automatic_retries": 0
+  },
   "runtime_evidence_storage": {
     "location": "LOCAL_WSL_FILESYSTEM_ONLY",
     "default_root": "$HOME/.local/share/prompt-machine/n09",
@@ -36,7 +40,20 @@
     "automatic_second_case": false,
     "human_review_required": true
   },
+  "certification_pipeline_contract": "commercial/PROMPT_MACHINE_14_GATE_PIPELINE_V1.json",
+  "runtime_gate_mapping": {
+    "execution_belongs_to": "G05_BASELINE_EXECUTION",
+    "success_does_not_imply": [
+      "G07_IMPROVEMENT_PASS",
+      "G08_REGRESSION_PASS",
+      "G09_PORTABILITY_PASS",
+      "G11_CERTIFIED",
+      "G14_PROVIDER_GATES_PASS",
+      "READY_TO_SELL",
+      "PUBLIC_SALE"
+    ]
+  },
   "current_authorization_state": "DISARMED_PREVIOUS_V3_AUTHORIZATION_CONSUMED",
-  "next_gate": "LOCAL_WSL_CAPABILITY_PROBE_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
+  "next_gate": "LOCAL_WSL_GEMINI_CAPABILITY_CHECK_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
   "truth_boundary": "LOCAL_EXECUTION_POLICY_ONLY_NOT_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
 }
