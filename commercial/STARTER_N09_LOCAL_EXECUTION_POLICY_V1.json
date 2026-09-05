@@ -1,0 +1,42 @@
+{
+  "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-04",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
+  "execution_location": "USER_WSL",
+  "self_hosted_runner_labels": [
+    "self-hosted",
+    "Linux",
+    "X64",
+    "vigia"
+  ],
+  "public_or_cloud_runtime_endpoint_allowed": false,
+  "vercel_runtime_surface_allowed": false,
+  "github_hosted_runtime_execution_allowed": false,
+  "github_artifact_upload_of_runtime_output_allowed": false,
+  "cloud_execution_surfaces_retired_from_active_branch": true,
+  "historical_cloud_attempt_receipts_preserved": true,
+  "preferred_strict_surface": "WSL_LOCAL_SINGLE_REQUEST_RESPONSES_API",
+  "secondary_surface_candidate": "WSL_LOCAL_CODEX_CLI",
+  "secondary_surface_status": "PROBE_ONLY_UNTIL_SINGLE_SUBMISSION_AND_ZERO_RETRY_SEMANTICS_ARE_VERIFIED",
+  "runtime_evidence_storage": {
+    "location": "LOCAL_WSL_FILESYSTEM_ONLY",
+    "default_root": "$HOME/.local/share/prompt-machine/n09",
+    "automatic_upload": false
+  },
+  "clean_surface_requirements": {
+    "runtime_envelope_bytes": 8100,
+    "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+    "evaluation_contract_is_runtime_input": false,
+    "expected_result_is_runtime_input": false,
+    "fresh_explicit_authorization_required_for_each_runtime_attempt": true,
+    "maximum_runtime_submissions_per_authorization": 1,
+    "automatic_retries": 0,
+    "automatic_second_case": false,
+    "human_review_required": true
+  },
+  "current_authorization_state": "DISARMED_PREVIOUS_V3_AUTHORIZATION_CONSUMED",
+  "next_gate": "LOCAL_WSL_CAPABILITY_PROBE_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
+  "truth_boundary": "LOCAL_EXECUTION_POLICY_ONLY_NOT_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
+}
