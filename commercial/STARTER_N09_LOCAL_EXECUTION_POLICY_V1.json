@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -79,8 +79,7 @@
     "behavioral_observations_created": 0,
     "candidate_mutation_justified": false,
     "automatic_retry_policy_change_justified": false,
-    "model_fallback_experiment_justified": true,
-    "reason": "Three consecutive provider UNAVAILABLE responses on the same frozen request establish an availability signal strong enough to justify a separately-scoped fallback-model experiment, but not a workflow-behavior claim."
+    "model_fallback_experiment_justified": true
   },
   "model_fallback_boundary": {
     "changing_model_changes_runtime_configuration": true,
@@ -88,7 +87,18 @@
     "candidate_prompt_may_remain_frozen": true,
     "certification_scope_must_record_exact_model": true
   },
+  "next_attempt": {
+    "plan": "commercial/STARTER_N09_GEMINI_WSL_FALLBACK_004_PLAN.json",
+    "attempt_id": "G05-FALLBACK-004",
+    "state": "PREPARED_FRESH_AUTH_REQUIRED",
+    "executor": "tools/execute_starter_n09_gemini_wsl_v4.py",
+    "preflight": "tools/probe_starter_n09_gemini_wsl_fallback_004.py",
+    "model": "gemini-3.5-flash",
+    "candidate_prompt_mutated": false,
+    "runtime_configuration_changed": true,
+    "provider_requests_so_far": 0
+  },
   "current_authorization_state": "DISARMED_GEMINI_WSL_003_AUTHORIZATION_CONSUMED",
-  "next_gate": "PREPARE_SEPARATELY_SCOPED_G05_FALLBACK_MODEL_ATTEMPT_THEN_REQUIRE_FRESH_EXPLICIT_AUTHORIZATION",
-  "truth_boundary": "THREE_PROVIDER_UNAVAILABLE_ATTEMPTS_NO_NEW_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
+  "next_gate": "G05_FALLBACK_004_PREFLIGHT_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
+  "truth_boundary": "FALLBACK_004_PREPARED_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
 }
