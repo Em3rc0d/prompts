@@ -12,10 +12,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "product" / "starter-collection-v1"
-GATE_PATH = ROOT / "commercial" / "STARTER_RELEASE_GATE_V1.json"
-STARTER_PAGE = ROOT / "web" / "app" / "starter-collection" / "page.tsx"
-STARTER_CHECKOUT_ROUTE = ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
-STARTER_WEBHOOK_ROUTE = ROOT / "web" / "app" / "api" / "commerce" / "lemonsqueezy" / "starter-webhook" / "route.ts"
+COMMERCIAL = ROOT / "commercial"
+WEB = ROOT / "web"
+
+GATE_PATH = COMMERCIAL / "STARTER_RELEASE_GATE_V1.json"
+STARTER_PAGE = WEB / "app" / "starter-collection" / "page.tsx"
+STARTER_CHECKOUT_ROUTE = WEB / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
+STARTER_WEBHOOK_ROUTE = WEB / "app" / "api" / "commerce" / "lemonsqueezy" / "starter-webhook" / "route.ts"
 
 CONTRACT_FREEZE = BASE / "CONTRACT_FREEZE_V1.json"
 SURFACE_FREEZE = BASE / "SURFACE_FREEZE_V1.json"
@@ -29,14 +32,14 @@ BUG_DIAGNOSIS_SURFACE = BASE / "workflows" / "evidence-first-bug-diagnosis.md"
 CODE_TRUST = BASE / "trust" / "code-review.trust-context.json"
 BUG_TRUST = BASE / "trust" / "bug-diagnosis.trust-context.json"
 
-ACTIVATION = ROOT / "commercial" / "STARTER_ACTIVATION_EVIDENCE_V1.json"
-COPY_AUDIT_RECEIPT = ROOT / "commercial" / "STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"
-PROVIDER_CUSTODY = ROOT / "commercial" / "STARTER_PROVIDER_CUSTODY_V1.json"
-PROVIDER_INTEGRATION_PREP = ROOT / "commercial" / "STARTER_PROVIDER_INTEGRATION_PREP_V1.json"
-DELIVERY_SCHEMA = ROOT / "commercial" / "STARTER_DELIVERY_RECEIPT_V1.schema.json"
+ACTIVATION = COMMERCIAL / "STARTER_ACTIVATION_EVIDENCE_V1.json"
+COPY_AUDIT_RECEIPT = COMMERCIAL / "STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"
+PROVIDER_CUSTODY = COMMERCIAL / "STARTER_PROVIDER_CUSTODY_V1.json"
+PROVIDER_INTEGRATION_PREP = COMMERCIAL / "STARTER_PROVIDER_INTEGRATION_PREP_V1.json"
+DELIVERY_SCHEMA = COMMERCIAL / "STARTER_DELIVERY_RECEIPT_V1.schema.json"
 PRODUCT_IDENTITY = BASE / "PRODUCT_IDENTITY_V1.json"
-STARTER_RELEASE_ADAPTER = ROOT / "web" / "lib" / "starter-collection-release.ts"
-COMMERCE_CORE = ROOT / "web" / "lib" / "commerce-release.ts"
+STARTER_RELEASE_ADAPTER = WEB / "lib" / "starter-collection-release.ts"
+COMMERCE_CORE = WEB / "lib" / "commerce-release.ts"
 CUSTODY_VERIFIER = ROOT / "tools" / "verify_lemonsqueezy_provider_file.py"
 CUSTODY_OFFLINE_TEST = ROOT / "tools" / "test_provider_custody_verifier_v1.py"
 WEBHOOK_OFFLINE_TEST = ROOT / "tools" / "test_starter_webhook_adapter_v1.py"
@@ -45,6 +48,8 @@ CANONICAL_PRODUCT_ID = "prompt-machine-starter-collection"
 LEGACY_PRODUCT_ID = "pq-developer-starter-collection"
 CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
 CANONICAL_ARCHIVE_SIZE = 50918
+CURRENT_COPY_RUN = 33834092608
+CURRENT_COPY_COMMIT = "bd086c2e7fd76bc3852eea7d2e048341dce25ed4"
 
 CANARY_ENVELOPES = {
     "PM-STARTER-CR-NORMAL-0001": (8100, "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"),
@@ -86,6 +91,8 @@ REQUIRED_BOUNDARIES = {
     "runtime_pass_implies_certification": False,
     "public_checkout_may_bypass_requirements": False,
     "automatic_sale_enablement": False,
+    "protocol_contaminated_execution_implies_workflow_fail": False,
+    "protocol_contaminated_execution_implies_successor_required": False,
 }
 
 
@@ -140,7 +147,8 @@ def validate_trust_context(path: Path, workflow_id: str) -> None:
 def main() -> int:
     gate = read_json(GATE_PATH)
     assert gate["schema"] == "prompt-machine-starter-release-gate-v1"
-    assert gate["version"] == "1.0.9"
+    assert gate["version"] == "1.0.10"
+    assert gate["checkpoint_revision"] == "runtime-protocol-contamination-copy-reaudit-20260904"
 
     assert gate["product"] == {
         "product_id": CANONICAL_PRODUCT_ID,
@@ -171,6 +179,9 @@ def main() -> int:
     assert truth["public_copy_audit_passes"] == 1
     assert truth["public_copy_material_failures_found_before_fix"] == 3
     assert truth["public_copy_material_failures_open"] == 0
+    assert truth["public_copy_reaudits_after_scope_change"] == 1
+    assert truth["public_copy_reaudits_after_evidence_change"] == 1
+    assert truth["public_copy_total_successful_retests"] == 3
     assert truth["provider_integration_static_preparation_passes"] == 1
     assert truth["starter_signed_webhook_adapters_present"] == 1
     assert truth["provider_custody_observations"] == 0
@@ -220,10 +231,21 @@ def main() -> int:
     assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
 
     copy_audit = read_json(COPY_AUDIT_RECEIPT)
+    assert copy_audit["version"] == "1.2.0"
     assert copy_audit["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert len(copy_audit["history"][0]["material_findings"]) == 3
     assert copy_audit["history"][0]["state"] == "FAIL_EVIDENCE_SCOPE_AMBIGUOUS"
     assert copy_audit["history"][-1]["run_id"] == 33799072926
+    assert len(copy_audit["subsequent_reaudits"]) == 2
+    assert copy_audit["current_retest"]["run_id"] == CURRENT_COPY_RUN
+    assert copy_audit["current_retest"]["audited_commit"] == CURRENT_COPY_COMMIT
+    assert copy_audit["current_retest"]["conclusion"] == "success"
+    ceiling = copy_audit["evidence_ceiling"]
+    assert ceiling["starter_runtime_observations"] == 1
+    assert ceiling["starter_runtime_passes"] == 0
+    assert ceiling["starter_runtime_fails"] == 0
+    assert ceiling["starter_runtime_inconclusive"] == 1
+    assert ceiling["starter_clean_runtime_observations"] == 0
     assert copy_audit["model_calls"] == 0
     assert copy_audit["provider_calls"] == 0
     assert copy_audit["ready_to_sell"] is False
@@ -263,11 +285,9 @@ def main() -> int:
     assert integration["fail_closed_surface"]["starter_public_sale_status_default"] == "NOT_FOR_SALE"
     assert integration["fail_closed_surface"]["starter_signed_webhook_adapter_present"] is True
     assert integration["fail_closed_surface"]["starter_checkout_route_exists"] is False
-    assert integration["current_truth"]["signed_starter_webhook_adapter_present"] is True
     assert integration["current_truth"]["provider_custody_evidence_observed"] is False
     assert integration["current_truth"]["provider_integration_pass"] is False
     assert integration["current_truth"]["ready_to_sell"] is False
-    assert integration["evidence_boundary"]["signed_webhook_adapter_present_is_provider_event_observation"] is False
     assert integration["evidence_boundary"]["static_integration_code_is_provider_integration_pass"] is False
     assert integration["evidence_boundary"]["offline_provider_simulation_is_real_provider_custody"] is False
 
@@ -327,6 +347,12 @@ def main() -> int:
     assert prep["provider_calls_created"] == 0
     assert prep["provider_integration_pass"] is False
 
+    public_copy = gate["public_copy_audit"]
+    assert public_copy["state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert public_copy["current_retest_run_id"] == CURRENT_COPY_RUN
+    assert public_copy["current_audited_commit"] == CURRENT_COPY_COMMIT
+    assert public_copy["open_material_findings"] == 0
+
     gates = gate["gates"]
     assert gates["current_product_truth"] == "PASS"
     assert gates["final_starter_workflow_contracts"] == "PASS_STATIC_ONLY"
@@ -336,7 +362,7 @@ def main() -> int:
     assert gates["starter_specific_behavioral_canary_readiness"] == "PASS_STATIC_PREPARED_DISARMED"
     assert gates["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
     assert gates["starter_skill_evidence"] == "OPEN_ZERO_OBSERVATIONS"
-    assert gates["public_copy_evidence_audit"] == "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE"
+    assert gates["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert gates["provider_test_custody"] == "CONTRACT_DEFINED_NOT_PROVISIONED"
     assert gates["provider_integration"] == "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED"
     assert gates["live_delivery_canary"] == "NOT_STARTED"
@@ -350,11 +376,18 @@ def main() -> int:
     assert spend["automatic_wave"] is False
     assert spend["automatic_retries"] == 0
     assert spend["automatic_second_case"] is False
+    assert spend["same_frozen_candidate"] is True
+    assert spend["successor_required_before_retest"] is False
+    assert spend["clean_independent_surface_required"] is True
+    assert spend["fresh_explicit_authorization_required"] is True
 
     page = STARTER_PAGE.read_text(encoding="utf-8")
     assert "NOT FOR SALE" in page
     assert "$9 PRICE HYPOTHESIS" in page
-    assert "0</strong><span>Starter runtime observations" in page
+    assert "One Starter runtime observation exists" in page
+    assert "0 PASS, 0 FAIL, 1 INCONCLUSIVE" in page
+    assert "inconclusive observation" in page
+    assert "same frozen candidate must be retested on a clean independent surface" in page
     assert not STARTER_CHECKOUT_ROUTE.exists(), (
         "Starter checkout route exists while STARTER_RELEASE_GATE_V1 blocks public checkout"
     )
@@ -372,7 +405,7 @@ def main() -> int:
     print("starter_sku_runtime_passes=0")
     print("starter_sku_runtime_fails=0")
     print("starter_sku_runtime_inconclusive=1")
-    print("public_copy_audit=STALE_AFTER_RUNTIME_EVIDENCE_CHANGE")
+    print(f"public_copy_audit=PASS_CURRENT_EVIDENCE_BOUNDARY:{CURRENT_COPY_RUN}")
     print("signed_starter_webhook_adapter=present_static_only")
     print("provider_integration=STATIC_PREPARED_PROVIDER_NOT_PROVISIONED")
     print("provider_custody_observations=0")
