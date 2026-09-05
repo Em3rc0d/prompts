@@ -1,11 +1,11 @@
 {
   "schema": "prompt-machine-starter-n09-gemini-wsl-attempt-plan-v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "recorded_on": "2026-09-05",
   "attempt_id": "G05-BASELINE-002",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "gate": "G05_BASELINE_EXECUTION",
-  "state": "READY_FOR_FRESH_AUTHORIZATION",
+  "state": "PREPARED_FRESH_AUTH_REQUIRED",
   "candidate_mutated_since_attempt_001": false,
   "execution_location": "USER_WSL",
   "execution_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
@@ -35,9 +35,14 @@
     "provider_request_made": false,
     "model_call_made": false
   },
+  "authorization_handling": {
+    "repository_remains_disarmed": true,
+    "fresh_authorization_is_out_of_band_runtime_input": true,
+    "authorization_value_is_not_persisted_in_repository": true
+  },
   "fresh_explicit_authorization_required": true,
   "authorization_format": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.",
-  "next_gate": "FRESH_EXPLICIT_RUNTIME_AUTHORIZATION_FOR_G05_BASELINE_002",
+  "next_gate": "OUT_OF_BAND_FRESH_AUTHORIZATION_THEN_SINGLE_G05_EXECUTION",
   "success_boundary": "A successful provider response creates G05 evidence requiring human review; it does not certify, promote, rebuild packs, open checkout, or advance G06 automatically.",
-  "truth_boundary": "ATTEMPT_002_PREFLIGHT_PASS_READY_FOR_AUTHORIZATION_NO_PROVIDER_REQUEST_NO_BEHAVIORAL_EVIDENCE"
+  "truth_boundary": "REPOSITORY_PLAN_REMAINS_DISARMED_PREEXECUTION; AUTHORIZATION_EXISTS_ONLY_OUT_OF_BAND_AT_RUNTIME"
 }
