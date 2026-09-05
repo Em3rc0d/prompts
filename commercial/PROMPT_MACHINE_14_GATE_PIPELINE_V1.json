@@ -1,0 +1,154 @@
+{
+  "schema": "prompt-machine-14-gate-certification-pipeline-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "purpose": "Preserve the certification logic independently of the selected inference provider or execution host.",
+  "master_invariant": "NO PROMPT MAY ENTER A RELEASE WITHOUT A PROMPT_ID + SPEC + TEST EVIDENCE + CERTIFICATION DECISION",
+  "provider_independence": true,
+  "execution_host_independence": true,
+  "gates": [
+    {
+      "order": 1,
+      "id": "G01_INVENTORY",
+      "mk": "MK3.0",
+      "name": "INVENTORY",
+      "gate": "PROMPT_INVENTORY_AUDITED",
+      "required_state": "PASS"
+    },
+    {
+      "order": 2,
+      "id": "G02_SPECIFICATION",
+      "mk": "MK3.1",
+      "name": "SPECIFICATION",
+      "gate": "PROMPT_SPEC_COMPLETE",
+      "required_state": "PASS"
+    },
+    {
+      "order": 3,
+      "id": "G03_STATIC_AUDIT",
+      "mk": "MK3.2",
+      "name": "STATIC AUDIT",
+      "gate": "STATIC_AUDIT_COMPLETE",
+      "required_state": "PASS"
+    },
+    {
+      "order": 4,
+      "id": "G04_TEST_DESIGN",
+      "mk": "MK3.3",
+      "name": "TEST DESIGN",
+      "gate": "PROMPT_TEST_MATRIX",
+      "required_state": "PASS"
+    },
+    {
+      "order": 5,
+      "id": "G05_BASELINE_EXECUTION",
+      "mk": "MK3.4",
+      "name": "BASELINE EXECUTION",
+      "gate": "F4_TESTED",
+      "required_state": "PASS_WITH_REAL_RUNTIME_EVIDENCE"
+    },
+    {
+      "order": 6,
+      "id": "G06_FAILURE_MINING",
+      "mk": "MK3.5",
+      "name": "FAILURE MINING",
+      "gate": "FAILURE_PROFILE_CAPTURED",
+      "required_state": "COMPLETE"
+    },
+    {
+      "order": 7,
+      "id": "G07_IMPROVEMENT",
+      "mk": "MK3.6",
+      "name": "IMPROVEMENT",
+      "gate": "F5_IMPROVED",
+      "required_state": "PASS",
+      "required_trace": "BEFORE -> FAILURE -> CHANGE HYPOTHESIS -> AFTER -> RETEST"
+    },
+    {
+      "order": 8,
+      "id": "G08_REGRESSION",
+      "mk": "MK3.7",
+      "name": "REGRESSION",
+      "gate": "REGRESSION",
+      "required_state": "PASS"
+    },
+    {
+      "order": 9,
+      "id": "G09_PORTABILITY",
+      "mk": "MK3.8",
+      "name": "PORTABILITY",
+      "gate": "F7_PORTABLE",
+      "required_state": "PASS_ONLY_FOR_DEMONSTRATED_SCOPE",
+      "allowed_results": ["PORTABLE", "MODEL_TUNED", "MODEL_SPECIFIC", "UNSUPPORTED"]
+    },
+    {
+      "order": 10,
+      "id": "G10_HUMAN_VALUE_REVIEW",
+      "mk": "MK3.9",
+      "name": "HUMAN VALUE REVIEW",
+      "gate": "HUMAN_VALUE_DECISION",
+      "required_state": "RECORDED",
+      "allowed_results": ["KEEP", "IMPROVE", "MOVE_TO_FREE", "MOVE_TO_PAID", "MERGE", "DEPRECATE", "REJECT"]
+    },
+    {
+      "order": 11,
+      "id": "G11_CERTIFICATION",
+      "mk": "MK3.10",
+      "name": "CERTIFICATION",
+      "gate": "F6_CERTIFIED",
+      "required_state": "PASS"
+    },
+    {
+      "order": 12,
+      "id": "G12_PACK_REBUILD",
+      "mk": ["MK3.11", "MK3.12"],
+      "name": "FREE PACK / PAID PACK REBUILD",
+      "gate": "PACK_SELECTION_VERSIONED",
+      "required_state": "COMPLETE",
+      "parallel_children": ["FREE_PACK", "PAID_PACK"],
+      "historical_baseline_must_remain_immutable": true
+    },
+    {
+      "order": 13,
+      "id": "G13_PACK_LEVEL_QA",
+      "mk": "MK3.13",
+      "name": "PACK-LEVEL QA",
+      "gate": "PACK_VALUE_REVIEW",
+      "required_state": "PASS"
+    },
+    {
+      "order": 14,
+      "id": "G14_PROVIDER_GATES",
+      "mk": "MK3.14",
+      "name": "PROVIDER GATES",
+      "gate": "COMMERCIAL_RELEASE_GATE",
+      "required_state": "PASS",
+      "requires": [
+        "PACKAGING_READY",
+        "COMMERCE_BUILD_READY",
+        "PROMPT_INVENTORY_AUDITED",
+        "PROMPT_SPEC_COMPLETE",
+        "PROMPT_TEST_MATRIX",
+        "F4_TESTED",
+        "F5_IMPROVED",
+        "F6_CERTIFIED",
+        "F7_PORTABLE",
+        "PACK_VALUE_REVIEW",
+        "PROVIDER_CUSTODY",
+        "PROVIDER_INTEGRATION",
+        "LIVE_DELIVERY_CANARY"
+      ]
+    }
+  ],
+  "release_states_after_gate_14": [
+    "PRODUCT_READY",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "runtime_rule": {
+    "a_model_response_is_evidence_not_certification": true,
+    "human_review_required": true,
+    "automatic_promotion_forbidden": true,
+    "automatic_publication_forbidden": true
+  }
+}
