@@ -66,7 +66,7 @@ jobs:
           | Starter SKU workflow failures | 0 |
           | Clean Starter runtime observations | 0 |
           | Starter skill observations | 0 |
-          | Public copy evidence audit | STALE / REAUDIT REQUIRED |
+          | Public copy evidence audit | PASS CURRENT / RUN 33834092608 |
           | Historical runtime review artifact | FAIL / REWORK PRESERVED; NOT EFFECTIVE WORKFLOW FAIL |
           | Next runtime candidate | SAME FROZEN PM-STARTER-CR-NORMAL-0001 / DISARMED |
           | Clean independent surface | REQUIRED BEFORE RETEST |
@@ -78,5 +78,5 @@ jobs:
           | Provider calls created by validation | 0 |
           | Model calls created by validation | 0 |
 
-          The raw runtime output, original FAIL/REWORK review, and original failure record remain append-only historical artifacts. The effective workflow classification is INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior exposure to evaluation expectations. A clean retest requires the same frozen candidate, a clean independent surface, fresh explicit authorization, one submission maximum, and zero retries.
+          The raw runtime output, original FAIL/REWORK review, and original failure record remain append-only historical artifacts. The effective workflow classification is INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior exposure to evaluation expectations. Public copy has been re-audited against that corrected evidence boundary and is current. A clean retest requires the same frozen candidate, a clean independent surface, fresh explicit authorization, one submission maximum, and zero retries.
           EOF
