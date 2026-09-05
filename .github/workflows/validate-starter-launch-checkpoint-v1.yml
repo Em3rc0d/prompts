@@ -62,12 +62,17 @@ jobs:
           | Required archive assets | 9/9 |
           | Supported Starter skills | 0 |
           | Structural skill candidates | 2 / DEFERRED |
-          | Current copy re-audit | PASS |
+          | Current copy re-audit | PASS / RUN 33834092608 |
+          | N07 public copy boundary | OBSERVED CLOSED |
+          | Current evidence frontier | N09 + N14 |
           | Provider preflight | PASS STATIC / DISARMED |
           | Provider side effects | 0 |
-          | Starter runtime observations | 0 |
+          | Starter runtime observations | 1 |
+          | Starter runtime PASS / FAIL / INCONCLUSIVE | 0 / 0 / 1 |
+          | Clean runtime observations | 0 |
+          | Next model execution | SAME FROZEN CR NORMAL / DISARMED |
           | Public checkout | BLOCKED |
           | READY_TO_SELL | NO |
-          | Model calls | 0 |
-          | Provider calls | 0 |
+          | Model calls created by validation | 0 |
+          | Provider calls created by validation | 0 |
           EOF
