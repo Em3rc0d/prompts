@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-runtime-authorization-v2",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "recorded_on": "2026-09-04",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "authorization_verbatim": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.",
@@ -12,8 +12,17 @@
   "clean_surface_requirement": "CLEAN_INDEPENDENT_EXECUTION_SURFACE",
   "authorized_surface": "VERCEL_AI_GATEWAY_PREVIEW_AUTHENTICATED_CLI",
   "authorized_model": "openai/gpt-5.6-sol",
-  "state": "AUTHORIZED_NOT_YET_CONSUMED",
-  "surface_submissions_recorded_by_this_authorization_receipt": 0,
+  "state": "CONSUMED_PRE_GATEWAY_INFRASTRUCTURE_BLOCK",
+  "surface_submissions_recorded_by_this_authorization_receipt": 1,
+  "route_reached": true,
+  "gateway_submission_attempted": false,
   "model_calls_recorded_by_this_authorization_receipt": 0,
-  "provider_calls_recorded_by_this_authorization_receipt": 0
+  "provider_calls_recorded_by_this_authorization_receipt": 0,
+  "terminal_run_id": 33944456918,
+  "terminal_source_commit": "bd0a38dafcda33bff3cc1a94cd289be39f63d13f",
+  "terminal_http_status": 503,
+  "terminal_state": "BLOCKED_SURFACE_NOT_ARMED",
+  "terminal_classification": "PRE_GATEWAY_INFRASTRUCTURE_BLOCK_MISSING_VERCEL_OIDC_TOKEN",
+  "behavioral_observation_created": false,
+  "fresh_authorization_required_for_next_runtime_attempt": true
 }
