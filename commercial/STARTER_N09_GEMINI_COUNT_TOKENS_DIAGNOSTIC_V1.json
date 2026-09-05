@@ -1,0 +1,33 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-count-tokens-diagnostic-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "purpose": "Determine whether the exact frozen 8100-byte runtime envelope is accepted by the Gemini tokenizer path for both visible models without generating model output.",
+  "execution_location": "USER_WSL",
+  "provider": "GOOGLE_GEMINI_API",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "api_family": "Gemini countTokens",
+  "models": [
+    "gemini-3.8-flash",
+    "gemini-3.5-flash"
+  ],
+  "runtime_envelope_bytes": 8100,
+  "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "maximum_provider_requests": 2,
+  "automatic_retries": 0,
+  "generate_content_allowed": false,
+  "model_output_allowed": false,
+  "behavioral_observation_allowed": false,
+  "g05_claim": "NONE",
+  "fresh_runtime_authorization_required": false,
+  "credential_value_must_not_be_persisted": true,
+  "local_report": "$HOME/.local/share/prompt-machine/n09/count-tokens-diagnostic-v1.json",
+  "interpretation": {
+    "both_200": "EXACT_ENVELOPE_TOKENIZATION_PATH_ACCEPTED_GENERATION_PATH_REMAINS_ISOLATED_FAILURE",
+    "any_4xx": "REQUEST_OR_ACCESS_PATH_REQUIRES_REVIEW_BEFORE_NEW_GENERATION",
+    "any_5xx": "BROADER_PROVIDER_BACKEND_UNAVAILABLE_SIGNAL",
+    "mixed": "MODEL_SCOPED_PROVIDER_PATH_DIFFERENCE"
+  },
+  "truth_boundary": "NON_GENERATIVE_DIAGNOSTIC_ONLY_NO_G05_BEHAVIORAL_EVIDENCE"
+}
