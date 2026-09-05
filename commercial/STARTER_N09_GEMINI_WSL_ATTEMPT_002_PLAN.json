@@ -1,11 +1,11 @@
 {
   "schema": "prompt-machine-starter-n09-gemini-wsl-attempt-plan-v1",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "recorded_on": "2026-09-05",
   "attempt_id": "G05-BASELINE-002",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "gate": "G05_BASELINE_EXECUTION",
-  "state": "PREPARED_FRESH_AUTH_REQUIRED",
+  "state": "CONSUMED_PROVIDER_UNAVAILABLE_503",
   "candidate_mutated_since_attempt_001": false,
   "execution_location": "USER_WSL",
   "execution_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
@@ -35,14 +35,29 @@
     "provider_request_made": false,
     "model_call_made": false
   },
+  "execution": {
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_002_2026-09-05.json",
+    "source_commit": "b4b58be784538e160237e3cc934f4442200209b2",
+    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-190CB8B0EAFF",
+    "http_status": 503,
+    "surface_submissions": 1,
+    "provider_requests_attempted": 1,
+    "automatic_retries": 0,
+    "model_output_observed": false,
+    "behavioral_observation_created": false,
+    "authorization_consumed": true,
+    "request_body_matches_attempt_001": true,
+    "response_body_matches_attempt_001": true,
+    "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503"
+  },
   "authorization_handling": {
     "repository_remains_disarmed": true,
     "fresh_authorization_is_out_of_band_runtime_input": true,
-    "authorization_value_is_not_persisted_in_repository": true
+    "authorization_value_is_not_persisted_in_repository": true,
+    "latest_authorization_consumed": true
   },
   "fresh_explicit_authorization_required": true,
-  "authorization_format": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.",
-  "next_gate": "OUT_OF_BAND_FRESH_AUTHORIZATION_THEN_SINGLE_G05_EXECUTION",
+  "next_gate": "DO_NOT_ADVANCE_G06; FRESH_AUTHORIZATION_REQUIRED_FOR_ANY_NEW_G05_ATTEMPT",
   "success_boundary": "A successful provider response creates G05 evidence requiring human review; it does not certify, promote, rebuild packs, open checkout, or advance G06 automatically.",
-  "truth_boundary": "REPOSITORY_PLAN_REMAINS_DISARMED_PREEXECUTION; AUTHORIZATION_EXISTS_ONLY_OUT_OF_BAND_AT_RUNTIME"
+  "truth_boundary": "ATTEMPT_002_CONSUMED_PROVIDER_UNAVAILABLE_NO_BEHAVIORAL_EVIDENCE"
 }
