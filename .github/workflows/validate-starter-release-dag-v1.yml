@@ -60,12 +60,15 @@ jobs:
           |---|---|
           | Nodes | 20 |
           | Cycles | 0 expected |
-          | Closed/deferred static frontier | 12 nodes |
-          | Next model evidence node | Starter Code Review NORMAL / disarmed |
-          | Next provider evidence node | Controlled custody / disarmed |
+          | Closed / intentionally deferred | 12 nodes |
+          | N07 public copy boundary | OBSERVED CLOSED / RUN 33834092608 |
+          | Open evidence frontier | N09 + N14 |
+          | N09 runtime result | 1 INCONCLUSIVE_PROTOCOL_CONTAMINATION / DISARMED |
+          | N09 next experiment | SAME FROZEN CR NORMAL / CLEAN SURFACE / FRESH AUTH |
+          | N14 provider experiment | ONE CONTROLLED CUSTODY ATTEMPT / DISARMED |
           | Automatic frontier choice | NO |
           | Public checkout | BLOCKED |
           | PQ-$1 | NOT OBSERVED |
-          | Provider calls | 0 |
-          | Model calls | 0 |
+          | Provider calls created by validation | 0 |
+          | Model calls created by validation | 0 |
           EOF
