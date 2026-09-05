@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -54,9 +54,9 @@
     ]
   },
   "latest_attempt": {
-    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_002_2026-09-05.json",
-    "attempt_id": "G05-BASELINE-002",
-    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-190CB8B0EAFF",
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_003_2026-09-05.json",
+    "attempt_id": "G05-BASELINE-003",
+    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-5D26DCEC2561",
     "provider_http_status": 503,
     "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503",
     "surface_submissions": 1,
@@ -66,31 +66,29 @@
     "behavioral_observation_created": false,
     "g05_pass_demonstrated": false,
     "g05_fail_demonstrated": false,
-    "request_body_matches_attempt_001": true,
-    "response_body_matches_attempt_001": true
+    "request_body_matches_attempt_001_and_002": true,
+    "response_body_matches_attempt_001_and_002": true
   },
   "provider_availability_history": {
-    "consecutive_gemini_503_attempts": 2,
+    "consecutive_gemini_3_8_flash_503_attempts": 3,
     "attempts": [
       "G05-BASELINE-001",
-      "G05-BASELINE-002"
+      "G05-BASELINE-002",
+      "G05-BASELINE-003"
     ],
     "behavioral_observations_created": 0,
     "candidate_mutation_justified": false,
-    "model_change_justified": false,
-    "retry_policy_change_justified": false
+    "automatic_retry_policy_change_justified": false,
+    "model_fallback_experiment_justified": true,
+    "reason": "Three consecutive provider UNAVAILABLE responses on the same frozen request establish an availability signal strong enough to justify a separately-scoped fallback-model experiment, but not a workflow-behavior claim."
   },
-  "next_attempt": {
-    "plan": "commercial/STARTER_N09_GEMINI_WSL_ATTEMPT_003_PLAN.json",
-    "attempt_id": "G05-BASELINE-003",
-    "state": "PREPARED_FRESH_AUTH_REQUIRED",
-    "executor": "tools/execute_starter_n09_gemini_wsl_v3.py",
-    "preflight": "tools/probe_starter_n09_gemini_wsl_attempt_003.py",
-    "model": "gemini-3.8-flash",
-    "candidate_mutated": false,
-    "provider_requests_so_far": 0
+  "model_fallback_boundary": {
+    "changing_model_changes_runtime_configuration": true,
+    "fallback_result_must_not_be_aggregated_as_same_model_evidence": true,
+    "candidate_prompt_may_remain_frozen": true,
+    "certification_scope_must_record_exact_model": true
   },
-  "current_authorization_state": "DISARMED_GEMINI_WSL_002_AUTHORIZATION_CONSUMED",
-  "next_gate": "ATTEMPT_003_PREFLIGHT_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
-  "truth_boundary": "ATTEMPT_003_PREPARED_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
+  "current_authorization_state": "DISARMED_GEMINI_WSL_003_AUTHORIZATION_CONSUMED",
+  "next_gate": "PREPARE_SEPARATELY_SCOPED_G05_FALLBACK_MODEL_ATTEMPT_THEN_REQUIRE_FRESH_EXPLICIT_AUTHORIZATION",
+  "truth_boundary": "THREE_PROVIDER_UNAVAILABLE_ATTEMPTS_NO_NEW_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
 }
