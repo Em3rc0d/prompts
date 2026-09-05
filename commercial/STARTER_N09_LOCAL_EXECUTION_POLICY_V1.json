@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -105,12 +105,35 @@
   },
   "count_tokens_diagnostic": {
     "contract": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_DIAGNOSTIC_V1.json",
-    "tool": "tools/probe_starter_n09_gemini_count_tokens_v1.py",
-    "purpose": "Test the exact frozen envelope through countTokens for both visible models without generation.",
-    "maximum_provider_requests": 2,
+    "receipt": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_RECEIPT_2026-09-05.json",
+    "classification": "EXACT_ENVELOPE_TOKENIZATION_PATH_ACCEPTED_GENERATION_PATH_REMAINS_ISOLATED_FAILURE",
+    "statuses": {
+      "gemini-3.8-flash": 200,
+      "gemini-3.5-flash": 200
+    },
+    "total_tokens": {
+      "gemini-3.8-flash": 1898,
+      "gemini-3.5-flash": 1898
+    },
+    "exact_envelope_accepted": true,
+    "provider_requests_attempted": 2,
+    "generate_content_requests_attempted": 0,
+    "model_inference_requests_attempted": 0,
+    "behavioral_observations": 0,
+    "g05_claim": "NONE"
+  },
+  "minimal_generation_control": {
+    "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PLAN.json",
+    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
+    "state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+    "preflight": "tools/probe_starter_n09_gemini_minimal_generation_control_001.py",
+    "executor": "tools/execute_starter_n09_gemini_minimal_generation_control_001.py",
+    "model": "gemini-3.5-flash",
+    "prompt": "Return exactly: OK",
+    "workflow_candidate_sent": false,
+    "maximum_provider_requests": 1,
     "automatic_retries": 0,
-    "generate_content_allowed": false,
-    "model_inference_allowed": false,
+    "fresh_explicit_authorization_required": true,
     "g05_claim": "NONE"
   },
   "model_fallback_boundary": {
@@ -120,6 +143,6 @@
     "certification_scope_must_record_exact_model": true
   },
   "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
-  "next_gate": "NON_GENERATIVE_EXACT_ENVELOPE_COUNT_TOKENS_DIAGNOSTIC_BEFORE_ANY_NEW_GENERATION",
-  "truth_boundary": "FOUR_GENERATION_503S_ACROSS_TWO_VISIBLE_MODELS; METADATA_200_FOR_BOTH; ZERO_BEHAVIORAL_EVIDENCE; COUNT_TOKENS_DIAGNOSTIC_NEXT"
+  "next_gate": "ZERO_MODEL_PREFLIGHT_FOR_MINIMAL_GENERATION_CONTROL_THEN_FRESH_DIAGNOSTIC_AUTHORIZATION",
+  "truth_boundary": "METADATA_200_AND_EXACT_ENVELOPE_COUNT_TOKENS_200_FOR_BOTH_MODELS; FOUR_GENERATION_503S; MINIMAL_GENERATION_CONTROL_PREPARED; ZERO_G05_BEHAVIORAL_EVIDENCE"
 }
