@@ -1,11 +1,15 @@
 {
   "schema": "prompt-machine-starter-public-copy-audit-receipt-v1",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "receipt_id": "PM-STARTER-PUBLIC-COPY-AUDIT-V1-0001",
-  "recorded_on": "2026-09-03",
+  "recorded_on": "2026-09-04",
   "audit_contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
   "evidence_ceiling": {
-    "starter_runtime_observations": 0,
+    "starter_runtime_observations": 1,
+    "starter_runtime_passes": 0,
+    "starter_runtime_fails": 0,
+    "starter_runtime_inconclusive": 1,
+    "starter_clean_runtime_observations": 0,
     "starter_skill_behavioral_observations": 0,
     "starter_supported_skills": 0,
     "starter_structural_skill_candidates": 2,
@@ -145,11 +149,83 @@
           "skill_candidates_marketed_as_included_supported_features": false
         }
       }
+    },
+    {
+      "reason": "The first Starter runtime execution was later reclassified from historical FAIL/REWORK to effective INCONCLUSIVE_PROTOCOL_CONTAMINATION because the active runtime conversation had prior access to evaluation expectations. Public copy that still claimed zero runtime observations became stale.",
+      "pre_retest_review": {
+        "state": "FAIL_EVIDENCE_STATE_STALE",
+        "material_findings": [
+          {
+            "surface": "/starter-collection",
+            "class": "RUNTIME_EVIDENCE_STATE_STALE",
+            "finding": "The page still said runtime was unobserved, that no canary had been executed, and that Starter runtime observations were zero.",
+            "impact": "The current governed truth is one runtime observation, zero PASS, zero FAIL, one INCONCLUSIVE due to protocol contamination, and zero clean independent observations."
+          },
+          {
+            "surface": "/license",
+            "class": "RUNTIME_EVIDENCE_STATE_STALE",
+            "finding": "The license page still stated that current Starter runtime observations remain zero.",
+            "impact": "That sentence contradicted the corrected append-only Trust History and Release Gate."
+          },
+          {
+            "surface": "copy audit policy",
+            "class": "AUDIT_CEILING_STALE",
+            "finding": "The audit contract and deterministic assertions still treated zero runtime observations as the current allowed truth.",
+            "impact": "A green audit could otherwise certify stale customer-facing evidence wording."
+          }
+        ]
+      },
+      "fixes": [
+        {
+          "commit": "76fded11f6b7aae9380b62ba59531141d0e44768",
+          "surface": "/starter-collection",
+          "result": "Starter now discloses one protocol-contaminated INCONCLUSIVE runtime observation, zero PASS, zero FAIL, zero clean observations, and the clean same-candidate retest requirement."
+        },
+        {
+          "commit": "ed8d00645d2347b4e0e8d9b3432fae8543e7c579",
+          "surface": "/license",
+          "result": "The stale zero-observation statement was replaced with the current 1 observation / 0 PASS / 0 FAIL / 1 INCONCLUSIVE boundary."
+        },
+        {
+          "commit": "232ebb3090cc979837665606464f64bcbcad3e53",
+          "surface": "copy audit contract",
+          "result": "The evidence ceiling and allowed wording were updated to distinguish observed-but-contaminated runtime evidence from clean behavioral evidence."
+        },
+        {
+          "commit": "da35b120019558bbe2d4e2d953bf639c77971f0e",
+          "surface": "copy audit validator",
+          "result": "The deterministic audit now requires one observation, zero PASS, zero FAIL, one INCONCLUSIVE, zero clean observations, and rejects legacy zero-observation wording."
+        },
+        {
+          "commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+          "surface": "copy audit workflow summary",
+          "result": "The workflow summary now reports the corrected runtime evidence state."
+        }
+      ],
+      "retest": {
+        "audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+        "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "workflow": "Audit Starter Public Copy v1",
+        "run_id": 33834092608,
+        "job_id": 100902919487,
+        "conclusion": "success",
+        "observed_truth": {
+          "starter_checkout_route_present": false,
+          "starter_runtime_observations_claimed": 1,
+          "starter_runtime_passes_claimed": 0,
+          "starter_runtime_fails_claimed": 0,
+          "starter_runtime_inconclusive_claimed": 1,
+          "starter_clean_runtime_observations_claimed": 0,
+          "starter_supported_skills_claimed": 0,
+          "unsupported_tested_certified_customer_claims_detected": false
+        }
+      }
     }
   ],
   "current_retest": {
-    "run_id": 33805620505,
-    "audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+    "run_id": 33834092608,
+    "job_id": 100902919487,
+    "audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
     "conclusion": "success",
     "state": "PASS_CURRENT_EVIDENCE_BOUNDARY"
   },
