@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.9.0",
+  "version": "2.0.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -87,8 +87,31 @@
     "behavioral_observations_created": 0,
     "candidate_mutation_justified": false,
     "automatic_retry_policy_change_justified": false,
-    "additional_blind_runtime_attempt_justified": false,
-    "provider_or_project_visibility_diagnostic_justified": true
+    "additional_blind_runtime_attempt_justified": false
+  },
+  "provider_visibility_diagnostic": {
+    "contract": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_DIAGNOSTIC_V1.json",
+    "receipt": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_RECEIPT_2026-09-05.json",
+    "classification": "MODELS_VISIBLE_GENERATION_PATH_STILL_UNPROVEN",
+    "metadata_requests_attempted": 2,
+    "statuses": {
+      "gemini-3.8-flash": 200,
+      "gemini-3.5-flash": 200
+    },
+    "both_models_advertise_generate_content": true,
+    "model_inference_requests_attempted": 0,
+    "runtime_envelope_sent": false,
+    "behavioral_observations": 0
+  },
+  "count_tokens_diagnostic": {
+    "contract": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_DIAGNOSTIC_V1.json",
+    "tool": "tools/probe_starter_n09_gemini_count_tokens_v1.py",
+    "purpose": "Test the exact frozen envelope through countTokens for both visible models without generation.",
+    "maximum_provider_requests": 2,
+    "automatic_retries": 0,
+    "generate_content_allowed": false,
+    "model_inference_allowed": false,
+    "g05_claim": "NONE"
   },
   "model_fallback_boundary": {
     "changing_model_changes_runtime_configuration": true,
@@ -96,19 +119,7 @@
     "candidate_prompt_may_remain_frozen": true,
     "certification_scope_must_record_exact_model": true
   },
-  "provider_visibility_diagnostic": {
-    "contract": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_DIAGNOSTIC_V1.json",
-    "tool": "tools/probe_starter_n09_gemini_provider_visibility_v1.py",
-    "generate_content_allowed": false,
-    "model_inference_allowed": false,
-    "runtime_authorization_consumed": false,
-    "automatic_retries": 0,
-    "targets": [
-      "gemini-3.8-flash",
-      "gemini-3.5-flash"
-    ]
-  },
   "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
-  "next_gate": "NON_INFERENCE_PROVIDER_VISIBILITY_DIAGNOSTIC_BEFORE_ANY_NEW_G05_RUNTIME_ATTEMPT",
-  "truth_boundary": "FOUR_PROVIDER_503_ATTEMPTS_ACROSS_TWO_MODELS_ZERO_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
+  "next_gate": "NON_GENERATIVE_EXACT_ENVELOPE_COUNT_TOKENS_DIAGNOSTIC_BEFORE_ANY_NEW_GENERATION",
+  "truth_boundary": "FOUR_GENERATION_503S_ACROSS_TWO_VISIBLE_MODELS; METADATA_200_FOR_BOTH; ZERO_BEHAVIORAL_EVIDENCE; COUNT_TOKENS_DIAGNOSTIC_NEXT"
 }
