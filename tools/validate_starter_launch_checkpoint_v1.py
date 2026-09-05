@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Validate the current Prompt Machine Starter launch checkpoint.
 
-This validator is additive to validate_starter_release_gate_v1.py. It binds the
-new skill-launch decision, current public-copy re-audit, and provider preflight
-freeze without promoting any of them into runtime, custody, delivery, purchase,
-or revenue evidence.
+This binds skill scope, the current public-copy re-audit, protocol-contaminated
+runtime truth, and provider preflight without promoting any of them into sale,
+delivery, customer-value, certification, or revenue evidence.
 """
 
 from __future__ import annotations
@@ -14,10 +13,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 COMMERCIAL = ROOT / "commercial"
-BASE = ROOT / "product" / "starter-collection-v1"
 WEB = ROOT / "web"
 
 GATE = COMMERCIAL / "STARTER_RELEASE_GATE_V1.json"
+DAG = COMMERCIAL / "STARTER_RELEASE_DAG_V1.json"
 SKILL_SCOPE = COMMERCIAL / "STARTER_SKILL_LAUNCH_SCOPE_V1.json"
 COPY_RECEIPT = COMMERCIAL / "STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"
 PROVIDER_PREFLIGHT = COMMERCIAL / "STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json"
@@ -29,6 +28,8 @@ STARTER_CHECKOUT = WEB / "app" / "api" / "commerce" / "starter-collection" / "ch
 CANONICAL_PRODUCT_ID = "prompt-machine-starter-collection"
 CANONICAL_ARCHIVE_SHA256 = "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
 CANONICAL_ARCHIVE_SIZE = 50918
+CURRENT_COPY_RUN = 33834092608
+CURRENT_COPY_COMMIT = "bd086c2e7fd76bc3852eea7d2e048341dce25ed4"
 
 
 def read_json(path: Path) -> dict:
@@ -37,16 +38,16 @@ def read_json(path: Path) -> dict:
 
 def main() -> int:
     gate = read_json(GATE)
+    dag = read_json(DAG)
     skill = read_json(SKILL_SCOPE)
     copy = read_json(COPY_RECEIPT)
     preflight = read_json(PROVIDER_PREFLIGHT)
 
     assert gate["product"]["product_id"] == CANONICAL_PRODUCT_ID
     assert gate["product"]["sale_state"] == "NOT_FOR_SALE"
-    assert gate["checkpoint_revision"] == "runtime-protocol-contamination-correction-20260904"
+    assert gate["version"] == "1.0.10"
+    assert gate["checkpoint_revision"] == "runtime-protocol-contamination-copy-reaudit-20260904"
 
-    # Skill launch scope: candidates remain visible as engineering inventory,
-    # but Starter v1 has zero supported/installable skill assets.
     assert skill["state"] == "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN"
     assert skill["product_id"] == CANONICAL_PRODUCT_ID
     assert skill["decision"]["starter_v1_launch_value_is_workflow_led"] is True
@@ -74,33 +75,56 @@ def main() -> int:
     assert gate["truth"]["starter_skills_in_current_archive"] == 0
     assert gate["gates"]["starter_skill_launch_scope"] == "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS"
 
-    # Public-copy history preserves both discovery/fix/retest cycles.
-    assert copy["version"] == "1.1.0"
+    # Public-copy history preserves all three cycles: identity/packaging, skill scope,
+    # and the runtime-evidence staleness correction after protocol contamination.
+    assert copy["version"] == "1.2.0"
     assert copy["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert len(copy["history"][0]["material_findings"]) == 3
     assert copy["history"][0]["state"] == "FAIL_EVIDENCE_SCOPE_AMBIGUOUS"
-    assert len(copy["subsequent_reaudits"]) == 1
+    assert len(copy["subsequent_reaudits"]) == 2
+
     skill_reaudit = copy["subsequent_reaudits"][0]
     assert skill_reaudit["pre_retest_review"]["state"] == "FAIL_PRODUCT_SCOPE_AMBIGUOUS"
     assert len(skill_reaudit["pre_retest_review"]["material_findings"]) == 3
     assert skill_reaudit["retest"]["run_id"] == 33805620505
     assert skill_reaudit["retest"]["conclusion"] == "success"
-    assert skill_reaudit["retest"]["observed_truth"]["starter_supported_skills_claimed"] == 0
-    assert skill_reaudit["retest"]["observed_truth"]["skill_candidates_marketed_as_included_supported_features"] is False
-    assert copy["current_retest"]["run_id"] == 33805620505
-    assert copy["current_retest"]["audited_commit"] == "3b648a26907db55a9ee742d037f40d0cbc0b8983"
+
+    runtime_reaudit = copy["subsequent_reaudits"][1]
+    assert runtime_reaudit["pre_retest_review"]["state"] == "FAIL_EVIDENCE_STATE_STALE"
+    assert len(runtime_reaudit["pre_retest_review"]["material_findings"]) == 3
+    assert runtime_reaudit["retest"]["run_id"] == CURRENT_COPY_RUN
+    assert runtime_reaudit["retest"]["audited_commit"] == CURRENT_COPY_COMMIT
+    assert runtime_reaudit["retest"]["conclusion"] == "success"
+    observed = runtime_reaudit["retest"]["observed_truth"]
+    assert observed["starter_runtime_observations_claimed"] == 1
+    assert observed["starter_runtime_passes_claimed"] == 0
+    assert observed["starter_runtime_fails_claimed"] == 0
+    assert observed["starter_runtime_inconclusive_claimed"] == 1
+    assert observed["starter_clean_runtime_observations_claimed"] == 0
+
+    assert copy["current_retest"]["run_id"] == CURRENT_COPY_RUN
+    assert copy["current_retest"]["audited_commit"] == CURRENT_COPY_COMMIT
+    assert copy["current_retest"]["conclusion"] == "success"
     assert copy["model_calls"] == 0
     assert copy["provider_calls"] == 0
     assert copy["ready_to_sell"] is False
 
     gate_copy = gate["public_copy_audit"]
-    assert gate_copy["state"] == "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE"
-    assert gate_copy["stale_reason"]
-    assert gate_copy["additional_skill_scope_findings"] == 3
+    assert gate_copy["state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert gate_copy["open_material_findings"] == 0
-    assert gate_copy["current_retest_run_id"] == 33805620505
+    assert gate_copy["current_retest_run_id"] == CURRENT_COPY_RUN
+    assert gate_copy["current_audited_commit"] == CURRENT_COPY_COMMIT
+    assert gate["gates"]["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
 
-    # Provider-side execution criteria are frozen before any side effect.
+    nodes = {node["id"]: node for node in dag["nodes"]}
+    assert dag["version"] == "1.3.0"
+    assert nodes["N07_PUBLIC_COPY_BOUNDARY"]["status"] == "OBSERVED_CLOSED"
+    assert nodes["N07_PUBLIC_COPY_BOUNDARY"]["current_retest_run_id"] == CURRENT_COPY_RUN
+    assert nodes["N09_STARTER_RUNTIME_EVIDENCE"]["status"] == "OPEN_REQUIRES_MODEL_AUTH"
+    assert nodes["N14_PROVIDER_PROVISIONING_AND_CUSTODY"]["status"] == "OPEN_REQUIRES_PROVIDER_AUTH"
+    frontier = {row["node"] for row in dag["current_frontier"]["next_evidence_purchase_options"]}
+    assert frontier == {"N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
+
     assert preflight["state"] == "STATIC_PROVIDER_EXECUTION_PRECONDITIONS_PASS_DISARMED"
     assert preflight["product_id"] == CANONICAL_PRODUCT_ID
     assert preflight["validated_by"]["run_id"] == 33804846142
@@ -129,8 +153,6 @@ def main() -> int:
     assert gate["gates"]["live_delivery_preflight"] == "PASS_STATIC_PREPARED_DISARMED"
     assert gate["gates"]["live_delivery_canary"] == "NOT_STARTED"
 
-    # Customer-visible copy must reflect the launch decision. These assertions
-    # validate meaning, not an arbitrary marketing sentence.
     starter = STARTER_PAGE.read_text(encoding="utf-8")
     collections = COLLECTIONS_PAGE.read_text(encoding="utf-8")
     home = HOME_PAGE.read_text(encoding="utf-8")
@@ -140,9 +162,11 @@ def main() -> int:
     assert "remain separate skill candidates—not supported Starter v1 assets" in starter
     assert "00</strong><span>supported skills today" in collections
     assert "not part of the current 9-file Starter archive" in home
+    assert "One Starter runtime observation exists" in starter
+    assert "0 PASS, 0 FAIL, 1 INCONCLUSIVE" in starter
+    assert "clean independent surface" in starter
     assert not STARTER_CHECKOUT.exists()
 
-    # Protocol-contaminated runtime is preserved but cannot count as workflow PASS or FAIL.
     assert gate["truth"]["starter_sku_workflow_runtime_observations"] == 1
     assert gate["truth"]["starter_sku_workflow_runtime_passes"] == 0
     assert gate["truth"]["starter_sku_workflow_runtime_fails"] == 0
@@ -155,13 +179,12 @@ def main() -> int:
     assert gate["runtime_protocol_correction"]["same_frozen_candidate_retest_required"] is True
     assert gate["runtime_protocol_correction"]["armed"] is False
     assert gate["gates"]["starter_specific_behavioral_evidence"] == "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED"
-    assert gate["gates"]["public_copy_evidence_audit"] == "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE"
 
-    # Nothing in this checkpoint may promote sale/revenue truth.
     assert gate["launch_requirements"]["STARTER_PRODUCT_READY"] is False
     assert gate["launch_requirements"]["PROVIDER_CUSTODY"] is False
     assert gate["launch_requirements"]["PROVIDER_INTEGRATION"] is False
     assert gate["launch_requirements"]["LIVE_DELIVERY_CANARY"] is False
+    assert gate["launch_requirements"]["PUBLIC_COPY_EVIDENCE_AUDIT"] is True
     assert gate["truth"]["real_purchases"] == 0
     assert gate["truth"]["public_checkout_enabled"] is False
     assert gate["truth"]["ready_to_sell"] is False
@@ -170,8 +193,10 @@ def main() -> int:
     print("starter_supported_skills=0")
     print("starter_structural_skill_candidates=2")
     print("skill_launch_scope=DEFERRED_NON_BLOCKING")
-    print("public_copy_historical_retest=33805620505:success")
-    print("public_copy_current_state=STALE_AFTER_RUNTIME_EVIDENCE_CHANGE")
+    print("public_copy_historical_skill_retest=33805620505:success")
+    print(f"public_copy_current_retest={CURRENT_COPY_RUN}:success")
+    print("public_copy_current_state=PASS_CURRENT_EVIDENCE_BOUNDARY")
+    print("release_frontier=N09,N14")
     print("provider_preflight=PASS_STATIC_DISARMED")
     print("provider_side_effects=0")
     print("starter_runtime_observations=1")
