@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "recorded_on": "2026-09-05",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
@@ -76,9 +76,21 @@
       "G05-BASELINE-002"
     ],
     "behavioral_observations_created": 0,
-    "candidate_mutation_justified": false
+    "candidate_mutation_justified": false,
+    "model_change_justified": false,
+    "retry_policy_change_justified": false
+  },
+  "next_attempt": {
+    "plan": "commercial/STARTER_N09_GEMINI_WSL_ATTEMPT_003_PLAN.json",
+    "attempt_id": "G05-BASELINE-003",
+    "state": "PREPARED_FRESH_AUTH_REQUIRED",
+    "executor": "tools/execute_starter_n09_gemini_wsl_v3.py",
+    "preflight": "tools/probe_starter_n09_gemini_wsl_attempt_003.py",
+    "model": "gemini-3.8-flash",
+    "candidate_mutated": false,
+    "provider_requests_so_far": 0
   },
   "current_authorization_state": "DISARMED_GEMINI_WSL_002_AUTHORIZATION_CONSUMED",
-  "next_gate": "WAIT_FOR_PROVIDER_CAPACITY_OR_PREPARE_NEW_G05_ATTEMPT_THEN_REQUIRE_FRESH_EXPLICIT_AUTHORIZATION",
-  "truth_boundary": "TWO_PROVIDER_UNAVAILABLE_ATTEMPTS_NO_NEW_BEHAVIORAL_EVIDENCE_NOT_PRODUCT_READY"
+  "next_gate": "ATTEMPT_003_PREFLIGHT_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
+  "truth_boundary": "ATTEMPT_003_PREPARED_NO_PROVIDER_REQUEST_NO_NEW_BEHAVIORAL_EVIDENCE"
 }
