@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Validate the Prompt Machine Starter release evidence DAG.
 
-This is a deterministic dependency/truth check. It does not execute models,
-providers, checkout, purchases, or delivery.
+Deterministic dependency/truth check only. No model, provider, checkout,
+purchase, delivery, or customer-value execution occurs.
 """
 
 from __future__ import annotations
@@ -23,11 +23,13 @@ COPY_RECEIPT_PATH = COMMERCIAL / "STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json"
 EXECUTION_FREEZE_PATH = COMMERCIAL / "STARTER_EXECUTION_DECISION_FREEZE_V1.json"
 STARTER_CHECKOUT = ROOT / "web" / "app" / "api" / "commerce" / "starter-collection" / "checkout" / "route.ts"
 
+CURRENT_COPY_RUN = 33834092608
+CURRENT_COPY_COMMIT = "bd086c2e7fd76bc3852eea7d2e048341dce25ed4"
+
 CLOSED = {"STATIC_CLOSED", "OBSERVED_CLOSED", "DEFERRED_NON_BLOCKING"}
 OPEN_FRONTIER = {
     "OPEN_REQUIRES_MODEL_AUTH",
     "OPEN_REQUIRES_PROVIDER_AUTH",
-    "OPEN_REQUIRES_MODEL_AUTH",
     "OPEN_REQUIRES_COPY_REAUDIT",
 }
 BLOCKED = {"BLOCKED_BY_UPSTREAM_EVIDENCE", "BLOCKED_BY_HUMAN_RELEASE_DECISION", "NOT_STARTED"}
@@ -47,6 +49,7 @@ def main() -> int:
     execution_freeze = load(EXECUTION_FREEZE_PATH)
 
     assert dag["schema"] == "prompt-machine-starter-release-dag-v1"
+    assert dag["version"] == "1.3.0"
     assert dag["product_id"] == "prompt-machine-starter-collection"
     assert dag["master_rule"] == "A DOWNSTREAM NODE MAY CLOSE ONLY FROM THE EVIDENCE REQUIRED BY ITS INCOMING DEPENDENCIES"
 
@@ -57,7 +60,6 @@ def main() -> int:
     valid_status = set(dag["status_vocabulary"])
     assert CLOSED | OPEN_FRONTIER | BLOCKED <= valid_status
 
-    # Dependency references and graph acyclicity.
     for node in nodes.values():
         assert node["status"] in valid_status
         for dep in node["depends_on"]:
@@ -80,26 +82,35 @@ def main() -> int:
         visit(node_id)
     assert len(visited) == 20
 
-    # Every closed/deferred node must cite evidence that actually exists.
     for node in nodes.values():
         if node["status"] in CLOSED:
             assert node["evidence"], f"closed node lacks evidence: {node['id']}"
             for relative in node["evidence"]:
                 assert (ROOT / relative).is_file(), f"missing evidence path for {node['id']}: {relative}"
 
-    # A closed node cannot depend on an unresolved node.
     for node in nodes.values():
         if node["status"] in CLOSED:
             for dep in node["depends_on"]:
                 assert nodes[dep]["status"] in CLOSED, f"{node['id']} closed above unresolved {dep}"
 
-    # Current frontier preserves the protocol-contaminated observation, clean retest requirement,
-    # stale public-copy audit, and independently disarmed provider lane.
     frontier_ids = {node_id for node_id, row in nodes.items() if row["status"] in OPEN_FRONTIER}
-    assert frontier_ids == {"N07_PUBLIC_COPY_BOUNDARY", "N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
+    assert frontier_ids == {"N09_STARTER_RUNTIME_EVIDENCE", "N14_PROVIDER_PROVISIONING_AND_CUSTODY"}
     configured_frontier = {row["node"] for row in dag["current_frontier"]["next_evidence_purchase_options"]}
     assert configured_frontier == frontier_ids
     assert dag["current_frontier"]["automatic_choice_between_frontier_nodes"] is False
+    assert len(dag["current_frontier"]["closed_or_intentionally_deferred_nodes"]) == 12
+
+    n07 = nodes["N07_PUBLIC_COPY_BOUNDARY"]
+    assert n07["status"] == "OBSERVED_CLOSED"
+    assert n07["depends_on"] == ["N05_DETERMINISTIC_ARCHIVE", "N06_SKILL_SCOPE"]
+    assert n07["current_retest_run_id"] == CURRENT_COPY_RUN
+    assert n07["current_audited_commit"] == CURRENT_COPY_COMMIT
+    assert gate["public_copy_audit"]["state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert gate["public_copy_audit"]["current_retest_run_id"] == CURRENT_COPY_RUN
+    assert copy_receipt["version"] == "1.2.0"
+    assert copy_receipt["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
+    assert copy_receipt["current_retest"]["run_id"] == CURRENT_COPY_RUN
+    assert copy_receipt["current_retest"]["audited_commit"] == CURRENT_COPY_COMMIT
 
     n09 = nodes["N09_STARTER_RUNTIME_EVIDENCE"]
     assert n09["status"] == "OPEN_REQUIRES_MODEL_AUTH"
@@ -120,10 +131,6 @@ def main() -> int:
     assert frozen_case["runtime_envelope_sha256"] == "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207"
     assert canary["next_permitted_runtime_sequence"]["authorized_now"] is False
 
-    n07 = nodes["N07_PUBLIC_COPY_BOUNDARY"]
-    assert n07["status"] == "OPEN_REQUIRES_COPY_REAUDIT"
-    assert gate["public_copy_audit"]["state"] == "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE"
-
     n14 = nodes["N14_PROVIDER_PROVISIONING_AND_CUSTODY"]
     assert n14["status"] == "OPEN_REQUIRES_PROVIDER_AUTH"
     assert n14["maximum_custody_attempts_before_review"] == 1
@@ -131,7 +138,6 @@ def main() -> int:
     assert preflight["execution_limits"]["custody_packet_armed"] is False
     assert preflight["current_truth"]["provider_side_effects_executed"] is False
 
-    # Downstream evidence claims remain blocked in the correct order.
     assert nodes["N15_PROVIDER_INTEGRATION_PASS"]["status"] == "BLOCKED_BY_UPSTREAM_EVIDENCE"
     assert nodes["N16_LIVE_DELIVERY_CANARY"]["status"] == "BLOCKED_BY_UPSTREAM_EVIDENCE"
     assert nodes["N17_STARTER_PRODUCT_READY_REVIEW"]["status"] == "BLOCKED_BY_UPSTREAM_EVIDENCE"
@@ -139,10 +145,8 @@ def main() -> int:
     assert nodes["N19_PQ_DOLLAR_ONE"]["status"] == "NOT_STARTED"
     assert nodes["N20_REAL_ACTIVATION_AND_RETENTION"]["status"] == "NOT_STARTED"
 
-    # Cross-check independent current-truth sources.
     assert skill_scope["state"] == "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN"
     assert skill_scope["current_truth"]["starter_supported_skills"] == 0
-    assert copy_receipt["final_state"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert execution_freeze["state"] == "STATIC_EXECUTION_DECISION_GOVERNANCE_PASS_REAL_EXECUTION_UNAUTHORIZED"
 
     truth = dag["truth"]
@@ -162,14 +166,16 @@ def main() -> int:
     assert truth["real_purchases"] == gate["truth"]["real_purchases"] == 0
     assert truth["pq_dollar_one"] is False
     assert gate["gates"]["pq_dollar_one"] == "NOT_OBSERVED"
+    assert gate["gates"]["public_copy_evidence_audit"] == "PASS_CURRENT_EVIDENCE_BOUNDARY"
     assert not STARTER_CHECKOUT.exists()
 
     print("STARTER RELEASE DAG V1: PASS")
     print("nodes=20")
     print("cycles=0")
-    print("closed_or_deferred_nodes=11")
-    print("frontier_nodes=3")
-    print("frontier=N07_PUBLIC_COPY_BOUNDARY,N09_STARTER_RUNTIME_EVIDENCE,N14_PROVIDER_PROVISIONING_AND_CUSTODY")
+    print("closed_or_deferred_nodes=12")
+    print("frontier_nodes=2")
+    print("frontier=N09_STARTER_RUNTIME_EVIDENCE,N14_PROVIDER_PROVISIONING_AND_CUSTODY")
+    print(f"public_copy_boundary=OBSERVED_CLOSED:{CURRENT_COPY_RUN}")
     print("starter_runtime_observations=1")
     print("starter_runtime_fails=0")
     print("starter_runtime_inconclusive=1")
