@@ -1,7 +1,7 @@
 {
   "schema": "prompt-machine-starter-release-gate-v1",
-  "version": "1.0.9",
-  "checkpoint_revision": "runtime-protocol-contamination-correction-20260904",
+  "version": "1.0.10",
+  "checkpoint_revision": "runtime-protocol-contamination-copy-reaudit-20260904",
   "recorded_on": "2026-09-04",
   "product": {
     "product_id": "prompt-machine-starter-collection",
@@ -33,7 +33,8 @@
     "public_copy_material_failures_open": 0,
     "public_copy_additional_scope_ambiguities_found_and_fixed": 3,
     "public_copy_reaudits_after_scope_change": 1,
-    "public_copy_total_successful_retests": 2,
+    "public_copy_reaudits_after_evidence_change": 1,
+    "public_copy_total_successful_retests": 3,
     "provider_integration_static_preparation_passes": 1,
     "starter_signed_webhook_adapters_present": 1,
     "provider_preflight_static_passes": 1,
@@ -126,15 +127,18 @@
   "public_copy_audit": {
     "contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
     "receipt": "commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json",
-    "state": "STALE_AFTER_STARTER_RUNTIME_EVIDENCE_CHANGE",
+    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "initial_material_findings": 3,
     "additional_skill_scope_findings": 3,
+    "runtime_evidence_staleness_findings": 3,
     "open_material_findings": 0,
     "historical_initial_retest_run_id": 33799072926,
-    "current_retest_run_id": 33805620505,
-    "current_audited_commit": "3b648a26907db55a9ee742d037f40d0cbc0b8983",
+    "historical_skill_scope_retest_run_id": 33805620505,
+    "current_retest_run_id": 33834092608,
+    "current_retest_job_id": 100902919487,
+    "current_audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
     "stale_on_material_copy_or_evidence_change": true,
-    "stale_reason": "The audited public evidence boundary predates the first Starter runtime observation and its protocol-contamination correction; current effective runtime state is one INCONCLUSIVE observation, zero PASS, zero FAIL."
+    "current_evidence_boundary": "1 runtime observation / 0 PASS / 0 FAIL / 1 INCONCLUSIVE_PROTOCOL_CONTAMINATION / 0 clean independent observations"
   },
   "provider_integration_preparation": {
     "receipt": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
@@ -235,7 +239,7 @@
     "starter_skill_launch_scope": "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS",
     "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
     "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
-    "public_copy_evidence_audit": "STALE_AFTER_RUNTIME_EVIDENCE_CHANGE",
+    "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
     "provider_preflight": "PASS_STATIC_DISARMED",
     "provider_receipt_schemas": "PASS_STATIC_EXTERNAL_EVIDENCE_UNOBSERVED",
     "execution_decision_governance": "PASS_STATIC_REAL_EXECUTION_UNAUTHORIZED",
@@ -306,10 +310,7 @@
     },
     "automatic_frontier_selection": false
   },
-  "next_zero_model_work": [
-    "re-audit customer-facing copy against the corrected runtime evidence state before treating copy evidence as current",
-    "preserve the original raw output, original FAIL/REWORK review, and original failure record as historical artifacts superseded only for effective workflow classification"
-  ],
+  "next_zero_model_work": [],
   "next_model_spend_gate": {
     "authorized_now": false,
     "reason": "The only Starter runtime observation is protocol-contaminated and supports neither PASS nor FAIL. A clean retest of the same frozen candidate requires fresh explicit authorization.",
