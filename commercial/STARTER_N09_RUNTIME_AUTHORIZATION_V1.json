@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-machine-starter-n09-runtime-authorization-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-04",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "authorization_verbatim": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos  .",
+  "maximum_executions": 1,
+  "maximum_retries": 0,
+  "automatic_second_case": false,
+  "human_review_required_after_attempt": true,
+  "required_runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "clean_surface_requirement": "CLEAN_INDEPENDENT_EXECUTION_SURFACE",
+  "authorized_surface": "VERCEL_AI_GATEWAY_PREVIEW",
+  "authorized_model": "openai/gpt-5.6-sol",
+  "state": "AUTHORIZED_NOT_YET_CONSUMED",
+  "model_calls_recorded_by_this_authorization_receipt": 0,
+  "provider_calls_recorded_by_this_authorization_receipt": 0
+}
