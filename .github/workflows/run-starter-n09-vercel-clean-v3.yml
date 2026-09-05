@@ -1,0 +1,229 @@
+name: Run Starter N09 Vercel Clean Retest v3
+
+on:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - '.github/starter-n09-vercel-trigger-v3'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starter-n09-vercel-clean-v3
+  cancel-in-progress: false
+
+jobs:
+  one-clean-runtime-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VERCEL_ORG_ID: team_FTC62CRbJz9veMUDYeVzf7yI
+      VERCEL_PROJECT_ID: prj_Srr2nUKq8fZWff6x9XMyrY3dkjJ7
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      CASE_ID: PM-STARTER-CR-NORMAL-0001
+      EXPECTED_ENVELOPE_SHA256: d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207
+      MODEL_ID: openai/gpt-5.6-sol
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Fail closed unless fresh V3 authorization exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          auth = json.loads(Path('commercial/STARTER_N09_RUNTIME_AUTHORIZATION_V3.json').read_text(encoding='utf-8'))
+          assert auth['case_id'] == 'PM-STARTER-CR-NORMAL-0001', auth
+          assert auth['maximum_executions'] == 1, auth
+          assert auth['maximum_retries'] == 0, auth
+          assert auth['automatic_second_case'] is False, auth
+          assert auth['state'] == 'AUTHORIZED_NOT_YET_CONSUMED', auth
+          assert auth['authorized_surface'] == 'VERCEL_AI_GATEWAY_PREVIEW_AUTHENTICATED_CLI', auth
+          assert auth['authorized_model'] == 'openai/gpt-5.6-sol', auth
+          assert auth['required_runtime_envelope_sha256'] == 'd8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207', auth
+          ready = json.loads(Path('commercial/STARTER_N09_CLEAN_SURFACE_READINESS_V1.json').read_text(encoding='utf-8'))
+          assert ready['surface_armed'] is True, ready
+          assert ready['readiness_state'] == 'SURFACE_ARMED_NO_MODEL_CALL', ready
+          assert ready['model_calls_created_by_probe'] == 0, ready
+          trigger = Path('.github/starter-n09-vercel-trigger-v3').read_text(encoding='utf-8').strip()
+          assert trigger == 'EXECUTE PM-STARTER-CR-NORMAL-0001 / 1 EXECUTION / 0 RETRIES / CLEAN SURFACE V3', trigger
+          print('N09 V3 AUTHORIZATION + READINESS GATE: PASS')
+          PY
+
+      - name: Rebuild exact frozen runtime envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf build/n09-envelope
+          python tools/build_starter_canary_envelopes_v1.py --output-dir build/n09-envelope --verify-reproducible
+          ENVELOPE='build/n09-envelope/final/PM-STARTER-CR-NORMAL-0001.runtime-envelope.txt'
+          test "$(wc -c < "$ENVELOPE" | tr -d ' ')" = '8100'
+          test "$(sha256sum "$ENVELOPE" | awk '{print $1}')" = "$EXPECTED_ENVELOPE_SHA256"
+          echo "N09_RUNTIME_ENVELOPE_B64=$(base64 -w0 "$ENVELOPE")" >> "$GITHUB_ENV"
+
+      - name: Fail closed unless Vercel credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${VERCEL_TOKEN:-}"
+
+      - name: Mint project-scoped Vercel OIDC token
+        shell: bash
+        run: |
+          set -euo pipefail
+          OIDC_JSON="$(curl --fail --silent --show-error \
+            -X POST "https://api.vercel.com/v1/projects/$VERCEL_PROJECT_ID/token?teamId=$VERCEL_ORG_ID" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H 'content-type: application/json' \
+            --data '{"source":"prompt-machine-n09-runtime-v3"}')"
+          OIDC_TOKEN="$(printf '%s' "$OIDC_JSON" | python -c 'import json,sys; print(json.load(sys.stdin)["token"])')"
+          test -n "$OIDC_TOKEN"
+          echo "::add-mask::$OIDC_TOKEN"
+          echo "N09_GATEWAY_OIDC_TOKEN=$OIDC_TOKEN" >> "$GITHUB_ENV"
+
+      - name: Link staging project and validate web
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p web/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > web/.vercel/project.json
+          cd web
+          npm install --no-audit --no-fund
+          npm run typecheck
+
+      - name: Generate one-time route token
+        shell: bash
+        run: |
+          set -euo pipefail
+          TOKEN="$(openssl rand -hex 32)"
+          echo "::add-mask::$TOKEN"
+          echo "N09_EXECUTION_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+
+      - name: Deploy isolated preview with ephemeral runtime inputs
+        id: deploy
+        working-directory: web
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy \
+            --yes \
+            --project "$VERCEL_PROJECT_ID" \
+            -T "$VERCEL_ORG_ID" \
+            --token="$VERCEL_TOKEN" \
+            --env N09_EXECUTION_TOKEN="$N09_EXECUTION_TOKEN" \
+            --env N09_RUNTIME_ENVELOPE_B64="$N09_RUNTIME_ENVELOPE_B64" \
+            --env N09_GATEWAY_OIDC_TOKEN="$N09_GATEWAY_OIDC_TOKEN" \
+            --env N09_MODEL="$MODEL_ID")"
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Verify armed surface immediately before runtime
+        working-directory: web
+        shell: bash
+        run: |
+          set -euo pipefail
+          DEPLOYMENT_URL='${{ steps.deploy.outputs.url }}'
+          npx --yes vercel@latest curl /api/n09-clean-retest --deployment "$DEPLOYMENT_URL" -- --silent --show-error --fail --output /tmp/n09-ready.json
+          python - <<'PY'
+          import json
+          p=json.load(open('/tmp/n09-ready.json'))
+          assert p['state']=='SURFACE_ARMED_NO_MODEL_CALL', p
+          assert p['oidc_present'] is True, p
+          assert p['model_call_made'] is False, p
+          assert p['runtime_envelope_sha256']=='d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207', p
+          print('N09 V3 IMMEDIATE READINESS: PASS / MODEL CALLS 0')
+          PY
+
+      - name: Execute exactly one clean N09 model submission
+        id: execute
+        working-directory: web
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$GITHUB_WORKSPACE/build/n09-vercel-v3"
+          DEPLOYMENT_URL='${{ steps.deploy.outputs.url }}'
+          HTTP_STATUS="$(npx --yes vercel@latest curl /api/n09-clean-retest \
+            --deployment "$DEPLOYMENT_URL" \
+            -- \
+            --silent \
+            --show-error \
+            --output "$GITHUB_WORKSPACE/build/n09-vercel-v3/raw-surface-response.json" \
+            --write-out '%{http_code}' \
+            --request POST \
+            --header "authorization: Bearer $N09_EXECUTION_TOKEN" \
+            --header 'content-type: application/json' \
+            --data '{"case_id":"PM-STARTER-CR-NORMAL-0001"}')"
+          printf '%s\n' "$HTTP_STATUS" > "$GITHUB_WORKSPACE/build/n09-vercel-v3/http-status.txt"
+          echo "http_status=$HTTP_STATUS" >> "$GITHUB_OUTPUT"
+
+      - name: Build immutable review packet
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root=Path('build/n09-vercel-v3')
+          status=int((root/'http-status.txt').read_text().strip()) if (root/'http-status.txt').exists() else None
+          raw=(root/'raw-surface-response.json').read_bytes() if (root/'raw-surface-response.json').exists() else b''
+          payload=None
+          if raw:
+              try: payload=json.loads(raw)
+              except Exception: pass
+          observed=bool(status==200 and isinstance(payload,dict) and payload.get('state')=='REAL_CLEAN_RUNTIME_OBSERVATION_REVIEW_REQUIRED')
+          packet={
+            'schema':'prompt-machine-starter-n09-clean-runtime-review-packet-v3',
+            'case_id':os.environ['CASE_ID'],
+            'execution_surface':'VERCEL_AI_GATEWAY_PREVIEW_AUTHENTICATED_CLI',
+            'runtime_envelope_bytes':8100,
+            'runtime_envelope_sha256':os.environ['EXPECTED_ENVELOPE_SHA256'],
+            'model_requested':os.environ['MODEL_ID'],
+            'surface_submissions':1 if status is not None else 0,
+            'automatic_retries':0,
+            'automatic_second_case':False,
+            'http_status':status,
+            'behavioral_observation_created':observed,
+            'raw_surface_response_sha256':hashlib.sha256(raw).hexdigest() if raw else None,
+            'raw_surface_response_bytes':len(raw),
+            'human_review_required':True,
+            'trust_history_updated_automatically':False,
+            'release_gate_updated_automatically':False,
+            'automatic_promotion':False,
+          }
+          root.mkdir(parents=True,exist_ok=True)
+          (root/'review-packet.json').write_text(json.dumps(packet,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(packet,indent=2,sort_keys=True))
+          PY
+
+      - name: Preserve raw evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PM-STARTER-CR-NORMAL-0001-N09-VERCEL-CLEAN-V3
+          path: build/n09-vercel-v3
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Human-review stop-line
+        shell: bash
+        run: |
+          set -euo pipefail
+          test '${{ steps.execute.outputs.http_status }}' = '200'
+          echo 'REAL CLEAN N09 OBSERVATION CAPTURED — HUMAN REVIEW REQUIRED'
+          echo 'No retry, second case, Trust History update, release promotion, provider action, checkout change, or public claim is authorized.'
