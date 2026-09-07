@@ -1,7 +1,7 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "2.2.0",
-  "recorded_on": "2026-09-05",
+  "version": "2.3.0",
+  "recorded_on": "2026-09-07",
   "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
@@ -122,19 +122,42 @@
     "behavioral_observations": 0,
     "g05_claim": "NONE"
   },
-  "minimal_generation_control": {
+  "minimal_generation_control_001": {
     "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PLAN.json",
-    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
-    "plan_state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
-    "status": "PREFLIGHT_PASS_FRESH_AUTH_REQUIRED",
-    "preflight": "tools/probe_starter_n09_gemini_minimal_generation_control_001.py",
     "preflight_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PREFLIGHT_RECEIPT_2026-09-05.json",
-    "preflight_verdict": "PASS",
-    "preflight_source_commit": "5692ceba4f5b4e67c9179d1dcd795f5bec0ffa16",
-    "executor": "tools/execute_starter_n09_gemini_minimal_generation_control_001.py",
+    "execution_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_RECEIPT_2026-09-07.json",
+    "inspection_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_INSPECTION_RECEIPT_2026-09-07.json",
+    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
     "model": "gemini-3.5-flash",
     "prompt": "Return exactly: OK",
-    "workflow_candidate_sent": false,
+    "max_output_tokens": 8,
+    "thinking_level": "MODEL_DEFAULT_MEDIUM",
+    "provider_requests_attempted": 1,
+    "model_inference_requests_attempted": 1,
+    "http_status": 200,
+    "finish_reason": "MAX_TOKENS",
+    "prompt_token_count": 5,
+    "thoughts_token_count": 5,
+    "visible_text_parts": 0,
+    "response_text_exact_ok": false,
+    "classification": "GENERATION_TRANSPORT_AVAILABLE_SEMANTIC_RESULT_INCONCLUSIVE_MAX_TOKENS_CONTROL_BUDGET",
+    "g05_claim": "NONE",
+    "authorization_consumed": true
+  },
+  "minimal_generation_control_002": {
+    "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_002_PLAN.json",
+    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-002",
+    "state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+    "preflight": "tools/probe_starter_n09_gemini_minimal_generation_control_002.py",
+    "executor": "tools/execute_starter_n09_gemini_minimal_generation_control_002.py",
+    "model": "gemini-3.5-flash",
+    "prompt": "Return exactly: OK",
+    "generation_config": {
+      "maxOutputTokens": 64,
+      "thinkingConfig": {
+        "thinkingLevel": "minimal"
+      }
+    },
     "maximum_provider_requests": 1,
     "provider_requests_so_far": 0,
     "automatic_retries": 0,
@@ -148,6 +171,7 @@
     "certification_scope_must_record_exact_model": true
   },
   "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
-  "next_gate": "FRESH_EXPLICIT_AUTHORIZATION_FOR_PM_GEMINI_MINIMAL_GEN_CTRL_001",
-  "truth_boundary": "METADATA_200_AND_EXACT_ENVELOPE_COUNT_TOKENS_200_FOR_BOTH_MODELS; FOUR_GENERATION_503S; MINIMAL_GENERATION_CONTROL_PREFLIGHT_PASS; ZERO_CONTROL_GENERATION_REQUESTS; ZERO_G05_BEHAVIORAL_EVIDENCE"
+  "current_diagnostic_authorization_state": "DISARMED_PM_GEMINI_MINIMAL_GEN_CTRL_001_AUTHORIZATION_CONSUMED",
+  "next_gate": "ZERO_MODEL_PREFLIGHT_FOR_PM_GEMINI_MINIMAL_GEN_CTRL_002_THEN_FRESH_DIAGNOSTIC_AUTHORIZATION",
+  "truth_boundary": "GENERATION_PATH_HTTP_200_OBSERVED_ON_CONTROL_001; CONTROL_001_VISIBLE_OUTPUT_INCONCLUSIVE_DUE_MAX_TOKENS_AFTER_THINKING; CONTROL_002_PREPARED_WITH_MINIMAL_THINKING_AND_64_OUTPUT_TOKENS; ZERO_G05_BEHAVIORAL_EVIDENCE"
 }
