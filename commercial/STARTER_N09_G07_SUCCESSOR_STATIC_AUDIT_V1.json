@@ -1,15 +1,22 @@
 {
   "schema": "prompt-machine-starter-n09-g07-successor-static-audit-v1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "recorded_on": "2026-09-07",
   "gate": "G07_IMPROVEMENT_STATIC_AUDIT",
   "source_design": "commercial/STARTER_N09_G07_SUCCESSOR_DESIGN_V1.json",
   "source_v1_path": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
   "source_v1_expected_git_blob_sha": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+  "source_v1_integrity_semantics": {
+    "repository_identity": "Compare the Git blob referenced by HEAD for source_v1_path against source_v1_expected_git_blob_sha.",
+    "working_tree_identity": "Require git diff --quiet HEAD -- source_v1_path so Git clean/filter semantics handle LF/CRLF normalization.",
+    "raw_working_tree_hash_is_not_repository_blob_identity": true,
+    "reason": "Raw working-tree bytes can differ across Windows/WSL checkouts because of line-ending conversion without any repository content mutation."
+  },
   "successor_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
   "successor_workflow_id": "pm-starter-evidence-first-code-review-v2",
   "required_checks": [
     "v1_blob_immutable",
+    "v1_worktree_clean",
     "v2_file_present",
     "v2_workflow_id_exact",
     "authority_advisory_only_preserved",
