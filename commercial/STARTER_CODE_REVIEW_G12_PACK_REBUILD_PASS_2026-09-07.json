@@ -1,0 +1,64 @@
+{
+  "schema": "prompt-machine-starter-code-review-g12-pack-rebuild-receipt-v1",
+  "recorded_on": "2026-09-07",
+  "gate": "G12_PACK_REBUILD",
+  "release_profile": "commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_V1.json",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "version": "1.0.0-rc1",
+  "source_head_sha": "010bc9400c7804160644d7f60ee9134c8546f63b",
+  "workflow_run": {
+    "name": "Validate Starter Code Review Edition v1",
+    "run_id": 34147306703,
+    "job_id": 101822002088,
+    "run_attempt": 1,
+    "job_conclusion": "success"
+  },
+  "build": {
+    "builder": "tools/build_starter_code_review_edition.py",
+    "builder_version": "1.0.0",
+    "builds_executed": 2,
+    "build_1_success": true,
+    "build_2_success": true,
+    "archive_byte_identical": true,
+    "build_receipt_byte_identical": true,
+    "deterministic_inputs_only": true
+  },
+  "archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip",
+    "bytes": 14667,
+    "sha256": "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
+    "member_count": 6,
+    "members": [
+      "README.md",
+      "QUICKSTART.md",
+      "WORKFLOW.md",
+      "EVIDENCE.md",
+      "RELEASE-NOTICE.md",
+      "MANIFEST.json"
+    ],
+    "payload_fingerprint_sha256": "592977b47bc77d1b431ea14c20e033091f9678d748dbf30355b6fcb4f30902ab"
+  },
+  "workflow_identity": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "artifact": {
+    "github_actions_artifact_id": 10028112088,
+    "artifact_name": "prompt-machine-starter-code-review-edition-v1.0.0-rc1",
+    "artifact_wrapper_digest": "sha256:caa48e13f1f97d71c9b5ee2b38c9aeb4b7405c0afb849244e40fbc59f7922ef0",
+    "artifact_expiry": "2026-12-06T17:22:05Z"
+  },
+  "portability_classification": "MODEL_SPECIFIC",
+  "validated_model": "gemini-3.5-flash",
+  "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+  "customer_license_frozen": false,
+  "public_sale": false,
+  "provider_custody_observed": false,
+  "delivery_observed": false,
+  "result": "PASS",
+  "gate_state": "COMPLETE",
+  "claim_boundary": "DETERMINISTIC_PACKAGING_ONLY_NOT_PROVIDER_CUSTODY_DELIVERY_VALUE_OR_REVENUE",
+  "next_gate": "G13_PACK_LEVEL_QA"
+}
