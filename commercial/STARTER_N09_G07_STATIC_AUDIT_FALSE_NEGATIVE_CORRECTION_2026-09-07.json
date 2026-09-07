@@ -1,0 +1,32 @@
+{
+  "schema": "prompt-machine-starter-n09-g07-static-audit-correction-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G07_IMPROVEMENT_STATIC_AUDIT",
+  "affected_validator": "tools/validate_starter_code_review_v2_static.py",
+  "affected_check": "v1_blob_immutable",
+  "observed_false_failure": {
+    "validator_verdict": "FAIL",
+    "reported_v1_actual_blob": "2416aa74beeb591a9f20e8945fa59bcda484ace2",
+    "expected_repository_git_blob": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+    "all_other_static_checks_passed": true
+  },
+  "independent_repository_verification": {
+    "source_v1_path": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+    "github_head_blob": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+    "v1_repository_content_mutated": false
+  },
+  "root_cause": "The validator used git hash-object on raw working-tree bytes. On a Windows/WSL checkout, line-ending conversion can produce CRLF working-tree bytes while the Git repository blob remains the canonical LF-normalized object. The raw working-tree object hash is therefore not a valid repository-immutability assertion.",
+  "correction": {
+    "repository_blob_check": "git rev-parse HEAD:<path>",
+    "working_tree_clean_check": "git diff --quiet HEAD -- <path>",
+    "raw_working_tree_hash_removed_from_immutability_decision": true,
+    "audit_contract_version": "1.0.1"
+  },
+  "classification": "FALSE_NEGATIVE_VALIDATOR_HASH_SEMANTICS",
+  "successor_static_audit_pass_claim": false,
+  "retest_required": true,
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "truth_boundary": "V1_REPOSITORY_BLOB_VERIFIED_UNCHANGED; PRIOR_STATIC_AUDIT_FAIL_INVALIDATED_ONLY_FOR_HASH_SEMANTICS; G07_STATIC_AUDIT_RETEST_REQUIRED"
+}
