@@ -1,0 +1,112 @@
+{
+  "schema": "prompt-machine-starter-n09-g09-openai-static-readiness-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G09_PORTABILITY",
+  "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
+  "state": "PASS_STATIC_ONLY_PREPARED_NOT_AUTHORIZED",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "candidate_contract_version": "2.2.0",
+  "canonical_surface": {
+    "manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+    "manifest_github_blob_sha": "b3b83007d4a30654055799ed85598bfac497f025",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "source_g08": {
+    "receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+    "receipt_github_blob_sha": "d36d952d84ae8dc9d71317cc711476acb65d95f4",
+    "result": "PASS_4_OF_4"
+  },
+  "g09_design": {
+    "path": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
+    "github_blob_sha": "931488b83363931f8ad0cd04d5fef052cbffee62",
+    "requires_new_non_gemini_family": true,
+    "same_four_cases": true,
+    "same_evaluation_contracts": true,
+    "same_surface": true
+  },
+  "runtime_plan": {
+    "path": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json",
+    "github_blob_sha": "dd9160ed9678ac2c3982ebc34880c53d33e1d58b",
+    "version": "1.0.1",
+    "provider": "OPENAI_RESPONSES_API",
+    "model_family": "OPENAI_GPT_5_6",
+    "model": "gpt-5.6-luna",
+    "maximum_provider_requests_total": 4,
+    "maximum_provider_requests_per_case": 1,
+    "automatic_retries_per_case": 0,
+    "max_output_tokens": 8192,
+    "reasoning_effort": "low",
+    "store": false,
+    "tools_enabled": false
+  },
+  "envelope_freeze": {
+    "path": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
+    "github_blob_sha": "6d45003f7bc4444d31109078a2dc8130d9b34644",
+    "exact_g08_g09_envelope_parity_required": true,
+    "cases": 4
+  },
+  "runner": {
+    "base": "tools/pm_g09_openai_batch_0001.py",
+    "base_github_blob_sha": "0ae18b89fd23343012ba2f8a7a21b6b2f831d015",
+    "hardened_entrypoint": "tools/pm_g09_openai_batch_0001_v2.py",
+    "hardened_entrypoint_github_blob_sha": "09db8a6d16dc6d6c8096c53bb7411696573267be",
+    "preflight_before_authorization_consumption": true,
+    "exact_authorization_required": true,
+    "openai_api_key_checked_locally": true,
+    "openai_api_key_value_recorded": false,
+    "evaluation_contract_sent": false,
+    "expected_result_sent": false,
+    "one_request_per_case": true,
+    "automatic_retries": 0,
+    "human_review_bundle_after_batch": true,
+    "automatic_semantic_judgement": false,
+    "automatic_certification": false,
+    "automatic_promotion": false
+  },
+  "official_provider_contract_review": {
+    "observed_on": "2026-09-07",
+    "model_catalog": "https://platform.openai.com/docs/models",
+    "responses_reference": "https://developers.openai.com/api/reference/cli/resources/responses/methods/create",
+    "observations": [
+      "gpt-5.6-luna is listed as an OpenAI GPT-5.6 model available through Responses API",
+      "reasoning effort is configurable",
+      "max_output_tokens bounds visible output plus reasoning tokens",
+      "store can be disabled",
+      "Responses output contains message/output_text items and usage metadata"
+    ],
+    "budget_correction_applied_before_runtime": true
+  },
+  "static_review_checks": {
+    "g08_pass_receipt_present_and_exact": true,
+    "canonical_surface_identity_bound": true,
+    "non_gemini_family_declared": true,
+    "four_frozen_cases_preserved": true,
+    "evaluation_contracts_remain_out_of_band": true,
+    "exact_g08_envelope_parity_gate_present": true,
+    "credential_value_excluded_from_receipts": true,
+    "provider_errors_create_no_behavioral_observation": true,
+    "transport_errors_create_no_behavioral_observation": true,
+    "no_automatic_retry": true,
+    "no_automatic_certification": true,
+    "no_automatic_promotion": true,
+    "execution_id_labels_g09_openai_batch_0001": true,
+    "output_budget_accounts_for_reasoning_tokens": true
+  },
+  "local_checks_not_yet_observed": [
+    "WSL runtime preflight",
+    "OPENAI_API_KEY presence",
+    "live Responses API transport",
+    "provider model acceptance",
+    "behavioral output",
+    "human review"
+  ],
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "authorization_consumed": false,
+  "authorization_state": "DISARMED_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED",
+  "g09_result": "NOT_OBSERVED",
+  "claim_boundary": "STATIC READINESS DOES NOT ESTABLISH PORTABILITY",
+  "verdict": "PASS_STATIC_ONLY_PREPARED_NOT_AUTHORIZED"
+}
