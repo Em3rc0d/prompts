@@ -1,0 +1,66 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-1-batch-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G08_REGRESSION",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.1.0",
+  "workflow_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "workflow_github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+  "static_reaudit": "commercial/STARTER_N09_G08_V2_1_STATIC_REAUDIT_PASS_2026-09-07.json",
+  "model": "gemini-3.5-flash",
+  "generation_config": {
+    "maxOutputTokens": 4096,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal"
+    }
+  },
+  "cases": [
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+  ],
+  "case_and_evaluation_identity_source": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
+  "reuse_predeclared_evaluation_contracts": true,
+  "maximum_provider_requests_total": 4,
+  "maximum_provider_requests_per_case": 1,
+  "automatic_retries_per_case": 0,
+  "human_review_timing": "AFTER_BATCH",
+  "continue_after_provider_failure": true,
+  "automatic_semantic_judgement": false,
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "authorization_required": true,
+  "authorization_scope": "THIS_EXACT_BATCH_ONLY",
+  "authorization_format": "AUTORIZO PM-STARTER-CR-V2-G08-BATCH-0002: hasta 4 ejecuciones, 0 reintentos por caso.",
+  "pre_provider_integrity_requirements": [
+    "workflow surface Git blob identity equals workflow_github_blob_sha",
+    "contract version is exactly 2.1.0",
+    "all four case files match their previously frozen SHA-256 values",
+    "all four evaluation files match their previously frozen SHA-256 values",
+    "rendered envelopes are generated deterministically from the exact workflow surface plus each frozen fixture",
+    "evaluation contracts and expected results are absent from every runtime envelope",
+    "output root does not already exist"
+  ],
+  "previous_batch_interpretation": {
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001": "PASS",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001": "NO_OBSERVATION_PROVIDER_503",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001": "FAIL_REWORK",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001": "PASS"
+  },
+  "retest_rationale": "The workflow surface changed globally after failure mining. All four frozen regression cases must run again to test the correction, catch regressions in previously passing behaviors, and obtain the missing embedded-override observation.",
+  "output_root": "$HOME/.local/share/prompt-machine/n09/g08-v2-batch-0002",
+  "does_not_imply": [
+    "G08_PASS",
+    "G09_PORTABILITY_PASS",
+    "CERTIFIED",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "truth_boundary": "BATCH_0002_PLAN_ONLY; ZERO_PROVIDER_REQUESTS; ZERO_NEW_RUNTIME_OBSERVATIONS; AUTHORIZATION_NOT_YET_GRANTED"
+}
