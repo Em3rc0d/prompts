@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "recorded_on": "2026-09-07",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
@@ -114,12 +114,20 @@
       "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
       "plan": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json",
       "envelope_freeze": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
+      "static_readiness": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json",
       "base_runner": "tools/pm_g09_openai_batch_0001.py",
       "hardened_entrypoint": "tools/pm_g09_openai_batch_0001_v2.py",
       "provider": "OPENAI_RESPONSES_API",
       "model_family": "OPENAI_GPT_5_6",
       "model": "gpt-5.6-luna",
       "credential_environment_variable": "OPENAI_API_KEY",
+      "generation": {
+        "max_output_tokens": 8192,
+        "reasoning_effort": "low",
+        "store": false,
+        "tools_enabled": false,
+        "rationale": "OpenAI Responses API max_output_tokens includes visible output and reasoning tokens; 8192 reduces invalid truncation risk while remaining bounded."
+      },
       "maximum_provider_requests": 4,
       "maximum_provider_requests_per_case": 1,
       "automatic_retries_per_case": 0,
@@ -137,5 +145,5 @@
   "current_g08_authorization_state": "DISARMED_G08_PASS_NO_FURTHER_G08_RUNTIME_AUTHORIZED",
   "current_g09_authorization_state": "DISARMED_NOT_AUTHORIZED",
   "next_gate": "G09_OPENAI_BATCH_0001_LOCAL_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_AFTER_EXACT_FRESH_AUTHORIZATION",
-  "truth_boundary": "G05_FAIL_REWORK_HISTORICAL; G06_CLOSED; G07_STATIC_PASS; G08_PASS_4_OF_4_ON_GEMINI; EXACT_V2_2_SURFACE_CANONICAL; G09_OPENAI_GPT_5_6_BATCH_PREPARED_NOT_AUTHORIZED; PORTABILITY_NOT_YET_OBSERVED; NO_AUTOMATIC_CERTIFICATION_OR_PROMOTION; PRODUCT_READY_NO; READY_TO_SELL_NO; PUBLIC_CHECKOUT_OFF; PQ_DOLLAR_ONE_NOT_OBSERVED"
+  "truth_boundary": "G05_FAIL_REWORK_HISTORICAL; G06_CLOSED; G07_STATIC_PASS; G08_PASS_4_OF_4_ON_GEMINI; EXACT_V2_2_SURFACE_CANONICAL; G09_OPENAI_GPT_5_6_BATCH_STATIC_READY_PREPARED_NOT_AUTHORIZED; PORTABILITY_NOT_YET_OBSERVED; NO_AUTOMATIC_CERTIFICATION_OR_PROMOTION; PRODUCT_READY_NO; READY_TO_SELL_NO; PUBLIC_CHECKOUT_OFF; PQ_DOLLAR_ONE_NOT_OBSERVED"
 }
