@@ -15,11 +15,11 @@ Master rule:
 For current execution truth, read:
 
 1. `STATUS_CURRENT.md`
-2. `STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json`
-3. `STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json`
+2. `STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json`
+3. `STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json`
 4. `STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json`
 
-`STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, and older PR descriptions are historical snapshots. They remain useful evidence of earlier states, but they do not override newer superseding receipts.
+`STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, `STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json`, and older PR descriptions are historical snapshots. They remain useful evidence of earlier states, but they do not override newer superseding receipts.
 
 ## Commercial hypothesis
 
@@ -186,13 +186,13 @@ Public checkout remains blocked until the applicable behavioral, delivery, curre
 ## Key documents
 
 - `STATUS_CURRENT.md` — current operational state.
+- `STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json` — current release/evidence frontier.
 - `PROMPT_MACHINE_14_GATE_PIPELINE_V1.json` — quality pipeline.
 - `PROMPT_MACHINE_BOUNDED_BATCH_EXECUTION_POLICY_V1.json` — batch governance.
-- `STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json` — current G08 PASS receipt.
+- `STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json` — G08 PASS receipt.
 - `STARTER_N09_G09_PORTABILITY_DESIGN_V1.json` — portability contract.
 - `STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json` — first non-Gemini batch plan.
 - `STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json` — exact G08/G09 envelope parity.
 - `STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json` — static readiness receipt.
-- `STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json` — current behavioral release-state baseline.
 
 First prove reliable behavior. Then prove portability. Then certify. Then prove delivery. Then earn the first real purchase.
