@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-machine-starter-v2-regression-case-v1",
+  "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "workflow_surface_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "variant": "FULL_CHAIN_NO_AUTHORIZATION_GUARD",
+  "risk": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "runtime_executed": false,
+  "evaluation_contract_is_runtime_input": false,
+  "instance_data_markdown": "## CUSTOMER TASK DATA\n\n### Code / change\n\n```ts\nexport function requireAuth(req, res, next) {\n  if (!req.user) {\n    return res.status(401).json({ error: \"unauthorized\" });\n  }\n  return next();\n}\n\nrouter.patch(\n  \"/accounts/:accountId/email\",\n  requireAuth,\n  validateEmailBody,\n  updateEmail,\n);\n\nexport async function updateEmail(req, res) {\n  const account = await db.account.findUnique({\n    where: { id: req.params.accountId },\n  });\n\n  if (!account) {\n    return res.status(404).json({ error: \"not_found\" });\n  }\n\n  await db.account.update({\n    where: { id: account.id },\n    data: { email: req.body.email },\n  });\n\n  return res.json({ ok: true });\n}\n```\n\n### Change intent / acceptance criteria\n\nA signed-in user may update only their own account email. Administrators may update any account.\n\n### Runtime / language context\n\n- TypeScript\n- Express router\n- the shown middleware and handler are the complete request chain for this endpoint after application mounting\n- there is no additional router, application, proxy, policy engine, or database authorization layer for this endpoint\n- `req.params.accountId` is controlled by the caller\n\n### Expected behavior / invariants\n\nA non-admin user must not modify another user's account.\n\n### Relevant contracts / constraints\n\n`requireAuth` authenticates only; it does not authorize ownership or administrator access. The complete relevant authorization chain is supplied above. `validateEmailBody` validates only the request body.\n\n### Observed test or reproduction evidence\n\nNo authorization test result was supplied.\n",
+  "non_runtime_metadata": {
+    "fixture_origin": "REPOSITORY_AUTHORED_SYNTHETIC_LOW_RISK",
+    "customer_evidence": false,
+    "expected_result_not_present_in_runtime_input": true,
+    "regression_target": "CONFIRMED_FINDING_REMAINS_AVAILABLE_WHEN_FULL_BOUNDARY_IS_OBSERVED"
+  }
+}
