@@ -46,27 +46,47 @@ jobs:
             /tmp/pm-starter-cr-build-2/prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip
 
       - name: Run independent pack QA on both builds
+        id: qa
+        shell: bash
         run: |
-          set -euo pipefail
+          set +e
+          set -o pipefail
           python tools/validate_starter_code_review_edition.py \
             --archive /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip \
             | tee /tmp/pm-starter-cr-build-1/pack-qa.json
+          rc1=${PIPESTATUS[0]}
           python tools/validate_starter_code_review_edition.py \
             --archive /tmp/pm-starter-cr-build-2/prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip \
             | tee /tmp/pm-starter-cr-build-2/pack-qa.json
+          rc2=${PIPESTATUS[0]}
           cmp /tmp/pm-starter-cr-build-1/pack-qa.json /tmp/pm-starter-cr-build-2/pack-qa.json
+          cmp_rc=$?
+          printf '%s %s %s\n' "$rc1" "$rc2" "$cmp_rc" > /tmp/pm-starter-cr-qa-status.txt
+          exit 0
 
       - name: Show canonical build evidence
+        if: always()
         run: |
           set -euo pipefail
           cat /tmp/pm-starter-cr-build-1/build-receipt.json
           cat /tmp/pm-starter-cr-build-1/pack-qa.json
+          cat /tmp/pm-starter-cr-qa-status.txt
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: prompt-machine-starter-code-review-edition-v1.0.0-rc1
           path: |
             /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip
             /tmp/pm-starter-cr-build-1/build-receipt.json
             /tmp/pm-starter-cr-build-1/pack-qa.json
+            /tmp/pm-starter-cr-qa-status.txt
           if-no-files-found: error
+
+      - name: Enforce pack QA verdict
+        run: |
+          set -euo pipefail
+          read -r rc1 rc2 cmp_rc < /tmp/pm-starter-cr-qa-status.txt
+          test "$rc1" = "0"
+          test "$rc2" = "0"
+          test "$cmp_rc" = "0"
