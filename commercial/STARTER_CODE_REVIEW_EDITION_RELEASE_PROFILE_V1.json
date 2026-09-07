@@ -1,0 +1,67 @@
+{
+  "schema": "prompt-machine-starter-release-profile-v1",
+  "recorded_on": "2026-09-07",
+  "profile_id": "PM-STARTER-CODE-REVIEW-EDITION-V1",
+  "commercial_name": "Prompt Machine Starter — Code Review Edition",
+  "release_candidate_version": "1.0.0-rc1",
+  "price_hypothesis_usd": 9,
+  "product_scope": {
+    "included_workflows": [
+      {
+        "workflow_id": "pm-starter-evidence-first-code-review-v2",
+        "contract_version": "2.2.0",
+        "surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+        "surface_bytes": 25295,
+        "surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+      }
+    ],
+    "excluded_workflows": [
+      {
+        "workflow": "Evidence-first Bug Diagnosis",
+        "reason": "DEFERRED_UNTIL_OWN_BEHAVIORAL_CERTIFICATION"
+      }
+    ],
+    "workflow_count": 1
+  },
+  "evidence_scope": {
+    "g08_regression": "PASS_4_OF_4",
+    "g09_classification": "MODEL_SPECIFIC",
+    "validated_provider": "GOOGLE_GEMINI_API",
+    "validated_model_family": "GEMINI_3_5",
+    "validated_model": "gemini-3.5-flash",
+    "other_model_families": "UNVERIFIED"
+  },
+  "current_candidate_gate_mapping": {
+    "F4_TESTED": "PASS_FROM_REAL_G08_RUNTIME_EVIDENCE_FOR_CURRENT_V2_2_CANDIDATE",
+    "F5_IMPROVED": "PASS_FROM_G05_FAILURE_TO_G06_MINING_TO_G07_SUCCESSOR_TO_G08_RETEST_TRACE",
+    "F7_PORTABILITY_CLASSIFIED": "MODEL_SPECIFIC",
+    "F6_CERTIFIED": "PENDING_G11_AT_PROFILE_CREATION"
+  },
+  "customer_positioning": {
+    "primary_outcome": "Review software changes with explicit evidence discipline, calibrated uncertainty, and a human-controlled ship recommendation.",
+    "not_sold_as": ["prompt count", "universal model portability", "automatic code approval", "security guarantee"],
+    "authority": "ADVISORY_ONLY"
+  },
+  "allowed_public_claims_before_g14": [
+    "Tested on a frozen four-case regression matrix using Gemini 3.5 Flash.",
+    "Designed to preserve uncertainty when material external context is missing.",
+    "Keeps embedded task data separate from workflow authority.",
+    "Human review remains the final ship authority."
+  ],
+  "forbidden_public_claims": [
+    "works on every model",
+    "model agnostic",
+    "portable",
+    "guarantees secure code",
+    "automatically approves code",
+    "product ready before G14",
+    "ready to sell before G14"
+  ],
+  "release_strategy": "SCOPE_CONTRACTION_NOT_EVIDENCE_RELAXATION",
+  "rationale": "The two-workflow Starter collection cannot be certified from Code Review evidence alone. The first release candidate therefore includes only the workflow that has completed the observed improvement/regression path. Bug Diagnosis remains available for future certification but is not part of this release candidate.",
+  "historical_starter_v1_immutable": true,
+  "public_checkout": "OFF",
+  "product_ready": false,
+  "ready_to_sell": false,
+  "next_gate": "G10_HUMAN_VALUE_REVIEW"
+}
