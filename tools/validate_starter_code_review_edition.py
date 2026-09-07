@@ -92,10 +92,16 @@ def main() -> int:
         evidence = data.get("EVIDENCE.md", b"").decode("utf-8", errors="replace")
         notice = data.get("RELEASE-NOTICE.md", b"").decode("utf-8", errors="replace")
         customer_text = "\n".join([readme, quickstart, evidence, notice])
+        quickstart_lower = quickstart.lower()
 
         checks["bug_diagnosis_not_packaged"] = "Evidence-first Bug Diagnosis" not in customer_text and "bug-diagnosis" not in " ".join(names).lower()
         checks["readme_names_gemini_scope"] = EXPECTED_MODEL in readme
-        checks["quickstart_preserves_human_authority"] = "human remains the final ship authority" in quickstart
+        checks["quickstart_preserves_human_authority"] = (
+            "advisory recommendations" in quickstart_lower
+            and "human" in quickstart_lower
+            and "authorized gate" in quickstart_lower
+            and "decides what ships" in quickstart_lower
+        )
         checks["evidence_names_model_specific"] = "MODEL_SPECIFIC" in evidence and EXPECTED_MODEL in evidence
         checks["evidence_forbids_universal_portability"] = "model-agnostic" in evidence and "universally portable" in evidence
         checks["release_notice_not_for_sale"] = "NOT FOR SALE" in notice
