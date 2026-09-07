@@ -1,15 +1,12 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "recorded_on": "2026-09-07",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
   "execution_control_plane": "LOCAL_WSL_PROCESS",
-  "inference_provider": "GOOGLE_GEMINI_API",
-  "credential_environment_variable": "GEMINI_API_KEY",
   "credential_must_remain_local": true,
   "credential_must_not_be_committed": true,
-  "preferred_strict_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
   "cloud_runtime_surfaces_allowed": false,
   "runtime_evidence_storage": {
     "location": "LOCAL_WSL_FILESYSTEM_ONLY",
@@ -40,11 +37,28 @@
     "automatic_promotion": false,
     "automatic_next_gate": false
   },
+  "provider_surfaces": {
+    "g08_source_family": {
+      "provider": "GOOGLE_GEMINI_API",
+      "model_family": "GEMINI_3_5",
+      "model": "gemini-3.5-flash",
+      "credential_environment_variable": "GEMINI_API_KEY",
+      "state": "HISTORICAL_G08_PASS_SOURCE_FAMILY_NO_NEW_G08_RUNTIME_AUTHORIZED"
+    },
+    "g09_portability_family": {
+      "provider": "OPENAI_RESPONSES_API",
+      "model_family": "OPENAI_GPT_5_6",
+      "model": "gpt-5.6-luna",
+      "credential_environment_variable": "OPENAI_API_KEY",
+      "credential_value_must_not_be_recorded": true,
+      "state": "PREPARED_NOT_AUTHORIZED"
+    }
+  },
   "g05": {
     "clean_behavioral_observations": 1,
     "passes": 0,
     "fails": 1,
-    "result": "FAIL_REWORK"
+    "result": "FAIL_REWORK_HISTORICAL"
   },
   "g06": {
     "state": "CLOSED_ROOT_CAUSE_LOCALIZED",
@@ -56,51 +70,72 @@
     "initial_successor_static_state": "PASS"
   },
   "g08": {
-    "design": "commercial/STARTER_N09_G08_V2_REGRESSION_DESIGN_V1.json",
-    "original_freeze_receipt": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
     "required_regression_cases": 4,
     "historical_attempts_preserved": {
       "standalone_boundary_unknown": "FAIL_REWORK_OUTPUT_CONTRACT_TRUNCATED_MAX_TOKENS",
       "batch_0001": "REWORK_2_PASS_1_FAIL_1_PROVIDER_FAILURE",
       "batch_0002": "REWORK_3_PASS_1_FAIL"
     },
-    "v2_2_candidate": {
+    "canonical_candidate": {
+      "workflow_id": "pm-starter-evidence-first-code-review-v2",
       "contract_version": "2.2.0",
-      "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
-      "base_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
-      "hardening_addendum": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
-      "static_reaudit": "commercial/STARTER_N09_G08_V2_2_STATIC_REAUDIT_PASS_2026-09-07.json",
-      "static_state": "PASS_STATIC_ONLY",
-      "behavioral_state": "PASS_G08"
+      "surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+      "surface_bytes": 25295,
+      "surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
     },
-    "batch_0003": {
+    "passing_batch": {
       "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
-      "plan": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_PLAN.json",
-      "runner": "tools/pm_g08_batch_0003.py",
+      "provider": "GOOGLE_GEMINI_API",
+      "model": "gemini-3.5-flash",
       "provider_requests_attempted": 4,
       "behavioral_observations": 4,
-      "provider_failures_without_observation": 0,
       "human_review_passes": 4,
       "human_review_fails": 0,
+      "automatic_retries": 0,
       "all_http_status": 200,
       "all_finish_reasons": "STOP",
+      "evaluation_contract_sent": false,
+      "expected_result_sent": false,
       "authorization_consumed": true,
-      "execution_id_labeling_fixed": true,
-      "human_review_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
-      "result": "PASS"
-    },
-    "aggregate_behavioral_evidence": {
-      "behavioral_observations": 12,
-      "human_review_passes": 9,
-      "human_review_fails": 3,
-      "provider_failures_without_observation": 1,
-      "historical_failures_preserved": true
+      "human_review_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json"
     },
     "g08_result": "PASS",
     "g08_decision": "REGRESSION_CLOSED_ADVANCE_TO_G09_PORTABILITY"
   },
-  "current_authorization_state": "DISARMED_BATCH_0003_AUTHORIZATION_CONSUMED",
+  "g09": {
+    "design": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
+    "state": "PREPARED_NOT_AUTHORIZED",
+    "baseline_requirement": "FOUR_OF_FOUR_PASS_ON_ONE_DECLARED_NON_GEMINI_MODEL_FAMILY",
+    "same_canonical_surface_required": true,
+    "same_four_frozen_cases_required": true,
+    "same_predeclared_evaluation_contracts_required": true,
+    "clean_independent_context_required": true,
+    "batch": {
+      "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
+      "plan": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json",
+      "envelope_freeze": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
+      "base_runner": "tools/pm_g09_openai_batch_0001.py",
+      "hardened_entrypoint": "tools/pm_g09_openai_batch_0001_v2.py",
+      "provider": "OPENAI_RESPONSES_API",
+      "model_family": "OPENAI_GPT_5_6",
+      "model": "gpt-5.6-luna",
+      "credential_environment_variable": "OPENAI_API_KEY",
+      "maximum_provider_requests": 4,
+      "maximum_provider_requests_per_case": 1,
+      "automatic_retries_per_case": 0,
+      "evaluation_contract_is_runtime_input": false,
+      "expected_result_is_runtime_input": false,
+      "human_review_required": true,
+      "exact_g08_envelope_parity_required_before_authorization_consumption": true,
+      "authorization_state": "DISARMED_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED"
+    },
+    "claim_boundary_after_pass": "PORTABILITY_OBSERVED_ACROSS_TWO_MODEL_FAMILIES_ONLY",
+    "automatic_certification": false,
+    "automatic_promotion": false
+  },
+  "current_authorization_state": "DISARMED_G09_OPENAI_BATCH_0001_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED",
   "current_g08_authorization_state": "DISARMED_G08_PASS_NO_FURTHER_G08_RUNTIME_AUTHORIZED",
-  "next_gate": "G09_PORTABILITY_DESIGN_AND_ZERO_MODEL_PREPARATION",
-  "truth_boundary": "G05_FAIL_REWORK; G06_CLOSED; G07_SUCCESSOR_STATIC_PASS; G08_HISTORICAL_FAILURES_PRESERVED; V2_2_BATCH_0003_4_OF_4_HUMAN_REVIEW_PASS; G08_PASS; NEXT_G09_PORTABILITY; NO_AUTOMATIC_PROMOTION; NO_PRODUCT_READY_OR_READY_TO_SELL_CLAIM"
+  "current_g09_authorization_state": "DISARMED_NOT_AUTHORIZED",
+  "next_gate": "G09_OPENAI_BATCH_0001_LOCAL_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_AFTER_EXACT_FRESH_AUTHORIZATION",
+  "truth_boundary": "G05_FAIL_REWORK_HISTORICAL; G06_CLOSED; G07_STATIC_PASS; G08_PASS_4_OF_4_ON_GEMINI; EXACT_V2_2_SURFACE_CANONICAL; G09_OPENAI_GPT_5_6_BATCH_PREPARED_NOT_AUTHORIZED; PORTABILITY_NOT_YET_OBSERVED; NO_AUTOMATIC_CERTIFICATION_OR_PROMOTION; PRODUCT_READY_NO; READY_TO_SELL_NO; PUBLIC_CHECKOUT_OFF; PQ_DOLLAR_ONE_NOT_OBSERVED"
 }
