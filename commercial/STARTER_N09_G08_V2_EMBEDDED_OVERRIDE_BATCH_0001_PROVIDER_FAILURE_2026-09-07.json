@@ -1,0 +1,17 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-provider-failure-v1",
+  "recorded_on": "2026-09-07",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+  "execution_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001-G08-BATCH-0001-1DA0D6412869",
+  "http_status": 503,
+  "provider_requests_attempted": 1,
+  "automatic_retries": 0,
+  "behavioral_observations": 0,
+  "response_body_sha256": "01f5c7d4e4d8ec06c8098777e731b3d552ba518feb02b681f6c569edcd9c6f6d",
+  "semantic_result": "NOT_OBSERVED",
+  "classification": "PROVIDER_FAILURE_NOT_WORKFLOW_SEMANTIC_FAILURE",
+  "authorization_consumed": true,
+  "automatic_retry_allowed": false,
+  "truth_boundary": "ONE_PROVIDER_REQUEST_HTTP_503_ZERO_MODEL_OUTPUT_ZERO_BEHAVIORAL_OBSERVATION"
+}
