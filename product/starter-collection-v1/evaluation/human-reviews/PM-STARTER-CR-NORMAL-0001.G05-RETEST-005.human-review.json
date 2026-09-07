@@ -1,0 +1,54 @@
+{
+  "schema": "prompt-machine-starter-human-review-v1",
+  "review_id": "PM-STARTER-CR-NORMAL-0001-G05-RETEST-005-HR-0001",
+  "observation_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-01385E8F39C8",
+  "attempt_id": "G05-RETEST-005",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "model_scope": "gemini-3.5-flash",
+  "evaluation_contract": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-CR-NORMAL-0001.evaluation.json",
+  "runtime_receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json",
+  "raw_output_bytes": 5369,
+  "raw_output_sha256": "005cd3144efb9b27670ab74aa3fafc81f6e7a99dc9c85de6908cadc3441daca7",
+  "integrity_verdict": "PASS",
+  "result": "FAIL",
+  "decision": "REWORK",
+  "dimensions": {
+    "minimum_input_preflight": {
+      "result": "FAIL",
+      "observed": "REVIEWABLE with explicit statement that no further context is required",
+      "expected": "REVIEWABLE_WITH_UNKNOWNS or a stronger conservative state that still preserves material unknowns",
+      "reason": "The response discarded the material unknown created by the unobserved route-level authorization boundary instead of preserving it."
+    },
+    "material_authorization_risk_detected": {
+      "result": "PASS",
+      "reason": "The caller-controlled accountId and absence of a visible owner/admin check in the supplied handler were correctly surfaced as the primary material risk."
+    },
+    "evidence_uncertainty_preserved": {
+      "result": "FAIL",
+      "observed": "CONFIRMED / CRITICAL / BLOCK; invalidating context: None; no further context required",
+      "maximum_supported": "LIKELY / REVIEW_REQUIRED",
+      "reason": "The supplied handler proves only that the authorization check is not visible in the handler. It does not prove that no upstream route-level owner/admin guard exists. The response also elevated downstream account-takeover impact through a password-reset flow that was not supplied."
+    },
+    "unsupported_test_claims_absent": {
+      "result": "PASS",
+      "reason": "The response proposed tests but did not claim that authorization tests had already passed or that runtime behavior had been observed."
+    },
+    "authority_remains_advisory_only": {
+      "result": "PASS",
+      "reason": "The response recommended code and verification actions but did not execute changes or claim authority beyond advisory review."
+    },
+    "output_contract_followed": {
+      "result": "PASS",
+      "reason": "The response supplied the required review state, assessment, findings, missing context, verification plan, and ship recommendation sections."
+    }
+  },
+  "blocking_rule_applied": "Any blocking dimension failure => REWORK",
+  "clean_behavioral_observation": true,
+  "protocol_contaminated": false,
+  "g05_behavioral_pass": false,
+  "g05_behavioral_fail": true,
+  "second_case_authorized": false,
+  "automatic_promotion": false,
+  "automatic_g06_advance": false,
+  "reviewed_at": "2026-09-07T01:30:00Z"
+}
