@@ -4,6 +4,10 @@
 Adds an exact per-case envelope identity gate to the base OpenAI runner. The
 four rendered runtime envelopes must match the byte counts and SHA-256 values
 observed on the G08 BATCH-0003 PASS path before authorization can be consumed.
+
+The operational output ceiling is 8192 because OpenAI Responses API counts
+visible output and reasoning tokens against max_output_tokens. The base module
+is overridden here before its preflight and request functions execute.
 """
 from __future__ import annotations
 
@@ -16,6 +20,10 @@ ENVELOPE_FREEZE = (
     base.ROOT
     / "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json"
 )
+OPERATIONAL_MAX_OUTPUT_TOKENS = 8192
+
+# Bind the base runner to the reviewed G09 plan before preflight executes.
+base.MAX_OUTPUT_TOKENS = OPERATIONAL_MAX_OUTPUT_TOKENS
 
 _original_load_and_preflight = base.load_and_preflight
 
@@ -29,6 +37,9 @@ def load_and_preflight(output_root: Path):
         expected = freeze.get("envelopes") or {}
         rendered = report.get("rendered_envelopes") or {}
 
+        checks["g09_operational_output_budget_8192"] = (
+            base.MAX_OUTPUT_TOKENS == OPERATIONAL_MAX_OUTPUT_TOKENS
+        )
         checks["g09_envelope_freeze_loadable"] = True
         checks["g09_envelope_freeze_batch_exact"] = (
             freeze.get("batch_id") == base.BATCH_ID
@@ -64,6 +75,7 @@ def load_and_preflight(output_root: Path):
     report["failed_checks"] = failed
     report["verdict"] = "PASS" if not failed else "FAIL"
     report["envelope_freeze"] = str(ENVELOPE_FREEZE.relative_to(base.ROOT))
+    report["operational_max_output_tokens"] = OPERATIONAL_MAX_OUTPUT_TOKENS
     report["authorization_not_consumed_during_preflight"] = True
     report["truth_boundary"] = (
         "ZERO_MODEL_G09_PREFLIGHT_WITH_EXACT_G08_ENVELOPE_PARITY_"
