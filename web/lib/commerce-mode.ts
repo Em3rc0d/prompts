@@ -12,3 +12,7 @@ export function currentCommerceMode(envKey = "DEVELOPER_PACK_COMMERCE_MODE"): Co
 export function currentStarterCommerceMode(): CommerceMode {
   return currentCommerceMode("STARTER_COLLECTION_COMMERCE_MODE");
 }
+
+export function currentStarterCodeReviewCommerceMode(): CommerceMode {
+  return currentCommerceMode("STARTER_CODE_REVIEW_COMMERCE_MODE");
+}
