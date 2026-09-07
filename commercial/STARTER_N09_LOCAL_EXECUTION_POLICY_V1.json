@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "recorded_on": "2026-09-07",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
@@ -9,137 +9,123 @@
   "credential_environment_variable": "GEMINI_API_KEY",
   "credential_must_remain_local": true,
   "credential_must_not_be_committed": true,
-  "github_actions_runtime_trigger_allowed": false,
-  "public_or_cloud_runtime_endpoint_allowed": false,
-  "vercel_runtime_surface_allowed": false,
-  "github_hosted_runtime_execution_allowed": false,
-  "github_artifact_upload_of_runtime_output_allowed": false,
-  "cloud_execution_surfaces_retired_from_active_branch": true,
-  "historical_cloud_attempt_receipts_preserved": true,
   "preferred_strict_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
-  "provider_transport": {
-    "api_family": "Gemini generateContent",
-    "authentication": "x-goog-api-key header sourced from local GEMINI_API_KEY",
-    "model_selection": "EXPLICIT_PER_EXECUTION",
-    "automatic_retries": 0
-  },
+  "cloud_runtime_surfaces_allowed": false,
   "runtime_evidence_storage": {
     "location": "LOCAL_WSL_FILESYSTEM_ONLY",
     "default_root": "$HOME/.local/share/prompt-machine/n09",
     "automatic_upload": false
   },
-  "global_runtime_governance": {
-    "fresh_explicit_authorization_required_for_each_runtime_attempt": true,
-    "maximum_provider_requests_per_authorization": 1,
-    "automatic_retries": 0,
-    "automatic_next_case": false,
-    "evaluation_contract_is_runtime_input": false,
-    "expected_result_is_runtime_input": false,
-    "human_review_required": true,
+  "runtime_governance": {
+    "fresh_explicit_authorization_required": true,
+    "authorization_modes": {
+      "single_attempt": {
+        "maximum_provider_requests": 1,
+        "automatic_retries": 0
+      },
+      "bounded_batch": {
+        "policy": "commercial/PROMPT_MACHINE_BOUNDED_BATCH_EXECUTION_POLICY_V1.json",
+        "manifest_must_be_predeclared": true,
+        "case_order_must_be_frozen": true,
+        "maximum_provider_requests_must_be_explicit": true,
+        "maximum_provider_requests_per_case": 1,
+        "automatic_retries_per_case": 0,
+        "evaluation_contract_is_runtime_input": false,
+        "expected_result_is_runtime_input": false,
+        "human_review_required": true
+      }
+    },
+    "automatic_semantic_judgement": false,
     "automatic_certification": false,
-    "automatic_promotion": false
+    "automatic_promotion": false,
+    "automatic_next_gate": false
   },
-  "g05_history": {
-    "provider_503_attempts": [
-      "G05-BASELINE-001",
-      "G05-BASELINE-002",
-      "G05-BASELINE-003",
-      "G05-FALLBACK-004"
-    ],
-    "provider_503_count": 4,
-    "clean_behavioral_attempt": {
-      "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json",
-      "human_review": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.human-review.json",
-      "failure": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.failure.json",
-      "attempt_id": "G05-RETEST-005",
-      "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-01385E8F39C8",
-      "model": "gemini-3.5-flash",
-      "http_status": 200,
-      "provider_requests_attempted": 1,
-      "automatic_retries": 0,
+  "g05": {
+    "clean_behavioral_observations": 1,
+    "passes": 0,
+    "fails": 1,
+    "result": "FAIL_REWORK",
+    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json"
+  },
+  "g06": {
+    "state": "CLOSED_ROOT_CAUSE_LOCALIZED",
+    "receipt": "commercial/STARTER_N09_G06_FAILURE_MINING_005.json"
+  },
+  "g07": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "v1_preserved": true,
+    "initial_successor_static_state": "PASS",
+    "behavioral_regression_required": true
+  },
+  "g08": {
+    "design": "commercial/STARTER_N09_G08_V2_REGRESSION_DESIGN_V1.json",
+    "original_freeze_receipt": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
+    "required_regression_cases": 4,
+    "standalone_boundary_unknown_observation": {
       "behavioral_observations": 1,
-      "raw_output_bytes": 5369,
-      "raw_output_sha256": "005cd3144efb9b27670ab74aa3fafc81f6e7a99dc9c85de6908cadc3441daca7",
-      "human_review_result": "FAIL",
-      "human_review_decision": "REWORK",
-      "blocking_failures": [
-        "minimum_input_preflight",
-        "evidence_uncertainty_preserved"
-      ],
+      "human_review_result": "FAIL_REWORK_OUTPUT_CONTRACT_TRUNCATED_MAX_TOKENS",
       "authorization_consumed": true
     },
-    "effective_clean_runtime_observations": 1,
-    "effective_clean_runtime_passes": 0,
-    "effective_clean_runtime_fails": 1,
-    "g05_pass": false,
-    "successor_rework_required": true
-  },
-  "provider_diagnostics": {
-    "model_visibility_http_200": true,
-    "exact_envelope_count_tokens_http_200": true,
-    "minimal_generation_control_001": "GENERATION_TRANSPORT_AVAILABLE_SEMANTIC_RESULT_INCONCLUSIVE_MAX_TOKENS_CONTROL_BUDGET",
-    "minimal_generation_control_002": "MINIMAL_GENERATION_CONTROL_PASS_PATH_AND_VISIBLE_TEXT",
-    "generation_path_available": true
-  },
-  "g06_failure_mining": {
-    "receipt": "commercial/STARTER_N09_G06_FAILURE_MINING_005.json",
-    "state": "CLOSED_ROOT_CAUSE_LOCALIZED"
-  },
-  "g07_successor": {
-    "design": "commercial/STARTER_N09_G07_SUCCESSOR_DESIGN_V1.json",
-    "workflow_id": "pm-starter-evidence-first-code-review-v2",
-    "workflow_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
-    "static_audit_pass": "commercial/STARTER_N09_G07_SUCCESSOR_STATIC_AUDIT_PASS_2026-09-07.json",
-    "state": "STATIC_PASS_BEHAVIOR_NOT_YET_REGRESSION_PASSED",
-    "v1_preserved": true
-  },
-  "g08_regression": {
-    "design": "commercial/STARTER_N09_G08_V2_REGRESSION_DESIGN_V1.json",
-    "freeze_receipt": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
-    "freeze_verdict": "PASS",
-    "frozen_cases": 4,
-    "runtime_observations": 1,
-    "runtime_passes": 0,
-    "runtime_fails": 0,
-    "execution_order": [
-      "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
-      "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
-      "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
-      "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
-    ],
-    "first_case": {
-      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
-      "plan": "commercial/STARTER_N09_G08_V2_BOUNDARY_UNKNOWN_001_PLAN.json",
-      "preflight_receipt": "commercial/STARTER_N09_G08_V2_BOUNDARY_UNKNOWN_001_PREFLIGHT_RECEIPT_2026-09-07.json",
-      "runtime_receipt": "commercial/STARTER_N09_G08_V2_BOUNDARY_UNKNOWN_001_RUNTIME_RECEIPT_2026-09-07.json",
-      "human_review_packet": "commercial/STARTER_N09_G08_V2_BOUNDARY_UNKNOWN_001_HUMAN_REVIEW_PACKET.json",
-      "human_review_preparer": "tools/prepare_starter_code_review_v2_g08_boundary_unknown_001_human_review.py",
-      "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-GEMINI-WSL-54994A901604",
-      "state": "CLEAN_RUNTIME_OBSERVED_HUMAN_REVIEW_REQUIRED",
-      "runtime_envelope_bytes": 12008,
-      "runtime_envelope_sha256": "72cfc51bca3b09d88f6230f51a706735ecb985b4c541093833c2ea64a10b6b92",
-      "model": "gemini-3.5-flash",
-      "http_status": 200,
-      "finish_reasons": ["MAX_TOKENS"],
-      "provider_requests_attempted": 1,
-      "automatic_retries": 0,
-      "behavioral_observations": 1,
-      "raw_output_bytes": 2473,
-      "raw_output_sha256": "eb361ff32f28e9c003a349ef4a12e62c44227facda568f0a3c0e004679ba3e37",
-      "human_review_required": true,
-      "human_review_result": null,
-      "authorization_consumed": true,
-      "next_case_authorized": false
+    "batch_0001": {
+      "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+      "provider_requests_attempted": 4,
+      "behavioral_observations": 3,
+      "provider_failures_without_observation": 1,
+      "human_review_passes": 2,
+      "human_review_fails": 1,
+      "result": "REWORK",
+      "failure_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "provider_failure_case": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "authorization_consumed": true
     },
-    "second_case": {
-      "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
-      "authorized": false,
-      "blocked_until_first_case_human_review_pass": true
+    "v2_1_correction": {
+      "contract_version": "2.1.0",
+      "static_reaudit": "PASS_STATIC_ONLY",
+      "goal": "SATISFIED_INVARIANT_STOP_AND_NO_FORCED_FINDINGS"
+    },
+    "batch_0002": {
+      "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+      "provider_requests_attempted": 4,
+      "behavioral_observations": 4,
+      "provider_failures_without_observation": 0,
+      "human_review_passes": 3,
+      "human_review_fails": 1,
+      "result": "REWORK",
+      "failure_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "failure_signature": "SATISFIED_INVARIANT_RECOGNIZED_BUT_HYPOTHETICAL_ADJACENT_PREREQUISITES_STILL_PROMOTED_TO_MATERIAL_FINDINGS",
+      "authorization_consumed": true,
+      "execution_id_label_defect": "Receipts correctly identify batch_id BATCH-0002, but inherited execution_id strings contain G08-BATCH-0001. This is a provenance-label defect, not a semantic ambiguity; BATCH-0003 runner fixes it."
+    },
+    "aggregate_behavioral_evidence_before_batch_0003": {
+      "behavioral_observations": 8,
+      "human_review_passes": 5,
+      "human_review_fails": 3,
+      "provider_failures_without_observation": 1,
+      "g08_pass": false
+    },
+    "v2_2_candidate": {
+      "contract_version": "2.2.0",
+      "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
+      "base_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+      "hardening_addendum": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
+      "failure_mining": "commercial/STARTER_N09_G08_BATCH_0002_FAILURE_MINING.json",
+      "static_reaudit": "commercial/STARTER_N09_G08_V2_2_STATIC_REAUDIT_PASS_2026-09-07.json",
+      "static_state": "PASS_STATIC_ONLY",
+      "behavioral_state": "NOT_YET_RETESTED"
+    },
+    "batch_0003": {
+      "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+      "plan": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_PLAN.json",
+      "runner": "tools/pm_g08_batch_0003.py",
+      "state": "PREPARED_NOT_AUTHORIZED",
+      "maximum_provider_requests": 4,
+      "automatic_retries_per_case": 0,
+      "human_review_after_batch": true,
+      "execution_id_labeling_fixed": true
     }
   },
-  "current_authorization_state": "DISARMED_G05_RETEST_005_AUTHORIZATION_CONSUMED",
-  "current_diagnostic_authorization_state": "DISARMED_PM_GEMINI_MINIMAL_GEN_CTRL_002_AUTHORIZATION_CONSUMED",
-  "current_g08_authorization_state": "DISARMED_BOUNDARY_UNKNOWN_001_AUTHORIZATION_CONSUMED_HUMAN_REVIEW_REQUIRED",
-  "next_gate": "INTEGRITY_CHECKED_HUMAN_REVIEW_FOR_PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
-  "truth_boundary": "G05_RETEST_005_CLEAN_FAIL_REWORK; G06_CLOSED; G07_STATIC_PASS; G08_FOUR_CASE_FREEZE_PASS; ONE_CLEAN_G08_RUNTIME_OBSERVATION; FIRST_CASE_HTTP_200_MAX_TOKENS_PENDING_HUMAN_REVIEW; CASE_2_UNAUTHORIZED"
+  "current_authorization_state": "DISARMED_BATCH_0002_AUTHORIZATION_CONSUMED",
+  "current_g08_authorization_state": "DISARMED_BATCH_0003_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED",
+  "next_gate": "BATCH_0003_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_IF_FRESH_EXPLICIT_AUTHORIZATION",
+  "truth_boundary": "G05_FAIL_REWORK; G06_CLOSED; G07_SUCCESSOR_STATIC_PASS; G08_BATCH_0001_REWORK; V2_1_BATCH_0002_REWORK_3_PASS_1_FAIL; V2_2_STATIC_PASS_ONLY; BATCH_0003_PREPARED_NOT_AUTHORIZED; G08_NOT_PASS; NO_AUTOMATIC_PROMOTION"
 }
