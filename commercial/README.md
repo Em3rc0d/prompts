@@ -1,6 +1,6 @@
 # Prompt Machine Commercial System
 
-Status: `ACTIVE EVIDENCE DEVELOPMENT / NOT FOR SALE`
+Status: `EVIDENCE CYCLE CLOSED AT G08 / NOT FOR SALE`
 
 Prompt Machine is the customer-facing platform. Prompt Quarry is the internal factory that discovers, shapes, tests, improves, and certifies reusable AI workflows.
 
@@ -12,14 +12,12 @@ Master rule:
 
 ## Read current truth first
 
-For current execution truth, read:
-
 1. `STATUS_CURRENT.md`
-2. `STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json`
+2. `STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json`
 3. `STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json`
-4. `STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json`
+4. `STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json`
 
-`STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, `STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json`, and older PR descriptions are historical snapshots. They remain useful evidence of earlier states, but they do not override newer superseding receipts.
+Older release-state snapshots, `STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, and older PR descriptions remain historical evidence and do not override the current closure receipt.
 
 ## Commercial hypothesis
 
@@ -34,7 +32,7 @@ Primary milestone:
 
 `PQ-$1 = first real non-test paid purchase successfully delivered`
 
-Current truth:
+Current commercial truth:
 
 ```text
 Starter public sale      OFF
@@ -44,41 +42,22 @@ real Starter purchases   0
 PQ-$1                    NOT OBSERVED
 ```
 
-## Starter quality pipeline
-
-Canonical gate order:
-
-```text
-G01 Inventory
-G02 Specification
-G03 Static Audit
-G04 Test Design
-G05 Baseline Execution
-G06 Failure Mining
-G07 Improvement
-G08 Regression
-G09 Portability
-G10 Human Value Review
-G11 Certification
-G12 Pack Rebuild
-G13 Pack-level QA
-G14 Provider Gates
-```
-
-Current frontier:
+## Starter quality pipeline — closed-cycle state
 
 ```text
 G05  FAIL / REWORK — historical baseline preserved
 G06  CLOSED
 G07  STATIC PASS
 G08  PASS — 4/4 frozen regression cases on Gemini
-G09  STATIC READY / OPENAI BATCH PREPARED / NOT AUTHORIZED
-G10  NOT STARTED
-G11  NOT STARTED
-G12  NOT STARTED
-G13  NOT STARTED
+G09  DEFERRED / NOT OBSERVED
+G10  NOT ENTERED
+G11  NOT ENTERED / NOT CERTIFIED
+G12  NOT ENTERED
+G13  NOT ENTERED
 G14  NOT PASSED
 ```
+
+This evidence cycle is intentionally closed at G08. G09 portability was statically prepared for a second model family, but no runtime observation was purchased. That does not weaken the G08 result and does not create a portability claim.
 
 ## Canonical code-review candidate
 
@@ -89,7 +68,7 @@ surface        composite v2.1 base + normative v2.2 hardening addendum
 bytes          25,295
 sha256         6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
 G08            PASS
-G09            NOT YET PASSED
+G09            NOT OBSERVED
 G11            NOT CERTIFIED
 ```
 
@@ -99,7 +78,7 @@ Identity manifest:
 
 The exact bytes matter. A rewritten or flattened workflow is a new candidate unless equivalence is independently established.
 
-## What G08 proved — and did not prove
+## What G08 proved
 
 Observed on `gemini-3.5-flash`, four frozen cases, zero retries:
 
@@ -108,56 +87,30 @@ Observed on `gemini-3.5-flash`, four frozen cases, zero retries:
 - a supplied owner/admin guard can correctly close the authorization invariant without forced findings;
 - a complete no-guard request chain can support `CONFIRMED / BLOCK`;
 - conditional downstream impacts stay conditional;
-- the output contract completed in all four passing observations.
+- the output contract completed in all four passing observations;
+- all four required final observations received PASS human reviews.
+
+Allowed claim:
+
+`REGRESSION_PROPERTIES_OBSERVED_ON_GEMINI_3_5_FLASH_FOR_THE_FROZEN_FOUR_CASE_MATRIX`
 
 G08 does NOT establish universal portability, certification, provider custody, delivery, customer value, revenue, product readiness, or readiness to sell.
 
-## Current next experiment — G09 portability
+## G09 portability — deliberately deferred
 
-G09 keeps the same four cases, the same out-of-band evaluation contracts, and the exact same canonical v2.2 surface, but runs them on a declared **non-Gemini model family** in a clean independent context.
-
-First prepared portability batch:
+The prepared OpenAI portability artifacts remain in the repository as reusable research/evidence scaffolding, but the batch is closed unconsumed and is not authorized for future reuse.
 
 ```text
-batch                PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001
-provider             OPENAI_RESPONSES_API
-model family         OPENAI_GPT_5_6
-model                gpt-5.6-luna
-cases                same frozen 4
-envelopes            exact G08 byte/hash parity required
-max requests         4 total / 1 per case
-retries              0
-max output tokens    8192
-reasoning            low
-store                false
-tools                none
-human review         required
-authorization        NOT GRANTED
+prepared batch             PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001
+provider requests attempted 0
+runtime observations        0
+portability observed        NO
+prepared authorization      CLOSED / UNCONSUMED / NOT REUSABLE
 ```
 
-Hardened entrypoint:
-
-`tools/pm_g09_openai_batch_0001_v2.py`
-
-Its preflight must pass before authorization can be consumed. It verifies WSL, local `OPENAI_API_KEY` presence without recording the value, the exact canonical surface, exact original case/evaluation hashes, evaluation exclusion, and exact parity with all four G08-passing runtime envelopes.
-
-Baseline G09 PASS requires 4/4 clean observations and 4/4 human-review PASS on the OpenAI family.
-
-The strongest claim after baseline PASS is only:
-
-`PORTABILITY_OBSERVED_ACROSS_TWO_MODEL_FAMILIES_ONLY`
-
-Forbidden even after that pass:
-
-- “works on every model”;
-- unqualified “model agnostic”;
-- “provider independent across all providers”;
-- “certified” before G11;
-- “product ready” or “ready to sell”.
+A future portability experiment requires an accessible second model family, a current frozen plan, a zero-model preflight, and fresh explicit authorization.
 
 ## Commerce boundary
-
-Provider preparation and behavior certification are separate lanes.
 
 ```text
 provider metadata      != custody
@@ -168,7 +121,7 @@ runtime PASS           != certification
 certification          != product readiness
 ```
 
-Public checkout remains blocked until the applicable behavioral, delivery, current-copy, and explicit human release gates are satisfied.
+Public checkout remains OFF.
 
 ## Commercial principles
 
@@ -183,16 +136,14 @@ Public checkout remains blocked until the applicable behavioral, delivery, curre
 9. Do not create subscriptions before one-time demand exists.
 10. `not observed == unknown`.
 
-## Key documents
+## Current action state
 
-- `STATUS_CURRENT.md` — current operational state.
-- `STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json` — current release/evidence frontier.
-- `PROMPT_MACHINE_14_GATE_PIPELINE_V1.json` — quality pipeline.
-- `PROMPT_MACHINE_BOUNDED_BATCH_EXECUTION_POLICY_V1.json` — batch governance.
-- `STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json` — G08 PASS receipt.
-- `STARTER_N09_G09_PORTABILITY_DESIGN_V1.json` — portability contract.
-- `STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json` — first non-Gemini batch plan.
-- `STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json` — exact G08/G09 envelope parity.
-- `STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json` — static readiness receipt.
+```text
+runtime authorization   NONE
+model batch armed        NO
+commerce effects         NONE AUTHORIZED
+merge authorization      NONE
+next required action     NONE FOR THIS CLOSED EVIDENCE CYCLE
+```
 
-First prove reliable behavior. Then prove portability. Then certify. Then prove delivery. Then earn the first real purchase.
+The next stage is not an automatic technical gate. It begins only when a new evidence purchase or commercial decision is explicitly opened.
