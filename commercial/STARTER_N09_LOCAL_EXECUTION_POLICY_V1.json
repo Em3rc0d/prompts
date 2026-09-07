@@ -1,8 +1,8 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "recorded_on": "2026-09-07",
-  "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
+  "policy_state": "EVIDENCE_CYCLE_CLOSED_NO_RUNTIME_AUTHORIZED",
   "execution_location": "USER_WSL",
   "execution_control_plane": "LOCAL_WSL_PROCESS",
   "credential_must_remain_local": true,
@@ -45,13 +45,13 @@
       "credential_environment_variable": "GEMINI_API_KEY",
       "state": "HISTORICAL_G08_PASS_SOURCE_FAMILY_NO_NEW_G08_RUNTIME_AUTHORIZED"
     },
-    "g09_portability_family": {
+    "g09_prepared_family": {
       "provider": "OPENAI_RESPONSES_API",
       "model_family": "OPENAI_GPT_5_6",
       "model": "gpt-5.6-luna",
       "credential_environment_variable": "OPENAI_API_KEY",
       "credential_value_must_not_be_recorded": true,
-      "state": "PREPARED_NOT_AUTHORIZED"
+      "state": "DEFERRED_EXTERNAL_DEPENDENCY_NO_ACCESSIBLE_CREDENTIAL"
     }
   },
   "g05": {
@@ -100,50 +100,49 @@
       "human_review_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json"
     },
     "g08_result": "PASS",
-    "g08_decision": "REGRESSION_CLOSED_ADVANCE_TO_G09_PORTABILITY"
+    "g08_decision": "REGRESSION_CLOSED"
   },
   "g09": {
     "design": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
-    "state": "PREPARED_NOT_AUTHORIZED",
-    "baseline_requirement": "FOUR_OF_FOUR_PASS_ON_ONE_DECLARED_NON_GEMINI_MODEL_FAMILY",
-    "same_canonical_surface_required": true,
-    "same_four_frozen_cases_required": true,
-    "same_predeclared_evaluation_contracts_required": true,
-    "clean_independent_context_required": true,
-    "batch": {
+    "prepared_batch": {
       "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
       "plan": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json",
       "envelope_freeze": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
       "static_readiness": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json",
-      "base_runner": "tools/pm_g09_openai_batch_0001.py",
       "hardened_entrypoint": "tools/pm_g09_openai_batch_0001_v2.py",
       "provider": "OPENAI_RESPONSES_API",
       "model_family": "OPENAI_GPT_5_6",
       "model": "gpt-5.6-luna",
-      "credential_environment_variable": "OPENAI_API_KEY",
-      "generation": {
-        "max_output_tokens": 8192,
-        "reasoning_effort": "low",
-        "store": false,
-        "tools_enabled": false,
-        "rationale": "OpenAI Responses API max_output_tokens includes visible output and reasoning tokens; 8192 reduces invalid truncation risk while remaining bounded."
-      },
       "maximum_provider_requests": 4,
       "maximum_provider_requests_per_case": 1,
       "automatic_retries_per_case": 0,
-      "evaluation_contract_is_runtime_input": false,
-      "expected_result_is_runtime_input": false,
-      "human_review_required": true,
-      "exact_g08_envelope_parity_required_before_authorization_consumption": true,
-      "authorization_state": "DISARMED_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED"
+      "provider_requests_attempted": 0,
+      "model_inference_requests_attempted": 0,
+      "runtime_observations": 0
     },
-    "claim_boundary_after_pass": "PORTABILITY_OBSERVED_ACROSS_TWO_MODEL_FAMILIES_ONLY",
+    "state": "DEFERRED_EXTERNAL_DEPENDENCY_NOT_OBSERVED",
+    "portability_observed": false,
+    "prepared_authorization_state": "CLOSED_UNCONSUMED_WITHDRAWN_BY_SCOPE_CHANGE_NOT_REUSABLE",
+    "resume_requires": [
+      "accessible second model family",
+      "new or reconfirmed frozen runtime plan if provider/model/config changes",
+      "zero-model preflight PASS",
+      "fresh explicit authorization"
+    ],
+    "claim_boundary_after_future_pass": "PORTABILITY_OBSERVED_ACROSS_TWO_MODEL_FAMILIES_ONLY",
     "automatic_certification": false,
     "automatic_promotion": false
   },
-  "current_authorization_state": "DISARMED_G09_OPENAI_BATCH_0001_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED",
+  "closure": {
+    "receipt": "commercial/STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json",
+    "state": "EVIDENCE_CYCLE_CLOSED_AT_G08_WITH_G09_DEFERRED",
+    "highest_behavioral_gate_passed": "G08_REGRESSION",
+    "current_runtime_authorization": "NONE",
+    "next_required_action": "NONE_FOR_THIS_CLOSED_EVIDENCE_CYCLE"
+  },
+  "current_authorization_state": "DISARMED_ALL_CURRENT_BATCHES",
   "current_g08_authorization_state": "DISARMED_G08_PASS_NO_FURTHER_G08_RUNTIME_AUTHORIZED",
-  "current_g09_authorization_state": "DISARMED_NOT_AUTHORIZED",
-  "next_gate": "G09_OPENAI_BATCH_0001_LOCAL_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_AFTER_EXACT_FRESH_AUTHORIZATION",
-  "truth_boundary": "G05_FAIL_REWORK_HISTORICAL; G06_CLOSED; G07_STATIC_PASS; G08_PASS_4_OF_4_ON_GEMINI; EXACT_V2_2_SURFACE_CANONICAL; G09_OPENAI_GPT_5_6_BATCH_STATIC_READY_PREPARED_NOT_AUTHORIZED; PORTABILITY_NOT_YET_OBSERVED; NO_AUTOMATIC_CERTIFICATION_OR_PROMOTION; PRODUCT_READY_NO; READY_TO_SELL_NO; PUBLIC_CHECKOUT_OFF; PQ_DOLLAR_ONE_NOT_OBSERVED"
+  "current_g09_authorization_state": "CLOSED_UNCONSUMED_NOT_REUSABLE",
+  "next_gate": "NONE_CURRENTLY_ACTIVE_G09_DEFERRED",
+  "truth_boundary": "G05_FAIL_REWORK_HISTORICAL; G06_CLOSED; G07_STATIC_PASS; G08_PASS_4_OF_4_ON_GEMINI; EXACT_V2_2_SURFACE_CANONICAL; G09_PORTABILITY_DEFERRED_WITH_ZERO_NON_GEMINI_RUNTIME_OBSERVATIONS; NO_CERTIFICATION; PRODUCT_READY_NO; READY_TO_SELL_NO; PUBLIC_CHECKOUT_OFF; PQ_DOLLAR_ONE_NOT_OBSERVED"
 }
