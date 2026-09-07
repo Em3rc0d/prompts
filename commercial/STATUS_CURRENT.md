@@ -4,11 +4,11 @@ Last reconciled: `2026-09-07`
 
 This is the current operational status entrypoint for the Prompt Machine Starter evidence path.
 
-Historical snapshots such as `commercial/STATUS_V1.md`, `commercial/STARTER_RELEASE_GATE_V1.json`, `commercial/STARTER_RELEASE_DAG_V1.json`, and the PR #4 body are preserved as history. They MUST NOT be interpreted as current runtime truth when they conflict with newer superseding receipts.
+Historical snapshots such as `commercial/STATUS_V1.md`, `commercial/STARTER_RELEASE_GATE_V1.json`, `commercial/STARTER_RELEASE_DAG_V1.json`, `commercial/STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json`, and the PR #4 body are preserved as history. They MUST NOT be interpreted as current runtime truth when they conflict with newer superseding receipts.
 
 ## Current truth sources
 
-1. `commercial/STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json`
+1. `commercial/STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json`
 2. `commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json`
 3. `commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json`
 4. `product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json`
@@ -91,7 +91,7 @@ G09 asks:
 
 > Does the exact same canonical workflow preserve the required behaviors on at least one declared non-Gemini model family in a clean independent context?
 
-The first portability batch is now statically prepared:
+The first portability batch is statically prepared:
 
 ```text
 batch                 PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001
