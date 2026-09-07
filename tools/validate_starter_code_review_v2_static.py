@@ -23,11 +23,21 @@ def git_head_blob(rel_path: str) -> str:
     ).strip()
 
 
-def git_worktree_clean(rel_path: str) -> bool:
-    # Compare through Git's normal clean/filter semantics instead of hashing raw
-    # working-tree bytes. This avoids CRLF/LF false negatives on Windows/WSL.
+def git_worktree_strict_clean(rel_path: str) -> bool:
     result = subprocess.run(
         ["git", "diff", "--quiet", "HEAD", "--", rel_path],
+        cwd=ROOT,
+        check=False,
+    )
+    return result.returncode == 0
+
+
+def git_worktree_content_clean(rel_path: str) -> bool:
+    # Ignore CR characters only when they appear at end-of-line. This avoids a
+    # Windows/WSL CRLF checkout being treated as a content mutation while still
+    # failing on substantive text edits, added/removed lines, or other changes.
+    result = subprocess.run(
+        ["git", "diff", "--quiet", "--ignore-cr-at-eol", "HEAD", "--", rel_path],
         cwd=ROOT,
         check=False,
     )
@@ -41,11 +51,12 @@ def main() -> int:
     v2_text = V2.read_text(encoding="utf-8") if V2.exists() else ""
 
     v1_head_blob = git_head_blob(V1_REL) if V1.exists() else None
-    v1_clean = git_worktree_clean(V1_REL) if V1.exists() else False
+    v1_strict_clean = git_worktree_strict_clean(V1_REL) if V1.exists() else False
+    v1_content_clean = git_worktree_content_clean(V1_REL) if V1.exists() else False
 
     checks = {
         "v1_blob_immutable": V1.exists() and v1_head_blob == expected_v1_blob,
-        "v1_worktree_clean": V1.exists() and v1_clean,
+        "v1_worktree_content_clean": V1.exists() and v1_content_clean,
         "v2_file_present": V2.exists(),
         "v2_workflow_id_exact": f"Workflow ID: `{EXPECTED_V2_ID}`" in v2_text,
         "authority_advisory_only_preserved": "Authority: `ADVISORY_ONLY`" in v2_text and "Do not merge, deploy, approve, or execute changes." in v2_text,
@@ -65,11 +76,13 @@ def main() -> int:
     }
 
     report = {
-        "schema": "prompt-machine-starter-code-review-v2-static-validation-v2",
-        "hash_semantics": "GIT_HEAD_BLOB_PLUS_FILTER_AWARE_WORKTREE_CLEANLINESS",
+        "schema": "prompt-machine-starter-code-review-v2-static-validation-v3",
+        "hash_semantics": "GIT_HEAD_BLOB_PLUS_CR_AT_EOL_NORMALIZED_WORKTREE_CONTENT",
         "v1_expected_git_blob": expected_v1_blob,
         "v1_head_git_blob": v1_head_blob,
-        "v1_worktree_clean": v1_clean,
+        "v1_worktree_strict_clean": v1_strict_clean,
+        "v1_worktree_content_clean": v1_content_clean,
+        "v1_only_eol_difference_observed": (not v1_strict_clean) and v1_content_clean,
         "successor_workflow_id": EXPECTED_V2_ID,
         "provider_requests_attempted": 0,
         "model_inference_requests_attempted": 0,
