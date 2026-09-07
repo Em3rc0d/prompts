@@ -1,8 +1,7 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "recorded_on": "2026-09-07",
-  "case_id": "PM-STARTER-CR-NORMAL-0001",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
   "execution_control_plane": "LOCAL_WSL_PROCESS",
@@ -29,176 +28,103 @@
     "default_root": "$HOME/.local/share/prompt-machine/n09",
     "automatic_upload": false
   },
-  "clean_surface_requirements": {
-    "runtime_envelope_bytes": 8100,
-    "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "global_runtime_governance": {
+    "fresh_explicit_authorization_required_for_each_runtime_attempt": true,
+    "maximum_provider_requests_per_authorization": 1,
+    "automatic_retries": 0,
+    "automatic_next_case": false,
     "evaluation_contract_is_runtime_input": false,
     "expected_result_is_runtime_input": false,
-    "fresh_explicit_authorization_required_for_each_runtime_attempt": true,
-    "maximum_runtime_submissions_per_authorization": 1,
-    "automatic_retries": 0,
-    "automatic_second_case": false,
-    "human_review_required": true
+    "human_review_required": true,
+    "automatic_certification": false,
+    "automatic_promotion": false
   },
-  "certification_pipeline_contract": "commercial/PROMPT_MACHINE_14_GATE_PIPELINE_V1.json",
-  "runtime_gate_mapping": {
-    "execution_belongs_to": "G05_BASELINE_EXECUTION",
-    "success_does_not_imply": [
-      "G07_IMPROVEMENT_PASS",
-      "G08_REGRESSION_PASS",
-      "G09_PORTABILITY_PASS",
-      "G11_CERTIFIED",
-      "G14_PROVIDER_GATES_PASS",
-      "READY_TO_SELL",
-      "PUBLIC_SALE"
-    ]
-  },
-  "latest_g05_attempt": {
-    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_004_2026-09-05.json",
-    "attempt_id": "G05-FALLBACK-004",
-    "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-CD71CEC4B96D",
-    "provider_http_status": 503,
-    "classification": "INCONCLUSIVE_PROVIDER_UNAVAILABLE_503",
-    "model": "gemini-3.5-flash",
-    "surface_submissions": 1,
-    "provider_requests_attempted": 1,
-    "automatic_retries": 0,
-    "model_output_observed": false,
-    "behavioral_observation_created": false,
-    "g05_pass_demonstrated": false,
-    "g05_fail_demonstrated": false,
-    "request_body_matches_previous_attempts": true,
-    "response_body_matches_previous_attempts": true
-  },
-  "provider_availability_history": {
-    "runtime_attempts_with_503": 4,
-    "models": {
-      "gemini-3.8-flash": 3,
-      "gemini-3.5-flash": 1
-    },
-    "attempts": [
+  "g05_history": {
+    "provider_503_attempts": [
       "G05-BASELINE-001",
       "G05-BASELINE-002",
       "G05-BASELINE-003",
       "G05-FALLBACK-004"
     ],
-    "identical_request_body_sha256_across_all_four": true,
-    "identical_response_body_sha256_across_all_four": true,
-    "behavioral_observations_created": 0,
-    "candidate_mutation_justified": false,
-    "automatic_retry_policy_change_justified": false,
-    "additional_blind_runtime_attempt_justified": false
-  },
-  "provider_visibility_diagnostic": {
-    "contract": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_DIAGNOSTIC_V1.json",
-    "receipt": "commercial/STARTER_N09_GEMINI_PROVIDER_VISIBILITY_RECEIPT_2026-09-05.json",
-    "classification": "MODELS_VISIBLE_GENERATION_PATH_STILL_UNPROVEN",
-    "metadata_requests_attempted": 2,
-    "statuses": {
-      "gemini-3.8-flash": 200,
-      "gemini-3.5-flash": 200
+    "provider_503_count": 4,
+    "clean_behavioral_attempt": {
+      "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json",
+      "human_review": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.human-review.json",
+      "failure": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.failure.json",
+      "attempt_id": "G05-RETEST-005",
+      "execution_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-01385E8F39C8",
+      "model": "gemini-3.5-flash",
+      "http_status": 200,
+      "provider_requests_attempted": 1,
+      "automatic_retries": 0,
+      "behavioral_observations": 1,
+      "raw_output_bytes": 5369,
+      "raw_output_sha256": "005cd3144efb9b27670ab74aa3fafc81f6e7a99dc9c85de6908cadc3441daca7",
+      "human_review_result": "FAIL",
+      "human_review_decision": "REWORK",
+      "blocking_failures": [
+        "minimum_input_preflight",
+        "evidence_uncertainty_preserved"
+      ],
+      "authorization_consumed": true
     },
-    "both_models_advertise_generate_content": true,
-    "model_inference_requests_attempted": 0,
-    "runtime_envelope_sent": false,
-    "behavioral_observations": 0
+    "effective_clean_runtime_observations": 1,
+    "effective_clean_runtime_passes": 0,
+    "effective_clean_runtime_fails": 1,
+    "g05_pass": false,
+    "successor_rework_required": true
   },
-  "count_tokens_diagnostic": {
-    "contract": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_DIAGNOSTIC_V1.json",
-    "receipt": "commercial/STARTER_N09_GEMINI_COUNT_TOKENS_RECEIPT_2026-09-05.json",
-    "classification": "EXACT_ENVELOPE_TOKENIZATION_PATH_ACCEPTED_GENERATION_PATH_REMAINS_ISOLATED_FAILURE",
-    "statuses": {
-      "gemini-3.8-flash": 200,
-      "gemini-3.5-flash": 200
-    },
-    "total_tokens": {
-      "gemini-3.8-flash": 1898,
-      "gemini-3.5-flash": 1898
-    },
-    "exact_envelope_accepted": true,
-    "provider_requests_attempted": 2,
-    "generate_content_requests_attempted": 0,
-    "model_inference_requests_attempted": 0,
-    "behavioral_observations": 0,
-    "g05_claim": "NONE"
+  "provider_diagnostics": {
+    "model_visibility_http_200": true,
+    "exact_envelope_count_tokens_http_200": true,
+    "minimal_generation_control_001": "GENERATION_TRANSPORT_AVAILABLE_SEMANTIC_RESULT_INCONCLUSIVE_MAX_TOKENS_CONTROL_BUDGET",
+    "minimal_generation_control_002": "MINIMAL_GENERATION_CONTROL_PASS_PATH_AND_VISIBLE_TEXT",
+    "generation_path_available": true
   },
-  "minimal_generation_control_001": {
-    "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PLAN.json",
-    "preflight_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_PREFLIGHT_RECEIPT_2026-09-05.json",
-    "execution_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_RECEIPT_2026-09-07.json",
-    "inspection_receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_001_INSPECTION_RECEIPT_2026-09-07.json",
-    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
-    "model": "gemini-3.5-flash",
-    "prompt": "Return exactly: OK",
-    "max_output_tokens": 8,
-    "thinking_level": "MODEL_DEFAULT_MEDIUM",
-    "provider_requests_attempted": 1,
-    "model_inference_requests_attempted": 1,
-    "http_status": 200,
-    "finish_reason": "MAX_TOKENS",
-    "prompt_token_count": 5,
-    "thoughts_token_count": 5,
-    "visible_text_parts": 0,
-    "response_text_exact_ok": false,
-    "classification": "GENERATION_TRANSPORT_AVAILABLE_SEMANTIC_RESULT_INCONCLUSIVE_MAX_TOKENS_CONTROL_BUDGET",
-    "g05_claim": "NONE",
-    "authorization_consumed": true
+  "g06_failure_mining": {
+    "receipt": "commercial/STARTER_N09_G06_FAILURE_MINING_005.json",
+    "state": "CLOSED_ROOT_CAUSE_LOCALIZED"
   },
-  "minimal_generation_control_002": {
-    "plan": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_002_PLAN.json",
-    "receipt": "commercial/STARTER_N09_GEMINI_MINIMAL_GENERATION_CONTROL_002_RECEIPT_2026-09-07.json",
-    "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-002",
-    "model": "gemini-3.5-flash",
-    "prompt": "Return exactly: OK",
-    "generation_config": {
-      "maxOutputTokens": 64,
-      "thinkingConfig": {
-        "thinkingLevel": "minimal"
-      }
-    },
-    "provider_requests_attempted": 1,
-    "model_inference_requests_attempted": 1,
-    "automatic_retries": 0,
-    "http_status": 200,
-    "finish_reasons": ["STOP"],
-    "response_text_present": true,
-    "response_text_exact_ok": true,
-    "control_pass": true,
-    "classification": "MINIMAL_GENERATION_CONTROL_PASS_PATH_AND_VISIBLE_TEXT",
-    "g05_claim": "NONE",
-    "authorization_consumed": true
+  "g07_successor": {
+    "design": "commercial/STARTER_N09_G07_SUCCESSOR_DESIGN_V1.json",
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "workflow_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+    "static_audit_pass": "commercial/STARTER_N09_G07_SUCCESSOR_STATIC_AUDIT_PASS_2026-09-07.json",
+    "state": "STATIC_PASS_BEHAVIOR_NOT_YET_REGRESSION_PASSED",
+    "v1_preserved": true
   },
-  "provider_recovery_interpretation": {
-    "generation_path_available_now": true,
-    "minimal_visible_text_generation_observed": true,
-    "previous_g05_503s_reclassified": false,
-    "previous_g05_503s_remain_provider_unavailable_observations": true,
-    "new_g05_retest_justified": true,
-    "automatic_retry_justified": false,
-    "candidate_mutation_justified": false
+  "g08_regression": {
+    "design": "commercial/STARTER_N09_G08_V2_REGRESSION_DESIGN_V1.json",
+    "freeze_receipt": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
+    "freeze_verdict": "PASS",
+    "frozen_cases": 4,
+    "runtime_observations": 0,
+    "runtime_passes": 0,
+    "runtime_fails": 0,
+    "execution_order": [
+      "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+    ],
+    "first_case": {
+      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "plan": "commercial/STARTER_N09_G08_V2_BOUNDARY_UNKNOWN_001_PLAN.json",
+      "preflight": "tools/probe_starter_code_review_v2_g08_boundary_unknown_001.py",
+      "executor": "tools/execute_starter_code_review_v2_g08_boundary_unknown_001.py",
+      "state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+      "runtime_envelope_bytes": 12008,
+      "runtime_envelope_sha256": "72cfc51bca3b09d88f6230f51a706735ecb985b4c541093833c2ea64a10b6b92",
+      "model": "gemini-3.5-flash",
+      "maximum_provider_requests": 1,
+      "automatic_retries": 0,
+      "fresh_authorization_required_after_preflight_pass": true,
+      "provider_requests_so_far": 0
+    }
   },
-  "next_g05_attempt": {
-    "plan": "commercial/STARTER_N09_GEMINI_WSL_RETEST_005_PLAN.json",
-    "attempt_id": "G05-RETEST-005",
-    "state": "PREPARED_FRESH_AUTH_REQUIRED",
-    "preflight": "tools/probe_starter_n09_gemini_wsl_retest_005.py",
-    "executor": "tools/execute_starter_n09_gemini_wsl_v5.py",
-    "model": "gemini-3.5-flash",
-    "candidate_prompt_mutated": false,
-    "request_configuration_matches_g05_fallback_004": true,
-    "maximum_provider_requests": 1,
-    "automatic_retries": 0,
-    "provider_requests_so_far": 0,
-    "fresh_explicit_authorization_required": true
-  },
-  "model_fallback_boundary": {
-    "changing_model_changes_runtime_configuration": true,
-    "fallback_result_must_not_be_aggregated_as_same_model_evidence": true,
-    "candidate_prompt_may_remain_frozen": true,
-    "certification_scope_must_record_exact_model": true
-  },
-  "current_authorization_state": "DISARMED_GEMINI_WSL_004_AUTHORIZATION_CONSUMED",
+  "current_authorization_state": "DISARMED_G05_RETEST_005_AUTHORIZATION_CONSUMED",
   "current_diagnostic_authorization_state": "DISARMED_PM_GEMINI_MINIMAL_GEN_CTRL_002_AUTHORIZATION_CONSUMED",
-  "next_gate": "ZERO_MODEL_PREFLIGHT_FOR_G05_RETEST_005_THEN_FRESH_EXPLICIT_RUNTIME_AUTHORIZATION",
-  "truth_boundary": "MINIMAL_GENERATION_CONTROL_002_PASS_CONFIRMS_CURRENT_GENERATION_PATH_AND_VISIBLE_OUTPUT; G05_RETEST_005_PREPARED_WITH_UNCHANGED_CANDIDATE_AND_REQUEST_CONFIGURATION; ZERO_NEW_G05_BEHAVIORAL_EVIDENCE"
+  "current_g08_authorization_state": "DISARMED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+  "next_gate": "ZERO_MODEL_PREFLIGHT_FOR_PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001_THEN_FRESH_EXPLICIT_CASE_AUTHORIZATION",
+  "truth_boundary": "G05_RETEST_005_CLEAN_FAIL_REWORK; G06_CLOSED; G07_STATIC_PASS; G08_FOUR_CASE_FREEZE_PASS; ZERO_G08_RUNTIME_OBSERVATIONS; FIRST_G08_CASE_PREPARED_FOR_ZERO_MODEL_PREFLIGHT_ONLY"
 }
