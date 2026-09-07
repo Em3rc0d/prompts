@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-g09-portability-batch-plan-v1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "gate": "G09_PORTABILITY",
   "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
   "state": "PREPARED_NOT_AUTHORIZED",
@@ -19,10 +19,11 @@
   "credential_must_not_be_recorded": true,
   "execution_location": "USER_WSL",
   "generation": {
-    "max_output_tokens": 4096,
+    "max_output_tokens": 8192,
     "reasoning_effort": "low",
     "store": false,
-    "tools_enabled": false
+    "tools_enabled": false,
+    "budget_rationale": "Responses API max_output_tokens includes visible output plus reasoning tokens. 8192 reduces truncation risk while preserving a bounded request ceiling."
   },
   "cases": [
     "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
@@ -31,6 +32,7 @@
     "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
   ],
   "case_source": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
+  "envelope_freeze": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
   "same_predeclared_evaluation_contracts_required": true,
   "evaluation_contract_is_runtime_input": false,
   "expected_result_is_runtime_input": false,
@@ -57,7 +59,7 @@
     "ready to sell"
   ],
   "provider_reference_observed_on": "2026-09-07",
-  "provider_reference_note": "OpenAI API model catalog identifies gpt-5.6-luna as a GPT-5.6 model available through the Responses API. Provider documentation must be rechecked if this execution is materially delayed or API behavior changes.",
+  "provider_reference_note": "Official OpenAI model and Responses API documentation checked on 2026-09-07: gpt-5.6-luna is available through Responses API; max_output_tokens includes visible and reasoning tokens; store can be disabled; reasoning effort is configurable.",
   "provider_requests_attempted": 0,
   "model_inference_requests_attempted": 0
 }
