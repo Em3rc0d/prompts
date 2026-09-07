@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-minimal-generation-control-result-v2",
+  "recorded_on": "2026-09-07",
+  "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-002",
+  "execution_id": "PM-GEMINI-MINIMAL-GEN-CTRL-002-97F18FE86134",
+  "provider": "GOOGLE_GEMINI_API",
+  "model": "gemini-3.5-flash",
+  "started_at": "2026-09-07T01:15:56.949103Z",
+  "completed_at": "2026-09-07T01:16:03.138425Z",
+  "http_status": 200,
+  "provider_requests_attempted": 1,
+  "model_inference_requests_attempted": 1,
+  "automatic_retries": 0,
+  "workflow_candidate_sent": false,
+  "runtime_envelope_sent": false,
+  "evaluation_contract_sent": false,
+  "behavioral_observations": 0,
+  "g05_claim": "NONE",
+  "generation_config": {
+    "maxOutputTokens": 64,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal"
+    }
+  },
+  "finish_reasons": ["STOP"],
+  "response_text_present": true,
+  "response_text_exact_ok": true,
+  "control_pass": true,
+  "request_body_sha256": "670c6af834a1d05914744656692839a10cd63b9f91bac264aba7cff93b96735e",
+  "response_body_sha256": "720b2c13090a739aa19174707d6034c1ae864c2587b7b52fc853bc1b4c42141e",
+  "usage_metadata": {
+    "candidatesTokenCount": 1,
+    "promptTokenCount": 5,
+    "serviceTier": "standard",
+    "totalTokenCount": 6
+  },
+  "credential_value_recorded": false,
+  "classification": "MINIMAL_GENERATION_CONTROL_PASS_PATH_AND_VISIBLE_TEXT",
+  "authorization_consumed": true,
+  "truth_boundary": "DIAGNOSTIC_CONTROL_PASS_ONLY_NO_G05_BEHAVIORAL_EVIDENCE"
+}
