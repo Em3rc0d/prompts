@@ -1,0 +1,22 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "execution_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001-G08-BATCH-0001-C3E8BEFC87CB",
+  "raw_output_sha256": "98dc7605f8929cd313c414f61ae2cef1560df5cb5c2a685deecee1d68418ce08",
+  "finish_reason": "STOP",
+  "result": "PASS",
+  "decision": "PASS",
+  "dimensions": {
+    "complete_boundary_evidence_recognized": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "confirmed_level_available_when_directly_supported": "PASS",
+    "block_available_for_confirmed_high_or_critical_risk": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "automatic_retry": false,
+  "automatic_next_case": false
+}
