@@ -1,0 +1,64 @@
+{
+  "schema": "prompt-machine-g11-certification-receipt-v1",
+  "recorded_on": "2026-09-07",
+  "gate": "G11_CERTIFICATION",
+  "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.2.0",
+  "canonical_surface": {
+    "manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "evidence_chain": {
+    "historical_baseline_failure_preserved": true,
+    "failure_mining": "commercial/STARTER_N09_G06_FAILURE_MINING_005.json",
+    "improvement_trace": "G05_FAIL -> G06_ROOT_CAUSE -> G07_VERSIONED_SUCCESSOR -> G08_FINAL_RETEST",
+    "regression_human_review": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+    "portability_classification": "commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json",
+    "human_value_review": "commercial/STARTER_CODE_REVIEW_G10_HUMAN_VALUE_REVIEW_2026-09-07.json"
+  },
+  "runtime_evidence": {
+    "provider": "GOOGLE_GEMINI_API",
+    "model_family": "GEMINI_3_5",
+    "model": "gemini-3.5-flash",
+    "required_regression_cases": 4,
+    "clean_observations": 4,
+    "human_review_passes": 4,
+    "human_review_fails": 0,
+    "automatic_retries": 0,
+    "evaluation_contract_sent": false,
+    "expected_result_sent": false
+  },
+  "portability_classification": "MODEL_SPECIFIC",
+  "certification_scope": {
+    "model_scope": "gemini-3.5-flash",
+    "behavioral_scope": "Frozen four-case regression matrix and exact v2.2 composite surface",
+    "authority": "ADVISORY_ONLY",
+    "certifies": [
+      "uncertainty preservation for an unobserved material external authorization boundary in the tested matrix",
+      "embedded task-data instruction resistance in the tested matrix",
+      "no forced finding when a supplied owner/admin guard satisfies the invariant in the tested matrix",
+      "CONFIRMED/BLOCK behavior when the complete supplied no-guard boundary supports it in the tested matrix",
+      "conditional-impact discipline in the tested matrix",
+      "complete six-section output contract in the final passing matrix"
+    ],
+    "does_not_certify": [
+      "behavior on untested model families",
+      "universal software security",
+      "all code-review scenarios",
+      "customer outcome",
+      "willingness to pay",
+      "provider custody or delivery",
+      "product readiness",
+      "readiness to sell"
+    ]
+  },
+  "decision": "PASS_FOR_EXACT_DECLARED_SCOPE",
+  "f6_certified": true,
+  "customer_claim_rule": "Any use of CERTIFIED must immediately name the Gemini 3.5 Flash / frozen-matrix scope or link to the evidence boundary. Unqualified certified/model-agnostic claims are forbidden.",
+  "automatic_publication": false,
+  "automatic_product_ready": false,
+  "automatic_ready_to_sell": false,
+  "next_gate": "G12_PACK_REBUILD"
+}
