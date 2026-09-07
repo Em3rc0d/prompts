@@ -1,6 +1,6 @@
 {
   "schema": "prompt-machine-starter-n09-local-execution-policy-v1",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "recorded_on": "2026-09-07",
   "policy_state": "LOCAL_ONLY_UNTIL_EXPLICITLY_CHANGED_BY_USER",
   "execution_location": "USER_WSL",
@@ -44,8 +44,7 @@
     "clean_behavioral_observations": 1,
     "passes": 0,
     "fails": 1,
-    "result": "FAIL_REWORK",
-    "receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json"
+    "result": "FAIL_REWORK"
   },
   "g06": {
     "state": "CLOSED_ROOT_CAUSE_LOCALIZED",
@@ -54,78 +53,54 @@
   "g07": {
     "workflow_id": "pm-starter-evidence-first-code-review-v2",
     "v1_preserved": true,
-    "initial_successor_static_state": "PASS",
-    "behavioral_regression_required": true
+    "initial_successor_static_state": "PASS"
   },
   "g08": {
     "design": "commercial/STARTER_N09_G08_V2_REGRESSION_DESIGN_V1.json",
     "original_freeze_receipt": "commercial/STARTER_N09_G08_V2_REGRESSION_FREEZE_RECEIPT_2026-09-07.json",
     "required_regression_cases": 4,
-    "standalone_boundary_unknown_observation": {
-      "behavioral_observations": 1,
-      "human_review_result": "FAIL_REWORK_OUTPUT_CONTRACT_TRUNCATED_MAX_TOKENS",
-      "authorization_consumed": true
-    },
-    "batch_0001": {
-      "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
-      "provider_requests_attempted": 4,
-      "behavioral_observations": 3,
-      "provider_failures_without_observation": 1,
-      "human_review_passes": 2,
-      "human_review_fails": 1,
-      "result": "REWORK",
-      "failure_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
-      "provider_failure_case": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
-      "authorization_consumed": true
-    },
-    "v2_1_correction": {
-      "contract_version": "2.1.0",
-      "static_reaudit": "PASS_STATIC_ONLY",
-      "goal": "SATISFIED_INVARIANT_STOP_AND_NO_FORCED_FINDINGS"
-    },
-    "batch_0002": {
-      "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
-      "provider_requests_attempted": 4,
-      "behavioral_observations": 4,
-      "provider_failures_without_observation": 0,
-      "human_review_passes": 3,
-      "human_review_fails": 1,
-      "result": "REWORK",
-      "failure_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
-      "failure_signature": "SATISFIED_INVARIANT_RECOGNIZED_BUT_HYPOTHETICAL_ADJACENT_PREREQUISITES_STILL_PROMOTED_TO_MATERIAL_FINDINGS",
-      "authorization_consumed": true,
-      "execution_id_label_defect": "Receipts correctly identify batch_id BATCH-0002, but inherited execution_id strings contain G08-BATCH-0001. This is a provenance-label defect, not a semantic ambiguity; BATCH-0003 runner fixes it."
-    },
-    "aggregate_behavioral_evidence_before_batch_0003": {
-      "behavioral_observations": 8,
-      "human_review_passes": 5,
-      "human_review_fails": 3,
-      "provider_failures_without_observation": 1,
-      "g08_pass": false
+    "historical_attempts_preserved": {
+      "standalone_boundary_unknown": "FAIL_REWORK_OUTPUT_CONTRACT_TRUNCATED_MAX_TOKENS",
+      "batch_0001": "REWORK_2_PASS_1_FAIL_1_PROVIDER_FAILURE",
+      "batch_0002": "REWORK_3_PASS_1_FAIL"
     },
     "v2_2_candidate": {
       "contract_version": "2.2.0",
       "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
       "base_surface": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
       "hardening_addendum": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
-      "failure_mining": "commercial/STARTER_N09_G08_BATCH_0002_FAILURE_MINING.json",
       "static_reaudit": "commercial/STARTER_N09_G08_V2_2_STATIC_REAUDIT_PASS_2026-09-07.json",
       "static_state": "PASS_STATIC_ONLY",
-      "behavioral_state": "NOT_YET_RETESTED"
+      "behavioral_state": "PASS_G08"
     },
     "batch_0003": {
       "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
       "plan": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_PLAN.json",
       "runner": "tools/pm_g08_batch_0003.py",
-      "state": "PREPARED_NOT_AUTHORIZED",
-      "maximum_provider_requests": 4,
-      "automatic_retries_per_case": 0,
-      "human_review_after_batch": true,
-      "execution_id_labeling_fixed": true
-    }
+      "provider_requests_attempted": 4,
+      "behavioral_observations": 4,
+      "provider_failures_without_observation": 0,
+      "human_review_passes": 4,
+      "human_review_fails": 0,
+      "all_http_status": 200,
+      "all_finish_reasons": "STOP",
+      "authorization_consumed": true,
+      "execution_id_labeling_fixed": true,
+      "human_review_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+      "result": "PASS"
+    },
+    "aggregate_behavioral_evidence": {
+      "behavioral_observations": 12,
+      "human_review_passes": 9,
+      "human_review_fails": 3,
+      "provider_failures_without_observation": 1,
+      "historical_failures_preserved": true
+    },
+    "g08_result": "PASS",
+    "g08_decision": "REGRESSION_CLOSED_ADVANCE_TO_G09_PORTABILITY"
   },
-  "current_authorization_state": "DISARMED_BATCH_0002_AUTHORIZATION_CONSUMED",
-  "current_g08_authorization_state": "DISARMED_BATCH_0003_FRESH_EXPLICIT_AUTHORIZATION_REQUIRED",
-  "next_gate": "BATCH_0003_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_IF_FRESH_EXPLICIT_AUTHORIZATION",
-  "truth_boundary": "G05_FAIL_REWORK; G06_CLOSED; G07_SUCCESSOR_STATIC_PASS; G08_BATCH_0001_REWORK; V2_1_BATCH_0002_REWORK_3_PASS_1_FAIL; V2_2_STATIC_PASS_ONLY; BATCH_0003_PREPARED_NOT_AUTHORIZED; G08_NOT_PASS; NO_AUTOMATIC_PROMOTION"
+  "current_authorization_state": "DISARMED_BATCH_0003_AUTHORIZATION_CONSUMED",
+  "current_g08_authorization_state": "DISARMED_G08_PASS_NO_FURTHER_G08_RUNTIME_AUTHORIZED",
+  "next_gate": "G09_PORTABILITY_DESIGN_AND_ZERO_MODEL_PREPARATION",
+  "truth_boundary": "G05_FAIL_REWORK; G06_CLOSED; G07_SUCCESSOR_STATIC_PASS; G08_HISTORICAL_FAILURES_PRESERVED; V2_2_BATCH_0003_4_OF_4_HUMAN_REVIEW_PASS; G08_PASS; NEXT_G09_PORTABILITY; NO_AUTOMATIC_PROMOTION; NO_PRODUCT_READY_OR_READY_TO_SELL_CLAIM"
 }
