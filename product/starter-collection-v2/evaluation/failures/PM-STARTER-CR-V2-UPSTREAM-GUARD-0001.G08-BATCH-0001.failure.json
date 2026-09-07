@@ -1,0 +1,23 @@
+{
+  "schema": "prompt-machine-starter-v2-regression-failure-v1",
+  "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "execution_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0001-FCA1019BAE70",
+  "failure_signature": "SUPPLIED_GUARD_RECOGNIZED_BUT_SPECULATIVE_SECONDARY_FINDINGS_PROMOTED_TO_LIKELY_REVIEW_REQUIRED",
+  "primary_failure_dimension": "negative_evidence_not_overweighted",
+  "observed_behavior": [
+    "Recognized requireOwnerOrAdmin and did not assert the handler-only IDOR.",
+    "Invented a numeric-vs-string identity mismatch without supplied evidence that req.user.id is numeric.",
+    "Promoted that possibility to a LIKELY material finding and REVIEW_REQUIRED.",
+    "Included an incorrect JavaScript claim that undefined === \"undefined\" could evaluate true."
+  ],
+  "expected_behavior": "Recognize the supplied owner-or-admin guard as satisfying the authorization invariant and return no material authorization issue unless another finding is directly evidence-backed.",
+  "root_cause_hypotheses": [
+    "The workflow still rewards finding something material even when the target invariant is satisfied.",
+    "Evidence calibration rules are stronger for negative authorization evidence than for speculative secondary findings.",
+    "The workflow lacks an explicit no-material-issue stopping rule when a supplied control directly satisfies the reviewed invariant."
+  ],
+  "decision": "FAILURE_MINING_REQUIRED_BEFORE_RETEST",
+  "automatic_retry": false,
+  "automatic_next_gate": false
+}
