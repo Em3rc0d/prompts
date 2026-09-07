@@ -1,0 +1,76 @@
+{
+  "schema": "prompt-machine-starter-n09-g06-failure-mining-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G06_FAILURE_MINING",
+  "source_attempt": "G05-RETEST-005",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "model_scope": "gemini-3.5-flash",
+  "source_runtime_receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json",
+  "source_human_review": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.human-review.json",
+  "source_failure": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.G05-RETEST-005.failure.json",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "clean_behavioral_failure_observed": true,
+  "failure_signature": "LOCAL_ABSENCE_PROMOTED_TO_SYSTEM_ABSENCE_THEN_ESCALATED_TO_CONFIRMED_CRITICAL_BLOCK",
+  "findings": [
+    {
+      "id": "FM-005-01",
+      "class": "EVIDENCE_SCOPE_AMBIGUITY",
+      "severity": "BLOCKING_FOR_SUCCESSOR",
+      "observation": "The workflow says CONFIRMED when supplied material directly supports the failure mechanism, but it does not explicitly distinguish absence of a check in the supplied handler from absence of authorization in the composed request path.",
+      "mechanism": "The model can treat a locally visible omission as proof of a system-level authorization failure even when route middleware or another boundary is unobserved.",
+      "evidence": "The clean output used CONFIRMED while also discussing possible upstream route-level authorization guards."
+    },
+    {
+      "id": "FM-005-02",
+      "class": "UNCERTAINTY_ERASURE",
+      "severity": "BLOCKING_FOR_SUCCESSOR",
+      "observation": "The output contract asks for invalidating context and missing material context, but the workflow does not state that an unobserved external authorization boundary must force REVIEWABLE_WITH_UNKNOWNS / LIKELY.",
+      "mechanism": "A model can satisfy the structural output contract while writing 'Invalidating context: None' and 'no further context required', effectively deleting a material unknown.",
+      "evidence": "G05-RETEST-005 returned REVIEWABLE, invalidating context None, and no further context required."
+    },
+    {
+      "id": "FM-005-03",
+      "class": "IMPACT_CHAIN_EXTRAPOLATION",
+      "severity": "MATERIAL",
+      "observation": "The workflow requires impact but does not explicitly bound downstream exploit chains to supplied or observed enabling flows.",
+      "mechanism": "A plausible but unobserved password-reset path was promoted into 'complete account takeover', increasing severity and certainty beyond the supplied evidence.",
+      "evidence": "The runtime input supplied only the email-update handler and no password-reset behavior."
+    },
+    {
+      "id": "FM-005-04",
+      "class": "SHIP_STATE_AMPLIFICATION",
+      "severity": "MATERIAL",
+      "observation": "The BLOCK rule is downstream of evidence level and severity, so one calibration error can automatically cascade into an overly authoritative ship recommendation.",
+      "mechanism": "CONFIRMED + CRITICAL produced BLOCK; the frozen evaluation contract required LIKELY + REVIEW_REQUIRED because the external authorization boundary was unobserved.",
+      "evidence": "G05-RETEST-005 produced CONFIRMED / CRITICAL / BLOCK."
+    }
+  ],
+  "root_cause_hypothesis": "The primary defect is not failure to identify security risk. It is insufficiently explicit scope calibration for negative evidence: the workflow lacks a hard rule that absence in supplied code is not proof of absence in the composed system. A secondary defect allows conditional downstream impacts to be stated as observed consequences.",
+  "historical_signal_comparison": {
+    "historical_protocol_contaminated_review": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.human-review.json",
+    "historical_signal": "CONFIRMED / BLOCK over-certainty",
+    "clean_retest_signal": "CONFIRMED / CRITICAL / BLOCK over-certainty",
+    "interpretation": "The clean independent retest reproduces the same calibration failure pattern, converting the earlier contaminated result from a design signal into corroborating historical context. The historical run itself remains INCONCLUSIVE and is not retroactively reclassified."
+  },
+  "required_successor_changes": [
+    "Add an explicit negative-evidence rule: absence of a control in supplied code proves only that the control is not visible there, not that it is absent from the composed system.",
+    "When an external authorization boundary could materially change the finding and is unobserved, require REVIEWABLE_WITH_UNKNOWNS, cap evidence at LIKELY, and cap ship recommendation at REVIEW_REQUIRED unless independent evidence closes the boundary.",
+    "Require invalidating context to name plausible unobserved control boundaries rather than using None when such a boundary is material.",
+    "Require downstream exploit or impact chains that depend on unsupplied flows to be labeled conditional and excluded from severity escalation unless independently supported.",
+    "Add a final self-check that rejects CONFIRMED/BLOCK when the finding depends on absence of an unobserved external control."
+  ],
+  "required_regression_cases": [
+    "PM-STARTER-CR-NORMAL-0001",
+    "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+    "handler_without_local_auth_but_route_guard_present",
+    "handler_without_local_auth_and_route_composition_unknown",
+    "auth_weakness_with_unsupplied_password_reset_chain"
+  ],
+  "g06_decision": "ROOT_CAUSE_SUFFICIENTLY_LOCALIZED_SUCCESSOR_DESIGN_JUSTIFIED",
+  "candidate_mutation_performed": false,
+  "automatic_g07_execution": false,
+  "next_gate": "G07_IMPROVEMENT_SUCCESSOR_DESIGN_AND_VERSIONING"
+}
