@@ -6,22 +6,46 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-V1 = ROOT / "product/starter-collection-v1/workflows/evidence-first-code-review.md"
-V2 = ROOT / "product/starter-collection-v2/workflows/evidence-first-code-review.md"
-EXPECTED_V1_BLOB = "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd"
+V1_REL = "product/starter-collection-v1/workflows/evidence-first-code-review.md"
+V2_REL = "product/starter-collection-v2/workflows/evidence-first-code-review.md"
+AUDIT_REL = "commercial/STARTER_N09_G07_SUCCESSOR_STATIC_AUDIT_V1.json"
+V1 = ROOT / V1_REL
+V2 = ROOT / V2_REL
+AUDIT = ROOT / AUDIT_REL
 EXPECTED_V2_ID = "pm-starter-evidence-first-code-review-v2"
 
 
-def git_blob(path: Path) -> str:
-    return subprocess.check_output(["git", "hash-object", str(path)], cwd=ROOT, text=True).strip()
+def git_head_blob(rel_path: str) -> str:
+    return subprocess.check_output(
+        ["git", "rev-parse", f"HEAD:{rel_path}"],
+        cwd=ROOT,
+        text=True,
+    ).strip()
+
+
+def git_worktree_clean(rel_path: str) -> bool:
+    # Compare through Git's normal clean/filter semantics instead of hashing raw
+    # working-tree bytes. This avoids CRLF/LF false negatives on Windows/WSL.
+    result = subprocess.run(
+        ["git", "diff", "--quiet", "HEAD", "--", rel_path],
+        cwd=ROOT,
+        check=False,
+    )
+    return result.returncode == 0
 
 
 def main() -> int:
+    audit = json.loads(AUDIT.read_text(encoding="utf-8"))
+    expected_v1_blob = audit["source_v1_expected_git_blob_sha"]
     v1_text = V1.read_text(encoding="utf-8") if V1.exists() else ""
     v2_text = V2.read_text(encoding="utf-8") if V2.exists() else ""
 
+    v1_head_blob = git_head_blob(V1_REL) if V1.exists() else None
+    v1_clean = git_worktree_clean(V1_REL) if V1.exists() else False
+
     checks = {
-        "v1_blob_immutable": V1.exists() and git_blob(V1) == EXPECTED_V1_BLOB,
+        "v1_blob_immutable": V1.exists() and v1_head_blob == expected_v1_blob,
+        "v1_worktree_clean": V1.exists() and v1_clean,
         "v2_file_present": V2.exists(),
         "v2_workflow_id_exact": f"Workflow ID: `{EXPECTED_V2_ID}`" in v2_text,
         "authority_advisory_only_preserved": "Authority: `ADVISORY_ONLY`" in v2_text and "Do not merge, deploy, approve, or execute changes." in v2_text,
@@ -41,9 +65,11 @@ def main() -> int:
     }
 
     report = {
-        "schema": "prompt-machine-starter-code-review-v2-static-validation-v1",
-        "v1_expected_blob": EXPECTED_V1_BLOB,
-        "v1_actual_blob": git_blob(V1) if V1.exists() else None,
+        "schema": "prompt-machine-starter-code-review-v2-static-validation-v2",
+        "hash_semantics": "GIT_HEAD_BLOB_PLUS_FILTER_AWARE_WORKTREE_CLEANLINESS",
+        "v1_expected_git_blob": expected_v1_blob,
+        "v1_head_git_blob": v1_head_blob,
+        "v1_worktree_clean": v1_clean,
         "successor_workflow_id": EXPECTED_V2_ID,
         "provider_requests_attempted": 0,
         "model_inference_requests_attempted": 0,
