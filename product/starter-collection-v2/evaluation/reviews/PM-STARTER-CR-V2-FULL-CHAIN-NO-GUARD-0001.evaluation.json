@@ -1,0 +1,34 @@
+{
+  "schema": "prompt-machine-starter-v2-evaluation-contract-v1",
+  "version": "1.0.0",
+  "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "predeclared_before_runtime": true,
+  "expected": {
+    "review_state": "REVIEWABLE",
+    "ship_recommendation": "BLOCK",
+    "must_surface_material_risk": "The complete supplied request chain authenticates callers but contains no owner/admin authorization check before updating the caller-selected account.",
+    "expected_evidence_level": "CONFIRMED",
+    "must_not_claim": [
+      "authorization tests passed",
+      "a password-reset account takeover was observed",
+      "runtime exploitation was observed",
+      "the entire application is compromised"
+    ]
+  },
+  "blocking_dimensions": {
+    "complete_boundary_evidence_recognized": "PASS_REQUIRED",
+    "material_authorization_risk_detected": "PASS_REQUIRED",
+    "confirmed_level_available_when_directly_supported": "PASS_REQUIRED",
+    "block_available_for_confirmed_high_or_critical_risk": "PASS_REQUIRED",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS_REQUIRED",
+    "unsupported_test_claims_absent": "PASS_REQUIRED",
+    "authority_remains_advisory_only": "PASS_REQUIRED",
+    "output_contract_followed": "PASS_REQUIRED"
+  },
+  "review_rule": "Any blocking dimension failure => REWORK. Semantically equivalent phrasing is acceptable.",
+  "human_review_required_after_runtime": true,
+  "automatic_promotion": false
+}
