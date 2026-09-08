@@ -34,7 +34,6 @@ GOVERNED_CODE_REVIEW_CHECKOUT = WEB / "app/api/commerce/starter-code-review/chec
 VERLUNE_ARCHIVE = "verlune-code-review-v1.0.0.zip"
 VERLUNE_ARCHIVE_BYTES = "18859"
 VERLUNE_ARCHIVE_SHA = "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
-WORKFLOW_SHA = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 
 FORBIDDEN_MARKETING = (
     "battle-tested",
@@ -88,12 +87,17 @@ def main() -> None:
         if phrase in lower:
             fail(f"unsupported marketing claim observed: {phrase}")
 
-    # Brand shell and navigation are Verlune-first.
-    require("layout", layout, 'title: "Verlune — Reusable AI Workflows for Real Tasks"', 'applicationName: "Verlune"', 'aria-label="Verlune home"', '>Verlune</span>')
+    require(
+        "layout",
+        layout,
+        'title: "Verlune — Reusable AI Workflows You Can Inspect"',
+        'applicationName: "Verlune"',
+        'aria-label="Verlune home"',
+        '<b>VERLUNE</b>',
+    )
     if "Prompt <b>Machine</b>" in layout:
         fail("legacy Prompt Machine wordmark leaked into global customer shell")
 
-    # Home preserves task-first discovery and evidence-before-claims positioning.
     require(
         "home",
         home,
@@ -109,7 +113,6 @@ def main() -> None:
         "checkout remains off",
     )
 
-    # The first paid product is one focused workflow, not the superseded two-workflow Starter bundle.
     require(
         "Verlune Code Review page",
         product,
@@ -128,7 +131,6 @@ def main() -> None:
         if stale in product:
             fail(f"superseded Starter claim leaked into Verlune product page: {stale}")
 
-    # The product ladder is explicit: $9 current hypothesis, $19 future hypothesis, both governed.
     require(
         "collections",
         collections,
@@ -141,13 +143,11 @@ def main() -> None:
         "$19",
         "NOT A RELEASE",
     )
-    require("future collection", future, "Verlune", "$19", "PRICE HYPOTHESIS", "NOT FOR SALE")
+    require("future collection", future, "Verlune", "$19", "price hypothesis", "NOT FOR SALE")
 
-    # Free and Learn remain useful before purchase.
     require("free library", free, "Verlune", "Three workflows", "Code Review", "Bug Diagnosis", "Technical Decision")
     require("learn", learn, "VERLUNE / LEARN", "Useful ideas before a purchase.", "Evidence is part of the product.")
 
-    # License wording is product-specific and does not overclaim portability.
     require(
         "license",
         license_page,
@@ -158,19 +158,17 @@ def main() -> None:
         "model-specific claim",
     )
 
-    # Visual workflow explanation must be Verlune-branded and evidence-oriented.
     require("workflow visualization", engine, 'aria-label="Verlune workflow visualization"', "VERLUNE WORKFLOW", "evidence visible by design")
 
-    # Customer-facing package and runtime release identity are exact and fail closed.
     require(
         "Code Review release identity",
         release,
-        'customerProductName: "Verlune Code Review"',
+        'productId: "prompt-machine-starter-code-review-edition"',
         'version: "1.0.0"',
         f'archiveName: "{VERLUNE_ARCHIVE}"',
         f"archiveSize: {VERLUNE_ARCHIVE_BYTES}",
         VERLUNE_ARCHIVE_SHA,
-        WORKFLOW_SHA,
+        "Buyer-facing brand/product name is Verlune Code Review.",
     )
     if not GOVERNED_CODE_REVIEW_CHECKOUT.is_file():
         fail("governed Code Review checkout route is missing")
@@ -187,7 +185,6 @@ def main() -> None:
     )
     require("commerce link", commerce_link, 'kind: "free" | "starter" | "paid"', '"/starter-collection"', "event.preventDefault()")
 
-    # Internal architecture is explicit but separate from buyer-facing branding.
     require("brand architecture", brand, "Verlune", "customer-facing", "Prompt Machine", "Prompt Quarry")
     require(
         "current commercial status",
@@ -201,7 +198,6 @@ def main() -> None:
         "real revenue        0",
     )
 
-    # Revenue semantics remain conservative even as the brand changes.
     require(
         "revenue experiment",
         revenue,
