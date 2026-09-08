@@ -3,12 +3,14 @@
 
 Default behavior intentionally has no provider/model/commerce side effects.
 It fetches the configured remote branch, creates a detached temporary worktree,
-runs release checks there, prints a compact status, and removes the worktree.
-The user's active working tree is never stashed, reset, pulled, or modified.
+runs release checks there, prints a compact status, persists an audit receipt,
+and removes the temporary worktree. The user's active working tree is never
+stashed, reset, pulled, or modified.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -16,8 +18,8 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable
 
 DEFAULT_REMOTE = "origin"
 DEFAULT_BRANCH = "feat/workflow-kits-product-model-20260902"
@@ -40,13 +42,12 @@ def run(
     *,
     cwd: Path,
     check: bool = False,
-    capture: bool = True,
 ) -> subprocess.CompletedProcess[str]:
     result = subprocess.run(
         argv,
         cwd=str(cwd),
         text=True,
-        capture_output=capture,
+        capture_output=True,
         check=False,
     )
     if check and result.returncode != 0:
@@ -63,9 +64,25 @@ def repo_root() -> Path:
     return Path(result.stdout.strip()).resolve()
 
 
-def sha256_file(path: Path) -> str:
-    import hashlib
+def operator_data_root() -> Path:
+    xdg = os.environ.get("XDG_DATA_HOME", "").strip()
+    base = Path(xdg).expanduser() if xdg else Path.home() / ".local" / "share"
+    return base / "prompt-machine" / "operator"
 
+
+def new_receipt_dir(head: str) -> Path:
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    target = operator_data_root() / f"{stamp}-{head[:12]}"
+    suffix = 0
+    candidate = target
+    while candidate.exists():
+        suffix += 1
+        candidate = Path(f"{target}-{suffix}")
+    candidate.mkdir(parents=True, exist_ok=False)
+    return candidate
+
+
+def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
     with path.open("rb") as fh:
         for chunk in iter(lambda: fh.read(1024 * 1024), b""):
@@ -166,27 +183,71 @@ def run_release_checks(root: Path, *, details_dir: Path) -> tuple[list[CheckResu
     return results, archive_observation
 
 
-def compact_print(*, state: str, stage: str, head: str, next_action: str) -> None:
+def write_receipt(
+    details: Path,
+    *,
+    head: str,
+    remote: str,
+    branch: str,
+    results: list[CheckResult],
+    archive: dict[str, object],
+) -> Path:
+    failed = [item for item in results if not item.ok]
+    receipt = {
+        "schema": "prompt-machine-operator-receipt-v1",
+        "recorded_at_utc": datetime.now(timezone.utc).isoformat(),
+        "head": head,
+        "remote": remote,
+        "branch": branch,
+        "active_working_tree_modified": False,
+        "external_effects": 0,
+        "archive": archive,
+        "checks": [
+            {
+                "name": item.name,
+                "ok": item.ok,
+                "returncode": item.returncode,
+            }
+            for item in results
+        ],
+        "verdict": "PASS" if not failed else "BLOCKED",
+    }
+    path = details / "operator-receipt.json"
+    path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return path
+
+
+def compact_print(
+    *,
+    state: str,
+    stage: str,
+    head: str,
+    next_action: str,
+    receipt: Path | None = None,
+) -> None:
     print("PROMPT MACHINE OPERATOR")
     print(f"state: {state}")
     print(f"stage: {stage}")
     print(f"head: {head}")
     print("external_effects: 0")
+    if receipt is not None:
+        print(f"receipt: {receipt}")
     print(f"next: {next_action}")
 
 
-def isolated_release_check(root: Path, remote: str, branch: str, keep: bool) -> int:
-    fetch = run(["git", "fetch", "--quiet", remote, branch], cwd=root)
+def isolated_release_check(root: Path, remote: str, branch: str) -> int:
+    remote_ref = f"refs/remotes/{remote}/{branch}"
+    refspec = f"+refs/heads/{branch}:{remote_ref}"
+    fetch = run(["git", "fetch", "--quiet", remote, refspec], cwd=root)
     if fetch.returncode != 0:
         compact_print(
             state="BLOCKED",
             stage="REPOSITORY_SYNC",
             head="UNKNOWN",
-            next_action="Repository fetch failed; inspect operator receipt.",
+            next_action=(fetch.stderr or fetch.stdout or "Repository fetch failed.").strip()[:500],
         )
         return 2
 
-    remote_ref = f"{remote}/{branch}"
     rev = run(["git", "rev-parse", remote_ref], cwd=root)
     if rev.returncode != 0:
         compact_print(
@@ -198,10 +259,9 @@ def isolated_release_check(root: Path, remote: str, branch: str, keep: bool) -> 
         return 2
     head = rev.stdout.strip()
 
-    base = Path(tempfile.mkdtemp(prefix="prompt-machine-operator-"))
-    worktree = base / "repo"
-    details = base / "receipt"
-    details.mkdir(parents=True, exist_ok=True)
+    details = new_receipt_dir(head)
+    worktree_base = Path(tempfile.mkdtemp(prefix="prompt-machine-operator-worktree-"))
+    worktree = worktree_base / "repo"
 
     add = run(["git", "worktree", "add", "--detach", str(worktree), head], cwd=root)
     if add.returncode != 0:
@@ -209,62 +269,46 @@ def isolated_release_check(root: Path, remote: str, branch: str, keep: bool) -> 
             state="BLOCKED",
             stage="CLEAN_WORKTREE",
             head=head,
-            next_action="Temporary clean worktree could not be created.",
+            receipt=details,
+            next_action=(add.stderr or add.stdout or "Temporary worktree creation failed.").strip()[:500],
         )
-        if not keep:
-            shutil.rmtree(base, ignore_errors=True)
+        shutil.rmtree(worktree_base, ignore_errors=True)
         return 2
 
     try:
         results, archive = run_release_checks(worktree, details_dir=details)
-        failed = [item for item in results if not item.ok]
-        receipt = {
-            "schema": "prompt-machine-operator-receipt-v1",
-            "head": head,
-            "remote": remote,
-            "branch": branch,
-            "active_working_tree_modified": False,
-            "external_effects": 0,
-            "archive": archive,
-            "checks": [
-                {
-                    "name": item.name,
-                    "ok": item.ok,
-                    "returncode": item.returncode,
-                }
-                for item in results
-            ],
-            "verdict": "PASS" if not failed else "BLOCKED",
-        }
-        (details / "operator-receipt.json").write_text(
-            json.dumps(receipt, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
+        receipt = write_receipt(
+            details,
+            head=head,
+            remote=remote,
+            branch=branch,
+            results=results,
+            archive=archive,
         )
+        failed = [item for item in results if not item.ok]
 
         if failed:
+            detail = (failed[0].stderr or failed[0].stdout or "check failed").strip()[:500]
             compact_print(
                 state="BLOCKED",
                 stage=failed[0].name,
                 head=head,
-                next_action=f"Fix {failed[0].name}; detailed receipt is in {details}.",
+                receipt=receipt,
+                next_action=detail,
             )
-            if keep:
-                print(f"details: {details}")
             return 2
 
         compact_print(
             state="ACTION_REQUIRED",
             stage="G14_EXTERNAL_BOUNDARY",
             head=head,
-            next_action="Offline release checks pass. Provider-side G14 evidence still requires a separately authorized action.",
+            receipt=receipt,
+            next_action="Offline release checks pass. Provider-side G14 evidence requires a separately authorized action.",
         )
-        if keep:
-            print(f"details: {details}")
         return 0
     finally:
         run(["git", "worktree", "remove", "--force", str(worktree)], cwd=root)
-        if not keep:
-            shutil.rmtree(base, ignore_errors=True)
+        shutil.rmtree(worktree_base, ignore_errors=True)
 
 
 def local_release_check(root: Path) -> int:
@@ -278,7 +322,7 @@ def local_release_check(root: Path) -> int:
                 state="BLOCKED",
                 stage=failed[0].name,
                 head=head,
-                next_action=f"Fix {failed[0].name}.",
+                next_action=(failed[0].stderr or failed[0].stdout or "check failed").strip()[:500],
             )
             return 2
         if not archive.get("identity_pass"):
@@ -304,7 +348,7 @@ def main() -> int:
 
     release = sub.add_parser(
         "release-check",
-        help="Run the current release checks without provider/model/commerce side effects.",
+        help="Run current release checks without provider/model/commerce side effects.",
     )
     release.add_argument("--remote", default=DEFAULT_REMOTE)
     release.add_argument("--branch", default=DEFAULT_BRANCH)
@@ -313,11 +357,6 @@ def main() -> int:
         action="store_true",
         help="Run in the current checkout (intended for CI/smoke use).",
     )
-    release.add_argument(
-        "--keep-details",
-        action="store_true",
-        help="Keep the temporary receipt directory for debugging.",
-    )
 
     args = parser.parse_args()
     root = repo_root()
@@ -325,7 +364,7 @@ def main() -> int:
     if args.command == "release-check":
         if args.local:
             return local_release_check(root)
-        return isolated_release_check(root, args.remote, args.branch, args.keep_details)
+        return isolated_release_check(root, args.remote, args.branch)
 
     raise AssertionError("unreachable")
 
