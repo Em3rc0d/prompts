@@ -1,11 +1,11 @@
 # Prompt Machine Starter — Code Review Edition
 ## G14 Live Canary Plan v1
 
-Status: `PREPARED / NOT AUTHORIZED`
+Status: `L0 PASS / PRE-LIVE BRAND + STORE ACTIVATION PENDING / LIVE NOT AUTHORIZED`
 
 Date: 2026-09-08
 
-This plan exists to prevent Test-mode success from being promoted into an unbounded Live launch.
+This plan prevents Test-mode success from being promoted into an unbounded Live launch.
 
 Master invariant:
 
@@ -20,6 +20,7 @@ G14 Test webhook                           PASS
 G14 Test private checkout                  PASS
 G14 Test order                             PASS
 G14 Test signed order_created acceptance   PASS
+L0 Test provider identity reconciliation   PASS
 real purchase                              0
 real revenue                               0
 ```
@@ -41,47 +42,77 @@ Test checkout URL                    MUST NOT be used for Live
 
 The Live product must be copied/recreated in Live mode after store activation, then its Live Store/Product/Variant/File identities must be discovered and frozen independently.
 
-## Canary stages
+## L0 — Test identity reconciliation — PASS
 
-### L0 — Test identity reconciliation
+Observed canonical Test identity:
 
-Required before any Live setup:
+```text
+store_id             462419
+product_id           1347720
+variant_id           2105176
+provider order_id    9415856
+order number         4624191
+same-name products   1
+historical 1347702   API NOT_FOUND
+```
 
-- reconcile signed Test order ID `9415856`
-- reconcile order #`4624191`
-- reconcile canonical Test product/variant through the Lemon API
-- resolve historical dashboard URL product-id observation `1347702`
-- persist no customer PII
+Resolution:
+
+`API Product + Variant + paid Test order agree on the signed provider identity.`
+
+Receipt:
+
+`commercial/STARTER_CODE_REVIEW_G14_TEST_ID_RECONCILIATION_PASS_2026-09-08.json`
 
 Tool:
 
 `tools/pm_g14_lemonsqueezy_id_reconcile.py`
 
-Expected result:
+No Test ID may be reused as a Live fallback.
 
-`PASS / PROVIDER_ID_RECONCILIATION`
+## L0.5 — Customer-facing brand boundary
 
-### L1 — Store activation
+Required before Live activation/copy is treated as release progress.
 
-Owner action only. Not authorized by this plan.
+The observed Test checkout/order showed `By Prompt Quarry` while the product architecture defines:
+
+```text
+Prompt Machine = customer-facing platform/product
+Prompt Quarry  = internal workflow mining/certification factory
+```
+
+Before buyer-facing Live checkout:
+
+- reconcile the Lemon customer-visible store name/branding with Prompt Machine;
+- keep supplier/legal identity truthful and distinct from display-brand decisions;
+- do not bypass provider identity/business verification;
+- do not expose internal Prompt Quarry terminology to buyers unless explicitly chosen as part of the commercial brand;
+- keep storefront/product public visibility OFF unless separately approved.
+
+A custom domain is optional and is not required for the first canary. Branding consistency is required.
+
+## L1 — Store activation
+
+Owner action only. Not authorized by Test success or this plan.
 
 Required:
 
-- complete Lemon Squeezy business questionnaire truthfully
-- complete provider identity verification
-- wait for provider approval
+- complete Lemon Squeezy business questionnaire truthfully;
+- complete provider identity verification using the legitimate account/supplier identity;
+- comply with any provider eligibility requirements; do not bypass them;
+- wait for provider approval.
 
 No public checkout is enabled by Prompt Machine during this stage.
 
-### L2 — Copy RC2 to Live
+## L2 — Copy RC2 to Live
 
 After activation:
 
-- switch Lemon dashboard to Live mode
-- use `Copy to Live Mode` on the exact Test product
-- confirm one-time price remains USD 9.00
-- confirm public storefront remains disabled unless separately approved
-- confirm exact RC2 file is attached
+- switch Lemon dashboard to Live mode;
+- use `Copy to Live Mode` on the exact Test product;
+- confirm one-time price remains USD 9.00;
+- confirm public storefront remains disabled unless separately approved;
+- confirm exact RC2 file is attached.
 
 Canonical artifact remains:
 
@@ -91,22 +122,22 @@ prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip
 SHA-256 1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88
 ```
 
-### L3 — Freeze Live provider identity
+## L3 — Freeze Live provider identity
 
 Create a NEW Live API key. Do not reuse the Test key.
 
 Read-only discovery must freeze:
 
-- Live store id
-- Live product id
-- Live variant id
-- Live file id
-- Live checkout identity
-- Live file metadata
+- Live store id;
+- Live product id;
+- Live variant id;
+- Live file id;
+- Live checkout identity;
+- Live file metadata.
 
 No Test ID is accepted as a fallback.
 
-### L4 — Live provider byte custody — zero-purchase first
+## L4 — Live provider byte custody — zero-purchase first
 
 Before making any real order, use the Live File API object to retrieve a fresh signed `download_url` and verify:
 
@@ -116,40 +147,48 @@ bytes    = 19,161
 sha256   = 1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88
 ```
 
+Prepared read-only operator:
+
+`tools/pm_g14_lemonsqueezy_live_preflight.py`
+
+Hardened exact-byte verifier:
+
+`tools/verify_lemonsqueezy_starter_code_review_file.py`
+
 This proves provider-held byte custody only. It does not prove buyer delivery.
 
 If byte identity fails: `BLOCKED`; no order is allowed.
 
-### L5 — Live webhook + private live-canary gate
+## L5 — Live webhook + private live-canary gate
 
 Use separate Live values:
 
-- `LEMONSQUEEZY_STARTER_CODE_REVIEW_WEBHOOK_SECRET`
-- Live Store/Product/Variant IDs
-- a new private live-canary gate token
-- `STARTER_CODE_REVIEW_COMMERCE_MODE=live_canary`
-- `NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE`
+- `LEMONSQUEEZY_STARTER_CODE_REVIEW_WEBHOOK_SECRET`;
+- Live Store/Product/Variant IDs;
+- a new private live-canary gate token;
+- `STARTER_CODE_REVIEW_COMMERCE_MODE=live_canary`;
+- `NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE`.
 
 Webhook event scope remains bounded to `order_created` for the first canary.
 
 Public checkout stays OFF.
 
-### L6 — Buyer-delivery canary
+## L6 — Buyer-delivery canary
 
 Only after a separate explicit owner authorization.
 
 Purpose:
 
-- make at most one controlled Live order if still required
-- observe provider-signed `order_created`
-- confirm buyer receives access to the exact RC2 file
-- verify the buyer-facing download produces the exact 19,161-byte / SHA-256 RC2
+- make at most one controlled Live order if still required;
+- observe provider-signed `order_created`;
+- confirm buyer receives access to the exact RC2 file;
+- verify the buyer-facing download produces the exact 19,161-byte / SHA-256 RC2.
 
 This stage may involve a real transaction. It is not authorized by Test completion or by this plan.
 
 A zero-cost path may be evaluated separately, but must not weaken the property being tested or alter the frozen $9 release identity without an explicit experimental classification.
 
-### L7 — G14 Live decision
+## L7 — G14 Live decision
 
 Only after L0-L6 evidence is reviewed:
 
@@ -175,4 +214,4 @@ READY_TO_SELL             != PUBLIC_CHECKOUT ON
 
 ## Current frontier
 
-`L0 — Test identity reconciliation`
+`L0.5 customer-facing brand reconciliation + L1 legitimate store activation`
