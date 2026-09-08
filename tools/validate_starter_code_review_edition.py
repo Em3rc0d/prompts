@@ -19,7 +19,7 @@ EXPECTED_MEMBERS = [
     "RELEASE-NOTICE.md",
     "MANIFEST.json",
 ]
-EXPECTED_VERSION = "1.0.0-rc2"
+EXPECTED_VERSION = "1.0.0"
 EXPECTED_WORKFLOW_BYTES = 25295
 EXPECTED_WORKFLOW_SHA256 = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 EXPECTED_MODEL = "gemini-3.5-flash"
@@ -69,9 +69,9 @@ def main() -> int:
             manifest = {}
             checks["manifest_parseable"] = False
 
-        checks["manifest_version_rc2"] = manifest.get("version") == EXPECTED_VERSION
-        checks["manifest_status_not_for_sale"] = manifest.get("status") == "RELEASE_CANDIDATE_NOT_FOR_SALE"
-        checks["manifest_public_sale_false"] = manifest.get("public_sale") is False
+        checks["manifest_version_final"] = manifest.get("version") == EXPECTED_VERSION
+        checks["manifest_status_customer_release"] = manifest.get("status") == "CUSTOMER_RELEASE"
+        checks["manifest_has_no_operational_public_sale_flag"] = "public_sale" not in manifest
         checks["manifest_customer_license_frozen"] = manifest.get("customer_license_frozen") is True
         checks["manifest_customer_license_version"] = manifest.get("customer_license_version") == "1.0"
         checks["manifest_sale_terms_version"] = manifest.get("sale_terms_version") == "1.0"
@@ -100,17 +100,35 @@ def main() -> int:
         sale_terms = data.get("SALE-TERMS.md", b"").decode("utf-8", errors="replace")
         notice = data.get("RELEASE-NOTICE.md", b"").decode("utf-8", errors="replace")
         customer_text = "\n".join([readme, quickstart, evidence, license_text, sale_terms, notice])
+        customer_lower = customer_text.lower()
         quickstart_lower = quickstart.lower()
         license_lower = license_text.lower()
         terms_lower = sale_terms.lower()
         notice_lower = notice.lower()
 
-        checks["readme_version_rc2"] = "1.0.0-rc2" in readme and "1.0.0-rc1" not in readme
-        checks["evidence_version_rc2"] = "1.0.0-rc2" in evidence and "1.0.0-rc1" not in evidence
-        checks["no_stale_rc1_customer_reference"] = (
+        checks["readme_version_final"] = "Version: `1.0.0`" in readme
+        checks["evidence_version_final"] = "Edition `1.0.0`" in evidence
+        checks["no_release_candidate_reference"] = (
             "1.0.0-rc1" not in customer_text
-            and "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip" not in customer_text
+            and "1.0.0-rc2" not in customer_text
+            and "release candidate" not in customer_lower
         )
+        checks["no_internal_launch_state_in_customer_surface"] = all(
+            token not in customer_lower
+            for token in (
+                "not_for_sale",
+                "not for sale",
+                "public sale off",
+                "public sale still off",
+                "public checkout",
+                "g14",
+                "provider custody",
+                "delivery canary",
+                "ready_to_sell",
+                "product_ready",
+            )
+        )
+        checks["customer_surface_no_internal_prompt_quarry_brand"] = "prompt quarry" not in customer_lower
         checks["bug_diagnosis_not_packaged"] = "Evidence-first Bug Diagnosis" not in customer_text and "bug-diagnosis" not in " ".join(names).lower()
         checks["readme_names_gemini_scope"] = EXPECTED_MODEL in readme
         checks["quickstart_preserves_human_authority"] = (
@@ -141,9 +159,9 @@ def main() -> int:
         checks["sale_terms_refund_boundary"] = "merchant of record" in terms_lower and "mandatory consumer rights" in terms_lower
         checks["sale_terms_provider_data_boundary"] = "source code" in terms_lower and "ai/model provider" in terms_lower
 
-        checks["release_notice_public_sale_off"] = "public sale still off" in notice_lower and "public checkout stays off" in notice_lower
-        checks["release_notice_license_frozen"] = "customer license is frozen" in notice_lower
-        checks["release_notice_requires_external_g14"] = "provider custody" in notice_lower and "delivery canary" in notice_lower
+        checks["release_notice_final_version"] = "release notes — 1.0.0" in notice_lower
+        checks["release_notice_names_integrity"] = "release identity" in notice_lower and "manifest.json" in notice_lower
+        checks["release_notice_names_scope_boundary"] = "universal model portability" in notice_lower and "human remains responsible" in notice_lower
 
     failed = [name for name, ok in checks.items() if not ok]
     result = {
