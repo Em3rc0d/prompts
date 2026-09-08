@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only Lemon Squeezy G14 discovery probe for Starter Code Review 1.0.0.
+"""Read-only Lemon Squeezy G14 discovery probe for Verlune Code Review 1.0.0.
 
 This probe is intentionally test-mode only. Lemon Squeezy disables file downloads
 for test-mode purchases, so this probe can establish provider metadata, product,
@@ -20,13 +20,14 @@ import urllib.request
 from typing import Any, NoReturn
 
 API_BASE = "https://api.lemonsqueezy.com/v1"
-STORE_NAME = "Prompt Quarry"
-PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
+CANONICAL_TEST_STORE_ID = "462419"
+STORE_NAME = "Verlune"
+PRODUCT_NAME = "Verlune Code Review"
 PRODUCT_PRICE_CENTS = 900
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_NAME = "verlune-code-review-v1.0.0.zip"
 ARCHIVE_VERSION = "1.0.0"
-ARCHIVE_BYTES = 18955
-ARCHIVE_SHA256 = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
+ARCHIVE_BYTES = 18859
+ARCHIVE_SHA256 = "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
 
 
 def fail(message: str) -> NoReturn:
@@ -52,7 +53,7 @@ def api_get(path: str, key: str) -> dict[str, Any]:
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Discovery/1.3",
+            "User-Agent": "Prompt-Machine-G14-Discovery/1.4",
         },
     )
     try:
@@ -87,16 +88,24 @@ def exact(items: list[dict[str, Any]], predicate, label: str) -> dict[str, Any] 
 
 
 def classify_snapshot(*, stores: list[dict[str, Any]], products: list[dict[str, Any]], variants: list[dict[str, Any]], files: list[dict[str, Any]], store_id: str | None = None) -> dict[str, Any]:
-    store = exact(stores, lambda item: str(item.get("id")) == store_id, "store ID") if store_id else None
+    target_store_id = store_id or CANONICAL_TEST_STORE_ID
+    store = exact(stores, lambda item: str(item.get("id")) == target_store_id, "canonical Test store ID")
     if store is None:
-        store = exact(stores, lambda item: attr(item).get("name") == STORE_NAME, f"store named {STORE_NAME!r}")
-    if store is None:
-        return {"state": "ACTION_REQUIRED", "stage": "STORE_DISCOVERY", "next": f"Use the Lemon Squeezy store named {STORE_NAME!r}."}
+        return {"state": "ACTION_REQUIRED", "stage": "STORE_DISCOVERY", "next": f"Use Lemon Test store id {target_store_id}."}
+    if attr(store).get("name") != STORE_NAME:
+        return {
+            "state": "ACTION_REQUIRED",
+            "stage": "STORE_BRANDING",
+            "store_id": target_store_id,
+            "expected_store_name": STORE_NAME,
+            "observed_store_name": attr(store).get("name"),
+            "next": "Rename the customer-visible Lemon store to Verlune before final Test validation.",
+        }
 
     sid = str(store.get("id"))
-    product = exact(products, lambda item: attr(item).get("name") == PRODUCT_NAME and str(attr(item).get("store_id")) == sid, "Code Review Edition product")
+    product = exact(products, lambda item: attr(item).get("name") == PRODUCT_NAME and str(attr(item).get("store_id")) == sid, "Verlune Code Review product")
     if product is None:
-        return {"state": "ACTION_REQUIRED", "stage": "CREATE_TEST_PRODUCT", "store_id": sid, "next": f"Create {PRODUCT_NAME!r} in Test mode at $9 one-time."}
+        return {"state": "ACTION_REQUIRED", "stage": "RENAME_OR_CREATE_TEST_PRODUCT", "store_id": sid, "next": f"Use product name {PRODUCT_NAME!r} in Test mode at $9 one-time."}
 
     pa = attr(product)
     if pa.get("test_mode") is not True:
@@ -113,9 +122,9 @@ def classify_snapshot(*, stores: list[dict[str, Any]], products: list[dict[str, 
     variant = candidates[0]
     vid = str(variant.get("id"))
 
-    file_item = exact(files, lambda item: str(attr(item).get("variant_id")) == vid and attr(item).get("name") == ARCHIVE_NAME, "final 1.0.0 provider file")
+    file_item = exact(files, lambda item: str(attr(item).get("variant_id")) == vid and attr(item).get("name") == ARCHIVE_NAME, "Verlune final 1.0.0 provider file")
     if file_item is None:
-        return {"state": "ACTION_REQUIRED", "stage": "UPLOAD_FINAL_1_0_0", "store_id": sid, "product_id": pid, "variant_id": vid}
+        return {"state": "ACTION_REQUIRED", "stage": "UPLOAD_VERLUNE_1_0_0", "store_id": sid, "product_id": pid, "variant_id": vid}
 
     fa = attr(file_item)
     raw_version = fa.get("version")
@@ -133,6 +142,8 @@ def classify_snapshot(*, stores: list[dict[str, Any]], products: list[dict[str, 
     return {
         "state": "PASS",
         "stage": "PROVIDER_METADATA_TEST_MODE",
+        "brand": STORE_NAME,
+        "product_name": PRODUCT_NAME,
         "store_id": sid,
         "product_id": pid,
         "variant_id": vid,
@@ -143,25 +154,30 @@ def classify_snapshot(*, stores: list[dict[str, Any]], products: list[dict[str, 
 
 
 def self_test() -> int:
-    store = {"type": "stores", "id": "1", "attributes": {"name": STORE_NAME}}
-    product = {"type": "products", "id": "2", "attributes": {"store_id": 1, "name": PRODUCT_NAME, "status": "published", "test_mode": True, "buy_now_url": "https://prompt-quarry.lemonsqueezy.com/checkout/buy/test"}}
+    store = {"type": "stores", "id": CANONICAL_TEST_STORE_ID, "attributes": {"name": STORE_NAME}}
+    product = {"type": "products", "id": "2", "attributes": {"store_id": int(CANONICAL_TEST_STORE_ID), "name": PRODUCT_NAME, "status": "published", "test_mode": True, "buy_now_url": "https://verlune.lemonsqueezy.com/checkout/buy/test"}}
     variant = {"type": "variants", "id": "3", "attributes": {"product_id": 2, "test_mode": True, "is_subscription": False, "price": PRODUCT_PRICE_CENTS}}
     file_item = {"type": "files", "id": "4", "attributes": {"variant_id": 3, "name": ARCHIVE_NAME, "size": ARCHIVE_BYTES, "version": None, "status": "published", "test_mode": True}}
     ok = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[file_item])
     if ok.get("state") != "PASS" or ok.get("stage") != "PROVIDER_METADATA_TEST_MODE":
-        fail("SELF TEST FAIL: passing test-mode snapshot")
+        fail("SELF TEST FAIL: passing Verlune test-mode snapshot")
+    old_brand = json.loads(json.dumps(store))
+    old_brand["attributes"]["name"] = "Prompt Quarry"
+    brand = classify_snapshot(stores=[old_brand], products=[product], variants=[variant], files=[file_item])
+    if brand.get("stage") != "STORE_BRANDING":
+        fail("SELF TEST FAIL: old store brand must not pass")
     wrong = json.loads(json.dumps(file_item))
     wrong["attributes"]["size"] = ARCHIVE_BYTES + 1
     bad = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[wrong])
     if bad.get("stage") != "PROVIDER_FILE_METADATA":
         fail("SELF TEST FAIL: size mismatch")
-    print("PM G14 LEMON SQUEEZY PROBE SELF TEST: PASS")
+    print("PM G14 LEMON SQUEEZY VERLUNE PROBE SELF TEST: PASS")
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Read-only Lemon Squeezy G14 test-mode discovery probe")
-    parser.add_argument("--store-id")
+    parser = argparse.ArgumentParser(description="Read-only Lemon Squeezy G14 Test discovery probe for Verlune")
+    parser.add_argument("--store-id", default=CANONICAL_TEST_STORE_ID)
     parser.add_argument("--verify-bytes", action="store_true", help="deprecated in Test mode; records byte custody as unavailable")
     parser.add_argument("--out", type=pathlib.Path)
     parser.add_argument("--non-interactive", action="store_true")
@@ -173,10 +189,6 @@ def main() -> int:
     key = api_key(interactive=not args.non_interactive)
     stores = list_data(api_get("/stores?page[size]=100", key), "stores")
     selected_store_id = args.store_id
-    if not selected_store_id:
-        selected = exact(stores, lambda item: attr(item).get("name") == STORE_NAME, f"store named {STORE_NAME!r}")
-        if selected is not None:
-            selected_store_id = str(selected.get("id"))
 
     products: list[dict[str, Any]] = []
     variants: list[dict[str, Any]] = []
@@ -184,7 +196,7 @@ def main() -> int:
     if selected_store_id:
         q = urllib.parse.urlencode({"filter[store_id]": selected_store_id, "page[size]": 100})
         products = list_data(api_get(f"/products?{q}", key), "products")
-        selected_product = exact(products, lambda item: attr(item).get("name") == PRODUCT_NAME, "Code Review Edition product")
+        selected_product = exact(products, lambda item: attr(item).get("name") == PRODUCT_NAME, "Verlune Code Review product")
         if selected_product is not None:
             pid = str(selected_product.get("id"))
             q = urllib.parse.urlencode({"filter[product_id]": pid, "page[size]": 100})
@@ -195,10 +207,12 @@ def main() -> int:
                 q = urllib.parse.urlencode({"filter[variant_id]": vid, "page[size]": 100})
                 files = list_data(api_get(f"/files?{q}", key), "files")
 
-    result = classify_snapshot(stores=stores, products=products, variants=variants, files=files, store_id=args.store_id)
+    result = classify_snapshot(stores=stores, products=products, variants=variants, files=files, store_id=selected_store_id)
     result.update({
-        "schema": "prompt-machine-g14-lemonsqueezy-probe-v1.3",
+        "schema": "prompt-machine-g14-lemonsqueezy-probe-v1.4",
         "mode": "test",
+        "expected_brand": STORE_NAME,
+        "expected_product_name": PRODUCT_NAME,
         "expected_price_cents": PRODUCT_PRICE_CENTS,
         "expected_archive": {"name": ARCHIVE_NAME, "version": ARCHIVE_VERSION, "bytes": ARCHIVE_BYTES, "sha256": ARCHIVE_SHA256},
         "api_key_recorded": False,
