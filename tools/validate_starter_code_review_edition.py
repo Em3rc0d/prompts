@@ -105,6 +105,12 @@ def main() -> int:
         terms_lower = sale_terms.lower()
         notice_lower = notice.lower()
 
+        checks["readme_version_rc2"] = "1.0.0-rc2" in readme and "1.0.0-rc1" not in readme
+        checks["evidence_version_rc2"] = "1.0.0-rc2" in evidence and "1.0.0-rc1" not in evidence
+        checks["no_stale_rc1_customer_reference"] = (
+            "1.0.0-rc1" not in customer_text
+            and "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip" not in customer_text
+        )
         checks["bug_diagnosis_not_packaged"] = "Evidence-first Bug Diagnosis" not in customer_text and "bug-diagnosis" not in " ".join(names).lower()
         checks["readme_names_gemini_scope"] = EXPECTED_MODEL in readme
         checks["quickstart_preserves_human_authority"] = (
