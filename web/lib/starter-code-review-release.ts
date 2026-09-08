@@ -4,13 +4,15 @@ import {
   type CommerceReleaseIdentity,
 } from "./commerce-release";
 
+// Internal machine id remains stable for historical/provider continuity.
+// Buyer-facing brand/product name is Verlune Code Review.
 export const STARTER_CODE_REVIEW_RELEASE = Object.freeze({
   productId: "prompt-machine-starter-code-review-edition",
   version: "1.0.0",
-  archiveName: "prompt-machine-starter-code-review-edition-v1.0.0.zip",
-  archiveSize: 18955,
-  archiveSha256: "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3",
-  sourceCommit: "04b8bceb4349bf79d8125f55592bbb6973edb3c1",
+  archiveName: "verlune-code-review-v1.0.0.zip",
+  archiveSize: 18859,
+  archiveSha256: "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649",
+  sourceCommit: "a6c6b4c79606bdc1b386980da34675a66feb4b4a",
 } as const satisfies CommerceReleaseIdentity);
 
 export type { CommerceGate };
