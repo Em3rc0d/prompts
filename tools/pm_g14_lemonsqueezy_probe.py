@@ -55,7 +55,7 @@ def api_get(path: str, key: str) -> dict[str, Any]:
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Discovery/1.0",
+            "User-Agent": "Prompt-Machine-G14-Discovery/1.1",
         },
     )
     try:
@@ -71,7 +71,7 @@ def api_get(path: str, key: str) -> dict[str, Any]:
 def download_bytes(url: str) -> bytes:
     request = urllib.request.Request(
         url,
-        headers={"User-Agent": "Prompt-Machine-G14-Custody/1.0"},
+        headers={"User-Agent": "Prompt-Machine-G14-Custody/1.1"},
     )
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
@@ -184,16 +184,29 @@ def classify_snapshot(
         }
 
     file_attrs = attr(file_item)
+    observed_version_raw = file_attrs.get("version")
+    observed_version = None if observed_version_raw in {None, ""} else str(observed_version_raw)
+
+    # Lemon documents File.version as optional ("if one exists"). It is useful
+    # descriptive metadata, but not part of cryptographic custody identity.
+    # If Lemon does expose a non-empty version, however, it must agree with RC2.
+    if observed_version is not None and observed_version != ARCHIVE_VERSION:
+        return {
+            "state": "BLOCKED",
+            "stage": "PROVIDER_FILE_VERSION",
+            "reason": "provider file exposes a non-empty version that differs from frozen RC2 version",
+            "expected_version": ARCHIVE_VERSION,
+            "observed_version": observed_version,
+        }
+
     observed = {
         "name": file_attrs.get("name"),
-        "version": str(file_attrs.get("version")),
         "size": int(file_attrs.get("size", -1)),
         "status": file_attrs.get("status"),
         "test_mode": file_attrs.get("test_mode") is True,
     }
     expected = {
         "name": ARCHIVE_NAME,
-        "version": ARCHIVE_VERSION,
         "size": ARCHIVE_BYTES,
         "status": "published",
         "test_mode": True,
@@ -215,7 +228,11 @@ def classify_snapshot(
         "variant_id": vid,
         "file_id": str(file_item.get("id")),
         "download_url": file_attrs.get("download_url"),
-        "provider_file_metadata": observed,
+        "provider_file_metadata": {
+            **observed,
+            "version": observed_version,
+            "version_required_for_custody": False,
+        },
     }
 
 
@@ -242,24 +259,39 @@ def self_test() -> int:
         "attributes": {
             "variant_id": 3,
             "name": ARCHIVE_NAME,
-            "version": ARCHIVE_VERSION,
+            "extension": "zip",
+            "download_url": "https://example.invalid/signed",
             "size": ARCHIVE_BYTES,
+            "version": ARCHIVE_VERSION,
             "status": "published",
             "test_mode": True,
-            "download_url": "https://example.invalid/signed",
         },
     }
     a = classify_snapshot(stores=[store], products=[], variants=[], files=[])
     b = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[file_item])
-    bad_file = json.loads(json.dumps(file_item))
-    bad_file["attributes"]["size"] = ARCHIVE_BYTES + 1
-    c = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[bad_file])
+
+    optional_version_file = json.loads(json.dumps(file_item))
+    optional_version_file["attributes"]["version"] = None
+    c = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[optional_version_file])
+
+    bad_size_file = json.loads(json.dumps(file_item))
+    bad_size_file["attributes"]["size"] = ARCHIVE_BYTES + 1
+    d = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[bad_size_file])
+
+    bad_version_file = json.loads(json.dumps(file_item))
+    bad_version_file["attributes"]["version"] = "9.9.9"
+    e = classify_snapshot(stores=[store], products=[product], variants=[variant], files=[bad_version_file])
+
     if a.get("stage") != "CREATE_TEST_PRODUCT":
         fail("SELF TEST FAIL: missing-product state")
     if b.get("state") != "PASS":
-        fail("SELF TEST FAIL: passing snapshot")
-    if c.get("stage") != "PROVIDER_FILE_METADATA":
+        fail("SELF TEST FAIL: passing snapshot with explicit version")
+    if c.get("state") != "PASS" or c.get("provider_file_metadata", {}).get("version") is not None:
+        fail("SELF TEST FAIL: optional null version must not block custody metadata")
+    if d.get("stage") != "PROVIDER_FILE_METADATA":
         fail("SELF TEST FAIL: identity mismatch state")
+    if e.get("stage") != "PROVIDER_FILE_VERSION":
+        fail("SELF TEST FAIL: wrong non-empty provider version must block")
     print("PM G14 LEMON SQUEEZY PROBE SELF TEST: PASS")
     return 0
 
@@ -322,13 +354,14 @@ def main() -> int:
 
     result.update(
         {
-            "schema": "prompt-machine-g14-lemonsqueezy-probe-v1",
+            "schema": "prompt-machine-g14-lemonsqueezy-probe-v1.1",
             "mode": "test",
             "product_name": PRODUCT_NAME,
             "expected_price_cents": PRODUCT_PRICE_CENTS,
             "expected_archive": {
                 "name": ARCHIVE_NAME,
                 "version": ARCHIVE_VERSION,
+                "version_required_for_custody": False,
                 "bytes": ARCHIVE_BYTES,
                 "sha256": ARCHIVE_SHA256,
             },
