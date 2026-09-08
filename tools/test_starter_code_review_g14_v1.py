@@ -2,8 +2,8 @@
 """Offline G14 regression for Starter — Code Review Edition v1.
 
 No network/provider/model calls are performed. The test validates that the
-licensed RC2 has isolated commerce identity/configuration and that all
-provider-facing surfaces stay fail closed by default.
+final 1.0.0 customer artifact has isolated commerce identity/configuration and
+that all provider-facing surfaces stay fail closed by default.
 """
 from __future__ import annotations
 
@@ -22,11 +22,11 @@ SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source
 
 PRODUCT_ID = "prompt-machine-starter-code-review-edition"
 PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
-VERSION = "1.0.0-rc2"
-ARCHIVE = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
-ARCHIVE_BYTES = "19161"
-ARCHIVE_SHA = "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88"
-SOURCE_COMMIT = "c2e9667f4382e589d1430db609215d369486bbfe"
+VERSION = "1.0.0"
+ARCHIVE = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_BYTES = "18955"
+ARCHIVE_SHA = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
+SOURCE_COMMIT = "04b8bceb4349bf79d8125f55592bbb6973edb3c1"
 CERT_ID = "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001"
 
 
@@ -60,6 +60,8 @@ def main() -> int:
         SOURCE_MANIFEST,
         (
             f'"version": "{VERSION}"',
+            '"status": "FINAL_ARTIFACT_PRE_LIVE_VALIDATION"',
+            '"customer_manifest_status": "CUSTOMER_RELEASE"',
             '"customer_license_frozen": true',
             '"customer_license_version": "1.0"',
             '"sale_terms_version": "1.0"',
@@ -160,6 +162,8 @@ def main() -> int:
         "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
         "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip",
         "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
+        "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+        "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
     )
     for token in forbidden_old_identity:
         if token in release or token in checkout or token in webhook or token in verifier:
@@ -168,7 +172,7 @@ def main() -> int:
             )
 
     if '"customer_license_frozen": false' in source_manifest:
-        raise SystemExit("G14 OFFLINE: FAIL — rc2 customer license unexpectedly not frozen")
+        raise SystemExit("G14 OFFLINE: FAIL — final customer license unexpectedly not frozen")
 
     for source_name, source in (("checkout", checkout), ("webhook", webhook)):
         lowered = source.lower()
