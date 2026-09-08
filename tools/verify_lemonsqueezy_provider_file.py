@@ -58,7 +58,7 @@ def api_get(path: str, api_key: str) -> dict[str, Any]:
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {api_key}",
-            "User-Agent": "Prompt-Machine-Provider-Custody-Gate/2.0",
+            "User-Agent": "Prompt-Machine-Provider-Custody-Gate/2.1",
         },
     )
     try:
@@ -74,7 +74,7 @@ def api_get(path: str, api_key: str) -> dict[str, Any]:
 def download_bytes(url: str) -> bytes:
     request = urllib.request.Request(
         url,
-        headers={"User-Agent": "Prompt-Machine-Provider-Custody-Gate/2.0"},
+        headers={"User-Agent": "Prompt-Machine-Provider-Custody-Gate/2.1"},
     )
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
@@ -112,6 +112,38 @@ def public_expected_release(profile: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def verify_optional_release_contract(
+    expected: dict[str, Any],
+    product_attributes: dict[str, Any],
+    variant_attributes: dict[str, Any],
+) -> None:
+    expected_name = expected.get("provider_product_name")
+    if expected_name is not None and product_attributes.get("name") != expected_name:
+        fail(
+            f"product name mismatch: expected {expected_name}, observed {product_attributes.get('name')}"
+        )
+
+    expected_product_status = expected.get("provider_product_status")
+    if expected_product_status is not None and product_attributes.get("status") != expected_product_status:
+        fail(
+            "product status mismatch: "
+            f"expected {expected_product_status}, observed {product_attributes.get('status')}"
+        )
+
+    expected_price = expected.get("price_cents")
+    if expected_price is not None and int(variant_attributes.get("price", -1)) != int(expected_price):
+        fail(
+            f"variant price mismatch: expected {expected_price}, observed {variant_attributes.get('price')}"
+        )
+
+    expected_subscription = expected.get("is_subscription")
+    if expected_subscription is not None and variant_attributes.get("is_subscription") is not expected_subscription:
+        fail(
+            "variant subscription mismatch: "
+            f"expected {expected_subscription}, observed {variant_attributes.get('is_subscription')}"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
@@ -147,6 +179,7 @@ def main() -> int:
     id_matches(variant.get("id"), variant_id, "variant_id")
     id_matches(variant_attributes.get("product_id"), provider_product_id, "variant.product_id")
     verify_test_mode(variant_attributes, expect_test, "variant")
+    verify_optional_release_contract(expected, product_attributes, variant_attributes)
 
     query = urllib.parse.urlencode({"filter[variant_id]": variant_id})
     files_payload = api_get(f"/files?{query}", api_key)
@@ -174,8 +207,14 @@ def main() -> int:
         fail(f"file extension mismatch: {file_attributes.get('extension')}")
     if file_attributes.get("status") != "published":
         fail(f"file status must be published; observed {file_attributes.get('status')}")
-    if str(file_attributes.get("version")) != expected["version"]:
-        fail(f"file version mismatch: expected {expected['version']}, observed {file_attributes.get('version')}")
+
+    # Lemon documents file version as optional. Null/empty is acceptable; an
+    # explicitly different provider version still fails closed. Strong custody
+    # identity remains exact filename + size + provider-retrieved SHA-256.
+    observed_version = file_attributes.get("version")
+    if observed_version not in (None, "", expected["version"]):
+        fail(f"file version mismatch: expected {expected['version']} or null, observed {observed_version}")
+
     if int(file_attributes.get("size", -1)) != expected["archive_size"]:
         fail(f"file size mismatch: expected {expected['archive_size']}, observed {file_attributes.get('size')}")
 
@@ -198,7 +237,7 @@ def main() -> int:
         status = "PROVIDER_FILE_BYTES_PASS"
 
     receipt = {
-        "schema": "prompt-machine-lemonsqueezy-provider-file-receipt-v2",
+        "schema": "prompt-machine-lemonsqueezy-provider-file-receipt-v2.1",
         "component": expected["component"],
         "customer_product_id": expected["customer_product_id"],
         "mode": args.mode,
@@ -212,7 +251,7 @@ def main() -> int:
         "provider_file": {
             "name": file_attributes.get("name"),
             "extension": file_attributes.get("extension"),
-            "version": file_attributes.get("version"),
+            "version": observed_version,
             "size": file_attributes.get("size"),
             "status": file_attributes.get("status"),
             "test_mode": file_attributes.get("test_mode") is True,
