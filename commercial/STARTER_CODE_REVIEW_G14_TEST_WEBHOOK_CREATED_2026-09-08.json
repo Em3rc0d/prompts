@@ -10,13 +10,11 @@
   "webhook": {
     "provider_webhook_id": "132724",
     "url": "https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook",
-    "event_scope": [
-      "order_created"
-    ],
+    "event_scope": ["order_created"],
     "signing_secret_recorded_in_repo": false
   },
   "vercel_handoff": {
-    "local_env_file_reported": "/home/eduardo/.local/share/prompt-machine/g14/starter-code-review-test-vercel.env",
+    "local_env_file_reported": "~/.local/share/prompt-machine/g14/starter-code-review-test-vercel.env",
     "env_values_recorded_in_repo": false,
     "import_observed": false,
     "redeploy_observed": false
