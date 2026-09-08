@@ -1,0 +1,45 @@
+{
+  "schema": "prompt-machine-g14-test-provider-id-reconciliation-v1",
+  "observed_at": "2026-09-08",
+  "provider": "Lemon Squeezy",
+  "provider_mode": "test",
+  "state": "PASS",
+  "stage": "PROVIDER_ID_RECONCILIATION",
+  "canonical": {
+    "store_id": 462419,
+    "product_id": "1347720",
+    "variant_id": "2105176",
+    "product_name": "Prompt Machine Starter — Code Review Edition",
+    "order_id": "9415856",
+    "order_number": 4624191,
+    "price_cents": 900,
+    "archive_name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "archive_bytes": 19161
+  },
+  "duplicate_name_check": {
+    "same_name_product_count": 1,
+    "products": [
+      {
+        "id": "1347720",
+        "status": "published",
+        "test_mode": true
+      }
+    ]
+  },
+  "historical_dashboard_observation": {
+    "product_id": "1347702",
+    "api_state": "NOT_FOUND",
+    "classification": "SUPERSEDED_NON_CANONICAL_OBSERVATION"
+  },
+  "resolution": "API product + variant + paid Test order agree on the signed provider identity",
+  "privacy": {
+    "api_key_recorded": false,
+    "customer_pii_recorded": false
+  },
+  "provider_side_effects": 0,
+  "live_boundary": {
+    "test_ids_reusable_for_live": false,
+    "reason": "Lemon Squeezy Test and Live data are separate; Live identities must be discovered and frozen independently after activation/copy-to-live."
+  },
+  "claim_boundary": "This receipt resolves the Test-mode provider identity only. It does not establish Live provider identity, Live byte custody, Live buyer delivery, a real customer purchase, revenue, product readiness, or readiness to sell."
+}
