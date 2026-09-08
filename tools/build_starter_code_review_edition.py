@@ -5,7 +5,9 @@ The customer WORKFLOW.md is materialized from the exact v2.1 base + normative
 v2.2 addendum composition that earned the scoped G11 certification. The build
 fails closed if source blob identities or composite bytes drift.
 
-RC2 additionally freezes the customer license and sale terms inside the archive.
+The final 1.0.0 package keeps operational launch state outside the customer ZIP:
+customer files may describe release scope, but must not embed transient internal
+flags such as public-checkout or G14 gate state.
 """
 from __future__ import annotations
 
@@ -17,9 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source.json"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
+ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
 RECEIPT_NAME = "build-receipt.json"
-BUILDER_VERSION = "1.1.0"
+BUILDER_VERSION = "1.2.0"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
 
 
@@ -77,10 +79,14 @@ def build(out_dir: Path) -> dict:
     source = json.loads(SOURCE_MANIFEST.read_text(encoding="utf-8"))
     wf = source["workflow"]
 
-    if source.get("version") != "1.0.0-rc2":
-        raise SystemExit("FAIL: source manifest is not the frozen rc2 candidate")
+    if source.get("version") != "1.0.0":
+        raise SystemExit("FAIL: source manifest is not the frozen 1.0.0 artifact")
+    if source.get("status") != "FINAL_ARTIFACT_PRE_LIVE_VALIDATION":
+        raise SystemExit("FAIL: source manifest operational state is unexpected")
+    if source.get("customer_manifest_status") != "CUSTOMER_RELEASE":
+        raise SystemExit("FAIL: customer manifest status is unexpected")
     if source.get("customer_license_frozen") is not True:
-        raise SystemExit("FAIL: rc2 requires a frozen customer license")
+        raise SystemExit("FAIL: 1.0.0 requires a frozen customer license")
 
     base_path = ROOT / wf["base_path"]
     addendum_path = ROOT / wf["addendum_path"]
@@ -121,9 +127,8 @@ def build(out_dir: Path) -> dict:
         "schema": "prompt-machine-starter-code-review-edition-manifest-v1",
         "product": source["commercial_name"],
         "version": source["version"],
-        "status": source["status"],
+        "status": source["customer_manifest_status"],
         "authority": source["authority"],
-        "public_sale": source["public_sale"],
         "customer_license_frozen": source["customer_license_frozen"],
         "customer_license_version": source["customer_license_version"],
         "sale_terms_version": source["sale_terms_version"],
@@ -178,7 +183,9 @@ def build(out_dir: Path) -> dict:
         "workflow_bytes": len(workflow),
         "workflow_sha256": sha256(workflow),
         "payload_fingerprint_sha256": payload_manifest["payload_fingerprint_sha256"],
+        "source_operational_status": source["status"],
         "public_sale": source["public_sale"],
+        "customer_manifest_status": source["customer_manifest_status"],
         "customer_license_frozen": source["customer_license_frozen"],
         "customer_license_version": source["customer_license_version"],
         "sale_terms_version": source["sale_terms_version"],
