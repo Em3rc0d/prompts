@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only Lemon Squeezy G14 discovery probe for Starter Code Review RC2.
+"""Read-only Lemon Squeezy G14 discovery probe for Starter Code Review 1.0.0.
 
 This probe is intentionally test-mode only. Lemon Squeezy disables file downloads
 for test-mode purchases, so this probe can establish provider metadata, product,
@@ -23,10 +23,10 @@ API_BASE = "https://api.lemonsqueezy.com/v1"
 STORE_NAME = "Prompt Quarry"
 PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
 PRODUCT_PRICE_CENTS = 900
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
-ARCHIVE_VERSION = "1.0.0-rc2"
-ARCHIVE_BYTES = 19161
-ARCHIVE_SHA256 = "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88"
+ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_VERSION = "1.0.0"
+ARCHIVE_BYTES = 18955
+ARCHIVE_SHA256 = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
 
 
 def fail(message: str) -> NoReturn:
@@ -52,7 +52,7 @@ def api_get(path: str, key: str) -> dict[str, Any]:
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Discovery/1.2",
+            "User-Agent": "Prompt-Machine-G14-Discovery/1.3",
         },
     )
     try:
@@ -113,9 +113,9 @@ def classify_snapshot(*, stores: list[dict[str, Any]], products: list[dict[str, 
     variant = candidates[0]
     vid = str(variant.get("id"))
 
-    file_item = exact(files, lambda item: str(attr(item).get("variant_id")) == vid and attr(item).get("name") == ARCHIVE_NAME, "RC2 provider file")
+    file_item = exact(files, lambda item: str(attr(item).get("variant_id")) == vid and attr(item).get("name") == ARCHIVE_NAME, "final 1.0.0 provider file")
     if file_item is None:
-        return {"state": "ACTION_REQUIRED", "stage": "UPLOAD_RC2", "store_id": sid, "product_id": pid, "variant_id": vid}
+        return {"state": "ACTION_REQUIRED", "stage": "UPLOAD_FINAL_1_0_0", "store_id": sid, "product_id": pid, "variant_id": vid}
 
     fa = attr(file_item)
     raw_version = fa.get("version")
@@ -197,7 +197,7 @@ def main() -> int:
 
     result = classify_snapshot(stores=stores, products=products, variants=variants, files=files, store_id=args.store_id)
     result.update({
-        "schema": "prompt-machine-g14-lemonsqueezy-probe-v1.2",
+        "schema": "prompt-machine-g14-lemonsqueezy-probe-v1.3",
         "mode": "test",
         "expected_price_cents": PRODUCT_PRICE_CENTS,
         "expected_archive": {"name": ARCHIVE_NAME, "version": ARCHIVE_VERSION, "bytes": ARCHIVE_BYTES, "sha256": ARCHIVE_SHA256},
