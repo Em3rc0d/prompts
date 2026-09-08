@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prompt Machine G14 Live-mode Lemon Squeezy preflight.
+"""Prompt Machine G14 Live-mode Lemon Squeezy preflight for Verlune Code Review.
 
 Read-only. With a Live API key it discovers the canonical Live product/variant/file
 and, optionally, verifies exact provider-held bytes. It never creates orders,
@@ -18,13 +18,13 @@ import urllib.request
 from typing import Any, NoReturn
 
 API_BASE = "https://api.lemonsqueezy.com/v1"
-STORE_NAME = "Prompt Quarry"
-PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
+STORE_NAME = "Verlune"
+PRODUCT_NAME = "Verlune Code Review"
 PRICE_CENTS = 900
 VERSION = "1.0.0"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
-ARCHIVE_BYTES = 18955
-ARCHIVE_SHA256 = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
+ARCHIVE_NAME = "verlune-code-review-v1.0.0.zip"
+ARCHIVE_BYTES = 18859
+ARCHIVE_SHA256 = "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
 
 
 def emit(state: str, stage: str, **extra: object) -> None:
@@ -55,7 +55,7 @@ def request(path: str, key: str) -> dict[str, Any]:
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Live-Preflight/1.1",
+            "User-Agent": "Prompt-Machine-G14-Verlune-Live-Preflight/1.2",
         },
     )
     try:
@@ -91,7 +91,7 @@ def one(items: list[dict[str, Any]], predicate, label: str) -> dict[str, Any]:
 
 
 def download_bytes(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "Prompt-Machine-G14-Live-Preflight/1.1"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Prompt-Machine-G14-Verlune-Live-Preflight/1.2"})
     try:
         with urllib.request.urlopen(req, timeout=60) as response:
             return response.read()
@@ -105,12 +105,12 @@ def download_bytes(url: str) -> bytes:
 
 def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
     stores = list_data(request("/stores?page[size]=100", key), "stores")
-    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Live store")
+    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Live Verlune store")
     store_id = str(store.get("id"))
 
     q = urllib.parse.urlencode({"filter[store_id]": store_id, "page[size]": 100})
     products = list_data(request(f"/products?{q}", key), "products")
-    product = one(products, lambda x: attrs(x).get("name") == PRODUCT_NAME, "Live Code Review Edition product")
+    product = one(products, lambda x: attrs(x).get("name") == PRODUCT_NAME, "Live Verlune Code Review product")
     pa = attrs(product)
     product_id = str(product.get("id"))
     if pa.get("test_mode") is not False:
@@ -132,7 +132,7 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
 
     q = urllib.parse.urlencode({"filter[variant_id]": variant_id, "page[size]": 100})
     files = list_data(request(f"/files?{q}", key), "files")
-    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "Live final 1.0.0 file")
+    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "Live Verlune 1.0.0 file")
     fa = attrs(file_item)
     file_id = str(file_item.get("id"))
 
@@ -148,6 +148,7 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
 
     ids = {"store_id": store_id, "product_id": product_id, "variant_id": variant_id, "file_id": file_id}
     metadata = {
+        "brand": STORE_NAME,
         "product_name": pa.get("name"), "product_status": pa.get("status"),
         "price_cents": va.get("price"), "is_subscription": va.get("is_subscription"),
         "archive_name": fa.get("name"), "archive_size": fa.get("size"),
@@ -158,17 +159,19 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
 
 
 def self_test() -> int:
+    assert STORE_NAME == "Verlune"
+    assert PRODUCT_NAME == "Verlune Code Review"
     assert PRICE_CENTS == 900
-    assert ARCHIVE_BYTES == 18955
-    assert len(ARCHIVE_SHA256) == 64
+    assert ARCHIVE_BYTES == 18859
+    assert ARCHIVE_SHA256 == "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
     assert VERSION == "1.0.0"
-    assert ARCHIVE_NAME.endswith("v1.0.0.zip")
-    print("PM G14 LEMON LIVE PREFLIGHT SELF TEST: PASS")
+    assert ARCHIVE_NAME == "verlune-code-review-v1.0.0.zip"
+    print("PM G14 LEMON VERLUNE LIVE PREFLIGHT SELF TEST: PASS")
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Read-only Prompt Machine G14 Lemon Live preflight")
+    parser = argparse.ArgumentParser(description="Read-only Verlune Code Review G14 Lemon Live preflight")
     parser.add_argument("--verify-bytes", action="store_true")
     parser.add_argument("--non-interactive", action="store_true")
     parser.add_argument("--self-test", action="store_true")
@@ -194,12 +197,13 @@ def main() -> int:
 
     public_metadata = {k: v for k, v in metadata.items() if k != "download_url"}
     emit(
-        "PASS", stage, mode="live", canonical_live_ids=ids, metadata=public_metadata,
+        "PASS", stage, mode="live", brand=STORE_NAME, product_name=PRODUCT_NAME,
+        canonical_live_ids=ids, metadata=public_metadata,
         provider_file_bytes=byte_evidence, api_key_recorded=False,
         signed_download_url_recorded=False, customer_pii_recorded=False,
         provider_side_effects=0, real_money_effect=False, public_sale_enabled=False,
         claim_boundary=(
-            "Live provider byte verification proves provider-held final 1.0.0 custody only. "
+            "Live provider byte verification proves provider-held Verlune Code Review 1.0.0 custody only. "
             "It does not prove buyer delivery, customer value, real revenue, readiness to sell, or public-sale authorization."
         ),
     )
