@@ -73,11 +73,13 @@ def main() -> int:
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_LIVE_CANARY_TOKEN",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_TEST_CHECKOUT_URL",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_LIVE_CHECKOUT_URL",
-            'commerceMode === "off"',
+            'mode === "off"',
             'gate = "provider_test"',
             'gate = "live_canary"',
             'gate = "live"',
             "starterCodeReviewCheckoutCustomData",
+            'request.headers.get("x-pm-starter-code-review-provider-test-token")',
+            'request.headers.get("x-pm-starter-code-review-live-canary-token")',
         ),
     )
 
@@ -87,7 +89,7 @@ def main() -> int:
             "currentStarterCodeReviewCommerceMode",
             "STARTER_CODE_REVIEW_RELEASE",
             "evaluateLemonSqueezyWebhook",
-            "LEMONSQUEEZY_WEBHOOK_SECRET",
+            "LEMONSQUEEZY_STARTER_CODE_REVIEW_WEBHOOK_SECRET",
             "LEMONSQUEEZY_STORE_ID",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_PRODUCT_ID",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_VARIANT_ID",
@@ -108,6 +110,7 @@ def main() -> int:
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_LIVE_CHECKOUT_URL=",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_PROVIDER_TEST_TOKEN=",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_LIVE_CANARY_TOKEN=",
+            "LEMONSQUEEZY_STARTER_CODE_REVIEW_WEBHOOK_SECRET=",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_PRODUCT_ID=",
             "LEMONSQUEEZY_STARTER_CODE_REVIEW_VARIANT_ID=",
         ),
@@ -154,6 +157,7 @@ def main() -> int:
     print(f"archive_sha256={ARCHIVE_SHA}")
     print("commerce_mode_default=off")
     print("public_sale_default=NOT_FOR_SALE")
+    print("dedicated_webhook_secret=true")
     print("certification_scope_bound_in_provider_verifier=true")
     print("historical_starter_identity_leak=false")
     print("provider_calls=0")
