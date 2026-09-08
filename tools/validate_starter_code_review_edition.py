@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent pack-level QA for Starter — Code Review Edition v1."""
+"""Independent pack-level QA for Verlune Code Review 1.0.0."""
 from __future__ import annotations
 
 import argparse
@@ -20,6 +20,9 @@ EXPECTED_MEMBERS = [
     "MANIFEST.json",
 ]
 EXPECTED_VERSION = "1.0.0"
+EXPECTED_BRAND = "Verlune"
+EXPECTED_PRODUCT = "Verlune Code Review"
+EXPECTED_MANIFEST_SCHEMA = "verlune-code-review-manifest-v1"
 EXPECTED_WORKFLOW_BYTES = 25295
 EXPECTED_WORKFLOW_SHA256 = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 EXPECTED_MODEL = "gemini-3.5-flash"
@@ -42,6 +45,8 @@ def main() -> int:
         print(json.dumps({"verdict": "FAIL", "checks": checks}, indent=2, sort_keys=True))
         return 2
 
+    checks["archive_filename_verlune"] = archive.name == "verlune-code-review-v1.0.0.zip"
+
     with zipfile.ZipFile(archive, "r") as zf:
         infos = zf.infolist()
         names = [i.filename for i in infos]
@@ -62,13 +67,17 @@ def main() -> int:
         checks["workflow_bytes_exact"] = len(workflow) == EXPECTED_WORKFLOW_BYTES
         checks["workflow_sha256_exact"] = sha256(workflow) == EXPECTED_WORKFLOW_SHA256
 
+        manifest_text = data.get("MANIFEST.json", b"").decode("utf-8", errors="replace")
         try:
-            manifest = json.loads(data.get("MANIFEST.json", b"").decode("utf-8"))
+            manifest = json.loads(manifest_text)
             checks["manifest_parseable"] = True
         except Exception:
             manifest = {}
             checks["manifest_parseable"] = False
 
+        checks["manifest_schema_verlune"] = manifest.get("schema") == EXPECTED_MANIFEST_SCHEMA
+        checks["manifest_brand_exact"] = manifest.get("brand") == EXPECTED_BRAND
+        checks["manifest_product_exact"] = manifest.get("product") == EXPECTED_PRODUCT
         checks["manifest_version_final"] = manifest.get("version") == EXPECTED_VERSION
         checks["manifest_status_customer_release"] = manifest.get("status") == "CUSTOMER_RELEASE"
         checks["manifest_has_no_operational_public_sale_flag"] = "public_sale" not in manifest
@@ -99,15 +108,19 @@ def main() -> int:
         license_text = data.get("CUSTOMER-LICENSE.md", b"").decode("utf-8", errors="replace")
         sale_terms = data.get("SALE-TERMS.md", b"").decode("utf-8", errors="replace")
         notice = data.get("RELEASE-NOTICE.md", b"").decode("utf-8", errors="replace")
-        customer_text = "\n".join([readme, quickstart, evidence, license_text, sale_terms, notice])
+        customer_text = "\n".join([readme, quickstart, evidence, license_text, sale_terms, notice, manifest_text])
         customer_lower = customer_text.lower()
         quickstart_lower = quickstart.lower()
         license_lower = license_text.lower()
         terms_lower = sale_terms.lower()
         notice_lower = notice.lower()
 
+        checks["readme_brand_exact"] = readme.startswith("# Verlune Code Review\n")
         checks["readme_version_final"] = "Version: `1.0.0`" in readme
-        checks["evidence_version_final"] = "Edition `1.0.0`" in evidence
+        checks["evidence_version_final"] = "Verlune Code Review `1.0.0`" in evidence
+        checks["license_brand_exact"] = license_text.startswith("# Verlune Customer License — Code Review\n")
+        checks["sale_terms_brand_exact"] = sale_terms.startswith("# Verlune Code Review: Sale Terms\n")
+        checks["release_notice_brand_exact"] = "**Verlune Code Review 1.0.0**" in notice
         checks["no_release_candidate_reference"] = (
             "1.0.0-rc1" not in customer_text
             and "1.0.0-rc2" not in customer_text
@@ -129,6 +142,8 @@ def main() -> int:
             )
         )
         checks["customer_surface_no_internal_prompt_quarry_brand"] = "prompt quarry" not in customer_lower
+        checks["customer_surface_no_internal_prompt_machine_brand"] = "prompt machine" not in customer_lower
+        checks["customer_surface_contains_verlune"] = "verlune" in customer_lower
         checks["bug_diagnosis_not_packaged"] = "Evidence-first Bug Diagnosis" not in customer_text and "bug-diagnosis" not in " ".join(names).lower()
         checks["readme_names_gemini_scope"] = EXPECTED_MODEL in readme
         checks["quickstart_preserves_human_authority"] = (
@@ -166,6 +181,8 @@ def main() -> int:
     failed = [name for name, ok in checks.items() if not ok]
     result = {
         "schema": "prompt-machine-starter-code-review-edition-pack-qa-v1",
+        "brand": EXPECTED_BRAND,
+        "product": EXPECTED_PRODUCT,
         "archive_name": archive.name,
         "archive_bytes": archive.stat().st_size,
         "archive_sha256": sha256(archive.read_bytes()),
