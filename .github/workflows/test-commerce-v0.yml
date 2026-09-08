@@ -23,6 +23,7 @@ on:
       - 'tools/build_starter_code_review_edition.py'
       - 'tools/verify_lemonsqueezy_provider_file.py'
       - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
+      - 'tools/pm_g14_lemonsqueezy_probe.py'
       - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_starter_webhook_adapter_v1.py'
       - 'tools/test_starter_code_review_g14_v1.py'
@@ -47,6 +48,7 @@ on:
       - 'tools/build_starter_code_review_edition.py'
       - 'tools/verify_lemonsqueezy_provider_file.py'
       - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
+      - 'tools/pm_g14_lemonsqueezy_probe.py'
       - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_starter_webhook_adapter_v1.py'
       - 'tools/test_starter_code_review_g14_v1.py'
@@ -69,9 +71,12 @@ jobs:
           python -m py_compile tools/test_commerce_v0.py
           python -m py_compile tools/verify_lemonsqueezy_provider_file.py
           python -m py_compile tools/verify_lemonsqueezy_starter_code_review_file.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_probe.py
           python -m py_compile tools/test_provider_custody_verifier_v1.py
           python -m py_compile tools/test_starter_webhook_adapter_v1.py
           python -m py_compile tools/test_starter_code_review_g14_v1.py
+      - name: Self-test Lemon Squeezy discovery state machine without network
+        run: python tools/pm_g14_lemonsqueezy_probe.py --self-test
       - name: Validate commerce evidence contract
         run: python tools/test_commerce_v0.py
       - name: Validate provider custody semantics offline
