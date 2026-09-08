@@ -1,6 +1,6 @@
 # Evidence and claim boundary
 
-This file defines the strongest claims supported for Prompt Machine Starter — Code Review Edition `1.0.0`.
+This file defines the strongest claims supported for Verlune Code Review `1.0.0`.
 
 ## Exact workflow identity
 
@@ -14,7 +14,7 @@ authority    ADVISORY_ONLY
 
 `WORKFLOW.md` is generated from the exact certified composite identity: Evidence-first Code Review v2.1 base plus the normative v2.2 hardening addendum in the frozen composition order.
 
-Version `1.0.0` changes only the customer packaging layer relative to earlier packaging snapshots. It does not change the certified `WORKFLOW.md` bytes.
+Version `1.0.0` changes only the customer packaging and brand layer relative to earlier packaging snapshots. It does not change the certified `WORKFLOW.md` bytes.
 
 ## Observed behavioral evidence
 
@@ -75,7 +75,7 @@ Certification is tied to the final workflow candidate and final passing evidence
 
 ## Packaging and license evidence
 
-Version `1.0.0` freezes the customer-facing usage license, sale terms, operating guide, evidence notes, and exact certified workflow identity into one deterministic package.
+Verlune Code Review `1.0.0` freezes the customer-facing usage license, sale terms, operating guide, evidence notes, brand identity, and exact certified workflow identity into one deterministic package.
 
 Package integrity does **not** broaden the behavioral certification. In particular, it does not prove:
 
