@@ -14,7 +14,7 @@ authority    ADVISORY_ONLY
 
 `WORKFLOW.md` is generated from the exact certified composite identity: Evidence-first Code Review v2.1 base plus the normative v2.2 hardening addendum in the frozen composition order.
 
-Version `1.0.0` changes only the customer packaging layer relative to the preceding release candidates. It does not change the certified `WORKFLOW.md` bytes.
+Version `1.0.0` changes only the customer packaging layer relative to earlier packaging snapshots. It does not change the certified `WORKFLOW.md` bytes.
 
 ## Observed behavioral evidence
 
