@@ -21,10 +21,11 @@ EVIDENCE FACTORY Prompt Quarry
 2. `commercial/VERLUNE_CODE_REVIEW_RELEASE_PROFILE_1_0_0_V1.json`
 3. `commercial/VERLUNE_CODE_REVIEW_G12_PACK_REBUILD_1_0_0_PASS_2026-09-08.json`
 4. `commercial/VERLUNE_CODE_REVIEW_G13_PACK_QA_1_0_0_PASS_2026-09-08.json`
-5. `commercial/STARTER_CODE_REVIEW_G14_TEST_ID_RECONCILIATION_PASS_2026-09-08.json`
-6. `commercial/STARTER_CODE_REVIEW_G14_TEST_ORDER_ACCEPTED_2026-09-08.json`
-7. `commercial/STARTER_CODE_REVIEW_G14_LIVE_CANARY_PLAN_V1.md`
-8. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+5. `commercial/VERLUNE_G14_LEMON_BRAND_AND_ACTIVATION_SUBMITTED_2026-09-08.json`
+6. `commercial/STARTER_CODE_REVIEW_G14_TEST_ID_RECONCILIATION_PASS_2026-09-08.json`
+7. `commercial/STARTER_CODE_REVIEW_G14_TEST_ORDER_ACCEPTED_2026-09-08.json`
+8. `commercial/STARTER_CODE_REVIEW_G14_LIVE_CANARY_PLAN_V1.md`
+9. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
 
 RC1, RC2 and the pre-Live Prompt Machine-branded `1.0.0` package remain historical/superseded evidence only.
 
@@ -104,14 +105,33 @@ historical 1347702   API NOT_FOUND / SUPERSEDED_NON_CANONICAL_OBSERVATION
 
 These Test IDs are not Live identities.
 
+## Current Lemon state — observed
+
+```text
+mode                         Test
+store_id                     462419
+customer-facing store name   Verlune
+store logo                   OBSERVED
+currency                     USD
+activation application       SUBMITTED
+identity verification        IN REVIEW
+provider approval            NOT YET OBSERVED
+Live readiness               NOT YET OBSERVED
+```
+
+The store branding observation does not prove that the Test product name or downloadable file has been migrated to Verlune. Store URL and contact email are intentionally not recorded in the evidence receipt.
+
 ## Pre-Live frontier
 
 ```text
 L0    historical Test provider ID reconciliation      PASS
 L0.5  Verlune brand architecture                      ADOPTED
-      Lemon store/product rename                      PENDING DASHBOARD ACTION
+      Lemon Test store name + logo                    PASS / OBSERVED
+      Lemon Test product rename                       PENDING
 L0.75 upload + metadata-revalidate Verlune 1.0.0      PENDING
-L1    legitimate store activation/provider approval   NOT AUTHORIZED / PENDING
+L1    store activation application                    SUBMITTED
+      identity verification                           IN_REVIEW
+      provider approval                               PENDING
 L2    copy exact Verlune 1.0.0 to Live                PENDING
 L3    freeze NEW Live IDs + create Live API key        PENDING
 L4    Live provider bytes 18,859 + exact SHA           PENDING
@@ -132,7 +152,7 @@ real revenue        0
 PQ-$1               NOT OBSERVED
 ```
 
-The next legitimate external action is to rename the Lemon Test store/product to Verlune and replace the old downloadable file with the exact Verlune archive, then run the read-only Test metadata probe. Live activation remains a separate owner/provider boundary.
+The next legitimate external action is to rename the existing Lemon Test product to `Verlune Code Review`, replace the historical downloadable file with the exact Verlune archive, and then run the read-only Test metadata probe. Provider activation review can proceed independently; no Live claim is made until approval is actually observed.
 
 Master rule:
 
