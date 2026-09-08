@@ -8,14 +8,15 @@ This is the current operational status entrypoint for the first Prompt Machine p
 
 Read in this order:
 
-1. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
-2. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
-3. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
-4. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
-5. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-6. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
-7. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
-8. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
+1. `commercial/STARTER_CODE_REVIEW_G14_TEST_WEBHOOK_CREATED_2026-09-08.json`
+2. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
+3. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
+4. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
+5. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
+6. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
+7. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+8. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+9. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
 
 Older release states and RC1 artifacts remain historical evidence only.
 
@@ -62,7 +63,7 @@ G10 Human Value Review    KEEP / RECORDED
 G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
 G12 Pack Rebuild          PASS — RC2
 G13 Pack-level QA         PASS — RC2, 65/65
-G14 Provider Gates        TEST PRODUCT PUBLISHED / METADATA PASS / TEST ORDER PENDING
+G14 Provider Gates        TEST PRODUCT + WEBHOOK OBSERVED / VERCEL APPLY + TEST ORDER PENDING
 ```
 
 G09 does not assert cross-model portability. Observed behavioral evidence remains on `gemini-3.5-flash` only.
@@ -99,17 +100,21 @@ RC2 filename          MATCH
 RC2 provider size     19,161 bytes
 file status           published
 provider metadata     PASS
+webhook id            132724
+webhook event         order_created
+webhook target        https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook
 ```
 
 The local read-only provider probe additionally observed exact name, size, `published` file status, and `test_mode=true`. Lemon returned no file version; that field is optional and is not part of cryptographic custody identity.
 
-A direct provider file download returned HTTP 403. This is **not** classified as a custody failure: Lemon Squeezy documents file downloads as disabled for Test-mode purchases. Therefore:
+A direct provider file download returned HTTP 403. This is **not** classified as a custody failure: Lemon Squeezy disables file downloads in Test mode. Therefore:
 
 ```text
 provider metadata evidence      OBSERVED / PASS
+Test webhook object             OBSERVED / PASS
 provider byte custody           NOT OBSERVABLE IN TEST MODE
 provider test checkout/order    NOT YET OBSERVED
-signed order_created webhook    NOT YET OBSERVED
+signed order_created accepted   NOT YET OBSERVED
 ```
 
 Byte custody remains reserved for a later controlled Live canary using `tools/verify_lemonsqueezy_starter_code_review_file.py`.
@@ -125,17 +130,19 @@ Prepared and CI-tested:
 - `tools/test_starter_code_review_g14_v1.py`
 - `tools/pm_operator.py`
 - `tools/pm_g14_lemonsqueezy_probe.py` — read-only Test-mode metadata probe
-- `tools/pm_g14_lemonsqueezy_test_setup.py` — bounded Test-mode setup operator
+- `tools/pm_g14_lemonsqueezy_test_setup.py` — bounded Lemon Test-mode setup operator
+- `tools/pm_g14_vercel_test_apply.py` — one-action Vercel env apply/redeploy/private-checkout verifier
 
 `prompt-quarry-stage.vercel.app` is deployed and its Code Review webhook path is routable; a GET receives `405 Method Not Allowed`, which is expected because the route only accepts POST.
 
 Defaults remain fail closed:
 
 ```text
-commerce mode      off
 public sale        NOT_FOR_SALE
 public checkout    OFF
 ```
+
+The Test integration handoff deliberately changes the **staging** commerce mode from `off` to `test` only after importing the generated owner-only environment file. This does not enable public/live sale.
 
 ## Operator UX
 
@@ -143,23 +150,28 @@ Invariant:
 
 `one user action <= one command`
 
-`pm_g14_lemonsqueezy_test_setup.py` discovers Store/Product/Variant/File and the provider checkout URL, generates separate webhook and provider-test secrets, and with explicit `--apply-webhook` creates only the Test-mode `order_created` webhook. It never persists or prints the Lemon API key. Generated secrets are written only to a chmod-0600 local Vercel handoff file and are excluded from receipts.
+`pm_g14_lemonsqueezy_test_setup.py` discovered Store/Product/Variant/File, generated separate webhook and provider-test secrets, and created exactly one Test-mode `order_created` webhook. It never persisted or printed the Lemon API key. Generated secrets were written only to a chmod-0600 local Vercel handoff file and excluded from receipts.
 
-CI validates the setup operator offline with no provider effects.
+The next operator, `pm_g14_vercel_test_apply.py`, reads that owner-only handoff, upserts the eight required Production variables for the isolated `prompt-quarry-stage` project through Vercel CLI stdin, redeploys the current staging production deployment, verifies the private provider-test checkout gate, and emits only the final Lemon Test checkout URL. Secret values are not printed or embedded in command arguments.
+
+Commerce CI explicitly compiles and self-tests this Vercel operator offline before user execution.
 
 ## Remaining external G14 evidence
 
 ```text
 Test product published                    OBSERVED / PASS
 provider file metadata                    OBSERVED / PASS
+Test webhook configured                   OBSERVED / PASS
 Test-mode byte download                   UNAVAILABLE BY PROVIDER DESIGN
-Test webhook configured                   NOT YET OBSERVED
-provider test checkout/order              NOT YET OBSERVED
-signed order_created accepted             NOT YET OBSERVED
-Live provider byte custody                NOT YET OBSERVED
-Live delivery canary                      NOT YET OBSERVED
-real purchase                             0
-real revenue                              0
+Vercel Test env import                     NOT YET OBSERVED
+Vercel Test redeploy                       NOT YET OBSERVED
+private provider-test checkout redirect    NOT YET OBSERVED
+provider test checkout/order               NOT YET OBSERVED
+signed order_created accepted              NOT YET OBSERVED
+Live provider byte custody                 NOT YET OBSERVED
+Live delivery canary                       NOT YET OBSERVED
+real purchase                              0
+real revenue                               0
 ```
 
 ## Commercial state
@@ -172,7 +184,7 @@ real purchases      0
 PQ-$1               NOT OBSERVED
 ```
 
-The next legitimate boundary is Test-mode webhook configuration followed by a zero-real-money Test checkout/order. Store activation and Live canary remain separate later decisions.
+The next legitimate boundary is importing the generated Test-mode environment into `prompt-quarry-stage`, redeploying, and verifying the private checkout redirect. The following step is one zero-real-money Lemon Test order and provider-signed `order_created` acceptance. Store activation and Live canary remain separate later decisions.
 
 Master rule:
 
