@@ -6,15 +6,16 @@ This is the operational entrypoint for the first paid release candidate.
 
 ## Current truth sources
 
-1. `commercial/STARTER_CODE_REVIEW_G14_TEST_ORDER_ACCEPTED_2026-09-08.json`
-2. `commercial/STARTER_CODE_REVIEW_G14_TEST_CHECKOUT_READY_2026-09-08.json`
-3. `commercial/STARTER_CODE_REVIEW_G14_TEST_WEBHOOK_CREATED_2026-09-08.json`
-4. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
-5. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
-6. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
-7. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
-8. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-9. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+1. `commercial/STARTER_CODE_REVIEW_G14_TEST_ID_RECONCILIATION_PASS_2026-09-08.json`
+2. `commercial/STARTER_CODE_REVIEW_G14_TEST_ORDER_ACCEPTED_2026-09-08.json`
+3. `commercial/STARTER_CODE_REVIEW_G14_TEST_CHECKOUT_READY_2026-09-08.json`
+4. `commercial/STARTER_CODE_REVIEW_G14_TEST_WEBHOOK_CREATED_2026-09-08.json`
+5. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
+6. `commercial/STARTER_CODE_REVIEW_G14_LIVE_CANARY_PLAN_V1.md`
+7. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
+8. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
+9. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
+10. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
 
 Older release states and RC1 artifacts remain historical evidence only.
 
@@ -60,7 +61,7 @@ G10 Human Value Review    KEEP / RECORDED
 G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
 G12 Pack Rebuild          PASS — RC2
 G13 Pack-level QA         PASS — RC2, 65/65
-G14 Provider Gates        TEST INTEGRATION PASS / LIVE CUSTODY + DELIVERY PENDING
+G14 Provider Gates        TEST INTEGRATION + TEST ID RECONCILIATION PASS / PRE-LIVE GATES PENDING
 ```
 
 G09 does not assert cross-model portability. Behavioral evidence remains on `gemini-3.5-flash` only.
@@ -75,10 +76,10 @@ Observed across Lemon Squeezy Test mode and Vercel staging:
 Test product published                    OBSERVED / PASS
 provider file metadata                    OBSERVED / PASS
 Test webhook configured                   OBSERVED / PASS
-Vercel Test env import                     OBSERVED / PASS
+Vercel Test env import                    OBSERVED / PASS
 Vercel production-target redeploy         OBSERVED / PASS
-private provider-test checkout redirect    OBSERVED / PASS
-provider test order                       OBSERVED / PAID TEST ORDER
+private provider-test checkout redirect   OBSERVED / PASS
+provider Test order                       OBSERVED / PAID TEST ORDER
 signed order_created accepted             OBSERVED / PASS
 webhook HTTP status                       200
 runtime event                             provider_test_order_accepted
@@ -88,32 +89,56 @@ test_mode                                 true
 runtime release                           1.0.0-rc2 / 19,161 bytes / SHA-256 MATCH
 ```
 
-The accepted event is emitted only after the webhook adapter passes signature verification, expected event shape, store/product/variant identity, paid status, Test-mode boundary and frozen release custom-data checks.
+Test-mode file downloads are disabled by Lemon Squeezy, so exact provider-held byte custody remains reserved for Live.
 
-The Test-mode file download returned HTTP 403. Lemon Squeezy disables Test-mode file downloads, so exact provider-held byte custody remains reserved for a later controlled Live canary.
+## Canonical Test provider identity — reconciled
 
-## Provider identity discrepancy
-
-Historical dashboard text earlier exposed product URL id `1347702`. The provider-signed accepted order carried:
+The read-only Lemon API reconciliation closed the earlier dashboard mismatch:
 
 ```text
-store_id    462419
-product_id  1347720
-variant_id  2105176
+store_id             462419
+product_id           1347720
+variant_id           2105176
+provider order_id    9415856
+order number         4624191
+same-name products   1
+historical 1347702   API NOT_FOUND / SUPERSEDED_NON_CANONICAL_OBSERVATION
 ```
 
-This conflict is preserved as `UNRESOLVED_SOURCE_DISCREPANCY`; it does not invalidate the accepted Test order because the fail-closed deployed adapter matched the configured provider identity. It **must be reconciled before Live** and the Live store/product/variant IDs must then be frozen.
+The API Product, Variant and paid signed Test order agree on the canonical Test identity. This is now `PASS / PROVIDER_ID_RECONCILIATION`.
+
+These Test IDs are **not** production identities and must never be reused as Live fallbacks. Lemon Test and Live data are separate.
+
+## Pre-Live brand/merchant boundary
+
+The buyer-facing Test checkout/order displayed `By Prompt Quarry`, while the commercial architecture defines:
+
+```text
+Prompt Machine = customer-facing product/platform
+Prompt Quarry  = internal workflow mining/certification factory
+```
+
+Before any Live copy/checkout, the customer-visible Lemon store/merchant branding must be reconciled so buyers are not presented with an internal factory name as the product seller brand unless that is an explicit commercial decision.
+
+This branding gate is separate from legal supplier identity: provider identity/business verification must be completed truthfully and must not be bypassed.
 
 ## Remaining G14 evidence
 
 ```text
-Test-mode byte download                   UNAVAILABLE BY PROVIDER DESIGN
-provider identity discrepancy             MUST RECONCILE BEFORE LIVE
-Live provider byte custody                 NOT YET OBSERVED
-Live delivery canary                       NOT YET OBSERVED
-real purchase                              0
-real revenue                               0
+Test integration                         PASS
+Test provider ID reconciliation          PASS
+customer-facing Lemon branding           MUST RECONCILE BEFORE LIVE
+store activation / provider approval     NOT YET OBSERVED
+Live product copied/recreated            NOT YET OBSERVED
+Live API key                             NOT YET OBSERVED
+Live store/product/variant/file IDs       NOT YET OBSERVED
+Live provider byte custody               NOT YET OBSERVED
+Live delivery canary                     NOT YET OBSERVED
+real purchase                            0
+real revenue                             0
 ```
+
+Prepared tooling includes a read-only Live preflight and a hardened exact-byte custody verifier. Public sale remains fail closed.
 
 ## Commercial state
 
@@ -125,7 +150,7 @@ real purchases      0
 PQ-$1               NOT OBSERVED
 ```
 
-G14 Test integration is now closed for the demonstrated Test-mode path. Store activation, Live byte-custody verification, Live delivery canary, and any public-sale decision remain separate later gates.
+G14 Test integration and L0 identity reconciliation are closed. The current frontier is pre-Live branding + legitimate store activation; Live identity/custody/delivery remain separate gates.
 
 Master rule:
 
