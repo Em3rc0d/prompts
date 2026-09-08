@@ -16,6 +16,10 @@ PRODUCT_KEY = "starter-code-review"
 RELEASE: dict[str, Any] = {
     "component": "starter-code-review-edition-v1",
     "customer_product_id": "prompt-machine-starter-code-review-edition",
+    "provider_product_name": "Prompt Machine Starter — Code Review Edition",
+    "provider_product_status": "published",
+    "price_cents": 900,
+    "is_subscription": False,
     "version": "1.0.0-rc2",
     "archive_name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
     "archive_size": 19161,
