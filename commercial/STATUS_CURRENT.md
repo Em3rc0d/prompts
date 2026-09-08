@@ -6,14 +6,15 @@ This is the operational entrypoint for the first paid release candidate.
 
 ## Current truth sources
 
-1. `commercial/STARTER_CODE_REVIEW_G14_TEST_WEBHOOK_CREATED_2026-09-08.json`
-2. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
-3. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
-4. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
-5. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
-6. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-7. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
-8. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+1. `commercial/STARTER_CODE_REVIEW_G14_TEST_CHECKOUT_READY_2026-09-08.json`
+2. `commercial/STARTER_CODE_REVIEW_G14_TEST_WEBHOOK_CREATED_2026-09-08.json`
+3. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
+4. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
+5. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
+6. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
+7. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
+8. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+9. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
 
 Older release states and RC1 artifacts remain historical evidence only.
 
@@ -59,7 +60,7 @@ G10 Human Value Review    KEEP / RECORDED
 G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
 G12 Pack Rebuild          PASS — RC2
 G13 Pack-level QA         PASS — RC2, 65/65
-G14 Provider Gates        TEST PRODUCT + WEBHOOK OBSERVED / VERCEL APPLY + TEST ORDER PENDING
+G14 Provider Gates        TEST CHECKOUT READY / TEST ORDER + SIGNED WEBHOOK PENDING
 ```
 
 G09 does not assert cross-model portability. Behavioral evidence remains on `gemini-3.5-flash` only.
@@ -68,7 +69,7 @@ G11 certification ID: `PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001`.
 
 ## G14 observed state
 
-Observed in Lemon Squeezy Test mode:
+Observed in Lemon Squeezy Test mode and Vercel staging:
 
 ```text
 product name          Prompt Machine Starter — Code Review Edition
@@ -83,6 +84,13 @@ provider metadata     PASS
 webhook id            132724
 webhook event         order_created
 webhook target        https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook
+Vercel deployment     dpl_8aoy1xPf5w9o6zPnBQLN6GT3YMXT
+Vercel state          READY
+Vercel target         production
+checkout gate         provider_test
+checkout redirect     OBSERVED / HTTP 302
+runtime event         provider_test_checkout_started
+runtime release       1.0.0-rc2 / 19,161 bytes / SHA-256 MATCH
 ```
 
 The Test-mode file download returned HTTP 403. Lemon Squeezy disables Test-mode file downloads, so this is not treated as corrupted custody evidence. Exact provider-held byte custody remains reserved for a later controlled Live canary.
@@ -93,7 +101,7 @@ Prepared and CI-tested:
 
 - `tools/pm_g14_lemonsqueezy_probe.py` — read-only Test metadata.
 - `tools/pm_g14_lemonsqueezy_test_setup.py` — Test webhook setup; API key not persisted.
-- `tools/pm_g14_vercel_test_apply.py` — reads the owner-only Vercel handoff, upserts the eight Test variables through stdin, redeploys `prompt-quarry-stage`, verifies the private provider-test checkout gate and emits only the final Lemon Test checkout URL.
+- `tools/pm_g14_vercel_test_apply.py` — owner-only Vercel handoff, env upsert, redeploy and private Test checkout verification.
 - `tools/verify_lemonsqueezy_starter_code_review_file.py` — later controlled Live byte-custody verification.
 
 The generated signing and gate secrets remain outside the repository in an owner-only local handoff. Public sale remains `NOT_FOR_SALE`.
@@ -105,9 +113,9 @@ Test product published                    OBSERVED / PASS
 provider file metadata                    OBSERVED / PASS
 Test webhook configured                   OBSERVED / PASS
 Test-mode byte download                   UNAVAILABLE BY PROVIDER DESIGN
-Vercel Test env import                     NOT YET OBSERVED
-Vercel Test redeploy                       NOT YET OBSERVED
-private provider-test checkout redirect    NOT YET OBSERVED
+Vercel Test env import                     OBSERVED / PASS
+Vercel Test redeploy                       OBSERVED / PASS
+private provider-test checkout redirect    OBSERVED / PASS
 provider test checkout/order               NOT YET OBSERVED
 signed order_created accepted              NOT YET OBSERVED
 Live provider byte custody                 NOT YET OBSERVED
@@ -126,7 +134,7 @@ real purchases      0
 PQ-$1               NOT OBSERVED
 ```
 
-The next legitimate boundary is Vercel Test env import + redeploy + private checkout verification. The following step is one zero-real-money Lemon Test order and provider-signed `order_created` acceptance. Store activation and Live canary remain separate later decisions.
+The next legitimate boundary is one zero-real-money Lemon Test order followed by provider-signed `order_created` acceptance in Vercel. Store activation and Live canary remain separate later decisions.
 
 Master rule:
 
