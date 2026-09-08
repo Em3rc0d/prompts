@@ -1,133 +1,167 @@
 # Prompt Machine — Current Status
 
-Last reconciled: `2026-09-07`
+Last reconciled: `2026-09-08`
 
-This is the current operational status entrypoint for the Prompt Machine Starter evidence path.
+This is the current operational status entrypoint for the first Prompt Machine paid release candidate.
 
 ## Current truth sources
 
-1. `commercial/STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json`
-2. `commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json`
-3. `commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json`
-4. `product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json`
+Read in this order:
 
-Older release-state snapshots, `STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, and the PR #4 body remain historical evidence. They do not override this current closure state.
+1. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_OFFLINE_READY_2026-09-08.json`
+2. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
+3. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+4. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_PASS_2026-09-07.json`
+5. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_PASS_2026-09-07.json`
+6. `product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json`
 
-## Evidence-cycle closure
+Older release states, `STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, and pre-reconciliation PR descriptions remain historical evidence. They do not override this status.
+
+## Release candidate
 
 ```text
-G01 Inventory             CLOSED / historical
-G02 Specification         CLOSED / historical
-G03 Static Audit          CLOSED / historical
-G04 Test Design           CLOSED / historical
-G05 Baseline Execution    FAIL / REWORK — historical
+product          Prompt Machine Starter — Code Review Edition
+profile          PM-STARTER-CODE-REVIEW-EDITION-V1
+version          1.0.0-rc1
+price            $9 one-time — hypothesis
+workflow count   1
+```
+
+Bug Diagnosis is not included in this RC; it is deferred until it earns its own behavioral certification.
+
+Canonical Code Review surface:
+
+```text
+workflow_id      pm-starter-evidence-first-code-review-v2
+contract         2.2.0
+bytes            25,295
+sha256           6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
+authority        ADVISORY_ONLY
+```
+
+Canonical RC archive:
+
+```text
+prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip
+14,667 bytes
+SHA-256 7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde
+6 members
+```
+
+## Gate state
+
+```text
+G05 Baseline Execution    FAIL / REWORK — historical defect preserved
 G06 Failure Mining        CLOSED
-G07 Improvement           STATIC PASS
-G08 Regression            PASS — 4/4 required cases
-G09 Portability           DEFERRED / NOT OBSERVED
-G10 Human Value Review    NOT ENTERED
-G11 Certification         NOT ENTERED / NOT CERTIFIED
-G12 Pack Rebuild          NOT ENTERED
-G13 Pack-level QA         NOT ENTERED
-G14 Provider Gates        NOT PASSED
+G07 Improvement           PASS
+G08 Regression            PASS — 4/4 required final cases
+G09 Portability           MODEL_SPECIFIC / PASS_FOR_DEMONSTRATED_SCOPE
+G10 Human Value Review    KEEP / RECORDED
+G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
+G12 Pack Rebuild          PASS
+G13 Pack-level QA         PASS
+G14 Provider Gates        OFFLINE PREP PASS / EXTERNAL EVIDENCE PENDING
 ```
 
-The current evidence cycle is intentionally closed at G08. G09 was statically prepared for a second model family, but no accessible second-family credential was available and no G09 provider request was made. We do not convert that external constraint into a fabricated PASS.
+G09 does not assert cross-model portability. The correct classification is `MODEL_SPECIFIC` because the observed behavioral evidence is on `gemini-3.5-flash` only.
 
-## Canonical Evidence-first Code Review candidate
+G11 certification ID:
 
-```text
-workflow_id     pm-starter-evidence-first-code-review-v2
-contract        2.2.0
-surface mode    composite v2.1 base + normative v2.2 hardening addendum
-bytes           25,295
-sha256          6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
-G08             PASS
-G09             NOT OBSERVED
-G11             NOT CERTIFIED
-```
+`PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001`
 
-Canonical identity:
-
-`product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json`
-
-Do not flatten, rewrite, or silently mutate this surface while citing the G08 result.
+The word **certified** may only be used with the exact Gemini 3.5 Flash / frozen four-case / v2.2 scope or with a direct link to that evidence boundary.
 
 ## What is actually proven
 
-Observed on the frozen four-case matrix using `gemini-3.5-flash`:
+Observed on the frozen four-case matrix using `gemini-3.5-flash`, with zero retries in the final passing batch:
 
-- unknown external authorization boundary preserves `LIKELY / REVIEW_REQUIRED`;
-- embedded instructions remain untrusted task data;
-- a supplied owner/admin guard permits `NO_MATERIAL_ISSUE_FOUND` without forced findings;
-- a complete supplied no-guard chain permits `CONFIRMED / BLOCK`;
+- uncertainty is preserved when a material external authorization boundary is unobserved;
+- embedded task-data instructions remain untrusted data;
+- a supplied owner/admin guard can close the authorization invariant without forced findings;
+- a complete supplied no-guard path can support `CONFIRMED / BLOCK`;
 - conditional downstream impact remains conditional;
-- the required output contract completed;
-- 4/4 required cases received PASS human reviews in the final G08 batch.
+- the required six-section output contract completed;
+- all 4 required final observations received PASS human reviews.
 
-This is regression evidence for the exact tested surface and matrix. It is not universal portability evidence.
+This is evidence for the exact tested surface and scope. It is not universal software-security or cross-provider evidence.
 
-## G09 closure
+## G12/G13 packaging truth
 
-The prepared batch was:
-
-```text
-PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001
-```
-
-Its static preparation remains preserved for audit, but runtime state is:
+The Code Review Edition was rebuilt deterministically and independently QA'd.
 
 ```text
-provider requests attempted     0
-model observations              0
-portability observed            NO
-prepared authorization consumed NO
-prepared authorization state    CLOSED / UNCONSUMED / NOT REUSABLE
-G09 result                      DEFERRED_EXTERNAL_DEPENDENCY_NOT_OBSERVED
+deterministic rebuild      PASS
+archive byte identity      PASS
+pack QA                    PASS
+QA checks                  37/37
+workflow byte identity     PASS
+Bug Diagnosis packaged     NO
 ```
 
-A future portability experiment is a new evidence purchase and requires an accessible second family plus fresh authorization. Nothing is currently armed.
+Packaging evidence does not establish provider custody, customer delivery, purchase, value, or revenue.
 
-## Claim boundary
+## G14 offline preparation
 
-Allowed now:
+The new Code Review Edition has its own isolated commerce identity and does not reuse the historical Starter v1 archive identity.
 
-`REGRESSION_PROPERTIES_OBSERVED_ON_GEMINI_3_5_FLASH_FOR_THE_FROZEN_FOUR_CASE_MATRIX`
+Prepared and CI-tested:
 
-Not allowed now:
+- `web/lib/starter-code-review-release.ts`
+- `STARTER_CODE_REVIEW_COMMERCE_MODE`
+- `/api/commerce/starter-code-review/checkout`
+- `/api/commerce/lemonsqueezy/starter-code-review-webhook`
+- `tools/verify_lemonsqueezy_starter_code_review_file.py`
+- `tools/test_starter_code_review_g14_v1.py`
+- `tools/pm_operator.py`
+
+Defaults remain fail closed:
 
 ```text
-PORTABLE / model agnostic
-CERTIFIED
-PRODUCT_READY
-READY_TO_SELL
-provider custody proven
-delivery proven
-revenue proven
+commerce mode      off
+public sale        NOT_FOR_SALE
+public checkout    OFF
+provider calls     0 in offline preparation
+model calls        0 in offline preparation
+commerce effects   0 in offline preparation
 ```
 
-## Commerce and product state
+At source HEAD `9a0f73e235b6e9c01739fcd3ef0cc32d2bbbdba2`, 15/15 observed PR workflow runs completed successfully, including Code Review Edition, Commerce v0 and Prompt Machine Operator v1.
+
+## Operator UX
+
+Operator rule:
+
+`one user action <= one command`
+
+`tools/pm_operator.py` performs release checks in a temporary detached worktree. It does not stash, reset, pull into, or otherwise modify the user's active working tree. It returns only `PASS`, `BLOCKED`, or `ACTION_REQUIRED` at the human boundary.
+
+## Remaining external G14 evidence
+
+Not yet observed for this exact RC:
 
 ```text
-provider custody       NOT OBSERVED
-provider integration   NOT PASSED
-live delivery          NOT OBSERVED
-public checkout        OFF
-real purchases         0
-PQ-$1                  NOT OBSERVED
-STARTER_PRODUCT_READY  NO
-READY_TO_SELL          NO
+standalone customer license / sale terms   PENDING
+provider product + variant identity         NOT OBSERVED
+exact provider-held archive custody         NOT OBSERVED
+provider test checkout/order                NOT OBSERVED
+live delivery canary                        NOT OBSERVED
+real purchase                               0
+real revenue                                0
 ```
 
-## Current action state
+Provider candidate remains Lemon Squeezy. Static integration and offline simulation are not provider evidence.
+
+## Commercial state
 
 ```text
-runtime authorization  NONE
-model batch armed       NO
-commerce effects        NONE AUTHORIZED
-merge authorization     NONE
-next required action    NONE FOR THIS CLOSED EVIDENCE CYCLE
+PRODUCT_READY       NO
+READY_TO_SELL       NO
+PUBLIC_CHECKOUT     OFF
+real purchases      0
+PQ-$1               NOT OBSERVED
 ```
+
+The next legitimate boundary is G14 external evidence. Public sale, merge, or stronger claims are not automatic consequences of offline readiness.
 
 Master rule:
 
