@@ -8,15 +8,15 @@ This is the current operational status entrypoint for the first Prompt Machine p
 
 Read in this order:
 
-1. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
-2. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
-3. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
-4. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-5. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+1. `commercial/STARTER_CODE_REVIEW_G14_TEST_PRODUCT_PUBLISHED_2026-09-08.json`
+2. `commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_PROVIDER_HANDOFF_2026-09-08.json`
+3. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
+4. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
+5. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
 6. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
 7. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
 
-Older release states, RC1 receipts, `STATUS_V1.md`, `STARTER_RELEASE_GATE_V1.json`, `STARTER_RELEASE_DAG_V1.json`, and older PR descriptions remain historical evidence. They do not override this status.
+Older release states and RC1 artifacts remain historical evidence only.
 
 ## Release candidate
 
@@ -28,9 +28,7 @@ price            $9 one-time — hypothesis
 workflow count   1
 ```
 
-Bug Diagnosis is not included; it remains deferred until it earns its own behavioral certification.
-
-Canonical Code Review surface:
+Canonical workflow:
 
 ```text
 workflow_id      pm-starter-evidence-first-code-review-v2
@@ -40,7 +38,7 @@ sha256           6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a65595997
 authority        ADVISORY_ONLY
 ```
 
-Canonical RC archive:
+Canonical RC2:
 
 ```text
 prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip
@@ -63,34 +61,14 @@ G10 Human Value Review    KEEP / RECORDED
 G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
 G12 Pack Rebuild          PASS — RC2
 G13 Pack-level QA         PASS — RC2, 65/65
-G14 Provider Gates        OFFLINE PASS / EXTERNAL PROVIDER HANDOFF IN PROGRESS
+G14 Provider Gates        TEST PRODUCT PUBLISHED / METADATA PASS / TEST ORDER PENDING
 ```
 
-G09 does not assert cross-model portability. Observed behavioral evidence is on `gemini-3.5-flash` only.
+G09 does not assert cross-model portability. Observed behavioral evidence remains on `gemini-3.5-flash` only.
 
-G11 certification ID:
-
-`PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001`
-
-The word **certified** may only be used with the exact Gemini 3.5 Flash / frozen four-case / v2.2 scope or with a direct link to that evidence boundary.
-
-## What is proven
-
-Observed on the frozen four-case matrix using `gemini-3.5-flash`, with zero retries in the final passing batch:
-
-- uncertainty remains visible when a material external authorization boundary is unobserved;
-- embedded task-data instructions remain untrusted data;
-- a supplied owner/admin guard can close the authorization invariant without forced findings;
-- a complete supplied no-guard path can support `CONFIRMED / BLOCK`;
-- conditional downstream impact remains conditional;
-- the required six-section output contract completed;
-- all 4 required final observations received PASS human reviews.
-
-This is evidence for the exact tested surface and scope, not universal software-security or cross-model evidence.
+G11 certification ID: `PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001`.
 
 ## RC2 packaging truth
-
-RC2 was rebuilt deterministically and independently QA'd after adding the customer license and sale terms and removing stale RC1 references.
 
 ```text
 deterministic rebuild      PASS
@@ -104,23 +82,51 @@ stale RC1 references       NO
 Bug Diagnosis packaged     NO
 ```
 
-Packaging evidence does not establish provider custody, customer delivery, purchase, value, or revenue.
+Packaging evidence does not establish provider custody, delivery, purchase, value, or revenue.
 
-## G14 Lemon Squeezy handoff
+## G14 — observed Lemon Squeezy state
 
-The Code Review Edition has its own isolated, fail-closed commerce identity. Provider candidate: Lemon Squeezy, using **Test mode** for the current handoff.
+Observed on 2026-09-08 in Lemon Squeezy **Test mode**:
+
+```text
+product name          Prompt Machine Starter — Code Review Edition
+product id            1347702
+price                 $9.00 one-time
+product status        Published
+test mode             TRUE
+RC2 filename          MATCH
+RC2 provider size     19,161 bytes
+file status           published
+provider metadata     PASS
+```
+
+The local read-only provider probe additionally observed exact name, size, `published` file status, and `test_mode=true`. Lemon returned no file version; that field is optional and is not part of cryptographic custody identity.
+
+A direct provider file download returned HTTP 403. This is **not** classified as a custody failure: Lemon Squeezy documents file downloads as disabled for Test-mode purchases. Therefore:
+
+```text
+provider metadata evidence      OBSERVED / PASS
+provider byte custody           NOT OBSERVABLE IN TEST MODE
+provider test checkout/order    NOT YET OBSERVED
+signed order_created webhook    NOT YET OBSERVED
+```
+
+Byte custody remains reserved for a later controlled Live canary using `tools/verify_lemonsqueezy_starter_code_review_file.py`.
+
+## Commerce implementation
 
 Prepared and CI-tested:
 
 - `web/lib/starter-code-review-release.ts` — bound to RC2
-- `STARTER_CODE_REVIEW_COMMERCE_MODE`
 - `/api/commerce/starter-code-review/checkout`
 - `/api/commerce/lemonsqueezy/starter-code-review-webhook`
-- `tools/verify_lemonsqueezy_starter_code_review_file.py` — bound to RC2
+- `tools/verify_lemonsqueezy_starter_code_review_file.py`
 - `tools/test_starter_code_review_g14_v1.py`
-- `tools/pm_operator.py` — bound to RC2
-- `tools/pm_g14_lemonsqueezy_probe.py` — read-only provider discovery/custody probe
-- `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+- `tools/pm_operator.py`
+- `tools/pm_g14_lemonsqueezy_probe.py` — read-only Test-mode metadata probe
+- `tools/pm_g14_lemonsqueezy_test_setup.py` — bounded Test-mode setup operator
+
+`prompt-quarry-stage.vercel.app` is deployed and its Code Review webhook path is routable; a GET receives `405 Method Not Allowed`, which is expected because the route only accepts POST.
 
 Defaults remain fail closed:
 
@@ -130,32 +136,30 @@ public sale        NOT_FOR_SALE
 public checkout    OFF
 ```
 
-The read-only probe never creates provider objects and never records the API key. It discovers `store_id → product_id → variant_id → file_id`; with `--verify-bytes` it only recognizes custody when the provider-held bytes match exactly `19,161` and SHA-256 `1f141d...`.
-
 ## Operator UX
 
-Operator rule:
+Invariant:
 
 `one user action <= one command`
 
-The user's active working tree should not be used as a release state machine. `tools/pm_operator.py` uses a temporary detached worktree, while the Lemon probe can be executed from the latest remote file through `git show` without pulling or stashing the active checkout.
+`pm_g14_lemonsqueezy_test_setup.py` discovers Store/Product/Variant/File and the provider checkout URL, generates separate webhook and provider-test secrets, and with explicit `--apply-webhook` creates only the Test-mode `order_created` webhook. It never persists or prints the Lemon API key. Generated secrets are written only to a chmod-0600 local Vercel handoff file and are excluded from receipts.
+
+CI validates the setup operator offline with no provider effects.
 
 ## Remaining external G14 evidence
 
-Not yet observed for RC2:
-
 ```text
-Lemon Squeezy test product/variant          NOT OBSERVED
-provider file metadata                      NOT OBSERVED
-exact provider-held archive custody         NOT OBSERVED
-provider test checkout/order                NOT OBSERVED
-signed webhook observation                  NOT OBSERVED
-delivery-canary boundary                    NOT OBSERVED
-real purchase                               0
-real revenue                                0
+Test product published                    OBSERVED / PASS
+provider file metadata                    OBSERVED / PASS
+Test-mode byte download                   UNAVAILABLE BY PROVIDER DESIGN
+Test webhook configured                   NOT YET OBSERVED
+provider test checkout/order              NOT YET OBSERVED
+signed order_created accepted             NOT YET OBSERVED
+Live provider byte custody                NOT YET OBSERVED
+Live delivery canary                      NOT YET OBSERVED
+real purchase                             0
+real revenue                              0
 ```
-
-The customer license and sale terms are no longer blockers; both are frozen inside RC2.
 
 ## Commercial state
 
@@ -167,7 +171,7 @@ real purchases      0
 PQ-$1               NOT OBSERVED
 ```
 
-The next legitimate boundary is a Test-mode Lemon Squeezy dashboard handoff: create the exact $9 one-time product/variant, attach RC2, then run the read-only custody probe. Public sale, merge, and live activation remain separate decisions.
+The next legitimate boundary is Test-mode webhook configuration followed by a zero-real-money Test checkout/order. Store activation and Live canary remain separate later decisions.
 
 Master rule:
 
