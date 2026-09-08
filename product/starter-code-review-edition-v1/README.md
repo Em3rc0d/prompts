@@ -1,19 +1,17 @@
 # Prompt Machine Starter — Code Review Edition
 
-Version: `1.0.0-rc2`
+Version: `1.0.0`
 
-Status: `G14 RELEASE CANDIDATE / PUBLIC SALE OFF`
-
-Prompt Machine Starter — Code Review Edition is a single governed workflow for reviewing software changes with explicit evidence discipline, calibrated uncertainty, and a human-controlled ship recommendation.
+Prompt Machine Starter — Code Review Edition is a governed workflow package for reviewing software changes with explicit evidence discipline, calibrated uncertainty, and a human-controlled ship recommendation.
 
 ## What is included
 
-- `WORKFLOW.md` — the exact Evidence-first Code Review v2.2 surface that completed the scoped certification path.
+- `WORKFLOW.md` — the exact Evidence-first Code Review v2.2 surface covered by the declared certification scope.
 - `QUICKSTART.md` — the minimum operating procedure.
-- `EVIDENCE.md` — what was tested, what is certified, and what remains unverified.
+- `EVIDENCE.md` — what was tested, what is certified, and what remains outside the demonstrated scope.
 - `CUSTOMER-LICENSE.md` — customer usage rights and redistribution restrictions.
 - `SALE-TERMS.md` — product-specific purchase, delivery, model-scope, and refund boundaries.
-- `RELEASE-NOTICE.md` — current G14 release boundary.
+- `RELEASE-NOTICE.md` — release identity and scope notes.
 - `MANIFEST.json` — exact package identity and integrity metadata.
 
 ## Intended outcome
@@ -26,7 +24,7 @@ This is not an automatic approval system and it is not a security guarantee.
 
 The exact v2.2 workflow surface completed the frozen four-case regression matrix on `gemini-3.5-flash` with four clean observations and four human-review passes.
 
-Other model families are unverified in the current release candidate. Do not describe this edition as model-agnostic or universally portable.
+Other model families are unverified in the current certification scope. Do not describe this edition as model-agnostic or universally portable.
 
 ## Start here
 
@@ -39,8 +37,6 @@ Other model families are unverified in the current release candidate. Do not des
 
 ## Evidence boundary
 
-Read `EVIDENCE.md` before making claims about this product. Packaging, certification scope, provider custody, customer delivery, customer value, and revenue are separate evidence classes.
-
-This RC contains a frozen customer license, but public checkout remains OFF until G14 external provider and delivery evidence passes.
+Read `EVIDENCE.md` before making claims about this product. The behavioral certification is intentionally narrow and does not establish universal portability, automatic software correctness, security, compliance, or business outcomes.
 
 `MARKETING CLAIM <= OBSERVED EVIDENCE`
