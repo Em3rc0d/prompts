@@ -1,0 +1,49 @@
+{
+  "schema": "verlune-code-review-release-profile-v1",
+  "recorded_at": "2026-09-08",
+  "brand": "Verlune",
+  "product": "Verlune Code Review",
+  "version": "1.0.0",
+  "price_hypothesis_usd": 9,
+  "classification": "MODEL_SPECIFIC",
+  "validated_model": "gemini-3.5-flash",
+  "authority": "ADVISORY_ONLY",
+  "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+  "archive": {
+    "name": "verlune-code-review-v1.0.0.zip",
+    "bytes": 18859,
+    "sha256": "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649",
+    "payload_fingerprint_sha256": "46554b5aa36166e6bee7f07b572fa4bece29811270e014cb96381099c87ca430",
+    "members": 8
+  },
+  "workflow": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "builder": {
+    "version": "1.3.0",
+    "source_commit": "a6c6b4c79606bdc1b386980da34675a66feb4b4a",
+    "deterministic_inputs_only": true
+  },
+  "pack_qa": {
+    "checks": 77,
+    "failed": 0,
+    "verdict": "PASS"
+  },
+  "customer_surface": {
+    "prompt_machine_brand_exposed": false,
+    "prompt_quarry_brand_exposed": false,
+    "verlune_brand_present": true,
+    "customer_license_frozen": true,
+    "sale_terms_frozen": true
+  },
+  "commercial_boundary": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": false,
+    "real_purchases": 0,
+    "real_revenue_usd": 0
+  }
+}
