@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-machine-g14-test-product-evidence-v1",
+  "recorded_at": "2026-09-08",
+  "product": {
+    "name": "Prompt Machine Starter — Code Review Edition",
+    "price_usd": 9.0,
+    "lemonsqueezy_product_id": "1347702",
+    "test_mode": true,
+    "dashboard_status": "Published"
+  },
+  "release": {
+    "version": "1.0.0-rc2",
+    "archive": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "bytes": 19161,
+    "sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88"
+  },
+  "provider_metadata_observation": {
+    "name_match": true,
+    "size_match": true,
+    "status": "published",
+    "test_mode": true,
+    "version": null,
+    "version_required_for_custody": false,
+    "result": "PASS"
+  },
+  "test_mode_file_download": {
+    "attempted": true,
+    "http_status": 403,
+    "classification": "EXPECTED_PROVIDER_RESTRICTION",
+    "reason": "Lemon Squeezy documents file downloads as disabled for test-mode purchases",
+    "byte_custody_evidence": false
+  },
+  "evidence_sources": [
+    "USER_OBSERVED_LEMONSQUEEZY_DASHBOARD",
+    "LOCAL_READ_ONLY_PROVIDER_PROBE_OUTPUT",
+    "LEMONSQUEEZY_OFFICIAL_TEST_MODE_DOCUMENTATION"
+  ],
+  "claims": {
+    "test_product_published": true,
+    "provider_file_metadata_observed": true,
+    "provider_byte_custody_observed": false,
+    "test_checkout_observed": false,
+    "test_order_observed": false,
+    "signed_webhook_observed": false,
+    "real_purchase": false,
+    "real_revenue": false,
+    "ready_to_sell": false
+  },
+  "next_gate": "TEST_WEBHOOK_AND_TEST_ORDER"
+}
