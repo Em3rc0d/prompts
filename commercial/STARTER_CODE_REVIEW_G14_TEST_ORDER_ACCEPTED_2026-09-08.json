@@ -1,0 +1,55 @@
+{
+  "schema": "prompt-machine-g14-test-order-accepted-v1",
+  "observed_at": "2026-09-08T16:17:48Z",
+  "provider": "Lemon Squeezy",
+  "provider_mode": "test",
+  "state": "PASS",
+  "stage": "G14_TEST_INTEGRATION",
+  "evidence": {
+    "vercel_deployment_id": "dpl_8aoy1xPf5w9o6zPnBQLN6GT3YMXT",
+    "webhook_http_status": 200,
+    "webhook_event": "provider_test_order_accepted",
+    "source": "lemonsqueezy_webhook",
+    "provider_signed_order_created": true,
+    "test_mode": true,
+    "provider_order_id": "9415856",
+    "provider_identifier": "bcec4ec5-dc3a-4c0a-984b-30eb01026b63",
+    "order_number": 4624191,
+    "store_id": 462419,
+    "product_id": 1347720,
+    "variant_id": 2105176,
+    "currency": "USD",
+    "total_cents": 900,
+    "total_usd_cents": 900,
+    "release": {
+      "product_id": "prompt-machine-starter-code-review-edition",
+      "product_version": "1.0.0-rc2",
+      "archive_sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+      "archive_size": 19161
+    }
+  },
+  "privacy": {
+    "customer_name_recorded": false,
+    "customer_email_recorded": false,
+    "payment_details_recorded": false
+  },
+  "historical_identity_discrepancy": {
+    "earlier_dashboard_url_product_id_observation": "1347702",
+    "provider_signed_order_product_id": "1347720",
+    "classification": "UNRESOLVED_SOURCE_DISCREPANCY",
+    "effect_on_test_integration": "does not invalidate the accepted signed Test order because the deployed fail-closed adapter matched its configured provider identity",
+    "required_before_live": "reconcile provider product identity through the Lemon API/dashboard and freeze the Live target IDs"
+  },
+  "claim_boundary": {
+    "g14_test_integration": "PASS",
+    "test_checkout_order": "OBSERVED",
+    "signed_order_created": "OBSERVED_ACCEPTED",
+    "provider_byte_custody": "NOT_OBSERVABLE_IN_TEST_MODE",
+    "live_delivery": "NOT_OBSERVED",
+    "real_purchase": false,
+    "real_revenue": 0,
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": "OFF"
+  }
+}
