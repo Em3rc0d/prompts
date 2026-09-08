@@ -1,22 +1,34 @@
 # Release-candidate notice
 
-Status: `INTERNAL RELEASE CANDIDATE / NOT FOR SALE`
+Status: `G14 RELEASE CANDIDATE / PUBLIC SALE STILL OFF`
 
-This package is being prepared for release validation. It is not a public sale artifact yet.
+This package is the licensed release candidate for **Prompt Machine Starter — Code Review Edition**. It is prepared for final provider custody and delivery validation, but public sale remains disabled until G14 external evidence passes.
 
-## Current legal/commercial boundary
+## Customer terms included
 
-No standalone customer license has been frozen for this edition in the repository as of this release candidate. This file does **not** invent or grant replacement legal terms.
+This archive contains:
 
-Before public sale, G14 must bind the final customer-facing license/terms, provider custody, commerce integration, and live-delivery evidence to the exact release artifact.
+- `CUSTOMER-LICENSE.md` — usage rights and redistribution restrictions;
+- `SALE-TERMS.md` — product-specific purchase, delivery, model-scope, and refund boundaries.
 
-Until that gate is complete:
+The included customer license is frozen for this release candidate. Its presence does **not** by itself mean the product is publicly for sale or that provider delivery has been observed.
 
-- do not publish this RC as a paid download;
-- do not represent checkout as live;
-- do not claim delivery evidence;
-- do not infer usage rights beyond the applicable terms explicitly presented when a future release is made available.
+## Current release boundary
+
+Before public sale, G14 still requires the exact release artifact to be bound to and retrieved from the authorized commerce provider, followed by a controlled checkout/order test and delivery canary.
+
+Until those external gates pass:
+
+- public checkout stays OFF;
+- do not represent the product as publicly purchasable;
+- do not claim provider custody or customer delivery unless separately observed;
+- do not infer revenue from test-mode orders;
+- do not broaden the model-specific certification scope.
 
 ## Evidence boundary
 
-Behavioral certification is model-specific and scoped to the evidence described in `EVIDENCE.md`. Certification does not itself grant legal rights, prove customer delivery, or establish readiness to sell.
+Behavioral certification is model-specific and scoped to the evidence described in `EVIDENCE.md`.
+
+Certification does not prove provider custody, customer delivery, customer value, revenue, or universal software security.
+
+`MARKETING CLAIM <= OBSERVED EVIDENCE`
