@@ -7,12 +7,12 @@ const stages = [
 
 export function QuarryEngine() {
   return (
-    <div className="engineShell" aria-label="Prompt Machine workflow visualization">
+    <div className="engineShell" aria-label="Verlune workflow visualization">
       <div className="engineChrome">
         <div className="engineTitle">
-          <span className="engineMark" aria-hidden="true">PM</span>
+          <span className="engineMark" aria-hidden="true">VL</span>
           <div>
-            <strong>WORKFLOW ENGINE</strong>
+            <strong>VERLUNE WORKFLOW</strong>
             <span>goal → workflow → verified output</span>
           </div>
         </div>
@@ -61,7 +61,7 @@ export function QuarryEngine() {
       </div>
 
       <div className="engineFooter">
-        <span>powered by Prompt Quarry</span>
+        <span>evidence visible by design</span>
         <span className="engineHash">versioned · governed · inspectable</span>
       </div>
     </div>
