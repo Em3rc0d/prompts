@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "prompt-machine-starter-provider-custody-receipt-v1",
+  "title": "Prompt Machine Starter Provider Custody Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt_id",
+    "recorded_at",
+    "provider",
+    "mode",
+    "product_id",
+    "provider_identity",
+    "artifact",
+    "retrieval",
+    "public_surface",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "schema": { "const": "prompt-machine-starter-provider-custody-receipt-v1" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "provider": { "const": "LEMON_SQUEEZY" },
+    "mode": { "enum": ["test", "controlled_live"] },
+    "product_id": { "const": "prompt-machine-starter-collection" },
+    "provider_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["store_id", "provider_product_id", "provider_variant_id", "provider_file_id"],
+      "properties": {
+        "store_id": { "type": "string", "minLength": 1 },
+        "provider_product_id": { "type": "string", "minLength": 1 },
+        "provider_variant_id": { "type": "string", "minLength": 1 },
+        "provider_file_id": { "type": "string", "minLength": 1 },
+        "provider_file_identifier": { "type": "string", "minLength": 1 }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "filename",
+        "expected_size_bytes",
+        "expected_sha256",
+        "observed_size_bytes",
+        "observed_sha256",
+        "identity_match"
+      ],
+      "properties": {
+        "filename": { "const": "prompt-machine-starter-collection-v1.zip" },
+        "expected_size_bytes": { "const": 50918 },
+        "expected_sha256": { "const": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97" },
+        "observed_size_bytes": { "const": 50918 },
+        "observed_sha256": { "const": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97" },
+        "identity_match": { "const": true }
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorized_provider_surface",
+        "retrieval_completed",
+        "retrieved_bytes_verified_locally",
+        "metadata_only"
+      ],
+      "properties": {
+        "authorized_provider_surface": { "type": "string", "minLength": 1 },
+        "retrieval_completed": { "const": true },
+        "retrieved_bytes_verified_locally": { "const": true },
+        "metadata_only": { "const": false }
+      }
+    },
+    "public_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prompt_machine_public_checkout_enabled", "provider_surface_controlled"],
+      "properties": {
+        "prompt_machine_public_checkout_enabled": { "const": false },
+        "provider_surface_controlled": { "const": true }
+      }
+    },
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_class",
+        "counts_as_provider_custody",
+        "counts_as_delivery_evidence",
+        "counts_as_purchase_evidence",
+        "counts_as_revenue",
+        "counts_as_customer_value",
+        "counts_as_ready_to_sell",
+        "contains_customer_pii",
+        "contains_provider_secrets"
+      ],
+      "properties": {
+        "evidence_class": { "const": "PROVIDER_ARTIFACT_CUSTODY_EVIDENCE" },
+        "counts_as_provider_custody": { "const": true },
+        "counts_as_delivery_evidence": { "const": false },
+        "counts_as_purchase_evidence": { "const": false },
+        "counts_as_revenue": { "const": false },
+        "counts_as_customer_value": { "const": false },
+        "counts_as_ready_to_sell": { "const": false },
+        "contains_customer_pii": { "const": false },
+        "contains_provider_secrets": { "const": false }
+      }
+    }
+  }
+}

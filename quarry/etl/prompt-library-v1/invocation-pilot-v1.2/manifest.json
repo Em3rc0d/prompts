@@ -1,0 +1,32 @@
+{
+  "architecture_count": 9,
+  "architecture_freeze_receipt": "PM-ARCH-FREEZE-V2.3-0001",
+  "authority_escalations": 0,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "behavioral_observations": 0,
+  "binding_count": 9,
+  "bulk_regeneration_allowed": false,
+  "closed_findings": [
+    "BIND-V1-PROTO-001",
+    "BIND-V1-LEARN-001",
+    "BIND-V1-OPT-001",
+    "BIND-V1-EVAL-001"
+  ],
+  "external_model_calls": 0,
+  "high_stakes_bindings": 0,
+  "invocation_count": 18,
+  "lineage": "successor-to-PM-ARCH-INVOCATION-PILOT-0001-after-static-semantic-audit",
+  "next_gate": "Final semantic inspection of exact v1.2 packets. If PASS, freeze binding/invocation v1.2 statically and prepare exactly one LOW-risk NORMAL runtime canary without auto-executing it.",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0002",
+  "pilot_version": "1.2.0",
+  "protocol": "same-role-three-verbatim-text-blocks-v1",
+  "renderer_version": "1.2.0",
+  "risk_class": "LOW_ONLY",
+  "schema": "prompt-machine-architecture-invocation-pilot-manifest-v1.2",
+  "state": "STATIC_SUCCESSOR_READY_FOR_FINAL_PACKET_REVIEW_BEHAVIOR_UNEXECUTED",
+  "variants_per_architecture": [
+    "NORMAL",
+    "EMBEDDED_OVERRIDE"
+  ]
+}

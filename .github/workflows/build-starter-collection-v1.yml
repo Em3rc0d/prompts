@@ -1,0 +1,96 @@
+name: Build Starter Collection v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'product/starter-collection-v1/**'
+      - 'tools/build_starter_collection_v1.py'
+      - 'tools/validate_starter_payload_v1.py'
+      - '.github/workflows/build-starter-collection-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-starter-collection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate static customer payload
+        run: python tools/validate_starter_payload_v1.py
+
+      - name: Build archive twice and verify byte reproducibility
+        run: python tools/build_starter_collection_v1.py --verify-reproducible
+
+      - name: Verify archive membership and truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          root = Path('dist/starter-collection-v1')
+          manifest = json.loads((root / 'starter-collection-v1.build-manifest.json').read_text())
+          archive = root / manifest['archive_name']
+
+          with ZipFile(archive) as zf:
+              names = zf.namelist()
+
+          assert len(names) == 9
+          assert len(set(names)) == 9
+          assert all(name.startswith('prompt-machine-starter-collection-v1/') for name in names)
+          assert manifest['required_customer_assets'] == 9
+          assert manifest['evidence_boundary']['archive_build_is_runtime_evidence'] is False
+          assert manifest['evidence_boundary']['archive_build_is_provider_custody'] is False
+          assert manifest['evidence_boundary']['archive_build_is_delivery_evidence'] is False
+          assert manifest['evidence_boundary']['archive_build_is_product_ready'] is False
+          assert manifest['evidence_boundary']['archive_build_is_ready_to_sell'] is False
+          print('STARTER ARCHIVE MEMBERSHIP: PASS')
+          PY
+
+      - name: Add build summary
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          m = json.loads(Path('dist/starter-collection-v1/starter-collection-v1.build-manifest.json').read_text())
+          print('## Prompt Machine Starter Collection v1 — deterministic build')
+          print()
+          print('| Signal | State |')
+          print('|---|---|')
+          print('| Required customer assets | 9 / 9 |')
+          print('| Reproducible archive bytes | PASS |')
+          print(f"| Archive | `{m['archive_name']}` |")
+          print(f"| Archive size | `{m['archive_size_bytes']}` bytes |")
+          print(f"| SHA-256 | `{m['archive_sha256']}` |")
+          print(f"| Source commit | `{m['source_commit']}` |")
+          print('| Runtime evidence created | 0 |')
+          print('| Provider custody | NOT ESTABLISHED |')
+          print('| Delivery evidence | NOT ESTABLISHED |')
+          print('| READY_TO_SELL | NO |')
+          print('| Model calls | 0 |')
+          print('| Provider calls | 0 |')
+          PY
+
+      - name: Upload deterministic build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-machine-starter-collection-v1-${{ github.run_id }}
+          path: |
+            dist/starter-collection-v1/prompt-machine-starter-collection-v1.zip
+            dist/starter-collection-v1/starter-collection-v1.build-manifest.json
+          if-no-files-found: error
+          retention-days: 14

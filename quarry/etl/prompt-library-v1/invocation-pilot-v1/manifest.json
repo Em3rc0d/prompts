@@ -1,0 +1,27 @@
+{
+  "architecture_count": 9,
+  "architecture_freeze_receipt": "PM-ARCH-FREEZE-V2.3-0001",
+  "authority_escalations": 0,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "behavioral_observations": 0,
+  "binding_count": 9,
+  "bulk_regeneration_allowed": false,
+  "external_model_calls": 0,
+  "high_stakes_bindings": 0,
+  "invocation_count": 18,
+  "next_gate": "Inspect the 18 rendered packets. Then execute at most one LOW-risk NORMAL canary before any wider behavioral campaign. EMBEDDED_OVERRIDE is the second canary only after NORMAL invocation semantics are confirmed.",
+  "packet_layout": "one directory per invocation with three exact UTF-8 block files plus invocation.json",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0001",
+  "protocol": "same-role-three-verbatim-text-blocks-v1",
+  "rendered_packet_count": 18,
+  "renderer_version": "1.1.0",
+  "risk_class": "LOW_ONLY",
+  "runtime_envelope_added": false,
+  "schema": "prompt-machine-architecture-invocation-pilot-v1",
+  "state": "STATIC_BINDING_AND_INVOCATION_PASS_BEHAVIOR_UNEXECUTED",
+  "variants_per_architecture": [
+    "NORMAL",
+    "EMBEDDED_OVERRIDE"
+  ]
+}

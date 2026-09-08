@@ -1,0 +1,63 @@
+name: Validate Starter Canary v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'product/starter-collection-v1/evaluation/**'
+      - 'product/starter-collection-v1/workflows/**'
+      - 'tools/build_starter_canary_envelopes_v1.py'
+      - 'tools/validate_starter_canary_plan_v1.py'
+      - '.github/workflows/validate-starter-canary-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-starter-canary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate disarmed canary plan and out-of-band evaluations
+        run: python tools/validate_starter_canary_plan_v1.py
+
+      - name: Build envelopes twice and verify exact reproducibility
+        run: python tools/build_starter_canary_envelopes_v1.py --verify-reproducible
+
+      - name: Summarize exact envelope identities
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+          m = json.loads(Path('dist/starter-canary-envelopes-v1/final/manifest.json').read_text())
+          print('## Prompt Machine Starter Canary v1')
+          print()
+          print('| Case | Variant | Bytes | SHA-256 | Armed |')
+          print('|---|---|---:|---|---|')
+          for row in m['cases']:
+              print(f"| `{row['case_id']}` | {row['variant']} | {row['runtime_envelope_size_bytes']} | `{row['runtime_envelope_sha256']}` | NO |")
+          print()
+          print('Evaluation contracts and expected results are out-of-band and absent from runtime envelopes.')
+          print('Runtime executions: 0. Model calls: 0. Provider calls: 0. READY_TO_SELL: NO.')
+          PY
+
+      - name: Upload exact disarmed envelopes
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-machine-starter-canary-v1-${{ github.run_id }}
+          path: dist/starter-canary-envelopes-v1/final/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 6

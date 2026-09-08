@@ -1,0 +1,142 @@
+name: Test PCP-04 Receipt Gate
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'certification/specs/PCP04_EXECUTION_RECEIPT.schema.json'
+      - 'certification/fixtures/pcp-04-family-cases.v1.json'
+      - 'tools/prepare_pcp04_work_orders.py'
+      - 'tools/validate_pcp04_receipts.py'
+      - '.github/workflows/test-pcp04-receipt-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  characterize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Prepare frozen work orders
+        run: python tools/prepare_pcp04_work_orders.py --output build/pcp04-work-orders
+
+      - name: Empty campaign cannot promote
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/pcp04-empty
+          python tools/validate_pcp04_receipts.py \
+            --work-orders build/pcp04-work-orders \
+            --receipts build/pcp04-empty \
+            --json-out build/empty-report.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/empty-report.json'))
+          assert r['status']=='EXECUTION_NOT_STARTED', r
+          assert r['F4_TESTED'] is False, r
+          assert r['receipt_count']==0, r
+          PY
+
+      - name: Build characterization receipts
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          root=Path('.')
+          orders=[json.loads(x) for x in Path('build/pcp04-work-orders/work-orders.jsonl').read_text().splitlines() if x.strip()]
+          wo=orders[0]
+          out=root/'build'/'pcp04-characterization'/'raw'/'output.txt'
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text('Characterization output only. Not real model evidence.\n')
+          sha=hashlib.sha256(out.read_bytes()).hexdigest()
+          required=sorted(set(wo['evaluation_contract']['matrix_special_assertions'])|set(wo['evaluation_contract']['fixture_assertions']))
+          receipt={
+            'schema':'prompt-quarry-pcp04-execution-receipt-v1',
+            'receipt_id':'PQ-PCP04-EXEC-CHARACTERIZATION-001',
+            'campaign_id':'PQ-PCP04-CAMPAIGN-CHARACTERIZATION',
+            'work_order_id':wo['work_order_id'],
+            'prompt_id':wo['prompt_id'],
+            'prompt_sha256':wo['prompt']['sha256'],
+            'fixture_set_id':wo['fixture']['fixture_set_id'],
+            'case_id':wo['fixture']['case_id'],
+            'case_class':wo['fixture']['case_class'],
+            'repetition_index':1,
+            'runtime':{
+              'provider':'characterization-only',
+              'surface':'other-real-runtime',
+              'model_or_configuration':'NO_MODEL_CALLED',
+              'identity_evidence':'CI_CHARACTERIZATION_ONLY',
+              'observed_at':'2026-09-02T00:00:00Z'
+            },
+            'execution':{
+              'execution_id':'CHARACTERIZATION-EXEC-001',
+              'fresh_independent_run':True,
+              'prompt_bytes_verified':True,
+              'input_bytes_verified':True,
+              'synthetic':False
+            },
+            'raw_output':{
+              'path':str(out),
+              'sha256':sha,
+              'complete_verbatim':True
+            },
+            'evaluation':{
+              'blocking_dimensions':{k:'PASS' for k in wo['evaluation_contract']['blocking_dimensions']},
+              'special_assertions':[{'assertion':a,'result':'PASS','evidence':'characterization only'} for a in required],
+              'outcome_signature':'CHARACTERIZATION_ONLY',
+              'unresolved_blocking_human_checks':0,
+              'blocking_failures':[]
+            },
+            'promotion':{'case_pass':True,'eligible_for_prompt_tested':False}
+          }
+          receipts=root/'build'/'pcp04-characterization'/'receipts'
+          receipts.mkdir(parents=True, exist_ok=True)
+          (receipts/'one.receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+
+          invalid=json.loads(json.dumps(receipt))
+          invalid['receipt_id']='PQ-PCP04-EXEC-CHARACTERIZATION-SYNTHETIC'
+          invalid['execution']['execution_id']='CHARACTERIZATION-EXEC-SYNTHETIC'
+          invalid['execution']['synthetic']=True
+          bad=root/'build'/'pcp04-invalid'/'receipts'
+          bad.mkdir(parents=True, exist_ok=True)
+          (bad/'synthetic.receipt.json').write_text(json.dumps(invalid,indent=2)+'\n')
+          PY
+
+      - name: Synthetic receipt is rejected
+        shell: bash
+        run: |
+          set -euo pipefail
+          if python tools/validate_pcp04_receipts.py \
+            --work-orders build/pcp04-work-orders \
+            --receipts build/pcp04-invalid/receipts; then
+            echo 'Expected synthetic receipt rejection, but validator returned success.' >&2
+            exit 1
+          fi
+
+      - name: One structurally valid receipt remains incomplete
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/validate_pcp04_receipts.py \
+            --work-orders build/pcp04-work-orders \
+            --receipts build/pcp04-characterization/receipts \
+            --json-out build/partial-report.json
+          python - <<'PY'
+          import json
+          r=json.load(open('build/partial-report.json'))
+          assert r['status']=='EXECUTION_INCOMPLETE', r
+          assert r['accepted_receipt_count']==1, r
+          assert r['required_execution_count']==84, r
+          assert r['F4_TESTED'] is False, r
+          assert all(not row['eligible_for_F4_TESTED'] for row in r['prompt_results']), r
+          PY

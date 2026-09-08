@@ -1,0 +1,105 @@
+{
+  "schema": "prompt-machine-starter-provider-integration-decision-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "DECISION_RULE_FROZEN_EXTERNAL_EVIDENCE_OPEN",
+  "product_id": "prompt-machine-starter-collection",
+  "provider": "LEMON_SQUEEZY",
+  "target_state": "PROVIDER_INTEGRATION_PASS",
+  "purpose": "Define before execution the exact external observations required to claim that the Starter release is integrated with the selected commerce provider, while keeping custody, delivery, revenue, customer demand, and product readiness as distinct claims.",
+  "required_evidence": {
+    "provisioning": {
+      "receipt_schema": "commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json",
+      "required": true,
+      "must_observe": [
+        "canonical Prompt Machine Starter product identity",
+        "non-secret provider store/product/variant identities",
+        "controlled provider surface",
+        "public Prompt Machine Starter checkout remains disabled"
+      ]
+    },
+    "custody": {
+      "receipt_schema": "commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json",
+      "required": true,
+      "must_observe": [
+        "provider-authorized retrieval completed",
+        "retrieved bytes verified locally",
+        "retrieved size equals 50918 bytes",
+        "retrieved SHA-256 equals 4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+      ]
+    },
+    "signed_provider_test_event": {
+      "required": true,
+      "commerce_gate": "provider_test",
+      "test_mode": true,
+      "provider_event": "order_created",
+      "order_status": "paid",
+      "signed_webhook_accepted": true,
+      "canonical_release": {
+        "product_id": "prompt-machine-starter-collection",
+        "version": "1.0.0-candidate",
+        "archive_size": 50918,
+        "archive_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+      },
+      "must_not_use_public_prompt_machine_checkout": true,
+      "counts_as_revenue": false,
+      "counts_as_customer_demand": false,
+      "counts_as_delivery": false
+    }
+  },
+  "pass_definition": {
+    "state": "PROVIDER_INTEGRATION_PASS",
+    "requires_all": [
+      "valid provider provisioning observation for canonical Starter identity",
+      "valid exact-byte provider custody evidence for canonical Starter artifact",
+      "one accepted provider-signed provider_test order_created event bound to canonical Starter release",
+      "no public Starter checkout route or public-sale state introduced",
+      "evidence persisted without customer PII, payment details, or provider secret values"
+    ],
+    "human_review_required": true,
+    "automatic_promotion": false
+  },
+  "failure_states": {
+    "PROVISIONING_IDENTITY_MISMATCH": "Observed store/product/variant identity does not match the explicitly configured Starter provider surface.",
+    "CUSTODY_NOT_ESTABLISHED": "Provisioning exists but the canonical artifact was not retrieved and byte-verified from the provider.",
+    "CUSTODY_ARTIFACT_MISMATCH": "Provider-retrieved artifact differs in size or SHA-256 from the canonical Starter archive.",
+    "WEBHOOK_SIGNATURE_REJECTED": "The provider_test event did not pass signed webhook verification.",
+    "PROVIDER_TEST_ORDER_NOT_ACCEPTED": "No valid paid test-mode order_created event was accepted for the configured provider identity.",
+    "RELEASE_IDENTITY_MISMATCH": "Provider event custom data does not match canonical Starter product/version/archive identity.",
+    "PUBLIC_SURFACE_LEAK": "Starter became reachable through a public Prompt Machine checkout during provider integration testing.",
+    "EVIDENCE_PERSISTENCE_FAILURE": "Required non-sensitive provider evidence could not be stored under the governed receipt contracts.",
+    "INCONCLUSIVE": "Available external evidence is insufficient to distinguish integration pass from failure."
+  },
+  "retry_policy": {
+    "automatic_retries": 0,
+    "automatic_next_provider_action": false,
+    "human_review_after_any_failed_or_inconclusive_external_attempt": true,
+    "repeat_requires_explicitly_documented_failure_and_change": true
+  },
+  "claim_boundary": {
+    "provider_integration_pass_implies_provider_custody": true,
+    "provider_integration_pass_implies_delivery": false,
+    "provider_integration_pass_implies_real_purchase": false,
+    "provider_integration_pass_implies_revenue": false,
+    "provider_integration_pass_implies_customer_value": false,
+    "provider_integration_pass_implies_product_ready": false,
+    "provider_integration_pass_authorizes_public_checkout": false,
+    "provider_test_order_counts_as_pq_dollar_one": false
+  },
+  "current_truth": {
+    "provisioning_receipts_observed": 0,
+    "custody_receipts_observed": 0,
+    "accepted_signed_provider_test_orders": 0,
+    "provider_integration_pass": false,
+    "delivery_observed": false,
+    "real_purchase_observed": false,
+    "public_checkout": false,
+    "ready_to_sell": false
+  },
+  "execution_authorization": {
+    "authorized_now": false,
+    "provider_calls_created_by_this_decision_rule": 0,
+    "model_calls_created_by_this_decision_rule": 0
+  },
+  "master_rule": "PROVIDER INTEGRATION PASS REQUIRES OBSERVED PROVIDER IDENTITY + EXACT CUSTODY + SIGNED TEST EVENT; IT IS NOT DELIVERY OR REVENUE"
+}

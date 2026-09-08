@@ -1,0 +1,35 @@
+name: HOLD — Legacy PCP-04 OpenAI 84-Run Wave
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legacy-wave-held:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse legacy 84-run execution
+        shell: bash
+        run: |
+          cat >&2 <<'EOF'
+          LEGACY PCP-04 84-RUN WAVE: HELD / NOT EXECUTABLE
+
+          This campaign was prepared before Prompt Machine formalized the governed
+          architecture binding + exact invocation layer. Running it now could spend
+          model budget while producing evidence for invocation semantics we no longer accept.
+
+          Current required path:
+            1. PM-ARCH-FREEZE-V2.3-0001
+            2. PM-BIND-INV-FREEZE-V1.3-0001
+            3. one LOW-risk checklist NORMAL canary
+            4. manual review
+            5. only then consider a matching EMBEDDED_OVERRIDE observation
+            6. reconcile/regenerate PCP-04 work orders before any wider campaign
+
+          No provider credential is loaded by this HOLD workflow.
+          No 84-run execution is permitted.
+          No model call is permitted.
+          EOF
+          exit 1

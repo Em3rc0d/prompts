@@ -1,0 +1,30 @@
+{
+  "schema": "prompt-machine-developer-collection-experience-receipt-v1",
+  "receipt_id": "PQ-DEV-COLLECTION-UX-0001",
+  "observed_at": "2026-09-02T15:02:05Z",
+  "source_branch": "feat/workflow-kits-product-model-20260902",
+  "source_commit": "848ea8aa0cb623cd94ed97e4bc4d6f5dc6b505d9",
+  "pull_request_merge_checkout": "55134b6d374c777a4b9ac044284617d35a4b0524",
+  "workflow_run_id": 33645905740,
+  "workflow_job_id": 100300454544,
+  "artifact": {
+    "artifact_id": 9852749469,
+    "zip_sha256": "cd83a732dc86580787dcf8adb358c08140b8f3680c9c799b1f324c056f288021"
+  },
+  "gate": "CUSTOMER_EXPERIENCE_DESIGN",
+  "status": "PASS",
+  "state": "DESIGN_VALID_RELEASE_BLOCKED",
+  "customer_brand": "Prompt Machine",
+  "internal_factory": "Prompt Quarry",
+  "workflow_count": 4,
+  "skill_entrypoints_verified": 4,
+  "pending_customer_prompt_surfaces": 3,
+  "final_start_here_exists": false,
+  "sale_status": "NOT_FOR_SALE",
+  "behavioral_claim": "NONE",
+  "PRODUCT_READY": false,
+  "READY_TO_SELL": false,
+  "errors": [],
+  "warnings": [],
+  "interpretation": "The customer journey and zero-confusion entrypoint design are structurally valid. This receipt does not establish runtime behavior, completed customer prompt surfaces, usability activation time, deterministic final packaging, sale readiness, or revenue."
+}

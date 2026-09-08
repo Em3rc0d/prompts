@@ -1,0 +1,36 @@
+{
+  "schema": "prompt-machine-g10-human-value-review-v1",
+  "recorded_on": "2026-09-07",
+  "gate": "G10_HUMAN_VALUE_REVIEW",
+  "release_profile": "commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_V1.json",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.2.0",
+  "human_signal": {
+    "source": "PRODUCT_OWNER_CURRENT_CONVERSATION",
+    "signal": "Explicit direction to continue toward release after reviewing the strict commercial state and evidence boundaries.",
+    "does_not_prove_customer_demand": true,
+    "does_not_prove_willingness_to_pay": true,
+    "does_not_prove_customer_outcomes": true
+  },
+  "review_dimensions": {
+    "job_clarity": "PASS",
+    "outcome_clarity": "PASS",
+    "evidence_boundary_is_customer_explainable": "PASS",
+    "advisory_authority_is_appropriate": "PASS",
+    "zero_finding_behavior_is_useful": "PASS",
+    "uncertainty_preservation_is_useful": "PASS",
+    "single_workflow_scope_is_coherent": "PASS",
+    "price_9_usd_is_observed_value": "NO_HYPOTHESIS_ONLY",
+    "real_customer_value_observed": "NO",
+    "real_customer_demand_observed": "NO"
+  },
+  "decision": "KEEP",
+  "gate_state": "RECORDED",
+  "paid_pack_decision": "NOT_PROVEN_BY_G10",
+  "rationale": "The workflow solves a legible developer job and its distinguishing behavior is evidence discipline rather than generic review verbosity. The product owner has explicitly directed continued release work. Because no real customer usage or purchase exists, G10 records KEEP rather than claiming observed paid value.",
+  "next_gate": "G11_CERTIFICATION",
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "product_ready": false,
+  "ready_to_sell": false
+}

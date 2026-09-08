@@ -1,0 +1,46 @@
+{
+  "schema": "prompt-machine-starter-surface-freeze-v1",
+  "receipt_id": "PM-STARTER-SURFACE-FREEZE-V1-0001",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_SURFACE_CONTRACT_PARITY_PASS",
+  "collection": "starter-collection-v1",
+  "surfaces": [
+    {
+      "workflow_id": "pm-starter-evidence-first-code-review",
+      "contract_path": "product/starter-collection-v1/contracts/code-review.workflow-contract.json",
+      "contract_git_blob_sha": "b9d639a8a1bb25d448b572d888037a89d63cecd7",
+      "surface_path": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+      "surface_git_blob_sha": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+      "authority": "ADVISORY_ONLY",
+      "instruction_data_boundary": "PRESENT",
+      "runtime_observations": 0
+    },
+    {
+      "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+      "contract_path": "product/starter-collection-v1/contracts/bug-diagnosis.workflow-contract.json",
+      "contract_git_blob_sha": "c7240477aa20d74c20bbd2a7f2c830bd0ff4da51",
+      "surface_path": "product/starter-collection-v1/workflows/evidence-first-bug-diagnosis.md",
+      "surface_git_blob_sha": "ae8ae9b4e1d908081563b2c8cab7a3e66ef5b6b7",
+      "authority": "ADVISORY_ONLY",
+      "instruction_data_boundary": "PRESENT",
+      "runtime_observations": 0
+    }
+  ],
+  "truth": {
+    "surface_count": 2,
+    "contract_count": 2,
+    "static_parity_pass": true,
+    "external_model_calls": 0,
+    "starter_sku_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "customer_outcomes": 0,
+    "certification_claim": false,
+    "portability_claim": false,
+    "product_ready": false,
+    "ready_to_sell": false
+  },
+  "next_gate": "STARTER_SPECIFIC_BEHAVIORAL_EVIDENCE",
+  "next_gate_armed": false,
+  "master_rule": "STATIC_SURFACE_PARITY != RUNTIME_BEHAVIOR"
+}

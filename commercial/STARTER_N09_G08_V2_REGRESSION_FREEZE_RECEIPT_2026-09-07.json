@@ -1,0 +1,74 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-regression-freeze-receipt-v1",
+  "recorded_at": "2026-09-07T03:27:10.943474Z",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "workflow_surface_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "workflow_surface_bytes": 10766,
+  "workflow_surface_sha256": "0e900196c7afb9d1f65a03dc7c9fd143b48c5b6755b4ad9d307281888be1147a",
+  "verdict": "PASS",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "runtime_executions_attempted": 0,
+  "checks": {
+    "automatic_next_case_false": true,
+    "case_PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001_contract_pass": true,
+    "case_PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001_contract_pass": true,
+    "case_PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001_contract_pass": true,
+    "case_PM-STARTER-CR-V2-UPSTREAM-GUARD-0001_contract_pass": true,
+    "design_state_zero_model_freeze_required": true,
+    "execution_order_exact": true,
+    "four_cases_exact": true,
+    "fresh_auth_per_case": true,
+    "g07_pass_recorded": true,
+    "human_review_after_each": true,
+    "single_request_per_auth": true,
+    "workflow_id_exact": true,
+    "workflow_surface_id_exact": true,
+    "workflow_surface_present": true,
+    "zero_retries": true
+  },
+  "frozen_cases": [
+    {
+      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "case_file_sha256": "819af8e91be306ed10cedbb730bf1e4f54da49ddf8b55af0de24e8bebacd387e",
+      "evaluation_file_sha256": "2aab41d5f3b7aa549e2a3703bb5eae385372ae05fab98258f4c561b20302a804",
+      "instance_data_bytes": 1097,
+      "instance_data_sha256": "4e8c4c98d2fc034ea9a4d3d26bf0a52790b15786ee48f3c27ceb11a8ffed4756",
+      "runtime_envelope_bytes": 12008,
+      "runtime_envelope_sha256": "72cfc51bca3b09d88f6230f51a706735ecb985b4c541093833c2ea64a10b6b92",
+      "target": "UNKNOWN_EXTERNAL_BOUNDARY_CAPS_EVIDENCE_AND_SHIP_STATE"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "case_file_sha256": "a4920be4601815a99dfdfc8f61d94fae3a771635f0a91f3a850ab94a4c253531",
+      "evaluation_file_sha256": "b891bd629c5fb7a89220223efdec0944c2e798b931d53d58465bcdb26fec4884",
+      "instance_data_bytes": 1305,
+      "instance_data_sha256": "1078a1d66e2dcd7c31cbd4702b286a6c90c745179f02a1f752c8f6b61580c60a",
+      "runtime_envelope_bytes": 12216,
+      "runtime_envelope_sha256": "8068a3f78eb63789b948e202a17dead3b3c9a8f967516bdd13e10400ac3f4877",
+      "target": "UNTRUSTED_TASK_DATA_CANNOT_OVERRIDE_WORKFLOW_OR_EVIDENCE_CAP"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "case_file_sha256": "66becb3e40302b7f21f0eb1b6ab69816298ff9f1c5cc66f876e07dc948a90c99",
+      "evaluation_file_sha256": "e544e18e8b0fd77ca5ce193fe98b81002079db90190e1e2420dbb5568ab66441",
+      "instance_data_bytes": 1670,
+      "instance_data_sha256": "1fcf8b514b0210915fa43f84f716f9136796bf8a276b7a42eb9609ce04c74241",
+      "runtime_envelope_bytes": 12581,
+      "runtime_envelope_sha256": "8226de8a7a5726c8d3815203f4a01d5a942d744deed10d9d4eaea8b1192e9cb0",
+      "target": "SUPPLIED_EXTERNAL_GUARD_INVALIDATES_HANDLER_ONLY_FALSE_POSITIVE"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+      "case_file_sha256": "ec6b4b344e1bd6404b554c8f1b11b60615089b88828f1f7efba7ac8589770801",
+      "evaluation_file_sha256": "0f8a15e97d25ab0b384c6065766f50ddd41c12fb8634948cbfae7ffdb94a5daf",
+      "instance_data_bytes": 1572,
+      "instance_data_sha256": "f594fec739018213c374264d679d50b094bc9bac135866e42bca9eba8f96b82c",
+      "runtime_envelope_bytes": 12483,
+      "runtime_envelope_sha256": "845dd02143ea8f7be05dc79cb14295251a1d6758c0bf2e07ad57078a2f972b5c",
+      "target": "CONFIRMED_AND_BLOCK_REMAIN_AVAILABLE_WHEN_BOUNDARY_IS_DIRECTLY_OBSERVED"
+    }
+  ],
+  "next_gate_if_pass": "PREPARE_FIRST_G08_CASE_EXECUTOR_AND_ZERO_MODEL_PREFLIGHT_NO_RUNTIME_AUTHORIZATION_YET",
+  "truth_boundary": "ZERO_MODEL_REGRESSION_FREEZE_ONLY_NO_V2_RUNTIME_EVIDENCE"
+}

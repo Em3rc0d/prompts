@@ -4,22 +4,62 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feat/mk1-prompt-generator-v0-20260827
+      - feat/workflow-kits-product-model-20260902
     paths:
       - 'web/app/api/commerce/**'
+      - 'web/lib/commerce-release.ts'
+      - 'web/lib/developer-pack-release.ts'
+      - 'web/lib/starter-collection-release.ts'
+      - 'web/lib/starter-code-review-release.ts'
+      - 'web/lib/commerce-mode.ts'
       - 'web/lib/lemonsqueezy.ts'
       - 'web/components/commerce-link.tsx'
       - 'web/components/funnel-tracker.tsx'
       - 'web/.env.example'
+      - 'product/starter-collection-v1/PRODUCT_IDENTITY_V1.json'
+      - 'product/starter-code-review-edition-v1/**'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'tools/build_starter_collection_v1.py'
+      - 'tools/build_starter_code_review_edition.py'
+      - 'tools/verify_lemonsqueezy_provider_file.py'
+      - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
+      - 'tools/pm_g14_lemonsqueezy_probe.py'
+      - 'tools/pm_g14_lemonsqueezy_test_setup.py'
+      - 'tools/pm_g14_lemonsqueezy_id_reconcile.py'
+      - 'tools/pm_g14_lemonsqueezy_live_preflight.py'
+      - 'tools/pm_g14_vercel_test_apply.py'
+      - 'tools/test_provider_custody_verifier_v1.py'
+      - 'tools/test_starter_webhook_adapter_v1.py'
+      - 'tools/test_starter_code_review_g14_v1.py'
       - 'tools/test_commerce_v0.py'
       - '.github/workflows/test-commerce-v0.yml'
   pull_request:
     paths:
       - 'web/app/api/commerce/**'
+      - 'web/lib/commerce-release.ts'
+      - 'web/lib/developer-pack-release.ts'
+      - 'web/lib/starter-collection-release.ts'
+      - 'web/lib/starter-code-review-release.ts'
+      - 'web/lib/commerce-mode.ts'
       - 'web/lib/lemonsqueezy.ts'
       - 'web/components/commerce-link.tsx'
       - 'web/components/funnel-tracker.tsx'
       - 'web/.env.example'
+      - 'product/starter-collection-v1/PRODUCT_IDENTITY_V1.json'
+      - 'product/starter-code-review-edition-v1/**'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'tools/build_starter_collection_v1.py'
+      - 'tools/build_starter_code_review_edition.py'
+      - 'tools/verify_lemonsqueezy_provider_file.py'
+      - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
+      - 'tools/pm_g14_lemonsqueezy_probe.py'
+      - 'tools/pm_g14_lemonsqueezy_test_setup.py'
+      - 'tools/pm_g14_lemonsqueezy_id_reconcile.py'
+      - 'tools/pm_g14_lemonsqueezy_live_preflight.py'
+      - 'tools/pm_g14_vercel_test_apply.py'
+      - 'tools/test_provider_custody_verifier_v1.py'
+      - 'tools/test_starter_webhook_adapter_v1.py'
+      - 'tools/test_starter_code_review_g14_v1.py'
       - 'tools/test_commerce_v0.py'
       - '.github/workflows/test-commerce-v0.yml'
 
@@ -35,6 +75,33 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile commerce acceptance tooling
-        run: python -m py_compile tools/test_commerce_v0.py
+        run: |
+          python -m py_compile tools/test_commerce_v0.py
+          python -m py_compile tools/verify_lemonsqueezy_provider_file.py
+          python -m py_compile tools/verify_lemonsqueezy_starter_code_review_file.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_probe.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_test_setup.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_id_reconcile.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_live_preflight.py
+          python -m py_compile tools/pm_g14_vercel_test_apply.py
+          python -m py_compile tools/test_provider_custody_verifier_v1.py
+          python -m py_compile tools/test_starter_webhook_adapter_v1.py
+          python -m py_compile tools/test_starter_code_review_g14_v1.py
+      - name: Self-test Lemon Squeezy discovery state machine without network
+        run: python tools/pm_g14_lemonsqueezy_probe.py --self-test
+      - name: Self-test Lemon Squeezy test setup operator without network
+        run: python tools/pm_g14_lemonsqueezy_test_setup.py --self-test
+      - name: Self-test Lemon Squeezy provider ID reconciliation without network
+        run: python tools/pm_g14_lemonsqueezy_id_reconcile.py --self-test
+      - name: Self-test Lemon Squeezy Live preflight without network
+        run: python tools/pm_g14_lemonsqueezy_live_preflight.py --self-test
+      - name: Self-test Vercel Test-mode apply operator without network
+        run: python tools/pm_g14_vercel_test_apply.py --self-test
       - name: Validate commerce evidence contract
         run: python tools/test_commerce_v0.py
+      - name: Validate provider custody semantics offline
+        run: python tools/test_provider_custody_verifier_v1.py
+      - name: Validate Starter webhook adapter stays fail closed
+        run: python tools/test_starter_webhook_adapter_v1.py
+      - name: Validate Starter Code Review G14 stays isolated and fail closed
+        run: python tools/test_starter_code_review_g14_v1.py

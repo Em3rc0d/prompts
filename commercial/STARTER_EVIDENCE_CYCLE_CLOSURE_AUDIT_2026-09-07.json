@@ -1,0 +1,63 @@
+{
+  "schema": "prompt-machine-starter-evidence-cycle-closure-audit-v1",
+  "recorded_on": "2026-09-07",
+  "closure_state": "CLOSED_AT_G08_WITH_G09_DEFERRED",
+  "audited_head": "f4caf74b74c17e4dd47be0960d83d1ca3d6cef26",
+  "branch": "feat/workflow-kits-product-model-20260902",
+  "pr": 4,
+  "canonical_truth": {
+    "status": "commercial/STATUS_CURRENT.md",
+    "release_state": "commercial/STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json",
+    "execution_policy": "commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json",
+    "g08_pass_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+    "surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json"
+  },
+  "gate_truth": {
+    "G08_REGRESSION": "PASS",
+    "G09_PORTABILITY": "DEFERRED_NOT_OBSERVED",
+    "G11_CERTIFICATION": "NOT_CERTIFIED",
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": false,
+    "pq_dollar_one": false
+  },
+  "g09_runtime_truth": {
+    "provider_requests_attempted": 0,
+    "model_inference_requests_attempted": 0,
+    "runtime_observations": 0,
+    "prepared_authorization_consumed": false,
+    "prepared_authorization_reusable": false,
+    "current_runtime_authorization": "NONE"
+  },
+  "ci": {
+    "expected_pull_request_workflows": 13,
+    "observed_completed_success": 13,
+    "all_success": true,
+    "runs": [
+      {"name": "Validate Developer Collection Experience", "run_id": 34135538221, "conclusion": "success"},
+      {"name": "Test Commerce v0", "run_id": 34135538259, "conclusion": "success"},
+      {"name": "Validate Prompt Quarry", "run_id": 34135538289, "conclusion": "success"},
+      {"name": "Validate Prompt Machine Web", "run_id": 34135538311, "conclusion": "success"},
+      {"name": "Test Commercial Web v0", "run_id": 34135538266, "conclusion": "success"},
+      {"name": "Test Analytics v0", "run_id": 34135538136, "conclusion": "success"},
+      {"name": "Validate Starter Launch Checkpoint v1", "run_id": 34135538116, "conclusion": "success"},
+      {"name": "Validate Starter Execution Decisions v1", "run_id": 34135538178, "conclusion": "success"},
+      {"name": "Test Free Developer Starter v1", "run_id": 34135538122, "conclusion": "success"},
+      {"name": "Validate Starter Provider Receipts v1", "run_id": 34135538162, "conclusion": "success"},
+      {"name": "Test Product Manifest", "run_id": 34135538135, "conclusion": "success"},
+      {"name": "Validate MK1 F3", "run_id": 34135538181, "conclusion": "success"},
+      {"name": "Validate Starter Release DAG v1", "run_id": 34135538165, "conclusion": "success"}
+    ]
+  },
+  "pr_state_expected": {
+    "open": true,
+    "draft": true,
+    "merged": false
+  },
+  "automatic_next_gate": false,
+  "merge_authorized": false,
+  "commerce_effects_authorized": false,
+  "runtime_effects_authorized": false,
+  "verdict": "PASS_CLOSED_EVIDENCE_CYCLE_CURRENT_STATE_CONSISTENT",
+  "boundary": "This closure validates repository/state consistency and CI for the closed evidence cycle. It does not promote G09, certification, product readiness, sale readiness, delivery, custody, customer value or revenue."
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "prompt-machine-starter-g09-portability-classification-v1",
+  "recorded_on": "2026-09-07",
+  "gate": "G09_PORTABILITY",
+  "governance": "commercial/PROMPT_MACHINE_14_GATE_PIPELINE_V1_1.json",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.2.0",
+  "canonical_surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+  "canonical_surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+  "evidence_basis": {
+    "g08_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+    "provider": "GOOGLE_GEMINI_API",
+    "model_family": "GEMINI_3_5",
+    "model": "gemini-3.5-flash",
+    "required_cases": 4,
+    "clean_runtime_observations": 4,
+    "human_review_passes": 4,
+    "human_review_fails": 0,
+    "automatic_retries": 0
+  },
+  "second_model_family": {
+    "runtime_attempted": false,
+    "provider_requests_attempted": 0,
+    "behavioral_observations": 0,
+    "historical_openai_batch_authorization_reusable": false
+  },
+  "classification": "MODEL_SPECIFIC",
+  "gate_state": "PASS_FOR_DEMONSTRATED_SCOPE",
+  "f7_portability_classified": true,
+  "portable_claim_allowed": false,
+  "model_agnostic_claim_allowed": false,
+  "allowed_claim": "Behavioral regression properties were observed on Gemini 3.5 Flash for the frozen four-case matrix and exact v2.2 surface.",
+  "forbidden_claims": [
+    "portable",
+    "model agnostic",
+    "works on every model",
+    "provider independent across all providers"
+  ],
+  "supersedes_for_current_g09_truth": "commercial/STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json@g09-result-only",
+  "historical_deferred_record_preserved": true,
+  "interpretation": "The prior closure correctly refused to invent cross-family portability. The canonical V1 pipeline already allowed MODEL_SPECIFIC as a G09 result. V1.1 makes that semantics explicit and resolves the accidental F7_PORTABLE naming contradiction. No behavioral evidence was added or changed.",
+  "provider_requests_attempted_by_classification": 0,
+  "model_inference_requests_attempted_by_classification": 0,
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "next_gate": "G10_HUMAN_VALUE_REVIEW"
+}

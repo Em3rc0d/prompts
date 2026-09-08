@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-machine-codex-plan-cost-observation-v1",
+  "receipt_id": "PM-CODEX-COST-OBS-0001",
+  "observed_at": "2026-09-03",
+  "surface": "codex-cli",
+  "model_requested": "gpt-5.6-luna",
+  "reasoning_effort_requested": "low",
+  "invocation_id": "PM-INV-CHECKLIST-NORMAL-0003",
+  "attempt_result": "TRANSPORT_FAILED_BEFORE_BEHAVIORAL_OBSERVATION",
+  "runtime_evidence": {
+    "turn_completed_count": 0,
+    "usage_events_observed": 0,
+    "raw_model_output_bytes": 0,
+    "behavioral_observations": 0,
+    "failure_class": "CHATGPT_CODEX_BACKEND_HTTP_404"
+  },
+  "plan_usage_panel": {
+    "before": {
+      "five_hour_percent_remaining": 100,
+      "weekly_percent_remaining": 47
+    },
+    "after": {
+      "five_hour_percent_remaining": 100,
+      "weekly_percent_remaining": 47
+    },
+    "visible_delta_percentage_points": {
+      "five_hour": 0,
+      "weekly": 0
+    },
+    "observation": "NO_VISIBLE_PLAN_CONSUMPTION"
+  },
+  "truth_boundary": {
+    "claim_zero_tokens_billed": false,
+    "claim_zero_hidden_usage": false,
+    "claim_no_visible_plan_delta": true,
+    "claim_behavioral_evidence": false,
+    "claim_certification": false,
+    "claim_ready_to_sell": false
+  },
+  "next_gate": "Diagnose Codex CLI backend 404 without model inference before any second canary attempt."
+}

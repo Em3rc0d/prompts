@@ -1,0 +1,34 @@
+{
+  "architecture_count": 9,
+  "automatic_product_promotions": 0,
+  "behavioral_claims_created": 0,
+  "closed_v1_findings_targeted": [
+    "explicit state transition semantics",
+    "required vs conditional vs optional inputs",
+    "generation tie/no-valid-candidate behavior",
+    "writing factual blocker/placeholders",
+    "simulation invocation mode",
+    "learning objective evidence threshold",
+    "optimization baseline threshold",
+    "checklist PASS threshold",
+    "generic high-stakes binding boundary"
+  ],
+  "external_model_calls": 0,
+  "lineage": "successor-to-prompt-machine-architecture-pilot-v1-after-static-audit",
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "next_gate": "Second static semantic audit of all nine v2 blueprints before any bulk regeneration.",
+  "pilot_version": "2.0.0",
+  "ready_to_sell_claims_created": 0,
+  "schema": "prompt-machine-architecture-pilot-manifest-v2",
+  "status": "STATIC_REVIEW_REQUIRED"
+}

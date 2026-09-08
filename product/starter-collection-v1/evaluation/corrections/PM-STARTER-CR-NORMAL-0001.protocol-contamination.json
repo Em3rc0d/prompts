@@ -1,0 +1,64 @@
+{
+  "schema": "prompt-machine-starter-runtime-classification-correction-v1",
+  "version": "1.0.0",
+  "correction_id": "PM-STARTER-CR-NORMAL-0001-CORR-0001",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "observation_id": "PM-STARTER-CR-NORMAL-0001-OBS-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "workflow_version": "1.0.0-candidate",
+  "correction_class": "PROTOCOL_CONTAMINATION",
+  "historical_artifacts": {
+    "raw_output": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.raw-output.md",
+    "observation_receipt": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.observation.json",
+    "original_human_review": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.human-review.json",
+    "original_failure_record": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.failure.json",
+    "raw_output_sha256": "a55477e670ce059a4356943fbfedc58e56109711985ff5dc183889a65e77e1e7",
+    "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+    "preserved_without_rewrite": true
+  },
+  "protocol_basis": {
+    "frozen_protocol": "commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json",
+    "required_invariant": "evaluation contract and expected result remain out-of-band and unavailable to runtime input",
+    "observed_surface": "CHATGPT_WORK_ACTIVE_CONVERSATION",
+    "contamination_fact": "Before the runtime response, the active conversation had already contained the expected review state, ship recommendation, and LIKELY evidence ceiling.",
+    "why_original_fail_is_not_effective_workflow_evidence": "The model response cannot be shown to have been produced without prior access to the evaluation expectations, so the execution cannot cleanly discriminate workflow behavior from contaminated context."
+  },
+  "historical_classification": {
+    "review_result": "FAIL",
+    "decision": "REWORK",
+    "workflow_fail_count_incremented": true,
+    "status": "PRESERVED_AS_HISTORICAL_MISCLASSIFICATION"
+  },
+  "effective_classification": {
+    "review_result": "INCONCLUSIVE",
+    "decision": "EXPAND_EVIDENCE",
+    "reason": "INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+    "workflow_pass_count": 0,
+    "workflow_fail_count": 0,
+    "workflow_inconclusive_count": 1,
+    "runtime_observation_count": 1
+  },
+  "workflow_mutation": {
+    "observed_candidate_mutated": false,
+    "successor_required_by_this_observation": false,
+    "design_signal_preserved": "The contaminated output still provides a non-claim design signal about possible over-certainty, but it cannot justify a behavioral FAIL claim or mandatory successor."
+  },
+  "next_evidence": {
+    "case_id": "PM-STARTER-CR-NORMAL-0001",
+    "candidate": "SAME_FROZEN_1.0.0_CANDIDATE",
+    "requires_clean_independent_surface": true,
+    "requires_fresh_explicit_authorization": true,
+    "maximum_submissions_before_human_review": 1,
+    "automatic_retries": 0,
+    "automatic_second_case": false,
+    "armed": false
+  },
+  "claim_boundary": {
+    "runtime_pass_claim": false,
+    "runtime_fail_claim": false,
+    "certification_claim": false,
+    "product_ready_claim": false,
+    "ready_to_sell": false
+  },
+  "recorded_at": "2026-09-04T03:20:00Z"
+}

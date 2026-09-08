@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "prompt-machine-starter-delivery-receipt-v1",
+  "title": "Prompt Machine Starter Delivery Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt_id",
+    "recorded_at",
+    "commerce_gate",
+    "test_mode",
+    "provider",
+    "provider_order_id",
+    "artifact",
+    "retrieval",
+    "evidence_boundary"
+  ],
+  "properties": {
+    "schema": { "const": "prompt-machine-starter-delivery-receipt-v1" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "commerce_gate": { "enum": ["provider_test", "live_canary", "live"] },
+    "test_mode": { "type": "boolean" },
+    "provider": { "const": "LEMON_SQUEEZY" },
+    "provider_order_id": { "type": "string", "minLength": 1 },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["filename", "expected_size_bytes", "expected_sha256", "observed_size_bytes", "observed_sha256", "identity_match"],
+      "properties": {
+        "filename": { "const": "prompt-machine-starter-collection-v1.zip" },
+        "expected_size_bytes": { "const": 50918 },
+        "expected_sha256": { "const": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97" },
+        "observed_size_bytes": { "type": "integer", "minimum": 0 },
+        "observed_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "identity_match": { "type": "boolean" }
+      }
+    },
+    "retrieval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized_surface", "retrieval_completed", "retrieved_bytes_verified_locally"],
+      "properties": {
+        "authorized_surface": { "type": "string", "minLength": 1 },
+        "retrieval_completed": { "type": "boolean" },
+        "retrieved_bytes_verified_locally": { "type": "boolean" }
+      }
+    },
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["counts_as_real_revenue", "counts_as_provider_custody", "counts_as_delivery_evidence", "contains_customer_pii"],
+      "properties": {
+        "counts_as_real_revenue": { "type": "boolean" },
+        "counts_as_provider_custody": { "type": "boolean" },
+        "counts_as_delivery_evidence": { "type": "boolean" },
+        "contains_customer_pii": { "const": false }
+      }
+    }
+  }
+}

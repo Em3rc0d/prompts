@@ -1,0 +1,170 @@
+{
+  "schema": "prompt-machine-workflow-contract-v1",
+  "contract_version": "1.0.0",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "workflow_version": "1.0.0-candidate",
+  "collection": "starter-collection-v1",
+  "state": "CONTRACT_FROZEN_STATIC_ONLY_BEHAVIORAL_EVIDENCE_OPEN",
+  "recorded_on": "2026-09-03",
+  "customer_job": "Review a supplied software change and surface the smallest set of evidence-backed material risks before a human ship decision.",
+  "authority": "ADVISORY_ONLY",
+  "source_provenance": [
+    {
+      "path": "product/free-developer-starter-v1/prompts/code-review.md",
+      "blob_sha": "4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5",
+      "role": "finished_free_prompt_baseline"
+    },
+    {
+      "path": "product/developer-pack-v1.1/templates/software-code-review-system.md",
+      "blob_sha": "387804cf3dd5aaf22b56aafbeb6b17380942a59e",
+      "role": "reusable_system_template_baseline"
+    }
+  ],
+  "input_contract": {
+    "required": [
+      "code_diff_or_exact_changed_files",
+      "change_intent_or_acceptance_criteria",
+      "runtime_language_context_sufficient_to_interpret_change"
+    ],
+    "conditionally_required_when_material": [
+      "expected_behavior_or_invariants",
+      "schema_or_api_contract",
+      "database_migration_or_constraints",
+      "authorization_model",
+      "concurrency_or_ordering_model",
+      "deployment_runtime_constraints",
+      "compatibility_requirements",
+      "observed_test_or_reproduction_evidence"
+    ],
+    "input_states": [
+      "REVIEWABLE",
+      "REVIEWABLE_WITH_UNKNOWNS",
+      "INSUFFICIENT_CONTEXT"
+    ],
+    "minimum_preflight": {
+      "if_any_required_input_missing_or_materially_ambiguous": "INSUFFICIENT_CONTEXT",
+      "behavior": "Do not manufacture defects. Identify only the minimum additional context that can materially change the review."
+    }
+  },
+  "evidence_semantics": {
+    "CONFIRMED": "Failure mechanism is directly supported by supplied code/context.",
+    "LIKELY": "Strong inference exists but one material fact remains unobserved.",
+    "QUESTION": "Additional context is required before treating the concern as a defect.",
+    "DISMISSED": "Candidate finding failed challenge and must not be reported as a finding."
+  },
+  "default_review_lenses": [
+    "correctness",
+    "regression_risk",
+    "security_or_trust_boundary",
+    "data_integrity",
+    "reliability_or_error_handling",
+    "concurrency_or_ordering",
+    "performance_or_resource_use",
+    "api_or_schema_compatibility",
+    "observability_or_operability",
+    "maintainability",
+    "tests_or_verification"
+  ],
+  "review_process": [
+    "reconstruct_intent",
+    "trace_changed_behavior",
+    "identify_relevant_interfaces_and_assumptions",
+    "generate_candidate_findings",
+    "challenge_candidate_findings",
+    "prioritize_material_findings",
+    "produce_verification_plan",
+    "recommend_human_ship_state"
+  ],
+  "finding_contract": {
+    "required_fields": [
+      "severity",
+      "title",
+      "evidence_level",
+      "location",
+      "evidence",
+      "failure_mechanism",
+      "impact",
+      "recommended_fix",
+      "verification",
+      "invalidating_context",
+      "confidence"
+    ],
+    "severity_states": ["CRITICAL", "HIGH", "MEDIUM", "LOW"],
+    "evidence_states": ["CONFIRMED", "LIKELY", "QUESTION"],
+    "style_preference_alone_is_defect": false,
+    "filler_findings_allowed": false
+  },
+  "ship_recommendation": {
+    "states": [
+      "BLOCK",
+      "REVIEW_REQUIRED",
+      "SHIP_WITH_FIXES",
+      "NO_MATERIAL_ISSUE_FOUND"
+    ],
+    "authority_effect": "Recommendation only; Prompt Machine does not autonomously merge, deploy, or approve the software change.",
+    "default_transitions": {
+      "confirmed_critical_or_high": "BLOCK",
+      "likely_high_with_material_unknown": "REVIEW_REQUIRED",
+      "bounded_medium_or_low": "SHIP_WITH_FIXES",
+      "no_material_supported_finding": "NO_MATERIAL_ISSUE_FOUND",
+      "insufficient_context_for_key_path": "REVIEW_REQUIRED"
+    }
+  },
+  "output_contract": [
+    "review_state",
+    "executive_assessment",
+    "material_findings",
+    "missing_material_context",
+    "verification_plan",
+    "ship_recommendation"
+  ],
+  "verification_contract": [
+    "every_finding_maps_to_supplied_evidence_or_labeled_inference",
+    "every_finding_explains_a_failure_mechanism",
+    "severity_follows_the_rubric",
+    "no_test_result_is_invented",
+    "no_disabled_or_irrelevant_lens_generates_filler",
+    "duplicate_findings_are_merged",
+    "missing_context_is_material",
+    "ship_recommendation_follows_configured_transitions"
+  ],
+  "non_goals": [
+    "generate_style_commentary_to_fill_categories",
+    "invent_runtime_behavior_or_test_results",
+    "declare_a_vulnerability_without_a_supported_reachable_threat_or_missing_control",
+    "make_an_autonomous_ship_merge_or_deploy_decision",
+    "claim_certification_or_universal_model_portability"
+  ],
+  "fallback": {
+    "state": "INSUFFICIENT_CONTEXT",
+    "ship_recommendation": "REVIEW_REQUIRED",
+    "behavior": "Explain the missing material context and request the smallest additional evidence set needed for a responsible review."
+  },
+  "known_limitations": [
+    "No Starter-SKU runtime observation exists yet for this contract.",
+    "No workflow-level Trust Card is publication-eligible yet.",
+    "Cross-model/provider portability is not established.",
+    "Skill trigger, forward execution, and prompt-skill parity are not established.",
+    "A human remains responsible for the actual ship decision."
+  ],
+  "normalization_decisions": [
+    {
+      "issue": "The finished Free prompt uses ship state REVIEW while the reusable system template uses REVIEW_REQUIRED.",
+      "decision": "Starter canonical state is REVIEW_REQUIRED because it explicitly communicates unresolved material review needs.",
+      "compatibility_note": "The older Free REVIEW state is historical surface behavior and is not retroactively rewritten by this contract.",
+      "behavioral_consequence": "The final Starter prompt surface must be generated/aligned to this state before runtime evaluation."
+    },
+    {
+      "issue": "The reusable template includes SHIP while the Free prompt uses NO_MATERIAL_ISSUE_FOUND.",
+      "decision": "Starter does not use SHIP as a terminal model state; it uses NO_MATERIAL_ISSUE_FOUND to avoid implying autonomous release authority.",
+      "behavioral_consequence": "Human/CI release authority stays outside the workflow."
+    }
+  ],
+  "evidence_boundary": {
+    "static_contract_freeze_is_runtime_evidence": false,
+    "architecture_campaign_is_starter_sku_evidence": false,
+    "runtime_pass_is_certification": false,
+    "skill_candidate_is_supported_skill": false,
+    "ready_to_sell": false
+  }
+}

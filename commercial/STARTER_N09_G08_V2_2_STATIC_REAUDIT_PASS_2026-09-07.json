@@ -1,0 +1,36 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-2-static-reaudit-v1",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "candidate_contract_version": "2.2.0",
+  "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
+  "base_surface": {
+    "path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+    "github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+    "contract_version": "2.1.0"
+  },
+  "hardening_addendum": {
+    "path": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
+    "github_blob_sha": "6da13d8c4e0ad11fd791d89949453208fb5ca168",
+    "contract_version": "2.2.0"
+  },
+  "checks": {
+    "authority_remains_advisory_only": true,
+    "evaluation_contract_remains_nonruntime": true,
+    "affirmative_evidence_required_for_likely": true,
+    "all_material_prerequisites_require_evidence_anchor": true,
+    "supplied_contract_failure_cannot_be_assumed": true,
+    "type_mismatch_requires_both_actual_types": true,
+    "satisfied_invariant_mode_defined": true,
+    "no_forced_findings_preserved": true,
+    "failed_candidate_cannot_inflate_ship_state": true,
+    "boundary_unknown_likely_review_required_preserved": true,
+    "full_boundary_confirmed_block_preserved": true,
+    "embedded_task_data_authority_boundary_preserved": true
+  },
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "runtime_executions_attempted": 0,
+  "verdict": "PASS_STATIC_ONLY",
+  "next_gate": "FRESH_FOUR_CASE_G08_BATCH_RETEST",
+  "truth_boundary": "STATIC_REAUDIT_ONLY_NO_BEHAVIORAL_EVIDENCE"
+}

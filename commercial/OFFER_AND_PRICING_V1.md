@@ -1,167 +1,251 @@
-# Prompt Quarry Offer & Pricing v1
+# Prompt Machine Offer & Pricing v1
+
+Status: `PRICE HYPOTHESES / PAID OFFERS NOT YET PUBLIC`
+
+Date: `2026-09-03`
 
 ## Positioning
 
-Prompt Quarry Developer Pack v1 is not positioned as a high-volume prompt bundle.
+Prompt Machine is not a prompt bundle store.
 
 It is positioned as:
 
-> A compact prompt engineering toolkit for developers who want reusable, inspectable technical prompts instead of random copy-paste prompt collections.
+> A library/platform of reusable AI workflows designed around real customer jobs, with explicit inputs, outputs, limitations, verification guidance, and evidence history.
 
-## Target customer
+Prompt Quarry is the internal factory that discovers, structures, tests, reviews, and improves those workflows. Customers should not need to understand internal MK0/MK1/PCP machinery to receive value.
 
-Primary:
-- software developers using ChatGPT, Claude, Gemini, or comparable assistants;
-- junior-to-mid developers who want more consistent technical AI interactions;
-- technical builders who repeatedly perform code review, debugging, research, architecture, and technical-decision work.
+## Target customer — first commercial wedge
 
-Secondary:
-- technical freelancers;
-- indie hackers;
-- small engineering teams evaluating structured AI workflows.
+Primary first wedge:
 
-Not the primary buyer:
-- people seeking thousands of generic prompts;
-- buyers expecting guaranteed model performance;
-- buyers seeking unrestricted redistribution/resale rights.
+- software developers and technical builders using AI repeatedly for code review, debugging, technical decisions, research, and workflow design;
+- people who want repeatable outcomes rather than random prompt copy/paste;
+- users willing to try a free workflow on a real task before buying a broader collection.
+
+The long-term product is broader than developers, but new professions/job families do not earn investment until demand evidence justifies expansion.
 
 ## Core problem
 
-Most prompt packs optimize for quantity. Developers still have to determine:
-- what context to provide;
-- which constraints matter;
-- what output structure to demand;
-- how uncertainty should be handled;
-- how to distinguish static quality from runtime evidence.
+People repeatedly improvise AI tasks that could be converted into dependable workflows.
 
-Developer Pack v1 packages those decisions into reusable assets.
+They still have to decide:
+
+- what context to provide;
+- what inputs are actually required;
+- which constraints matter;
+- what output contract is useful;
+- how uncertainty should be represented;
+- how to verify the result;
+- what the workflow can and cannot claim;
+- whether the workflow has any evidence behind it.
+
+Prompt Machine packages those decisions into reusable workflows and preserves the evidence/history that supports trust.
 
 ## Offer ladder
 
-### Tier 0 — Developer Starter Pack v1
+```text
+FREE LIBRARY                 $0
+STARTER COLLECTION           $9 one-time     ← primary first purchase
+FULL DEVELOPER COLLECTION   $19 one-time     ← broader premium / upsell
+SUBSCRIPTION                DEFERRED
+```
+
+`$9` and `$19` are price hypotheses, not validated willingness-to-pay conclusions.
+
+Public checkout remains **OFF** until the release/evidence boundary is satisfied.
+
+## Tier 0 — Free Library
 
 Price: `$0`
 
-Promise:
-`Three structured prompts you can use on a real developer task today.`
-
 Role:
+
 - acquisition;
-- trust;
-- product demonstration.
+- real-task activation;
+- product demonstration;
+- early trust/value evidence.
 
-### Tier 1 — Developer Pack v1
+Free must remain independently useful. It should not be intentionally crippled merely to force an upgrade.
 
-Price hypothesis:
-- launch: `$19 one-time`;
-- standard after initial validation: `$29 one-time`.
+The key conversion event is not download. It is:
 
-This is a pricing experiment, not a permanent pricing commitment.
+```text
+user selects workflow
+→ uses it on a real task
+→ receives an inspectable result
+→ understands how to verify it
+```
 
-Why not compete at the bottom:
-- the paid Pack contains a system, not only prompt text;
-- it includes methodology, templates, examples, contracts, checklists, and evidence-state discipline;
-- pricing by prompt count would incorrectly commoditize the product.
+## Tier 1 — Starter Collection
 
-Why not start above $29:
-- Prompt Quarry has not yet accumulated public customer proof;
-- current assets are VALID, not F4 TESTED or F6 CERTIFIED;
-- the first objective is paid demand validation, not maximum ARPU.
+Price hypothesis: `$9 one-time`
 
-## Launch offer
+Role: **primary launch offer**.
 
-### Headline
-`Stop collecting prompts. Start using a developer prompt system.`
+Frozen commercial scope:
 
-### One-line value proposition
-`Developer Pack v1 gives you reusable prompt templates, worked examples, structured contracts, and quality gates for technical AI work.`
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- `review-code-with-evidence` skill candidate;
+- `diagnose-bugs-with-evidence` skill candidate;
+- `START_HERE` entrypoint + task chooser;
+- worked examples;
+- verification guidance;
+- adaptation cheatsheet;
+- explicit evidence and limitations.
 
-### Included value
+Current state:
 
-Customer receives the governed Developer Pack v1 payload containing 21 customer-visible assets, including:
-- reusable technical prompt templates;
-- methodology for prompt architecture and evidence states;
-- code-review and technical-decision examples;
-- machine-readable request/task contracts;
-- static-quality and release-readiness checklists;
-- proprietary commercial license permitting use and adaptation but not resale/redistribution.
+```text
+SCOPE_FROZEN       YES
+BEHAVIOR_PROVEN    NO
+READY_TO_SELL      NO
+PUBLIC_CHECKOUT    OFF
+```
 
-## Free -> Paid contrast
+`scope frozen != behavior proven`.
 
-| Developer Starter Pack | Developer Pack v1 |
-|---|---|
-| 3 finished prompts | reusable prompt system |
-| use immediately | build/adapt repeatedly |
-| lightweight Quickstart | methodology + evaluation guidance |
-| no contracts | machine-readable task/request contracts |
-| no complete examples | end-to-end example sets |
-| no quality checklist system | static + release-readiness checklists |
-| demonstrates value | enables repeatable workflow |
+## Tier 2 — Full Developer Collection
+
+Price hypothesis: `$19 one-time`
+
+Role: premium expansion/upsell for users who want a broader reusable system.
+
+Current intended scope:
+
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- Technical Decision;
+- AI Workflow Designer;
+- four corresponding Skill surfaces;
+- workflow/task contracts;
+- advanced adaptation guidance;
+- worked examples;
+- evidence cards / Trust History projections;
+- full collection navigation.
+
+The Full Collection is not a promise of universal model portability or certified correctness.
+
+## Why not sell by prompt count
+
+Prompt count is not the value unit.
+
+The value unit is the customer job successfully supported by a workflow with clear operating boundaries.
+
+```text
+PROMPT COUNT        vanity inventory signal
+WORKFLOW            product unit
+JOB FAMILY          scale unit
+REAL TASK VALUE     customer signal
+REPEAT USE          retention signal
+PURCHASE             commercial signal
+```
 
 ## Evidence-safe sales claims
 
-Allowed:
+Allowed only when the referenced artifact actually supports them:
+
+- Prompt Machine-authored;
 - structured;
 - reusable;
-- Prompt Quarry-authored / derived as recorded in manifest;
-- statically VALID;
-- 21 included governed assets;
-- designed for developer/technical workflows;
-- use-and-adapt commercial license.
+- governed;
+- explicit input/output contract;
+- explicit limitations/verification guidance;
+- statically reviewed/frozen when applicable;
+- observed in a named number of identified behavioral cases when applicable;
+- historical PASS/FAIL/regression evidence when the Trust History record supports it.
 
-Do not claim unless later evidence exists:
-- battle-tested;
-- proven superior;
-- best-performing;
+Do not claim without separate evidence:
+
+- guaranteed;
+- battle-tested at scale;
 - certified;
-- portable across every model/provider;
-- guaranteed to improve output;
+- proven superior;
+- universally portable;
+- works on every model/provider;
+- always produces correct results;
 - validated by customers at scale.
 
-## Pricing experiment plan
+Master rule:
 
-### Phase A — first 10 purchases
+`MARKETING CLAIM <= OBSERVED EVIDENCE`
 
-Offer: `$19`
+## Current behavioral evidence
 
-Question:
-`Will qualified users pay for the current value proposition?`
-
-Do not optimize revenue before answering this question.
-
-### Phase B — after real purchase/usage evidence
-
-Candidate standard price: `$29`
-
-Raise only if at least one of these is observed:
-- repeated paid conversion;
-- meaningful positive user feedback;
-- added F4/F5 evidence;
-- additional high-value developer families;
-- stronger onboarding/customer proof.
-
-### Price-test rule
-
-Never change price and core positioning simultaneously. Otherwise the cause of conversion changes becomes unknowable.
-
-## Future offer ladder — deferred
-
-After paid demand:
+The governed manual architecture campaign currently has:
 
 ```text
-FREE STARTER
-   -> DEVELOPER PACK $19/$29
-   -> SPECIALIZED PACKS
-   -> PROMPT QUARRY PRO
-   -> API / TEAM ACCESS
+behavioral observations      7
+expected-state matches       7 / 7
+blocking review failures     0
+certification claim          NO
+portability claim            NO
+customer-value evidence      0
+real purchases               0
 ```
 
-Subscription is not justified merely because recurring revenue is attractive. It becomes justified when customers want continuing generation, updates, discovery, evaluation, or access to the factory rather than a static snapshot.
+This evidence can later support a bounded Trust History narrative. It does not make Starter or Full ready for sale.
 
-## License message
+## First commercial experiment
 
-Short commercial form:
+Primary commercial milestone:
 
-`Use it. Adapt it. Build with it. Do not resell or redistribute the Pack or its templates as a competing product.`
+```text
+PQ-$1 = first real non-test paid purchase successfully delivered
+```
 
-The full license in the distributed Pack remains authoritative.
+Founder-led first-sale path remains a hypothesis:
+
+```text
+relevant contacts
+→ try Free
+→ real-task activation
+→ observed value
+→ Starter view
+→ $9 purchase
+→ verified delivery
+```
+
+The exact conversion rates are learning hypotheses, not benchmarks or promises.
+
+## $9 → $19 expansion hypothesis
+
+The Full Collection earns its role when Starter users demonstrate a need for broader adjacent workflows, reuse/adaptation, or the full workflow system.
+
+Track separately:
+
+```text
+Starter purchase
+Starter delivery
+Starter activation
+repeat use
+Full product view
+Full upgrade
+```
+
+Do not interpret a Starter purchase as evidence that the Full Collection will convert.
+
+## Subscription — deferred
+
+Subscription remains blocked until recurring value is observed.
+
+Subscription becomes credible only when users repeatedly want something that naturally continues, such as:
+
+- updated workflow versions;
+- continuing evidence/regression updates;
+- recurring workflow discovery;
+- ongoing job-family expansion;
+- team governance;
+- maintained portability/evaluation surfaces.
+
+Recurring revenue desire alone is not sufficient evidence of recurring customer value.
+
+## Price-test rule
+
+Never change price and core positioning simultaneously if the objective is to learn why conversion changed.
+
+At low sample sizes, inspect actual objections, activation, task value, support burden, and repeat behavior before optimizing percentages.
+
+## Product principle
+
+> **Users do not buy prompts. They buy time back, reduced improvisation, clearer verification, and increasing confidence that a workflow is fit for their job.**

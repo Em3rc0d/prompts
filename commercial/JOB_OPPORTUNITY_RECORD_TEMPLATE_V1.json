@@ -1,0 +1,74 @@
+{
+  "schema": "prompt-machine-job-opportunity-record-v1",
+  "job_id": "REQUIRED",
+  "status": "DISCOVERED|OBSERVED|QUALIFIED|WORKFLOW_CANDIDATE|PILOTED|PROVEN_FOR_CURRENT_SCOPE|NEEDS_MORE_EVIDENCE|REWORK|REJECTED",
+  "recorded_on": "REQUIRED",
+  "job": {
+    "desired_outcome": "REQUIRED",
+    "trigger_context": "REQUIRED",
+    "target_user_metadata": [],
+    "current_behavior_or_workaround": "UNKNOWN",
+    "inputs_normally_available": [],
+    "expected_output": "UNKNOWN",
+    "verification_method": "UNKNOWN",
+    "frequency_evidence": [],
+    "pain_evidence": [],
+    "value_evidence": [],
+    "alternatives": []
+  },
+  "qualification": {
+    "frequency": "UNKNOWN",
+    "pain": "UNKNOWN",
+    "value": "UNKNOWN",
+    "workflowizability": "UNKNOWN",
+    "reachability": "UNKNOWN",
+    "safe_deliverability": "UNKNOWN",
+    "allowed_values": ["HIGH", "MEDIUM", "LOW", "UNKNOWN", "BLOCKED"],
+    "numeric_score_validated": false,
+    "blocking_reason": null
+  },
+  "evidence": [
+    {
+      "evidence_id": "REQUIRED_WHEN_PRESENT",
+      "evidence_class": "USER_STATEMENT|FOUNDER_OBSERVATION|SUPPORT_REQUEST|COMMUNITY_SIGNAL|WORKAROUND_BEHAVIOR|FREE_WORKFLOW_USE|RETURN_USE|PURCHASE|UPGRADE|TASK_ARTIFACT|OTHER",
+      "source_reference": null,
+      "observed_fact": null,
+      "limitations": []
+    }
+  ],
+  "activation_contract": {
+    "real_task_required": true,
+    "required_inputs_supplied": false,
+    "workflow_result_received": false,
+    "verification_understood": false,
+    "activated": false,
+    "activation_is_not_task_success": true
+  },
+  "value_signals": {
+    "task_success_evidence": [],
+    "repeat_use_evidence": [],
+    "trust_signals": [],
+    "purchase_evidence": [],
+    "delivery_evidence": [],
+    "upgrade_evidence": [],
+    "referral_evidence": []
+  },
+  "feedback": [],
+  "next_experiment": {
+    "question": "REQUIRED_BEFORE_SPEND",
+    "minimum_sample": "REQUIRED_BEFORE_SPEND",
+    "stop_condition": "REQUIRED_BEFORE_SPEND",
+    "output": "REQUIRED_BEFORE_SPEND",
+    "next_decision": "REQUIRED_BEFORE_SPEND"
+  },
+  "truth_boundary": {
+    "job_idea_is_not_observed_demand": true,
+    "download_is_not_activation": true,
+    "activation_is_not_task_success": true,
+    "task_success_is_not_repeat_use": true,
+    "repeat_use_is_not_purchase": true,
+    "purchase_is_not_retention": true,
+    "one_user_signal_is_not_universal_validation": true,
+    "marketing_claim_lte_observed_evidence": true
+  }
+}

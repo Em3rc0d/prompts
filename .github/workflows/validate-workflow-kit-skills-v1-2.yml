@@ -1,0 +1,34 @@
+name: Validate Workflow Kit Skills v1.2
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'product/developer-workflow-kit-v1.2/skills/**'
+      - 'product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md'
+      - 'certification/fixtures/skill-trigger-matrix.v1.json'
+      - 'tools/validate_workflow_kit_skills.py'
+      - '.github/workflows/validate-workflow-kit-skills-v1-2.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-skill-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Validate structural skill gates
+        run: |
+          python3 tools/validate_workflow_kit_skills.py \
+            --json-out certification/receipts/skill-structure-ci.report.json
+
+      - name: Preserve structural report
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-kit-v1-2-skill-structure-${{ github.sha }}
+          path: certification/receipts/skill-structure-ci.report.json
+          if-no-files-found: error
+          retention-days: 30

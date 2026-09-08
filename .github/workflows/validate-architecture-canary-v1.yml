@@ -1,0 +1,75 @@
+name: Validate Architecture Canary v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'tools/execute_architecture_canary_openai_v1.py'
+      - 'tools/test_architecture_canary_openai_v1.py'
+      - '.github/workflows/validate-architecture-canary-v1.yml'
+      - '.github/workflows/run-architecture-checklist-canary-v1.yml'
+      - 'quarry/etl/prompt-library-v1/invocation-pilot-v1.3/static-binding-invocation-freeze.receipt.json'
+
+permissions:
+  contents: read
+
+jobs:
+  zero-call-canary-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run canary executor unit tests
+        run: python tools/test_architecture_canary_openai_v1.py
+
+      - name: Generate zero-call canary plan
+        run: python tools/execute_architecture_canary_openai_v1.py > canary-plan.json
+
+      - name: Enforce no-call truth boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('canary-plan.json').read_text(encoding='utf-8'))
+          assert p['campaign_id'] == 'PM-ARCH-CANARY-CHECKLIST-NORMAL-0001', p
+          assert p['invocation_id'] == 'PM-INV-CHECKLIST-NORMAL-0003', p
+          assert p['mode'] == 'checklist', p
+          assert p['variant'] == 'NORMAL', p
+          assert p['risk_class'] == 'LOW', p
+          assert p['authority'] == 'ADVISORY_ONLY', p
+          assert p['expected_state_set'] == ['PASS'], p
+          assert p['selected_runtime_calls'] == 1, p
+          assert p['provider_calls_made'] == 0, p
+          assert p['behavioral_observations'] == 0, p
+          assert p['receipts_created'] == 0, p
+          assert p['promotion_claim'] == 'NONE', p
+          assert p['state'] == 'CANARY_PREPARED_NOT_EXECUTED', p
+          print('ARCHITECTURE CANARY ZERO-CALL VALIDATION: PASS')
+          print(json.dumps(p, indent=2, sort_keys=True))
+          PY
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Architecture canary readiness
+
+          - invocation: `PM-INV-CHECKLIST-NORMAL-0003`
+          - risk: `LOW`
+          - expected state: `PASS`
+          - selected future calls: `1`
+          - calls made by this workflow: `0`
+          - behavioral observations created: `0`
+          - promotion receipts created: `0`
+          - real execution: **NOT PERFORMED**
+          EOF

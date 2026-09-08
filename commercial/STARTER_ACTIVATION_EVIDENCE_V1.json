@@ -1,0 +1,166 @@
+{
+  "schema": "prompt-machine-starter-activation-evidence-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "DESIGNED_NOT_LIVE",
+  "product_id": "prompt-machine-starter-collection",
+  "purpose": "Measure whether a relevant user applies a Prompt Machine workflow to a real task, reaches an inspectable result, understands verification, and later produces value, return-use, or commercial evidence without collecting unnecessary task contents or PII.",
+  "activation_definition": {
+    "required_sequence": [
+      "WORKFLOW_SELECTED",
+      "REAL_TASK_STARTED",
+      "REQUIRED_INPUTS_SUPPLIED",
+      "WORKFLOW_RESULT_RECEIVED",
+      "VERIFICATION_GUIDANCE_USED_OR_UNDERSTOOD"
+    ],
+    "terminal_state": "ACTIVATED",
+    "activation_does_not_imply": [
+      "TASK_SUCCESS",
+      "CORRECT_RESULT",
+      "CUSTOMER_VALUE",
+      "REPEAT_USE",
+      "PURCHASE",
+      "RETENTION"
+    ]
+  },
+  "not_activation_events": [
+    "landing_view",
+    "free_cta_clicked",
+    "free_pack_acquired",
+    "starter_product_viewed",
+    "starter_cta_clicked",
+    "workflow_page_viewed",
+    "workflow_copied",
+    "model_response_generated_without_real_task_evidence",
+    "checkout_started"
+  ],
+  "evidence_classes": {
+    "UNTRUSTED_CLIENT_INTENT": [
+      "landing_view",
+      "workflow_page_viewed",
+      "workflow_copied",
+      "starter_product_viewed",
+      "starter_cta_clicked"
+    ],
+    "ACTIVATION_EVIDENCE": [
+      "real_task_started",
+      "required_inputs_supplied",
+      "workflow_result_received",
+      "verification_guidance_used_or_understood",
+      "activated"
+    ],
+    "USER_REPORTED_OUTCOME": [
+      "task_helped_yes",
+      "task_helped_partly",
+      "task_helped_no",
+      "voluntary_outcome_note"
+    ],
+    "OBSERVED_TASK_OUTCOME": [
+      "authorized_external_evidence_shows_task_outcome"
+    ],
+    "RETURN_USE_EVIDENCE": [
+      "later_real_task_started_with_same_or_other_workflow"
+    ],
+    "PROVIDER_SIGNED_PURCHASE_EVIDENCE": [
+      "accepted_real_starter_purchase"
+    ],
+    "DELIVERY_EVIDENCE": [
+      "verified_starter_artifact_delivery"
+    ]
+  },
+  "minimal_event_contract": {
+    "required_fields": [
+      "event",
+      "timestamp",
+      "workflow_id",
+      "workflow_version",
+      "job_id_or_job_family",
+      "source_surface"
+    ],
+    "optional_fields": [
+      "anonymous_or_consented_user_reference",
+      "source",
+      "medium",
+      "campaign",
+      "content",
+      "self_reported_usefulness",
+      "bounded_failure_category"
+    ],
+    "forbidden_by_default": [
+      "source_code_contents",
+      "diff_contents",
+      "log_contents",
+      "stack_trace_contents",
+      "screenshots",
+      "ticket_contents",
+      "prompt_task_contents",
+      "names",
+      "email_addresses",
+      "payment_details",
+      "ip_address_fields",
+      "raw_request_headers",
+      "user_agent_fingerprinting"
+    ]
+  },
+  "real_task_evidence_rule": {
+    "default_method": "USER_EXPLICITLY_CONFIRMS_REAL_TASK",
+    "task_content_retention_required": false,
+    "task_content_hash_required": false,
+    "task_content_upload_required": false,
+    "synthetic_fixture_counts_as_real_task": false,
+    "model_self_grade_counts_as_task_success": false
+  },
+  "verification_evidence_rule": {
+    "acceptable_signals": [
+      "user_explicitly_confirms_verification_step_reviewed",
+      "verification_guide_interaction_when_instrumented_without_task_content",
+      "voluntary_feedback_describes_how_material_claim_was_checked"
+    ],
+    "opening_verification_page_alone_implies_correct_verification": false
+  },
+  "task_success": {
+    "states": [
+      "UNKNOWN",
+      "USER_REPORTED_HELPFUL",
+      "USER_REPORTED_PARTIALLY_HELPFUL",
+      "USER_REPORTED_NOT_HELPFUL",
+      "OBSERVED_USEFUL_OUTCOME"
+    ],
+    "default": "UNKNOWN",
+    "self_report_remains_self_report": true,
+    "activation_implies_task_success": false
+  },
+  "feedback_ingestion": {
+    "workflow_change_is_automatic": false,
+    "required_path": [
+      "CAPTURE_SIGNAL",
+      "CLASSIFY",
+      "LINK_TO_WORKFLOW_VERSION_AND_JOB",
+      "ASSESS_MATERIALITY_OR_RECURRENCE",
+      "HUMAN_REVIEW",
+      "RETAIN_OR_REWORK_OR_EXPAND_EVIDENCE_OR_PRODUCT_SURFACE_CHANGE"
+    ],
+    "single_preference_signal_normally_changes_core_semantics": false,
+    "single_material_safety_or_correctness_failure_may_trigger_stop_line": true
+  },
+  "first_customer_questions": [
+    "Did the user choose the workflow that matched the job?",
+    "Could the user provide the required inputs without confusion?",
+    "Did the workflow return an inspectable result?",
+    "Could the user understand what needed verification?",
+    "Was the result useful enough for the real task?",
+    "What friction or failure occurred?",
+    "Did the user return for another real task?",
+    "Did the user inspect or purchase Starter because of observed value?"
+  ],
+  "current_truth": {
+    "instrumentation_live": false,
+    "activated_users": 0,
+    "real_customer_task_outcomes": 0,
+    "return_use_observations": 0,
+    "real_starter_purchases": 0,
+    "verified_starter_deliveries": 0
+  },
+  "privacy_rule": "Collect the minimum metadata necessary to understand activation and learning. Do not retain customer task contents by default.",
+  "master_rule": "ACTIVATION != VALUE != PURCHASE != RETENTION"
+}

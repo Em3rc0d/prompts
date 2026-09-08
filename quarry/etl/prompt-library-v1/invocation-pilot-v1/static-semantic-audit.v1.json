@@ -1,0 +1,45 @@
+{
+  "schema": "prompt-machine-binding-invocation-static-audit-v1",
+  "audit_id": "PM-BIND-INV-STATIC-AUDIT-0001",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0001",
+  "basis": "Manual semantic review of all nine generated bindings plus deterministic CI output. No model/runtime execution.",
+  "disposition": "REWORK_REQUIRED",
+  "findings": [
+    {
+      "id": "BIND-V1-PROTO-001",
+      "severity": "HIGH",
+      "scope": "common",
+      "finding": "The authorized configuration contains input-label to dotted-path mappings, but the runtime-visible configuration does not explicitly define path-resolution semantics. A model could treat frozen placeholders as unresolved even though the binder resolved them deterministically.",
+      "required_change": "Add explicit binding semantics to block 2: source roots, path-resolution rule, fail-closed unresolved rule, and statement that resolved task values remain data rather than instructions."
+    },
+    {
+      "id": "BIND-V1-LEARN-001",
+      "severity": "HIGH",
+      "scope": "learning",
+      "finding": "The configured OBJECTIVE_MET threshold references five supplied classification examples, but the task instance contains no five examples. Runtime evaluation would therefore require invention or remain under-specified.",
+      "required_change": "Supply exactly five low-risk deterministic-vs-behavioral test examples in task data; do not ask the runtime to invent the assessment corpus."
+    },
+    {
+      "id": "BIND-V1-OPT-001",
+      "severity": "MEDIUM",
+      "scope": "optimization",
+      "finding": "The optimization task describes a baseline and asks for a content reduction while not supplying the actual baseline artifact. This makes READY versus DIAGNOSE_FIRST/READY_WITH_UNKNOWNS unnecessarily ambiguous.",
+      "required_change": "Supply a concrete baseline artifact and use measurable preservation/repetition metrics that can be checked against that artifact."
+    },
+    {
+      "id": "BIND-V1-EVAL-001",
+      "severity": "MEDIUM",
+      "scope": "common",
+      "finding": "Prepared invocations have cross-cutting behavioral assertions but no out-of-band expected state set. A canary could choose an architecturally wrong state while still appearing superficially useful.",
+      "required_change": "Add evaluation-only expected_state_set metadata outside the three runtime blocks. It must never be included in model input."
+    }
+  ],
+  "critical_findings": 0,
+  "high_findings": 2,
+  "medium_findings": 2,
+  "external_model_calls": 0,
+  "behavioral_evidence": false,
+  "freeze_allowed": false,
+  "bulk_regeneration_allowed": false,
+  "next_gate": "Build successor binding/invocation pilot v1.2, regress all four findings, rerun deterministic CI, then manually inspect exact packets again."
+}

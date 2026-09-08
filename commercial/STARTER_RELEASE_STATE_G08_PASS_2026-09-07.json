@@ -1,0 +1,60 @@
+{
+  "schema": "prompt-machine-starter-release-state-snapshot-v1",
+  "recorded_on": "2026-09-07",
+  "supersedes_for_current_truth": [
+    "commercial/STARTER_RELEASE_GATE_V1.json@runtime-evidence-state",
+    "commercial/STARTER_RELEASE_DAG_V1.json@N09-runtime-frontier",
+    "PR-4-body@runtime-frontier"
+  ],
+  "historical_snapshots_are_preserved": true,
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "canonical_candidate_surface": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+  "gates": {
+    "G05_BASELINE_EXECUTION": "FAIL_REWORK_HISTORICAL",
+    "G06_FAILURE_MINING": "CLOSED",
+    "G07_IMPROVEMENT": "STATIC_PASS",
+    "G08_REGRESSION": "PASS",
+    "G09_PORTABILITY": "DESIGNED_NOT_ARMED",
+    "G10_HUMAN_VALUE_REVIEW": "NOT_STARTED",
+    "G11_CERTIFICATION": "NOT_STARTED",
+    "G12_PACK_REBUILD": "NOT_STARTED",
+    "G13_PACK_LEVEL_QA": "NOT_STARTED",
+    "G14_PROVIDER_GATES": "NOT_PASSED"
+  },
+  "g08_evidence": {
+    "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+    "runtime_observations": 4,
+    "human_review_passes": 4,
+    "human_review_fails": 0,
+    "provider_requests_attempted": 4,
+    "automatic_retries": 0,
+    "all_http_200": true,
+    "all_finish_reason_stop": true,
+    "evaluation_contract_sent": false,
+    "expected_result_sent": false,
+    "receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json"
+  },
+  "n09_runtime_evidence_node": {
+    "state": "OBSERVED_CLOSED_FOR_G08_SUCCESSOR_REGRESSION",
+    "historical_failures_preserved": true,
+    "portability_still_required_by_14_gate_pipeline": true
+  },
+  "g09": {
+    "design": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
+    "minimum_total_distinct_model_families": 2,
+    "new_non_gemini_family_required": 1,
+    "state": "DESIGNED_NOT_ARMED"
+  },
+  "commerce": {
+    "provider_custody_observed": false,
+    "provider_integration_pass": false,
+    "live_delivery_observed": false,
+    "public_checkout_enabled": false,
+    "real_purchases": 0
+  },
+  "product_ready": false,
+  "ready_to_sell": false,
+  "pq_dollar_one": false,
+  "next_gate": "G09_PORTABILITY",
+  "master_boundary": "G08 PASS is behavioral regression evidence for the tested four-case composite v2.2 surface only. It is not portability, certification, product readiness, delivery evidence, or revenue evidence."
+}

@@ -1,0 +1,105 @@
+{
+  "schema": "prompt-machine-starter-live-delivery-canary-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "DESIGNED_DISARMED_PREREQUISITES_OPEN",
+  "product_id": "prompt-machine-starter-collection",
+  "provider": "LEMON_SQUEEZY",
+  "purpose": "Predefine the smallest controlled live transaction capable of testing signed order ingestion plus actual artifact delivery before any public Starter checkout is enabled.",
+  "arm_contract": {
+    "required_explicit_arm": "EXECUTE_ONE_STARTER_LIVE_DELIVERY_CANARY",
+    "armed_now": false,
+    "automatic_execution": false,
+    "maximum_live_transactions": 1,
+    "automatic_retries": 0,
+    "automatic_public_launch": false
+  },
+  "prerequisites": {
+    "provider_artifact_custody_pass": false,
+    "provider_integration_pass": false,
+    "public_copy_evidence_audit_current": true,
+    "starter_checkout_public": false,
+    "signed_starter_webhook_adapter_present": true,
+    "canonical_release_identity_frozen": true,
+    "delivery_receipt_schema_present": true,
+    "runtime_evidence_must_be_reviewed_before_public_launch": true
+  },
+  "canonical_artifact": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+  },
+  "required_order_observation": {
+    "commerce_gate": "live_canary",
+    "test_mode": false,
+    "provider_event": "order_created",
+    "provider_order_status": "paid",
+    "signed_webhook_accepted": true,
+    "release_product_id": "prompt-machine-starter-collection",
+    "release_version": "1.0.0-candidate",
+    "release_archive_size": 50918,
+    "release_archive_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97"
+  },
+  "required_delivery_observation": {
+    "authorized_delivery_surface_reached": true,
+    "artifact_retrieval_completed": true,
+    "retrieved_bytes_verified_locally": true,
+    "observed_size_bytes": 50918,
+    "observed_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json"
+  },
+  "success_definition": {
+    "state": "LIVE_DELIVERY_CANARY_PASS",
+    "requires_all": [
+      "one accepted provider-signed live_canary order for the canonical Starter release",
+      "one successful authorized post-order artifact retrieval",
+      "retrieved artifact exact size match",
+      "retrieved artifact exact SHA-256 match",
+      "valid delivery receipt persisted without customer PII or payment details"
+    ]
+  },
+  "failure_states": {
+    "ORDER_NOT_ACCEPTED": "Provider event missing, unsigned, wrong product/variant/release, unpaid, test-mode, or wrong commerce gate.",
+    "DELIVERY_SURFACE_UNAVAILABLE": "Order may exist but the authorized artifact delivery surface cannot be reached.",
+    "DELIVERY_ARTIFACT_MISMATCH": "Delivered bytes do not match canonical size and SHA-256.",
+    "RECEIPT_INVALID": "Delivery happened but required evidence cannot be persisted under the governed schema.",
+    "PUBLIC_SURFACE_LEAK": "Starter becomes publicly purchasable during a private canary.",
+    "INCONCLUSIVE": "Evidence is insufficient to distinguish success from failure. No retry is automatic."
+  },
+  "revenue_and_customer_boundary": {
+    "live_canary_is_provider_signed_live_transaction_evidence": true,
+    "live_canary_automatically_counts_as_pq_dollar_one": false,
+    "live_canary_automatically_counts_as_real_customer_demand": false,
+    "internal_founder_or_controlled_purchase_counts_as_customer_conversion": false,
+    "refunded_or_internal_canary_counts_as_durable_revenue": false,
+    "customer_value_observed": false,
+    "repeat_use_observed": false
+  },
+  "privacy": {
+    "persist_customer_name": false,
+    "persist_customer_email": false,
+    "persist_payment_details": false,
+    "persist_provider_secrets": false,
+    "provider_order_id_may_be_persisted": true
+  },
+  "post_canary_decision": {
+    "automatic_public_checkout": false,
+    "human_review_required": true,
+    "possible_decisions": [
+      "REWORK_DELIVERY",
+      "REWORK_PROVIDER_INTEGRATION",
+      "REPEAT_CANARY_ONLY_IF_EXPLICITLY_JUSTIFIED",
+      "DELIVERY_GATE_SATISFIED_CONTINUE_RELEASE_REVIEW"
+    ]
+  },
+  "current_truth": {
+    "live_transactions_executed": 0,
+    "signed_live_canary_orders_observed": 0,
+    "verified_deliveries_observed": 0,
+    "real_customer_purchases": 0,
+    "pq_dollar_one_observed": false,
+    "public_checkout": false,
+    "ready_to_sell": false
+  },
+  "master_rule": "A CONTROLLED DELIVERY CANARY MAY PROVE DELIVERY; IT DOES NOT BY ITSELF PROVE CUSTOMER DEMAND, PQ-$1, VALUE, OR RETENTION"
+}

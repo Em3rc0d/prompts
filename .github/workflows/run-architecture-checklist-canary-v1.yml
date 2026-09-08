@@ -1,0 +1,137 @@
+name: Run Architecture Checklist Canary v1
+
+on:
+  workflow_dispatch:
+    inputs:
+      arm:
+        description: 'Must equal EXECUTE_ONE_LOW_RISK_CANARY to permit one provider call.'
+        required: true
+        default: 'DO_NOT_EXECUTE'
+        type: string
+      model:
+        description: 'OpenAI model ID for this single observation.'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: architecture-checklist-canary-v1
+  cancel-in-progress: false
+
+jobs:
+  one-real-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Fail closed unless explicitly armed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ '${{ inputs.arm }}' != 'EXECUTE_ONE_LOW_RISK_CANARY' ]; then
+            echo 'Canary remains disarmed. No model call permitted.' >&2
+            exit 1
+          fi
+
+      - name: Fail closed unless provider credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo 'OPENAI_API_KEY is missing. No model call was made.' >&2
+            exit 1
+          fi
+
+      - name: Checkout exact candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Revalidate zero-call plan before execution
+        run: |
+          python tools/test_architecture_canary_openai_v1.py
+          python tools/execute_architecture_canary_openai_v1.py > canary-plan.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = json.loads(Path('canary-plan.json').read_text(encoding='utf-8'))
+          assert p['invocation_id'] == 'PM-INV-CHECKLIST-NORMAL-0003', p
+          assert p['selected_runtime_calls'] == 1, p
+          assert p['provider_calls_made'] == 0, p
+          assert p['state'] == 'CANARY_PREPARED_NOT_EXECUTED', p
+          print('PRE-EXECUTION GATE: PASS')
+          PY
+
+      - name: Execute exactly one LOW-risk real observation
+        run: |
+          python tools/execute_architecture_canary_openai_v1.py \
+            --execute \
+            --model '${{ inputs.model }}' \
+            --output-dir build/architecture-canary/checklist-normal
+
+      - name: Enforce one-observation custody boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('build/architecture-canary/checklist-normal')
+          m = json.loads((root / 'campaign-manifest.json').read_text(encoding='utf-8'))
+          e = json.loads((root / 'runtime-evidence.json').read_text(encoding='utf-8'))
+          r = json.loads((root / 'review-packet.json').read_text(encoding='utf-8'))
+
+          assert m['campaign_id'] == 'PM-ARCH-CANARY-CHECKLIST-NORMAL-0001', m
+          assert m['invocation_id'] == 'PM-INV-CHECKLIST-NORMAL-0003', m
+          assert m['selected_runtime_calls'] == 1, m
+          assert m['provider_calls_made'] == 1, m
+          assert m['behavioral_observations'] == 1, m
+          assert m['receipts_created'] == 0, m
+          assert m['promotion_claim'] == 'NONE', m
+          assert m['state'] == 'REAL_CANARY_OBSERVED_REVIEW_REQUIRED', m
+          assert e['fresh_independent_run'] is True, e
+          assert e['synthetic'] is False, e
+          assert e['request_contract']['input_block_count'] == 3, e
+          assert e['request_contract']['extra_runtime_instruction_envelope'] is False, e
+          assert e['state'] == 'REAL_CANARY_OBSERVED_REVIEW_REQUIRED', e
+          assert e['receipts_created'] == 0, e
+          assert r['review_status'] == 'HUMAN_REVIEW_REQUIRED', r
+          assert r['review_results'] is None, r
+          assert r['promotion_claim'] == 'NONE', r
+          assert (root / 'raw-output.txt').stat().st_size > 0
+          assert (root / 'raw-provider-response.json').stat().st_size > 0
+          forbidden_receipts = list(root.glob('*receipt*'))
+          assert forbidden_receipts == [], forbidden_receipts
+          print('ONE-OBSERVATION CUSTODY GATE: PASS')
+          PY
+
+      - name: Upload evidence for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: PM-ARCH-CANARY-CHECKLIST-NORMAL-0001
+          path: build/architecture-canary/checklist-normal
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Summarize without promoting
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Real architecture canary observed
+
+          Exactly **one** LOW-risk checklist NORMAL observation was executed.
+
+          This workflow creates runtime evidence only:
+
+          - `1` provider call
+          - `1` behavioral observation
+          - `0` promotion/certification receipts
+          - review status: `HUMAN_REVIEW_REQUIRED`
+
+          **Do not run a second canary until the first artifact is reviewed.**
+          EOF

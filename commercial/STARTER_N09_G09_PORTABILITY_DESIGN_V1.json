@@ -1,0 +1,52 @@
+{
+  "schema": "prompt-machine-starter-n09-g09-portability-design-v1",
+  "version": "1.0.0",
+  "gate": "G09_PORTABILITY",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "candidate_contract_version": "2.2.0",
+  "canonical_surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+  "canonical_surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+  "source_behavior_family": {
+    "provider": "GOOGLE_GEMINI_API",
+    "model": "gemini-3.5-flash",
+    "evidence_gate": "G08",
+    "result": "PASS_4_OF_4"
+  },
+  "portability_baseline_requirement": {
+    "minimum_total_distinct_model_families": 2,
+    "minimum_new_non_gemini_families": 1,
+    "same_four_frozen_cases_required": true,
+    "same_predeclared_evaluation_contracts_required": true,
+    "same_canonical_surface_required": true,
+    "clean_independent_context_required": true,
+    "evaluation_contract_is_runtime_input": false,
+    "expected_result_is_runtime_input": false,
+    "human_review_required": true,
+    "automatic_semantic_judgement": false,
+    "automatic_certification": false,
+    "automatic_promotion": false
+  },
+  "required_cases": [
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+  ],
+  "pass_rule": "All four required cases must produce clean behavioral observations and PASS human reviews on at least one declared non-Gemini model family while preserving the exact canonical v2.2 surface. Any blocking semantic failure => G09 REWORK. Provider/transport failure without output => NO_OBSERVATION for that case, not workflow FAIL.",
+  "claim_boundary_after_pass": "PORTABILITY_OBSERVED_ACROSS_TWO_MODEL_FAMILIES_ONLY",
+  "forbidden_claims_after_pass": [
+    "works on every model",
+    "model agnostic without qualification",
+    "provider independent across all providers",
+    "product ready",
+    "ready to sell"
+  ],
+  "broad_portability_target_deferred": {
+    "minimum_total_distinct_model_families": 3,
+    "required_for_g09_baseline": false
+  },
+  "runtime_surface_for_new_family": "TO_BE_DECLARED_AND_FROZEN_BEFORE_EXECUTION",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "state": "DESIGNED_NOT_ARMED"
+}

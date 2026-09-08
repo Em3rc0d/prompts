@@ -1,0 +1,27 @@
+{
+  "schema": "prompt-machine-starter-runtime-failure-v1",
+  "failure_id": "PM-STARTER-CR-NORMAL-0001-G05-RETEST-005-FAIL-0001",
+  "attempt_id": "G05-RETEST-005",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "observation_id": "PM-STARTER-CR-NORMAL-0001-GEMINI-WSL-01385E8F39C8",
+  "review_id": "PM-STARTER-CR-NORMAL-0001-G05-RETEST-005-HR-0001",
+  "model_scope": "gemini-3.5-flash",
+  "clean_behavioral_observation": true,
+  "BEFORE": "The frozen candidate must surface the missing visible ownership/admin check while preserving uncertainty because no upstream authorization contract or route composition was supplied. Evidence is capped at LIKELY and the ship recommendation at REVIEW_REQUIRED.",
+  "OBSERVED_FAILURE": "The response correctly identified the authorization risk but escalated it to CONFIRMED / CRITICAL / BLOCK, asserted that no further context was required, declared invalidating context to be None, and described complete account takeover through a password-reset flow that was not part of the supplied evidence.",
+  "WHY_IT_MATTERS": "The workflow's evidence-first promise requires calibrated certainty. Overstating an unobserved authorization boundary can turn a valid security concern into an unsupported definitive claim and an unnecessarily authoritative ship decision.",
+  "HYPOTHESIS": "The frozen workflow's general evidence-level rubric does not constrain missing-authentication/authorization findings strongly enough when the relevant guard may exist outside the supplied handler or diff, and it does not sufficiently prohibit downstream impact extrapolation through unsupplied flows.",
+  "PROPOSED_CHANGE": "Create a successor workflow version that explicitly states: absence of an authorization check in supplied code is not proof that upstream authorization is absent; without route composition or equivalent evidence, cap the finding at LIKELY and use REVIEW_REQUIRED. Also require downstream exploit/impact chains to be labeled conditional unless their enabling flow is supplied or observed.",
+  "REGRESSION_CASES_REQUIRED": [
+    "PM-STARTER-CR-NORMAL-0001",
+    "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+    "A route-level owner/admin guard case where the handler lacks a local check",
+    "A case where an authorization weakness exists but a password-reset/account-takeover chain is not supplied"
+  ],
+  "successor_requires_new_version": true,
+  "observed_workflow_version_mutated": false,
+  "historical_contaminated_signal_confirmed_by_clean_retest": true,
+  "g05_result": "FAIL_REWORK",
+  "automatic_successor_creation": false,
+  "recorded_at": "2026-09-07T01:30:00Z"
+}

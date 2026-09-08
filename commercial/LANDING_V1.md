@@ -1,21 +1,28 @@
-# Prompt Quarry Landing v1
+# Prompt Machine Landing v1
+
+Status: `CUSTOMER COPY CONTRACT / PAID CHECKOUT OFF`
+
+Date: `2026-09-03`
 
 ## Goal
 
-A first-time visitor should understand Prompt Quarry, obtain the Free Pack, or intentionally inspect the paid Developer Pack without needing to understand the repository architecture.
+A first-time visitor should understand Prompt Machine, identify a relevant workflow by desired outcome, try something useful for free, understand why the workflow is trustworthy, and intentionally inspect the `$9 Starter` or `$19 Full` collection without needing to understand Prompt Quarry internals.
 
-## One-page information architecture
+Prompt Quarry is the factory. Prompt Machine is the product.
+
+## Information architecture
 
 ```text
 NAV
 HERO
-PROBLEM
-FREE STARTER PACK
-HOW PROMPT QUARRY IS DIFFERENT
-DEVELOPER PACK V1
-FREE VS PAID
-EVIDENCE / TRUST
-LICENSE
+CUSTOMER JOBS / OUTCOMES
+FREE VALUE
+HOW PROMPT MACHINE WORKS
+WHY WE TRUST THESE WORKFLOWS
+STARTER $9
+FULL $19
+FREE vs STARTER vs FULL
+KNOWN LIMITATIONS / EVIDENCE
 FAQ
 FINAL CTA
 FOOTER
@@ -23,248 +30,365 @@ FOOTER
 
 ## Navigation
 
-Minimal:
-- Prompt Quarry
-- Free Pack
-- Developer Pack
-- Method
+Customer-facing navigation should prioritize outcomes, not internal architecture.
 
-Primary nav CTA:
-`Get Free Pack`
+Suggested:
 
-Avoid blog/docs navigation at launch unless it directly supports conversion.
+- Workflows
+- Collections
+- How it works
+- Evidence
+
+Primary CTA while paid checkout is off:
+
+`Try a free workflow`
+
+Do not expose MK0, PCP, architecture-mother terminology, or internal Quarry stages as the main navigation model.
 
 ---
 
 ## Hero
 
 ### Eyebrow
-`PROMPT ENGINEERING FOR DEVELOPERS`
+
+`REUSABLE AI WORKFLOWS`
 
 ### H1
-`Stop collecting random prompts.`
 
-### H2 / supporting line
-`Use structured developer prompts with explicit context, constraints, output contracts, and evidence boundaries.`
+`Stop improvising the same AI task.`
+
+### Supporting line
+
+`Prompt Machine turns repeatable work into structured workflows with clear inputs, outputs, verification, limitations, and an evidence history.`
 
 ### Primary CTA
-`Get 3 Developer Prompts — Free`
+
+`Try a workflow free`
 
 ### Secondary CTA
-`Explore Developer Pack v1`
+
+`Explore collections`
 
 ### Trust line
-`No “magic prompt” claims. No fake certification. Use the Free Pack before you buy.`
+
+`No magic-prompt claims. We show what was tested, what failed, what changed, and what is still unknown.`
 
 ---
 
-## Problem section
+## Customer jobs / outcomes
 
 ### Heading
-`A longer prompt is not automatically a better prompt.`
 
-### Copy
-Technical AI work breaks down when the model receives an underspecified task, missing constraints, vague output expectations, or pressure to invent certainty.
+`Start with what you need to get done.`
 
-Prompt Quarry turns those recurring decisions into structured prompt assets designed for real developer workflows.
+Prompt Machine should organize discovery around jobs/outcomes first.
 
-### Three problem cards
+Initial outcome groups:
 
-**Missing context**
-The model reviews code or makes technical decisions without enough system context.
+- Build & Ship
+- Research & Decide
+- Learn & Create
+- Operate & Automate
 
-**Unclear output**
-Useful reasoning gets buried in generic prose because the expected output contract was never defined.
+The first commercial wedge is developer/technical work, but profession is metadata rather than the primary product taxonomy.
 
-**False certainty**
-The prompt does not tell the model how to distinguish observation, inference, and unknowns.
+Example cards:
+
+**Review code with evidence**
+Identify concrete issues without inventing findings simply to fill a checklist.
+
+**Diagnose a bug**
+Separate observed evidence, hypotheses, unknowns, and next verification steps.
+
+**Make a technical decision**
+Compare options without silently upgrading assumptions into facts.
 
 ---
 
-## Free Starter Pack section
+## Free value
 
 ### Heading
-`Try Prompt Quarry on a real task first.`
 
-### Copy
-Developer Starter Pack v1 contains three ready-to-use prompts:
-- Code Review;
-- Bug Diagnosis;
-- Technical Decision.
+`Use Prompt Machine on a real task before you buy.`
 
-It also includes a short Quickstart and clear use/adaptation license.
+The Free surface should provide independently useful workflows and a low-friction path to first real-task activation.
+
+Desired sequence:
+
+```text
+CHOOSE WORKFLOW
+→ SUPPLY REAL TASK CONTEXT
+→ RUN
+→ GET STRUCTURED RESULT
+→ VERIFY
+```
+
+The objective is not a download count. It is an activated user who reached an inspectable result on a real task.
 
 ### CTA
-`Get the Free Developer Starter Pack`
+
+`Try a free workflow`
 
 ### Microcopy
-`$0 · no paid commitment · designed to be useful immediately`
 
-### Conversion principle
-If email capture is added, the user must receive immediate access after submission. Do not manufacture scarcity or delay delivery.
+`$0 · useful on its own · paid upgrade optional`
 
 ---
 
-## Difference section
+## How Prompt Machine works
 
 ### Heading
-`Prompt Quarry is a prompt factory, not a prompt dump.`
 
-### Four pillars
+`A workflow, not a prompt dump.`
 
-**Structure**
-Prompts define purpose, context, constraints, process, output contract, and fallback behavior only where useful.
+A customer-facing workflow should make the important operating decisions visible:
 
-**Reuse**
-Paid templates are designed to be adapted to repeated technical workflows.
+**Task contract**
+What outcome it is intended to produce, what inputs it needs, and when it should stop/block.
 
-**Evidence discipline**
-Prompt Quarry keeps static quality separate from behavioral evidence and certification.
+**Execution**
+The prompt/skill surface needed to run the workflow.
 
-**Provenance**
-Commercial assets are governed instead of blindly repackaging harvested third-party prompt bodies.
+**Verification**
+How the user can inspect whether the result is useful enough for the intended task.
+
+**Limitations**
+What is untested, unknown, unsafe, unsupported, or outside scope.
+
+**Evidence history**
+What has been observed, what failed, what changed, and what regression evidence exists.
 
 ---
 
-## Developer Pack v1 section
+## Why we trust these workflows
+
+### Heading
+
+`Trust should have a history.`
+
+Prompt Machine does not hide every failure and show only green badges.
+
+Future eligible workflow pages can present a bounded Trust History:
+
+```text
+WHAT WE TESTED
+WHAT PASSED
+WHAT FAILED
+WHAT WE LEARNED
+WHAT CHANGED
+WHAT WE RETESTED
+KNOWN LIMITATIONS
+```
+
+The internal forensic history stays richer than the customer projection, but the public story must remain traceable to reviewed evidence.
+
+Example evidence-safe copy pattern:
+
+> `This workflow was observed in N identified cases. A prior version failed X, the failure led to Y change, and the successor passed the specified regression set. These tests do not establish universal model portability.`
+
+Never use this pattern until the referenced evidence actually exists.
+
+Canonical policy: `docs/WORKFLOW_TRUST_HISTORY_V1.md`.
+
+---
+
+## Starter Collection — $9 hypothesis
 
 ### Badge
-`READY · v1.0.0`
+
+`SCOPE FROZEN · NOT YET FOR SALE`
 
 ### Heading
-`The system behind the Starter Pack.`
 
-### Copy
-The free Pack gives you three finished prompts. Developer Pack v1 gives you reusable templates, methodology, examples, contracts, and quality gates so you can adapt the approach to your own technical work.
+`The first paid collection for the jobs you repeat most.`
+
+### Intended scope
+
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- two Skill candidates;
+- `START_HERE` + task chooser;
+- worked examples;
+- verification guidance;
+- adaptation cheatsheet;
+- explicit evidence and limitations.
 
 ### Price
-`$19 launch · one-time purchase`
 
-Show standard reference price only after it is a real active pricing policy. Do not display fake crossed-out prices.
+`$9 one-time` — price hypothesis.
 
-### CTA
-`Get Developer Pack v1`
+### Current CTA
 
-### Included
-- 21 governed customer-visible assets;
-- reusable prompt templates;
-- architecture/evidence/evaluation methodology;
-- task and request contract examples;
-- complete code-review example flow;
-- complete technical-decision example flow;
-- static-quality and release-readiness checklists;
-- proprietary use-and-adapt license.
+While checkout remains off:
+
+`See what Starter will include`
+
+Do not render a fake purchase button or imply that the product is currently sellable.
 
 ---
 
-## Free vs Paid section
+## Full Developer Collection — $19 hypothesis
+
+### Badge
+
+`PLANNED PREMIUM COLLECTION · NOT YET FOR SALE`
 
 ### Heading
-`Use the Free Pack. Upgrade when you need the system.`
 
-| | Starter Pack | Developer Pack v1 |
-|---|---|---|
-| Price | Free | $19 launch |
-| Finished prompts | 3 | Included through templates/examples |
-| Reusable template system | — | Yes |
-| Methodology | — | Yes |
-| Request/task contracts | — | Yes |
-| Worked example flows | — | Yes |
-| Quality checklists | — | Yes |
-| Use/adapt rights | Yes | Yes |
-| Resale/redistribution rights | No | No |
+`The broader workflow system.`
+
+### Intended scope
+
+- Code Review;
+- Bug Diagnosis;
+- Technical Decision;
+- AI Workflow Designer;
+- four Skill surfaces;
+- workflow/task contracts;
+- advanced adaptation;
+- worked examples;
+- evidence cards / Trust History;
+- full collection navigation.
+
+### Price
+
+`$19 one-time` — price hypothesis.
+
+### Current CTA
+
+`Explore Full Collection`
 
 ---
 
-## Evidence / trust section
+## Free vs Starter vs Full
+
+| | Free | Starter | Full |
+|---|---|---|---|
+| Price | $0 | $9 hypothesis | $19 hypothesis |
+| Purpose | first useful real-task win | primary first purchase | broader premium system |
+| Core developer workflows | selected free value | Code Review + Bug Diagnosis | broader four-workflow set |
+| Start Here / task routing | lightweight | yes | yes |
+| Worked examples | selected | yes | yes |
+| Verification guidance | yes | richer | richer |
+| Adaptation guidance | limited | cheatsheet | advanced |
+| Skill surfaces | not guaranteed | 2 candidates | 4 candidates |
+| Evidence/limitations | visible | visible | visible |
+| Trust History | where evidence exists | where evidence exists | where evidence exists |
+| Ready to sell today | free access only | no | no |
+
+Do not claim a paid tier is `READY` until its separate product, delivery, evidence, and commerce gates pass.
+
+---
+
+## Evidence / limitations
 
 ### Heading
+
 `We separate what is built from what is proven.`
 
-### Copy
-Developer Pack v1 is commercially `READY`. Its included assets are statically `VALID`.
+Current governed manual architecture campaign:
 
-That does not mean the prompts are automatically `TESTED`, `IMPROVED`, `CERTIFIED`, or `PORTABLE`. Prompt Quarry reserves those labels for separate evidence gates.
+```text
+7 behavioral observations
+7 / 7 expected-state matches
+0 blocking review failures
+```
 
-### Commercial translation
-`You are buying a structured toolkit, not a guarantee that every model will produce the same result on every task.`
+This is promising evidence for the tested cases. It is **not** certification, universal reliability, portability, customer-value evidence, or readiness to sell.
 
-This disclosure is a differentiator, not a disclaimer to hide.
+Current broader truth:
 
----
+```text
+REAL CUSTOMER OUTCOMES   0
+REAL PURCHASES            0
+PUBLIC CHECKOUT           OFF
+READY_TO_SELL             NO
+```
 
-## License section
-
-### Heading
-`Use it. Adapt it. Build with it.`
-
-### Copy
-You may use and adapt the Pack for your own work, workflows, products, and services. You may not resell, sublicense, redistribute, publish, or reconstruct the Pack/templates as a standalone or competing prompt product.
-
-Link to full license at checkout and inside the delivered package.
+This disclosure is part of the product philosophy, not hidden disclaimer text.
 
 ---
 
 ## FAQ
 
-### Does this work only with ChatGPT?
-The assets are not marketed as universally portable. They are written in model-agnostic Markdown where practical, but cross-provider portability requires separate F7 evidence.
+### Is Prompt Machine a prompt marketplace?
 
-### Are these prompts certified?
-No. Current included assets are statically VALID. Prompt Quarry does not use CERTIFIED without F6 evidence.
+No. Prompt Machine is being built around reusable workflows for real jobs. Prompt Quarry is the internal factory that produces and improves them.
 
-### Can I modify the prompts?
-Yes, for your authorized work, workflows, products, and services under the included license.
+### Are these workflows guaranteed to work?
 
-### Can I resell the prompts or Pack?
-No. Resale, sublicensing, redistribution, and competing prompt-pack reconstruction are not granted.
+No. Evidence and limitations are bounded to what has actually been observed. Prompt Machine does not claim universal behavior without evidence.
 
-### Why buy if there is a free Pack?
-The Free Pack gives three finished prompts. The paid Developer Pack gives the reusable system behind them.
+### Are the workflows certified?
+
+Not currently. Static checks, runtime observations, regression evidence, portability, customer value, and certification are separate states.
+
+### Why show failures?
+
+Because a documented failure, correction, and successful regression can provide more meaningful trust than a list of unexplained passes. Material failures are preserved rather than silently deleted.
+
+### Why pay if Free is useful?
+
+Free should solve real tasks. Starter and Full are intended to reduce repeated setup/friction and provide broader workflow systems, examples, adaptation, skills, and evidence surfaces when that additional value is worth paying for.
 
 ### Is this a subscription?
-No. Developer Pack v1 is a versioned one-time purchase. A future subscription would represent continuing factory access, not lifetime access bundled into this sale.
+
+No. The initial paid hypotheses are `$9` and `$19` one-time collections. Subscription is deferred until recurring customer value is observed.
 
 ---
 
 ## Final CTA
 
 ### Heading
-`Start free. Upgrade when the workflow proves useful.`
+
+`Start with a real task.`
 
 Primary:
-`Get Free Starter Pack`
+
+`Try a free workflow`
 
 Secondary:
-`Get Developer Pack v1 — $19`
+
+`Explore Starter and Full`
 
 ---
 
 ## Visual direction
 
-The product should feel like an engineering tool, not an AI hype landing page.
+Prompt Machine should feel like a trustworthy engineering/productivity system, not an AI hype storefront.
 
 Use:
-- dark or neutral technical surface;
-- strong typography;
-- code/prompt snippets;
-- evidence-state badges;
+
+- strong readable typography;
+- outcome-first workflow cards;
+- compact evidence summaries;
+- version/state labels;
+- clear limitations;
+- before/failure/change/retest timelines where useful;
 - restrained motion;
-- visible product structure.
+- accessible interaction states.
 
 Avoid:
+
 - robot stock imagery;
-- neon “AI magic” aesthetics;
-- fake testimonial cards;
-- fake live-sale counters;
-- unsupported model logos implying verified portability;
-- excessive gradients that compete with the content.
+- fake testimonials;
+- fake sale counters;
+- fake crossed-out prices;
+- unsupported portability/model-logo claims;
+- opaque "97% quality" scores without a validated scoring methodology;
+- excessive internal factory jargon on customer pages.
 
 ## Mobile requirements
 
-On a phone, the first viewport must communicate:
-1. developer audience;
-2. structured prompt value;
-3. free CTA.
+On a phone, the first viewport should communicate:
 
-No multi-column comparison should be required to understand the offer.
+1. the job/outcome orientation;
+2. that these are reusable workflows rather than random prompts;
+3. a free real-task CTA;
+4. one concise evidence/trust cue.
+
+No comparison table should be required to understand the core value proposition.
+
+## Master rule
+
+> **The landing page may tell the workflow's story only after the evidence ledger can support that story.**

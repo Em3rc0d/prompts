@@ -4,6 +4,7 @@ import path from "node:path";
 const nextRoot = path.resolve(process.cwd(), ".next");
 const requiredFragments = [
   "free/developer-starter-pack",
+  "starter-collection",
   "developer-pack",
   "license",
   "api/free-pack/v1",

@@ -1,0 +1,31 @@
+{
+  "schema": "prompt-machine-g12-pack-rebuild-receipt-v1",
+  "recorded_at": "2026-09-08",
+  "gate": "G12",
+  "brand": "Verlune",
+  "product": "Verlune Code Review",
+  "version": "1.0.0",
+  "verdict": "PASS",
+  "archive": {
+    "name": "verlune-code-review-v1.0.0.zip",
+    "bytes": 18859,
+    "sha256": "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649",
+    "member_count": 8,
+    "payload_fingerprint_sha256": "46554b5aa36166e6bee7f07b572fa4bece29811270e014cb96381099c87ca430"
+  },
+  "workflow": {
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+    "changed_by_brand_promotion": false
+  },
+  "determinism": {
+    "build_count": 2,
+    "byte_for_byte_equal": true
+  },
+  "ci": {
+    "workflow_run_id": 34260289747,
+    "artifact_id": 10069577806,
+    "head_sha": "6fd45574be1cf8ee12533f2974ffe37544c6d757"
+  },
+  "claim_boundary": "DETERMINISTIC_PACKAGE_REBUILD_ONLY_NOT_PROVIDER_CUSTODY_DELIVERY_OR_REVENUE"
+}

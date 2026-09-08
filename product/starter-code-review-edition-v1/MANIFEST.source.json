@@ -1,0 +1,52 @@
+{
+  "schema": "prompt-machine-starter-code-review-edition-source-manifest-v1",
+  "version": "1.0.0",
+  "profile_id": "PM-STARTER-CODE-REVIEW-EDITION-V1",
+  "brand": "Verlune",
+  "commercial_name": "Verlune Code Review",
+  "status": "FINAL_ARTIFACT_PRE_LIVE_VALIDATION",
+  "customer_manifest_status": "CUSTOMER_RELEASE",
+  "price_hypothesis_usd": 9,
+  "workflow": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "base_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+    "base_github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+    "addendum_path": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
+    "addendum_github_blob_sha": "6da13d8c4e0ad11fd791d89949453208fb5ca168",
+    "composition_rule": "BASE_RSTRIP_LF + LF_LF_HRULE_LF_LF + OPEN_MARKER + ADDENDUM_RSTRIP_LF + CLOSE_MARKER",
+    "open_marker": "<<<NORMATIVE_HARDENING_ADDENDUM_V2_2>>>",
+    "close_marker": "<<<END_NORMATIVE_HARDENING_ADDENDUM_V2_2>>>",
+    "expected_composite_bytes": 25295,
+    "expected_composite_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "customer_source_files": [
+    "product/starter-code-review-edition-v1/README.md",
+    "product/starter-code-review-edition-v1/QUICKSTART.md",
+    "product/starter-code-review-edition-v1/EVIDENCE.md",
+    "product/starter-code-review-edition-v1/CUSTOMER-LICENSE.md",
+    "product/starter-code-review-edition-v1/SALE-TERMS.md",
+    "product/starter-code-review-edition-v1/RELEASE-NOTICE.md"
+  ],
+  "archive_members": [
+    "README.md",
+    "QUICKSTART.md",
+    "WORKFLOW.md",
+    "EVIDENCE.md",
+    "CUSTOMER-LICENSE.md",
+    "SALE-TERMS.md",
+    "RELEASE-NOTICE.md",
+    "MANIFEST.json"
+  ],
+  "excluded_workflows": ["Evidence-first Bug Diagnosis"],
+  "portability_classification": "MODEL_SPECIFIC",
+  "validated_model": "gemini-3.5-flash",
+  "authority": "ADVISORY_ONLY",
+  "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+  "public_sale": false,
+  "customer_license_frozen": true,
+  "customer_license_version": "1.0",
+  "sale_terms_version": "1.0",
+  "historical_starter_v1_immutable": true,
+  "supersedes_release_candidate": "PROMPT_MACHINE_BRANDED_PRE_LIVE_1.0.0"
+}

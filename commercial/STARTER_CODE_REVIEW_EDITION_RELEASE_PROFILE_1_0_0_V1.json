@@ -1,0 +1,58 @@
+{
+  "schema": "prompt-machine-starter-code-review-edition-release-profile-v1",
+  "profile_id": "PM-STARTER-CODE-REVIEW-EDITION-V1",
+  "commercial_name": "Prompt Machine Starter — Code Review Edition",
+  "version": "1.0.0",
+  "state": "FINAL_ARTIFACT_PRE_LIVE_VALIDATION",
+  "price_hypothesis_usd": 9,
+  "workflow_count": 1,
+  "workflow": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+    "authority": "ADVISORY_ONLY",
+    "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+    "portability_classification": "MODEL_SPECIFIC",
+    "validated_model": "gemini-3.5-flash"
+  },
+  "archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0.zip",
+    "bytes": 18955,
+    "sha256": "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3",
+    "members": 8,
+    "payload_fingerprint_sha256": "9cb12bc7a950e9d36e4069a58d08fa86e5e3285ed5f74e5ffa78a931ed3c1975"
+  },
+  "packaging": {
+    "deterministic_rebuild": "PASS",
+    "pack_qa": "PASS",
+    "pack_qa_checks": 67,
+    "customer_license_frozen": true,
+    "customer_license_version": "1.0",
+    "sale_terms_version": "1.0",
+    "customer_surface_contains_internal_prompt_quarry_brand": false,
+    "customer_surface_contains_transient_launch_state": false,
+    "customer_surface_contains_release_candidate_reference": false
+  },
+  "historical_test_integration": {
+    "artifact_version": "1.0.0-rc2",
+    "state": "PASS",
+    "use": "historical provider-path evidence only",
+    "may_be_sold_or_copied_to_live": false
+  },
+  "provider_state": {
+    "final_1_0_0_test_metadata": "NOT_YET_OBSERVED",
+    "live_identity": "NOT_YET_OBSERVED",
+    "live_byte_custody": "NOT_YET_OBSERVED",
+    "live_delivery": "NOT_YET_OBSERVED"
+  },
+  "commercial_state": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": "OFF",
+    "real_purchases": 0,
+    "real_revenue": 0,
+    "pq_1_dollar": "NOT_OBSERVED"
+  },
+  "claim_boundary": "The final 1.0.0 archive is deterministically built and pack-QA passed with the exact certified workflow. Historical RC2 Test integration does not establish provider validation, custody, delivery, revenue, or readiness for the final 1.0.0 archive."
+}

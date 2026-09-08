@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-machine-starter-code-review-g12-pack-rebuild-v1",
+  "observed_at": "2026-09-08",
+  "state": "PASS",
+  "gate": "G12",
+  "stage": "PACK_REBUILD",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "version": "1.0.0",
+  "source_head": "982817275436ad9dc93f43a070c1678fe830b008",
+  "workflow_run_id": 34254022304,
+  "workflow_name": "Validate Starter Code Review Edition v1",
+  "artifact": {
+    "github_artifact_id": 10067101358,
+    "github_artifact_name": "prompt-machine-starter-code-review-edition-v1.0.0",
+    "github_wrapper_bytes": 21076,
+    "github_wrapper_digest": "sha256:67a19e60f013235ff130a203fb5e46b4c03ec5f7d158bdd6705312d28b43bf18",
+    "product_archive_name": "prompt-machine-starter-code-review-edition-v1.0.0.zip",
+    "product_archive_bytes": 18955,
+    "product_archive_sha256": "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3",
+    "member_count": 8
+  },
+  "determinism": {
+    "built_twice": true,
+    "archive_byte_for_byte_match": true,
+    "build_receipt_match": true,
+    "deterministic_inputs_only": true
+  },
+  "workflow_identity": {
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+    "changed_from_certified_surface": false
+  },
+  "customer_surface": {
+    "customer_license_frozen": true,
+    "customer_license_version": "1.0",
+    "sale_terms_version": "1.0",
+    "manifest_status": "CUSTOMER_RELEASE"
+  },
+  "supersedes_for_future_provider_validation": "1.0.0-rc2",
+  "claim_boundary": "G12 proves deterministic reconstruction and exact final archive identity only. It does not prove provider custody, buyer delivery, customer value, real revenue, readiness to sell, or public-sale authorization."
+}

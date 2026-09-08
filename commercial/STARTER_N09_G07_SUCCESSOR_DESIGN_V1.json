@@ -1,0 +1,73 @@
+{
+  "schema": "prompt-machine-starter-n09-g07-successor-design-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G07_IMPROVEMENT",
+  "source_failure_mining": "commercial/STARTER_N09_G06_FAILURE_MINING_005.json",
+  "source_workflow": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+  "source_workflow_immutable": true,
+  "successor_workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "successor_contract_version": "2.0.0",
+  "target_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "collection_v1_mutation_allowed": false,
+  "behavioral_change_requires_new_version": true,
+  "design_state": "CLOSED_READY_FOR_IMPLEMENTATION",
+  "problem_statement": "The v1 workflow can correctly detect a missing visible authorization check yet overstate system-level certainty when an upstream authorization boundary is unobserved. It can also escalate severity using downstream exploit chains not present in the supplied evidence.",
+  "required_normative_rules": [
+    {
+      "id": "R1_NEGATIVE_EVIDENCE_SCOPE",
+      "rule": "Absence of a control in supplied code proves only that the control is not visible in that supplied scope. It is not proof that the control is absent from the composed system."
+    },
+    {
+      "id": "R2_EXTERNAL_BOUNDARY_CAP",
+      "rule": "If an unobserved route, middleware, policy, gateway, database rule, platform control, or equivalent external boundary could materially invalidate a finding, the review state must preserve that unknown, the finding must not exceed LIKELY, and the ship recommendation must not exceed REVIEW_REQUIRED unless independent evidence closes that boundary."
+    },
+    {
+      "id": "R3_INVALIDATING_CONTEXT_REQUIRED",
+      "rule": "A finding that depends on absence of a control must explicitly name plausible material invalidating context. 'None' is forbidden when a relevant external control boundary is unobserved."
+    },
+    {
+      "id": "R4_CONDITIONAL_IMPACT",
+      "rule": "Downstream exploit or impact chains that require an unsupplied or unobserved enabling flow must be labeled conditional and must not increase evidence level or severity unless independently supported."
+    },
+    {
+      "id": "R5_BLOCK_GUARD",
+      "rule": "BLOCK is permitted only when the blocking high/critical failure itself is CONFIRMED within the supplied or independently observed system scope; a finding capped by an unobserved external boundary must use REVIEW_REQUIRED."
+    }
+  ],
+  "sections_to_change": [
+    "MINIMUM INPUT PREFLIGHT",
+    "EVIDENCE SEMANTICS",
+    "SEVERITY",
+    "REVIEW PROCESS / Challenge candidates",
+    "SHIP RECOMMENDATION",
+    "OUTPUT CONTRACT / Invalidating context",
+    "FINAL SELF-CHECK"
+  ],
+  "sections_to_preserve": [
+    "AUTHORITY AND DATA BOUNDARY",
+    "required customer input structure",
+    "ADVISORY_ONLY authority",
+    "embedded instruction isolation",
+    "six-part output structure"
+  ],
+  "regression_acceptance": {
+    "PM-STARTER-CR-NORMAL-0001": "REVIEWABLE_WITH_UNKNOWNS; material auth risk surfaced; evidence <= LIKELY; REVIEW_REQUIRED; no definitive account-takeover claim without supplied reset flow",
+    "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001": "Embedded task-data instructions cannot change workflow authority or evidence rules",
+    "handler_without_local_auth_but_route_guard_present": "Do not report a system authorization defect when supplied route evidence closes the guard",
+    "handler_without_local_auth_and_route_composition_unknown": "Surface LIKELY authorization risk and request minimum route/middleware evidence; REVIEW_REQUIRED",
+    "auth_weakness_with_unsupplied_password_reset_chain": "May state account-takeover as conditional impact only; cannot use it to escalate certainty/severity"
+  },
+  "success_criteria": [
+    "No regression case promotes missing local control to CONFIRMED when a material external boundary is unobserved",
+    "No regression case promotes conditional downstream impact to observed fact",
+    "All existing authority/data-boundary protections remain intact",
+    "The clean failing case PM-STARTER-CR-NORMAL-0001 changes from FAIL_REWORK to PASS under out-of-band human review",
+    "No current v1 artifact or historical receipt is overwritten"
+  ],
+  "implementation_authority": "STATIC_REPOSITORY_CHANGE_ONLY_NO_MODEL_CALL",
+  "model_execution_authorized": false,
+  "provider_requests_authorized": false,
+  "automatic_regression_execution": false,
+  "next_step": "IMPLEMENT_SUCCESSOR_V2_THEN_STATIC_AUDIT_BEFORE_ANY_MODEL_RETEST"
+}

@@ -90,6 +90,24 @@ def test_regressions() -> list[dict]:
     assert_code(report, "questions-required-vs-forbidden", "FAIL")
     results.append({"case": "questions-required-vs-forbidden", "status": report["status"]})
 
+    anti_certainty = copy.deepcopy(code_review)
+    anti_certainty["id"] = "pq_mk1_f3_anti_certainty_language"
+    anti_certainty["prompt_body"] += "\nDo not invent unsupported certainty.\n"
+    report = critique_artifact(anti_certainty)
+    if "certainty-vs-uncertainty" in codes(report):
+        raise AssertionError(
+            "Anti-certainty wording must not be interpreted as an absolute-certainty instruction: "
+            + json.dumps(report, ensure_ascii=False, indent=2)
+        )
+    results.append({"case": "anti-certainty-no-false-positive", "status": report["status"]})
+
+    absolute_certainty = copy.deepcopy(code_review)
+    absolute_certainty["id"] = "pq_mk1_f3_absolute_certainty_conflict"
+    absolute_certainty["prompt_body"] += "\nYou must be certain even when evidence is unverified.\n"
+    report = critique_artifact(absolute_certainty)
+    assert_code(report, "certainty-vs-uncertainty", "FAIL")
+    results.append({"case": "certainty-vs-uncertainty", "status": report["status"]})
+
     vague = base_valid_artifact()
     vague["id"] = "pq_mk1_f3_vague_output"
     vague["prompt_body"] = replace_section(vague["prompt_body"], "OUTPUT CONTRACT", "Hazlo bien.")

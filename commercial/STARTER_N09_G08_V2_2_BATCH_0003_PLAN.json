@@ -1,0 +1,51 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-2-batch-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G08_REGRESSION",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "candidate_contract_version": "2.2.0",
+  "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
+  "base_surface_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "base_surface_github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+  "hardening_addendum_path": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
+  "hardening_addendum_github_blob_sha": "6da13d8c4e0ad11fd791d89949453208fb5ca168",
+  "model": "gemini-3.5-flash",
+  "generation_config": {
+    "maxOutputTokens": 4096,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal"
+    }
+  },
+  "cases": [
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+  ],
+  "reuse_predeclared_case_and_evaluation_contracts": true,
+  "maximum_provider_requests_total": 4,
+  "maximum_provider_requests_per_case": 1,
+  "automatic_retries_per_case": 0,
+  "automatic_semantic_judgement": false,
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "human_review_timing": "AFTER_BATCH",
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "authorization_required": true,
+  "authorization_scope": "THIS_EXACT_BATCH_ONLY",
+  "authorization_format": "AUTORIZO PM-STARTER-CR-V2-G08-BATCH-0003: hasta 4 ejecuciones, 0 reintentos por caso.",
+  "output_root": "$HOME/.local/share/prompt-machine/n09/g08-v2-batch-0003",
+  "retest_reason": "v2.1 failed the repeated UPSTREAM-GUARD satisfied-invariant behavior. v2.2 adds a mandatory material-finding admission gate, supplied-contract presumption, strict type-mismatch evidence rule, satisfied-invariant mode, and ship-state non-inflation. All four frozen cases must be rerun to detect regressions.",
+  "does_not_imply": [
+    "G08_PASS",
+    "G09_PORTABILITY_PASS",
+    "CERTIFIED",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "truth_boundary": "BATCH_PLAN_ONLY_ZERO_PROVIDER_REQUESTS_ZERO_NEW_RUNTIME_OBSERVATIONS"
+}

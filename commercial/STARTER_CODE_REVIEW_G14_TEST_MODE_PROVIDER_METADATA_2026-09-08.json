@@ -1,0 +1,55 @@
+{
+  "schema": "prompt-machine-g14-lemonsqueezy-test-mode-provider-metadata-v1",
+  "recorded_at": "2026-09-08",
+  "evidence_source": "USER_SUPPLIED_LOCAL_PROBE_OUTPUT",
+  "provider": "LEMON_SQUEEZY",
+  "mode": "test",
+  "product": {
+    "name": "Prompt Machine Starter — Code Review Edition",
+    "price_cents": 900,
+    "status_observed_in_dashboard": "draft"
+  },
+  "expected_archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "bytes": 19161,
+    "sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+    "version": "1.0.0-rc2"
+  },
+  "provider_file_metadata_observed": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "size": 19161,
+    "status": "published",
+    "test_mode": true,
+    "version": null
+  },
+  "metadata_verdict": "PASS_FOR_TEST_MODE_PROVIDER_METADATA",
+  "byte_custody_verdict": "NOT_OBSERVED",
+  "download_attempt": {
+    "requested": true,
+    "result": "HTTP_403",
+    "classification": "EXPECTED_PROVIDER_TEST_MODE_LIMITATION_NOT_ARCHIVE_MISMATCH"
+  },
+  "provider_documented_constraint": {
+    "statement": "Lemon Squeezy disables file downloads for test-mode purchases.",
+    "implication": "Test mode can validate product, variant, checkout, orders, webhooks and provider file metadata, but cannot close customer-delivery byte evidence. Byte-level delivery must be observed in a live canary after store activation."
+  },
+  "claims": {
+    "provider_product_observed": true,
+    "provider_file_metadata_observed": true,
+    "exact_archive_name_observed": true,
+    "exact_archive_size_observed": true,
+    "provider_byte_custody_observed": false,
+    "customer_delivery_observed": false,
+    "test_checkout_observed": false,
+    "signed_webhook_observed": false,
+    "live_delivery_canary_observed": false
+  },
+  "next_gate": "TEST_MODE_CHECKOUT_ORDER_AND_SIGNED_WEBHOOK",
+  "commercial_boundary": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": false,
+    "real_purchases": 0,
+    "pq_dollar_1_observed": false
+  }
+}

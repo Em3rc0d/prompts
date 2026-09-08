@@ -1,0 +1,142 @@
+{
+  "schema": "prompt-machine-workflow-trust-context-v1",
+  "version": "1.0.2",
+  "recorded_on": "2026-09-04",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "workflow_version": "1.0.0-candidate",
+  "intended_job": "Review a supplied software change and surface the smallest set of evidence-backed material risks before a human ship decision.",
+  "current_evidence_state": "ONE_RUNTIME_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED",
+  "publication_state": "NOT_PUBLIC_NOT_ELIGIBLE",
+  "static_evidence": {
+    "contract_path": "product/starter-collection-v1/contracts/code-review.workflow-contract.json",
+    "contract_freeze_receipt": "PM-STARTER-CONTRACT-FREEZE-V1-0001",
+    "surface_path": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+    "surface_freeze_receipt": "PM-STARTER-SURFACE-FREEZE-V1-0001",
+    "contract_surface_parity": "PASS_STATIC_ONLY",
+    "authority": "ADVISORY_ONLY",
+    "instruction_data_boundary": "PRESENT"
+  },
+  "runtime_evidence": {
+    "observations": [
+      {
+        "observation_id": "PM-STARTER-CR-NORMAL-0001-OBS-0001",
+        "receipt": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.observation.json",
+        "raw_output": "product/starter-collection-v1/evaluation/observations/PM-STARTER-CR-NORMAL-0001.raw-output.md",
+        "execution_status": "COMPLETED"
+      }
+    ],
+    "human_reviews": [
+      {
+        "review_id": "PM-STARTER-CR-NORMAL-0001-HR-0001",
+        "path": "product/starter-collection-v1/evaluation/human-reviews/PM-STARTER-CR-NORMAL-0001.human-review.json",
+        "result": "FAIL",
+        "decision": "REWORK"
+      }
+    ],
+    "passes": 0,
+    "fails": 0,
+    "inconclusive": 1,
+    "regressions": [],
+    "review_corrections": [
+      {
+        "correction_id": "PM-STARTER-CR-NORMAL-0001-CORR-0001",
+        "path": "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json",
+        "historical_review_id": "PM-STARTER-CR-NORMAL-0001-HR-0001",
+        "historical_result": "FAIL",
+        "effective_result": "INCONCLUSIVE",
+        "effective_decision": "EXPAND_EVIDENCE",
+        "reason": "PROTOCOL_CONTAMINATION"
+      }
+    ],
+    "retest_requirements": [
+      "same frozen PM-STARTER-CR-NORMAL-0001 candidate",
+      "clean independent execution surface",
+      "fresh explicit authorization",
+      "one submission before human review",
+      "zero retries"
+    ]
+  },
+  "historical_failures": [
+    {
+      "failure_id": "PM-STARTER-CR-NORMAL-0001-FAIL-0001",
+      "path": "product/starter-collection-v1/evaluation/failures/PM-STARTER-CR-NORMAL-0001.failure.json",
+      "runtime_failure": true,
+      "summary": "The runtime detected the authorization risk but overstated unobserved route-level evidence as CONFIRMED and recommended BLOCK instead of preserving LIKELY / REVIEW_REQUIRED.",
+      "decision": "HISTORICAL_REWORK_SUPERSEDED_BY_INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+      "successor_requires_new_version": true,
+      "historical_classification_artifact": true,
+      "effective_workflow_failure": false,
+      "superseded_by_correction": "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json"
+    }
+  ],
+  "historical_pre_runtime_issues": [
+    {
+      "issue_class": "STATE_SEMANTICS_NORMALIZATION",
+      "runtime_failure": false,
+      "summary": "Earlier source surfaces used REVIEW vs REVIEW_REQUIRED and a reusable template exposed SHIP while the finished Free prompt used NO_MATERIAL_ISSUE_FOUND.",
+      "resolution": "Starter canonicalized REVIEW_REQUIRED and NO_MATERIAL_ISSUE_FOUND to preserve material uncertainty and avoid implying autonomous ship authority.",
+      "runtime_follow_up_required": true
+    }
+  ],
+  "customer_value_evidence": {
+    "real_task_outcomes": [],
+    "repeat_use": [],
+    "referrals": []
+  },
+  "commercial_evidence": {
+    "purchases": [],
+    "deliveries": [],
+    "refunds": []
+  },
+  "known_limitations": [
+    "The only Starter-specific code-review runtime observation is protocol-contaminated and cannot support a workflow PASS or FAIL claim.",
+    "No adversarial Starter-specific runtime observation exists yet.",
+    "No cross-model/provider portability evidence exists.",
+    "No real customer task outcome exists.",
+    "No repeat-use evidence exists.",
+    "No purchase or delivery evidence exists.",
+    "The skill candidate has no trigger/forward/parity behavioral evidence.",
+    "No clean independent Starter-specific code-review runtime observation exists yet."
+  ],
+  "unknowns": [
+    "Whether a successor surface can preserve LIKELY / REVIEW_REQUIRED when upstream authorization remains unobserved.",
+    "Whether task-data embedded override text remains non-authoritative in the final SKU surface.",
+    "Whether findings remain evidence-backed under realistic customer code changes.",
+    "Whether users can understand and apply the verification guidance.",
+    "Whether customers receive enough value to pay or return."
+  ],
+  "next_evidence": {
+    "preferred_first_case": "RETEST_SAME_FROZEN_PM-STARTER-CR-NORMAL-0001_ON_CLEAN_INDEPENDENT_SURFACE",
+    "clean_surface_requirements": "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json",
+    "automatic_execution": false,
+    "automatic_retries": 0,
+    "human_review_required": true,
+    "armed": false
+  },
+  "explicit_non_claims": [
+    "NO_RUNTIME_PASS_CLAIM",
+    "NOT_CERTIFIED",
+    "NOT_PORTABLE",
+    "NO_CUSTOMER_VALUE_CLAIM",
+    "NO_REVENUE_CLAIM",
+    "NOT_READY_TO_SELL",
+    "NO_RUNTIME_FAIL_CLAIM"
+  ],
+  "truth_boundary": {
+    "zero_failures_with_zero_runtime_observations_means_reliable": false,
+    "architecture_campaign_is_workflow_runtime_evidence": false,
+    "static_parity_is_behavioral_evidence": false,
+    "automatic_publication": false,
+    "marketing_claim_lte_observed_evidence": true,
+    "protocol_contaminated_execution_counts_as_workflow_fail": false,
+    "protocol_contaminated_execution_counts_as_workflow_pass": false
+  },
+  "protocol_corrections": [
+    {
+      "correction_id": "PM-STARTER-CR-NORMAL-0001-CORR-0001",
+      "path": "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json",
+      "clean_surface_requirements": "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json",
+      "effective_result": "INCONCLUSIVE"
+    }
+  ]
+}

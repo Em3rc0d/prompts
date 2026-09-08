@@ -1,0 +1,131 @@
+{
+  "schema": "prompt-machine-current-state-consistency-audit-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "audited_parent_commit": "5f043a7de1fd91fbaabaa4d89cb13d2863971928",
+  "scope": "PROMPT_MACHINE_STARTER_CODE_REVIEW_G08_TO_G09_FRONTIER",
+  "current_status_entrypoint": {
+    "path": "commercial/STATUS_CURRENT.md",
+    "github_blob_sha": "c4ac2190460a567bca6b3f411b057017ea212995"
+  },
+  "commercial_overview": {
+    "path": "commercial/README.md",
+    "github_blob_sha": "46aa2197bd7709aff6e4f6009b22ddceb09cf9c4"
+  },
+  "current_release_state": {
+    "path": "commercial/STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json",
+    "github_blob_sha": "ca13aba01351e6902bac85f4f454703616efa81d"
+  },
+  "execution_policy": {
+    "path": "commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json",
+    "version": "3.2.1",
+    "expected_state": "G08_PASS_G09_STATIC_READY_DISARMED"
+  },
+  "g08": {
+    "receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+    "receipt_github_blob_sha": "d36d952d84ae8dc9d71317cc711476acb65d95f4",
+    "required_cases": 4,
+    "runtime_observations": 4,
+    "human_review_passes": 4,
+    "human_review_fails": 0,
+    "result": "PASS"
+  },
+  "canonical_surface": {
+    "manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+    "manifest_github_blob_sha": "b3b83007d4a30654055799ed85598bfac497f025",
+    "contract_version": "2.2.0",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+    "g08_result": "PASS"
+  },
+  "g09": {
+    "design": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
+    "design_github_blob_sha": "931488b83363931f8ad0cd04d5fef052cbffee62",
+    "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
+    "plan": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_PLAN.json",
+    "plan_github_blob_sha": "dd9160ed9678ac2c3982ebc34880c53d33e1d58b",
+    "envelope_freeze": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_ENVELOPE_FREEZE.json",
+    "envelope_freeze_github_blob_sha": "6d45003f7bc4444d31109078a2dc8130d9b34644",
+    "static_readiness": "commercial/STARTER_N09_G09_OPENAI_BATCH_0001_STATIC_READINESS_2026-09-07.json",
+    "static_readiness_github_blob_sha": "43586e6b68cb9c834aa2c2c54e3e8e1953d30866",
+    "base_runner": "tools/pm_g09_openai_batch_0001.py",
+    "base_runner_github_blob_sha": "0ae18b89fd23343012ba2f8a7a21b6b2f831d015",
+    "hardened_entrypoint": "tools/pm_g09_openai_batch_0001_v2.py",
+    "hardened_entrypoint_github_blob_sha": "09db8a6d16dc6d6c8096c53bb7411696573267be",
+    "provider": "OPENAI_RESPONSES_API",
+    "model_family": "OPENAI_GPT_5_6",
+    "model": "gpt-5.6-luna",
+    "max_output_tokens": 8192,
+    "reasoning_effort": "low",
+    "maximum_provider_requests_total": 4,
+    "automatic_retries_per_case": 0,
+    "exact_g08_envelope_parity_required": true,
+    "authorization_state": "DISARMED",
+    "provider_requests_attempted": 0,
+    "runtime_observations": 0,
+    "result": "NOT_OBSERVED"
+  },
+  "checks": {
+    "g08_receipt_and_release_state_agree": true,
+    "g08_receipt_and_surface_manifest_agree": true,
+    "canonical_surface_identity_is_exact": true,
+    "g09_uses_same_canonical_surface": true,
+    "g09_uses_same_four_frozen_cases": true,
+    "g09_uses_same_predeclared_evaluation_contracts": true,
+    "g09_evaluation_contracts_are_out_of_band": true,
+    "g09_expected_results_are_out_of_band": true,
+    "g09_declares_non_gemini_family": true,
+    "g09_exact_g08_envelope_parity_is_frozen": true,
+    "g09_exact_g08_envelope_parity_is_enforced_before_auth_consumption": true,
+    "g09_openai_key_value_is_not_recorded": true,
+    "g09_provider_or_transport_failure_does_not_create_behavioral_pass": true,
+    "g09_automatic_retries_are_zero": true,
+    "g09_human_review_is_required": true,
+    "g09_automatic_certification_is_false": true,
+    "g09_automatic_promotion_is_false": true,
+    "g09_output_budget_corrected_for_reasoning_token_accounting": true,
+    "status_current_points_to_g09_prepared_state": true,
+    "commercial_readme_points_to_current_status": true,
+    "historical_status_v1_not_used_as_current_truth": true,
+    "historical_release_gate_v1_not_used_as_current_runtime_truth": true,
+    "historical_release_dag_v1_not_used_as_current_n09_truth": true,
+    "pr4_body_runtime_frontier_is_known_stale_and_superseded": true,
+    "portability_claim_not_made_before_runtime": true,
+    "certification_claim_not_made": true,
+    "product_ready_claim_not_made": true,
+    "ready_to_sell_claim_not_made": true,
+    "public_checkout_remains_off": true
+  },
+  "external_contract_review": {
+    "observed_on": "2026-09-07",
+    "openai_model_catalog_checked": true,
+    "openai_responses_api_reference_checked": true,
+    "model_available_via_responses_api": true,
+    "max_output_tokens_includes_reasoning_tokens": true,
+    "store_false_supported": true
+  },
+  "historical_files_intentionally_not_rewritten": [
+    "commercial/STATUS_V1.md",
+    "commercial/STARTER_RELEASE_GATE_V1.json",
+    "commercial/STARTER_RELEASE_DAG_V1.json",
+    "commercial/STARTER_RELEASE_STATE_G08_PASS_2026-09-07.json",
+    "PR #4 body"
+  ],
+  "write_or_runtime_boundaries": {
+    "provider_requests_attempted_during_this_audit": 0,
+    "model_inference_requests_attempted_during_this_audit": 0,
+    "commerce_side_effects": 0,
+    "merge_performed": false,
+    "public_sale_changed": false
+  },
+  "current_truth": {
+    "G08_REGRESSION": "PASS",
+    "G09_PORTABILITY": "STATIC_READY_NOT_AUTHORIZED_NOT_OBSERVED",
+    "G11_CERTIFICATION": "NOT_STARTED",
+    "STARTER_PRODUCT_READY": false,
+    "READY_TO_SELL": false,
+    "PUBLIC_CHECKOUT": false,
+    "PQ_DOLLAR_ONE": false
+  },
+  "verdict": "PASS_CURRENT_STATE_CONSISTENT_G09_READY_BUT_DISARMED"
+}

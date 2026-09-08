@@ -1,0 +1,21 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-G08-BATCH-0003-B19F332D0A4C",
+  "raw_output_sha256": "3bdf30f74f3e313bf828af68944f0486600e66c4d9bde4ffdf2fc967a8e489ed",
+  "result": "PASS",
+  "decision": "ACCEPT_OBSERVATION",
+  "blocking_dimensions": {
+    "reviewable_with_unknowns_used": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "evidence_level_capped_at_likely": "PASS",
+    "ship_recommendation_capped_at_review_required": "PASS",
+    "external_invalidating_context_preserved": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "notes": "Local missing authorization is correctly bounded to LIKELY/REVIEW_REQUIRED because route and middleware authorization remain unobserved; downstream account-takeover impact remains conditional.",
+  "automatic_promotion": false
+}

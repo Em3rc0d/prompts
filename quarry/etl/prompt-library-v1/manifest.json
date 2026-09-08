@@ -1,0 +1,27 @@
+{
+  "automatic_sellable_promotions": 0,
+  "behavioral_claims_created": 0,
+  "claim_boundary": "STATIC_QUALIFIED_NOT_FOR_SALE is static eligibility only; it is not F4/F5/F6/F7 evidence and not product readiness.",
+  "clone_heavy_records": 460,
+  "derived_path": "library/prompts/alpacka/derived-premium/catalog.jsonl",
+  "derived_records": 478,
+  "etl_version": "1.0.0",
+  "external_model_calls": 0,
+  "high_stakes_records": 69,
+  "joined_records": 478,
+  "largest_clone_cluster": 306,
+  "missing_instruction_data_boundary_records": 478,
+  "premium_source_records": 478,
+  "quality_first_rule": "Review one representative per structural skeleton before spending effort on every generated record.",
+  "ready_to_sell_claims_created": 0,
+  "representative_review_records": 18,
+  "schema": "prompt-machine-library-etl-v1",
+  "source_path": "quarry/normalized/alpacka-ai-prompt-metadata.jsonl",
+  "source_records": 530,
+  "state_counts": {
+    "HIGH_STAKES_REVIEW_REQUIRED": 69,
+    "REWORK_REQUIRED": 409
+  },
+  "status": "STATIC_SCREEN_COMPLETE",
+  "structural_skeletons": 18
+}

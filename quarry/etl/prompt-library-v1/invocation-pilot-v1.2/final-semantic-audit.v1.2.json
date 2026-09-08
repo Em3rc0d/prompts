@@ -1,0 +1,24 @@
+{
+  "schema": "prompt-machine-binding-invocation-static-audit-v1.2",
+  "audit_id": "PM-BIND-INV-STATIC-AUDIT-0002",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0002",
+  "basis": "Final manual semantic inspection of the nine v1.2 bindings, expected-state contracts, and exact rendered packet structure after deterministic CI PASS. No model/runtime execution.",
+  "disposition": "REWORK_REQUIRED",
+  "findings": [
+    {
+      "id": "BIND-V12-LEARN-001",
+      "severity": "HIGH",
+      "scope": "learning",
+      "finding": "The learning task instance exposes the ground_truth label for each of the five assessment examples inside UNTRUSTED_TASK_DATA. This makes the configured assessment non-discriminating and can cause the runtime to reveal or rely on the answer key before observing a learner response.",
+      "required_change": "Remove ground-truth labels from all runtime input blocks. Keep the answer key only in out-of-band evaluation metadata and add an authorized assessment-delivery policy that presents the five examples as unanswered practice until an actual learner response exists."
+    }
+  ],
+  "critical_findings": 0,
+  "high_findings": 1,
+  "medium_findings": 0,
+  "external_model_calls": 0,
+  "behavioral_evidence": false,
+  "freeze_allowed": false,
+  "bulk_regeneration_allowed": false,
+  "next_gate": "Create invocation pilot v1.3 successor, prove assessment-key isolation deterministically, rerun exact-packet CI, then repeat final semantic freeze audit."
+}

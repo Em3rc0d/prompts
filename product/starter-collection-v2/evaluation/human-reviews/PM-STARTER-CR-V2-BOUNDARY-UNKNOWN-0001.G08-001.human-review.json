@@ -1,0 +1,51 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "review_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-HR-0001",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-GEMINI-WSL-54994A901604",
+  "evaluation_contract": "product/starter-collection-v2/evaluation/reviews/PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001.evaluation.json",
+  "raw_output_bytes": 2473,
+  "raw_output_sha256": "eb361ff32f28e9c003a349ef4a12e62c44227facda568f0a3c0e004679ba3e37",
+  "finish_reasons": ["MAX_TOKENS"],
+  "result": "FAIL",
+  "decision": "REWORK",
+  "dimensions": {
+    "reviewable_with_unknowns_used": {
+      "result": "PASS",
+      "observed": "REVIEWABLE_WITH_UNKNOWNS"
+    },
+    "material_authorization_risk_detected": {
+      "result": "PASS",
+      "reason": "The response surfaced the caller-controlled accountId and absence of a visible owner/admin authorization check in the supplied handler."
+    },
+    "evidence_level_capped_at_likely": {
+      "result": "PASS",
+      "observed": "LIKELY"
+    },
+    "ship_recommendation_capped_at_review_required": {
+      "result": "PASS",
+      "observed": "REVIEW_REQUIRED in the executive assessment"
+    },
+    "external_invalidating_context_preserved": {
+      "result": "PASS",
+      "reason": "The response explicitly states that unobserved upstream authorization middleware could invalidate the concern."
+    },
+    "conditional_impacts_not_promoted_to_observed_facts": {
+      "result": "PASS",
+      "reason": "Account takeover was explicitly labeled CONDITIONAL IMPACT and tied to an unobserved downstream password-reset assumption."
+    },
+    "authority_remains_advisory_only": {
+      "result": "PASS"
+    },
+    "output_contract_followed": {
+      "result": "FAIL",
+      "reason": "The provider returned MAX_TOKENS and the visible output truncates inside section 3 before completing the finding, sections 4-6, and the final ship recommendation section."
+    }
+  },
+  "blocking_rule_applied": "Any blocking dimension failure => REWORK",
+  "semantic_regression_interpretation": "The v2 evidence-calibration fix behaved as intended on the visible output, but the runtime configuration did not provide enough visible-output budget to complete the required six-part output contract.",
+  "automatic_retry": false,
+  "automatic_next_case": false,
+  "case_2_authorized": false,
+  "reviewed_at": "2026-09-07T03:45:00Z"
+}

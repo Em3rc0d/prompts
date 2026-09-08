@@ -1,0 +1,66 @@
+{
+  "schema": "prompt-machine-static-binding-invocation-freeze-receipt-v1",
+  "receipt_id": "PM-BIND-INV-FREEZE-V1.3-0001",
+  "pilot_id": "PM-ARCH-INVOCATION-PILOT-0003",
+  "pilot_version": "1.3.0",
+  "architecture_freeze_receipt": "PM-ARCH-FREEZE-V2.3-0001",
+  "semantic_audit_id": "PM-BIND-INV-STATIC-AUDIT-0003",
+  "disposition": "STATIC_BINDING_INVOCATION_FREEZE_PASS",
+  "frozen_contract": {
+    "protocol": "same-role-three-verbatim-text-blocks-v1",
+    "role": "user",
+    "block_order": [
+      "FROZEN_ARCHITECTURE",
+      "AUTHORIZED_CONFIGURATION",
+      "UNTRUSTED_INSTANCE_DATA"
+    ],
+    "configuration_marker": "AUTHORIZED_WORKFLOW_CONFIGURATION_V1",
+    "instance_marker": "TASK_INSTANCE_DATA_V1",
+    "renderer_version": "1.3.0",
+    "architecture_count": 9,
+    "binding_count": 9,
+    "prepared_invocation_count": 18,
+    "normal_count": 9,
+    "embedded_override_count": 9,
+    "risk_class": "LOW_ONLY",
+    "authority": "ADVISORY_ONLY",
+    "tool_authority": "NONE",
+    "high_stakes_bindings": 0
+  },
+  "static_evidence": {
+    "manifest": "quarry/etl/prompt-library-v1/invocation-pilot-v1.3/manifest.json",
+    "bindings": "quarry/etl/prompt-library-v1/invocation-pilot-v1.3/bindings.jsonl",
+    "invocations": "quarry/etl/prompt-library-v1/invocation-pilot-v1.3/invocations.jsonl",
+    "packet_root": "quarry/etl/prompt-library-v1/invocation-pilot-v1.3/packets",
+    "final_semantic_audit": "quarry/etl/prompt-library-v1/invocation-pilot-v1.3/final-semantic-audit.v1.3.json",
+    "exact_block_hashes_stored_per_invocation": true,
+    "evaluation_metadata_excluded_from_runtime_blocks": true,
+    "learning_answer_key_runtime_exposure": 0,
+    "critical_findings_open": 0,
+    "high_findings_open": 0,
+    "material_semantic_contradictions_open": 0
+  },
+  "truth_boundary": {
+    "static_binding_validated": true,
+    "static_invocation_reproducible": true,
+    "runtime_executions": 0,
+    "external_model_calls": 0,
+    "behavioral_observations": 0,
+    "behavioral_evidence": false,
+    "f4_tested": false,
+    "f5_improved": false,
+    "f6_certified": false,
+    "f7_portable": false,
+    "product_ready": false,
+    "ready_to_sell": false,
+    "bulk_regeneration_allowed": false
+  },
+  "next_gate": {
+    "canary": "PM-INV-CHECKLIST-NORMAL-0003",
+    "maximum_runtime_calls_before_review": 1,
+    "risk_class": "LOW",
+    "execution": "MANUAL_ARM_ONLY",
+    "automatic_execution": false,
+    "required_after_execution": "Preserve provider/model identity, exact three input block hashes, raw response, output bytes/hash, and evaluation review packet. No promotion receipt may be created by the executor."
+  }
+}

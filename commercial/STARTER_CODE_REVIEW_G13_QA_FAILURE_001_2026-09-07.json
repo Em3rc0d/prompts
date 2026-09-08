@@ -1,0 +1,45 @@
+{
+  "schema": "prompt-machine-starter-code-review-g13-pack-qa-failure-v1",
+  "recorded_on": "2026-09-07",
+  "gate": "G13_PACK_LEVEL_QA",
+  "run_id": 34147182826,
+  "job_id": 101821634683,
+  "head_sha": "b37c173c2fda0e15aabc226dce128ed48f5314e3",
+  "archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip",
+    "bytes": 14667,
+    "sha256": "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
+    "workflow_bytes": 25295,
+    "workflow_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "g12_observation": {
+    "build_1_success": true,
+    "build_2_success": true,
+    "zip_byte_identical": true,
+    "build_receipt_identical": true,
+    "deterministic_build_observed": true
+  },
+  "g13_observation": {
+    "validator_runs": 2,
+    "validator_outputs_identical": true,
+    "checks_total": 36,
+    "checks_pass": 35,
+    "checks_fail": 1,
+    "failed_check": "quickstart_preserves_human_authority",
+    "verdict": "FAIL"
+  },
+  "root_cause": {
+    "class": "VALIDATOR_LITERAL_STRING_FALSE_NEGATIVE",
+    "customer_copy_is_semantically_correct": true,
+    "quickstart_observed_text": "These are advisory recommendations. A human or separately authorized gate decides what ships.",
+    "validator_expected_literal": "human remains the final ship authority",
+    "interpretation": "The customer quickstart preserves human/authorized-gate ship authority, but the validator coupled the semantic requirement to one exact sentence that the document did not use. The gate should test the authority semantics without requiring a specific prose sentence."
+  },
+  "corrective_action": "Harden the validator to require both advisory-recommendation language and explicit human-or-authorized-gate ship authority. Do not weaken the authority requirement and do not edit customer copy merely to satisfy the old literal.",
+  "g12_state": "DETERMINISTIC_BUILD_OBSERVED_PENDING_FORMAL_RECEIPT",
+  "g13_state": "FAIL_REWORK_VALIDATOR_FALSE_NEGATIVE",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "commerce_effects": 0,
+  "automatic_promotion": false
+}

@@ -1,0 +1,51 @@
+name: Prepare PCP-04 Work Orders
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'certification/inventory/product-prompt-inventory.v1.json'
+      - 'certification/fixtures/pcp-03-test-matrix.v1.json'
+      - 'certification/fixtures/pcp-04-family-cases.v1.json'
+      - 'certification/specs/PCP04_EXECUTION_RECEIPT.schema.json'
+      - 'tools/prepare_pcp04_work_orders.py'
+      - '.github/workflows/prepare-pcp04-work-orders.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare fingerprinted work orders
+        run: python3 tools/prepare_pcp04_work_orders.py --output build/pcp04-work-orders
+
+      - name: Verify manifest boundaries
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('build/pcp04-work-orders/manifest.json').read_text())
+          assert m['state'] == 'READY_FOR_REAL_EXECUTION', m
+          assert m['prompt_count'] == 7, m
+          assert m['work_order_count'] == 70, m
+          assert m['required_execution_count'] == 84, m
+          assert m['repeatability_policy']['independent_runs_per_prompt'] == 3, m
+          assert m['repeatability_policy']['distinct_execution_ids_required'] is True, m
+          assert m['behavioral_claim'] == 'NONE', m
+          assert m['F4_TESTED'] is False, m
+          assert len(list(Path('build/pcp04-work-orders').glob('PQ-PROMPT-*/*/work-order.json'))) == 70
+          assert len(list(Path('build/pcp04-work-orders').glob('PQ-PROMPT-*/*/receipt.template.json'))) == 70
+          print(json.dumps(m, indent=2))
+          PY
+
+      - name: Preserve execution packet
+        uses: actions/upload-artifact@v4
+        with:
+          name: pcp04-work-orders-${{ github.sha }}
+          path: build/pcp04-work-orders
+          if-no-files-found: error
+          retention-days: 30

@@ -1,196 +1,285 @@
-# Prompt Quarry Funnel v1
+# Prompt Machine Funnel v1
+
+Status: `OPERATING FUNNEL / PRE-REVENUE`
+
+Date: `2026-09-03`
 
 ## Objective
 
-Turn attention into the first verified paying customer with the shortest credible path.
+Turn qualified attention into real workflow use, trustworthy evidence, the first verified Starter purchase, successful delivery, and eventually repeat/upgrade behavior.
 
-## Funnel
+The shortest credible path is not `visit → checkout`. It is:
 
 ```text
-1. CONTENT
-     ↓
-2. LANDING / FREE CTA
-     ↓
-3. FREE DEVELOPER STARTER PACK
-     ↓
-4. FIRST USE
-     ↓
-5. TRUST + PRODUCT UNDERSTANDING
-     ↓
-6. DEVELOPER PACK V1 OFFER
-     ↓
-7. CHECKOUT
-     ↓
-8. DELIVERY
-     ↓
-9. CUSTOMER
-     ↓
-10. PQ-$1
+CONTENT / DISCOVERY
+      ↓
+PROMPT MACHINE LANDING
+      ↓
+FREE WORKFLOW ACQUIRED
+      ↓
+REAL TASK STARTED
+      ↓
+ACTIVATED
+      ↓
+VALUE / TRUST EVIDENCE
+      ↓
+STARTER $9 OFFER
+      ↓
+CHECKOUT
+      ↓
+PROVIDER-SIGNED PURCHASE
+      ↓
+VERIFIED DELIVERY
+      ↓
+STARTER CUSTOMER
+      ↓
+REPEAT USE / ADJACENT NEED
+      ↓
+FULL $19 OFFER
+      ↓
+UPGRADE / REFERRAL
 ```
 
-## Stage 1 — Content
+Primary commercial milestone:
+
+`PQ-$1 = first real non-test paid purchase successfully delivered.`
+
+## Stage 1 — Discovery
 
 ### Job
-Create qualified curiosity among developers and technical AI users.
+Reach people who actually experience a job Prompt Machine can help with.
 
-### Content promise
-`Stop collecting random prompts. Start using prompts with explicit inputs, constraints, outputs, and evidence boundaries.`
+Discovery channels may include:
 
-### Primary CTA
-`Get the free Developer Starter Pack.`
+- useful technical content;
+- GitHub;
+- founder-led outreach;
+- referrals;
+- search;
+- communities;
+- demonstrations built from real workflow evidence.
 
-Do not ask a cold visitor to understand MK0/MK1/F4-F7 architecture. Commercial content translates internal rigor into buyer value.
+Content should lead with the customer job and outcome, not internal MK0/MK1/PCP terminology.
 
-### Useful content angles
-- before/after prompt structure;
-- why generic code-review prompts fail;
-- prompt failure caused by missing constraints;
-- uncertainty handling in technical prompts;
-- one free prompt demonstrated on a realistic task;
-- build-in-public evidence without overstating maturity.
+Useful message pattern:
+
+> Stop improvising the same AI task. Use a workflow with explicit inputs, outputs, verification, limitations, and an inspectable evidence history.
 
 ## Stage 2 — Landing
 
-### Job
-Answer five questions rapidly:
-1. What is Prompt Quarry?
-2. Is this for me?
-3. What problem does it solve?
-4. What can I get for free right now?
-5. What does the paid Developer Pack add?
+A first-time visitor should quickly understand:
 
-### Primary CTA
-`Get 3 Developer Prompts — Free`
+1. what problem Prompt Machine solves;
+2. which workflow/job applies to them;
+3. what they can use for free;
+4. why the workflow is different from a random prompt;
+5. what the $9 Starter adds;
+6. what the $19 Full Collection adds;
+7. what evidence exists and what remains unproven.
 
-### Secondary CTA
-`See Developer Pack v1`
+Primary CTA during pre-revenue validation:
 
-## Stage 3 — Free Developer Starter Pack
+`Try a free workflow on a real task.`
 
-### Job
-Produce the first concrete win.
+Paid checkout remains off until the corresponding release gate opens.
 
-Included:
-- Code Review prompt;
-- Bug Diagnosis prompt;
-- Technical Decision prompt;
-- Quickstart;
-- license;
-- upgrade offer.
+## Stage 3 — Free acquisition
 
-Not included:
-- full prompt methodology;
-- reusable task/request contracts;
-- quality/release checklists;
-- end-to-end worked examples;
-- broader reusable template system.
+Free is the acquisition and activation surface.
 
-This separation is the value gradient.
+It must be independently useful and easy to understand.
 
-## Stage 4 — First use
-
-The best conversion event is not download. It is use.
-
-Desired sequence:
+A free acquisition can mean obtaining/accessing a workflow or collection. It is not activation.
 
 ```text
-DOWNLOAD
-  -> OPEN QUICKSTART
-  -> PICK PROMPT
-  -> INSERT REAL CONTEXT
-  -> RUN
-  -> RECEIVE STRUCTURED RESULT
+FREE_ACQUIRED != ACTIVATED
 ```
 
-The Free Pack should require less than five minutes to understand and less than ten minutes to try.
+## Stage 4 — Real-task activation
 
-## Stage 5 — Trust
+Activation is defined by `commercial/JOB_DISCOVERY_AND_ACTIVATION_CONTRACT_V1.md`.
 
-Trust is built through observable product behavior:
-- clear prompt structure;
-- explicit uncertainty handling;
-- useful output contracts;
-- no fake certification language;
-- transparent license;
-- clear distinction between FREE and PAID value.
+Canonical sequence:
 
-The trust message is:
+```text
+WORKFLOW_SELECTED
+→ REAL_TASK_STARTED
+→ REQUIRED_INPUTS_SUPPLIED
+→ WORKFLOW_RESULT_RECEIVED
+→ RESULT_VERIFICATION_UNDERSTOOD
+→ ACTIVATED
+```
 
-`Prompt Quarry does not claim magic prompts. It gives you engineered prompt structures and tells you what evidence actually exists.`
+A download, page view, prompt copy, or model response without a real task does not count as activation.
 
-## Stage 6 — Paid offer
+## Stage 5 — Value and trust
 
-### Upgrade trigger
-A user should upgrade when they want to stop using isolated finished prompts and start adapting a repeatable system to their own work.
+After activation, Prompt Machine needs evidence that the workflow was useful and understandable.
 
-### Bridge copy
-`The Starter Pack gives you three finished prompts. Developer Pack v1 gives you the system behind them.`
+Relevant signals remain separate:
 
-### Paid value dimensions
-- reuse;
-- customization;
-- prompt architecture;
-- structured contracts;
+- `USER_REPORTED_OUTCOME`;
+- `OBSERVED_TASK_OUTCOME` where authorized;
+- repeat use;
+- explicit trust/recommendation signal;
+- support friction;
+- known failure/limitation encountered.
+
+Trust is strengthened by honest workflow history:
+
+```text
+what was tested
+what passed
+what failed
+what changed
+what regression passed
+what is still unknown
+```
+
+Canonical policy: `docs/WORKFLOW_TRUST_HISTORY_V1.md`.
+
+## Stage 6 — Starter $9 offer
+
+Starter is the primary first purchase hypothesis.
+
+Current frozen scope:
+
+- Evidence-first Code Review;
+- Evidence-first Bug Diagnosis;
+- two Skill candidates;
+- `START_HERE` + task chooser;
 - worked examples;
-- evaluation discipline;
-- faster creation of new technical prompts.
+- verification guidance;
+- adaptation cheatsheet;
+- evidence/limitations.
+
+The ideal upgrade trigger is not artificial scarcity. It is a real need for a lower-friction, better-packaged set of workflows after the user has understood the free value.
 
 ## Stage 7 — Checkout
 
-Checkout must not become a second website.
+Checkout requirements:
 
-Requirements:
 - one-time payment;
 - clear final price;
-- product name and version;
-- license acknowledgement/link;
-- instant digital delivery;
-- basic purchase receipt;
-- no forced account creation if provider allows it.
+- exact product/version;
+- license visibility;
+- no fake urgency/scarcity;
+- provider-signed purchase evidence;
+- deterministic mapping from purchase to fulfillment;
+- test orders distinguishable from real orders.
+
+A checkout start is intent, not revenue.
 
 ## Stage 8 — Delivery
 
-Post-payment path:
+Post-purchase path:
 
 ```text
-PAYMENT SUCCESS
-  -> DOWNLOAD
-  -> README
-  -> QUICKSTART
-  -> CHOOSE TEMPLATE
-  -> APPLY TO REAL TASK
+PROVIDER-SIGNED PAYMENT
+→ VERIFIED FULFILLMENT
+→ START_HERE
+→ CHOOSE WORKFLOW
+→ APPLY TO REAL TASK
+→ VERIFY RESULT
 ```
 
-The customer should never need access to the private source repository.
+A payment without successful fulfillment is a product failure, not a completed success story.
 
-## Stage 9 — Customer
+## Stage 9 — Starter customer
 
-After purchase, the first objective is activation, not another sale.
+The first objective after delivery is successful use, not an immediate second sale.
 
-Activation definition for v1:
-`customer successfully opens the pack and can identify which template/example to use for a real task.`
+Track:
 
-## Stage 10 — PQ-$1
+- delivery success;
+- paid-workflow activation;
+- task-success evidence;
+- confusion/support burden;
+- return use.
 
-`PQ-$1` is reached only when actual paid revenue is observed. A checkout page, test transaction, or READY manifest is not revenue.
+## Stage 10 — Full $19 expansion
+
+Full Developer Collection is an upsell/expansion hypothesis, not the default first purchase.
+
+Upgrade becomes credible when a Starter customer exhibits broader adjacent need, reuse/adaptation demand, or desire for the full workflow system.
+
+```text
+STARTER PURCHASE != FULL DEMAND
+```
+
+## Stage 11 — Repeat / referral
+
+The strongest early compounding signals are:
+
+- user returns for another real task;
+- user requests an adjacent workflow in the same job family;
+- user upgrades;
+- user refers another relevant user;
+- support burden remains acceptable.
+
+These signals influence which job family earns expansion.
+
+## Funnel evidence hierarchy
+
+```text
+PAGE VIEW
+  < CTA CLICK
+  < FREE ACQUISITION
+  < REAL TASK START
+  < ACTIVATION
+  < TASK-SUCCESS EVIDENCE
+  < RETURN USE
+  < CHECKOUT START
+  < PROVIDER-SIGNED PURCHASE
+  < VERIFIED DELIVERY
+  < UPGRADE / REFERRAL
+```
+
+This is not a single quality score. Each event answers a different question.
 
 ## Funnel failure diagnostics
 
 | Symptom | Likely problem | First action |
 |---|---|---|
-| Content impressions, few landing visits | weak CTA / wrong audience | improve content-to-Free-Pack bridge |
-| Visits, few free downloads | weak landing promise | clarify free value and audience |
-| Downloads, no paid clicks | Free Pack does not expose upgrade need | improve OFFER.md and value gradient |
-| Paid clicks, no checkout starts | offer/price mismatch | test positioning and price |
-| Checkout starts, no purchases | checkout friction/trust | inspect checkout UX and objections |
-| Purchases, confused users | onboarding failure | improve README/Quickstart |
+| Impressions but few relevant visits | weak job/message/channel fit | improve discovery message and targeting |
+| Visits but few free workflow selections | unclear outcome/value | simplify job-based navigation and free promise |
+| Free acquisition but no real-task starts | onboarding/input friction | improve Start Here and task chooser |
+| Real-task starts but no activation | workflow/input/output friction | inspect binding, instructions and verification UX |
+| Activation but weak usefulness | workflow/job mismatch or behavior failure | review real-task evidence before changing price |
+| Value but no Starter interest | paid value gradient unclear | improve Starter packaging/bridge |
+| Starter views but no checkout starts | offer/price/trust mismatch | inspect objections and evidence presentation |
+| Checkout starts but no purchases | checkout/payment trust friction | inspect provider UX and pricing friction |
+| Purchases but delivery failures | fulfillment defect | stop acquisition and repair delivery |
+| Delivery but no paid activation | onboarding/product mismatch | fix paid Start Here before scaling |
+| Starter use but no Full interest | Full value not needed/clear | do not force expansion; learn adjacent demand |
 
-## First-sale conversion targets
+## First-sale operating hypotheses
 
-These are operating hypotheses, not promises or benchmarks:
-- landing -> free acquisition: aim to learn at >= 20%;
-- free acquisition -> paid-product view: aim to learn at >= 10%;
-- paid-product view -> checkout start: aim to learn at >= 5%;
-- checkout start -> purchase: aim to learn at >= 30%.
+Founder-led early path may be tested with small numbers, for example:
 
-At low traffic, raw user behavior and objections matter more than percentages. Do not optimize statistically insignificant funnels.
+```text
+relevant contacts
+→ Free tries
+→ real-task activations
+→ value signals
+→ Starter views
+→ one real $9 purchase
+```
+
+Any numerical conversion assumptions are hypotheses only. At low volume, individual behavior and objections are more useful than statistically weak percentages.
+
+## Current state
+
+```text
+PUBLIC CHECKOUT                 OFF
+REAL CUSTOMER OUTCOMES          0
+REAL PURCHASES                  0
+PQ-$1                           NOT OBSERVED
+BEHAVIORAL WORKFLOW OBSERVATIONS 7
+EXPECTED-STATE MATCHES          7 / 7
+READY_TO_SELL                   NO
+```
+
+## Core principle
+
+> **The funnel is successful when a relevant person finds the right workflow, uses it on a real task, can verify the result, receives enough value to trust Prompt Machine, and eventually chooses to pay — not when traffic or downloads increase in isolation.**

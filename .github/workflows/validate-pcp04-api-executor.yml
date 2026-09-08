@@ -1,0 +1,67 @@
+name: Validate PCP-04 API Executor
+
+on:
+  push:
+    paths:
+      - 'tools/execute_pcp04_api_campaign.py'
+      - 'tools/prepare_pcp04_work_orders.py'
+      - 'certification/fixtures/pcp-04-family-cases.v1.json'
+      - 'certification/receipts/pcp-04-work-orders.v1.json'
+      - '.github/workflows/validate-pcp04-api-executor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  execution-planner:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile execution lane
+        run: python -m py_compile tools/execute_pcp04_api_campaign.py
+
+      - name: Materialize frozen packet
+        run: python tools/prepare_pcp04_work_orders.py --output build/pcp04-work-orders
+
+      - name: Verify execution plan without model calls
+        shell: bash
+        run: |
+          python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+
+          path = Path('tools/execute_pcp04_api_campaign.py').resolve()
+          spec = importlib.util.spec_from_file_location('pcp04_executor', path)
+          module = importlib.util.module_from_spec(spec)
+          assert spec.loader is not None
+          spec.loader.exec_module(module)
+
+          work = Path('build/pcp04-work-orders').resolve()
+          manifest = module.ensure_work_orders(work)
+          plan = module.expand_execution_plan(work)
+
+          assert manifest['work_order_count'] == 70
+          assert manifest['required_execution_count'] == 84
+          assert manifest['work_orders_jsonl_sha256'] == module.EXPECTED_PACKET_SHA
+          assert len(plan) == 84
+          assert sum(1 for row in plan if row['order']['fixture']['case_class'] == 'REPEATABILITY') == 21
+          assert module.PROTOCOL == 'same-role-two-verbatim-text-blocks-v1'
+
+          print('PCP-04 API EXECUTOR PLAN: PASS')
+          print('work_orders=70')
+          print('expanded_real_executions=84')
+          print('repeatability_executions=21')
+          print('provider_calls=0')
+          print('receipts_created=0')
+          print('behavioral_claim=NONE')
+          PY

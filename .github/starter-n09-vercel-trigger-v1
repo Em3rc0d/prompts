@@ -1,0 +1,6 @@
+case_id=PM-STARTER-CR-NORMAL-0001
+maximum_executions=1
+maximum_retries=0
+surface=VERCEL_AI_GATEWAY_PREVIEW
+model=openai/gpt-5.6-sol
+execute=true

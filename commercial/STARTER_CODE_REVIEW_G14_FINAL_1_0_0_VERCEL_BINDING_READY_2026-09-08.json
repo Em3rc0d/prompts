@@ -1,0 +1,29 @@
+{
+  "schema": "prompt-machine-g14-final-vercel-binding-v1",
+  "observed_at": "2026-09-08",
+  "state": "PASS",
+  "stage": "FINAL_1_0_0_VERCEL_BINDING_READY",
+  "project": "prompt-quarry-stage",
+  "project_id": "prj_Srr2nUKq8fZWff6x9XMyrY3dkjJ7",
+  "deployment": {
+    "id": "dpl_Ex1Q8m3B7L5X8LLsZQsaNcuRqgEt",
+    "state": "READY",
+    "target": "production",
+    "stable_alias": "prompt-quarry-stage.vercel.app",
+    "source_commit": "77d8803c99dc6d026f4def91eaa1a39028543bad"
+  },
+  "release_binding": {
+    "product_id": "prompt-machine-starter-code-review-edition",
+    "version": "1.0.0",
+    "archive_name": "prompt-machine-starter-code-review-edition-v1.0.0.zip",
+    "archive_bytes": 18955,
+    "archive_sha256": "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
+  },
+  "provider_state": {
+    "final_test_file_uploaded": false,
+    "final_test_metadata_validated": false,
+    "final_test_order_observed": false,
+    "live_enabled": false
+  },
+  "claim_boundary": "A READY Vercel deployment bound to final 1.0.0 proves application-side release identity availability only. It does not prove Lemon holds the final file, Test or Live delivery, revenue, readiness to sell, or public-sale authorization."
+}

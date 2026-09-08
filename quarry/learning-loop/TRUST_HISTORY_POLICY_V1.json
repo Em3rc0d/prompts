@@ -1,0 +1,86 @@
+{
+  "schema": "prompt-machine-trust-history-policy-v1",
+  "version": "1.0.0",
+  "state": "GOVERNED_POLICY_PUBLICATION_NOT_YET_ENABLED",
+  "recorded_on": "2026-09-03",
+  "purpose": "Preserve workflow PASS, FAIL, rework, successor, regression, limitation, customer-value, purchase, and delivery history as evidence-backed trust infrastructure.",
+  "principles": {
+    "append_only_after_behavioral_observation": true,
+    "preserve_material_failures": true,
+    "preserve_inconclusive_results": true,
+    "overwrite_observed_versions": false,
+    "inherit_predecessor_evidence": false,
+    "rewrite_evaluation_contract_after_result": false,
+    "cherry_pick_material_campaign_results": false,
+    "automatic_publication": false,
+    "automatic_marketing_claim_generation": false,
+    "automatic_certification": false
+  },
+  "required_event_classes": [
+    "STATIC_REVIEW",
+    "INVOCATION_FREEZE",
+    "RUNTIME_OBSERVATION",
+    "HUMAN_REVIEW",
+    "PASS",
+    "FAIL",
+    "INCONCLUSIVE",
+    "DECISION_RETAIN",
+    "DECISION_REWORK",
+    "DECISION_RETIRE",
+    "DECISION_EXPAND_EVIDENCE",
+    "SUCCESSOR_CREATED",
+    "REGRESSION_PASS",
+    "REGRESSION_FAIL",
+    "USER_REPORTED_OUTCOME",
+    "RETURN_USE_EVIDENCE",
+    "PROVIDER_SIGNED_PURCHASE_EVIDENCE",
+    "DELIVERY_EVIDENCE",
+    "KNOWN_LIMITATION_ADDED",
+    "KNOWN_LIMITATION_RESOLVED"
+  ],
+  "failure_story_required_fields": [
+    "before",
+    "observed_failure",
+    "why_it_matters",
+    "hypothesis",
+    "change",
+    "regression",
+    "current_limitation"
+  ],
+  "public_projection": {
+    "source_of_truth": "INTERNAL_EVIDENCE_LEDGER",
+    "material_failures_must_remain_represented": true,
+    "synthetic_cases_must_be_labeled_synthetic": true,
+    "customer_private_data_requires_redaction_or_authorization": true,
+    "unknowns_must_remain_unknown": true,
+    "limitations_must_remain_visible_when_material": true,
+    "single_opaque_quality_score": "BLOCKED_UNLESS_FUTURE_VALIDATED_SCORING_SYSTEM_EXISTS"
+  },
+  "claim_ladder": {
+    "STATIC_REVIEW_ONLY": "statically reviewed",
+    "RUNTIME_OBSERVATION": "observed in identified runs or cases",
+    "HUMAN_REVIEWED_RUNTIME": "passed named checks in identified observed cases",
+    "SUCCESSOR_REGRESSION_PASS": "discovered failure addressed and successor passed the specified regression set",
+    "REAL_CUSTOMER_OUTCOME": "used on a real customer task with the reported or observed outcome",
+    "RETURN_USE_EVIDENCE": "return use observed",
+    "PURCHASE_AND_DELIVERY": "purchased and delivered"
+  },
+  "forbidden_unbounded_claims": [
+    "always works",
+    "guaranteed",
+    "fully reliable",
+    "works on every model",
+    "certified solely from runtime observations"
+  ],
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE",
+  "current_campaign_reference": "quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json",
+  "current_campaign_truth": {
+    "behavioral_observations": 7,
+    "expected_state_matches": 7,
+    "blocking_review_failures": 0,
+    "certification_claim": false,
+    "portability_claim": false,
+    "ready_to_sell": false,
+    "public_trust_story_enabled": false
+  }
+}

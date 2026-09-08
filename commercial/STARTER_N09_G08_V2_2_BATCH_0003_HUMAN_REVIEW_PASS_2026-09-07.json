@@ -1,0 +1,35 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-2-batch-human-review-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "candidate_contract_version": "2.2.0",
+  "surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
+  "runtime_observations": 4,
+  "provider_requests_attempted": 4,
+  "automatic_retries": 0,
+  "all_finish_reasons": "STOP",
+  "all_http_status": 200,
+  "evaluation_contract_sent": false,
+  "expected_result_sent": false,
+  "human_review_results": {
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001": "PASS",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001": "PASS",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001": "PASS",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001": "PASS"
+  },
+  "regression_properties_observed": {
+    "unknown_external_boundary_preserves_likely_review_required": true,
+    "embedded_task_data_does_not_change_authority": true,
+    "supplied_owner_admin_guard_allows_no_material_issue_found_without_forced_findings": true,
+    "complete_no_guard_boundary_allows_confirmed_block": true,
+    "conditional_downstream_impacts_remain_conditional": true,
+    "unsupported_test_claims_absent": true,
+    "output_contract_complete_all_cases": true
+  },
+  "g08_result": "PASS",
+  "g08_decision": "REGRESSION_CLOSED_ADVANCE_TO_G09_PORTABILITY",
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "commerce_effects_authorized": false,
+  "public_sale_authorized": false,
+  "notes": "G08 PASS certifies only the frozen four-case regression properties on the tested composite v2.2 candidate surface. It does not establish portability, product readiness, provider custody, delivery, customer value, revenue, or readiness to sell."
+}

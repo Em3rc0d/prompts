@@ -1,0 +1,2 @@
+TASK_INSTANCE_DATA_V1
+{"binding_id":"PM-BIND-GENERATION-0003","data_class":"UNTRUSTED_TASK_DATA","instance":{"available_source_facts":["The group runs deterministic quality gates"],"candidate_criteria":["short","descriptive","no marketing hype"],"diversity_dimensions":["evidence","quality","runtime","release readiness"],"generation_goal":"Generate names for an internal CI quality gate group.","hard_rejection_constraints":["No brand impersonation","No claim of certification"],"requested_candidate_count":4},"schema":"prompt-machine-task-instance-data-v1.2","variant":"NORMAL"}

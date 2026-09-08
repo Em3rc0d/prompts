@@ -1,0 +1,74 @@
+name: Validate Starter Release DAG v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/STARTER_RELEASE_DAG_V1.json'
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_EXECUTION_DECISION_FREEZE_V1.json'
+      - 'product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json'
+      - 'tools/validate_starter_release_dag_v1.py'
+      - '.github/workflows/validate-starter-release-dag-v1.yml'
+  pull_request:
+    paths:
+      - 'commercial/STARTER_RELEASE_DAG_V1.json'
+      - 'commercial/STARTER_RELEASE_GATE_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json'
+      - 'commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json'
+      - 'commercial/STARTER_EXECUTION_DECISION_FREEZE_V1.json'
+      - 'product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json'
+      - 'tools/validate_starter_release_dag_v1.py'
+      - '.github/workflows/validate-starter-release-dag-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-release-dag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile release DAG validator
+        run: python -m py_compile tools/validate_starter_release_dag_v1.py
+
+      - name: Validate Starter evidence dependency graph
+        run: python tools/validate_starter_release_dag_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Release DAG v1
+
+          | Signal | State |
+          |---|---|
+          | Nodes | 20 |
+          | Cycles | 0 expected |
+          | Closed / intentionally deferred | 12 nodes |
+          | N07 public copy boundary | OBSERVED CLOSED / RUN 33834092608 |
+          | Open evidence frontier | N09 + N14 |
+          | N09 runtime result | 1 INCONCLUSIVE_PROTOCOL_CONTAMINATION / DISARMED |
+          | N09 next experiment | SAME FROZEN CR NORMAL / CLEAN SURFACE / FRESH AUTH |
+          | N14 provider experiment | ONE CONTROLLED CUSTODY ATTEMPT / DISARMED |
+          | Automatic frontier choice | NO |
+          | Public checkout | BLOCKED |
+          | PQ-$1 | NOT OBSERVED |
+          | Provider calls created by validation | 0 |
+          | Model calls created by validation | 0 |
+          EOF
