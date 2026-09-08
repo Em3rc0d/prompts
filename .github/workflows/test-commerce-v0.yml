@@ -25,6 +25,7 @@ on:
       - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
       - 'tools/pm_g14_lemonsqueezy_probe.py'
       - 'tools/pm_g14_lemonsqueezy_test_setup.py'
+      - 'tools/pm_g14_lemonsqueezy_id_reconcile.py'
       - 'tools/pm_g14_vercel_test_apply.py'
       - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_starter_webhook_adapter_v1.py'
@@ -52,6 +53,7 @@ on:
       - 'tools/verify_lemonsqueezy_starter_code_review_file.py'
       - 'tools/pm_g14_lemonsqueezy_probe.py'
       - 'tools/pm_g14_lemonsqueezy_test_setup.py'
+      - 'tools/pm_g14_lemonsqueezy_id_reconcile.py'
       - 'tools/pm_g14_vercel_test_apply.py'
       - 'tools/test_provider_custody_verifier_v1.py'
       - 'tools/test_starter_webhook_adapter_v1.py'
@@ -77,6 +79,7 @@ jobs:
           python -m py_compile tools/verify_lemonsqueezy_starter_code_review_file.py
           python -m py_compile tools/pm_g14_lemonsqueezy_probe.py
           python -m py_compile tools/pm_g14_lemonsqueezy_test_setup.py
+          python -m py_compile tools/pm_g14_lemonsqueezy_id_reconcile.py
           python -m py_compile tools/pm_g14_vercel_test_apply.py
           python -m py_compile tools/test_provider_custody_verifier_v1.py
           python -m py_compile tools/test_starter_webhook_adapter_v1.py
@@ -85,6 +88,8 @@ jobs:
         run: python tools/pm_g14_lemonsqueezy_probe.py --self-test
       - name: Self-test Lemon Squeezy test setup operator without network
         run: python tools/pm_g14_lemonsqueezy_test_setup.py --self-test
+      - name: Self-test Lemon Squeezy provider ID reconciliation without network
+        run: python tools/pm_g14_lemonsqueezy_id_reconcile.py --self-test
       - name: Self-test Vercel Test-mode apply operator without network
         run: python tools/pm_g14_vercel_test_apply.py --self-test
       - name: Validate commerce evidence contract
