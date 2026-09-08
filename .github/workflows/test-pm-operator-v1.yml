@@ -1,0 +1,40 @@
+name: Test Prompt Machine Operator v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/OPERATOR_UX_V1.md'
+      - 'tools/pm_operator.py'
+      - 'tools/build_starter_code_review_edition.py'
+      - 'tools/validate_starter_code_review_edition.py'
+      - 'tools/test_starter_code_review_g14_v1.py'
+      - '.github/workflows/test-pm-operator-v1.yml'
+  pull_request:
+    paths:
+      - 'commercial/OPERATOR_UX_V1.md'
+      - 'tools/pm_operator.py'
+      - 'tools/build_starter_code_review_edition.py'
+      - 'tools/validate_starter_code_review_edition.py'
+      - 'tools/test_starter_code_review_g14_v1.py'
+      - '.github/workflows/test-pm-operator-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  operator-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile operator
+        run: python -m py_compile tools/pm_operator.py
+      - name: Show operator help
+        run: python tools/pm_operator.py --help
+      - name: Run complete offline release check through operator
+        run: python tools/pm_operator.py release-check --local
