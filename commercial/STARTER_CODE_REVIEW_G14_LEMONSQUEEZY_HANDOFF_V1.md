@@ -57,7 +57,7 @@ Exact provider-held byte custody remains a later controlled Live-canary property
 
 ## One-command Vercel Test apply
 
-The Lemon setup operator generated this owner-only handoff on the user's machine:
+The Lemon setup operator generated an owner-only local handoff at:
 
 `~/.local/share/prompt-machine/g14/starter-code-review-test-vercel.env`
 
