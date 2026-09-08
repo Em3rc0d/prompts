@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Offline G14 regression for Starter — Code Review Edition v1.
+"""Offline G14 regression for Verlune Code Review 1.0.0.
 
 No network/provider/model calls are performed. The test validates that the
-final 1.0.0 customer artifact has isolated commerce identity/configuration and
-that all provider-facing surfaces stay fail closed by default.
+Verlune-branded final customer artifact has isolated commerce identity/configuration
+and that all provider-facing surfaces stay fail closed by default.
 """
 from __future__ import annotations
 
@@ -21,12 +21,12 @@ VERIFIER = ROOT / "tools/verify_lemonsqueezy_starter_code_review_file.py"
 SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source.json"
 
 PRODUCT_ID = "prompt-machine-starter-code-review-edition"
-PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
+PRODUCT_NAME = "Verlune Code Review"
 VERSION = "1.0.0"
-ARCHIVE = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
-ARCHIVE_BYTES = "18955"
-ARCHIVE_SHA = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
-SOURCE_COMMIT = "04b8bceb4349bf79d8125f55592bbb6973edb3c1"
+ARCHIVE = "verlune-code-review-v1.0.0.zip"
+ARCHIVE_BYTES = "18859"
+ARCHIVE_SHA = "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
+SOURCE_COMMIT = "a6c6b4c79606bdc1b386980da34675a66feb4b4a"
 CERT_ID = "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001"
 
 
@@ -36,9 +36,7 @@ def require(path: Path, tokens: tuple[str, ...]) -> str:
     text = path.read_text(encoding="utf-8")
     for token in tokens:
         if token not in text:
-            raise SystemExit(
-                f"G14 OFFLINE: FAIL — {path.relative_to(ROOT)} missing token: {token}"
-            )
+            raise SystemExit(f"G14 OFFLINE: FAIL — {path.relative_to(ROOT)} missing token: {token}")
     return text
 
 
@@ -60,6 +58,8 @@ def main() -> int:
         SOURCE_MANIFEST,
         (
             f'"version": "{VERSION}"',
+            '"brand": "Verlune"',
+            '"commercial_name": "Verlune Code Review"',
             '"status": "FINAL_ARTIFACT_PRE_LIVE_VALIDATION"',
             '"customer_manifest_status": "CUSTOMER_RELEASE"',
             '"customer_license_frozen": true',
@@ -164,12 +164,12 @@ def main() -> int:
         "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
         "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
         "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+        "prompt-machine-starter-code-review-edition-v1.0.0.zip",
+        "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3",
     )
     for token in forbidden_old_identity:
         if token in release or token in checkout or token in webhook or token in verifier:
-            raise SystemExit(
-                f"G14 OFFLINE: FAIL — superseded release identity leaked into Code Review Edition: {token}"
-            )
+            raise SystemExit(f"G14 OFFLINE: FAIL — superseded release identity leaked into active Verlune surface: {token}")
 
     if '"customer_license_frozen": false' in source_manifest:
         raise SystemExit("G14 OFFLINE: FAIL — final customer license unexpectedly not frozen")
@@ -178,11 +178,11 @@ def main() -> int:
         lowered = source.lower()
         for pii in ("user_email", "user_name", "payment_details"):
             if pii in lowered:
-                raise SystemExit(
-                    f"G14 OFFLINE: FAIL — {source_name} references PII/payment field: {pii}"
-                )
+                raise SystemExit(f"G14 OFFLINE: FAIL — {source_name} references PII/payment field: {pii}")
 
-    print("STARTER CODE REVIEW G14 OFFLINE V1: PASS")
+    print("VERLUNE CODE REVIEW G14 OFFLINE V1: PASS")
+    print("brand=Verlune")
+    print(f"product_name={PRODUCT_NAME}")
     print(f"product_id={PRODUCT_ID}")
     print(f"version={VERSION}")
     print(f"archive={ARCHIVE}")
