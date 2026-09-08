@@ -14,9 +14,12 @@ EXPECTED_MEMBERS = [
     "QUICKSTART.md",
     "WORKFLOW.md",
     "EVIDENCE.md",
+    "CUSTOMER-LICENSE.md",
+    "SALE-TERMS.md",
     "RELEASE-NOTICE.md",
     "MANIFEST.json",
 ]
+EXPECTED_VERSION = "1.0.0-rc2"
 EXPECTED_WORKFLOW_BYTES = 25295
 EXPECTED_WORKFLOW_SHA256 = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 EXPECTED_MODEL = "gemini-3.5-flash"
@@ -66,9 +69,12 @@ def main() -> int:
             manifest = {}
             checks["manifest_parseable"] = False
 
+        checks["manifest_version_rc2"] = manifest.get("version") == EXPECTED_VERSION
         checks["manifest_status_not_for_sale"] = manifest.get("status") == "RELEASE_CANDIDATE_NOT_FOR_SALE"
         checks["manifest_public_sale_false"] = manifest.get("public_sale") is False
-        checks["manifest_customer_license_not_frozen"] = manifest.get("customer_license_frozen") is False
+        checks["manifest_customer_license_frozen"] = manifest.get("customer_license_frozen") is True
+        checks["manifest_customer_license_version"] = manifest.get("customer_license_version") == "1.0"
+        checks["manifest_sale_terms_version"] = manifest.get("sale_terms_version") == "1.0"
         checks["manifest_model_specific"] = manifest.get("portability_classification") == "MODEL_SPECIFIC"
         checks["manifest_validated_model_exact"] = manifest.get("validated_model") == EXPECTED_MODEL
         checks["manifest_certification_exact"] = manifest.get("certification_id") == EXPECTED_CERTIFICATION
@@ -90,9 +96,14 @@ def main() -> int:
         readme = data.get("README.md", b"").decode("utf-8", errors="replace")
         quickstart = data.get("QUICKSTART.md", b"").decode("utf-8", errors="replace")
         evidence = data.get("EVIDENCE.md", b"").decode("utf-8", errors="replace")
+        license_text = data.get("CUSTOMER-LICENSE.md", b"").decode("utf-8", errors="replace")
+        sale_terms = data.get("SALE-TERMS.md", b"").decode("utf-8", errors="replace")
         notice = data.get("RELEASE-NOTICE.md", b"").decode("utf-8", errors="replace")
-        customer_text = "\n".join([readme, quickstart, evidence, notice])
+        customer_text = "\n".join([readme, quickstart, evidence, license_text, sale_terms, notice])
         quickstart_lower = quickstart.lower()
+        license_lower = license_text.lower()
+        terms_lower = sale_terms.lower()
+        notice_lower = notice.lower()
 
         checks["bug_diagnosis_not_packaged"] = "Evidence-first Bug Diagnosis" not in customer_text and "bug-diagnosis" not in " ".join(names).lower()
         checks["readme_names_gemini_scope"] = EXPECTED_MODEL in readme
@@ -104,8 +115,29 @@ def main() -> int:
         )
         checks["evidence_names_model_specific"] = "MODEL_SPECIFIC" in evidence and EXPECTED_MODEL in evidence
         checks["evidence_forbids_universal_portability"] = "model-agnostic" in evidence and "universally portable" in evidence
-        checks["release_notice_not_for_sale"] = "NOT FOR SALE" in notice
-        checks["release_notice_license_pending"] = "No standalone customer license has been frozen" in notice
+
+        checks["license_grant_requires_purchase"] = "after a valid purchase" in license_lower
+        checks["license_allows_commercial_use"] = "commercial" in license_lower and "client software projects" in license_lower
+        checks["license_allows_private_modification"] = "adapt or modify" in license_lower and "internal use" in license_lower
+        checks["license_blocks_redistribution"] = "may not" in license_lower and "redistribute" in license_lower and "resell" in license_lower
+        checks["license_preserves_output_use"] = "review results" in license_lower and "outputs" in license_lower
+        checks["license_names_model_scope"] = "model_specific" in license_lower and EXPECTED_MODEL in license_lower
+        checks["license_preserves_human_authority"] = "human" in license_lower and "responsible for what ships" in license_lower
+        checks["license_no_universal_warranty"] = "no warranty" in license_lower and "universal performance" in license_lower
+        checks["license_preserves_mandatory_rights"] = "cannot be waived" in license_lower and "remain unaffected" in license_lower
+
+        checks["sale_terms_digital_good"] = "digital good" in terms_lower
+        checks["sale_terms_one_time_no_subscription"] = "one-time purchase" in terms_lower and "no recurring subscription" in terms_lower
+        checks["sale_terms_no_services"] = "not a consulting" in terms_lower and "professional-services" in terms_lower
+        checks["sale_terms_model_access_not_included"] = "ai/model access is not included" in terms_lower
+        checks["sale_terms_model_scope_exact"] = EXPECTED_MODEL in sale_terms and "not covered by the current certification" in terms_lower
+        checks["sale_terms_no_security_guarantee"] = "does not promise or guarantee" in terms_lower and "secure" in terms_lower
+        checks["sale_terms_refund_boundary"] = "merchant of record" in terms_lower and "mandatory consumer rights" in terms_lower
+        checks["sale_terms_provider_data_boundary"] = "source code" in terms_lower and "ai/model provider" in terms_lower
+
+        checks["release_notice_public_sale_off"] = "public sale still off" in notice_lower and "public checkout stays off" in notice_lower
+        checks["release_notice_license_frozen"] = "customer license is frozen" in notice_lower
+        checks["release_notice_requires_external_g14"] = "provider custody" in notice_lower and "delivery canary" in notice_lower
 
     failed = [name for name, ok in checks.items() if not ok]
     result = {
@@ -114,6 +146,7 @@ def main() -> int:
         "archive_bytes": archive.stat().st_size,
         "archive_sha256": sha256(archive.read_bytes()),
         "checks": checks,
+        "check_count": len(checks),
         "failed_checks": failed,
         "verdict": "PASS" if not failed else "FAIL",
         "claim_boundary": "PACK_QA_ONLY_NOT_PROVIDER_CUSTODY_DELIVERY_OR_REVENUE",
