@@ -1,6 +1,6 @@
 # Evidence and claim boundary
 
-This file defines the strongest claims currently supported for Prompt Machine Starter — Code Review Edition `1.0.0-rc2`.
+This file defines the strongest claims supported for Prompt Machine Starter — Code Review Edition `1.0.0`.
 
 ## Exact workflow identity
 
@@ -12,9 +12,9 @@ sha256       6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
 authority    ADVISORY_ONLY
 ```
 
-`WORKFLOW.md` in the built package is generated from the exact certified composite identity: Evidence-first Code Review v2.1 base plus the normative v2.2 hardening addendum in the frozen composition order.
+`WORKFLOW.md` is generated from the exact certified composite identity: Evidence-first Code Review v2.1 base plus the normative v2.2 hardening addendum in the frozen composition order.
 
-RC2 changes the customer/commercial packaging layer by adding a frozen customer license and sale terms. It does not change the certified `WORKFLOW.md` bytes.
+Version `1.0.0` changes only the customer packaging layer relative to the preceding release candidates. It does not change the certified `WORKFLOW.md` bytes.
 
 ## Observed behavioral evidence
 
@@ -48,7 +48,7 @@ Current portability classification: `MODEL_SPECIFIC`.
 
 Behavior is validated only for the demonstrated Gemini 3.5 Flash scope. No second model family has a clean behavioral observation in this certification cycle.
 
-Therefore this release candidate must not be described as:
+Therefore this release must not be described as:
 
 - universally portable;
 - model-agnostic;
@@ -65,7 +65,7 @@ Decision:
 
 `PASS_FOR_EXACT_DECLARED_SCOPE`
 
-The certification covers the exact v2.2 surface and frozen four-case Gemini 3.5 Flash evidence scope. It does not certify all code-review scenarios, all models, universal software security, customer outcomes, willingness to pay, provider delivery, or product readiness.
+The certification covers the exact v2.2 surface and frozen four-case Gemini 3.5 Flash evidence scope. It does not certify all code-review scenarios, all models, universal software security, customer outcomes, or willingness to pay.
 
 ## Historical failures are part of the evidence
 
@@ -75,20 +75,14 @@ Certification is tied to the final workflow candidate and final passing evidence
 
 ## Packaging and license evidence
 
-RC2 freezes the customer-facing usage license and sale terms into the deterministic package. This proves package composition only.
+Version `1.0.0` freezes the customer-facing usage license, sale terms, operating guide, evidence notes, and exact certified workflow identity into one deterministic package.
 
-It does **not** prove:
+Package integrity does **not** broaden the behavioral certification. In particular, it does not prove:
 
-- provider custody;
-- checkout integration;
-- provider-signed purchase;
-- live customer delivery;
-- real customer value;
-- real purchases;
-- `PQ-$1`;
-- readiness to sell.
-
-Those remain separate G14/external evidence classes.
+- universal model portability;
+- automatic correctness or security of reviewed software;
+- a particular customer or business outcome;
+- that a human ship decision can be skipped.
 
 Master rule:
 
