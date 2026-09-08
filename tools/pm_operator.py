@@ -23,9 +23,11 @@ from pathlib import Path
 
 DEFAULT_REMOTE = "origin"
 DEFAULT_BRANCH = "feat/workflow-kits-product-model-20260902"
-RC_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip"
-EXPECTED_RC_BYTES = 14667
-EXPECTED_RC_SHA256 = "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde"
+RC_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
+EXPECTED_RC_BYTES = 19161
+EXPECTED_RC_SHA256 = "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88"
+EXPECTED_WORKFLOW_BYTES = 25295
+EXPECTED_WORKFLOW_SHA256 = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 
 
 @dataclass
@@ -168,6 +170,8 @@ def run_release_checks(root: Path, *, details_dir: Path) -> tuple[list[CheckResu
                 observed_bytes == EXPECTED_RC_BYTES
                 and observed_sha256 == EXPECTED_RC_SHA256
             ),
+            "expected_workflow_bytes": EXPECTED_WORKFLOW_BYTES,
+            "expected_workflow_sha256": EXPECTED_WORKFLOW_SHA256,
         }
         if not archive_observation["identity_pass"]:
             results.append(
@@ -176,7 +180,7 @@ def run_release_checks(root: Path, *, details_dir: Path) -> tuple[list[CheckResu
                     ok=False,
                     returncode=2,
                     stdout=json.dumps(archive_observation, sort_keys=True),
-                    stderr="release candidate identity differs from frozen G12/G13 receipt",
+                    stderr="release candidate identity differs from frozen licensed RC2 G12/G13 receipt",
                 )
             )
 
@@ -201,6 +205,8 @@ def write_receipt(
         "branch": branch,
         "active_working_tree_modified": False,
         "external_effects": 0,
+        "release_candidate": "1.0.0-rc2",
+        "customer_license_frozen": True,
         "archive": archive,
         "checks": [
             {
@@ -229,6 +235,7 @@ def compact_print(
     print(f"state: {state}")
     print(f"stage: {stage}")
     print(f"head: {head}")
+    print("release_candidate: 1.0.0-rc2")
     print("external_effects: 0")
     if receipt is not None:
         print(f"receipt: {receipt}")
@@ -303,7 +310,7 @@ def isolated_release_check(root: Path, remote: str, branch: str) -> int:
             stage="G14_EXTERNAL_BOUNDARY",
             head=head,
             receipt=receipt,
-            next_action="Offline release checks pass. Provider-side G14 evidence requires a separately authorized action.",
+            next_action="Licensed RC2 offline checks pass. Provider-side G14 evidence requires the separately governed provider handoff.",
         )
         return 0
     finally:
