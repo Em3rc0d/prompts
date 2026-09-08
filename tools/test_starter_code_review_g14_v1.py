@@ -21,6 +21,7 @@ VERIFIER = ROOT / "tools/verify_lemonsqueezy_starter_code_review_file.py"
 SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source.json"
 
 PRODUCT_ID = "prompt-machine-starter-code-review-edition"
+PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
 VERSION = "1.0.0-rc2"
 ARCHIVE = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
 ARCHIVE_BYTES = "19161"
@@ -42,9 +43,6 @@ def require(path: Path, tokens: tuple[str, ...]) -> str:
 
 
 def main() -> int:
-    # The web release adapter intentionally contains only generic commerce
-    # release identity. Certification/model scope belongs in the governed
-    # provider verifier and receipts, not CommerceReleaseIdentity.
     release = require(
         RELEASE,
         (
@@ -137,6 +135,10 @@ def main() -> int:
         (
             'PRODUCT_KEY = "starter-code-review"',
             f'"customer_product_id": "{PRODUCT_ID}"',
+            f'"provider_product_name": "{PRODUCT_NAME}"',
+            '"provider_product_status": "published"',
+            '"price_cents": 900',
+            '"is_subscription": False',
             f'"version": "{VERSION}"',
             f'"archive_name": "{ARCHIVE}"',
             f'"archive_size": {ARCHIVE_BYTES}',
@@ -185,6 +187,8 @@ def main() -> int:
     print("customer_license_frozen=true")
     print("commerce_mode_default=off")
     print("public_sale_default=NOT_FOR_SALE")
+    print("provider_product_contract_bound=true")
+    print("provider_price_contract_bound=true")
     print("dedicated_webhook_secret=true")
     print("certification_scope_bound_in_provider_verifier=true")
     print("superseded_release_identity_leak=false")
