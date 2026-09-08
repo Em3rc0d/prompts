@@ -13,8 +13,9 @@ Read in this order:
 3. `commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
 4. `commercial/STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
 5. `commercial/STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-6. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
-7. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
+6. `commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+7. `certification/receipts/starter-code-review-v2.2-g11-certification.json`
+8. `commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json`
 
 Older release states and RC1 artifacts remain historical evidence only.
 
