@@ -1,4 +1,4 @@
-name: Validate Starter Code Review Edition v1
+name: Validate Verlune Code Review v1
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
       - 'product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md'
       - 'product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json'
       - 'certification/receipts/starter-code-review-v2.2-g11-certification.json'
+      - 'commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md'
       - 'commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_V1.json'
       - 'commercial/STARTER_CODE_REVIEW_G10_HUMAN_VALUE_REVIEW_2026-09-07.json'
       - 'commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json'
@@ -23,6 +24,7 @@ on:
       - 'product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md'
       - 'product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json'
       - 'certification/receipts/starter-code-review-v2.2-g11-certification.json'
+      - 'commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md'
       - 'commercial/STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_V1.json'
       - 'commercial/STARTER_CODE_REVIEW_G10_HUMAN_VALUE_REVIEW_2026-09-07.json'
       - 'commercial/STARTER_N09_G09_MODEL_SPECIFIC_CLASSIFICATION_2026-09-07.json'
@@ -51,14 +53,14 @@ jobs:
         run: |
           set -euo pipefail
           cmp \
-            /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0.zip \
-            /tmp/pm-starter-cr-build-2/prompt-machine-starter-code-review-edition-v1.0.0.zip
+            /tmp/pm-starter-cr-build-1/verlune-code-review-v1.0.0.zip \
+            /tmp/pm-starter-cr-build-2/verlune-code-review-v1.0.0.zip
           cmp \
             /tmp/pm-starter-cr-build-1/build-receipt.json \
             /tmp/pm-starter-cr-build-2/build-receipt.json
           sha256sum \
-            /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0.zip \
-            /tmp/pm-starter-cr-build-2/prompt-machine-starter-code-review-edition-v1.0.0.zip
+            /tmp/pm-starter-cr-build-1/verlune-code-review-v1.0.0.zip \
+            /tmp/pm-starter-cr-build-2/verlune-code-review-v1.0.0.zip
 
       - name: Run independent pack QA on both builds
         id: qa
@@ -67,11 +69,11 @@ jobs:
           set +e
           set -o pipefail
           python tools/validate_starter_code_review_edition.py \
-            --archive /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0.zip \
+            --archive /tmp/pm-starter-cr-build-1/verlune-code-review-v1.0.0.zip \
             | tee /tmp/pm-starter-cr-build-1/pack-qa.json
           build1=${PIPESTATUS[0]}
           python tools/validate_starter_code_review_edition.py \
-            --archive /tmp/pm-starter-cr-build-2/prompt-machine-starter-code-review-edition-v1.0.0.zip \
+            --archive /tmp/pm-starter-cr-build-2/verlune-code-review-v1.0.0.zip \
             | tee /tmp/pm-starter-cr-build-2/pack-qa.json
           build2=${PIPESTATUS[0]}
           cmp /tmp/pm-starter-cr-build-1/pack-qa.json /tmp/pm-starter-cr-build-2/pack-qa.json
@@ -90,9 +92,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: prompt-machine-starter-code-review-edition-v1.0.0
+          name: verlune-code-review-v1.0.0
           path: |
-            /tmp/pm-starter-cr-build-1/prompt-machine-starter-code-review-edition-v1.0.0.zip
+            /tmp/pm-starter-cr-build-1/verlune-code-review-v1.0.0.zip
             /tmp/pm-starter-cr-build-1/build-receipt.json
             /tmp/pm-starter-cr-build-1/pack-qa.json
             /tmp/pm-starter-cr-qa-status.txt
