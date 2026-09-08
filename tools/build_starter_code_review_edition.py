@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Deterministically build Prompt Machine Starter — Code Review Edition v1.
+"""Deterministically build Verlune Code Review 1.0.0.
 
 The customer WORKFLOW.md is materialized from the exact v2.1 base + normative
 v2.2 addendum composition that earned the scoped G11 certification. The build
 fails closed if source blob identities or composite bytes drift.
 
-The final 1.0.0 package keeps operational launch state outside the customer ZIP:
-customer files may describe release scope, but must not embed transient internal
-flags such as public-checkout or G14 gate state.
+The final package keeps Prompt Machine / Prompt Quarry implementation naming and
+operational launch state outside the buyer-facing product surface. Stable machine
+IDs may remain internal where changing them would destroy evidence continuity.
 """
 from __future__ import annotations
 
@@ -19,9 +19,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source.json"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_NAME = "verlune-code-review-v1.0.0.zip"
 RECEIPT_NAME = "build-receipt.json"
-BUILDER_VERSION = "1.2.0"
+BUILDER_VERSION = "1.3.0"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
 
 
@@ -81,6 +81,10 @@ def build(out_dir: Path) -> dict:
 
     if source.get("version") != "1.0.0":
         raise SystemExit("FAIL: source manifest is not the frozen 1.0.0 artifact")
+    if source.get("brand") != "Verlune":
+        raise SystemExit("FAIL: customer brand is not Verlune")
+    if source.get("commercial_name") != "Verlune Code Review":
+        raise SystemExit("FAIL: customer product name is not Verlune Code Review")
     if source.get("status") != "FINAL_ARTIFACT_PRE_LIVE_VALIDATION":
         raise SystemExit("FAIL: source manifest operational state is unexpected")
     if source.get("customer_manifest_status") != "CUSTOMER_RELEASE":
@@ -124,7 +128,8 @@ def build(out_dir: Path) -> dict:
     payload["WORKFLOW.md"] = workflow
 
     payload_manifest = {
-        "schema": "prompt-machine-starter-code-review-edition-manifest-v1",
+        "schema": "verlune-code-review-manifest-v1",
+        "brand": source["brand"],
         "product": source["commercial_name"],
         "version": source["version"],
         "status": source["customer_manifest_status"],
@@ -173,6 +178,7 @@ def build(out_dir: Path) -> dict:
     receipt = {
         "schema": "prompt-machine-starter-code-review-edition-build-receipt-v1",
         "builder_version": BUILDER_VERSION,
+        "brand": source["brand"],
         "product": source["commercial_name"],
         "version": source["version"],
         "archive_name": ARCHIVE_NAME,
