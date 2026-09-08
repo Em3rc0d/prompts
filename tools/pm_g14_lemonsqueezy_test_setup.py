@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prompt Machine G14 Lemon Squeezy test-mode setup operator.
+"""Prompt Machine G14 Lemon Squeezy test-mode setup operator for Verlune Code Review.
 
 Default mode is read-only. With --apply-webhook it creates exactly one test-mode
 order_created webhook, generates isolated secrets, and writes a chmod-0600 Vercel
@@ -21,11 +21,11 @@ import urllib.request
 from typing import Any
 
 API_BASE = "https://api.lemonsqueezy.com/v1"
-STORE_NAME = "Prompt Quarry"
-PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
+STORE_NAME = "Verlune"
+PRODUCT_NAME = "Verlune Code Review"
 PRICE_CENTS = 900
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
-ARCHIVE_BYTES = 18955
+ARCHIVE_NAME = "verlune-code-review-v1.0.0.zip"
+ARCHIVE_BYTES = 18859
 WEBHOOK_URL = "https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook"
 EVENTS = ["order_created"]
 
@@ -55,7 +55,7 @@ def request(method: str, path: str, key: str, payload: dict[str, Any] | None = N
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Test-Setup/1.1",
+            "User-Agent": "Prompt-Machine-G14-Verlune-Test-Setup/1.2",
         },
     )
     try:
@@ -120,11 +120,11 @@ def validate_snapshot(store: dict[str, Any], product: dict[str, Any], variant: d
 
 def discover(key: str) -> dict[str, str]:
     stores = data_list(request("GET", "/stores?page[size]=100", key), "stores")
-    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Prompt Quarry store")
+    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Verlune store")
     sid = str(store.get("id"))
     q = urllib.parse.urlencode({"filter[store_id]": sid, "page[size]": 100})
     products = data_list(request("GET", f"/products?{q}", key), "products")
-    product = one(products, lambda x: attrs(x).get("name") == PRODUCT_NAME, "Code Review Edition product")
+    product = one(products, lambda x: attrs(x).get("name") == PRODUCT_NAME, "Verlune Code Review product")
     pid = str(product.get("id"))
     q = urllib.parse.urlencode({"filter[product_id]": pid, "page[size]": 100})
     variants = data_list(request("GET", f"/variants?{q}", key), "variants")
@@ -132,7 +132,7 @@ def discover(key: str) -> dict[str, str]:
     vid = str(variant.get("id"))
     q = urllib.parse.urlencode({"filter[variant_id]": vid, "page[size]": 100})
     files = data_list(request("GET", f"/files?{q}", key), "files")
-    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "final 1.0.0 file")
+    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "Verlune final 1.0.0 file")
     return validate_snapshot(store, product, variant, file_item)
 
 
@@ -174,6 +174,8 @@ def write_handoff(ids: dict[str, str], webhook_secret: str, provider_token: str,
     receipt = root / "starter-code-review-test-provider.json"
     receipt.write_text(json.dumps({
         "schema": "prompt-machine-g14-test-provider-v1",
+        "brand": STORE_NAME,
+        "product_name": PRODUCT_NAME,
         "state": "ACTION_REQUIRED",
         "stage": "VERCEL_ENV_IMPORT",
         "mode": "test",
@@ -191,17 +193,17 @@ def write_handoff(ids: dict[str, str], webhook_secret: str, provider_token: str,
 
 def self_test() -> int:
     store = {"id": "1", "attributes": {"name": STORE_NAME}}
-    product = {"id": "2", "attributes": {"name": PRODUCT_NAME, "status": "published", "test_mode": True, "buy_now_url": "https://prompt-quarry.lemonsqueezy.com/checkout/buy/test"}}
+    product = {"id": "2", "attributes": {"name": PRODUCT_NAME, "status": "published", "test_mode": True, "buy_now_url": "https://verlune.lemonsqueezy.com/checkout/buy/test"}}
     variant = {"id": "3", "attributes": {"test_mode": True, "is_subscription": False, "price": PRICE_CENTS}}
     file_item = {"id": "4", "attributes": {"name": ARCHIVE_NAME, "size": ARCHIVE_BYTES, "status": "published", "test_mode": True}}
     got = validate_snapshot(store, product, variant, file_item)
     assert got["store_id"] == "1" and got["checkout_url"].startswith("https://")
-    print("PM G14 TEST SETUP SELF TEST: PASS")
+    print("PM G14 VERLUNE TEST SETUP SELF TEST: PASS")
     return 0
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Prepare Prompt Machine Lemon Squeezy G14 test integration")
+    parser = argparse.ArgumentParser(description="Prepare Verlune Code Review Lemon Squeezy G14 test integration")
     parser.add_argument("--apply-webhook", action="store_true", help="create one test-mode order_created webhook")
     parser.add_argument("--non-interactive", action="store_true")
     parser.add_argument("--self-test", action="store_true")
@@ -213,6 +215,7 @@ def main() -> int:
     if not args.apply_webhook:
         print(json.dumps({
             "state": "PASS", "stage": "TEST_PROVIDER_DISCOVERY", "mode": "test",
+            "brand": STORE_NAME, "product_name": PRODUCT_NAME,
             "provider_ids": {k: ids[k] for k in ("store_id", "product_id", "variant_id", "file_id")},
             "checkout_url_present": True, "provider_side_effects": 0, "api_key_recorded": False,
             "byte_custody": "NOT_OBSERVABLE_IN_TEST_MODE",
@@ -225,6 +228,7 @@ def main() -> int:
     handoff = write_handoff(ids, webhook_secret, provider_token, webhook_id)
     print(json.dumps({
         "state": "ACTION_REQUIRED", "stage": "VERCEL_ENV_IMPORT", "mode": "test",
+        "brand": STORE_NAME, "product_name": PRODUCT_NAME,
         "webhook_created": True, "webhook_id": webhook_id, "webhook_url": WEBHOOK_URL,
         "env_file": str(handoff), "api_key_recorded": False, "real_money_effect": False,
         "next": "import the generated env file into prompt-quarry-stage Production and redeploy",
