@@ -1,0 +1,39 @@
+{
+  "schema": "prompt-machine-g14-test-webhook-receipt-v1",
+  "observed_at": "2026-09-08",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "release_version": "1.0.0-rc2",
+  "provider": "Lemon Squeezy",
+  "provider_mode": "test",
+  "state": "PASS",
+  "stage": "TEST_WEBHOOK_CREATED",
+  "webhook": {
+    "provider_webhook_id": "132724",
+    "url": "https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook",
+    "event_scope": [
+      "order_created"
+    ],
+    "signing_secret_recorded_in_repo": false
+  },
+  "vercel_handoff": {
+    "local_env_file_reported": "/home/eduardo/.local/share/prompt-machine/g14/starter-code-review-test-vercel.env",
+    "env_values_recorded_in_repo": false,
+    "import_observed": false,
+    "redeploy_observed": false
+  },
+  "safety": {
+    "api_key_recorded": false,
+    "real_money_effect": false,
+    "public_sale_enabled": false,
+    "live_mode_enabled": false
+  },
+  "remaining": [
+    "import generated Test-mode environment into prompt-quarry-stage Production",
+    "redeploy staging",
+    "verify private provider-test checkout redirect",
+    "complete one Lemon Squeezy Test-mode order",
+    "observe provider-signed order_created webhook",
+    "reserve Live byte-custody and delivery evidence for a later controlled canary"
+  ],
+  "claim_boundary": "Webhook creation proves only that the provider-side Test-mode webhook object exists at the declared URL. It does not prove Vercel configuration, signature acceptance, checkout, order creation, delivery, revenue, or readiness to sell."
+}
