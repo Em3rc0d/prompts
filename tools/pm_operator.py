@@ -24,9 +24,9 @@ from pathlib import Path
 DEFAULT_REMOTE = "origin"
 DEFAULT_BRANCH = "feat/workflow-kits-product-model-20260902"
 RELEASE_VERSION = "1.0.0"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
-EXPECTED_ARCHIVE_BYTES = 18955
-EXPECTED_ARCHIVE_SHA256 = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
+ARCHIVE_NAME = "verlune-code-review-v1.0.0.zip"
+EXPECTED_ARCHIVE_BYTES = 18859
+EXPECTED_ARCHIVE_SHA256 = "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
 EXPECTED_WORKFLOW_BYTES = 25295
 EXPECTED_WORKFLOW_SHA256 = "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
 
@@ -148,7 +148,7 @@ def run_release_checks(root: Path, *, details_dir: Path) -> tuple[list[CheckResu
                 ok=False,
                 returncode=2,
                 stdout=json.dumps(archive_observation, sort_keys=True),
-                stderr="final release archive identity differs from frozen 1.0.0 build/QA receipt",
+                stderr="Verlune final release archive identity differs from frozen 1.0.0 build/QA receipt",
             ))
 
     return results, archive_observation
@@ -164,6 +164,8 @@ def write_receipt(details: Path, *, head: str, remote: str, branch: str, results
         "branch": branch,
         "active_working_tree_modified": False,
         "external_effects": 0,
+        "customer_brand": "Verlune",
+        "customer_product": "Verlune Code Review",
         "release_version": RELEASE_VERSION,
         "customer_license_frozen": True,
         "archive": archive,
@@ -177,6 +179,8 @@ def write_receipt(details: Path, *, head: str, remote: str, branch: str, results
 
 def compact_print(*, state: str, stage: str, head: str, next_action: str, receipt: Path | None = None) -> None:
     print("PROMPT MACHINE OPERATOR")
+    print("customer_brand: Verlune")
+    print("customer_product: Verlune Code Review")
     print(f"state: {state}")
     print(f"stage: {stage}")
     print(f"head: {head}")
@@ -225,7 +229,7 @@ def isolated_release_check(root: Path, remote: str, branch: str) -> int:
             stage="G14_EXTERNAL_BOUNDARY",
             head=head,
             receipt=receipt,
-            next_action="Final 1.0.0 offline checks pass. Live provider identity/custody and delivery remain separately governed external gates.",
+            next_action="Verlune Code Review 1.0.0 offline checks pass. Live provider identity/custody and delivery remain separately governed external gates.",
         )
         return 0
     finally:
@@ -250,7 +254,7 @@ def local_release_check(root: Path) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Prompt Machine one-command operator")
+    parser = argparse.ArgumentParser(description="Prompt Machine one-command operator for the Verlune release")
     sub = parser.add_subparsers(dest="command", required=True)
     release = sub.add_parser("release-check", help="Run current release checks without provider/model/commerce side effects.")
     release.add_argument("--remote", default=DEFAULT_REMOTE)
