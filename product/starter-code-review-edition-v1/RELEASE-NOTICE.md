@@ -1,6 +1,6 @@
 # Release notes — 1.0.0
 
-This package is **Prompt Machine Starter — Code Review Edition 1.0.0**.
+This package is **Verlune Code Review 1.0.0**.
 
 ## Release identity
 
