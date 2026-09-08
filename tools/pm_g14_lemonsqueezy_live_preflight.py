@@ -21,10 +21,10 @@ API_BASE = "https://api.lemonsqueezy.com/v1"
 STORE_NAME = "Prompt Quarry"
 PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
 PRICE_CENTS = 900
-VERSION = "1.0.0-rc2"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
-ARCHIVE_BYTES = 19161
-ARCHIVE_SHA256 = "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88"
+VERSION = "1.0.0"
+ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_BYTES = 18955
+ARCHIVE_SHA256 = "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3"
 
 
 def emit(state: str, stage: str, **extra: object) -> None:
@@ -32,15 +32,7 @@ def emit(state: str, stage: str, **extra: object) -> None:
 
 
 def fail(stage: str, reason: str, code: int = 2) -> NoReturn:
-    emit(
-        "BLOCKED",
-        stage,
-        reason=reason,
-        mode="live",
-        api_key_recorded=False,
-        provider_side_effects=0,
-        real_money_effect=False,
-    )
+    emit("BLOCKED", stage, reason=reason, mode="live", api_key_recorded=False, provider_side_effects=0, real_money_effect=False)
     raise SystemExit(code)
 
 
@@ -58,13 +50,12 @@ def api_key(non_interactive: bool) -> str:
 
 def request(path: str, key: str) -> dict[str, Any]:
     req = urllib.request.Request(
-        f"{API_BASE}{path}",
-        method="GET",
+        f"{API_BASE}{path}", method="GET",
         headers={
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Live-Preflight/1.0",
+            "User-Agent": "Prompt-Machine-G14-Live-Preflight/1.1",
         },
     )
     try:
@@ -100,7 +91,7 @@ def one(items: list[dict[str, Any]], predicate, label: str) -> dict[str, Any]:
 
 
 def download_bytes(url: str) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "Prompt-Machine-G14-Live-Preflight/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "Prompt-Machine-G14-Live-Preflight/1.1"})
     try:
         with urllib.request.urlopen(req, timeout=60) as response:
             return response.read()
@@ -114,7 +105,7 @@ def download_bytes(url: str) -> bytes:
 
 def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
     stores = list_data(request("/stores?page[size]=100", key), "stores")
-    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Live Prompt Quarry store")
+    store = one(stores, lambda x: attrs(x).get("name") == STORE_NAME, "Live store")
     store_id = str(store.get("id"))
 
     q = urllib.parse.urlencode({"filter[store_id]": store_id, "page[size]": 100})
@@ -122,7 +113,6 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
     product = one(products, lambda x: attrs(x).get("name") == PRODUCT_NAME, "Live Code Review Edition product")
     pa = attrs(product)
     product_id = str(product.get("id"))
-
     if pa.get("test_mode") is not False:
         fail("LIVE_PRODUCT", "discovered product is not explicitly test_mode=false; do not reuse Test data")
     if pa.get("status") != "published":
@@ -132,11 +122,7 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
     variants = list_data(request(f"/variants?{q}", key), "variants")
     variant = one(
         variants,
-        lambda x: (
-            attrs(x).get("test_mode") is False
-            and attrs(x).get("is_subscription") is False
-            and int(attrs(x).get("price", -1)) == PRICE_CENTS
-        ),
+        lambda x: attrs(x).get("test_mode") is False and attrs(x).get("is_subscription") is False and int(attrs(x).get("price", -1)) == PRICE_CENTS,
         "$9 one-time Live variant",
     )
     va = attrs(variant)
@@ -146,7 +132,7 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
 
     q = urllib.parse.urlencode({"filter[variant_id]": variant_id, "page[size]": 100})
     files = list_data(request(f"/files?{q}", key), "files")
-    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "Live RC2 file")
+    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "Live final 1.0.0 file")
     fa = attrs(file_item)
     file_id = str(file_item.get("id"))
 
@@ -160,21 +146,12 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
     if observed_version not in (None, "", VERSION):
         fail("LIVE_FILE", f"version mismatch: expected {VERSION} or null, observed {observed_version}")
 
-    ids = {
-        "store_id": store_id,
-        "product_id": product_id,
-        "variant_id": variant_id,
-        "file_id": file_id,
-    }
+    ids = {"store_id": store_id, "product_id": product_id, "variant_id": variant_id, "file_id": file_id}
     metadata = {
-        "product_name": pa.get("name"),
-        "product_status": pa.get("status"),
-        "price_cents": va.get("price"),
-        "is_subscription": va.get("is_subscription"),
-        "archive_name": fa.get("name"),
-        "archive_size": fa.get("size"),
-        "archive_version": observed_version,
-        "archive_status": fa.get("status"),
+        "product_name": pa.get("name"), "product_status": pa.get("status"),
+        "price_cents": va.get("price"), "is_subscription": va.get("is_subscription"),
+        "archive_name": fa.get("name"), "archive_size": fa.get("size"),
+        "archive_version": observed_version, "archive_status": fa.get("status"),
         "download_url": fa.get("download_url"),
     }
     return ids, metadata
@@ -182,9 +159,10 @@ def discover(key: str) -> tuple[dict[str, str], dict[str, Any]]:
 
 def self_test() -> int:
     assert PRICE_CENTS == 900
-    assert ARCHIVE_BYTES == 19161
+    assert ARCHIVE_BYTES == 18955
     assert len(ARCHIVE_SHA256) == 64
-    assert VERSION == "1.0.0-rc2"
+    assert VERSION == "1.0.0"
+    assert ARCHIVE_NAME.endswith("v1.0.0.zip")
     print("PM G14 LEMON LIVE PREFLIGHT SELF TEST: PASS")
     return 0
 
@@ -214,23 +192,14 @@ def main() -> int:
         byte_evidence = {"observed": True, "bytes": len(body), "sha256": digest}
         stage = "LIVE_PROVIDER_CUSTODY"
 
-    # Never emit the signed provider download URL: it is short-lived capability data.
     public_metadata = {k: v for k, v in metadata.items() if k != "download_url"}
     emit(
-        "PASS",
-        stage,
-        mode="live",
-        canonical_live_ids=ids,
-        metadata=public_metadata,
-        provider_file_bytes=byte_evidence,
-        api_key_recorded=False,
-        signed_download_url_recorded=False,
-        customer_pii_recorded=False,
-        provider_side_effects=0,
-        real_money_effect=False,
-        public_sale_enabled=False,
+        "PASS", stage, mode="live", canonical_live_ids=ids, metadata=public_metadata,
+        provider_file_bytes=byte_evidence, api_key_recorded=False,
+        signed_download_url_recorded=False, customer_pii_recorded=False,
+        provider_side_effects=0, real_money_effect=False, public_sale_enabled=False,
         claim_boundary=(
-            "Live provider byte verification proves provider-held RC2 custody only. "
+            "Live provider byte verification proves provider-held final 1.0.0 custody only. "
             "It does not prove buyer delivery, customer value, real revenue, readiness to sell, or public-sale authorization."
         ),
     )
