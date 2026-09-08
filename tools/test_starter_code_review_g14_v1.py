@@ -39,6 +39,9 @@ def require(path: Path, tokens: tuple[str, ...]) -> str:
 
 
 def main() -> int:
+    # The web release adapter intentionally contains only the generic commerce
+    # release identity. Certification/model scope belongs to the governed
+    # provider verifier/receipts, not to CommerceReleaseIdentity.
     release = require(
         RELEASE,
         (
@@ -47,9 +50,7 @@ def main() -> int:
             f'archiveName: "{ARCHIVE}"',
             f"archiveSize: {ARCHIVE_BYTES}",
             ARCHIVE_SHA,
-            CERT_ID,
-            'validatedModel: "gemini-3.5-flash"',
-            'portabilityClassification: "MODEL_SPECIFIC"',
+            "CommerceReleaseIdentity",
         ),
     )
 
@@ -76,7 +77,7 @@ def main() -> int:
             'gate = "provider_test"',
             'gate = "live_canary"',
             'gate = "live"',
-            "releaseCheckoutCustomData",
+            "starterCodeReviewCheckoutCustomData",
         ),
     )
 
@@ -153,6 +154,7 @@ def main() -> int:
     print(f"archive_sha256={ARCHIVE_SHA}")
     print("commerce_mode_default=off")
     print("public_sale_default=NOT_FOR_SALE")
+    print("certification_scope_bound_in_provider_verifier=true")
     print("historical_starter_identity_leak=false")
     print("provider_calls=0")
     print("model_calls=0")
