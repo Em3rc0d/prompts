@@ -10,7 +10,7 @@ Prompt Machine product/release engine
 Prompt Quarry  evidence/certification factory
 ```
 
-Status: `VERLUNE CODE REVIEW 1.0.0 — G12/G13 PASS / HISTORICAL TEST PATH PASS / VERLUNE PROVIDER VALIDATION PENDING`
+Status: `VERLUNE CODE REVIEW 1.0.0 — G12/G13 PASS / HISTORICAL TEST PATH PASS / STORE BRANDING PASS / ACTIVATION IN REVIEW / VERLUNE PRODUCT VALIDATION PENDING`
 
 Current operational truth is in `STATUS_CURRENT.md`.
 
@@ -75,6 +75,23 @@ old 1347702  NOT_FOUND / superseded
 
 Test IDs must never be reused as Live IDs.
 
+## Current Lemon observation
+
+```text
+mode                    Test
+store name              Verlune
+logo                    OBSERVED
+activation application  SUBMITTED
+identity verification   IN_REVIEW
+provider approval       PENDING
+```
+
+Receipt:
+
+`commercial/VERLUNE_G14_LEMON_BRAND_AND_ACTIVATION_SUBMITTED_2026-09-08.json`
+
+This observation does not prove that the Test product or downloadable archive has been migrated to Verlune, and it does not imply Live readiness.
+
 Operator UX invariant:
 
 `one user action <= one command`
@@ -90,13 +107,15 @@ Current tooling is bound to the Verlune artifact while retaining stable internal
 ## Current external frontier
 
 ```text
-Verlune Lemon store name/product name     PENDING
-Verlune 1.0.0 Test file upload            PENDING
-read-only Test metadata revalidation       PENDING
-legitimate store activation                NOT AUTHORIZED / PENDING
-NEW Live provider IDs/API key              PENDING
-Live byte custody                          PENDING
-Live buyer delivery                        PENDING
+Verlune Lemon store name + logo          PASS / OBSERVED
+Verlune Code Review product rename       PENDING
+Verlune 1.0.0 Test file upload           PENDING
+read-only Test metadata revalidation      PENDING
+store activation application             SUBMITTED / IN REVIEW
+provider approval                        PENDING
+NEW Live provider IDs/API key             PENDING
+Live byte custody                         PENDING
+Live buyer delivery                       PENDING
 ```
 
 Commercial boundary:
