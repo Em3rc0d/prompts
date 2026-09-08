@@ -7,6 +7,9 @@ the Vercel CLI using stdin, redeploys the current production deployment, then
 verifies the private provider-test checkout gate and emits the final Lemon Test
 checkout URL. Secret values are never printed or embedded in command arguments.
 
+Use --resume-after-env when a prior run already completed all env upserts and only
+the redeploy/readiness phase failed. This avoids rewriting secrets unnecessarily.
+
 This operator does not activate Lemon Live mode, does not make a purchase, and
 does not change the public sale status to LIVE.
 """
@@ -19,7 +22,6 @@ import pathlib
 import shutil
 import stat
 import subprocess
-import sys
 import time
 import urllib.error
 import urllib.request
@@ -125,7 +127,6 @@ def ensure_auth(prefix: list[str]) -> None:
 
 
 def upsert_env(prefix: list[str], key: str, value: str) -> None:
-    # Values are sent over stdin so they never appear in argv/process listings.
     update_args = ["env", "update", key, "production"]
     if key in SECRET_KEYS:
         update_args.append("--sensitive")
@@ -142,14 +143,12 @@ def upsert_env(prefix: list[str], key: str, value: str) -> None:
 
 
 def redeploy(prefix: list[str]) -> None:
-    result = run_cli(prefix, ["redeploy", "prompt-quarry-stage.vercel.app", "--target=production", "--yes"], quiet=True)
-    if result.returncode == 0:
-        return
-    # Some CLI versions do not accept --target for redeploy. Retry without it;
-    # the source deployment is already the production deployment behind the alias.
-    fallback = run_cli(prefix, ["redeploy", "prompt-quarry-stage.vercel.app", "--yes"], quiet=True)
-    if fallback.returncode != 0:
-        detail = (fallback.stderr or result.stderr or "redeploy failed")[-500:]
+    # Vercel CLI 59 removed --yes from `vercel redeploy`; official syntax is
+    # `vercel redeploy [deployment-id or url]`. The stable production alias is
+    # used as the source deployment and retains the production target.
+    result = run_cli(prefix, ["redeploy", "prompt-quarry-stage.vercel.app"], quiet=True)
+    if result.returncode != 0:
+        detail = (result.stderr or result.stdout or "redeploy failed")[-500:]
         fail("VERCEL_REDEPLOY", detail)
 
 
@@ -171,7 +170,7 @@ def http_status(url: str, headers: dict[str, str] | None = None) -> tuple[int, d
 
 
 def wait_for_checkout(provider_token: str, attempts: int = 18) -> str:
-    headers = {"x-pm-starter-code-review-provider-test-token": provider_token, "User-Agent": "Prompt-Machine-G14-Vercel-Apply/1.0"}
+    headers = {"x-pm-starter-code-review-provider-test-token": provider_token, "User-Agent": "Prompt-Machine-G14-Vercel-Apply/1.1"}
     last_status = 0
     last_body = ""
     for _ in range(attempts):
@@ -215,6 +214,7 @@ def self_test() -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Apply Prompt Machine G14 Test-mode Vercel handoff")
     parser.add_argument("--handoff", type=pathlib.Path, default=DEFAULT_HANDOFF)
+    parser.add_argument("--resume-after-env", action="store_true", help="skip env upserts and continue from redeploy/readiness")
     parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
     if args.self_test:
@@ -224,8 +224,9 @@ def main() -> int:
     prefix = cli_prefix()
     ensure_auth(prefix)
 
-    for key in REQUIRED_KEYS:
-        upsert_env(prefix, key, values[key])
+    if not args.resume_after_env:
+        for key in REQUIRED_KEYS:
+            upsert_env(prefix, key, values[key])
 
     redeploy(prefix)
     verify_webhook_route()
@@ -236,6 +237,7 @@ def main() -> int:
         "TEST_CHECKOUT_READY",
         mode="test",
         project=PROJECT_NAME,
+        env_upserts_skipped=args.resume_after_env,
         webhook_route_ready=True,
         checkout_url=checkout_url,
         api_key_recorded=False,
