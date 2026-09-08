@@ -1,7 +1,7 @@
 # Prompt Machine Starter — Code Review Edition
 ## G14 Live Canary Plan v1
 
-Status: `L0 PASS / PRE-LIVE BRAND + STORE ACTIVATION PENDING / LIVE NOT AUTHORIZED`
+Status: `FINAL 1.0.0 FROZEN / L0 PASS / PRE-LIVE BRAND + STORE ACTIVATION PENDING / LIVE NOT AUTHORIZED`
 
 Date: 2026-09-08
 
@@ -11,21 +11,44 @@ Master invariant:
 
 `MARKETING CLAIM <= OBSERVED EVIDENCE`
 
+## Final customer artifact
+
+The release candidate packaging was superseded before Live because its customer surface contained transient launch-state text. The final customer artifact is now frozen and independently QA'd:
+
+```text
+prompt-machine-starter-code-review-edition-v1.0.0.zip
+18,955 bytes
+SHA-256 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
+8 members
+Pack QA 67/67 PASS
+```
+
+The certified workflow inside remains byte-identical:
+
+```text
+WORKFLOW.md bytes   25,295
+WORKFLOW.md SHA-256 6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
+```
+
+RC2 is historical Test-integration evidence only and must not be copied to Live or sold.
+
 ## Already observed
 
 ```text
-G14 Test product published                 PASS
-G14 Test provider metadata                 PASS
+G14 Test product published                 PASS — RC2 historical integration evidence
+G14 Test provider metadata                 PASS — RC2 historical integration evidence
 G14 Test webhook                           PASS
 G14 Test private checkout                  PASS
 G14 Test order                             PASS
 G14 Test signed order_created acceptance   PASS
 L0 Test provider identity reconciliation   PASS
+Final 1.0.0 deterministic rebuild          PASS
+Final 1.0.0 pack QA                        PASS — 67/67
 real purchase                              0
 real revenue                               0
 ```
 
-The Test integration is complete. It does not prove Live provider byte custody, Live buyer delivery, a real purchase, or readiness to sell.
+The Test integration proves the provider path works, but the exact final `1.0.0` archive still requires provider revalidation before Live.
 
 ## Provider separation invariant
 
@@ -38,13 +61,12 @@ Test store/product/variant/file ids  MUST NOT be copied into Live config
 Test API key                         MUST NOT be used for Live
 Test webhook secret                  MUST NOT be used for Live
 Test checkout URL                    MUST NOT be used for Live
+RC2 file identity                    MUST NOT be used as Live release identity
 ```
-
-The Live product must be copied/recreated in Live mode after store activation, then its Live Store/Product/Variant/File identities must be discovered and frozen independently.
 
 ## L0 — Test identity reconciliation — PASS
 
-Observed canonical Test identity:
+Canonical historical Test identity:
 
 ```text
 store_id             462419
@@ -64,10 +86,6 @@ Receipt:
 
 `commercial/STARTER_CODE_REVIEW_G14_TEST_ID_RECONCILIATION_PASS_2026-09-08.json`
 
-Tool:
-
-`tools/pm_g14_lemonsqueezy_id_reconcile.py`
-
 No Test ID may be reused as a Live fallback.
 
 ## L0.5 — Customer-facing brand boundary
@@ -86,10 +104,24 @@ Before buyer-facing Live checkout:
 - reconcile the Lemon customer-visible store name/branding with Prompt Machine;
 - keep supplier/legal identity truthful and distinct from display-brand decisions;
 - do not bypass provider identity/business verification;
-- do not expose internal Prompt Quarry terminology to buyers unless explicitly chosen as part of the commercial brand;
 - keep storefront/product public visibility OFF unless separately approved.
 
-A custom domain is optional and is not required for the first canary. Branding consistency is required.
+A custom domain is optional. Branding consistency is required.
+
+## L0.75 — Final Test artifact revalidation
+
+Before using the Test product as the source for `Copy to Live Mode`, replace the historical RC2 file with the exact final `1.0.0` archive and run the read-only Test metadata probe.
+
+Expected Test artifact:
+
+```text
+filename  prompt-machine-starter-code-review-edition-v1.0.0.zip
+bytes     18,955
+sha256    9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
+price     USD 9.00 one-time
+```
+
+Because Lemon disables Test-mode file downloads, this stage can prove final Test metadata but not byte custody. A second Test purchase is optional evidence and is not automatically required solely to establish Live custody.
 
 ## L1 — Store activation
 
@@ -99,27 +131,27 @@ Required:
 
 - complete Lemon Squeezy business questionnaire truthfully;
 - complete provider identity verification using the legitimate account/supplier identity;
-- comply with any provider eligibility requirements; do not bypass them;
+- comply with provider eligibility requirements; do not bypass them;
 - wait for provider approval.
 
 No public checkout is enabled by Prompt Machine during this stage.
 
-## L2 — Copy RC2 to Live
+## L2 — Copy final 1.0.0 to Live
 
-After activation:
+After activation and final Test artifact revalidation:
 
 - switch Lemon dashboard to Live mode;
-- use `Copy to Live Mode` on the exact Test product;
+- use `Copy to Live Mode` on the exact final Test product;
 - confirm one-time price remains USD 9.00;
 - confirm public storefront remains disabled unless separately approved;
-- confirm exact RC2 file is attached.
+- confirm the final `1.0.0` file is attached.
 
-Canonical artifact remains:
+Canonical artifact:
 
 ```text
-prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip
-19,161 bytes
-SHA-256 1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88
+prompt-machine-starter-code-review-edition-v1.0.0.zip
+18,955 bytes
+SHA-256 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
 ```
 
 ## L3 — Freeze Live provider identity
@@ -142,9 +174,9 @@ No Test ID is accepted as a fallback.
 Before making any real order, use the Live File API object to retrieve a fresh signed `download_url` and verify:
 
 ```text
-filename = prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip
-bytes    = 19,161
-sha256   = 1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88
+filename = prompt-machine-starter-code-review-edition-v1.0.0.zip
+bytes    = 18,955
+sha256   = 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
 ```
 
 Prepared read-only operator:
@@ -163,15 +195,13 @@ If byte identity fails: `BLOCKED`; no order is allowed.
 
 Use separate Live values:
 
-- `LEMONSQUEEZY_STARTER_CODE_REVIEW_WEBHOOK_SECRET`;
+- a new Live webhook secret;
 - Live Store/Product/Variant IDs;
 - a new private live-canary gate token;
 - `STARTER_CODE_REVIEW_COMMERCE_MODE=live_canary`;
 - `NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE`.
 
-Webhook event scope remains bounded to `order_created` for the first canary.
-
-Public checkout stays OFF.
+Webhook event scope remains bounded to `order_created` for the first canary. Public checkout stays OFF.
 
 ## L6 — Buyer-delivery canary
 
@@ -181,12 +211,10 @@ Purpose:
 
 - make at most one controlled Live order if still required;
 - observe provider-signed `order_created`;
-- confirm buyer receives access to the exact RC2 file;
-- verify the buyer-facing download produces the exact 19,161-byte / SHA-256 RC2.
+- confirm buyer receives access to the exact final `1.0.0` file;
+- verify the buyer-facing download produces exactly 18,955 bytes and the canonical SHA-256.
 
 This stage may involve a real transaction. It is not authorized by Test completion or by this plan.
-
-A zero-cost path may be evaluated separately, but must not weaken the property being tested or alter the frozen $9 release identity without an explicit experimental classification.
 
 ## L7 — G14 Live decision
 
@@ -204,7 +232,8 @@ No stage automatically enables public sales.
 ## Fail-closed boundaries
 
 ```text
-Test integration PASS     != Live custody
+historical RC2 Test PASS  != final 1.0.0 provider validation
+Test metadata PASS        != Live custody
 Live custody PASS         != buyer delivery
 buyer delivery PASS       != customer value
 real canary order         != PQ-$1 unless it is a genuine non-test customer purchase
@@ -214,4 +243,4 @@ READY_TO_SELL             != PUBLIC_CHECKOUT ON
 
 ## Current frontier
 
-`L0.5 customer-facing brand reconciliation + L1 legitimate store activation`
+`L0.5 customer-facing brand reconciliation + L0.75 final Test artifact upload/revalidation + L1 legitimate store activation`
