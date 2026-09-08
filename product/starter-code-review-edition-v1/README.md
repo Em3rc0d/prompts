@@ -1,8 +1,8 @@
-# Prompt Machine Starter — Code Review Edition
+# Verlune Code Review
 
 Version: `1.0.0`
 
-Prompt Machine Starter — Code Review Edition is a governed workflow package for reviewing software changes with explicit evidence discipline, calibrated uncertainty, and a human-controlled ship recommendation.
+Verlune Code Review is a governed workflow package for reviewing software changes with explicit evidence discipline, calibrated uncertainty, and a human-controlled ship recommendation.
 
 ## What is included
 
