@@ -1,6 +1,6 @@
 # Evidence and claim boundary
 
-This file defines the strongest claims currently supported for Prompt Machine Starter — Code Review Edition `1.0.0-rc1`.
+This file defines the strongest claims currently supported for Prompt Machine Starter — Code Review Edition `1.0.0-rc2`.
 
 ## Exact workflow identity
 
@@ -13,6 +13,8 @@ authority    ADVISORY_ONLY
 ```
 
 `WORKFLOW.md` in the built package is generated from the exact certified composite identity: Evidence-first Code Review v2.1 base plus the normative v2.2 hardening addendum in the frozen composition order.
+
+RC2 changes the customer/commercial packaging layer by adding a frozen customer license and sale terms. It does not change the certified `WORKFLOW.md` bytes.
 
 ## Observed behavioral evidence
 
@@ -69,21 +71,24 @@ The certification covers the exact v2.2 surface and frozen four-case Gemini 3.5 
 
 This workflow was not declared successful after its first result. The preserved path includes an over-certainty failure, failure mining, a versioned successor, truncation/runtime configuration failure, repeated speculative-finding failures, hardening, and the final 4/4 passing regression batch.
 
-Certification is tied to the final candidate and final passing evidence, not to an erased history.
+Certification is tied to the final workflow candidate and final passing evidence, not to an erased history.
 
-## Commercial evidence not yet implied by this file
+## Packaging and license evidence
 
-This evidence does not establish:
+RC2 freezes the customer-facing usage license and sale terms into the deterministic package. This proves package composition only.
+
+It does **not** prove:
 
 - provider custody;
 - checkout integration;
+- provider-signed purchase;
 - live customer delivery;
 - real customer value;
 - real purchases;
 - `PQ-$1`;
 - readiness to sell.
 
-Those remain separate release gates.
+Those remain separate G14/external evidence classes.
 
 Master rule:
 
