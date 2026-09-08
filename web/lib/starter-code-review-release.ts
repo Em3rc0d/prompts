@@ -6,11 +6,11 @@ import {
 
 export const STARTER_CODE_REVIEW_RELEASE = Object.freeze({
   productId: "prompt-machine-starter-code-review-edition",
-  version: "1.0.0-rc1",
-  archiveName: "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip",
-  archiveSize: 14667,
-  archiveSha256: "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
-  sourceCommit: "010bc9400c7804160644d7f60ee9134c8546f63b",
+  version: "1.0.0-rc2",
+  archiveName: "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+  archiveSize: 19161,
+  archiveSha256: "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+  sourceCommit: "c2e9667f4382e589d1430db609215d369486bbfe",
 } as const satisfies CommerceReleaseIdentity);
 
 export type { CommerceGate };
