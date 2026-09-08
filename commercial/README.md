@@ -1,6 +1,6 @@
 # Prompt Machine Commercial System
 
-Status: `CODE REVIEW EDITION RC2 — G14 TEST WEBHOOK OBSERVED / VERCEL APPLY PENDING / PUBLIC SALE OFF`
+Status: `CODE REVIEW EDITION RC2 — G14 TEST INTEGRATION PASS / LIVE CUSTODY + DELIVERY PENDING / PUBLIC SALE OFF`
 
 Current operational truth is in `STATUS_CURRENT.md`.
 
@@ -37,30 +37,27 @@ G10 KEEP / RECORDED
 G11 PASS_FOR_EXACT_DECLARED_SCOPE
 G12 PASS — RC2
 G13 PASS — RC2, 65/65
-G14 TEST PRODUCT + WEBHOOK OBSERVED / VERCEL APPLY + TEST ORDER PENDING
+G14 TEST INTEGRATION PASS / LIVE CUSTODY + DELIVERY PENDING
 ```
 
-Observed externally in Lemon Squeezy Test mode:
+Observed G14 Test path:
 
 ```text
-Test product published       PASS
-provider metadata            PASS
-Test webhook id 132724       PASS
-Test webhook event           order_created
-Test-mode byte custody       NOT OBSERVABLE BY PROVIDER DESIGN
+Test product published                    PASS
+provider metadata                         PASS
+Test webhook                              PASS
+Vercel env + redeploy                     PASS
+private provider-test checkout            PASS
+paid Test order                           PASS
+provider-signed order_created             PASS
+webhook HTTP                              200
+runtime event                             provider_test_order_accepted
+release identity                          RC2 / 19,161 / SHA-256 MATCH
 ```
 
-Remaining G14 evidence:
+Test-mode byte custody is unavailable by provider design and is not inferred from this Test order. Live byte custody and delivery remain unobserved.
 
-```text
-Vercel Test env import                     NOT OBSERVED
-Vercel Test redeploy                       NOT OBSERVED
-private provider-test checkout redirect    NOT OBSERVED
-provider test checkout/order               NOT OBSERVED
-signed order_created accepted              NOT OBSERVED
-Live provider byte custody                 NOT OBSERVED
-Live delivery canary                       NOT OBSERVED
-```
+A historical provider-ID discrepancy is intentionally preserved: an earlier dashboard URL exposed `1347702`, while the provider-signed accepted order carried product `1347720` and variant `2105176`. Reconcile and freeze the actual Live provider IDs before any Live canary.
 
 Operator UX invariant:
 
@@ -70,7 +67,7 @@ Current G14 operators:
 
 - `tools/pm_g14_lemonsqueezy_probe.py` — read-only Test metadata.
 - `tools/pm_g14_lemonsqueezy_test_setup.py` — bounded Test webhook setup.
-- `tools/pm_g14_vercel_test_apply.py` — imports owner-only Vercel handoff, redeploys staging, verifies private checkout gate and emits only the Lemon Test checkout URL.
+- `tools/pm_g14_vercel_test_apply.py` — Vercel Test handoff + redeploy + private checkout verification.
 - `tools/verify_lemonsqueezy_starter_code_review_file.py` — later controlled Live byte-custody verification.
 
 Commercial boundary:
