@@ -1,6 +1,6 @@
 # Starter Code Review — Lemon Squeezy G14 handoff
 
-Status: `TEST PRODUCT PUBLISHED / PROVIDER METADATA PASS / TEST WEBHOOK + ORDER PENDING / PUBLIC SALE OFF`
+Status: `TEST PRODUCT + WEBHOOK OBSERVED / VERCEL APPLY PENDING / PUBLIC SALE OFF`
 
 This handoff is for the exact Prompt Machine Starter — Code Review Edition RC2.
 
@@ -10,11 +10,10 @@ This handoff is for the exact Prompt Machine Starter — Code Review Edition RC2
 store                    Prompt Quarry
 mode                     Test mode
 product                  Prompt Machine Starter — Code Review Edition
-product id               1347702
 price                    USD 9.00 one-time
 subscription             NO
-product status           Published
 archive                  prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip
+archive version          1.0.0-rc2
 archive bytes            19,161
 archive SHA-256          1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88
 archive members          8
@@ -25,96 +24,72 @@ public checkout          OFF
 
 Do not substitute RC1 or the historical Starter Collection archive.
 
-## Evidence already observed
+## Observed provider state
 
-The Lemon Squeezy Test-mode product is published at $9 one-time. The provider API observation matched:
+Observed externally on 2026-09-08:
 
 ```text
-RC2 filename             PASS
-provider-reported size   19,161 bytes / PASS
-file status              published / PASS
-test_mode                true / PASS
+Test product             Published
+provider product id      1347702
+$9 one-time variant      observed
+RC2 filename             match
+provider file size       19,161
+provider file status     published
+provider metadata        PASS
+Test webhook id          132724
+Test webhook event       order_created
+Test webhook target      https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook
 ```
 
-Lemon returned no file version. `File.version` is optional provider metadata and is not cryptographic identity.
+The webhook signing secret is not stored in the repository.
 
-A direct file download returned HTTP 403. This is expected for this phase because Lemon Squeezy documents file downloads as disabled for Test-mode purchases. Therefore:
+## Test-mode byte boundary
+
+Lemon Squeezy disables file downloads in Test mode. Therefore the observed HTTP 403 from the Test-mode file `download_url` is classified as an expected provider restriction, not a custody failure and not custody evidence.
 
 ```text
 provider metadata        OBSERVED / PASS
+Test webhook object      OBSERVED / PASS
 Test-mode byte custody   NOT OBSERVABLE BY PROVIDER DESIGN
-Live byte custody        NOT YET OBSERVED
 ```
 
-Do not convert the Test-mode 403 into a custody FAIL or a custody PASS.
+Exact provider-held byte custody remains a later controlled Live-canary property.
 
-## Stable staging receiver
+## One-command Vercel Test apply
 
-The deployed POST-only webhook endpoint is:
+The Lemon setup operator generated this owner-only handoff on the user's machine:
 
-`https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook`
+`~/.local/share/prompt-machine/g14/starter-code-review-test-vercel.env`
 
-A GET to this path returns HTTP 405, confirming the route exists while remaining method-restricted.
+`tools/pm_g14_vercel_test_apply.py` consumes that file and, in one action:
 
-## One-command Test integration setup
+1. verifies the handoff remains owner-only and `NOT_FOR_SALE` / `test`;
+2. authenticates Vercel CLI if necessary;
+3. upserts the eight required `prompt-quarry-stage` Production variables through stdin so secret values never appear in argv;
+4. redeploys the staging production alias;
+5. checks that the webhook route remains POST-only;
+6. calls the private provider-test checkout gate with the local token;
+7. emits only the final Lemon Test checkout URL.
 
-The next bounded operator is:
+It does not enable Lemon Live mode, does not enable public checkout and does not make a purchase.
 
-```bash
-python3 <(curl -fsSL 'https://raw.githubusercontent.com/Em3rc0d/prompts/feat/workflow-kits-product-model-20260902/tools/pm_g14_lemonsqueezy_test_setup.py') --apply-webhook
-```
-
-Behavior:
-
-1. asks for the Test-mode Lemon API key using a hidden prompt if it is not already loaded;
-2. discovers Store → Product → Variant → File and the reusable provider checkout URL;
-3. validates product is Published, Test mode, one-time $9 and bound to the exact RC2 provider metadata;
-4. generates a dedicated webhook signing secret and a separate provider-test checkout gate token;
-5. creates exactly one Test-mode Lemon webhook for `order_created` at the stable staging URL;
-6. writes the Vercel handoff to a chmod-0600 local file;
-7. never prints or persists the Lemon API key;
-8. records no real-money purchase and enables no public sale.
-
-Expected state after a successful provider setup:
+## Remaining Test integration path
 
 ```text
-state              ACTION_REQUIRED
-stage              VERCEL_ENV_IMPORT
-webhook_created    true
-real_money_effect  false
+Vercel env import
+        ↓
+staging redeploy
+        ↓
+private provider-test checkout redirect
+        ↓
+one zero-real-money Lemon Test order
+        ↓
+provider-signed order_created accepted
+        ↓
+G14 TEST-MODE integration decision
 ```
 
-The generated handoff file contains only the Test-mode environment required by `prompt-quarry-stage`, including exact provider IDs, the Test checkout URL and the two generated secrets. Secrets are excluded from receipts.
-
-## After Vercel import
-
-Once the generated environment is imported to `prompt-quarry-stage` and that project is redeployed, the remaining zero-real-money Test sequence is:
-
-```text
-Test webhook configured
-        ↓
-private provider-test checkout route
-        ↓
-Lemon Test checkout
-        ↓
-Test card / no real charge
-        ↓
-Test order_created
-        ↓
-signed webhook accepted by Prompt Machine
-        ↓
-G14 TEST-MODE integration PASS
-```
-
-Test-mode integration PASS is still not Live delivery evidence and is not revenue evidence.
-
-## Live-only evidence later
-
-Byte-level custody/delivery is intentionally deferred until a controlled Live canary because Lemon disables Test-mode file downloads. The Live verifier remains:
-
-`tools/verify_lemonsqueezy_starter_code_review_file.py`
-
-No Live canary, real purchase, public checkout, or store activation is authorized by this handoff.
+Only after Test integration is closed do we consider the separate Live canary for provider-held byte custody and delivery.
 
 Master rule:
 
