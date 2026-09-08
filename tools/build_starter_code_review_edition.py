@@ -4,6 +4,8 @@
 The customer WORKFLOW.md is materialized from the exact v2.1 base + normative
 v2.2 addendum composition that earned the scoped G11 certification. The build
 fails closed if source blob identities or composite bytes drift.
+
+RC2 additionally freezes the customer license and sale terms inside the archive.
 """
 from __future__ import annotations
 
@@ -15,9 +17,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_MANIFEST = ROOT / "product/starter-code-review-edition-v1/MANIFEST.source.json"
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip"
+ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
 RECEIPT_NAME = "build-receipt.json"
-BUILDER_VERSION = "1.0.0"
+BUILDER_VERSION = "1.1.0"
 FIXED_ZIP_TIME = (1980, 1, 1, 0, 0, 0)
 
 
@@ -75,6 +77,11 @@ def build(out_dir: Path) -> dict:
     source = json.loads(SOURCE_MANIFEST.read_text(encoding="utf-8"))
     wf = source["workflow"]
 
+    if source.get("version") != "1.0.0-rc2":
+        raise SystemExit("FAIL: source manifest is not the frozen rc2 candidate")
+    if source.get("customer_license_frozen") is not True:
+        raise SystemExit("FAIL: rc2 requires a frozen customer license")
+
     base_path = ROOT / wf["base_path"]
     addendum_path = ROOT / wf["addendum_path"]
     base_raw = base_path.read_bytes()
@@ -98,6 +105,8 @@ def build(out_dir: Path) -> dict:
         "product/starter-code-review-edition-v1/README.md": "README.md",
         "product/starter-code-review-edition-v1/QUICKSTART.md": "QUICKSTART.md",
         "product/starter-code-review-edition-v1/EVIDENCE.md": "EVIDENCE.md",
+        "product/starter-code-review-edition-v1/CUSTOMER-LICENSE.md": "CUSTOMER-LICENSE.md",
+        "product/starter-code-review-edition-v1/SALE-TERMS.md": "SALE-TERMS.md",
         "product/starter-code-review-edition-v1/RELEASE-NOTICE.md": "RELEASE-NOTICE.md",
     }
 
@@ -116,6 +125,8 @@ def build(out_dir: Path) -> dict:
         "authority": source["authority"],
         "public_sale": source["public_sale"],
         "customer_license_frozen": source["customer_license_frozen"],
+        "customer_license_version": source["customer_license_version"],
+        "sale_terms_version": source["sale_terms_version"],
         "workflow": {
             "workflow_id": wf["workflow_id"],
             "contract_version": wf["contract_version"],
@@ -167,8 +178,10 @@ def build(out_dir: Path) -> dict:
         "workflow_bytes": len(workflow),
         "workflow_sha256": sha256(workflow),
         "payload_fingerprint_sha256": payload_manifest["payload_fingerprint_sha256"],
-        "public_sale": False,
-        "customer_license_frozen": False,
+        "public_sale": source["public_sale"],
+        "customer_license_frozen": source["customer_license_frozen"],
+        "customer_license_version": source["customer_license_version"],
+        "sale_terms_version": source["sale_terms_version"],
         "portability_classification": source["portability_classification"],
         "validated_model": source["validated_model"],
         "certification_id": source["certification_id"],
