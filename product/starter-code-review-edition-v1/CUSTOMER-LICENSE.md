@@ -1,8 +1,8 @@
-# Prompt Machine Customer License — Code Review Edition
+# Verlune Customer License — Code Review
 
 Version: `1.0`
 
-This license applies to **Prompt Machine Starter — Code Review Edition** when obtained through an authorized paid distribution channel for this product.
+This license applies to **Verlune Code Review** when obtained through an authorized paid distribution channel for this product.
 
 ## 1. License grant
 
@@ -61,7 +61,7 @@ If a purchase is fully refunded, reversed, or charged back, the license granted 
 
 ## 8. Intellectual property
 
-Except for rights expressly granted in this license, the seller retains its rights in the Prompt Machine workflow, documentation, product identity, and original product materials. Third-party names and trademarks remain the property of their respective owners.
+Except for rights expressly granted in this license, the seller retains its rights in the Verlune product materials, documentation, product identity, and original product materials. Third-party names and trademarks remain the property of their respective owners.
 
 ## 9. No warranty
 
@@ -69,6 +69,6 @@ To the maximum extent permitted by applicable law, the product is provided witho
 
 ## 10. Entire product-license scope
 
-This file governs usage rights for the delivered Prompt Machine product materials. Checkout, payment, tax, refund, privacy, and merchant-of-record obligations may also be governed by terms presented by the authorized commerce provider at purchase.
+This file governs usage rights for the delivered Verlune product materials. Checkout, payment, tax, refund, privacy, and merchant-of-record obligations may also be governed by terms presented by the authorized commerce provider at purchase.
 
 If a mandatory law gives the purchaser rights that cannot be waived, those rights remain unaffected.
