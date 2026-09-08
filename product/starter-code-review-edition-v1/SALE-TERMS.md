@@ -1,8 +1,8 @@
-# Prompt Machine Starter — Code Review Edition: Sale Terms
+# Verlune Code Review: Sale Terms
 
 Version: `1.0`
 
-These product-specific terms describe the commercial scope of **Prompt Machine Starter — Code Review Edition**. They supplement the customer license and the checkout terms presented by the authorized merchant of record.
+These product-specific terms describe the commercial scope of **Verlune Code Review**. They supplement the customer license and the checkout terms presented by the authorized merchant of record.
 
 ## Product
 
@@ -21,7 +21,7 @@ The product is a **digital good**, not a consulting, managed code-review, implem
 
 After a successful authorized purchase, delivery is expected through the merchant of record's digital-product delivery mechanism.
 
-The canonical release artifact is identified in `MANIFEST.json`. A different archive identity is not the same certified release unless Prompt Machine publishes a successor release with its own evidence.
+The canonical release artifact is identified in `MANIFEST.json`. A different archive identity is not the same certified release unless Verlune publishes a successor release with its own evidence.
 
 ## AI/model access is not included
 
@@ -59,7 +59,7 @@ If the purchaser sends source code or other data to an AI/model provider while u
 
 ## License
 
-Usage rights are defined in `CUSTOMER-LICENSE.md`. A purchase does not transfer ownership of the Prompt Machine workflow itself.
+Usage rights are defined in `CUSTOMER-LICENSE.md`. A purchase does not transfer ownership of the Verlune product materials themselves.
 
 ## Evidence boundary
 
