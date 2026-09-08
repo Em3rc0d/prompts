@@ -18,7 +18,8 @@ Master rule:
 4. `STARTER_CODE_REVIEW_EDITION_RELEASE_PROFILE_RC2_V1.json`
 5. `STARTER_CODE_REVIEW_G12_PACK_REBUILD_RC2_PASS_2026-09-08.json`
 6. `STARTER_CODE_REVIEW_G13_PACK_QA_RC2_PASS_2026-09-08.json`
-7. `../certification/receipts/starter-code-review-v2.2-g11-certification.json`
+7. `STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md`
+8. `../certification/receipts/starter-code-review-v2.2-g11-certification.json`
 
 Older snapshots and RC1 receipts are historical evidence and do not override current state.
 
@@ -64,7 +65,7 @@ G11 certification remains deliberately narrow: `PM-CERT-STARTER-CR-V2.2-GEMINI-S
 
 ## Observed G14 state
 
-Lemon Squeezy Test mode now contains the exact $9 one-time Code Review Edition product in `Published` state. Provider metadata observed for RC2 matches the frozen filename, size `19,161`, published status and Test mode.
+Lemon Squeezy Test mode contains the exact $9 one-time Code Review Edition product in `Published` state. Provider metadata observed for RC2 matches the frozen filename, size `19,161`, published status and Test mode.
 
 ```text
 Test product published       PASS
@@ -84,7 +85,7 @@ Operational UX rule:
 `one user action <= one command`
 
 - `tools/pm_operator.py` performs offline release checks in an isolated worktree.
-- `tools/pm_g14_lemonsqueezy_probe.py` performs read-only Test-mode discovery and metadata validation. It no longer pretends byte custody can be observed in Test mode.
+- `tools/pm_g14_lemonsqueezy_probe.py` performs read-only Test-mode discovery and metadata validation. It does not claim byte custody in Test mode.
 - `tools/pm_g14_lemonsqueezy_test_setup.py` discovers Store/Product/Variant/File and checkout identity, generates separate signing/gate secrets, and can create exactly one Test-mode `order_created` webhook when explicitly invoked with `--apply-webhook`.
 
 The Lemon API key is neither printed nor persisted. Generated secrets are excluded from receipts and written only to a chmod-0600 local Vercel handoff file.
