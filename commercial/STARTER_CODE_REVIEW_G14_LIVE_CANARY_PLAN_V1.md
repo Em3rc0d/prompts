@@ -1,26 +1,37 @@
-# Prompt Machine Starter — Code Review Edition
+# Verlune Code Review
 ## G14 Live Canary Plan v1
 
-Status: `FINAL 1.0.0 FROZEN / L0 PASS / PRE-LIVE BRAND + STORE ACTIVATION PENDING / LIVE NOT AUTHORIZED`
+Status: `VERLUNE 1.0.0 FROZEN / BRAND ADOPTED / LEMON TEST REBRAND + FILE REVALIDATION PENDING / LIVE NOT AUTHORIZED`
 
 Date: 2026-09-08
 
-This plan prevents Test-mode success from being promoted into an unbounded Live launch.
+This plan prevents historical Test-mode success from being promoted into an unbounded Live launch.
 
 Master invariant:
 
 `MARKETING CLAIM <= OBSERVED EVIDENCE`
 
-## Final customer artifact
-
-The release candidate packaging was superseded before Live because its customer surface contained transient launch-state text. The final customer artifact is now frozen and independently QA'd:
+## Brand architecture
 
 ```text
-prompt-machine-starter-code-review-edition-v1.0.0.zip
-18,955 bytes
-SHA-256 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
-8 members
-Pack QA 67/67 PASS
+Verlune        customer-facing masterbrand
+Prompt Machine internal product/release engine
+Prompt Quarry  internal evidence/certification factory
+```
+
+Stable `pm` / `pq` machine IDs may remain for evidence continuity. Buyer-facing product copy, packaging, store name and product name use Verlune.
+
+## Canonical customer artifact
+
+```text
+product     Verlune Code Review
+version     1.0.0
+archive     verlune-code-review-v1.0.0.zip
+bytes       18,859
+SHA-256     4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649
+payload fp  46554b5aa36166e6bee7f07b572fa4bece29811270e014cb96381099c87ca430
+members     8
+Pack QA     77/77 PASS
 ```
 
 The certified workflow inside remains byte-identical:
@@ -30,43 +41,38 @@ WORKFLOW.md bytes   25,295
 WORKFLOW.md SHA-256 6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
 ```
 
-RC2 is historical Test-integration evidence only and must not be copied to Live or sold.
+RC1, RC2 and the pre-Live Prompt Machine-branded final package are historical/superseded packaging evidence only. None may be copied to Live or sold as Verlune Code Review.
 
 ## Already observed
 
 ```text
-G14 Test product published                 PASS — RC2 historical integration evidence
-G14 Test provider metadata                 PASS — RC2 historical integration evidence
-G14 Test webhook                           PASS
-G14 Test private checkout                  PASS
-G14 Test order                             PASS
-G14 Test signed order_created acceptance   PASS
-L0 Test provider identity reconciliation   PASS
-Final 1.0.0 deterministic rebuild          PASS
-Final 1.0.0 pack QA                        PASS — 67/67
-real purchase                              0
-real revenue                               0
+G14 historical Test product published                 PASS — RC2 evidence
+G14 historical Test provider metadata                 PASS — RC2 evidence
+G14 Test webhook                                      PASS
+G14 Test private checkout                             PASS
+G14 Test order                                        PASS
+G14 Test signed order_created acceptance              PASS
+L0 Test provider identity reconciliation              PASS
+Verlune 1.0.0 deterministic rebuild                   PASS
+Verlune 1.0.0 Pack QA                                 PASS — 77/77
+real purchase                                         0
+real revenue                                          0
 ```
 
-The Test integration proves the provider path works, but the exact final `1.0.0` archive still requires provider revalidation before Live.
+Historical Test success proves the integration path, not provider validation of the new Verlune package.
 
 ## Provider separation invariant
 
-Lemon Squeezy Test mode and Live mode are separate provider data sets. Test products and IDs are not production identities.
-
-Therefore:
+Lemon Squeezy Test and Live are separate provider data sets. Therefore:
 
 ```text
-Test store/product/variant/file ids  MUST NOT be copied into Live config
-Test API key                         MUST NOT be used for Live
-Test webhook secret                  MUST NOT be used for Live
-Test checkout URL                    MUST NOT be used for Live
-RC2 file identity                    MUST NOT be used as Live release identity
+Test IDs / API key / checkout URL       MUST NOT be Live fallbacks
+historical RC2 archive identity          MUST NOT be Live release identity
+pre-brand Prompt Machine archive         MUST NOT be Live release identity
+Verlune archive identity                 MUST match exact frozen bytes before Live
 ```
 
-## L0 — Test identity reconciliation — PASS
-
-Canonical historical Test identity:
+## L0 — Historical Test identity reconciliation — PASS
 
 ```text
 store_id             462419
@@ -74,13 +80,8 @@ product_id           1347720
 variant_id           2105176
 provider order_id    9415856
 order number         4624191
-same-name products   1
 historical 1347702   API NOT_FOUND
 ```
-
-Resolution:
-
-`API Product + Variant + paid Test order agree on the signed provider identity.`
 
 Receipt:
 
@@ -88,77 +89,73 @@ Receipt:
 
 No Test ID may be reused as a Live fallback.
 
-## L0.5 — Customer-facing brand boundary
+## L0.5 — Customer-facing brand — ADOPTED / PROVIDER UPDATE PENDING
 
-Required before Live activation/copy is treated as release progress.
+Brand decision is frozen in:
 
-The observed Test checkout/order showed `By Prompt Quarry` while the product architecture defines:
+`commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md`
+
+Required Lemon Test state before further release progress:
 
 ```text
-Prompt Machine = customer-facing platform/product
-Prompt Quarry  = internal workflow mining/certification factory
+Store name    Verlune
+Product name  Verlune Code Review
+Price         USD 9.00 one-time
 ```
 
-Before buyer-facing Live checkout:
+The internal webhook hostname may remain `prompt-quarry-stage.vercel.app`; it is infrastructure, not buyer-facing branding.
 
-- reconcile the Lemon customer-visible store name/branding with Prompt Machine;
-- keep supplier/legal identity truthful and distinct from display-brand decisions;
-- do not bypass provider identity/business verification;
-- keep storefront/product public visibility OFF unless separately approved.
+Legal/supplier identity must remain truthful and distinct from display-brand decisions. Provider verification must not be bypassed.
 
-A custom domain is optional. Branding consistency is required.
+## L0.75 — Verlune Test artifact revalidation
 
-## L0.75 — Final Test artifact revalidation
+Replace the historical downloadable file with the exact Verlune package and run the read-only Test metadata probe.
 
-Before using the Test product as the source for `Copy to Live Mode`, replace the historical RC2 file with the exact final `1.0.0` archive and run the read-only Test metadata probe.
-
-Expected Test artifact:
+Expected:
 
 ```text
-filename  prompt-machine-starter-code-review-edition-v1.0.0.zip
-bytes     18,955
-sha256    9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
+filename  verlune-code-review-v1.0.0.zip
+bytes     18,859
+sha256    4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649
 price     USD 9.00 one-time
+store     Verlune
+product   Verlune Code Review
 ```
 
-Because Lemon disables Test-mode file downloads, this stage can prove final Test metadata but not byte custody. A second Test purchase is optional evidence and is not automatically required solely to establish Live custody.
+Prepared probe:
+
+`tools/pm_g14_lemonsqueezy_probe.py`
+
+The probe anchors Test discovery to canonical store id `462419` and then requires the visible store name to be `Verlune`. It has no provider side effects.
+
+Because Lemon disables Test-mode file downloads, this stage proves metadata, not byte custody. A second Test purchase is not automatically required merely to establish Live custody.
 
 ## L1 — Store activation
 
-Owner action only. Not authorized by Test success or this plan.
+Owner/provider action only. Not authorized by historical Test success or this plan.
 
 Required:
 
-- complete Lemon Squeezy business questionnaire truthfully;
-- complete provider identity verification using the legitimate account/supplier identity;
-- comply with provider eligibility requirements; do not bypass them;
+- complete business details truthfully;
+- complete identity/business verification using legitimate information;
+- comply with provider eligibility requirements;
 - wait for provider approval.
 
-No public checkout is enabled by Prompt Machine during this stage.
+Public checkout remains separately gated.
 
-## L2 — Copy final 1.0.0 to Live
+## L2 — Copy exact Verlune product to Live
 
-After activation and final Test artifact revalidation:
+Only after L0.75 and store approval:
 
-- switch Lemon dashboard to Live mode;
-- use `Copy to Live Mode` on the exact final Test product;
-- confirm one-time price remains USD 9.00;
-- confirm public storefront remains disabled unless separately approved;
-- confirm the final `1.0.0` file is attached.
+- switch Lemon to Live mode;
+- copy/recreate `Verlune Code Review` in Live;
+- retain USD 9.00 one-time price;
+- attach exact `verlune-code-review-v1.0.0.zip`;
+- keep public storefront/checkout OFF unless separately approved.
 
-Canonical artifact:
+## L3 — Freeze NEW Live provider identity
 
-```text
-prompt-machine-starter-code-review-edition-v1.0.0.zip
-18,955 bytes
-SHA-256 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
-```
-
-## L3 — Freeze Live provider identity
-
-Create a NEW Live API key. Do not reuse the Test key.
-
-Read-only discovery must freeze:
+Create a NEW Live API key. Read-only discovery must freeze:
 
 - Live store id;
 - Live product id;
@@ -167,54 +164,48 @@ Read-only discovery must freeze:
 - Live checkout identity;
 - Live file metadata.
 
-No Test ID is accepted as a fallback.
+No Test ID is accepted as fallback.
 
 ## L4 — Live provider byte custody — zero-purchase first
 
-Before making any real order, use the Live File API object to retrieve a fresh signed `download_url` and verify:
+Before any real order, retrieve a fresh signed Live `download_url` and verify:
 
 ```text
-filename = prompt-machine-starter-code-review-edition-v1.0.0.zip
-bytes    = 18,955
-sha256   = 9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3
+filename = verlune-code-review-v1.0.0.zip
+bytes    = 18,859
+sha256   = 4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649
 ```
 
-Prepared read-only operator:
+Prepared tooling:
 
-`tools/pm_g14_lemonsqueezy_live_preflight.py`
-
-Hardened exact-byte verifier:
-
-`tools/verify_lemonsqueezy_starter_code_review_file.py`
+- `tools/pm_g14_lemonsqueezy_live_preflight.py`
+- `tools/verify_lemonsqueezy_starter_code_review_file.py`
 
 This proves provider-held byte custody only. It does not prove buyer delivery.
 
-If byte identity fails: `BLOCKED`; no order is allowed.
+## L5 — Live webhook + private canary gate
 
-## L5 — Live webhook + private live-canary gate
+Use separate Live values and keep:
 
-Use separate Live values:
+```text
+STARTER_CODE_REVIEW_COMMERCE_MODE=live_canary
+NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE
+```
 
-- a new Live webhook secret;
-- Live Store/Product/Variant IDs;
-- a new private live-canary gate token;
-- `STARTER_CODE_REVIEW_COMMERCE_MODE=live_canary`;
-- `NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE`.
-
-Webhook event scope remains bounded to `order_created` for the first canary. Public checkout stays OFF.
+Use a new Live webhook secret, Live Store/Product/Variant IDs and a new private live-canary token. Webhook scope remains `order_created` for the first canary.
 
 ## L6 — Buyer-delivery canary
 
-Only after a separate explicit owner authorization.
+Only after separate explicit owner authorization.
 
 Purpose:
 
-- make at most one controlled Live order if still required;
+- at most one controlled Live order if still required;
 - observe provider-signed `order_created`;
-- confirm buyer receives access to the exact final `1.0.0` file;
-- verify the buyer-facing download produces exactly 18,955 bytes and the canonical SHA-256.
+- confirm buyer access to exact Verlune `1.0.0`;
+- verify buyer-facing download is exactly 18,859 bytes with the canonical SHA-256.
 
-This stage may involve a real transaction. It is not authorized by Test completion or by this plan.
+This stage may involve a real transaction and is not implicitly authorized.
 
 ## L7 — G14 Live decision
 
@@ -224,23 +215,21 @@ Only after L0-L6 evidence is reviewed:
 G14_LIVE_PASS       yes/no
 PRODUCT_READY       yes/no
 READY_TO_SELL       yes/no
-PUBLIC_CHECKOUT     still separate explicit decision
+PUBLIC_CHECKOUT     separate explicit decision
 ```
-
-No stage automatically enables public sales.
 
 ## Fail-closed boundaries
 
 ```text
-historical RC2 Test PASS  != final 1.0.0 provider validation
+historical RC2 Test PASS  != Verlune provider validation
 Test metadata PASS        != Live custody
 Live custody PASS         != buyer delivery
 buyer delivery PASS       != customer value
-real canary order         != PQ-$1 unless it is a genuine non-test customer purchase
+real canary order         != PQ-$1 unless genuine non-test customer purchase
 PRODUCT_READY             != READY_TO_SELL
 READY_TO_SELL             != PUBLIC_CHECKOUT ON
 ```
 
 ## Current frontier
 
-`L0.5 customer-facing brand reconciliation + L0.75 final Test artifact upload/revalidation + L1 legitimate store activation`
+`L0.5 Lemon Test rename to Verlune + L0.75 exact Verlune Test file upload/revalidation`
