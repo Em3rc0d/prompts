@@ -55,7 +55,6 @@ def main() -> int:
     copy = read_json(COPY_RECEIPT)
     preflight = read_json(PROVIDER_PREFLIGHT)
 
-    # Historical Starter checkpoint stays preserved rather than rewritten to Verlune.
     assert gate["product"]["product_id"] == CANONICAL_PRODUCT_ID
     assert gate["product"]["sale_state"] == "NOT_FOR_SALE"
     assert gate["version"] == "1.0.10"
@@ -65,7 +64,6 @@ def main() -> int:
     assert gate["truth"]["ready_to_sell"] is False
     assert gate["launch_requirements"]["STARTER_PRODUCT_READY"] is False
 
-    # Historical skill and public-copy evidence remains internally consistent.
     assert skill["state"] == "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN"
     assert skill["product_id"] == CANONICAL_PRODUCT_ID
     assert skill["current_truth"]["starter_supported_skills"] == 0
@@ -82,14 +80,12 @@ def main() -> int:
     assert copy["provider_calls"] == 0
     assert copy["ready_to_sell"] is False
 
-    # The historical DAG remains historical evidence; dedicated DAG tests validate it in depth.
     nodes = {node["id"]: node for node in dag["nodes"]}
     assert dag["version"] == "1.3.0"
     assert nodes["N07_PUBLIC_COPY_BOUNDARY"]["status"] == "OBSERVED_CLOSED"
     assert nodes["N09_STARTER_RUNTIME_EVIDENCE"]["status"] == "OPEN_REQUIRES_MODEL_AUTH"
     assert nodes["N14_PROVIDER_PROVISIONING_AND_CUSTODY"]["status"] == "OPEN_REQUIRES_PROVIDER_AUTH"
 
-    # Historical provider preflight is preserved exactly and remains disarmed.
     assert preflight["state"] == "STATIC_PROVIDER_EXECUTION_PRECONDITIONS_PASS_DISARMED"
     assert preflight["product_id"] == CANONICAL_PRODUCT_ID
     assert preflight["canonical_artifact"]["size_bytes"] == CANONICAL_ARCHIVE_SIZE
@@ -99,47 +95,16 @@ def main() -> int:
     assert preflight["current_truth"]["real_customer_purchases"] == 0
     assert preflight["current_truth"]["public_checkout"] is False
 
-    # Current customer surface must describe the successor product, not replay stale Starter copy.
     starter = STARTER_PAGE.read_text(encoding="utf-8")
     collections = COLLECTIONS_PAGE.read_text(encoding="utf-8")
     home = HOME_PAGE.read_text(encoding="utf-8")
     status = STATUS.read_text(encoding="utf-8")
     brand = BRAND.read_text(encoding="utf-8")
 
-    require(
-        starter,
-        "Verlune Code Review",
-        "One focused workflow. Exact evidence. No borrowed certainty.",
-        "4/4",
-        "77/77",
-        "18,859",
-        "PROVIDER VALIDATION PENDING",
-    )
-    require(
-        collections,
-        "Verlune Code Review",
-        "01</strong><span>workflow",
-        "$9",
-        "77/77",
-        "not for sale",
-    )
-    require(
-        home,
-        "VERLUNE / REUSABLE AI WORKFLOWS",
-        "What are you trying to get done?",
-        "Verlune Code Review",
-        "marketing claim",
-        "observed evidence",
-    )
-    require(
-        status,
-        "CUSTOMER-FACING  Verlune",
-        VERLUNE_ARCHIVE,
-        str(VERLUNE_ARCHIVE_SIZE),
-        VERLUNE_ARCHIVE_SHA256,
-        VERLUNE_WORKFLOW_SHA256,
-        "PUBLIC_CHECKOUT     OFF",
-    )
+    require(starter, "Verlune Code Review", "One focused workflow. Exact evidence. No borrowed certainty.", "4/4", "77/77", "18,859", "PROVIDER VALIDATION PENDING")
+    require(collections, "Verlune Code Review", "01</strong><span>workflow", "$9", "77/77", "not for sale")
+    require(home, "VERLUNE / REUSABLE AI WORKFLOWS", "What are you trying to get done?", "Verlune Code Review", "marketing claim", "observed evidence")
+    require(status, "CUSTOMER-FACING  Verlune", VERLUNE_ARCHIVE, "18,859", VERLUNE_ARCHIVE_SHA256, VERLUNE_WORKFLOW_SHA256, "PUBLIC_CHECKOUT     OFF")
     require(brand, "Verlune", "Prompt Machine", "Prompt Quarry")
 
     for source in (starter, collections, home):
