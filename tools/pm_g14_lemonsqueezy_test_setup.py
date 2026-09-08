@@ -24,8 +24,8 @@ API_BASE = "https://api.lemonsqueezy.com/v1"
 STORE_NAME = "Prompt Quarry"
 PRODUCT_NAME = "Prompt Machine Starter — Code Review Edition"
 PRICE_CENTS = 900
-ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip"
-ARCHIVE_BYTES = 19161
+ARCHIVE_NAME = "prompt-machine-starter-code-review-edition-v1.0.0.zip"
+ARCHIVE_BYTES = 18955
 WEBHOOK_URL = "https://prompt-quarry-stage.vercel.app/api/commerce/lemonsqueezy/starter-code-review-webhook"
 EVENTS = ["order_created"]
 
@@ -55,7 +55,7 @@ def request(method: str, path: str, key: str, payload: dict[str, Any] | None = N
             "Accept": "application/vnd.api+json",
             "Content-Type": "application/vnd.api+json",
             "Authorization": f"Bearer {key}",
-            "User-Agent": "Prompt-Machine-G14-Test-Setup/1.0",
+            "User-Agent": "Prompt-Machine-G14-Test-Setup/1.1",
         },
     )
     try:
@@ -132,7 +132,7 @@ def discover(key: str) -> dict[str, str]:
     vid = str(variant.get("id"))
     q = urllib.parse.urlencode({"filter[variant_id]": vid, "page[size]": 100})
     files = data_list(request("GET", f"/files?{q}", key), "files")
-    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "RC2 file")
+    file_item = one(files, lambda x: attrs(x).get("name") == ARCHIVE_NAME, "final 1.0.0 file")
     return validate_snapshot(store, product, variant, file_item)
 
 
@@ -216,7 +216,7 @@ def main() -> int:
             "provider_ids": {k: ids[k] for k in ("store_id", "product_id", "variant_id", "file_id")},
             "checkout_url_present": True, "provider_side_effects": 0, "api_key_recorded": False,
             "byte_custody": "NOT_OBSERVABLE_IN_TEST_MODE",
-            "next": "rerun with --apply-webhook when test webhook creation is authorized",
+            "next": "existing webhook can be reused if its secret remains configured; otherwise create a fresh bounded test webhook",
         }, indent=2))
         return 0
     webhook_secret = secrets.token_urlsafe(24)[:40]
