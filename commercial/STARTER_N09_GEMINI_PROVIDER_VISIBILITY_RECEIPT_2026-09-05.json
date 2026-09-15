@@ -1,0 +1,52 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-provider-visibility-receipt-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "execution_location": "USER_WSL",
+  "provider": "GOOGLE_GEMINI_API",
+  "classification": "MODELS_VISIBLE_GENERATION_PATH_STILL_UNPROVEN",
+  "metadata_requests_attempted": 2,
+  "model_inference_requests_attempted": 0,
+  "generate_content_requests_attempted": 0,
+  "automatic_retries": 0,
+  "runtime_envelope_sent": false,
+  "behavioral_observations": 0,
+  "credential_value_recorded": false,
+  "results": [
+    {
+      "model": "gemini-3.8-flash",
+      "http_status": 200,
+      "resource_name": "models/gemini-3.8-flash",
+      "display_name": "Gemini 3.8 Flash",
+      "generate_content_advertised": true,
+      "supported_generation_methods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ]
+    },
+    {
+      "model": "gemini-3.5-flash",
+      "http_status": 200,
+      "resource_name": "models/gemini-3.5-flash",
+      "display_name": "Gemini 3.5 Flash",
+      "generate_content_advertised": true,
+      "supported_generation_methods": [
+        "generateContent",
+        "countTokens",
+        "createCachedContent",
+        "batchGenerateContent"
+      ]
+    }
+  ],
+  "inference": {
+    "api_key_can_resolve_both_models": true,
+    "both_models_advertise_generate_content": true,
+    "authentication_or_model_visibility_failure_supported": false,
+    "generation_capacity_or_routing_failure_remains_possible": true
+  },
+  "g05_claim": "NONE",
+  "truth_boundary": "NON_INFERENCE_METADATA_VISIBILITY_ONLY_NO_BEHAVIORAL_EVIDENCE"
+}

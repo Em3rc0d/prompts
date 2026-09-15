@@ -1,0 +1,90 @@
+# Humanization Review Workflow
+
+**Artifact type:** workflow  
+**Status:** derived-analysis  
+**Derived from:** the six-prompt humanization/editing family attributed to Alpacka AI  
+**Official source:** https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+
+## Goal
+
+Provide a repeatable editorial pipeline for turning an AI-assisted draft into reader-centered prose without changing factual content.
+
+## Pipeline
+
+### Stage 1 — Source lock
+
+Extract and freeze:
+
+- factual claims
+- dates and numbers
+- names and entities
+- required terminology
+- links/citations
+- explicit user constraints
+
+Output: `immutable_facts`.
+
+### Stage 2 — Mechanical-pattern scan
+
+Inspect for:
+
+- repeated sentence openings
+- generic transition phrases
+- mirrored/symmetrical paragraph structure
+- excessive explanation
+- repetitive conclusions
+- overuse of abstract adjectives
+- unnecessary recap
+
+Output: `pattern_findings`.
+
+### Stage 3 — Rhythm rewrite
+
+Improve sentence and paragraph rhythm while preserving the source lock.
+
+Output: `rhythm_revision`.
+
+### Stage 4 — Voice pass
+
+Align language with the requested speaker/brand/persona without fabricating experiences or credentials.
+
+Output: `voice_revision`.
+
+### Stage 5 — Reader-first pass
+
+Evaluate from the reader's point of view:
+
+- Is the opening useful?
+- Is the order natural?
+- Are any sections harder to understand than necessary?
+- Does every paragraph earn its place?
+
+Output: `reader_revision`.
+
+### Stage 6 — Final human-quality audit
+
+Compare final draft against immutable facts and constraints. Identify anything that needs a real human decision rather than silently guessing.
+
+Output:
+
+```text
+FINAL_TEXT
+MATERIAL_CHANGES
+PRESERVED_FACTS
+OPEN_QUESTIONS
+```
+
+## Recommended use
+
+Good for posts, emails, reports, documentation, articles and product copy where an initial draft already exists.
+
+## Not recommended for
+
+- fabricating a human authorship history
+- defeating academic integrity systems
+- adding fake personal experiences
+- changing technical meaning solely to sound more casual
+
+## Techniques
+
+`critique-revision → tone-definition → audience-definition → iterative-refinement → self-check`

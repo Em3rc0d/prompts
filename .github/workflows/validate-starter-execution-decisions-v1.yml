@@ -1,0 +1,73 @@
+name: Validate Starter Execution Decisions v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/STARTER_PROVIDER_INTEGRATION_DECISION_V1.json'
+      - 'commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json'
+      - 'commercial/STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json'
+      - 'product/starter-collection-v1/trust/code-review.trust-context.json'
+      - 'tools/validate_starter_execution_decisions_v1.py'
+      - '.github/workflows/validate-starter-execution-decisions-v1.yml'
+  pull_request:
+    paths:
+      - 'commercial/STARTER_PROVIDER_INTEGRATION_DECISION_V1.json'
+      - 'commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json'
+      - 'commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json'
+      - 'commercial/STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1.json'
+      - 'commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json'
+      - 'product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json'
+      - 'product/starter-collection-v1/trust/code-review.trust-context.json'
+      - 'tools/validate_starter_execution_decisions_v1.py'
+      - '.github/workflows/validate-starter-execution-decisions-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-execution-decisions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile decision governance validator
+        run: python -m py_compile tools/validate_starter_execution_decisions_v1.py
+
+      - name: Validate zero-side-effect decision governance
+        run: python tools/validate_starter_execution_decisions_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Execution Decisions v1
+
+          | Signal | State |
+          |---|---|
+          | Provider integration PASS rule | FROZEN |
+          | Requires provisioning | YES |
+          | Requires exact custody | YES |
+          | Requires signed provider_test event | YES |
+          | Provider failure receipt | APPEND-ONLY / NO AUTO RETRY |
+          | First Starter runtime case | CR NORMAL |
+          | Runtime → Trust update | RAW → REVIEW → APPEND |
+          | Runtime authorized now | NO |
+          | Provider authorized now | NO |
+          | Provider calls | 0 |
+          | Model calls | 0 |
+          | READY_TO_SELL | NO |
+          EOF

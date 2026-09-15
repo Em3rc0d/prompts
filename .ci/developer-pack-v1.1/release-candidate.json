@@ -1,0 +1,79 @@
+{
+  "archive": {
+    "format": "zip-store",
+    "mode": "100644",
+    "path": "dist/prompt-quarry-developer-pack-v1.1.0.zip",
+    "root": "prompt-quarry-developer-pack-v1.1.0",
+    "sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+    "size": 86763,
+    "timestamp": "1980-01-01T00:00:00"
+  },
+  "customer_visible_assets": 13,
+  "evidence_boundary": {
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false,
+    "static_maturity": "VALID_CANDIDATE"
+  },
+  "gates": {
+    "archive_crc": true,
+    "archive_members_exact": true,
+    "blob_identity": true,
+    "customer_draft_markers_absent": true,
+    "deterministic_rules": true,
+    "inventory_exact": true,
+    "normalization_exact": true,
+    "source_fingerprint": true
+  },
+  "normalization": {
+    "mode": "exact_single_replacement_per_declared_source",
+    "rules_applied": 8,
+    "rules_declared": 8,
+    "sources": [
+      "checklists/workflow-static-review.md",
+      "examples/code-review-policy-transformation.md",
+      "examples/technical-decision-policy-transformation.md",
+      "methodology/adaptation-playbook.md",
+      "templates/bug-diagnosis-system.md",
+      "templates/general-operating-contract.md",
+      "templates/software-code-review-system.md",
+      "templates/technical-research-decision-system.md"
+    ]
+  },
+  "packaged_files": [
+    {"archive_path":"LICENSE.md","normalized":false,"sha256":"f111939ad4cb783ed195b97cadef28136e231769e4ee056a7233c2601c8d7626","size":3151,"source_path":"LICENSE.md"},
+    {"archive_path":"QUICKSTART.md","normalized":false,"sha256":"fb7adc06b15bb02aa279670fc569ecd73abca0521aa8f2fa0521578a13d55a6b","size":5529,"source_path":"QUICKSTART.md"},
+    {"archive_path":"README.md","normalized":false,"sha256":"543f78be456f69ed4fc1240c9577ab194f22f0c5094c96a66c8cd2a48b8f13bd","size":2943,"source_path":"README.customer.md"},
+    {"archive_path":"checklists/workflow-static-review.md","normalized":true,"sha256":"dbaf6a1360e05c01022955f66bbd9622cfa6a5775900a7c5f766d67b9ee36076","size":5040,"source_path":"checklists/workflow-static-review.md"},
+    {"archive_path":"contracts/code-review-policy.example.json","normalized":false,"sha256":"899b9371aecf08b2579af05392ae1d39f8baac786b4e5a49edffbac34b5ea12d","size":5974,"source_path":"contracts/code-review-policy.example.json"},
+    {"archive_path":"contracts/workflow-contract.schema.json","normalized":false,"sha256":"7bf969f6c91ebfc61ed9fee4c8b8c2583cc665bbc066ea4ea42749e18b353920","size":6847,"source_path":"contracts/workflow-contract.schema.json"},
+    {"archive_path":"examples/code-review-policy-transformation.md","normalized":true,"sha256":"9b8a47a087ac9e24a64ce8cb0454954210976b53f30661b19e96fbf23349d358","size":5666,"source_path":"examples/code-review-policy-transformation.md"},
+    {"archive_path":"examples/technical-decision-policy-transformation.md","normalized":true,"sha256":"aef6be49e883abdbdcfbaa601c7e4ca36349c9bc6e4c72526e274310eb606ab8","size":7251,"source_path":"examples/technical-decision-policy-transformation.md"},
+    {"archive_path":"methodology/adaptation-playbook.md","normalized":true,"sha256":"8ccf341f467b3cf675551e8384feac68713061b583ac36e0bab350bd2c980cd1","size":8172,"source_path":"methodology/adaptation-playbook.md"},
+    {"archive_path":"templates/bug-diagnosis-system.md","normalized":true,"sha256":"d3ff32799513dc906db854e994f4e478d8b461bde3c49fb5008c08a96f7cde2f","size":9729,"source_path":"templates/bug-diagnosis-system.md"},
+    {"archive_path":"templates/general-operating-contract.md","normalized":true,"sha256":"7cefbb5b8c15897dd48a2f03e845b9019186c9fb3413a86ffb2875cb21648f12","size":7231,"source_path":"templates/general-operating-contract.md"},
+    {"archive_path":"templates/software-code-review-system.md","normalized":true,"sha256":"7cc7f65ea3bae1c8788696a332c6ef21c561fafca2d6afdf30755af26abad018","size":7747,"source_path":"templates/software-code-review-system.md"},
+    {"archive_path":"templates/technical-research-decision-system.md","normalized":true,"sha256":"ed739620545bb7bbca895a42d9f81f2dbf443f0cf0dfdc4ccf8007326dbed128","size":8661,"source_path":"templates/technical-research-decision-system.md"}
+  ],
+  "product": "Prompt Quarry Developer Pack",
+  "sale_status": "NOT_FOR_SALE",
+  "source_files": [
+    {"archive_path":"LICENSE.md","git_blob_sha":"db50151494606a3a55f92d19662c8e020285c7ce","sha256":"f111939ad4cb783ed195b97cadef28136e231769e4ee056a7233c2601c8d7626","size":3151,"source_path":"LICENSE.md"},
+    {"archive_path":"QUICKSTART.md","git_blob_sha":"efcccf3f8efb9853ff882dd1ac97c7cc9ae5e9bb","sha256":"fb7adc06b15bb02aa279670fc569ecd73abca0521aa8f2fa0521578a13d55a6b","size":5529,"source_path":"QUICKSTART.md"},
+    {"archive_path":"README.md","git_blob_sha":"d438939e3910bfde2391acd27573266354b68ca3","sha256":"543f78be456f69ed4fc1240c9577ab194f22f0c5094c96a66c8cd2a48b8f13bd","size":2943,"source_path":"README.customer.md"},
+    {"archive_path":"checklists/workflow-static-review.md","git_blob_sha":"a796315eb408d93799e338a0ee0187246ec9d6db","sha256":"810b67a8116dede92ce977476d4b1273a082701b8b2b947287e46bd6a39c9002","size":5031,"source_path":"checklists/workflow-static-review.md"},
+    {"archive_path":"contracts/code-review-policy.example.json","git_blob_sha":"61d1f0c729303370a5043f93856adec546e0c379","sha256":"899b9371aecf08b2579af05392ae1d39f8baac786b4e5a49edffbac34b5ea12d","size":5974,"source_path":"contracts/code-review-policy.example.json"},
+    {"archive_path":"contracts/workflow-contract.schema.json","git_blob_sha":"30350d5111fbcf4dcaded4d5b5d1af2e3af68fe9","sha256":"7bf969f6c91ebfc61ed9fee4c8b8c2583cc665bbc066ea4ea42749e18b353920","size":6847,"source_path":"contracts/workflow-contract.schema.json"},
+    {"archive_path":"examples/code-review-policy-transformation.md","git_blob_sha":"d38c1c832e0669cca9d0afea34964198052b182b","sha256":"ae3bc8a30b49307871d2999e0ab800a2fb11ea20896cac18117382000a0231f4","size":5657,"source_path":"examples/code-review-policy-transformation.md"},
+    {"archive_path":"examples/technical-decision-policy-transformation.md","git_blob_sha":"9714585152f487657241bfe89b4bfe92f2b60004","sha256":"20d91145c65426c47fccccdac1d970ddb864f234693c1b1464b78eb195542c25","size":7242,"source_path":"examples/technical-decision-policy-transformation.md"},
+    {"archive_path":"methodology/adaptation-playbook.md","git_blob_sha":"0af327569a20cd3882afe5a411c2271fb826ff32","sha256":"be5701f54fc96511a344a0c9a3ba99e79bb662c38b49f0cd23ce431cc168d108","size":8165,"source_path":"methodology/adaptation-playbook.md"},
+    {"archive_path":"templates/bug-diagnosis-system.md","git_blob_sha":"7a320cf8bbf5587024f201b8a02fa5421979f396","sha256":"d8b9027c9680e38ca5ae07eb3a64e150070f93e011ba16c3ca443387d2c9b24a","size":9722,"source_path":"templates/bug-diagnosis-system.md"},
+    {"archive_path":"templates/general-operating-contract.md","git_blob_sha":"6774cead6da72a2f845889429dc2af60fc0d15d5","sha256":"c3f39325fa0ab1989ab860928545de8149c70a538816eb64db79d040bcfacf40","size":7224,"source_path":"templates/general-operating-contract.md"},
+    {"archive_path":"templates/software-code-review-system.md","git_blob_sha":"387804cf3dd5aaf22b56aafbeb6b17380942a59e","sha256":"1653dc2b8be07a7c61a44bfd58f4a33f756c4ae311e130858a013ea1aa4dae15","size":7740,"source_path":"templates/software-code-review-system.md"},
+    {"archive_path":"templates/technical-research-decision-system.md","git_blob_sha":"60a76e56f669c875ffd98a6713846f4e4530cb44","sha256":"33167937205377379d00cba3facb011161bf420ea7a2bc433468e3bfd450fef3","size":8654,"source_path":"templates/technical-research-decision-system.md"}
+  ],
+  "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa",
+  "state": "RELEASE_CANDIDATE",
+  "version": "1.1.0"
+}

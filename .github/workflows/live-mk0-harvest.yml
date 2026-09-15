@@ -1,0 +1,82 @@
+name: Live MK0 Harvest Batch 001
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - .github/workflows/live-mk0-harvest.yml
+
+permissions:
+  contents: write
+
+jobs:
+  live-harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/mk1-prompt-generator-v0-20260827
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Harvester dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run governed live harvest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf mk0/raw/harvester mk0/normalized/harvester
+          python tools/mk0_discovery_harvester.py \
+            --registry mk0/harvester/DISCOVERY_REGISTRY.json \
+            --output mk0/normalized/harvester/source-records.jsonl
+
+      - name: Build and enforce batch receipt
+        run: |
+          python - <<'PY'
+          import json
+          from collections import Counter
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          path = Path('mk0/normalized/harvester/source-records.jsonl')
+          records = [json.loads(line) for line in path.read_text(encoding='utf-8').splitlines() if line.strip()]
+          count = len(records)
+          if not 100 <= count <= 250:
+              raise SystemExit(f'live harvest count outside governed batch: {count}; expected 100..250')
+
+          unique_ids = len({r['source_id'] for r in records})
+          duplicate_records = count - unique_ids
+          receipt = {
+              'schema': 'prompt-quarry-live-harvest-receipt-v1',
+              'batch_id': 'mk0-live-001',
+              'status': 'PASS',
+              'observed_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
+              'registry_version': json.loads(Path('mk0/harvester/DISCOVERY_REGISTRY.json').read_text())['version'],
+              'records': count,
+              'unique_source_ids': unique_ids,
+              'duplicate_records': duplicate_records,
+              'by_source_type': dict(Counter(r['source_type'] for r in records)),
+              'by_access_status': dict(Counter(r['access_status'] for r in records)),
+              'by_body_observation_status': dict(Counter(r['body_observation_status'] for r in records)),
+              'by_license_status': dict(Counter(r['license_status'] for r in records)),
+              'claim_boundary': 'Discovery and observation only. This receipt does not promote any record to GOLDEN, TESTED, IMPROVED, CERTIFIED, PORTABLE, or redistributable.'
+          }
+          out = Path('mk0/analysis/harvester/live-batch-001-receipt.json')
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(receipt, indent=2))
+          PY
+
+      - name: Commit governed observation batch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add mk0/raw/harvester mk0/normalized/harvester mk0/analysis/harvester/live-batch-001-receipt.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'data(mk0): persist live harvest batch 001'
+          git push origin HEAD:feat/mk1-prompt-generator-v0-20260827

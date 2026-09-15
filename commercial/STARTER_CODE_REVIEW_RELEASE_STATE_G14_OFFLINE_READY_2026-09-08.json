@@ -1,0 +1,124 @@
+{
+  "schema": "prompt-machine-starter-code-review-release-state-v1",
+  "recorded_on": "2026-09-08",
+  "state_id": "PM-STARTER-CODE-REVIEW-G14-OFFLINE-READY-2026-09-08",
+  "product": {
+    "profile_id": "PM-STARTER-CODE-REVIEW-EDITION-V1",
+    "commercial_name": "Prompt Machine Starter — Code Review Edition",
+    "release_candidate_version": "1.0.0-rc1",
+    "price_hypothesis_usd": 9,
+    "workflow_count": 1,
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "authority": "ADVISORY_ONLY"
+  },
+  "canonical_workflow_surface": {
+    "manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "release_candidate_archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc1.zip",
+    "bytes": 14667,
+    "sha256": "7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
+    "member_count": 6,
+    "deterministic_rebuild": "PASS",
+    "pack_qa": "PASS"
+  },
+  "gate_state": {
+    "G05_BASELINE_EXECUTION": "FAIL_REWORK_HISTORICAL_PRESERVED",
+    "G06_FAILURE_MINING": "CLOSED",
+    "G07_IMPROVEMENT": "PASS",
+    "G08_REGRESSION": "PASS_4_OF_4",
+    "G09_PORTABILITY": "MODEL_SPECIFIC_PASS_FOR_DEMONSTRATED_SCOPE",
+    "G10_HUMAN_VALUE_REVIEW": "KEEP_RECORDED_NO_CUSTOMER_VALUE_CLAIM",
+    "G11_CERTIFICATION": "PASS_FOR_EXACT_DECLARED_SCOPE",
+    "G12_PACK_REBUILD": "PASS",
+    "G13_PACK_LEVEL_QA": "PASS",
+    "G14_PROVIDER_GATES": "OFFLINE_PREPARATION_PASS_EXTERNAL_EVIDENCE_PENDING"
+  },
+  "certification": {
+    "id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+    "provider": "GOOGLE_GEMINI_API",
+    "model": "gemini-3.5-flash",
+    "portability_classification": "MODEL_SPECIFIC",
+    "unqualified_certified_claim_allowed": false,
+    "portable_claim_allowed": false,
+    "model_agnostic_claim_allowed": false
+  },
+  "g14_offline_preparation": {
+    "release_identity_adapter": "web/lib/starter-code-review-release.ts",
+    "isolated_commerce_mode": "STARTER_CODE_REVIEW_COMMERCE_MODE",
+    "checkout_route": "web/app/api/commerce/starter-code-review/checkout/route.ts",
+    "signed_webhook_route": "web/app/api/commerce/lemonsqueezy/starter-code-review-webhook/route.ts",
+    "provider_file_verifier": "tools/verify_lemonsqueezy_starter_code_review_file.py",
+    "offline_regression": "tools/test_starter_code_review_g14_v1.py",
+    "operator": "tools/pm_operator.py",
+    "commerce_mode_default": "off",
+    "public_sale_default": "NOT_FOR_SALE",
+    "historical_starter_identity_isolated": true,
+    "offline_provider_calls": 0,
+    "offline_model_calls": 0,
+    "offline_commerce_effects": 0,
+    "verdict": "PASS_OFFLINE_ONLY"
+  },
+  "ci_evidence_at_source_head": {
+    "source_head": "9a0f73e235b6e9c01739fcd3ef0cc32d2bbbdba2",
+    "observed_workflow_runs": 15,
+    "successful_workflow_runs": 15,
+    "failed_workflow_runs": 0,
+    "key_successes": {
+      "Test Prompt Machine Operator v1": 34233215954,
+      "Test Commerce v0": 34233215915,
+      "Validate Starter Code Review Edition v1": 34233215983,
+      "Validate Starter Provider Receipts v1": 34233216019,
+      "Validate Prompt Machine Web": 34233215914,
+      "Test Commercial Web v0": 34233215919
+    }
+  },
+  "external_evidence": {
+    "provider_candidate": "LEMON_SQUEEZY",
+    "provider_product_identity_observed_for_this_rc": false,
+    "provider_variant_identity_observed_for_this_rc": false,
+    "exact_archive_uploaded_or_bound_at_provider": false,
+    "provider_retrieved_exact_bytes_verified": false,
+    "provider_custody_observed": false,
+    "provider_test_checkout_observed": false,
+    "provider_signed_test_order_observed": false,
+    "live_delivery_canary_observed": false,
+    "real_purchase_observed": false,
+    "real_revenue_observed": false
+  },
+  "customer_license": {
+    "standalone_customer_license_frozen": false,
+    "release_notice_currently_blocks_sale": true,
+    "state": "PENDING_G14"
+  },
+  "commercial_truth": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": "OFF",
+    "real_purchases": 0,
+    "pq_1_observed": false
+  },
+  "current_external_boundary": {
+    "state": "ACTION_REQUIRED_ONLY_IF_PROVIDER_ACCESS_IS_AVAILABLE_AND_SEPARATELY_AUTHORIZED",
+    "required_evidence_before_g14_pass": [
+      "freeze customer license or sale terms for this exact SKU",
+      "observe provider store/product/variant identity for this exact SKU",
+      "bind or upload the exact 14667-byte archive with SHA-256 7ec282ea1766679f425fd5aad526d6382e6a3c5af2caab9ded07e55b9a773cde",
+      "retrieve the provider-held artifact through an authorized provider surface and verify exact bytes",
+      "observe a controlled provider test checkout/order path without public sale",
+      "observe exact customer delivery through a governed canary before public sale"
+    ],
+    "automatic_public_sale": false,
+    "automatic_merge": false
+  },
+  "supersedes_for_current_truth": [
+    "commercial/STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07.json",
+    "commercial/STATUS_CURRENT.md@2026-09-07-state",
+    "PR-4-body@pre-2026-09-08-reconciliation"
+  ],
+  "historical_records_preserved": true,
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
+}

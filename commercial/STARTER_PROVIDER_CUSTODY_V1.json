@@ -1,0 +1,83 @@
+{
+  "schema": "prompt-machine-starter-provider-custody-contract-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED",
+  "product_id": "prompt-machine-starter-collection",
+  "price_hypothesis_usd": 9,
+  "provider_candidate": "LEMON_SQUEEZY",
+  "provider_choice_state": "REUSE_EXISTING_COMMERCE_INTEGRATION_HYPOTHESIS",
+  "canonical_artifact": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "build_receipt": "product/starter-collection-v1/ARCHIVE_BUILD_RECEIPT_V1.json"
+  },
+  "required_before_provider_custody_pass": [
+    "provider_store_identity_recorded_without_secrets",
+    "provider_product_identity_recorded",
+    "provider_variant_identity_recorded",
+    "exact_canonical_artifact_uploaded_or_bound_to_provider_delivery_surface",
+    "artifact_retrieved_back_through_provider_authorized_delivery_surface",
+    "retrieved_artifact_size_matches_50918_bytes",
+    "retrieved_artifact_sha256_matches_canonical_sha256",
+    "test_purchase_or_provider_test_access_does_not_require_public_sale",
+    "provider_custody_receipt_persisted_without_customer_pii_or_payment_secrets"
+  ],
+  "custody_evidence": {
+    "required_class": "PROVIDER_ARTIFACT_CUSTODY_EVIDENCE",
+    "minimum_observation": "AUTHORIZED_PROVIDER_RETRIEVAL_PLUS_LOCAL_HASH_VERIFICATION",
+    "provider_dashboard_screenshot_alone_is_sufficient": false,
+    "configured_filename_alone_is_sufficient": false,
+    "provider_signed_order_alone_is_sufficient": false,
+    "github_actions_artifact_is_sufficient": false
+  },
+  "purchase_evidence_boundary": {
+    "provider_signed_order_created": "PROVIDER_SIGNED_PURCHASE_EVIDENCE",
+    "provider_signed_order_proves_asset_custody": false,
+    "provider_signed_order_proves_customer_delivery": false,
+    "test_order_counts_as_real_revenue": false
+  },
+  "delivery_boundary": {
+    "provider_custody_pass_implies_delivery_pass": false,
+    "delivery_requires_separate_receipt": true,
+    "delivery_receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+    "live_delivery_canary_required_before_public_sale": true
+  },
+  "privacy": {
+    "persist_customer_name": false,
+    "persist_customer_email": false,
+    "persist_payment_details": false,
+    "persist_provider_secrets": false,
+    "allowed_non_sensitive_evidence": [
+      "provider_order_id_when_needed",
+      "store_product_variant_ids",
+      "test_mode_flag",
+      "artifact_filename",
+      "artifact_size",
+      "artifact_sha256",
+      "timestamps",
+      "commerce_gate",
+      "bounded_attribution"
+    ]
+  },
+  "current_truth": {
+    "provider_store_provisioned_for_starter": false,
+    "provider_product_provisioned_for_starter": false,
+    "provider_variant_provisioned_for_starter": false,
+    "canonical_artifact_in_provider_custody": false,
+    "provider_retrieval_hash_verified": false,
+    "provider_test_order_observed": false,
+    "delivery_observed": false,
+    "public_checkout": false,
+    "real_purchase": false,
+    "ready_to_sell": false
+  },
+  "automatic_actions": {
+    "create_provider_product": false,
+    "upload_artifact": false,
+    "enable_public_checkout": false,
+    "promote_to_ready_to_sell": false
+  },
+  "master_rule": "PAYMENT EVIDENCE, CUSTODY EVIDENCE, AND DELIVERY EVIDENCE ARE DISTINCT"
+}

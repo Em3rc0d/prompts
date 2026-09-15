@@ -1,0 +1,86 @@
+{
+  "schema": "prompt-machine-starter-release-state-snapshot-v1",
+  "recorded_on": "2026-09-07",
+  "state_id": "STARTER_RELEASE_STATE_G09_DEFERRED_2026-09-07",
+  "supersedes_for_current_truth": [
+    "commercial/STARTER_RELEASE_STATE_G09_PREPARED_2026-09-07.json@next-gate-frontier",
+    "commercial/STARTER_N09_LOCAL_EXECUTION_POLICY_V1.json@g09-authorization-frontier",
+    "commercial/STATUS_CURRENT.md@g09-runtime-frontier"
+  ],
+  "historical_snapshots_are_preserved": true,
+  "closure_reason": "USER_DIRECTED_CLOSE_WITH_NO_ACCESSIBLE_SECOND_MODEL_FAMILY_CREDENTIAL",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "canonical_candidate": {
+    "contract_version": "2.2.0",
+    "surface_manifest": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2.surface.json",
+    "surface_bytes": 25295,
+    "surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "gates": {
+    "G05_BASELINE_EXECUTION": "FAIL_REWORK_HISTORICAL",
+    "G06_FAILURE_MINING": "CLOSED",
+    "G07_IMPROVEMENT": "STATIC_PASS",
+    "G08_REGRESSION": "PASS",
+    "G09_PORTABILITY": "DEFERRED_EXTERNAL_DEPENDENCY_NOT_OBSERVED",
+    "G10_HUMAN_VALUE_REVIEW": "NOT_ENTERED",
+    "G11_CERTIFICATION": "NOT_ENTERED_NOT_CERTIFIED",
+    "G12_PACK_REBUILD": "NOT_ENTERED",
+    "G13_PACK_LEVEL_QA": "NOT_ENTERED",
+    "G14_PROVIDER_GATES": "NOT_PASSED"
+  },
+  "g08": {
+    "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+    "provider": "GOOGLE_GEMINI_API",
+    "model": "gemini-3.5-flash",
+    "runtime_observations": 4,
+    "human_review_passes": 4,
+    "human_review_fails": 0,
+    "automatic_retries": 0,
+    "result": "PASS",
+    "receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json"
+  },
+  "g09": {
+    "design": "commercial/STARTER_N09_G09_PORTABILITY_DESIGN_V1.json",
+    "prepared_batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
+    "prepared_provider": "OPENAI_RESPONSES_API",
+    "prepared_model_family": "OPENAI_GPT_5_6",
+    "prepared_model": "gpt-5.6-luna",
+    "static_readiness": "PASS_STATIC_ONLY",
+    "provider_requests_attempted": 0,
+    "model_inference_requests_attempted": 0,
+    "runtime_observations": 0,
+    "portability_observed": false,
+    "result": "DEFERRED_EXTERNAL_DEPENDENCY_NOT_OBSERVED",
+    "prepared_authorization": {
+      "phrase_was_supplied": true,
+      "provider_requests_attempted_under_authorization": 0,
+      "consumed": false,
+      "state": "CLOSED_UNCONSUMED_WITHDRAWN_BY_SCOPE_CHANGE",
+      "reusable": false
+    },
+    "resume_rule": "A future portability attempt requires an accessible second model family, a newly frozen runtime plan if provider/model/config changes, zero-model preflight, and fresh explicit authorization. Historical authorization must not be reused."
+  },
+  "evidence_cycle": {
+    "state": "CLOSED_AT_G08_WITH_G09_DEFERRED",
+    "highest_behavioral_gate_passed": "G08_REGRESSION",
+    "highest_supported_claim": "REGRESSION_PROPERTIES_OBSERVED_ON_GEMINI_3_5_FLASH_FOR_THE_FROZEN_FOUR_CASE_MATRIX",
+    "portability_claim_allowed": false,
+    "certification_claim_allowed": false
+  },
+  "product_state": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout_enabled": false,
+    "real_purchases": 0,
+    "pq_dollar_one": false
+  },
+  "commerce": {
+    "provider_custody_observed": false,
+    "provider_integration_pass": false,
+    "live_delivery_observed": false
+  },
+  "automatic_next_gate": false,
+  "current_runtime_authorization": "NONE",
+  "next_required_action": "NONE_FOR_THIS_CLOSED_EVIDENCE_CYCLE",
+  "master_boundary": "The evidence cycle is deliberately closed without a G09 PASS. G08 regression evidence remains valid for the exact tested Gemini surface and four-case matrix. Portability, certification, product readiness, readiness to sell, delivery and revenue remain unobserved or unearned."
+}

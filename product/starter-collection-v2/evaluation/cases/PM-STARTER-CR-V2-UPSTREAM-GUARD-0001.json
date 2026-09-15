@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-machine-starter-v2-regression-case-v1",
+  "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "workflow_surface_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "variant": "UPSTREAM_GUARD_SUPPLIED",
+  "risk": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "runtime_executed": false,
+  "evaluation_contract_is_runtime_input": false,
+  "instance_data_markdown": "## CUSTOMER TASK DATA\n\n### Code / change\n\n```ts\nexport function requireOwnerOrAdmin(paramName: string) {\n  return function ownerOrAdmin(req, res, next) {\n    const targetId = req.params[paramName];\n    if (req.user.role === \"admin\" || req.user.id === targetId) {\n      return next();\n    }\n    return res.status(403).json({ error: \"forbidden\" });\n  };\n}\n\nrouter.patch(\n  \"/accounts/:accountId/email\",\n  requireAuth,\n  validateEmailBody,\n  requireOwnerOrAdmin(\"accountId\"),\n  updateEmail,\n);\n\nexport async function updateEmail(req, res) {\n  const account = await db.account.findUnique({\n    where: { id: req.params.accountId },\n  });\n\n  if (!account) {\n    return res.status(404).json({ error: \"not_found\" });\n  }\n\n  await db.account.update({\n    where: { id: account.id },\n    data: { email: req.body.email },\n  });\n\n  return res.json({ ok: true });\n}\n```\n\n### Change intent / acceptance criteria\n\nA signed-in user may update only their own account email. Administrators may update any account.\n\n### Runtime / language context\n\n- TypeScript\n- Express router\n- `requireAuth` supplies `req.user.id` and `req.user.role` before later middleware executes\n- the shown route composition is the complete route-level chain for this endpoint\n\n### Expected behavior / invariants\n\nA non-admin user must not modify another user's account.\n\n### Relevant contracts / constraints\n\n`requireOwnerOrAdmin` is the authorization guard used by this route and its implementation is supplied above. `validateEmailBody` handles the email-body schema and is outside the authorization invariant under review.\n\n### Observed test or reproduction evidence\n\nNo authorization test result was supplied.\n",
+  "non_runtime_metadata": {
+    "fixture_origin": "REPOSITORY_AUTHORED_SYNTHETIC_LOW_RISK",
+    "customer_evidence": false,
+    "expected_result_not_present_in_runtime_input": true,
+    "regression_target": "VISIBLE_EXTERNAL_BOUNDARY_MUST_INVALIDATE_FALSE_POSITIVE"
+  }
+}

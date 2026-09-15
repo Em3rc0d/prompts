@@ -1,0 +1,42 @@
+{
+  "brief_id": "devpack-code-review-001",
+  "title": "Review a backend change for concrete defects",
+  "intent": "review",
+  "domain": "software",
+  "risk": "normal",
+  "complexity": "moderate",
+  "goal": "Review the supplied backend diff and return prioritized, evidence-grounded findings.",
+  "inputs": {
+    "required": [
+      "code_or_diff",
+      "intended_behavior"
+    ],
+    "optional": [
+      "repository_constraints",
+      "test_results"
+    ]
+  },
+  "success_criteria": [
+    "Every reported defect is connected to supplied code or clearly labeled inference",
+    "Findings are prioritized by impact and confidence",
+    "Unobserved test results are never presented as facts"
+  ],
+  "interaction": "intake-allowed",
+  "language": "en",
+  "constraints": [
+    "Do not invent repository files or runtime results",
+    "Separate defects from style preferences"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 1,
+    "evidence": true,
+    "citations": false
+  },
+  "model_targets": [
+    "model-agnostic"
+  ],
+  "notes": [
+    "Example contract only; runtime behavior has not been implied."
+  ]
+}

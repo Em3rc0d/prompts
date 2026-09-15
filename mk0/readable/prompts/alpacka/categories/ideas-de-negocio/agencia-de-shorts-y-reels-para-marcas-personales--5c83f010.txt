@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Agencia de "Shorts" y Reels para Marcas Personales
+TYPE               : Prompt
+CATEGORY           : Ideas de Negocio
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 5c83f010-039d-4ed9-9eba-f7d09b17606b
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/5c83f010-039d-4ed9-9eba-f7d09b17606b
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:b3477d0a6f2ff443f9a5dc7e563bba19e86b1cf6aac09e479a69294da55f50e9
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- problema
+- audiencia
+- recursos
+- mercado
+- restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de emprendimiento y validación de negocios.
+
+OBJETIVO
+Agencia de "Shorts" y Reels para Marcas Personales.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {problema}
+- {audiencia}
+- {recursos}
+- {mercado}
+- {restricciones}
+
+PROCESO
+1. Aclara el contexto y el resultado esperado.
+2. Descompón el problema en partes manejables.
+3. Resuelve cada parte con supuestos explícitos.
+4. Entrega una recomendación accionable y una verificación final.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/5c83f010-039d-4ed9-9eba-f7d09b17606b
+Source record ID: alpacka_prompt_5c83f010-039d-4ed9-9eba-f7d09b17606b
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

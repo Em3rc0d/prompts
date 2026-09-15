@@ -1,0 +1,55 @@
+{
+  "schema": "prompt-machine-bounded-batch-execution-policy-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "status": "ACTIVE_GOVERNANCE_ADDENDUM",
+  "applies_to": "Prompt Machine governed evaluation runtimes",
+  "supersedes_only": [
+    "Per-case authorization requirements when an explicitly frozen bounded batch satisfies this policy",
+    "Human-review-after-each-case requirements when the batch declares HUMAN_REVIEW_AFTER_BATCH"
+  ],
+  "does_not_supersede": [
+    "evaluation contracts must remain outside runtime input",
+    "expected results must remain outside runtime input",
+    "zero automatic retries",
+    "exact model and runtime configuration recording",
+    "local credential custody",
+    "human review before certification or promotion",
+    "no automatic certification",
+    "no automatic public sale or deployment"
+  ],
+  "batch_requirements": {
+    "batch_id_required": true,
+    "ordered_case_manifest_frozen_before_authorization": true,
+    "exact_case_count_frozen_before_authorization": true,
+    "maximum_total_provider_requests_frozen_before_authorization": true,
+    "maximum_provider_requests_per_case": 1,
+    "automatic_retries_per_case": 0,
+    "runtime_configuration_frozen_before_authorization": true,
+    "all_zero_model_integrity_checks_must_pass_before_first_provider_request": true,
+    "authorization_bound_to_exact_batch_id_and_request_ceiling": true,
+    "authorization_must_not_allow_dynamic_case_discovery": true,
+    "evaluation_contract_must_not_be_runtime_input": true,
+    "expected_result_must_not_be_runtime_input": true,
+    "per_case_raw_output_and_runtime_receipt_required": true,
+    "batch_summary_required": true,
+    "human_review_bundle_required": true,
+    "human_review_required_before_any_gate_pass_or_promotion": true
+  },
+  "failure_semantics": {
+    "integrity_failure_before_provider_use": "STOP_BATCH_AUTHORIZATION_NOT_CONSUMED",
+    "provider_or_transport_failure_for_one_case": "RECORD_CASE_FAILURE_NO_RETRY_CONTINUE_REMAINING_FROZEN_CASES_WITHIN_AUTHORIZED_REQUEST_CEILING",
+    "semantic_result": "NO_AUTOMATIC_JUDGEMENT_CONTINUE_BATCH_REVIEW_AFTER_COMPLETION"
+  },
+  "current_application": {
+    "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+    "plan": "commercial/STARTER_N09_G08_V2_BATCH_0001_PLAN.json",
+    "runner": "tools/pm_g08_batch.py",
+    "maximum_total_provider_requests": 4,
+    "cases": 4,
+    "automatic_retries_per_case": 0,
+    "human_review_timing": "AFTER_BATCH",
+    "state": "PREPARED_NOT_AUTHORIZED"
+  },
+  "operational_goal": "Reduce operator command and authorization churn without weakening evidence isolation, request ceilings, auditability, or human certification boundaries."
+}

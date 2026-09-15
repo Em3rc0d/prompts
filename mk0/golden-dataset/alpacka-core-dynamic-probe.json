@@ -1,0 +1,744 @@
+{
+  "probe_version": 1,
+  "policy": "No page body or long JSON strings are stored. Long strings are replaced by length and SHA-256 prefix; headers and credentials are not stored.",
+  "results": [
+    {
+      "requested_url": "https://www.alpackaai.xyz/",
+      "final_url": "https://www.alpackaai.xyz/",
+      "navigation_status": 200,
+      "title": "Alpacka.ai · Directorio de prompts para ChatGPT, Claude y Gemini",
+      "canonical": "https://www.alpackaai.xyz/",
+      "headings": {
+        "h1": [
+          "El directorio de prompts de Alpacka"
+        ],
+        "h2": [],
+        "h3": [
+          "Aprende cualquier tema en tiempo récord (Método 80/20)",
+          "Tu Rescate Financiero: plan de 90 días para ordenar tu dinero",
+          "La Fábrica de Hooks Virales: 30 ganchos que detienen el scroll",
+          "Pitch Deck Perfecto: las 12 diapositivas que piden los inversores",
+          "El Cerrador de Ventas B2B: descubrimiento, demo y cierre consultivo",
+          "El Comité de Crisis: decide bien cuando el negocio tiembla",
+          "Fideliza a tus Clientes B2B: renovaciones y cuentas que crecen",
+          "El Estratega de Precios B2B: propuestas y cotizaciones que se aprueban",
+          "Plan de Negocio en una página: del humo a los números",
+          "Manual de Operaciones: documenta tu negocio para que funcione sin ti",
+          "Contrata sin equivocarte: perfil, entrevista y prueba del candidato",
+          "Fotografía Gastronómica: platos que dan hambre",
+          "Ilustración Estilo Editorial para blogs y newsletters",
+          "Mockups de Marca: tu logo en escenarios reales",
+          "Fotografía de Producto de Estudio: fondo, luz y composición pro",
+          "Retrato Profesional Corporativo (LinkedIn) hiperrealista",
+          "Avatar de Marca Personal: retratos consistentes en cualquier estilo",
+          "Interiorismo y Render de Espacios: rediseña cualquier habitación",
+          "Miniaturas de YouTube que revientan el CTR",
+          "Hilos de X (Twitter) que convierten scrollers en seguidores",
+          "Crece en YouTube: títulos, miniaturas y guiones con retención",
+          "Carruseles de Instagram que se guardan y comparten",
+          "Guiones de TikTok/Reels con estructura viral: gancho, ritmo y loop",
+          "Tu Estrategia de Contenido 90 días: pilares, formatos y calendario",
+          "Colaboraciones e Intercambios: crece con las audiencias de otros",
+          "Análisis de Competencia en redes: roba lo que funciona (éticamente)",
+          "Responde Comentarios y DMs como un community manager pro",
+          "El Reciclador de Contenido: 1 pieza pilar → 15 publicaciones",
+          "LinkedIn para expertos: posts de autoridad que generan clientes",
+          "Emails Post-Compra que generan la segunda venta",
+          "Encuentra tu Producto Ganador: validación antes de invertir un peso",
+          "Descripciones de Producto que venden solas: la plantilla maestra",
+          "Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo",
+          "Recupera Carritos Abandonados: la secuencia completa de rescate",
+          "Prepara tu Tienda para Temporada Alta: el checklist operativo completo",
+          "Packs y Bundles Irresistibles: sube tu ticket promedio 25%",
+          "Atención al Cliente que convierte quejas en reseñas de 5 estrellas",
+          "Calcula tus Números Reales: precios, márgenes y punto de equilibrio",
+          "El Doctor de la Tienda: auditoría CRO de tu e-commerce",
+          "Primeros Pasos en Inversión Indexada: entiende antes de invertir",
+          "El Detector de Malas Decisiones Financieras: analiza antes de firmar",
+          "Impuestos para Freelancers: orden, deducciones y cero sustos",
+          "Sube tus Ingresos 30%: el mapa de opciones según tu perfil",
+          "Planifica tu Libertad: cuánto necesitas para no depender de un sueldo",
+          "Finanzas en Pareja sin peleas: el sistema de cuentas y acuerdos",
+          "Auditoría de Gastos Hormiga: recupera cientos al mes sin sufrir",
+          "Fondo de Emergencia Express: júntalo sin vivir miserable",
+          "Operación Deuda Cero: tu plan de ataque para salir de deudas",
+          "Tu CFO Personal: el presupuesto mensual que sí vas a cumplir",
+          "El Traductor de Código Legacy: entiende y refactoriza sin romper nada"
+        ]
+      },
+      "buttons": [
+        "Acceder",
+        "$ copia un prompt → pégalo en tu IA",
+        "Todos (530)",
+        "Gratis (52)",
+        "Premium (478)",
+        "Nuevos (0)"
+      ],
+      "visible_text_length": 14954,
+      "visible_text_sha256": "d44dedc4c1d052bf",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompts_list",
+          "status": 200,
+          "resource_type": "fetch",
+          "method": "POST",
+          "content_type": "application/json; charset=utf-8",
+          "json_shape": [
+            {
+              "id": "9a1ca7e1-1693-419b-a64c-589d48b65a10",
+              "title": "Aprende cualquier tema en tiempo récord (Método 80/20)",
+              "description": "Convierte a la IA en tu tutor personal: domina cualquier tema en días, no meses, con el 20% de conceptos que genera el 80% de los resultados.",
+              "category": "Educación",
+              "is_premium": false,
+              "image_url": null,
+              "created_at": "2026-07-30T05:07:34.070949+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "95989e18-de3d-406e-a6b5-eb1e29f6a8a9",
+              "title": "Tu Rescate Financiero: plan de 90 días para ordenar tu dinero",
+              "description": "La IA como tu asesor financiero personal: diagnóstico honesto de tus finanzas y un plan de 90 días para salir de deudas y construir tu primer colchón.",
+              "category": "Finanzas Personales",
+              "is_premium": false,
+              "image_url": null,
+              "created_at": "2026-07-30T05:07:34.070949+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "3871245e-8dc3-43ef-af8d-22caffa0d5b2",
+              "title": "La Fábrica de Hooks Virales: 30 ganchos que detienen el scroll",
+              "description": "Genera 30 hooks viralizables adaptados a tu nicho, organizados por disparadores psicológicos, con versiones para video, carrusel y texto.",
+              "category": "Redes Sociales",
+              "is_premium": false,
+              "image_url": null,
+              "created_at": "2026-07-30T05:07:34.070949+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+              "title": "Pitch Deck Perfecto: las 12 diapositivas que piden los inversores",
+              "description": "Estructura tu presentación de inversión con la narrativa y los datos que los fondos esperan ver, diapositiva por diapositiva.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "81e6603a-ee0d-4dd4-b04b-a611751988c6",
+              "title": "El Cerrador de Ventas B2B: descubrimiento, demo y cierre consultivo",
+              "description": "Domina la venta consultiva completa: preguntas de descubrimiento que abren la billetera, demos que no aburren y cierres sin presión.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "20ea4a88-32dd-4c58-8d2d-92eb6f951906",
+              "title": "El Comité de Crisis: decide bien cuando el negocio tiembla",
+              "description": "Enfrenta la crisis de tu negocio —caída de ventas, cliente clave perdido, problema de caja— con diagnóstico frío y plan de guerra de 30 días.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "23f5edd3-beae-4755-b8e6-3025fc631555",
+              "title": "Fideliza a tus Clientes B2B: renovaciones y cuentas que crecen",
+              "description": "Monta tu sistema de éxito del cliente: onboarding, revisiones trimestrales de valor, señales de fuga y expansión de cuentas.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "5e45aebe-cbcf-41ba-959a-4461a96123ca",
+              "title": "El Estratega de Precios B2B: propuestas y cotizaciones que se aprueban",
+              "description": "Estructura tus propuestas comerciales con anclaje, opciones y justificación de valor para que el \"está caro\" desaparezca.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "9285c1aa-02f2-4ceb-a9d7-e297dc79d5c8",
+              "title": "Plan de Negocio en una página: del humo a los números",
+              "description": "Aterriza tu idea en un Business Model Canvas guiado con hipótesis marcadas, números de servilleta y el plan para validar lo incierto.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "af05de3a-855a-4aa4-96c7-2ca8098c5842",
+              "title": "Manual de Operaciones: documenta tu negocio para que funcione sin ti",
+              "description": "Convierte los procesos que viven en tu cabeza en un manual operativo que permite delegar, escalar y hasta vender tu negocio.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "5ca83817-9676-4883-be78-4022f1ac3a0a",
+              "title": "Contrata sin equivocarte: perfil, entrevista y prueba del candidato",
+              "description": "Diseña el proceso de contratación completo: la descripción que atrae al bueno, la entrevista que revela al real y la prueba que confirma.",
+              "category": "Negocios",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T03:12:15.228947+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "79a98839-1cd1-4c0f-87a4-1be135d2c26c",
+              "title": "Fotografía Gastronómica: platos que dan hambre",
+              "description": "Genera fotos de comida con estilo de restaurante premium: vapor, texturas, iluminación cálida y composición que abre el apetito.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "e072df14-5095-4f2a-91fd-05bc125459e9",
+              "title": "Ilustración Estilo Editorial para blogs y newsletters",
+              "description": "Genera ilustraciones conceptuales con estética editorial moderna —tipo The New Yorker o Notion— para acompañar tus artículos.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "5b99ce69-5cd7-41ea-b8f1-b104ceb4ec08",
+              "title": "Mockups de Marca: tu logo en escenarios reales",
+              "description": "Visualiza tu marca aplicada al mundo real: fachadas, empaques, papelería, uniformes y vehículos con acabado fotográfico.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "c323a2e2-124a-449d-85f0-c6667974aacf",
+              "title": "Fotografía de Producto de Estudio: fondo, luz y composición pro",
+              "description": "Genera fotos de tu producto con calidad de estudio comercial: fondo limpio, iluminación de catálogo y ángulos que venden.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "31dacb50-7601-4bfb-ad77-18ec96204e83",
+              "title": "Retrato Profesional Corporativo (LinkedIn) hiperrealista",
+              "description": "Genera tu foto de perfil profesional con calidad de estudio: iluminación, vestuario y fondo corporativo, lista para LinkedIn y CV.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "ecbc8fc8-63fb-435e-b9db-757748163856",
+              "title": "Avatar de Marca Personal: retratos consistentes en cualquier estilo",
+              "description": "Genera versiones ilustradas de ti mismo —flat, 3D tipo Pixar, línea minimalista— para logo personal, perfiles y contenido.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "fd8358b8-d5c8-42f2-83b6-ce97fd2421bc",
+              "title": "Interiorismo y Render de Espacios: rediseña cualquier habitación",
+              "description": "Genera renders fotorrealistas de espacios interiores en el estilo que quieras: ideal para inmobiliarias, Airbnb, decoradores y reformas.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "96655382-ddda-417c-9143-b6f9eb017ddb",
+              "title": "Miniaturas de YouTube que revientan el CTR",
+              "description": "Genera la base fotográfica de tu miniatura: expresión intensa, composición con espacio para texto y colores que explotan en el feed.",
+              "category": "Imagen",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:54:00.628431+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "1819f2c6-1c5e-4e2c-a22d-ccb72b358610",
+              "title": "Hilos de X (Twitter) que convierten scrollers en seguidores",
+              "description": "Escribe hilos con arquitectura viral: primer tweet que ancla, desarrollo que se comparte solo y cierre que convierte lectores en audiencia.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "0f0f8bad-1994-4eb0-ade2-105ef8f4bc42",
+              "title": "Crece en YouTube: títulos, miniaturas y guiones con retención",
+              "description": "Domina el trío que decide todo en YouTube: el empaque que genera el clic (título + miniatura) y el guion que retiene hasta el final.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "e4bf67e5-a047-4846-bafe-08408b8cae34",
+              "title": "Carruseles de Instagram que se guardan y comparten",
+              "description": "Diseña carruseles con arquitectura de retención: portada imposible de ignorar, slides que obligan a pasar y cierre que convierte.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "f3187516-0545-4b48-9dfe-18269286e98c",
+              "title": "Guiones de TikTok/Reels con estructura viral: gancho, ritmo y loop",
+              "description": "Escribe guiones de video corto segundo a segundo: ganchos que frenan el scroll, ritmo de retención y cierres que disparan el rewatch.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "d9a03a63-bd59-4884-a4ce-87a4b12217bf",
+              "title": "Tu Estrategia de Contenido 90 días: pilares, formatos y calendario",
+              "description": "Deja de publicar por impulso: define tus pilares de contenido, la mezcla de formatos y el calendario completo del trimestre.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "dbb03874-c983-4f2c-9933-8c0457b1a866",
+              "title": "Colaboraciones e Intercambios: crece con las audiencias de otros",
+              "description": "Diseña tu estrategia de colabs —lives, contenido conjunto, intercambios— con el pitch exacto para que cuentas más grandes te digan sí.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "2b29ecd5-ab8e-4bec-b518-7e44bb446940",
+              "title": "Análisis de Competencia en redes: roba lo que funciona (éticamente)",
+              "description": "Audita las 5 cuentas líderes de tu nicho, descifra qué les funciona y por qué, y conviértelo en tu plan sin copiar a nadie.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "f4a265ec-8c57-4947-9e3a-57bf9d4bd739",
+              "title": "Responde Comentarios y DMs como un community manager pro",
+              "description": "Convierte tu bandeja en máquina de fidelización y ventas: respuestas con personalidad, manejo de haters y el arte del DM que no espanta.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "06ce9f37-5571-4987-a138-ce06c2b502c0",
+              "title": "El Reciclador de Contenido: 1 pieza pilar → 15 publicaciones",
+              "description": "Convierte cada video, artículo o podcast en dos semanas de contenido multiplataforma sin crear nada desde cero.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "44f3d235-b5d4-4804-9c1f-8877036af4b9",
+              "title": "LinkedIn para expertos: posts de autoridad que generan clientes",
+              "description": "Escribe publicaciones que posicionan tu expertise ante decisores: formatos que funcionan, ganchos que abren y CTAs que no espantan.",
+              "category": "Redes Sociales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:52:10.641798+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "ce147b46-3463-4840-bd56-20fe4065d861",
+              "title": "Emails Post-Compra que generan la segunda venta",
+              "description": "Diseña el flujo que convierte compradores de una vez en clientes recurrentes: confirmación con personalidad, seguimiento, reseña y recompra.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "262e64f4-a534-49f8-9acb-9cf67dd84349",
+              "title": "Encuentra tu Producto Ganador: validación antes de invertir un peso",
+              "description": "Evalúa tus ideas de producto con criterios de demanda, competencia, márgenes y logística antes de comprar inventario.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "c8c745f8-c5d1-45a7-b28d-f58d4595906d",
+              "title": "Descripciones de Producto que venden solas: la plantilla maestra",
+              "description": "Convierte fichas planas en descripciones persuasivas con estructura probada: gancho, beneficios, especificaciones y derribo de objeciones.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "9764af06-19e1-4546-a6da-9705fd3ad6a1",
+              "title": "Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo",
+              "description": "Sube posiciones en el buscador del marketplace: título con keywords, bullets, imágenes, preguntas y señales que el ranking premia.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "ab0c9cd9-d996-4b46-b2e2-a9b75134f82a",
+              "title": "Recupera Carritos Abandonados: la secuencia completa de rescate",
+              "description": "Diseña la secuencia de emails y mensajes que recupera hasta el 15% de los carritos perdidos: timing, ángulos y cuándo (no) dar descuento.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "8132c37f-4460-4697-9d9a-a8eb30e71e43",
+              "title": "Prepara tu Tienda para Temporada Alta: el checklist operativo completo",
+              "description": "Blinda tu operación para Black Friday o Navidad: inventario, logística, soporte, web y plan de contingencia para vender sin colapsar.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "00544aa7-4504-4050-85cd-d54b9b3defaa",
+              "title": "Packs y Bundles Irresistibles: sube tu ticket promedio 25%",
+              "description": "Diseña combos, upsells y umbrales de envío gratis que aumentan el valor de cada pedido sin tocar tu tráfico.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "42adbb29-093e-46f4-9f7b-1df654a5342e",
+              "title": "Atención al Cliente que convierte quejas en reseñas de 5 estrellas",
+              "description": "Monta el sistema de soporte de tu tienda: respuestas modelo, protocolo de crisis, política de devoluciones y el arte de recuperar clientes furiosos.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "f9d137cc-324e-4887-9015-c260544c0d29",
+              "title": "Calcula tus Números Reales: precios, márgenes y punto de equilibrio",
+              "description": "Descubre si tu tienda realmente gana dinero: costo total por unidad, precio correcto, margen tras publicidad y unidades para no perder.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "7bdf14f8-604a-406a-9bf8-7203572872ea",
+              "title": "El Doctor de la Tienda: auditoría CRO de tu e-commerce",
+              "description": "Audita tu tienda como un consultor de conversión: home, ficha, carrito y checkout, con diagnóstico priorizado por impacto.",
+              "category": "E-commerce",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:49:28.432866+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "b68ec314-4662-4ed3-b2ff-2975f6dbc54f",
+              "title": "Primeros Pasos en Inversión Indexada: entiende antes de invertir",
+              "description": "Aprende los fundamentos de la inversión pasiva en fondos indexados —qué son, sus riesgos reales y las preguntas clave— sin humo ni promesas.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "c20de7dc-7f1c-442f-9e06-d4e23b6612b7",
+              "title": "El Detector de Malas Decisiones Financieras: analiza antes de firmar",
+              "description": "Somete esa compra grande, crédito o \"oportunidad\" a un análisis frío de costos totales, alternativas y señales de alerta antes de comprometerte.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "72359c10-dbb3-4fd5-a8b0-0bb6dffc53e7",
+              "title": "Impuestos para Freelancers: orden, deducciones y cero sustos",
+              "description": "Organiza tus impuestos de independiente: qué deducir legalmente, cómo llevar el registro y cuánto apartar de cada cobro.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "3cf4ec66-180d-4b01-bb07-817f82f19ca5",
+              "title": "Sube tus Ingresos 30%: el mapa de opciones según tu perfil",
+              "description": "Analiza tus vías reales de aumentar ingresos —aumento, cambio, extra, freelance— y elige la de mayor retorno con plan de 90 días.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "20f22c35-256a-4d18-a764-805b08836338",
+              "title": "Planifica tu Libertad: cuánto necesitas para no depender de un sueldo",
+              "description": "Calcula tu número de libertad financiera, tu tasa de ahorro real y los años que faltan, con palancas concretas para acortar el camino.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "a46e0437-fb26-47b2-88df-f67d63c3fae5",
+              "title": "Finanzas en Pareja sin peleas: el sistema de cuentas y acuerdos",
+              "description": "Diseña el sistema financiero de tu relación —cuentas, proporciones, gastos y metas— y las conversaciones para acordarlo sin conflicto.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "2da5c05a-d1ca-4527-bc4c-963231027d8b",
+              "title": "Auditoría de Gastos Hormiga: recupera cientos al mes sin sufrir",
+              "description": "Detecta las fugas invisibles de tu dinero —suscripciones, comisiones, hábitos automáticos— y elimínalas ordenadas por dolor/beneficio.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "c728c59b-6929-4f0a-8b60-475109d0492a",
+              "title": "Fondo de Emergencia Express: júntalo sin vivir miserable",
+              "description": "Calcula tu cifra real de emergencia, encuentra el dinero en tu presupuesto actual y automatiza el camino hasta completarlo.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "0f8abea5-8645-4510-ad00-1c0ea65816ab",
+              "title": "Operación Deuda Cero: tu plan de ataque para salir de deudas",
+              "description": "Ordena todas tus deudas, elige entre bola de nieve o avalancha según tu psicología, y sal del hoyo con un plan mes a mes.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "414b0dad-4afd-42d3-96d8-00b9d9927d26",
+              "title": "Tu CFO Personal: el presupuesto mensual que sí vas a cumplir",
+              "description": "Diseña un presupuesto realista basado en tu comportamiento real —no en el ideal— con sistema de sobres, automatización y plan para imprevistos.",
+              "category": "Finanzas Personales",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:46:47.110514+00:00",
+              "ai_tool": "cualquier-modelo"
+            },
+            {
+              "id": "2f379961-58af-41a1-b333-a8cc8528b121",
+              "title": "El Traductor de Código Legacy: entiende y refactoriza sin romper nada",
+              "description": "Descifra ese código heredado que nadie entiende, mapea sus riesgos y refactorízalo por etapas seguras con tests de caracterización.",
+              "category": "Programación",
+              "is_premium": true,
+              "image_url": null,
+              "created_at": "2026-07-17T00:44:04.860938+00:00",
+              "ai_tool": "cualquier-modelo"
+            }
+          ]
+        }
+      ],
+      "body_stored": false
+    },
+    {
+      "requested_url": "https://www.alpackaai.xyz/skills",
+      "final_url": "https://www.alpackaai.xyz/skills",
+      "navigation_status": 200,
+      "title": "Banco de Prompts de IA · +1.000 prompts para ChatGPT, Claude y Gemini | Alpacka",
+      "canonical": "https://www.alpackaai.xyz/skills",
+      "headings": {
+        "h1": [
+          "Skills listas para copiar. Claude, con superpoderes."
+        ],
+        "h2": [
+          "Tres formas, todas en 30 segundos"
+        ],
+        "h3": [
+          "Redactor SEO",
+          "Copywriter de Ventas",
+          "Posts para Redes Sociales",
+          "Analista de Datos",
+          "Resumen de Documentos",
+          "Emails Profesionales",
+          "Revisor de Código",
+          "Profesor Particular",
+          "Corrector de Estilo",
+          "Plan de Negocio Express",
+          "Preparador de Entrevistas",
+          "Traductor y Localizador"
+        ]
+      },
+      "buttons": [
+        "Acceder",
+        "todas",
+        "datos",
+        "desarrollo",
+        "escritura",
+        "estudio",
+        "marketing",
+        "negocios",
+        "productividad",
+        "MarketingGratisRedactor SEOConvierte a Claude en un redactor SEO senior: artículos estructurados para posicionar en Goog",
+        "MarketingGratisCopywriter de VentasTextos persuasivos para landing pages, anuncios y emails de venta usando frameworks p",
+        "MarketingGratisPosts para Redes SocialesGenera contenido nativo para Instagram, LinkedIn, X y TikTok: ganchos, estructur",
+        "DatosGratisAnalista de DatosAnaliza CSVs, tablas y datos pegados: limpieza, estadísticas, tendencias y conclusiones acci",
+        "ProductividadGratisResumen de DocumentosResume PDFs, informes y textos largos en niveles: TL;DR, puntos clave y análisis",
+        "ProductividadGratisEmails ProfesionalesRedacta emails de trabajo efectivos: seguimiento, negociación, malas noticias, pe",
+        "DesarrolloGratisRevisor de CódigoRevisa código como un senior: bugs, seguridad, rendimiento y legibilidad, con severidad",
+        "EstudioGratisProfesor ParticularExplica cualquier tema adaptándose a tu nivel, con analogías, ejemplos y preguntas para ",
+        "EscrituraGratisCorrector de EstiloCorrige y pule textos en español: gramática, claridad, ritmo y coherencia, mostrando c",
+        "NegociosGratisPlan de Negocio ExpressValida y estructura una idea de negocio: propuesta de valor, mercado, números básic",
+        "NegociosGratisPreparador de EntrevistasSimula entrevistas de trabajo reales para tu puesto: preguntas difíciles, feedbac",
+        "EscrituraGratisTraductor y LocalizadorTraduce textos manteniendo tono, intención y contexto cultural. No traduce literal"
+      ],
+      "visible_text_length": 3093,
+      "visible_text_sha256": "38a8539b0a112347",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/skills",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        }
+      ],
+      "body_stored": false
+    },
+    {
+      "requested_url": "https://www.alpackaai.xyz/generador",
+      "final_url": "https://www.alpackaai.xyz/generador",
+      "navigation_status": 200,
+      "title": "Banco de Prompts de IA · +1.000 prompts para ChatGPT, Claude y Gemini | Alpacka",
+      "canonical": "https://www.alpackaai.xyz/generador",
+      "headings": {
+        "h1": [
+          "Genera tus prompts de IAen un solo clic"
+        ],
+        "h2": [
+          "Cómo usar el generador de prompts",
+          "Empieza desde un ejemplo",
+          "Vista previa de 3 mega-prompts generados"
+        ],
+        "h3": [
+          "Describe tu objetivo",
+          "Añade contexto",
+          "Hazte premium",
+          "Recibe tu mega-prompt",
+          "Creador de estrategia de marketing",
+          "Generador de ideas de lead magnet",
+          "Creador de plantillas de estilo",
+          "Deja de perder tiempo con prueba y error",
+          "Cada mega-prompt está construido con intención",
+          "Sáltate un proceso de ingeniería de 3.000 $+",
+          "Convierte tareas en tu ventaja con IA"
+        ]
+      },
+      "buttons": [
+        "Acceder",
+        "Tono",
+        "Formato",
+        "Esquema de un post de LinkedIn para destacar mi último logro profesional.",
+        "Keywords SEO para un blog dirigido a solopreneurs.",
+        "Un call-to-action para mi anuncio de Facebook de captación de leads.",
+        "Un email en frío para el fundador de una SaaS que admiro.",
+        "Generar mi prompt"
+      ],
+      "visible_text_length": 3805,
+      "visible_text_sha256": "0add76e4b55651cb",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/generador",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        }
+      ],
+      "body_stored": false
+    }
+  ]
+}

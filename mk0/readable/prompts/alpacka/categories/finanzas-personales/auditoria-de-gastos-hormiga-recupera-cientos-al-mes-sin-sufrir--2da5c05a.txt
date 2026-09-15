@@ -1,0 +1,87 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Auditoría de Gastos Hormiga: recupera cientos al mes sin sufrir
+TYPE               : Prompt
+CATEGORY           : Finanzas Personales
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 2da5c05a-d1ca-4527-bc4c-963231027d8b
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/2da5c05a-d1ca-4527-bc4c-963231027d8b
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:d10edff9a74ce51df7fdabdc45e85c7bdd27a952b982380203bdc883ff6efda1
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- ingresos
+- gastos
+- deudas
+- meta
+- horizonte temporal
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un analista de finanzas personales orientado a escenarios.
+
+OBJETIVO
+Auditoría de Gastos Hormiga: recupera cientos al mes sin sufrir.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {ingresos}
+- {gastos}
+- {deudas}
+- {meta}
+- {horizonte temporal}
+
+PROCESO
+1. Establece criterios de evaluación.
+2. Separa observaciones de inferencias.
+3. Identifica fortalezas, riesgos y vacíos de información.
+4. Prioriza recomendaciones por impacto y evidencia.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+- Distingue información educativa/general de asesoría profesional individual y señala cuándo hace falta un profesional cualificado.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/2da5c05a-d1ca-4527-bc4c-963231027d8b
+Source record ID: alpacka_prompt_2da5c05a-d1ca-4527-bc4c-963231027d8b
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

@@ -1,0 +1,61 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Style Profile Extractor
+TYPE            : template
+ID              : pq_derived_style_profile_extractor
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.alpackaai.xyz/generador
+OFFICIAL POST   : None
+RAW URL         : None
+VERIFICATION    : metadata-only
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Original evidence-aware style specification template that extracts reusable writing behaviors while excluding source-specific phrases, private-trait inference and topic facts.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- style-analysis
+- voice
+- writing-profile
+- confidence
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- pattern-detection
+- tone-definition
+- examples-few-shot
+- variable-template
+- output-schema
+- confidence-labeling
+- explicit-constraints
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- samples
+- target_audience
+- purpose
+- preserve
+- avoid
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.alpackaai.xyz/generador
+  relation: derived-from
+  note: Theme and structural family observed on the public generator preview; repository evidence/confidence and privacy boundaries are original.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/templates/content/style-profile-extractor.md
+derived_body_original: True

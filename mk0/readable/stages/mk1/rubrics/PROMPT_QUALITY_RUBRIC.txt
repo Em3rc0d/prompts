@@ -1,0 +1,212 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1
+SOURCE REPOSITORY FILE: mk1/rubrics/PROMPT_QUALITY_RUBRIC.md
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
+
+# MK1 Prompt Quality Rubric
+
+This rubric defines when a Prompt Quarry engineered prompt may advance from `CANDIDATE` to `CERTIFIED`.
+
+A prompt is not certified because it looks polished. It is certified because its contract, fixtures and evaluation receipt support the claim.
+
+## Scoring model
+
+Each dimension is scored from 0 to 4:
+
+- **0 — absent/broken**
+- **1 — weak**
+- **2 — acceptable**
+- **3 — strong**
+- **4 — excellent**
+
+Weighted score is normalized to 100.
+
+## Dimensions
+
+| Dimension | Weight | What it measures |
+|---|---:|---|
+| Task fit | 20 | Does the prompt solve the declared task rather than a nearby generic task? |
+| Input / context design | 10 | Are required inputs, optional context and missing-information behavior clear? |
+| Instruction architecture | 15 | Are role/process/techniques purposeful, coherent and non-ceremonial? |
+| Constraints / truth boundary | 10 | Does the prompt prevent fabrication, contradiction and unsupported assumptions? |
+| Output contract | 15 | Is the requested result explicit, usable and easy to verify? |
+| Robustness / fallback | 10 | Does the prompt behave sensibly with incomplete, ambiguous or adversarial inputs? |
+| Evidence / domain discipline | 10 | Does it request evidence or uncertainty handling when the task requires it? |
+| Efficiency / usability | 10 | Is it understandable and reasonably concise for the value it provides? |
+
+Total: **100**.
+
+## Certification thresholds
+
+### CERTIFIED
+
+All must be true:
+
+- weighted score >= **85/100**;
+- no dimension score = 0;
+- Task fit >= 3/4;
+- Output contract >= 3/4;
+- no blocking failure;
+- declared fixtures executed;
+- evaluation receipt persisted.
+
+### STRONG CANDIDATE
+
+- score 75–84;
+- no blocking failure.
+
+Useful for iteration, not canonical certification.
+
+### NEEDS REVISION
+
+- score 60–74, or
+- one major dimension <= 1.
+
+### REJECTED
+
+- score < 60, or
+- any blocking failure.
+
+## Blocking failures
+
+A candidate is rejected regardless of numeric score if it contains one of these:
+
+1. **Fabrication instruction** — tells the model to invent facts/evidence when missing.
+2. **Undefined core task** — fixture evaluator cannot determine what success means.
+3. **Missing critical output contract** — downstream user cannot reliably consume the answer.
+4. **Critical variable unresolved** — required variable is referenced but never defined/requested.
+5. **Contradictory instructions** — prompt contains mutually incompatible mandatory rules.
+6. **Provenance laundering** — derived wording is represented as verbatim source material without evidence.
+7. **High-stakes unsafe behavior** — legal/medical/financial prompt removes necessary uncertainty/professional boundaries or encourages unsupported certainty.
+8. **Fixture regression** — candidate breaks a critical fixture that the baseline passes, unless the contract explicitly changed and versioning reflects it.
+
+## Dimension guidance
+
+### 1. Task fit — 20
+
+**4:** tightly aligned to the declared job, scope and user outcome.
+
+**2:** mostly useful but contains generic or adjacent behavior.
+
+**0:** task is ambiguous or prompt solves a different job.
+
+### 2. Input / context design — 10
+
+Evaluate:
+
+- required vs optional inputs;
+- minimal necessary intake;
+- treatment of missing context;
+- variable consistency.
+
+Over-questioning is a defect when the task can proceed safely without those questions.
+
+### 3. Instruction architecture — 15
+
+Reward purposeful architecture, not section count.
+
+A short prompt can score 4 when its task is simple. A long RIRO/PURPOSE-style structure can score poorly if blocks are decorative or contradictory.
+
+### 4. Constraints / truth boundary — 10
+
+Look for:
+
+- explicit non-fabrication behavior;
+- assumptions labeled;
+- scope boundaries;
+- task-specific constraints.
+
+### 5. Output contract — 15
+
+The result should tell the user or another system what to expect.
+
+Useful contracts may specify:
+
+- required sections;
+- fields/schema;
+- ranking criteria;
+- number of alternatives;
+- evidence/citations;
+- PASS/RISK/UNKNOWN states;
+- concise vs detailed variants.
+
+### 6. Robustness / fallback — 10
+
+Test incomplete inputs, ambiguous intent and boundary cases.
+
+Strong candidates degrade safely rather than hallucinating a complete answer.
+
+### 7. Evidence / domain discipline — 10
+
+Not every creative task needs citations. This dimension measures whether the prompt requests the right level of evidence for its domain.
+
+Examples:
+
+- factual research should identify sources/evidence;
+- legal/medical/financial prompts should mark uncertainty and limits;
+- creative ideation may instead need constraints, novelty and diversity.
+
+### 8. Efficiency / usability — 10
+
+Penalize:
+
+- repeated instructions;
+- excessive persona decoration;
+- unnecessary process narration;
+- contradictory verbosity;
+- variable lists that do not affect the output.
+
+Reward high signal-to-instruction ratio.
+
+## Baseline comparison
+
+Certification does not require beating every baseline on every dimension.
+
+An `improved` claim requires a comparison table:
+
+| Dimension | Baseline | Candidate | Delta |
+|---|---:|---:|---:|
+| Task fit | | | |
+| Input/context | | | |
+| Architecture | | | |
+| Constraints | | | |
+| Output contract | | | |
+| Robustness | | | |
+| Evidence | | | |
+| Efficiency | | | |
+| **Weighted total** | | | |
+
+The receipt must also state material regressions even when total score improves.
+
+## High-stakes supplement
+
+For legal, medical, financial or similarly consequential domains:
+
+- unsupported certainty is a blocking concern;
+- assumptions must be visible;
+- jurisdiction/user-specific facts must not be invented;
+- general educational output must be distinguishable from individualized professional advice when appropriate;
+- escalation to qualified expertise should be possible when required.
+
+## Certification receipt
+
+A durable receipt should include:
+
+```yaml
+receipt_id: pq_mk1_receipt_<id>
+prompt_id: pq_mk1_<id>
+prompt_version: 1.0.0
+baseline_id: null
+fixture_set_id: pq_fixture_<id>
+rubric_version: 1
+scores: {}
+weighted_score: 0
+blocking_failures: []
+regressions: []
+status: CERTIFIED | CANDIDATE | REJECTED
+evaluator_notes: []
+created_at: null
+```
+
+The receipt is evidence. The `CERTIFIED` label must be reproducible from it.

@@ -1,0 +1,44 @@
+{
+  "schema": "prompt-machine-g14-vercel-env-import-receipt-v1",
+  "observed_at": "2026-09-08",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "release_version": "1.0.0-rc2",
+  "provider": "Vercel",
+  "project": "prompt-quarry-stage",
+  "state": "PASS_WITH_PENDING_ACTIVATION",
+  "stage": "VERCEL_ENV_IMPORTED_REDEPLOY_PENDING",
+  "evidence": {
+    "operator": "tools/pm_g14_vercel_test_apply.py",
+    "operator_control_flow": "The observed run reached VERCEL_REDEPLOY. That stage is reachable only after all eight Production env upsert operations return success.",
+    "required_env_count": 8,
+    "env_values_recorded_in_repo": false,
+    "secrets_recorded_in_repo": false,
+    "redeploy_observed": false,
+    "runtime_activation_observed": false
+  },
+  "failure": {
+    "stage": "VERCEL_REDEPLOY",
+    "cli_version": "59.11.7",
+    "reason": "redeploy no longer accepts --yes",
+    "provider_configuration_failure": false,
+    "secret_failure": false
+  },
+  "correction": {
+    "commit": "5a6280d59f8cf08dfc2d85e4856fd1d44e85d09c",
+    "change": "Use official `vercel redeploy [deployment-id or url]` syntax and add --resume-after-env so previously imported values are not rewritten."
+  },
+  "safety": {
+    "real_money_effect": false,
+    "public_sale_enabled": false,
+    "live_mode_enabled": false,
+    "api_key_recorded": false
+  },
+  "remaining": [
+    "redeploy prompt-quarry-stage with imported Production environment",
+    "verify POST-only webhook route remains routable",
+    "verify private provider-test checkout redirect",
+    "complete one Test-mode order",
+    "observe signed order_created"
+  ],
+  "claim_boundary": "Successful env upserts do not prove deployment activation, checkout readiness, webhook signature acceptance, delivery, revenue, or readiness to sell."
+}

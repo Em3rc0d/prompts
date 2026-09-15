@@ -1,0 +1,37 @@
+{
+  "records": 530,
+  "access_counts": {
+    "premium": 478,
+    "free": 52
+  },
+  "category_counts": {
+    "Marketing": 95,
+    "Idiomas": 51,
+    "Astrología": 47,
+    "Abogados": 45,
+    "Ideas de Negocio": 45,
+    "Educación": 36,
+    "Ganar Dinero": 30,
+    "Salud": 23,
+    "Empleo": 16,
+    "Copywriting": 15,
+    "Crear logos": 15,
+    "Negocios": 15,
+    "Desarrollo Personal": 12,
+    "Imagen": 12,
+    "Productividad": 12,
+    "Programación": 12,
+    "Finanzas Personales": 11,
+    "Redes Sociales": 11,
+    "E-commerce": 10,
+    "IG reels": 9,
+    "Profesores": 6,
+    "Ingeniería": 2
+  },
+  "free_with_public_content": 52,
+  "premium_with_null_content": 478,
+  "category_mismatches": [],
+  "category_mismatch_count": 0,
+  "rpc_endpoint": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompt_detail",
+  "content_storage_policy": "Prompt bodies are never written. Free bodies are processed in-memory only for length, SHA-256, variables and structural signals. Premium bodies are not available from the public RPC and remain null."
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "execution_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0003-8A29C2C9B96C",
+  "raw_output_sha256": "2c5d55d1936658f5a772d18b1f1baf9f3ae90ba916485f100721ca05b3e24b88",
+  "result": "PASS",
+  "decision": "ACCEPT_OBSERVATION",
+  "blocking_dimensions": {
+    "supplied_external_guard_recognized": "PASS",
+    "false_authorization_finding_absent": "PASS",
+    "negative_evidence_not_overweighted": "PASS",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "notes": "The supplied requireOwnerOrAdmin guard is recognized as satisfying the owner/admin invariant in the supplied execution chain. No speculative type, nullability, or upstream-contract failure is promoted into a material finding; the result is NO_MATERIAL_ISSUE_FOUND for the reviewed scope.",
+  "automatic_promotion": false
+}

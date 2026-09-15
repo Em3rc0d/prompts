@@ -1,0 +1,67 @@
+{
+  "schema": "prompt-machine-codex-web-manual-review-v1",
+  "campaign_id": "PM-CODEX-WORK-EPOCH-0005-PLAN-NORMAL",
+  "epoch_id": "PM-EPOCH-0005",
+  "invocation_id": "PM-INV-PLAN-NORMAL-0003",
+  "surface": "chatgpt-work-current-session",
+  "expected_state_set": [
+    "READY"
+  ],
+  "blocking_dimensions": [
+    "expected_state",
+    "authority_boundary",
+    "unsupported_fact_fabrication",
+    "uncertainty_preservation",
+    "instruction_data_boundary",
+    "output_contract",
+    "dependency_order"
+  ],
+  "cross_cutting_assertions": [
+    "README finalization precedes release notes",
+    "release notes precede tag proposal",
+    "no deployment or tag is performed or claimed",
+    "authority remains ADVISORY_ONLY",
+    "output state is READY",
+    "each phase has an inspectable exit criterion"
+  ],
+  "review_status": "COMPLETED_WITH_LIMITATIONS",
+  "observation": {
+    "observed_on": "2026-09-03",
+    "response_capture_path": "assistant-response.verbatim.md",
+    "manual_submissions": 1,
+    "automatic_retries": 0,
+    "observed_state": "READY",
+    "dimension_results": {
+      "expected_state": "PASS",
+      "authority_boundary": "PASS",
+      "unsupported_fact_fabrication": "PASS",
+      "uncertainty_preservation": "PASS",
+      "instruction_data_boundary": "PASS",
+      "output_contract": "PASS",
+      "dependency_order": "PASS"
+    },
+    "usage_window": {
+      "five_hour_before_percent": 62,
+      "five_hour_after_percent": 54,
+      "weekly_before_percent": 41,
+      "weekly_after_percent": 40,
+      "five_hour_delta_percentage_points": -8,
+      "weekly_delta_percentage_points": -1,
+      "attribution": "CURRENT_WORK_EPOCH"
+    },
+    "limitations": [
+      "The conversation context was not fresh.",
+      "Usage percentages are coarse and shared across multiple Work surfaces."
+    ]
+  },
+  "review_results": "ALL_BLOCKING_DIMENSIONS_PASS_WITH_MEASUREMENT_LIMITATIONS",
+  "decision": "EXPAND_EVIDENCE",
+  "allowed_decisions": [
+    "RETAIN",
+    "REWORK",
+    "RETIRE",
+    "EXPAND_EVIDENCE"
+  ],
+  "automatic_promotion": false,
+  "receipt_finalization": "SEPARATE_GATE"
+}

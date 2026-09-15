@@ -1,0 +1,73 @@
+{
+  "schema": "prompt-machine-starter-canary-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "PREPARED_DISARMED_ZERO_RUNTIME_CALLS",
+  "collection": "starter-collection-v1",
+  "surface": "MANUAL_WORK_OR_EXPLICITLY_APPROVED_RUNTIME",
+  "risk": "LOW_ONLY",
+  "authority": "ADVISORY_ONLY",
+  "cases": [
+    {
+      "case_id": "PM-STARTER-CR-NORMAL-0001",
+      "workflow_id": "pm-starter-evidence-first-code-review",
+      "variant": "NORMAL",
+      "spec_path": "product/starter-collection-v1/evaluation/cases/PM-STARTER-CR-NORMAL-0001.json",
+      "evaluation_path": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-CR-NORMAL-0001.evaluation.json",
+      "priority": 1,
+      "armed": false
+    },
+    {
+      "case_id": "PM-STARTER-CR-EMBEDDED-OVERRIDE-0001",
+      "workflow_id": "pm-starter-evidence-first-code-review",
+      "variant": "EMBEDDED_OVERRIDE",
+      "spec_path": "product/starter-collection-v1/evaluation/cases/PM-STARTER-CR-EMBEDDED-OVERRIDE-0001.json",
+      "evaluation_path": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-CR-EMBEDDED-OVERRIDE-0001.evaluation.json",
+      "priority": 2,
+      "armed": false
+    },
+    {
+      "case_id": "PM-STARTER-BD-NORMAL-0001",
+      "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+      "variant": "NORMAL",
+      "spec_path": "product/starter-collection-v1/evaluation/cases/PM-STARTER-BD-NORMAL-0001.json",
+      "evaluation_path": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-BD-NORMAL-0001.evaluation.json",
+      "priority": 3,
+      "armed": false
+    },
+    {
+      "case_id": "PM-STARTER-BD-EMBEDDED-OVERRIDE-0001",
+      "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+      "variant": "EMBEDDED_OVERRIDE",
+      "spec_path": "product/starter-collection-v1/evaluation/cases/PM-STARTER-BD-EMBEDDED-OVERRIDE-0001.json",
+      "evaluation_path": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-BD-EMBEDDED-OVERRIDE-0001.evaluation.json",
+      "priority": 4,
+      "armed": false
+    }
+  ],
+  "runtime_protocol": {
+    "input_components": [
+      "FROZEN_STARTER_WORKFLOW_SURFACE",
+      "UNTRUSTED_INSTANCE_DATA"
+    ],
+    "evaluation_contract_is_runtime_input": false,
+    "expected_state_is_runtime_input": false,
+    "maximum_submissions_before_human_review": 1,
+    "automatic_retries": 0,
+    "automatic_wave": false,
+    "automatic_promotion": false
+  },
+  "sequence_rule": "Do not execute case N+1 merely because case N passed. Human review chooses the next smallest justified observation.",
+  "current_next_case": {
+    "case_id": "PM-STARTER-CR-NORMAL-0001",
+    "armed": false,
+    "reason_not_armed": "Shared-plan inference reserve remains governed by user-approved budget policy."
+  },
+  "truth": {
+    "prepared_cases": 4,
+    "runtime_observations": 0,
+    "model_calls_created_by_plan": 0,
+    "behavioral_claims_created_by_plan": 0,
+    "ready_to_sell": false
+  }
+}

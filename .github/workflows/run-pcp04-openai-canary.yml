@@ -1,0 +1,31 @@
+name: HOLD — Legacy PCP-04 OpenAI Canary
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  legacy-campaign-held:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse legacy runtime execution
+        shell: bash
+        run: |
+          cat >&2 <<'EOF'
+          LEGACY PCP-04 CANARY: HELD / NOT EXECUTABLE
+
+          This workflow predates the frozen architecture binding/invocation contract.
+          Direct runtime execution would not represent the governed template/configuration semantics.
+
+          Active path:
+            PM-ARCH-FREEZE-V2.3-0001
+              -> PM-BIND-INV-FREEZE-V1.3-0001
+              -> PM-INV-CHECKLIST-NORMAL-0003
+              -> Run Architecture Checklist Canary v1 (manual arm only)
+
+          No provider credential is loaded by this HOLD workflow.
+          No model call is permitted.
+          EOF
+          exit 1

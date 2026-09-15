@@ -1,0 +1,40 @@
+name: Test Commercial Web v0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'web/**'
+      - 'tools/test_commercial_web_v0.py'
+      - '.github/workflows/test-commercial-web-v0.yml'
+  pull_request:
+    paths:
+      - 'web/**'
+      - 'tools/test_commercial_web_v0.py'
+      - '.github/workflows/test-commercial-web-v0.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  nextjs-acceptance:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Build Next.js app
+        run: npm run build
+      - name: Validate commercial boundaries
+        working-directory: .
+        run: python tools/test_commercial_web_v0.py

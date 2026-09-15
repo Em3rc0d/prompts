@@ -1,0 +1,155 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+STAGE / DOCUMENT     : MK1
+SOURCE REPOSITORY FILE: mk1/specs/F4_HUMAN_REVIEW_PROTOCOL.md
+CONTENT ORIGIN       : REPOSITORY DOCUMENTATION / ARTIFACT
+
+# MK1 F4 — Human Review Protocol
+
+F4 human review exists to evaluate behavioral properties that the machine-assertion layer does not reliably determine.
+
+It is evidence, not editorial cleanup.
+
+## Reviewer eligibility
+
+For current low/normal-risk MK1 fixtures, the minimum reviewer contract is:
+
+```text
+reviewer_type = human
+reviewer_ref  = stable, non-secret reference
+reviewed_at   = observed ISO-8601 timestamp
+```
+
+`reviewer_ref` may be a repository-local label such as `owner-reviewer-01` or `reviewer-02`. It should not contain passwords, tokens or unnecessary personal data.
+
+A model cannot mark its own output as human-reviewed.
+
+## Frozen evidence before review
+
+Before a human decision is recorded, freeze:
+
+- artifact id/version;
+- exact prompt body;
+- artifact prompt fingerprint;
+- fixture set id/version/fingerprint;
+- fixture input;
+- runtime identity;
+- execution id;
+- observed output.
+
+The reviewer must not edit the prompt, fixture input or observed output while reviewing that execution.
+
+If any frozen evidence is wrong, invalidate the run, fix/version the source evidence and execute again.
+
+## Review surface
+
+For each fixture, the reviewer should receive:
+
+1. fixture id and class;
+2. exact fixture input;
+3. exact observed output;
+4. the declared human-check sentence(s);
+5. relevant output-contract context when necessary to interpret the check.
+
+The reviewer does not need source-provider marketing context, expected future baseline scores or certification targets.
+
+## Decision vocabulary
+
+Each declared human check supports:
+
+```text
+PASS
+FAIL
+UNRESOLVED
+```
+
+In the execution envelope, anything other than explicit `PASS` or `FAIL` remains unresolved.
+
+### PASS
+
+Use PASS only when the observed output directly satisfies the declared check.
+
+The evidence note should name the concrete reason, not merely repeat `looks good`.
+
+### FAIL
+
+Use FAIL when the observed output violates the declared check.
+
+The note should identify the observed defect precisely enough to become a regression fixture or prompt revision input.
+
+### UNRESOLVED
+
+Keep the check unresolved when evidence is insufficient, the criterion is ambiguous or the reviewer is not confident enough to decide.
+
+UNRESOLVED is not a soft PASS. A blocking unresolved check prevents `TESTED`.
+
+## Review-note examples
+
+Good:
+
+```text
+PASS — The rewrite keeps both measurable facts: 3 servers and 14 ms; no new factual claim was introduced.
+```
+
+Good:
+
+```text
+FAIL — The code review calls formatting a critical defect even though the fixture states formatting is automated and non-blocking.
+```
+
+Bad:
+
+```text
+PASS — Looks fine.
+```
+
+Bad:
+
+```text
+PASS — The model said it checked itself.
+```
+
+## No post-hoc repair
+
+Do not modify an observed output and then review the edited version as though it were the model result.
+
+The valid loop is:
+
+```text
+observed output
+      ↓
+review FAIL
+      ↓
+characterize defect
+      ↓
+prompt/fixture version update
+      ↓
+new execution
+      ↓
+new receipt
+```
+
+## Failure becomes evidence
+
+A meaningful F4 failure should produce one or more of:
+
+- a new regression fixture;
+- a refined existing fixture;
+- an assembler/selector/critic regression case;
+- a prompt-artifact revision;
+- a documented runtime-specific limitation.
+
+Do not delete failing cases merely to make the suite green.
+
+## Current F4B promotion requirement
+
+For a `VALID` prompt to become `TESTED`:
+
+- all blocking machine checks must pass;
+- all blocking human checks must be explicit PASS;
+- human review metadata must be present;
+- prompt, fixture and receipt integrity fingerprints must validate;
+- the real receipt must be persisted;
+- deterministic TESTED materialization must succeed.
+
+The review does not establish `IMPROVED` or `CERTIFIED`. Those remain F5/F6 concerns.

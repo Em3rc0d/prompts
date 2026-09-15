@@ -1,0 +1,29 @@
+{
+  "schema": "prompt-machine-starter-n09-g07-successor-static-audit-receipt-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G07_IMPROVEMENT_STATIC_AUDIT",
+  "successor_workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "source_validator": "tools/validate_starter_code_review_v2_static.py",
+  "validator_schema": "prompt-machine-starter-code-review-v2-static-validation-v3",
+  "verdict": "PASS",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "source_v1_expected_git_blob": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+  "source_v1_head_git_blob": "6eeadb8ee226c1a4d3c931c892e7e4a7fd3679dd",
+  "source_v1_repository_identity_preserved": true,
+  "source_v1_worktree_content_clean_ignoring_cr_at_eol": true,
+  "source_v1_strict_worktree_clean": false,
+  "source_v1_only_eol_difference_observed": true,
+  "required_successor_rules_present": true,
+  "pass_effect": "G07_STATIC_SUCCESSOR_ACCEPTED_G08_REGRESSION_TEST_DESIGN_AUTHORIZED",
+  "pass_does_not_imply": [
+    "G08_REGRESSION_PASS",
+    "G09_PORTABILITY_PASS",
+    "G11_CERTIFIED",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "next_gate": "G08_REGRESSION_TEST_DESIGN_AND_ZERO_MODEL_FREEZE",
+  "truth_boundary": "STATIC_AUDIT_PASS_ONLY; SUCCESSOR_BEHAVIOR_NOT_YET_RETESTED"
+}

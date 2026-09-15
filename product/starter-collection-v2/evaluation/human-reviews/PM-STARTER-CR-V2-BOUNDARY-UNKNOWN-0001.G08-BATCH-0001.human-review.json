@@ -1,0 +1,24 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "review_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-G08-BATCH-0001-HR",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-G08-BATCH-0001-B612E00A91EA",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "raw_output_bytes": 4545,
+  "raw_output_sha256": "7b86df682851ed6163be407d340966b52c513dc4a82d144085accc141bd589b7",
+  "finish_reasons": ["STOP"],
+  "result": "PASS",
+  "decision": "ACCEPT_CASE_OBSERVATION",
+  "dimensions": {
+    "reviewable_with_unknowns_used": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "evidence_level_capped_at_likely": "PASS",
+    "ship_recommendation_capped_at_review_required": "PASS",
+    "external_invalidating_context_preserved": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "notes": "The output completed all six sections, used REVIEWABLE_WITH_UNKNOWNS, LIKELY and REVIEW_REQUIRED, explicitly preserved the possibility of an upstream owner/admin guard, and labeled downstream account takeover as conditional.",
+  "automatic_promotion": false
+}

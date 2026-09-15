@@ -1,0 +1,35 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-minimal-generation-control-inspection-receipt-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
+  "source_execution_id": "PM-GEMINI-MINIMAL-GEN-CTRL-001-7A046B4FDEEE",
+  "source_response_sha256": "a0e09bdc4945ea43069940f0d041a6b5f5e60cf18abcb38a76c1b6abc1435bf0",
+  "model": "gemini-3.5-flash",
+  "http_status": 200,
+  "finish_reason": "MAX_TOKENS",
+  "candidate_count": 1,
+  "visible_text_parts": 0,
+  "thought_parts_returned": 0,
+  "usage_metadata": {
+    "prompt_token_count": 5,
+    "thoughts_token_count": 5,
+    "candidates_token_count": null,
+    "total_token_count": 10
+  },
+  "source_response_bytes": 436,
+  "inspection_provider_requests_attempted": 0,
+  "inspection_model_inference_requests_attempted": 0,
+  "behavioral_observations": 0,
+  "g05_claim": "NONE",
+  "classification": "GENERATION_TRANSPORT_AVAILABLE_SEMANTIC_RESULT_INCONCLUSIVE_MAX_TOKENS_CONTROL_BUDGET",
+  "interpretation": {
+    "generate_content_path_available": true,
+    "semantic_exact_ok_demonstrated": false,
+    "provider_unavailable_503_demonstrated": false,
+    "control_design_issue_observed": true,
+    "control_design_issue": "maxOutputTokens=8 allowed the request to complete with HTTP 200 but finishReason=MAX_TOKENS after thinking consumed output budget before visible text was emitted"
+  },
+  "next_step": "Prepare a new separately governed minimal generation control with explicit minimal thinking and a larger output-token budget. Do not reinterpret or overwrite control 001.",
+  "truth_boundary": "HISTORICAL_CONTROL_001_PRESERVED; GENERATION_PATH_AVAILABLE; SEMANTIC_OUTPUT_UNOBSERVED; ZERO_G05_EVIDENCE"
+}

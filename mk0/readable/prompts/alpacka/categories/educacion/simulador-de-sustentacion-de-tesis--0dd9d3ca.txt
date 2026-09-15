@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Simulador de Sustentación de Tesis
+TYPE               : Prompt
+CATEGORY           : Educación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 0dd9d3ca-2b2a-43d5-b650-e770d301a4fa
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/0dd9d3ca-2b2a-43d5-b650-e770d301a4fa
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:d5c853888ae3b24cc794ce62bfb9d848eb220bd5e43168ee570bb40772581028
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- tema
+- nivel actual
+- objetivo
+- tiempo disponible
+- preferencias de aprendizaje
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un diseñador instruccional y tutor experto.
+
+OBJETIVO
+Simulador de Sustentación de Tesis.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {tema}
+- {nivel actual}
+- {objetivo}
+- {tiempo disponible}
+- {preferencias de aprendizaje}
+
+PROCESO
+1. Define escenario y roles.
+2. Ejecuta la interacción por turnos.
+3. Después de cada bloque, señala oportunidades de mejora.
+4. Finaliza con evaluación y siguiente práctica.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/0dd9d3ca-2b2a-43d5-b650-e770d301a4fa
+Source record ID: alpacka_prompt_0dd9d3ca-2b2a-43d5-b650-e770d301a4fa
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

@@ -1,0 +1,40 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-1-correction-checkpoint-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "source_batch": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "source_batch_result": "REWORK",
+  "source_failure_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "failure_mining": "commercial/STARTER_N09_G08_BATCH_0001_FAILURE_MINING.json",
+  "corrected_workflow": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.1.0",
+  "workflow_github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+  "correction_rules": [
+    "AFFIRMATIVE_EVIDENCE_FLOOR_FOR_LIKELY",
+    "SATISFIED_INVARIANT_STOP",
+    "NO_FORCED_FINDINGS",
+    "TECHNICAL_VALIDITY_GUARD",
+    "REVIEW_REQUIRED_SPECULATION_GUARD"
+  ],
+  "static_reaudit": "PASS_STATIC_ONLY",
+  "static_reaudit_receipt": "commercial/STARTER_N09_G08_V2_1_STATIC_REAUDIT_PASS_2026-09-07.json",
+  "v1_preserved": true,
+  "predeclared_g08_evaluations_preserved": true,
+  "new_batch": {
+    "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+    "plan": "commercial/STARTER_N09_G08_V2_1_BATCH_0002_PLAN.json",
+    "runner": "tools/pm_g08_batch_0002.py",
+    "cases": 4,
+    "maximum_provider_requests": 4,
+    "automatic_retries_per_case": 0,
+    "human_review_timing": "AFTER_BATCH",
+    "authorization_state": "FRESH_EXPLICIT_BATCH_AUTHORIZATION_REQUIRED"
+  },
+  "provider_requests_since_batch_0001": 0,
+  "model_calls_since_batch_0001": 0,
+  "runtime_observations_since_batch_0001": 0,
+  "g08_state": "REWORK_CORRECTION_STATIC_PASS_RUNTIME_RETEST_REQUIRED",
+  "next_gate": "FRESH_EXPLICIT_AUTHORIZATION_FOR_PM-STARTER-CR-V2-G08-BATCH-0002",
+  "truth_boundary": "CORRECTION_IMPLEMENTED_AND_STATICALLY_REAUDITED; NO_V2_1_RUNTIME_CLAIM_YET"
+}

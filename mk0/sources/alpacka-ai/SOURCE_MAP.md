@@ -1,0 +1,223 @@
+# Alpacka AI source map
+
+This file records what has actually been observed across the Alpacka AI source family. It is evidence-oriented: distinct products/surfaces and conflicting claims are preserved instead of silently reconciled.
+
+## Primary public surfaces
+
+- Threads profile: https://www.threads.com/@alpacka.ai
+- Website root / public directory: https://www.alpackaai.xyz/
+- Prompt route family: https://www.alpackaai.xyz/prompts/<uuid>
+- Skills: https://www.alpackaai.xyz/skills
+- Generator: https://www.alpackaai.xyz/generador
+- Blog: https://www.alpackaai.xyz/blog
+- Pricing: https://www.alpackaai.xyz/pricing
+- Terms: https://www.alpackaai.xyz/terms
+- Privacy: https://www.alpackaai.xyz/privacy
+- Commercial prompt-pack landing: https://alpackaai.xyz/bank-prompts
+- Checkout surfaced by the commercial landing: Hotmart
+
+## Important product/surface distinction
+
+Three numbers currently coexist and must **not** be treated as interchangeable:
+
+1. **530 prompt UUIDs** — records actually observed in the rendered public directory during the 2026-08-26 characterization pass.
+2. **500+ prompts** — claim observed in rendered commercial sales copy.
+3. **1,000+ prompts** — claim observed in page title / structured metadata / public site marketing.
+
+The repository records all three separately. The 530 observed public-directory records do not prove or disprove the size of a commercial/private pack, and the marketing claims do not imply that all claimed prompts are currently exposed in the rendered public directory.
+
+## Public prompt directory — observed evidence
+
+The rendered website root exposed **538 links**, of which **530** matched individual prompt UUID routes.
+
+Certified directory characterization:
+
+- 530 prompt records
+- 22 source-observed categories
+- 52 marked free
+- 478 marked premium
+- all 530 observed as `Cualquier modelo`
+
+The normalized directory is stored at:
+
+- `quarry/normalized/alpacka-ai-public-prompt-directory.jsonl`
+- `quarry/normalized/alpacka-ai-public-prompt-directory-manifest.json`
+
+## Public detail RPC — observed contract
+
+Rendered prompt detail pages call the public Supabase RPC:
+
+`https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompt_detail`
+
+Observed result fields include:
+
+- `id`
+- `title`
+- `description`
+- `content`
+- `category`
+- `is_premium`
+- `image_url`
+- `created_at`
+- `ai_tool`
+
+Observed access behavior:
+
+```text
+FREE RECORD
+content = public string
+
+PREMIUM RECORD
+content = null
+```
+
+The certified 530-record harvest found:
+
+- 52/52 free records with public content returned
+- 478/478 premium records with `content: null`
+- 0 category mismatches between directory-card category and RPC category
+
+The quarry respects this API boundary. It does not authenticate, subscribe or attempt to recover premium content. Free bodies are processed in memory for hashes/features and are not written by the RPC harvester.
+
+Evidence:
+
+- `quarry/fixtures/alpacka-detail-network-probe.json`
+- `quarry/normalized/alpacka-ai-prompt-metadata.jsonl`
+- `quarry/normalized/alpacka-ai-prompt-metadata-manifest.json`
+
+## Public prompt structure and technique mining
+
+The 52 free prompt bodies were analyzed in memory and discarded.
+
+Persisted evidence includes:
+
+- hashes
+- content lengths
+- variable markers
+- structural features
+- technique vectors
+- architecture signatures
+- category-level technique frequencies
+
+Current technique mining identifies 18 observed construction signals in the free corpus. The highest-frequency observations are variable-template, role-assignment, stepwise-procedure and task-decomposition.
+
+Evidence:
+
+- `quarry/analysis/alpacka-ai-free-structure-report.json`
+- `quarry/analysis/alpacka-ai-free-technique-vectors.jsonl`
+- `quarry/analysis/alpacka-ai-free-technique-matrix.json`
+
+## Public Skills surface
+
+Twelve public skill references were observed and normalized separately from prompt records.
+
+Aggregate structural observations:
+
+- role definition: 12/12
+- intake/question behavior: 12/12
+- explicit rules: 12/12
+- explicit output contract: 9/12
+- explicit multi-step process: 4/12
+
+The raw rendered evidence remains in the raw layer. Normalized/library layers retain metadata, fingerprints and abstractions rather than mirroring source skill bodies.
+
+Evidence:
+
+- `quarry/raw/alpacka-ai/surface/skills-index.jsonl`
+- `quarry/normalized/alpacka-ai-skills-metadata.jsonl`
+- `quarry/analysis/alpacka-ai-skill-structure-report.json`
+
+## Public Generator surface
+
+Three public preview prompt references were observed and normalized as:
+
+- growth-strategy planning
+- lead-magnet ideation
+- writing-style specification
+
+Normalized records retain fingerprints, variables and structural signals rather than duplicating the preview body.
+
+Evidence:
+
+- `quarry/raw/alpacka-ai/surface/generator.jsonl`
+- `quarry/normalized/alpacka-ai-generator-previews.jsonl`
+
+## Public Blog surface
+
+The blog index exposed two article routes during the current pass:
+
+- https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia
+- https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude
+
+Plain HTTP returns the generic SPA shell. Rendered browser observation revealed public Supabase reads against `rest/v1/blog_posts` by slug.
+
+The sanitized probe stores page headings and API metadata while replacing long article strings with length/hash markers. Article bodies are not duplicated into normalized records.
+
+Evidence:
+
+- `quarry/fixtures/alpacka-blog-dynamic-probe.json`
+- `quarry/normalized/alpacka-ai-blog-articles.jsonl` when normalization is complete
+
+## Commercial pack / delivery model observed
+
+The rendered commercial landing describes a Notion-based pack with lifetime updates, delivered after purchase. The public commercial landing does not expose the full paid pack.
+
+### 16 areas named by the rendered commercial landing
+
+1. Copywriting & Contenido
+2. Marketing & Ventas
+3. Marketing para Redes Sociales
+4. Aprender Inglés
+5. Creación de Contenido
+6. Finanzas Personales
+7. Astrología
+8. Canal de YouTube Sin Rostro
+9. Crecimiento Personal
+10. Bajar de Peso
+11. Conseguir Empleo
+12. Productividad
+13. Aprender Francés
+14. SEO y Contenido
+15. Vibe Coding
+16. Creatividad
+
+These 16 marketing areas are preserved as a source claim and are distinct from the **22 categories observed in the current public directory**.
+
+## Known Threads post references
+
+### DURUbidDrA5
+
+Official post:
+https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+
+Observed through public coverage as a collection around humanizing / editing AI-assisted prose. Six titles have been independently referenced:
+
+- El Editor Humano
+- Flujo Natural de Pensamiento
+- El Rompedor de Patrones de IA
+- Humanizador de Voz Consistente
+- Reescritura Centrada en el Lector
+- La Última Revisión 100% Humana
+
+Primary post body has not yet been captured directly through the official Threads API, so exact source text is not promoted as verified body.
+
+### DPwn67yDrZK
+
+Official post:
+https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+
+Observed as a structured reflection prompt around limiting beliefs related to money. Primary body is still pending direct Threads retrieval.
+
+## Secondary discovery sources
+
+These are evidence/discovery sources, not substitutes for a primary Threads body:
+
+- Infobae coverage of the six humanization prompts
+- Reporte Matutino coverage of the same collection
+- Radio Viva Fenix coverage of the same collection
+- Archivólogo mirror/reference of the same collection
+- MutaDatabase reference resolving the DPwn67yDrZK Threads URL
+
+## Collection boundary
+
+The quarry may characterize public source material and public data contracts. It must not claim to possess a full commercial/private pack when the evidence only supports a public surface, nor may it infer premium bodies from metadata. Checkout, login, subscription, authentication and other access boundaries are recorded rather than bypassed.

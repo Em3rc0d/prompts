@@ -1,0 +1,13 @@
+{
+  "records": 2,
+  "categories": [
+    "Claude",
+    "Negocios"
+  ],
+  "slugs": [
+    "como-ganar-dinero-con-ia",
+    "que-es-una-skill-en-claude"
+  ],
+  "source_probe": "quarry/fixtures/alpacka-blog-dynamic-probe.json",
+  "body_storage_policy": "No blog article body is duplicated into normalized data. Records retain source metadata, headings, lengths and hash prefixes."
+}

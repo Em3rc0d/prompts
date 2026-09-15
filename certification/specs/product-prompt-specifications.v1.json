@@ -1,0 +1,206 @@
+{
+  "schema": "prompt-quarry-product-prompt-specification-set-v1",
+  "specification_set_id": "PQ-PCP-01-SPECSET-0001",
+  "frozen_at": "2026-09-01T14:05:31Z",
+  "inventory_id": "PQ-PCP-00-INV-0001",
+  "counts": {"inventory_prompts": 7, "specifications": 7, "complete": 7, "incomplete": 0},
+  "specifications": [
+    {
+      "spec_id": "PQ-SPEC-0001-V1",
+      "prompt_id": "PQ-PROMPT-0001",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/free-developer-starter-v1/prompts/bug-diagnosis.md", "git_blob_sha": "5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Produce an evidence-disciplined diagnosis of a supplied software defect while avoiding premature root-cause and fix claims.",
+      "target_users": ["developer", "on_call_engineer", "technical_support_engineer"],
+      "input_contract": {
+        "required": ["Expected behavior or an explicit statement that it is unknown", "Observed behavior", "At least one evidence item or an explicit statement that evidence is unavailable"],
+        "optional": ["Reproduction steps or intermittency state", "Environment and version context", "Recent changes", "Impact and affected cohort"],
+        "invalid_or_blocking_states": ["No observable failure is described", "Supplied evidence is inaccessible or internally contradictory enough to prevent a responsible diagnosis"],
+        "missing_information_behavior": "Return DIAGNOSE_FIRST and request only the smallest evidence set with clear diagnostic value."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Current diagnosis", "Observation ledger", "Ranked hypotheses", "Next diagnostic checks", "Fix recommendation", "Verification plan", "Remaining unknowns"],
+        "allowed_status_values": ["DIAGNOSE_FIRST", "MITIGATE_NOW", "FIX_SUPPORTED"],
+        "completion_rule": "No root cause or fix may be presented as established unless the supplied evidence justifies it; otherwise the result remains diagnostic."
+      },
+      "constraints": ["Use OBSERVED, INFERRED, UNKNOWN, and DISPROVED without promotion", "Generate at most five mechanically distinct hypotheses", "Rank hypotheses by evidence rather than familiarity", "Prefer reversible high-information checks over broad or destructive changes", "Never invent runtime state, logs, versions, reproduction results, or infrastructure facts", "Separate diagnosis, mitigation, durable fix, and verification"],
+      "expected_value": {"statement": "Reduce premature fixes and make the next debugging action more discriminating, inspectable, and production-safe.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["Cannot observe the runtime or execute checks unless evidence or tools are separately supplied", "Quality depends on the completeness and correctness of supplied evidence", "One successful fix attempt does not prove root cause", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Application defect triage", "Incident diagnosis", "Regression analysis", "Performance or data issue investigation", "Planning the next diagnostic check"],
+      "out_of_scope": ["Autonomous production changes", "Destructive testing without explicit authorization", "Guaranteed root-cause identification", "Post-incident organizational analysis", "Replacing domain-owner judgment for high-impact remediation"],
+      "acceptance_conditions": ["Every observation maps to supplied evidence", "Hypotheses expose supporting, contradicting, and missing evidence", "Checks state true and false expected results plus reversibility", "Recommendation status follows the evidence state", "Verification covers reproduction, targeted test, regression, and relevant monitoring where applicable"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0002-V1",
+      "prompt_id": "PQ-PROMPT-0002",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/free-developer-starter-v1/prompts/code-review.md", "git_blob_sha": "4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Review supplied software changes for material, evidence-backed defects and engineering risks without padding the result with invented findings or style preferences.",
+      "target_users": ["software_developer", "code_reviewer", "technical_lead"],
+      "input_contract": {
+        "required": ["Code, diff, or exact changed files", "Change intent", "Runtime or language context sufficient to interpret the change"],
+        "optional": ["Expected behavior and invariants", "Performance, security, compatibility, or delivery constraints", "Observed test or CI evidence", "Related API, schema, authorization, retry, or external-service contracts"],
+        "invalid_or_blocking_states": ["No reviewable code or diff is supplied", "Missing context can materially reverse the highest-risk assessment"],
+        "missing_information_behavior": "Return REVIEW, avoid invented defects, and identify the minimum additional material required."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Executive assessment", "Prioritized findings", "Missing context", "Verification plan", "Ship decision"],
+        "allowed_status_values": ["BLOCK", "REVIEW", "SHIP_WITH_FIXES", "NO_MATERIAL_ISSUE_FOUND"],
+        "completion_rule": "Every reported finding must include evidence level, location, failure mechanism, impact, smallest useful fix, and verification."
+      },
+      "constraints": ["Report only CONFIRMED, LIKELY, or QUESTION with the level preserved", "Tie every finding to the smallest useful code location or snippet", "Do not report style preference as a defect", "Do not claim tests passed without supplied evidence", "Do not call a risky pattern a vulnerability without a reachable threat or missing control", "Prioritize material correctness, security, data, reliability, performance, operability, and maintenance risk"],
+      "expected_value": {"statement": "Concentrate reviewer attention on a small set of material, actionable risks and make uncertainty visible.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["Cannot execute code, tests, or static analysis unless tools and authority are separately supplied", "Incomplete diffs can hide relevant call sites and contracts", "Language or framework semantics may be misinterpreted when context is insufficient", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Pull request review", "Patch or changeset review", "Pre-merge risk assessment", "Targeted code audit", "Verification-plan design for a change"],
+      "out_of_scope": ["Whole-repository certification from a partial diff", "Automatic merge or deployment authority", "Pure formatting or style review", "Proof that unexecuted code is correct", "Security certification"],
+      "acceptance_conditions": ["Intent and missing material context are reconstructed", "Every finding explains a concrete failure mechanism", "Severity and evidence levels are defensible", "Duplicate or low-value findings are excluded", "Ship decision follows the strongest supported finding or material unknown"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0003-V1",
+      "prompt_id": "PQ-PROMPT-0003",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/free-developer-starter-v1/prompts/technical-decision.md", "git_blob_sha": "1ec734dc6fcd7c77426412ad649eb261e40dd386", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Compare technical options consistently under explicit constraints, evidence, uncertainty, operational consequences, and reversibility.",
+      "target_users": ["software_developer", "software_architect", "technical_lead", "product_engineer"],
+      "input_contract": {
+        "required": ["One-sentence decision", "At least two options or an explicit status-quo option", "Hard constraints", "Decision criteria and relative importance"],
+        "optional": ["Decision horizon", "System, workload, team, and business context", "Known evidence", "Known unknowns"],
+        "invalid_or_blocking_states": ["The decision is not distinguishable from its suggested implementation", "All options lack enough definition for shared comparison", "Material hard constraints are unknown"],
+        "missing_information_behavior": "Return HOLD and request the smallest evidence needed to resolve the most decision-relevant uncertainty."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Decision status", "Decision summary", "Constraints", "Option comparison", "Evidence and uncertainty", "Recommendation", "Reversal triggers", "Next validation step"],
+        "allowed_status_values": ["DECIDE", "CONDITIONAL", "HOLD"],
+        "completion_rule": "Every viable option is evaluated against the same frame; hard-constraint violations cannot be hidden by a weighted score."
+      },
+      "constraints": ["Separate supplied fact, source claim, inference, and assumption", "Do not invent benchmarks, pricing, limits, incidents, capabilities, or effort", "Reject non-viable options before preference scoring", "Expose migration, operating burden, lock-in, failure modes, and reversal cost", "Do not force a winner when evidence leaves options tied", "Treat numerical scores as summaries rather than evidence"],
+      "expected_value": {"statement": "Make technical trade-offs, decisive assumptions, and the next highest-information validation step visible before commitment.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["Current pricing, vendor behavior, or product capabilities require fresh external evidence when material", "Criteria weights still reflect human priorities", "The prompt does not execute benchmarks or proofs of concept", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Architecture option comparison", "Build-versus-buy", "Dependency or platform choice", "Migration choice", "Tool or vendor selection"],
+      "out_of_scope": ["Nontechnical high-stakes decisions", "Procurement approval", "Invented market or vendor facts", "Guaranteed optimal decisions", "Replacing accountable decision owners"],
+      "acceptance_conditions": ["Decision and constraints are normalized", "Non-viable options are removed explicitly", "Evidence, inference, assumptions, and unknowns remain distinct", "Recommendation names its strongest counterargument and dependency assumptions", "Reversal triggers and next validation actions are concrete"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0004-V1",
+      "prompt_id": "PQ-PROMPT-0004",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/developer-pack-v1.1/templates/bug-diagnosis-system.md", "git_blob_sha": "7a320cf8bbf5587024f201b8a02fa5421979f396", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Provide a configurable operating system for repeated defect and incident diagnosis with governed evidence, safety, hypothesis, action, and confirmation policies.",
+      "target_users": ["developer", "on_call_engineer", "incident_commander", "engineering_team", "agent_designer"],
+      "input_contract": {
+        "required": ["Configured diagnostic target, consumer, authority, and primary outcome", "Configured required evidence fields", "Configured root-cause confirmation threshold", "Configured safety and approval policy", "A concrete defect or incident instance"],
+        "optional": ["Recent deployments, dependency, configuration, data, or schema changes", "Blast radius and affected cohort", "Last known good point and prior incidents", "Monitoring anomalies and rollback constraints"],
+        "invalid_or_blocking_states": ["Required policy placeholders remain unresolved", "Required instance evidence is absent", "Requested action exceeds configured authority"],
+        "missing_information_behavior": "Return INSUFFICIENT_EVIDENCE or DIAGNOSE_FIRST and name only evidence capable of changing the diagnosis or action."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Diagnostic state", "Current diagnosis", "Observation ledger", "Failure boundary", "Ranked hypotheses", "Next diagnostic checks", "Action recommendation", "Verification plan", "Remaining unknowns"],
+        "allowed_status_values": ["DIAGNOSE_FIRST", "MITIGATE_NOW", "FIX_SUPPORTED", "CAUSE_CONFIRMED", "INSUFFICIENT_EVIDENCE"],
+        "completion_rule": "Configured evidence and safety thresholds govern the strongest conclusion and every production-affecting recommendation."
+      },
+      "constraints": ["Never promote INFERRED or UNKNOWN to OBSERVED", "Never emit CAUSE_CONFIRMED before the configured confirmation threshold", "Keep destructive, evidence-destroying, or security-disabling shortcuts forbidden", "Rank bounded hypotheses by evidence and discriminating-test value", "Separate diagnostic, containment, mitigation, and durable-fix actions", "Expose approval requirements and production risk"],
+      "expected_value": {"statement": "Reduce diagnosis-policy drift across incidents and make the workflow reusable in tickets, runbooks, agents, and support escalation.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["The template is not directly executable until policy placeholders are configured", "A generic confirmation threshold may be inappropriate for a specific system", "It cannot confer production-change authority", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Team incident diagnosis policy", "On-call runbook workflow", "Support escalation", "Debugging assistant configuration", "Incident agent or ticket integration"],
+      "out_of_scope": ["Unconfigured one-shot prompting", "Automatic production remediation", "Bypassing incident authority or change controls", "Guaranteed root-cause confirmation", "Postmortem blame assignment"],
+      "acceptance_conditions": ["All material configuration points are resolved", "Input and diagnostic states are enforceable", "Safety and approval boundaries are explicit", "Hypotheses and checks remain inspectable", "Verification tests both symptom resolution and mechanism consistency"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0005-V1",
+      "prompt_id": "PQ-PROMPT-0005",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/developer-pack-v1.1/templates/general-operating-contract.md", "git_blob_sha": "6774cead6da72a2f845889429dc2af60fc0d15d5", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Turn a recurring AI-assisted technical task into an explicit, inspectable operating contract with stable context, evidence, decision, output, verification, and fallback semantics.",
+      "target_users": ["developer", "technical_lead", "product_engineer", "engineering_team", "agent_designer"],
+      "input_contract": {
+        "required": ["Workflow identity, owner or consumer, and primary outcome", "Configured required inputs and input validation rules", "Allowed context and disallowed assumptions", "Evidence threshold, operating constraints, task-specific procedure, decision policy, and output contract"],
+        "optional": ["Optional inputs", "External research source, freshness, and citation policy", "Decision horizon and usage frequency", "Integration representation"],
+        "invalid_or_blocking_states": ["Material placeholders remain unresolved", "Required input semantics contradict each other", "The task-specific execution procedure is absent", "The output consumer or contract is undefined"],
+        "missing_information_behavior": "Return BLOCKED, NEEDS_REVIEW, or UNSUPPORTED with the smallest unblocking evidence set and any safe partial result."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["An explicit configured status", "A primary result contract", "Material evidence-state handling", "Material unknown handling", "Next-action semantics", "Verification semantics"],
+        "allowed_status_values": ["COMPLETE", "COMPLETE_WITH_UNKNOWNS", "NEEDS_REVIEW", "BLOCKED", "UNSUPPORTED"],
+        "completion_rule": "The configured consumer-facing output contract, rather than the template's suggested headings, defines completion."
+      },
+      "constraints": ["Unconfigured sections that do not affect execution must be removed", "Context outside the configured boundary remains UNKNOWN", "Material claims require evidence state", "The strongest conclusion must meet the configured threshold", "Decision state cannot be strengthened for rhetorical decisiveness", "Verification and fallback behavior must survive representation changes"],
+      "expected_value": {"statement": "Reduce workflow drift and reverse engineering by making reusable AI operating semantics explicit across prompts, forms, configs, tickets, and agent invocations.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["Domain correctness depends on the configured task-specific procedure", "The general template may be excessive for simple one-off tasks", "Machine-readable representation does not guarantee semantic preservation", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Recurring technical workflow design", "Agent or tool invocation contract", "Ticket, ADR, or PR workflow", "Form or JSON/YAML configuration design", "Prompt Generator input design"],
+      "out_of_scope": ["Simple one-off questions where governance adds no value", "Automatic discovery of domain policy", "Unconfigured direct execution", "Granting external tool or decision authority", "Behavioral certification"],
+      "acceptance_conditions": ["Every retained section changes execution or inspection", "Required and optional inputs are distinguishable", "Allowed context and evidence thresholds are explicit", "Decision transitions and consumer output are stable", "Fallback and verification can be applied by the intended integration"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0006-V1",
+      "prompt_id": "PQ-PROMPT-0006",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/developer-pack-v1.1/templates/software-code-review-system.md", "git_blob_sha": "387804cf3dd5aaf22b56aafbeb6b17380942a59e", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Provide a configurable code-review operating system with stable review lenses, evidence and severity thresholds, ship-state transitions, output, and verification policy.",
+      "target_users": ["software_developer", "code_reviewer", "technical_lead", "engineering_team", "agent_designer"],
+      "input_contract": {
+        "required": ["Configured workflow name, review target, intent, consumer, and ship authority", "Code, diff, or exact changed files", "Runtime or language context sufficient to interpret the change", "Configured review lenses, reporting threshold, severity, and ship policy"],
+        "optional": ["Schema, API, database, authorization, concurrency, deployment, or compatibility context", "Observed tests and incident evidence", "Custom review lenses and organization severity rubric"],
+        "invalid_or_blocking_states": ["Policy placeholders remain unresolved", "No reviewable change is supplied", "Key context is insufficient for the configured blocking decision"],
+        "missing_information_behavior": "Use INSUFFICIENT_CONTEXT or REVIEW_REQUIRED and ask only for context capable of changing a finding or ship decision."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Review state", "Executive assessment", "Policy-compliant findings", "Missing context", "Verification plan", "Ship recommendation"],
+        "allowed_status_values": ["BLOCK", "REVIEW_REQUIRED", "SHIP_WITH_FIXES", "SHIP", "NO_MATERIAL_ISSUE_FOUND"],
+        "completion_rule": "Only findings meeting configured evidence and severity thresholds may affect the configured ship transition."
+      },
+      "constraints": ["Enabled lenses only; disabled lenses produce no filler", "Every finding connects evidence, mechanism, impact, fix, and verification", "CONFIRMED, LIKELY, QUESTION, and DISMISSED semantics remain distinct", "Do not invent test or runtime evidence", "Reject style-only, duplicate, contradicted, or immaterial candidates", "Preserve configured human or CI authority"],
+      "expected_value": {"statement": "Make code-review policy reusable across repositories and integrations while keeping findings and ship decisions inspectable.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["The template requires explicit team policy configuration before use", "Repository-wide context may be unavailable in a supplied diff", "The workflow does not execute tests unless tools and authority are separately supplied", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["Team PR-review policy", "Repository review instructions", "CI review pre-gate", "Code-review agent configuration", "Security or release precheck"],
+      "out_of_scope": ["Unconfigured direct review", "Automatic merge authority unless explicitly granted elsewhere", "Formal security certification", "Proof of runtime correctness", "Style-only lint replacement"],
+      "acceptance_conditions": ["Review policy fields are resolved", "Input state is explicit", "Every accepted finding survives challenge", "Ship decision follows configured transitions", "Verification plan covers applicable happy, edge, failure, security, regression, and observability paths"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    },
+    {
+      "spec_id": "PQ-SPEC-0007-V1",
+      "prompt_id": "PQ-PROMPT-0007",
+      "spec_version": "1.0.0",
+      "source_basis": {"path": "product/developer-pack-v1.1/templates/technical-research-decision-system.md", "git_blob_sha": "60a76e56f669c875ffd98a6713846f4e4530cb44", "derivation": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"},
+      "purpose": "Provide a configurable decision system for technical choices with governed source quality, freshness, hard constraints, reversibility, transition states, and discriminating experiments.",
+      "target_users": ["software_architect", "technical_lead", "product_engineer", "engineering_team", "agent_designer"],
+      "input_contract": {
+        "required": ["Configured decision name, owner, question, options, horizon, and deadline", "System and product context", "Hard constraints and decision criteria", "Allowed evidence sources, freshness, citation, and quality policy", "Configured decision-state transitions"],
+        "optional": ["Internal benchmarks and incident data", "Team operating experience", "External research when permitted", "Alternative or status-quo option"],
+        "invalid_or_blocking_states": ["Material policy placeholders remain unresolved", "All options violate hard constraints", "Critical criteria depend only on evidence below the configured threshold", "The decision owner or target decision is undefined"],
+        "missing_information_behavior": "Return HOLD or REJECT_ALL and design the smallest discriminating evidence request or experiment instead of forcing a winner."
+      },
+      "output_contract": {
+        "required_sections_or_elements": ["Decision state", "Decision summary", "Constraint ledger", "Criteria frame", "Option viability", "Evidence ledger", "Comparative analysis", "Recommendation", "Reversal triggers", "Next validation action"],
+        "allowed_status_values": ["DECIDE", "CONDITIONAL", "HOLD", "REJECT_ALL"],
+        "completion_rule": "Only viable options enter preference comparison, and recommendation strength cannot exceed configured evidence quality."
+      },
+      "constraints": ["Hard constraints precede scoring", "Every material claim keeps source, freshness, applicability, and evidence state when required", "Weak evidence and assumptions remain visible", "Scores do not override evidence or constraints", "Second-order consequences and exit cost are considered where material", "A HOLD result must propose a genuinely discriminating experiment"],
+      "expected_value": {"statement": "Make recurring technical decisions more consistent, current, reversible, and reviewable across ADR, vendor, migration, and platform workflows.", "evidence_state": "HYPOTHESIS_UNTESTED"},
+      "known_limitations": ["Fresh external facts require permitted research at execution time", "Evidence-quality grades still require contextual judgment", "A generic template cannot determine organization-specific criteria weights", "No F4 behavioral, comparative, certification, or portability evidence exists"],
+      "supported_use_cases": ["ADR and architecture review", "Build-versus-buy", "Vendor or tool evaluation", "Dependency and platform selection", "Migration and procurement technical assessment"],
+      "out_of_scope": ["Nontechnical legal or financial approval", "Unconfigured direct execution", "Vendor claims without permitted sources", "Guaranteed optimal selection", "Replacing accountable decision authority"],
+      "acceptance_conditions": ["All hard constraints and criteria are explicit", "Source policy and freshness are enforceable", "Every option has a viability state", "Decision status follows configured transitions", "Reversal triggers and discriminating next actions can change a future decision"],
+      "claim_boundary": {"F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false},
+      "spec_status": "COMPLETE",
+      "silent_edit_allowed": false
+    }
+  ],
+  "gate": {"name": "PROMPT_SPEC_COMPLETE", "status": "PASS", "next_gate": "PCP-02 / STATIC_AUDIT_COMPLETE"}
+}

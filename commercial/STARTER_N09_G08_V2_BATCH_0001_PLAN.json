@@ -1,0 +1,47 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-batch-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G08_REGRESSION",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "state": "PREPARED_NOT_AUTHORIZED",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "model": "gemini-3.5-flash",
+  "generation_config": {
+    "maxOutputTokens": 4096,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal"
+    }
+  },
+  "rationale": "G08-001 passed seven of eight blocking dimensions but truncated under MAX_TOKENS after 3527 thought tokens and 565 candidate tokens. The batch keeps the workflow surface frozen and changes only the provider runtime configuration to minimal thinking so visible-output budget can satisfy the six-part output contract.",
+  "cases": [
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+  ],
+  "maximum_provider_requests_total": 4,
+  "maximum_provider_requests_per_case": 1,
+  "automatic_retries_per_case": 0,
+  "automatic_semantic_judgement": false,
+  "human_review_timing": "AFTER_BATCH",
+  "continue_after_semantic_result": true,
+  "continue_after_provider_failure": true,
+  "stop_before_provider_use_on_integrity_failure": true,
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "authorization_required": true,
+  "authorization_scope": "THIS_EXACT_BATCH_ONLY",
+  "authorization_format": "AUTORIZO PM-STARTER-CR-V2-G08-BATCH-0001: hasta 4 ejecuciones, 0 reintentos por caso.",
+  "authorization_consumption": "The runner performs all zero-model integrity checks first. If they pass, the authorization becomes consumable and permits at most one provider request for each frozen case in the listed order. No request may be retried.",
+  "output_root": "$HOME/.local/share/prompt-machine/n09/g08-v2-batch-0001",
+  "supersedes_manual_case_by_case_operation": true,
+  "does_not_imply": [
+    "G08_PASS",
+    "G09_PORTABILITY_PASS",
+    "CERTIFIED",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "truth_boundary": "BATCH_PLAN_ONLY_ZERO_PROVIDER_REQUESTS_ZERO_NEW_RUNTIME_OBSERVATIONS"
+}

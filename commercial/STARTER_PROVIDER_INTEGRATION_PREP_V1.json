@@ -1,0 +1,96 @@
+{
+  "schema": "prompt-machine-starter-provider-integration-prep-v1",
+  "version": "1.0.1",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
+  "product_id": "prompt-machine-starter-collection",
+  "provider_candidate": "LEMON_SQUEEZY",
+  "purpose": "Freeze the reusable commerce, signed-event ingestion, and custody-verification layer required for a future controlled Starter provider test without claiming provider provisioning, custody, purchase, delivery, revenue, or launch readiness.",
+  "commerce_architecture": {
+    "generic_release_core": "web/lib/commerce-release.ts",
+    "signed_provider_event_core": "web/lib/lemonsqueezy.ts",
+    "commerce_mode_core": "web/lib/commerce-mode.ts",
+    "starter_release_adapter": "web/lib/starter-collection-release.ts",
+    "starter_signed_webhook_adapter": "web/app/api/commerce/lemonsqueezy/starter-webhook/route.ts",
+    "canonical_identity_contract": "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json",
+    "custody_contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
+    "provider_file_verifier": "tools/verify_lemonsqueezy_provider_file.py",
+    "offline_custody_regression": "tools/test_provider_custody_verifier_v1.py",
+    "offline_webhook_adapter_regression": "tools/test_starter_webhook_adapter_v1.py"
+  },
+  "canonical_release": {
+    "product_id": "prompt-machine-starter-collection",
+    "version": "1.0.0-candidate",
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "source_commit": "167faad0758b3e746b48ac7c898f876525d30ee3"
+  },
+  "offline_regression_evidence": {
+    "workflow": "Test Commerce v0",
+    "run_id": 33804410377,
+    "conclusion": "success",
+    "provider_calls": 0,
+    "model_calls": 0,
+    "assertions": [
+      "metadata_only_does_not_emit_custody_evidence",
+      "exact_locally_built_canonical_bytes_emit_PROVIDER_ARTIFACT_CUSTODY_EVIDENCE_in_simulation",
+      "same_size_corrupted_bytes_fail_closed_on_sha256",
+      "new_provider_evidence_uses_canonical_starter_product_id",
+      "legacy_starter_alias_is_not_used_as_new_provider_identity",
+      "starter_signed_webhook_uses_canonical_release_identity",
+      "starter_signed_webhook_is_disabled_when_commerce_mode_is_off",
+      "starter_customer_surface_has_no_checkout_route",
+      "custody_does_not_imply_purchase_delivery_revenue_or_ready_to_sell"
+    ]
+  },
+  "fail_closed_surface": {
+    "starter_commerce_mode_default": "off",
+    "starter_public_sale_status_default": "NOT_FOR_SALE",
+    "starter_signed_webhook_adapter_present": true,
+    "starter_checkout_route_exists": false,
+    "automatic_provider_creation": false,
+    "automatic_artifact_upload": false,
+    "automatic_checkout_enablement": false,
+    "automatic_promotion": false
+  },
+  "current_truth": {
+    "signed_starter_webhook_adapter_present": true,
+    "provider_store_identity_observed_for_starter": false,
+    "provider_product_identity_observed_for_starter": false,
+    "provider_variant_identity_observed_for_starter": false,
+    "canonical_artifact_uploaded_to_provider": false,
+    "canonical_artifact_retrieved_from_provider": false,
+    "provider_custody_evidence_observed": false,
+    "provider_test_order_observed": false,
+    "customer_delivery_observed": false,
+    "real_purchase_observed": false,
+    "real_revenue_observed": false,
+    "provider_integration_pass": false,
+    "ready_to_sell": false
+  },
+  "next_external_gate": {
+    "name": "CONTROLLED_PROVIDER_PROVISIONING_AND_CUSTODY_TEST",
+    "automatic": false,
+    "requirements_before_pass": [
+      "record_non_secret_store_product_variant_identity",
+      "bind_or_upload_exact_canonical_starter_archive",
+      "configure_signed_starter_webhook_without_enabling_public_checkout",
+      "retrieve_artifact_through_authorized_provider_surface",
+      "verify_retrieved_size_is_50918",
+      "verify_retrieved_sha256_is_4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+      "persist_provider_custody_receipt_without_pii_or_secrets"
+    ]
+  },
+  "evidence_boundary": {
+    "signed_webhook_adapter_present_is_provider_event_observation": false,
+    "static_integration_code_is_provider_integration_pass": false,
+    "offline_provider_simulation_is_real_provider_custody": false,
+    "provider_metadata_alone_is_custody": false,
+    "provider_custody_is_purchase": false,
+    "provider_custody_is_delivery": false,
+    "provider_test_order_is_revenue": false,
+    "provider_integration_prep_is_product_ready": false
+  },
+  "master_rule": "STATIC PREPARATION MAY REDUCE EXECUTION RISK; IT MAY NOT BE PROMOTED INTO EXTERNAL EVIDENCE"
+}

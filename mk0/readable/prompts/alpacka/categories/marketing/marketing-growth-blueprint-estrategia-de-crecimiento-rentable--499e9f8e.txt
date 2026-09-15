@@ -1,0 +1,88 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Marketing Growth Blueprint – Estrategia de Crecimiento Rentable
+TYPE               : Prompt
+CATEGORY           : Marketing
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 499e9f8e-6764-4a47-9c34-5db16d2106ed
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/499e9f8e-6764-4a47-9c34-5db16d2106ed
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:d40732eb1150da7b9e67daf8ee98480d16181aa89e8ab9b0231d0320e1ddc6ef
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- oferta
+- audiencia
+- canal
+- objetivo
+- baseline
+- presupuesto/restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de marketing basado en experimentos.
+
+OBJETIVO
+Marketing Growth Blueprint – Estrategia de Crecimiento Rentable.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {oferta}
+- {audiencia}
+- {canal}
+- {objetivo}
+- {baseline}
+- {presupuesto/restricciones}
+
+PROCESO
+1. Diagnostica el punto de partida.
+2. Define el resultado objetivo y las restricciones.
+3. Construye un plan por fases con prioridades y métricas.
+4. Cierra con las primeras acciones ejecutables.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/499e9f8e-6764-4a47-9c34-5db16d2106ed
+Source record ID: alpacka_prompt_499e9f8e-6764-4a47-9c34-5db16d2106ed
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

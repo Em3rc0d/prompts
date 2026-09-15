@@ -1,0 +1,32 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-provider-visibility-diagnostic-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "purpose": "Diagnose provider/project/model visibility after repeated 503 generation failures without making a model inference request.",
+  "execution_location": "USER_WSL",
+  "provider": "GOOGLE_GEMINI_API",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "api_family": "Gemini models metadata",
+  "method": "GET",
+  "targets": [
+    "gemini-3.8-flash",
+    "gemini-3.5-flash"
+  ],
+  "generate_content_allowed": false,
+  "model_inference_allowed": false,
+  "runtime_envelope_sent": false,
+  "behavioral_observation_created": false,
+  "authorization_consumption": "NONE_MODEL_RUNTIME_AUTHORIZATION_NOT_USED",
+  "automatic_retries": 0,
+  "maximum_metadata_requests": 2,
+  "local_report": "$HOME/.local/share/prompt-machine/n09/provider-visibility-diagnostic-v1.json",
+  "interpretation": {
+    "both_200": "API key/project can resolve both model resources; repeated generation 503s are more consistent with generation-service capacity/routing than missing model visibility.",
+    "403": "Investigate API key/project permissions, API access, or account/project configuration before another runtime attempt.",
+    "404": "Investigate exact model availability/visibility for this project before another runtime attempt.",
+    "429": "Investigate project rate/quota limits before another runtime attempt.",
+    "5xx": "Treat as broader provider/service availability evidence; do not buy another behavioral canary immediately."
+  },
+  "truth_boundary": "PROVIDER_METADATA_DIAGNOSTIC_ONLY_NO_MODEL_OUTPUT_NO_G05_BEHAVIORAL_EVIDENCE"
+}

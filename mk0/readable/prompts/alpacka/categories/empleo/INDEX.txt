@@ -1,0 +1,36 @@
+PROMPTS — Empleo
+========================================================================================
+Total: 16
+
+[FREE   ]  Analizar descripción de empleo
+          analizar-descripcion-de-empleo--5c9fb14f.txt
+[FREE   ]  Construir currículum profesional
+          construir-curriculum-profesional--b2d3283b.txt
+[PREMIUM] CV a Prueba de ATS: pasa los filtros automáticos y llega a humanos
+          cv-a-prueba-de-ats-pasa-los-filtros-automaticos-y-llega-a-humanos--1f8ed291.txt
+[PREMIUM] Cambio de Carrera a los 30/40: traduce tu experiencia al nuevo sector
+          cambio-de-carrera-a-los-30-40-traduce-tu-experiencia-al-nuevo-sector--44da8ab4.txt
+[PREMIUM] El Email de Networking en Frío: consigue reuniones con quien admiras
+          el-email-de-networking-en-frio-consigue-reuniones-con-quien-admiras--914bb6f9.txt
+[PREMIUM] Entrevista por Competencias: domina el método STAR con tu propia historia
+          entrevista-por-competencias-domina-el-metodo-star-con-tu-propia-historia--74276539.txt
+[PREMIUM] LinkedIn Magnético: el perfil que hace que los reclutadores te escriban
+          linkedin-magnetico-el-perfil-que-hace-que-los-reclutadores-te-escriban--e068c686.txt
+[PREMIUM] Los Primeros 90 Días: vuélvete imprescindible en tu nuevo puesto
+          los-primeros-90-dias-vuelvete-imprescindible-en-tu-nuevo-puesto--435c29a1.txt
+[PREMIUM] Marca Personal para Empleados: destaca sin parecer que buscas trabajo
+          marca-personal-para-empleados-destaca-sin-parecer-que-buscas-trabajo--422771c2.txt
+[FREE   ] Megaprompt: Simulador de Entrevistas FAANG (Full Loop)
+          megaprompt-simulador-de-entrevistas-faang-full-loop--099baa18.txt
+[PREMIUM] Negocia tu Salario: el guion para subir la oferta un 20%
+          negocia-tu-salario-el-guion-para-subir-la-oferta-un-20--f6593987.txt
+[PREMIUM] Prepara tu Evaluación de Desempeño y pide el ascenso con datos
+          prepara-tu-evaluacion-de-desempeno-y-pide-el-ascenso-con-datos--f3cf9313.txt
+[PREMIUM] Preparar entrevista de trabajo
+          preparar-entrevista-de-trabajo--d9601766.txt
+[FREE   ] Realizar autoevaluación profesional
+          realizar-autoevaluacion-profesional--8d381504.txt
+[FREE   ] Redactar carta de presentación
+          redactar-carta-de-presentacion--99dd0b60.txt
+[PREMIUM] Renuncia Elegante: sal sin quemar puentes y con la puerta abierta
+          renuncia-elegante-sal-sin-quemar-puentes-y-con-la-puerta-abierta--71c8e110.txt

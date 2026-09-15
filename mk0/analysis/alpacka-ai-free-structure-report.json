@@ -1,0 +1,375 @@
+{
+  "records": 530,
+  "free_records": 52,
+  "premium_records": 478,
+  "categories": {
+    "Marketing": 95,
+    "Idiomas": 51,
+    "Astrología": 47,
+    "Abogados": 45,
+    "Ideas de Negocio": 45,
+    "Educación": 36,
+    "Ganar Dinero": 30,
+    "Salud": 23,
+    "Empleo": 16,
+    "Copywriting": 15,
+    "Crear logos": 15,
+    "Negocios": 15,
+    "Desarrollo Personal": 12,
+    "Imagen": 12,
+    "Productividad": 12,
+    "Programación": 12,
+    "Finanzas Personales": 11,
+    "Redes Sociales": 11,
+    "E-commerce": 10,
+    "IG reels": 9,
+    "Profesores": 6,
+    "Ingeniería": 2
+  },
+  "free_categories": {
+    "Astrología": 12,
+    "Marketing": 8,
+    "Idiomas": 6,
+    "Salud": 6,
+    "Empleo": 5,
+    "Abogados": 3,
+    "IG reels": 3,
+    "Copywriting": 2,
+    "Educación": 2,
+    "Imagen": 2,
+    "Finanzas Personales": 1,
+    "Negocios": 1,
+    "Redes Sociales": 1
+  },
+  "free_structure_signals": {
+    "role_assignment": {
+      "count": 43,
+      "percent": 82.69
+    },
+    "stepwise_procedure": {
+      "count": 29,
+      "percent": 55.77
+    },
+    "explicit_constraints": {
+      "count": 3,
+      "percent": 5.77
+    },
+    "output_contract": {
+      "count": 2,
+      "percent": 3.85
+    }
+  },
+  "free_average_structure": {
+    "numbered_steps": 2.69,
+    "bullet_lines": 2.71,
+    "line_count": 17.0,
+    "paragraph_count": 4.5
+  },
+  "top_variables": [
+    {
+      "variable": "SIGNO",
+      "count": 7
+    },
+    {
+      "variable": "INSERTAR",
+      "count": 6
+    },
+    {
+      "variable": "FECHA/HORA/LUGAR",
+      "count": 5
+    },
+    {
+      "variable": "PRINCIPIANTE/INTERMEDIO/AVANZADO",
+      "count": 5
+    },
+    {
+      "variable": "INSERTAR IDIOMA",
+      "count": 5
+    },
+    {
+      "variable": "IDIOMA",
+      "count": 4
+    },
+    {
+      "variable": "DESCRIPCIÓN",
+      "count": 2
+    },
+    {
+      "variable": "INSERTAR TEMA",
+      "count": 2
+    },
+    {
+      "variable": "caso legal específico",
+      "count": 1
+    },
+    {
+      "variable": "disputa legal específica",
+      "count": 1
+    },
+    {
+      "variable": "tipo de contrato",
+      "count": 1
+    },
+    {
+      "variable": "OPCIONAL",
+      "count": 1
+    },
+    {
+      "variable": "FECHA",
+      "count": 1
+    },
+    {
+      "variable": "SOLTERO/EN PAREJA",
+      "count": 1
+    },
+    {
+      "variable": "PROTECCIÓN, AMOR, DINERO, PAZ",
+      "count": 1
+    },
+    {
+      "variable": "NOMBRE Y QUÉ HACE",
+      "count": 1
+    },
+    {
+      "variable": "EJ. TIKTOK / INSTAGRAM / FACEBOOK",
+      "count": 1
+    },
+    {
+      "variable": "EJ. 50% DESCUENTO / ENVÍO GRATIS",
+      "count": 1
+    },
+    {
+      "variable": "NOMBRE DEL PRODUCTO",
+      "count": 1
+    },
+    {
+      "variable": "MI CLIENTE IDEAL",
+      "count": 1
+    },
+    {
+      "variable": "VENTAJA PRINCIPAL",
+      "count": 1
+    },
+    {
+      "variable": "DETALLES DE VENTA",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR NIVEL",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR TIEMPO",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR OBJETIVO",
+      "count": 1
+    },
+    {
+      "variable": "CONCEPTO COMPLEJO",
+      "count": 1
+    },
+    {
+      "variable": "ESCRIBE EL CONCEPTO",
+      "count": 1
+    },
+    {
+      "variable": "NULO / ALGO SÉ / AVANZADO",
+      "count": 1
+    },
+    {
+      "variable": "EMPRESA: Google/Meta/Amazon/Netflix",
+      "count": 1
+    },
+    {
+      "variable": "descripción de puesto",
+      "count": 1
+    },
+    {
+      "variable": "cargo",
+      "count": 1
+    },
+    {
+      "variable": "experiencia laboral",
+      "count": 1
+    },
+    {
+      "variable": "formación académica",
+      "count": 1
+    },
+    {
+      "variable": "habilidades",
+      "count": 1
+    },
+    {
+      "variable": "cualificaciones",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR INGRESOS",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR GASTOS",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR DEUDAS O \"NINGUNA\"",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR META",
+      "count": 1
+    },
+    {
+      "variable": "TEMA DEL VIDEO",
+      "count": 1
+    },
+    {
+      "variable": "nicho",
+      "count": 1
+    },
+    {
+      "variable": "TU NICHO: EJ. PROGRAMACIÓN, FITNESS, COCINA",
+      "count": 1
+    },
+    {
+      "variable": "?",
+      "count": 1
+    },
+    {
+      "variable": "Ej. WA y GA / NI y DE / E y NI / WO y GA",
+      "count": 1
+    },
+    {
+      "variable": "Ej. Malestar médico / Pérdida de documentos / Pedir ayuda en la calle",
+      "count": 1
+    },
+    {
+      "variable": "PRINCIPIANTE/INTERMEDIO",
+      "count": 1
+    },
+    {
+      "variable": "Ej. La pronunciación / Quedarme en blanco / Que no me entiendan / La gramática",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR QUÉ VENDES Y A QUIÉN",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR TEMA CENTRAL",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR: uso Reddit a diario, nunca lo he usado",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR: español LATAM, España, inglés",
+      "count": 1
+    },
+    {
+      "variable": "EJ. DIVERTIDO, PROFESIONAL, REBELDE",
+      "count": 1
+    },
+    {
+      "variable": "EJ. VENDER, CONSEGUIR FOLLOWS, EDUCAR",
+      "count": 1
+    },
+    {
+      "variable": "DESCRIBIR",
+      "count": 1
+    },
+    {
+      "variable": "NÚMERO",
+      "count": 1
+    },
+    {
+      "variable": "PLATAFORMA",
+      "count": 1
+    },
+    {
+      "variable": "CRECIMIENTO / VENTAS / AUTORIDAD",
+      "count": 1
+    },
+    {
+      "variable": "CANTIDAD",
+      "count": 1
+    },
+    {
+      "variable": "LISTA",
+      "count": 1
+    },
+    {
+      "variable": "Instagram/LinkedIn/TikTok",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR NICHO",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR AUDIENCIA",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR PLATAFORMA",
+      "count": 1
+    },
+    {
+      "variable": "INSERTAR TEMA O TITULAR",
+      "count": 1
+    },
+    {
+      "variable": "PROBLEMA: EJ. DOLOR LUMBAR, CUELLO ADELANTADO",
+      "count": 1
+    },
+    {
+      "variable": "CONTEXTO: EJ. TRABAJA 8 HORAS EN PC",
+      "count": 1
+    },
+    {
+      "variable": "lugar: ej. mi casa o un parque",
+      "count": 1
+    },
+    {
+      "variable": "minutos",
+      "count": 1
+    },
+    {
+      "variable": "equipo: ej. nada, un par de mancuernas o una silla",
+      "count": 1
+    },
+    {
+      "variable": "ÁREA A MEJORAR: EJ. SUEÑO, ENERGÍA, FOCO",
+      "count": 1
+    },
+    {
+      "variable": "tu objetivo: ej. perder peso o ganar músculo",
+      "count": 1
+    },
+    {
+      "variable": "alimentos",
+      "count": 1
+    },
+    {
+      "variable": "bajo/medio/alto",
+      "count": 1
+    },
+    {
+      "variable": "OBJETIVO DE SALUD/CONDICIÓN",
+      "count": 1
+    },
+    {
+      "variable": "RESTRICCIONES/ALERGIAS",
+      "count": 1
+    },
+    {
+      "variable": "tu problema: ej. apagar el cerebro o dormir de corrido",
+      "count": 1
+    }
+  ],
+  "policy": "Analysis uses harvested metadata/fingerprints only. Prompt bodies are not read from disk because they are never persisted."
+}

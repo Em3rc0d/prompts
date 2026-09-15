@@ -1,0 +1,31 @@
+{
+  "schema": "prompt-machine-workflow-composite-surface-v1",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.2.0",
+  "status": "G08_REGRESSION_PASS_CANONICAL_CANDIDATE",
+  "composition_order": [
+    {
+      "role": "BASE_WORKFLOW",
+      "path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+      "github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c"
+    },
+    {
+      "role": "NORMATIVE_HARDENING_ADDENDUM",
+      "path": "product/starter-collection-v2/workflows/evidence-first-code-review-v2-2-hardening.md",
+      "github_blob_sha": "6da13d8c4e0ad11fd791d89949453208fb5ca168"
+    }
+  ],
+  "composition_rule": "BASE_RSTRIP_LF + LF_LF_HRULE_LF_LF + OPEN_MARKER + ADDENDUM_RSTRIP_LF + CLOSE_MARKER",
+  "open_marker": "<<<NORMATIVE_HARDENING_ADDENDUM_V2_2>>>",
+  "close_marker": "<<<END_NORMATIVE_HARDENING_ADDENDUM_V2_2>>>",
+  "tested_composite_surface_bytes": 25295,
+  "tested_composite_surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+  "g08_batch": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "g08_human_review_receipt": "commercial/STARTER_N09_G08_V2_2_BATCH_0003_HUMAN_REVIEW_PASS_2026-09-07.json",
+  "g08_result": "PASS",
+  "portability_status": "NOT_YET_G09_TESTED",
+  "certification_status": "NOT_YET_G11_CERTIFIED",
+  "product_ready": false,
+  "ready_to_sell": false,
+  "notes": "This manifest canonizes the exact composed bytes that earned G08 PASS. Do not rewrite or flatten the surface without creating a new identity and revalidating equivalence or behavior."
+}

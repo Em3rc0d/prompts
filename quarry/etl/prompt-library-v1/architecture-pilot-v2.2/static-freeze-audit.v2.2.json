@@ -1,0 +1,58 @@
+{
+  "schema": "prompt-machine-architecture-static-freeze-audit-v2.2",
+  "audit_version": "2.2.0",
+  "basis": "Final static semantic freeze review of all nine v2.2 architecture mothers. No runtime/model execution.",
+  "overall_disposition": "STATIC_FREEZE_BLOCKED",
+  "architecture_count": 9,
+  "findings": [
+    {
+      "id": "ARCH-V22-COMMON-001",
+      "severity": "HIGH",
+      "scope": "all modes",
+      "finding": "The INPUT CONTRACT declares minimum required inputs, but the common STATE POLICY does not explicitly guarantee that a missing minimum required input maps to BLOCKED unless a mode-specific state happens to name that field.",
+      "examples": [
+        "generation marks requested candidate count as minimum required but its BLOCKED text names only goal/validity criteria",
+        "writing marks audience/purpose/format as minimum required but BLOCKED is phrased only around a missing material fact",
+        "learning marks current learner level as minimum required but BLOCKED focuses on an undefined/contradictory objective",
+        "checklist marks target/criteria/blocking rules/completion threshold as minimum required but BLOCKED is phrased as a failed blocking item"
+      ],
+      "impact": "The future binder/invocation renderer could disagree with the workflow state machine about whether execution is allowed.",
+      "required_change": "Add a common preflight invariant: if any configured minimum required input is absent or contradictory enough to prevent its intended interpretation, state = BLOCKED and the domain procedure is not executed, unless the architecture explicitly defines an authorized acquisition/intake state."
+    },
+    {
+      "id": "ARCH-V22-GEN-001",
+      "severity": "MEDIUM",
+      "scope": "generation",
+      "finding": "NO_VALID_CANDIDATE can be read as a claim about the full candidate universe, while the workflow normally evaluates only a generated/evaluated candidate set.",
+      "impact": "The workflow may overstate exhaustiveness.",
+      "required_change": "Scope the state explicitly: no evaluated/generated candidate satisfies all established hard constraints; this is not proof that no conceivable candidate exists unless the search space was explicitly exhaustive."
+    },
+    {
+      "id": "ARCH-V22-LEARN-001",
+      "severity": "MEDIUM",
+      "scope": "learning",
+      "finding": "OBJECTIVE_MET correctly requires a configured assessment threshold, but the contract does not explicitly state what happens when that threshold is absent.",
+      "impact": "A runtime might improvise its own mastery threshold.",
+      "required_change": "Forbid OBJECTIVE_MET until an objective assessment threshold is configured; remain READY/IN_PROGRESS and request or define the threshold through the authorized configuration surface."
+    }
+  ],
+  "verified_invariants": [
+    "authority is ADVISORY_ONLY by default and cannot be expanded by embedded data instructions",
+    "instruction/data boundary is explicit across all nine modes",
+    "evidence vocabulary distinguishes supplied claims, observations, source claims, inference, assumptions, unknowns and contradictions",
+    "high-stakes adaptation requires a separate safety/authority binding and review gate",
+    "product evidence boundary forbids static design from implying tested/certified/ready-to-sell maturity",
+    "simulation distinguishes interactive and batch/debrief invocation and does not treat generated user turns as user-performance evidence",
+    "writing preserves unresolved factual placeholders rather than fabricating facts",
+    "audit separates missing audit definition from insufficient evidence and certification claims",
+    "checklist PASS is evidence-complete and scope-bounded"
+  ],
+  "truth_boundary": {
+    "external_model_calls": 0,
+    "behavioral_evidence": false,
+    "product_promotions": 0,
+    "ready_to_sell": false,
+    "bulk_regeneration_allowed": false
+  },
+  "next_gate": "Close ARCH-V22-COMMON-001, ARCH-V22-GEN-001 and ARCH-V22-LEARN-001 in a successor; rerun deterministic regression; then repeat final static freeze audit."
+}

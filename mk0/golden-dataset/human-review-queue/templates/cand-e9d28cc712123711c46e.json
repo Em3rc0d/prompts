@@ -1,0 +1,16 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-e9d28cc712123711c46e",
+  "candidate_id": "cand-e9d28cc712123711c46e",
+  "candidate_fingerprint": "sha256:1b55962d32d34eb2e0690da7ae79f1813eed96ff27aed6dfa9888573c24a20ef",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "APPROVE_CANDIDATE",
+  "decision_reason_codes": ["VALID_AGENT_INSTRUCTION_ARTIFACT", "REPOSITORY_OPERATING_CONTEXT", "APPROVED_WITH_NOTATION"],
+  "rationale": "Human owner approved this artifact for Golden Dataset candidacy with notation. It is a repository-scoped operating context and instruction surface for AI coding assistants, combining actionable agent guidance with descriptive codebase context. Preserve that distinction from conventional one-shot prompts. Approval applies to research dataset candidacy only; redistribution remains blocked while license status is unknown, and human approval does not establish behavioral certification.",
+  "reviewed_at": "2026-08-28T00:12:00-05:00",
+  "machine_confidence_at_review": 0.93,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [{"field":"artifact_type","from":"instruction-markdown","to":"agent-instruction/repository-operating-context","reason":"Approved with notation: the artifact directly guides AI assistants operating in a repository, while also containing substantial descriptive codebase context."}],
+  "source_commit": null
+}

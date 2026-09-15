@@ -1,0 +1,19 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-df96034935dbb7dfad80",
+  "candidate_id": "cand-df96034935dbb7dfad80",
+  "candidate_fingerprint": "sha256:982c325fb7732b9c0b28aca908894cd97e9dfe266700ce1bfd6853a52e03a76c",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "REJECT",
+  "decision_reason_codes": [
+    "NOT_PROMPT_ARTIFACT",
+    "IMPLEMENTATION_PLAN"
+  ],
+  "rationale": "Human owner rejected the candidate because the observed artifact is an implementation/design plan rather than a reusable prompt artifact suitable for the Golden Dataset.",
+  "reviewed_at": "2026-08-27T21:08:30-05:00",
+  "machine_confidence_at_review": 0.94,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [],
+  "source_commit": null
+}

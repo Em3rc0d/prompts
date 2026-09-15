@@ -1,0 +1,64 @@
+name: Validate Starter Provider Preflight v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_V1.json'
+      - 'commercial/STARTER_PROVIDER_CUSTODY_EXECUTION_PACKET_V1.json'
+      - 'commercial/STARTER_LIVE_DELIVERY_CANARY_PLAN_V1.json'
+      - 'commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json'
+      - 'product/starter-collection-v1/PRODUCT_IDENTITY_V1.json'
+      - 'web/app/api/commerce/lemonsqueezy/starter-webhook/route.ts'
+      - 'tools/validate_starter_provider_preflight_v1.py'
+      - '.github/workflows/validate-starter-provider-preflight-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-provider-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile provider preflight validator
+        run: python -m py_compile tools/validate_starter_provider_preflight_v1.py
+
+      - name: Validate disarmed provider and delivery contracts
+        run: python tools/validate_starter_provider_preflight_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Starter Provider Preflight v1
+
+          | Signal | State |
+          |---|---|
+          | Provider candidate | Lemon Squeezy |
+          | Signed Starter webhook adapter | STATIC PRESENT |
+          | Starter checkout route | ABSENT |
+          | Custody execution packet | PREPARED / DISARMED |
+          | Custody verification retries | 0 automatic |
+          | Live delivery canary | DESIGNED / DISARMED |
+          | Maximum live canary transactions | 1 |
+          | Public checkout | BLOCKED |
+          | Provider calls created by CI | 0 |
+          | Model calls created by CI | 0 |
+          | PQ-$1 | NOT OBSERVED |
+          | READY_TO_SELL | NO |
+
+          Static preflight reduces provider execution risk. It is not provider custody, purchase, delivery, customer value, revenue, or launch evidence.
+          EOF

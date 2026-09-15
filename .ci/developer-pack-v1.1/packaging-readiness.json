@@ -1,0 +1,19 @@
+{
+  "schema": "prompt-quarry-packaging-readiness-v1",
+  "component": "developer-pack-v1.1",
+  "product_version": "1.1.0",
+  "source_commit": "f0accde4aa12ecf4eae530249cb56175e5a28b66",
+  "status": "READY_FOR_PROVIDER_TEST",
+  "packaging_ready": true,
+  "sale_status": "NOT_FOR_SALE",
+  "public_sale": false,
+  "provider_test": "PENDING",
+  "source_fingerprint_sha256": "dd61138ef8f8fee811c6437e05eabcd8742f8787746736213525731e934fdffa",
+  "archive": {
+    "sha256": "546a7568abb0c546034740ee1418d76b1496e1cf9f6b31ab30d5e509eacc5009",
+    "size": 86763
+  },
+  "approval_status": "APPROVED_FOR_CONTROLLED_PROVIDER_TEST",
+  "next_gate": "Configure provider and execute a controlled signed test order that delivers the exact approved archive.",
+  "claim_boundary": "Packaging readiness only; no F4/F5/F6/F7 behavioral claim and no revenue claim."
+}

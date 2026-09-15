@@ -1,0 +1,32 @@
+{
+  "schema": "prompt-quarry-free-pack-release-v1",
+  "product_id": "pq-developer-starter",
+  "product_name": "Prompt Quarry Developer Starter Pack",
+  "version": "1.1.0",
+  "artifact_state": "READY",
+  "delivery_state": "NOT_DEPLOYED",
+  "payload_source_commit": "71d6cd1e421f0cf7137e3051c2280240f4abe4eb",
+  "payload_source_tree": "c2ac0cb3c3bbbb4232dad855bc68f4492634bbd6",
+  "pack_root": "product/free-developer-starter-v1/",
+  "archive": {
+    "filename": "prompt-quarry-developer-starter-v1.1.0.zip",
+    "root": "prompt-quarry-developer-starter-v1/",
+    "format": "zip-store-v1",
+    "archive_sha256": "sha256:55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32",
+    "size_bytes": 23498,
+    "entry_order": "lexicographic",
+    "timestamp": "1980-01-01T00:00:00",
+    "unix_mode": "100644",
+    "utf8_filenames": true
+  },
+  "assets": [
+    {"path":"LICENSE.md","size_bytes":2049,"git_blob_sha1":"b69b2928bc00b9a6f992dfc46c075338639143e7","sha256":"sha256:f68387b74142a428bf0c351ac415f6c55be2d81cfa53d4ca01ab7d9f488c166d"},
+    {"path":"OFFER.md","size_bytes":1486,"git_blob_sha1":"7f6d8049341099d573efac63c1b1dc5daf1fd24e","sha256":"sha256:d30f18b76560540a254f2f2efc1156f1d3295dfde750e6568a2d8acd73b3faa7"},
+    {"path":"QUICKSTART.md","size_bytes":3082,"git_blob_sha1":"d148bad7e334d580f4721afc22bac9ae87a36a15","sha256":"sha256:73859e511837f1b5500d3d168ea79d16772058082d6eed0586564b1dd622382a"},
+    {"path":"README.md","size_bytes":1579,"git_blob_sha1":"6c737af8cac483dd33c51e0204fad2f26eef1a18","sha256":"sha256:9d7ba2c16a3b2a6eb4a4e335f43d30d1152b43242bb87e04d99d07248b126a17"},
+    {"path":"prompts/bug-diagnosis.md","size_bytes":4273,"git_blob_sha1":"5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e","sha256":"sha256:0bd97581cd1c8e3879239831d124b200ee28236b027b49cc5f1c63cd34a83e74"},
+    {"path":"prompts/code-review.md","size_bytes":5093,"git_blob_sha1":"4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5","sha256":"sha256:9d029a870e08f6ab0bf277e29b64bba7dc39eafd471895b544d58afd2b96a024"},
+    {"path":"prompts/technical-decision.md","size_bytes":4662,"git_blob_sha1":"1ec734dc6fcd7c77426412ad649eb261e40dd386","sha256":"sha256:70ba94069d80e2d8fb7e2c8876ee64a8b0b60d7720951eb20ea14a5cf5f0cc73"}
+  ],
+  "claims_boundary": "Free distribution does not establish F4 TESTED, F5 IMPROVED, F6 CERTIFIED, or F7 PORTABLE."
+}

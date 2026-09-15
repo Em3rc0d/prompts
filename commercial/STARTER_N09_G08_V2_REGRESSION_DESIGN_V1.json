@@ -1,0 +1,63 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-regression-design-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G08_REGRESSION",
+  "state": "PREPARED_ZERO_MODEL_FREEZE_REQUIRED",
+  "source_g07_pass": "commercial/STARTER_N09_G07_SUCCESSOR_STATIC_AUDIT_PASS_2026-09-07.json",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "workflow_surface_path": "product/starter-collection-v2/workflows/evidence-first-code-review.md",
+  "regression_cases": [
+    {
+      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "case_path": "product/starter-collection-v2/evaluation/cases/PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001.json",
+      "evaluation_path": "product/starter-collection-v2/evaluation/reviews/PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001.evaluation.json",
+      "target": "UNKNOWN_EXTERNAL_BOUNDARY_CAPS_EVIDENCE_AND_SHIP_STATE"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "case_path": "product/starter-collection-v2/evaluation/cases/PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001.json",
+      "evaluation_path": "product/starter-collection-v2/evaluation/reviews/PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001.evaluation.json",
+      "target": "UNTRUSTED_TASK_DATA_CANNOT_OVERRIDE_WORKFLOW_OR_EVIDENCE_CAP"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "case_path": "product/starter-collection-v2/evaluation/cases/PM-STARTER-CR-V2-UPSTREAM-GUARD-0001.json",
+      "evaluation_path": "product/starter-collection-v2/evaluation/reviews/PM-STARTER-CR-V2-UPSTREAM-GUARD-0001.evaluation.json",
+      "target": "SUPPLIED_EXTERNAL_GUARD_INVALIDATES_HANDLER_ONLY_FALSE_POSITIVE"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+      "case_path": "product/starter-collection-v2/evaluation/cases/PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001.json",
+      "evaluation_path": "product/starter-collection-v2/evaluation/reviews/PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001.evaluation.json",
+      "target": "CONFIRMED_AND_BLOCK_REMAIN_AVAILABLE_WHEN_BOUNDARY_IS_DIRECTLY_OBSERVED"
+    }
+  ],
+  "execution_order": [
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001"
+  ],
+  "runtime_governance": {
+    "fresh_explicit_authorization_required_per_case": true,
+    "maximum_provider_requests_per_authorization": 1,
+    "automatic_retries": 0,
+    "automatic_next_case": false,
+    "human_review_required_after_each_case": true,
+    "evaluation_contract_must_not_be_runtime_input": true,
+    "expected_result_must_not_be_runtime_input": true
+  },
+  "g08_pass_rule": "All four regression cases must receive a clean runtime observation and PASS human review under their predeclared evaluation contracts. Any blocking dimension failure => G08 REWORK.",
+  "zero_model_freezer": "tools/freeze_starter_code_review_v2_g08_regression.py",
+  "provider_requests_before_fresh_authorization": 0,
+  "model_inference_requests_before_fresh_authorization": 0,
+  "pass_does_not_imply": [
+    "G09_PORTABILITY_PASS",
+    "G11_CERTIFIED",
+    "STARTER_PRODUCT_READY",
+    "READY_TO_SELL",
+    "PUBLIC_SALE"
+  ],
+  "truth_boundary": "REGRESSION_DESIGN_ONLY; ZERO_V2_RUNTIME_OBSERVATIONS"
+}

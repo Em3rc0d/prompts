@@ -1,0 +1,34 @@
+PROMPTS — Copywriting
+========================================================================================
+Total: 15
+
+[PREMIUM] Anuncios Nativos: copy que no parece anuncio (advertorials)
+          anuncios-nativos-copy-que-no-parece-anuncio-advertorials--f3addae0.txt
+[PREMIUM] Copy de Onboarding: emails post-compra que evitan reembolsos
+          copy-de-onboarding-emails-post-compra-que-evitan-reembolsos--c3bdfca3.txt
+[PREMIUM] Copy para Webinars: registro, recordatorios y asistencia real
+          copy-para-webinars-registro-recordatorios-y-asistencia-real--7c4018fb.txt
+[PREMIUM] Copywriter de Respuesta Directa VSL
+          copywriter-de-respuesta-directa-vsl--5e29c4ef.txt
+[PREMIUM] El Editor Despiadado: corta el 40% de tu texto y duplica su fuerza
+          el-editor-despiadado-corta-el-40-de-tu-texto-y-duplica-su-fuerza--d93ab96f.txt
+[PREMIUM] El Generador de Naming: nombre, tagline y claim para tu marca
+          el-generador-de-naming-nombre-tagline-y-claim-para-tu-marca--15f59d6b.txt
+[PREMIUM] El Traductor de Características a Beneficios: véndeme el resultado
+          el-traductor-de-caracteristicas-a-beneficios-vendeme-el-resultado--1d6f4ad5.txt
+[PREMIUM] Guiones de VSL corta (1-3 min) que retienen y cierran
+          guiones-de-vsl-corta-1-3-min-que-retienen-y-cierran--aad407ca.txt
+[FREE   ] Guiones para anuncios de video en redes sociales
+          guiones-para-anuncios-de-video-en-redes-sociales--66c149f2.txt
+[PREMIUM] La Fábrica de Headlines: 50 titulares con psicología de conversión
+          la-fabrica-de-headlines-50-titulares-con-psicologia-de-conversion--b78c7dc1.txt
+[PREMIUM] La Máquina de Bullets: beneficios que generan curiosidad compulsiva
+          la-maquina-de-bullets-beneficios-que-generan-curiosidad-compulsiva--5d4fc42b.txt
+[PREMIUM] Master de Ghostwriting en LinkedIn
+          master-de-ghostwriting-en-linkedin--8818d318.txt
+[FREE   ] Redacción de páginas de venta que convencen
+          redaccion-de-paginas-de-venta-que-convencen--df5493ee.txt
+[PREMIUM] Secuencia de correos para vender un producto
+          secuencia-de-correos-para-vender-un-producto--4bf87b51.txt
+[PREMIUM] Storytelling que Vende: convierte tu historia en tu mejor argumento
+          storytelling-que-vende-convierte-tu-historia-en-tu-mejor-argumento--d084d7bb.txt

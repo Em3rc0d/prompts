@@ -1,0 +1,121 @@
+{
+  "schema": "prompt-machine-starter-skill-launch-scope-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN",
+  "product_id": "prompt-machine-starter-collection",
+  "decision": {
+    "starter_v1_launch_value_is_workflow_led": true,
+    "skills_are_launch_blocking": false,
+    "skills_are_required_customer_payload_assets": false,
+    "skills_are_currently_supported_product_features": false,
+    "skills_may_be_described_as_candidates": true,
+    "skills_may_be_marketed_as_included_or_tested": false,
+    "skills_may_be_silently_added_to_frozen_v1_archive": false
+  },
+  "current_candidates": [
+    {
+      "skill_id": "PQ-SKILL-0001",
+      "name": "review-code-with-evidence",
+      "source": "product/developer-workflow-kit-v1.2/skills/review-code-with-evidence/SKILL.md",
+      "state": "STRUCTURAL_CANDIDATE_UNTESTED_PARITY_OPEN",
+      "target_workflow": "pm-starter-evidence-first-code-review",
+      "material_semantic_drift": {
+        "observed": true,
+        "skill_states": [
+          "SHIP",
+          "SHIP_WITH_FOLLOWUP",
+          "DO_NOT_SHIP",
+          "INSUFFICIENT_EVIDENCE"
+        ],
+        "starter_workflow_states": [
+          "BLOCK",
+          "REVIEW_REQUIRED",
+          "SHIP_WITH_FIXES",
+          "NO_MATERIAL_ISSUE_FOUND"
+        ],
+        "consequence": "The current skill cannot be claimed as prompt/workflow-equivalent without an explicit successor and parity evaluation."
+      }
+    },
+    {
+      "skill_id": "PQ-SKILL-0002",
+      "name": "diagnose-bugs-with-evidence",
+      "source": "product/developer-workflow-kit-v1.2/skills/diagnose-bugs-with-evidence/SKILL.md",
+      "state": "STRUCTURAL_CANDIDATE_UNTESTED_PARITY_OPEN",
+      "target_workflow": "pm-starter-evidence-first-bug-diagnosis",
+      "material_semantic_drift": {
+        "observed": true,
+        "skill_states": [
+          "CONFIRMED",
+          "PROBABLE",
+          "INVESTIGATING",
+          "BLOCKED"
+        ],
+        "starter_workflow_states": [
+          "INSUFFICIENT_EVIDENCE",
+          "DIAGNOSE_FIRST",
+          "MITIGATE_NOW",
+          "FIX_SUPPORTED",
+          "CAUSE_CONFIRMED"
+        ],
+        "consequence": "The current skill collapses a different diagnostic state model and cannot inherit Starter workflow evidence."
+      }
+    }
+  ],
+  "existing_evidence": {
+    "receipt": "certification/receipts/skill-structure.v1.json",
+    "structural_validation": "PASS",
+    "skill_count_in_structure_receipt": 4,
+    "trigger_fixtures_defined": 32,
+    "trigger_fixtures_executed": 0,
+    "HOST_TESTED": false,
+    "SKILL_TRIGGER_EVAL_PASS": false,
+    "SKILL_FORWARD_TEST_PASS": false,
+    "WORKFLOW_CERTIFIED": false,
+    "PORTABLE": false,
+    "PROMPT_SKILL_PARITY_PASS": false
+  },
+  "launch_payload_boundary": {
+    "frozen_required_customer_assets": 9,
+    "skills_in_current_deterministic_archive": 0,
+    "current_archive_filename": "prompt-machine-starter-collection-v1.zip",
+    "current_archive_size_bytes": 50918,
+    "current_archive_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "adding_skills_requires_new_governed_artifact_version": true,
+    "adding_skills_requires_rebuild_and_new_archive_identity": true,
+    "adding_skills_requires_public_copy_reaudit_if_customer_claims_change": true
+  },
+  "required_evidence_before_supported_skill_claim": [
+    "build_explicit_successor_skill_aligned_to_current_Starter_workflow_contract",
+    "preserve_predecessor_skill_and semantic drift history",
+    "rerun structural validation on successor",
+    "execute governed skill trigger evaluation",
+    "execute governed forward behavior test",
+    "execute prompt/workflow-to-skill parity evaluation",
+    "review instruction/data boundary behavior on skill surface",
+    "record host-specific evidence before any host-tested claim",
+    "only then decide whether a new Starter artifact version includes the skill"
+  ],
+  "evidence_inheritance": {
+    "workflow_runtime_evidence_automatically_counts_as_skill_evidence": false,
+    "architecture_behavioral_evidence_automatically_counts_as_skill_evidence": false,
+    "structural_pass_automatically_counts_as_host_tested": false,
+    "successor_skill_inherits_predecessor_behavioral_evidence": false
+  },
+  "commercial_rule": {
+    "Starter_v1_must_be_worth_9_without_skills": true,
+    "skill_delay_must_not_block_workflow_runtime_learning": true,
+    "skill_delay_must_not_block_provider_custody_or_delivery_preparation": true,
+    "customer_copy_must_not_present_candidates_as_supported_installable_features": true,
+    "future_skill_addition_should_increase_value_not_repair_an_artificially_crippled_base_product": true
+  },
+  "current_truth": {
+    "starter_skill_behavioral_observations": 0,
+    "starter_supported_skills": 0,
+    "starter_skill_parity_passes": 0,
+    "starter_required_payload_assets": 9,
+    "skills_in_current_archive": 0,
+    "ready_to_sell": false
+  },
+  "master_rule": "A SKILL IS A DISTINCT EXECUTION SURFACE AND MUST EARN ITS OWN BEHAVIORAL AND PARITY EVIDENCE"
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-failure-mining-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "gate": "G08_REGRESSION",
+  "source_batch": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "source_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "source_failure": "product/starter-collection-v2/evaluation/failures/PM-STARTER-CR-V2-UPSTREAM-GUARD-0001.G08-BATCH-0001.failure.json",
+  "failure_signature": "SUPPLIED_GUARD_RECOGNIZED_BUT_SPECULATIVE_SECONDARY_FINDINGS_PROMOTED_TO_LIKELY_REVIEW_REQUIRED",
+  "localized_root_causes": [
+    {
+      "id": "RC1_NO_SATISFIED_INVARIANT_STOP",
+      "description": "The workflow challenges missing-control findings but does not explicitly stop searching for replacement defects after supplied evidence satisfies the target invariant."
+    },
+    {
+      "id": "RC2_SPECULATION_CAN_ENTER_MATERIAL_FINDINGS",
+      "description": "A hypothetical type/schema/runtime mismatch can still be promoted to LIKELY without affirmative evidence that the prerequisite condition exists."
+    },
+    {
+      "id": "RC3_NO_FINDING_STATE_UNDERWEIGHTED",
+      "description": "NO_MATERIAL_ISSUE_FOUND exists as a ship state, but the review process does not strongly require using it when no evidence-backed material candidate survives challenge."
+    },
+    {
+      "id": "RC4_SEMANTIC_FACT_CHECK_NOT_EXPLICIT",
+      "description": "The final self-check does not explicitly reject technically impossible or language-semantics-invalid failure mechanisms before they become findings."
+    }
+  ],
+  "required_successor_rules": [
+    "When supplied evidence directly satisfies the reviewed invariant, mark that invariant satisfied unless contradictory supplied evidence exists.",
+    "Do not search for or manufacture adjacent defects merely to populate Material findings.",
+    "A hypothetical prerequisite that is not supplied or observed cannot support LIKELY; it is at most QUESTION and normally belongs outside Material findings unless resolving it could materially change the ship decision.",
+    "If no independently evidence-backed material finding survives challenge, return NO_MATERIAL_ISSUE_FOUND.",
+    "Reject candidate findings whose stated language/runtime semantics are technically false."
+  ],
+  "preservation_constraints": [
+    "Keep the v2 negative-evidence cap for unobserved external authorization boundaries.",
+    "Keep conditional downstream impacts from inflating evidence or severity.",
+    "Keep CONFIRMED and BLOCK available when the complete supplied boundary directly establishes a high/critical failure.",
+    "Keep embedded task-data instructions non-authoritative.",
+    "Keep authority ADVISORY_ONLY."
+  ],
+  "provider_failure_separation": {
+    "case": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+    "http_status": 503,
+    "classification": "NO_BEHAVIORAL_OBSERVATION_NOT_WORKFLOW_FAIL"
+  },
+  "decision": "SUCCESSOR_CORRECTION_JUSTIFIED_STATIC_AUDIT_REQUIRED_BEFORE_NEW_RUNTIME",
+  "provider_requests_made_by_failure_mining": 0,
+  "model_calls_made_by_failure_mining": 0
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-machine-starter-archive-build-receipt-v1",
+  "receipt_id": "PM-STARTER-ARCHIVE-BUILD-V1-0001",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "DETERMINISTIC_ARCHIVE_BUILD_PASS",
+  "workflow_run": {
+    "name": "Build Starter Collection v1",
+    "run_id": 33792890037,
+    "run_number": 1,
+    "job_id": 100773484502,
+    "conclusion": "success",
+    "source_commit": "167faad0758b3e746b48ac7c898f876525d30ee3"
+  },
+  "customer_archive": {
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "format": "ZIP_STORED_FIXED_METADATA",
+    "required_customer_assets": 9,
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "reproducibility_check": "PASS_BYTE_FOR_BYTE_TWO_BUILDS"
+  },
+  "github_actions_artifact_wrapper": {
+    "artifact_id": 9908014396,
+    "artifact_name": "prompt-machine-starter-collection-v1-33792890037",
+    "uploaded_wrapper_size_bytes": 18370,
+    "uploaded_wrapper_sha256": "f0b7a58201ef82b705ee1b6c4276d1744232aebfe1024dd7168a0472bef88841",
+    "retention_days": 14,
+    "classification": "CI_BUILD_ARTIFACT_NOT_COMMERCE_PROVIDER_CUSTODY"
+  },
+  "validation": {
+    "payload_9_of_9": true,
+    "synthetic_examples_labeled": true,
+    "archive_membership_unique_9": true,
+    "archive_root_prefix_valid": true,
+    "model_calls": 0,
+    "provider_calls": 0
+  },
+  "evidence_boundary": {
+    "archive_build_is_runtime_evidence": false,
+    "archive_build_is_starter_workflow_behavioral_evidence": false,
+    "github_actions_artifact_is_commerce_provider_custody": false,
+    "archive_build_is_customer_delivery_evidence": false,
+    "archive_build_is_purchase_evidence": false,
+    "archive_build_is_product_ready": false,
+    "archive_build_is_ready_to_sell": false
+  },
+  "next_gate": "STARTER_PRODUCT_EVIDENCE_AND_COMMERCE_CUSTODY",
+  "master_rule": "REPRODUCIBLE_ARCHIVE != DELIVERED_PRODUCT"
+}

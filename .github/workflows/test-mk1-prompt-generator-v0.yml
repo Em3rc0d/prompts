@@ -1,0 +1,196 @@
+name: Test MK1 Prompt Generator v0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'tools/mk1_prompt_generator_v0.py'
+      - 'tools/test_mk1_prompt_generator_v0.py'
+      - 'tools/mk1_architecture_selector.py'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'mk0/MANIFEST.json'
+      - 'mk0/analysis/**'
+      - 'mk0/golden-dataset/**'
+      - 'mk0/library/**'
+      - 'mk1/specs/PROMPT_GENERATOR_REQUEST.schema.json'
+      - 'mk1/specs/TASK_BRIEF.schema.json'
+      - 'mk1/specs/PROMPT_ARTIFACT.schema.json'
+      - 'mk1/generator/**'
+      - '.github/workflows/test-mk1-prompt-generator-v0.yml'
+  pull_request:
+    paths:
+      - 'tools/mk1_prompt_generator_v0.py'
+      - 'tools/test_mk1_prompt_generator_v0.py'
+      - 'tools/mk1_architecture_selector.py'
+      - 'tools/mk1_candidate_assembler.py'
+      - 'tools/mk1_prompt_linter.py'
+      - 'tools/mk1_prompt_critic.py'
+      - 'mk0/**'
+      - 'mk1/specs/**'
+      - 'mk1/generator/**'
+      - '.github/workflows/test-mk1-prompt-generator-v0.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generator-v0:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install dependencies
+        id: deps
+        continue-on-error: true
+        run: pip install -r requirements.txt
+
+      - name: Compile generator surfaces
+        id: compile
+        continue-on-error: true
+        run: |
+          python -m py_compile \
+            tools/mk1_prompt_generator_v0.py \
+            tools/test_mk1_prompt_generator_v0.py
+
+      - name: Preserve F1/F2 contracts
+        id: legacy
+        continue-on-error: true
+        run: |
+          python tools/test_mk1_f1.py
+          python tools/test_mk1_f2.py
+
+      - name: Test generator v0
+        id: generator_tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          python tools/test_mk1_prompt_generator_v0.py 2>&1 | tee /tmp/mk1-generator-tests.log
+
+      - name: Execute example generation
+        id: example
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          {
+            rm -rf /tmp/pq-generator-demo
+            python tools/mk1_prompt_generator_v0.py \
+              mk1/generator/examples/software-review.request.json \
+              --output-dir /tmp/pq-generator-demo
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path('/tmp/pq-generator-demo')
+          generation = json.loads((root / 'generation.json').read_text(encoding='utf-8'))
+          artifact = json.loads((root / 'artifact.json').read_text(encoding='utf-8'))
+          retrieval = json.loads((root / 'mk0-retrieval.json').read_text(encoding='utf-8'))
+          assert generation['generator_status'] in {'VALID_STATIC', 'WARN_STATIC'}, generation
+          assert artifact['state'] == 'VALID', artifact
+          assert artifact['claims'] == ['engineered'], artifact
+          assert retrieval['technique_matrix']['observed_records'] == 52, retrieval
+          assert retrieval['golden_dataset']['fixture_records'] == 23, retrieval
+          assert (root / 'prompt.txt').stat().st_size > 100
+          print(json.dumps(generation, ensure_ascii=False, indent=2))
+          PY
+          } 2>&1 | tee /tmp/mk1-generator-example.log
+
+      - name: Build run-scoped validation receipt
+        if: always()
+        env:
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          CHECKOUT_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          DEPS: ${{ steps.deps.outcome }}
+          COMPILE: ${{ steps.compile.outcome }}
+          LEGACY: ${{ steps.legacy.outcome }}
+          GENERATOR_TESTS: ${{ steps.generator_tests.outcome }}
+          EXAMPLE: ${{ steps.example.outcome }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          gates = {
+              'dependencies': os.environ['DEPS'],
+              'compile': os.environ['COMPILE'],
+              'f1_f2_regression': os.environ['LEGACY'],
+              'generator_v0_tests': os.environ['GENERATOR_TESTS'],
+              'example_generation': os.environ['EXAMPLE'],
+          }
+          status = 'PASS' if all(value == 'success' for value in gates.values()) else 'FAIL'
+          receipt = {
+              'schema': 'prompt-quarry-ci-receipt-v1',
+              'component': 'mk1-prompt-generator-v0',
+              'source_commit': os.environ['SOURCE_SHA'],
+              'checkout_commit': os.environ['CHECKOUT_SHA'],
+              'event_name': os.environ['EVENT_NAME'],
+              'status': status,
+              'gates': gates,
+              'claim_boundary': 'CI validates static generator behavior only; it does not establish F4/F5 behavioral superiority or certification.',
+          }
+          root = Path('/tmp/mk1-prompt-generator-v0-receipt')
+          root.mkdir(parents=True, exist_ok=True)
+          (root / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps(receipt, indent=2))
+          PY
+
+      - name: Upload run-scoped validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mk1-prompt-generator-v0-validation
+          path: |
+            /tmp/mk1-prompt-generator-v0-receipt/receipt.json
+            /tmp/mk1-generator-tests.log
+            /tmp/mk1-generator-example.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Persist validation receipt on feature branch
+        if: always() && github.event_name == 'push' && github.ref_name == 'feat/mk1-prompt-generator-v0-20260827'
+        shell: bash
+        run: |
+          mkdir -p .ci/mk1-prompt-generator-v0
+          cp /tmp/mk1-prompt-generator-v0-receipt/receipt.json .ci/mk1-prompt-generator-v0/latest.json
+          cp /tmp/mk1-generator-tests.log .ci/mk1-prompt-generator-v0/generator-tests.log 2>/dev/null || true
+          cp /tmp/mk1-generator-example.log .ci/mk1-prompt-generator-v0/example-generation.log 2>/dev/null || true
+
+          git config user.name 'prompt-quarry-bot'
+          git config user.email 'prompt-quarry-bot@users.noreply.github.com'
+          git add .ci/mk1-prompt-generator-v0/
+          if git diff --cached --quiet; then
+            echo 'Validation receipt unchanged.'
+          else
+            git commit -m 'ci(mk1): record prompt generator v0 validation'
+            git push origin HEAD:feat/mk1-prompt-generator-v0-20260827
+          fi
+
+      - name: Enforce validation gates
+        if: always()
+        env:
+          DEPS: ${{ steps.deps.outcome }}
+          COMPILE: ${{ steps.compile.outcome }}
+          LEGACY: ${{ steps.legacy.outcome }}
+          GENERATOR_TESTS: ${{ steps.generator_tests.outcome }}
+          EXAMPLE: ${{ steps.example.outcome }}
+        shell: bash
+        run: |
+          if [ "$DEPS" != success ] || [ "$COMPILE" != success ] || [ "$LEGACY" != success ] || [ "$GENERATOR_TESTS" != success ] || [ "$EXAMPLE" != success ]; then
+            echo 'MK1 Prompt Generator v0 validation failed.' >&2
+            exit 1
+          fi
+          echo 'MK1 Prompt Generator v0 static validation passed.'

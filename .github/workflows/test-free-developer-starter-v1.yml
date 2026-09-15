@@ -1,0 +1,53 @@
+name: Test Free Developer Starter v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'product/free-developer-starter-v1/**'
+      - 'tools/build_free_developer_starter_v1.py'
+      - 'tools/test_free_developer_starter_v1.py'
+      - 'web/app/api/free-pack/v1/**'
+      - 'web/generated/free-developer-starter-v1.ts'
+      - 'web/lib/deterministic-zip.ts'
+      - 'web/components/commerce-link.tsx'
+      - '.github/workflows/test-free-developer-starter-v1.yml'
+  pull_request:
+    paths:
+      - 'product/free-developer-starter-v1/**'
+      - 'tools/build_free_developer_starter_v1.py'
+      - 'tools/test_free_developer_starter_v1.py'
+      - 'web/app/api/free-pack/v1/**'
+      - 'web/generated/free-developer-starter-v1.ts'
+      - 'web/lib/deterministic-zip.ts'
+      - 'web/components/commerce-link.tsx'
+      - '.github/workflows/test-free-developer-starter-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  release-acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile release tooling
+        run: python -m py_compile tools/build_free_developer_starter_v1.py tools/test_free_developer_starter_v1.py
+      - name: Validate governed Free Pack
+        run: python tools/test_free_developer_starter_v1.py
+      - name: Build deterministic ZIP and receipt
+        run: python tools/build_free_developer_starter_v1.py
+      - name: Upload governed Free Pack artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: prompt-quarry-developer-starter-v1
+          path: |
+            dist/prompt-quarry-developer-starter-v1.zip
+            .ci/free-developer-starter-v1/release.json
+          if-no-files-found: error
+          retention-days: 30

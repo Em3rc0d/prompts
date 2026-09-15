@@ -1,0 +1,54 @@
+{
+  "schema": "prompt-machine-g12-pack-rebuild-receipt-v1",
+  "recorded_on": "2026-09-08",
+  "gate": "G12_PACK_REBUILD",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "version": "1.0.0-rc2",
+  "source_head": "c2e9667f4382e589d1430db609215d369486bbfe",
+  "workflow_identity": {
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "bytes": 19161,
+    "sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+    "member_count": 8,
+    "members": [
+      "README.md",
+      "QUICKSTART.md",
+      "WORKFLOW.md",
+      "EVIDENCE.md",
+      "CUSTOMER-LICENSE.md",
+      "SALE-TERMS.md",
+      "RELEASE-NOTICE.md",
+      "MANIFEST.json"
+    ]
+  },
+  "customer_terms": {
+    "customer_license_frozen": true,
+    "customer_license_version": "1.0",
+    "sale_terms_version": "1.0"
+  },
+  "deterministic_rebuild": {
+    "build_count": 2,
+    "archive_bytes_identical": true,
+    "build_receipts_identical": true,
+    "builder_version": "1.1.0",
+    "deterministic_inputs_only": true
+  },
+  "github_actions": {
+    "workflow": "Validate Starter Code Review Edition v1",
+    "run_id": 34236529272,
+    "conclusion": "success",
+    "artifact_id": 10060074784,
+    "artifact_name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2",
+    "artifact_wrapper_digest": "sha256:6dc57c7b2f8cee92a2dc46af2e9e78d42e868599f611596a1d43682620b1cffd"
+  },
+  "decision": "PASS",
+  "public_sale": false,
+  "provider_custody_observed": false,
+  "customer_delivery_observed": false,
+  "ready_to_sell": false,
+  "next_gate": "G13_PACK_LEVEL_QA"
+}

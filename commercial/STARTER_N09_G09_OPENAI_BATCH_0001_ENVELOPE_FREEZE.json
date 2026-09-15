@@ -1,0 +1,33 @@
+{
+  "schema": "prompt-machine-starter-n09-g09-portability-envelope-freeze-v1",
+  "version": "1.0.0",
+  "gate": "G09_PORTABILITY",
+  "batch_id": "PM-STARTER-CR-V2-G09-OPENAI-BATCH-0001",
+  "source_g08_batch": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "source_g08_result": "PASS_4_OF_4",
+  "canonical_surface_sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+  "envelopes": {
+    "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001": {
+      "bytes": 26537,
+      "sha256": "fb7fdb9af28111b11ae1325c19d7cff5bbb9313109903821b8395ef3025a80f0"
+    },
+    "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001": {
+      "bytes": 26745,
+      "sha256": "bcdae5072cabbbebc982ead3de0a307f78732a9ce2b22e51db946c78e3418353"
+    },
+    "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001": {
+      "bytes": 27110,
+      "sha256": "77620c6ffa219674e89973ace6c26efec3d0786c6cff67920f3d9dc0cd5cf666"
+    },
+    "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001": {
+      "bytes": 27012,
+      "sha256": "5a176067830fa323630821a04d502857e15fe80e72488a8f288fd567f0093144"
+    }
+  },
+  "require_exact_match_before_authorization_consumption": true,
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "state": "FROZEN_ZERO_MODEL"
+}

@@ -1,0 +1,152 @@
+name: Run Starter N09 Clean Retest v1
+
+on:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - '.github/starter-n09-clean-retest-trigger'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: starter-n09-clean-retest-v1
+  cancel-in-progress: false
+
+jobs:
+  one-clean-runtime-observation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout exact triggering commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Fail closed on authorization packet drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          expected = 'AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.\n'
+          actual = Path('.github/starter-n09-clean-retest-trigger').read_text(encoding='utf-8')
+          if actual != expected:
+              raise SystemExit('Authorization packet mismatch. Blocked before model use.')
+          print('N09 AUTHORIZATION GATE: PASS')
+          PY
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify frozen envelope without model use
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('.')
+          case = json.loads((root / 'product/starter-collection-v1/evaluation/cases/PM-STARTER-CR-NORMAL-0001.json').read_text(encoding='utf-8'))
+          surface = (root / case['workflow_surface_path']).read_text(encoding='utf-8')
+          def n(x): return x.rstrip('\n') + '\n'
+          envelope = (
+              '<<<FROZEN_STARTER_WORKFLOW_SURFACE>>>\n' + n(surface) +
+              '<<<END_FROZEN_STARTER_WORKFLOW_SURFACE>>>\n\n' +
+              '<<<UNTRUSTED_INSTANCE_DATA>>>\n' + n(case['instance_data_markdown']) +
+              '<<<END_UNTRUSTED_INSTANCE_DATA>>>\n'
+          ).encode('utf-8')
+          assert len(envelope) == 8100, len(envelope)
+          assert hashlib.sha256(envelope).hexdigest() == 'd8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207'
+          print('N09 PRE-EXECUTION ENVELOPE GATE: PASS')
+          PY
+
+      - name: Fail closed unless provider credential exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "${OPENAI_API_KEY:-}" ]; then
+            echo 'OPENAI_API_KEY missing. Zero model calls made.' >&2
+            exit 1
+          fi
+
+      - name: Execute exactly one clean N09 observation
+        id: execute
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tools/execute_starter_n09_openai_v1.py \
+            --model 'gpt-5.6-luna' \
+            --max-output-tokens 4096 \
+            --output-dir build/starter-n09-clean-retest
+
+      - name: Upload raw evidence for human review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: PM-STARTER-CR-NORMAL-0001-CLEAN-N09
+          path: build/starter-n09-clean-retest
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Enforce stop after one attempt
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f build/starter-n09-clean-retest/runtime-evidence.json ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          e = json.loads(Path('build/starter-n09-clean-retest/runtime-evidence.json').read_text(encoding='utf-8'))
+          assert e['case_id'] == 'PM-STARTER-CR-NORMAL-0001'
+          assert e['runtime_envelope_sha256'] == 'd8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207'
+          assert e['provider_calls_attempted'] == 1
+          assert e['submissions_observed'] == 1
+          assert e['automatic_retries_observed'] == 0
+          assert e['automatic_second_case_executed'] is False
+          assert e['human_review_required'] is True
+          assert e['automatic_promotion'] is False
+          print('N09 ONE-OBSERVATION CUSTODY GATE: PASS')
+          PY
+          elif [ -f build/starter-n09-clean-retest/transport-failure.json ]; then
+            echo 'Single transport attempt failed. No retry permitted; human review required.'
+          elif [ -f build/starter-n09-clean-retest/empty-output.json ]; then
+            echo 'Single provider call returned no observable output. No retry permitted.'
+          else
+            echo 'Execution did not produce runtime evidence; no automatic retry permitted.'
+          fi
+
+      - name: Propagate execution failure without retry
+        if: steps.execute.outcome != 'success'
+        shell: bash
+        run: |
+          echo 'N09 single authorized attempt did not produce a successful behavioral observation. STOP — zero retries.' >&2
+          exit 1
+
+      - name: Human review stop-line
+        if: steps.execute.outcome == 'success'
+        shell: bash
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Starter N09 clean runtime observation captured
+
+          - case: `PM-STARTER-CR-NORMAL-0001`
+          - runtime envelope: exact frozen SHA-256
+          - surface: ephemeral GitHub Actions runner → OpenAI Responses API
+          - model: `gpt-5.6-luna`
+          - submissions: `1`
+          - retries: `0`
+          - second case: `NO`
+          - automatic promotion: `NO`
+          - next state: `HUMAN_REVIEW_REQUIRED`
+
+          Do not execute another case or retry this case automatically.
+          EOF

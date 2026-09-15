@@ -1,0 +1,26 @@
+{
+  "schema": "prompt-quarry-pcp-gate-receipt-v1",
+  "receipt_id": "PQ-PCP-02-RECEIPT-0001",
+  "program_gate": "PCP-02",
+  "original_alias": "MK3.2",
+  "gate_name": "STATIC_AUDIT_COMPLETE",
+  "observed_at": "2026-09-01T14:12:38Z",
+  "audit_id": "PQ-PCP-02-AUDIT-0001",
+  "checks": [
+    {"id": "PCP02-C01", "name": "rubric_reconciled", "status": "PASS", "observed": "P1-P15 defined from existing MK1 rubric and Commercial Value Gate"},
+    {"id": "PCP02-C02", "name": "inventory_coverage", "status": "PASS", "observed": "7 of 7 prompts"},
+    {"id": "PCP02-C03", "name": "criterion_coverage", "status": "PASS", "observed": "105 of 105 required ratings"},
+    {"id": "PCP02-C04", "name": "status_rationales_present", "status": "PASS", "observed": "105 of 105"},
+    {"id": "PCP02-C05", "name": "blocking_failures_preserved", "status": "PASS", "observed": "1 blocker on PQ-PROMPT-0005"},
+    {"id": "PCP02-C06", "name": "warnings_routed_to_test_design", "status": "PASS", "observed": "10 warning ratings mapped to fixture themes"},
+    {"id": "PCP02-C07", "name": "no_prompt_mutation", "status": "PASS", "observed": "Static audit adds certification evidence only"},
+    {"id": "PCP02-C08", "name": "claim_boundary_preserved", "status": "PASS", "observed": "F4, F5, F6, and F7 remain false"}
+  ],
+  "counts": {"checks": 8, "pass": 8, "warn": 0, "fail": 0, "ratings_pass": 94, "ratings_warn": 10, "ratings_fail": 1},
+  "status": "PASS",
+  "static_certification_eligible": false,
+  "blocked_prompt_ids": ["PQ-PROMPT-0005"],
+  "scope": "Static audit completeness. Prompt-level failures remain blocking and are not converted into a gate-process failure.",
+  "does_not_establish": ["PROMPT_TEST_MATRIX", "F4_TESTED", "F5_IMPROVED", "F6_CERTIFIED", "F7_PORTABLE", "PRODUCT_READY", "READY_TO_SELL"],
+  "next_gate": "PCP-03 / PROMPT_TEST_MATRIX"
+}

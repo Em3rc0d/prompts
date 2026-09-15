@@ -1,0 +1,58 @@
+name: Stress Golden Path v1
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Production or preview URL to test
+        required: false
+        default: https://prompt-quarry.vercel.app
+      max_concurrency:
+        description: Maximum bounded concurrency
+        required: false
+        default: "20"
+      requests_per_phase:
+        description: Requests per dynamic phase
+        required: false
+        default: "60"
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - tools/stress_golden_path_v1.py
+      - .github/workflows/stress-golden-path-v1.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - tools/stress_golden_path_v1.py
+      - .github/workflows/stress-golden-path-v1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  bounded-production-stress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PQ_BASE_URL: ${{ inputs.base_url || 'https://prompt-quarry.vercel.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Execute Golden Path stress harness
+        run: |
+          python tools/stress_golden_path_v1.py \
+            --base-url "$PQ_BASE_URL" \
+            --max-concurrency "${{ inputs.max_concurrency || '20' }}" \
+            --requests-per-phase "${{ inputs.requests_per_phase || '60' }}" \
+            --output .ci/golden-path/latest.json
+      - name: Upload resilience receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pq-golden-path-resilience-v1
+          path: .ci/golden-path/latest.json
+          if-no-files-found: warn

@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo
+TYPE               : Prompt
+CATEGORY           : E-commerce
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : 9764af06-19e1-4546-a6da-9705fd3ad6a1
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/9764af06-19e1-4546-a6da-9705fd3ad6a1
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:9777b534403f77a159a6bf3029b9af1aa7eee1c83a41a31577946c5ab80fcce5
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- producto
+- mercado
+- canal
+- métricas actuales
+- restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de e-commerce, conversión y operaciones.
+
+OBJETIVO
+Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {producto}
+- {mercado}
+- {canal}
+- {métricas actuales}
+- {restricciones}
+
+PROCESO
+1. Diagnostica el estado actual.
+2. Identifica cuellos de botella o defectos.
+3. Propón mejoras priorizadas con trade-offs.
+4. Entrega una versión o plan mejorado y criterios de verificación.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/9764af06-19e1-4546-a6da-9705fd3ad6a1
+Source record ID: alpacka_prompt_9764af06-19e1-4546-a6da-9705fd3ad6a1
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

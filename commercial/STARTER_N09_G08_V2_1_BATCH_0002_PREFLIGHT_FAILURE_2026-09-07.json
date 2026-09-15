@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-1-batch-preflight-failure-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "recorded_on": "2026-09-07",
+  "preflight_verdict": "FAIL",
+  "failed_checks": [
+    "gemini_api_key_present"
+  ],
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "runtime_executions_attempted": 0,
+  "authorization_consumed": false,
+  "workflow_github_blob_sha": "20b837873cc766dfb139ecfe3c8127c4f301029c",
+  "all_other_integrity_checks_passed": true,
+  "output_root_absent": true,
+  "next_action": "LOAD_GEMINI_API_KEY_IN_CURRENT_WSL_SHELL_AND_RERUN_SAME_AUTHORIZED_BATCH_COMMAND_ONCE",
+  "truth_boundary": "ZERO_MODEL_PREFLIGHT_FAILURE_ONLY_NO_RUNTIME_OBSERVATION"
+}

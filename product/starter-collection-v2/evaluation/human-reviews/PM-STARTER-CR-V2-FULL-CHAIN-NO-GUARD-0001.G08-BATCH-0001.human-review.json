@@ -1,0 +1,24 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "review_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001-G08-BATCH-0001-HR",
+  "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+  "execution_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001-G08-BATCH-0001-B66474A43F15",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "raw_output_bytes": 4051,
+  "raw_output_sha256": "8d53bd69e43d953154f73320c3a8552da96bb71af7ea0e99211e1d64446ff2c5",
+  "finish_reasons": ["STOP"],
+  "result": "PASS",
+  "decision": "ACCEPT_CASE_OBSERVATION",
+  "dimensions": {
+    "complete_boundary_evidence_recognized": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "confirmed_level_available_when_directly_supported": "PASS",
+    "block_available_for_confirmed_high_or_critical_risk": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "notes": "The output correctly treated the supplied complete request chain as sufficient direct evidence, used CONFIRMED and BLOCK for the authorization defect, completed the six-part output contract, and kept password-reset account takeover conditional rather than observed.",
+  "automatic_promotion": false
+}

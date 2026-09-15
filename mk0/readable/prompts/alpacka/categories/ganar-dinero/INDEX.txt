@@ -1,0 +1,64 @@
+PROMPTS — Ganar Dinero
+========================================================================================
+Total: 30
+
+[PREMIUM] Agencia de Automatización de DMs con IA
+          agencia-de-automatizacion-de-dms-con-ia--a8cc689a.txt
+[PREMIUM] Agencia de Automatización de Emails B2B
+          agencia-de-automatizacion-de-emails-b2b--f65504a6.txt
+[PREMIUM] Agencia de Branding IA para Startups
+          agencia-de-branding-ia-para-startups--777866ca.txt
+[PREMIUM] Agencia de Copywriting "Hybrid" (Humano + IA)
+          agencia-de-copywriting-hybrid-humano-ia--e4bed724.txt
+[PREMIUM] Agencia de Edición de Short-Form Content
+          agencia-de-edicion-de-short-form-content--e3def5ee.txt
+[PREMIUM] Agencia de Gestión (OnlyFans/Marketing)
+          agencia-de-gestion-onlyfans-marketing--df42248d.txt
+[PREMIUM] Arquitecto de Newsletters "Curadas" por IA
+          arquitecto-de-newsletters-curadas-por-ia--7449b362.txt
+[PREMIUM] Consultor de Amazon KDP (Autoedición)
+          consultor-de-amazon-kdp-autoedicion--82b258eb.txt
+[PREMIUM] Consultor de Automatización de Procesos (Make)
+          consultor-de-automatizacion-de-procesos-make--4d6f67e8.txt
+[PREMIUM] Consultor de Marca Personal con Avatares IA
+          consultor-de-marca-personal-con-avatares-ia--13483529.txt
+[PREMIUM] Consultor de Marcas Personales de Alto Valor
+          consultor-de-marcas-personales-de-alto-valor--30e616d2.txt
+[PREMIUM] Consultor de Marketplaces de IA (Prompts/Tools)
+          consultor-de-marketplaces-de-ia-prompts-tools--818c15c4.txt
+[PREMIUM] Consultor de Publicidad en TikTok (Ads Specialist)
+          consultor-de-publicidad-en-tiktok-ads-specialist--e1c87a9a.txt
+[PREMIUM] Consultor de SEO de Imágenes con IA (Pinterest/Google)
+          consultor-de-seo-de-imagenes-con-ia-pinterest-google--0c09d1a8.txt
+[PREMIUM] Consultor de Salida (Exit Strategy) Digital
+          consultor-de-salida-exit-strategy-digital--bcb4e84e.txt
+[PREMIUM] Creador de Faceless Channels con IA (YouTube/TikTok)
+          creador-de-faceless-channels-con-ia-youtube-tiktok--ddfcc0b3.txt
+[PREMIUM] Estratega de Cursos por WhatsApp/Telegram
+          estratega-de-cursos-por-whatsapp-telegram--28a97e15.txt
+[PREMIUM] Estratega de Flipping de Activos IA
+          estratega-de-flipping-de-activos-ia--752fd45d.txt
+[PREMIUM] Estratega de Influencers Virtuales (AI Models)
+          estratega-de-influencers-virtuales-ai-models--3701d1d0.txt
+[PREMIUM] Estratega de Lanzamiento de Memecoins (Ethical)
+          estratega-de-lanzamiento-de-memecoins-ethical--5ce21cb1.txt
+[PREMIUM] Estratega de LinkedIn Ghostwriting con IA
+          estratega-de-linkedin-ghostwriting-con-ia--bb05f2a9.txt
+[PREMIUM] Estratega de Micro-SaaS No-Code
+          estratega-de-micro-saas-no-code--a8d54652.txt
+[PREMIUM] Estratega de YouTube Cash Cow 2.0 (IA Generativa)
+          estratega-de-youtube-cash-cow-2-0-ia-generativa--d582784a.txt
+[PREMIUM] Estrategia de UGC Creator Pro
+          estrategia-de-ugc-creator-pro--ac8e3249.txt
+[PREMIUM] Experto en Arbitraje de Software (LTD)
+          experto-en-arbitraje-de-software-ltd--30cbde02.txt
+[PREMIUM] Generador de "Hooks" para TikTok Ads con IA
+          generador-de-hooks-para-tiktok-ads-con-ia--19a4073b.txt
+[PREMIUM] Growth Hacker de Twitter (X) con IA
+          growth-hacker-de-twitter-x-con-ia--e19a1366.txt
+[PREMIUM] Maestro de "Vibe Coding" para Micro-SaaS
+          maestro-de-vibe-coding-para-micro-saas--e8cc4a63.txt
+[PREMIUM] Maestro de Print on Demand (POD) de Nicho
+          maestro-de-print-on-demand-pod-de-nicho--59d9987e.txt
+[PREMIUM] Maestro de Venta de Plantillas (Notion/CRM)
+          maestro-de-venta-de-plantillas-notion-crm--941b1534.txt

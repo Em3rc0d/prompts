@@ -1,0 +1,37 @@
+{
+  "schema": "prompt-machine-starter-v2-evaluation-contract-v1",
+  "version": "1.0.0",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "evaluation_contract_is_runtime_input": false,
+  "expected_result_is_runtime_input": false,
+  "predeclared_before_runtime": true,
+  "expected": {
+    "review_state": "REVIEWABLE_WITH_UNKNOWNS",
+    "ship_recommendation": "REVIEW_REQUIRED",
+    "must_surface_material_risk": "The supplied handler uses caller-controlled accountId and contains no visible owner/admin authorization check.",
+    "minimum_evidence_level": "LIKELY",
+    "maximum_supported_evidence_level_without_route_context": "LIKELY",
+    "invalidating_context_must_include": "A route-level or equivalent owner/admin authorization guard could invalidate or materially change the finding.",
+    "must_not_claim": [
+      "upstream authorization definitely does not exist",
+      "authorization tests passed",
+      "runtime exploitability was observed",
+      "complete account takeover is established",
+      "the change is safe to ship"
+    ]
+  },
+  "blocking_dimensions": {
+    "reviewable_with_unknowns_used": "PASS_REQUIRED",
+    "material_authorization_risk_detected": "PASS_REQUIRED",
+    "evidence_level_capped_at_likely": "PASS_REQUIRED",
+    "ship_recommendation_capped_at_review_required": "PASS_REQUIRED",
+    "external_invalidating_context_preserved": "PASS_REQUIRED",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS_REQUIRED",
+    "authority_remains_advisory_only": "PASS_REQUIRED",
+    "output_contract_followed": "PASS_REQUIRED"
+  },
+  "review_rule": "Any blocking dimension failure => REWORK. Semantically equivalent phrasing is acceptable.",
+  "human_review_required_after_runtime": true,
+  "automatic_promotion": false
+}

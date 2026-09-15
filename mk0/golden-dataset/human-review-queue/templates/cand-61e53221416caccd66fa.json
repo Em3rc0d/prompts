@@ -1,0 +1,20 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-61e53221416caccd66fa",
+  "candidate_id": "cand-61e53221416caccd66fa",
+  "candidate_fingerprint": "sha256:cbfd1875f98f3e8d56f6ef7c7bdb5aad1d50f69fa5251a29338b2cf0b9be125c",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "HOLD",
+  "decision_reason_codes": [
+    "LOW_QUALITY_CANDIDATE",
+    "SOURCE_SNAPSHOT_NOISY_HTML",
+    "NOT_GOLDEN_ELIGIBLE_YET"
+  ],
+  "rationale": "Keep as a low-quality candidate for calibration. Do not promote to Golden Candidate because the observed source is a noisy GitHub repository HTML snapshot rather than a clean semantic prompt, skill, or instruction artifact.",
+  "reviewed_at": "2026-08-28T02:01:00Z",
+  "machine_confidence_at_review": 0.945,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [],
+  "source_commit": null
+}

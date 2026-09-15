@@ -1,0 +1,5 @@
+{
+  "request_id": "generator_v0_software_review_example",
+  "request": "Create a rigorous prompt to review a software code change, identify confirmed bugs and security risks, separate evidence from hypotheses, suggest fixes, and explain how each finding should be verified.",
+  "model_targets": ["model-agnostic"]
+}

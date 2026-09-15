@@ -1,0 +1,77 @@
+{
+  "schema": "prompt-quarry-skill-trigger-matrix-v1",
+  "matrix_id": "PQ-SKILL-TRIGGER-MATRIX-0001",
+  "state": "FIXTURES_DEFINED_UNEXECUTED",
+  "purpose": "Define deterministic intended-trigger and near-miss non-trigger cases for the four Developer Workflow Kit v1.2 skill candidates. This file is test design only and is not runtime evidence.",
+  "skills": [
+    {
+      "skill_id": "PQ-SKILL-0001",
+      "name": "review-code-with-evidence",
+      "intended": [
+        "Review this pull request diff and tell me whether it is safe to merge.",
+        "Find evidence-backed defects in these changed files and give me verification steps.",
+        "Can you review this function for correctness and regression risk?",
+        "Inspect this patch and prioritize only concrete code-review findings."
+      ],
+      "non_trigger": [
+        "Production is returning HTTP 500 after deploy; diagnose the root cause.",
+        "Should we choose Kafka or RabbitMQ for this architecture?",
+        "Design a reusable AI workflow for triaging support tickets.",
+        "Explain what this Java method does without reviewing it."
+      ]
+    },
+    {
+      "skill_id": "PQ-SKILL-0002",
+      "name": "diagnose-bugs-with-evidence",
+      "intended": [
+        "This service started timing out after deploy; diagnose it from these logs and metrics.",
+        "Help me debug why this test fails only in CI.",
+        "Rank the most likely causes of this exception and tell me what evidence would distinguish them.",
+        "Investigate this production incident without guessing a root cause."
+      ],
+      "non_trigger": [
+        "Review this pull request for merge blockers.",
+        "Compare PostgreSQL and DynamoDB for a new system.",
+        "Create an AI workflow contract for incident response.",
+        "Refactor this function to be more readable."
+      ]
+    },
+    {
+      "skill_id": "PQ-SKILL-0003",
+      "name": "make-technical-decisions",
+      "intended": [
+        "Compare Postgres and DynamoDB for this workload under these constraints.",
+        "Should we use a monolith or microservices for this product given this team and deadline?",
+        "Evaluate these deployment platforms and recommend one with reversal triggers.",
+        "Help me choose between two implementation approaches without hiding uncertainty."
+      ],
+      "non_trigger": [
+        "Review this diff for correctness.",
+        "Debug why this API endpoint returns 500.",
+        "Turn our recurring code review process into an AI workflow contract.",
+        "Summarize this architecture document."
+      ]
+    },
+    {
+      "skill_id": "PQ-SKILL-0004",
+      "name": "design-ai-workflows",
+      "intended": [
+        "Turn our recurring PR review process into a reusable AI workflow contract.",
+        "Design a governed AI-assisted incident triage workflow for our team.",
+        "Standardize this repeated research task with explicit inputs, evidence states, outputs, and fallback behavior.",
+        "Create an inspectable operating contract for an AI task that will run repeatedly."
+      ],
+      "non_trigger": [
+        "Review this pull request now.",
+        "Diagnose this crash from the stack trace.",
+        "Should we choose Redis or Memcached?",
+        "Write a one-off email explaining our architecture."
+      ]
+    }
+  ],
+  "execution_rule": {
+    "intended_case": "The named skill should be selected when host/runtime discovery is under test.",
+    "non_trigger_case": "The named skill should remain inactive when a materially different specialized skill or ordinary response is appropriate.",
+    "promotion": "No skill may claim SKILL_TRIGGER_EVAL_PASS until these fixtures are executed on a named host/runtime and a receipt is persisted."
+  }
+}

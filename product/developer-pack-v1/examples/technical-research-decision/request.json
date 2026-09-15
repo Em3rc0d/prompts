@@ -1,0 +1,33 @@
+{
+  "request_id": "example-technical-decision-001",
+  "request": "Create a reusable prompt for comparing two technical options using supplied evidence and shared decision criteria. It must expose trade-offs and unknowns and state what would change the recommendation.",
+  "title": "Technical option decision prompt",
+  "intent": "research",
+  "domain": "software",
+  "risk": "normal",
+  "complexity": "moderate",
+  "interaction": "intake-allowed",
+  "language": "en",
+  "inputs": {
+    "required": ["decision", "options", "decision_criteria", "evidence"],
+    "optional": ["hard_constraints", "known_unknowns"]
+  },
+  "constraints": [
+    "Use the same criteria across viable options",
+    "Do not treat absent evidence as fact",
+    "Separate evidence, inference, and recommendation"
+  ],
+  "success_criteria": [
+    "Recommendation follows from criteria and evidence",
+    "Trade-offs and unknowns are explicit",
+    "Conditions that would change the recommendation are stated"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 1,
+    "evidence": true,
+    "citations": false
+  },
+  "model_targets": ["model-agnostic"],
+  "notes": ["Static example; not runtime evidence."]
+}

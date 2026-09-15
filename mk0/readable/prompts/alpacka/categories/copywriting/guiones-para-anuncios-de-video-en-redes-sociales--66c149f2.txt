@@ -1,0 +1,98 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Guiones para anuncios de video en redes sociales
+TYPE               : Prompt
+CATEGORY           : Copywriting
+SOURCE ACCESS      : FREE
+SOURCE BODY STATUS : PUBLICLY AVAILABLE AT SOURCE, BUT NOT DUPLICATED IN THIS READER LAYER
+READABLE CONTENT   : REPOSITORY-AUTHORED READER VERSION
+FIDELITY           : metadata-and-corpus-pattern-derived-not-source-reproduction
+SOURCE UUID        : 66c149f2-200f-4158-9b6e-b1a4a0d6a704
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/66c149f2-200f-4158-9b6e-b1a4a0d6a704
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : (not applicable; generated for human reading from the source metadata record)
+CONTENT HASH       : sha256:0678bcbde0943ce902e271dca2c391b6a559c59edc87e89dccce800274a78bbc
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- producto/oferta
+- audiencia
+- objetivo de conversión
+- tono
+- canal
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega senior de copywriting y conversión.
+
+OBJETIVO
+Guiones para anuncios de video en redes sociales.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {producto/oferta}
+- {audiencia}
+- {objetivo de conversión}
+- {tono}
+- {canal}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+SOURCE-OBSERVED STRUCTURAL SIGNALS
+----------------------------------------------------------------------------------------
+role_assignment: True
+stepwise_procedure: True
+output_contract: True
+question_first: False
+explicit_constraints: False
+numbered_steps: 5
+bullet_lines: 3
+line_count: 22
+paragraph_count: 6
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/66c149f2-200f-4158-9b6e-b1a4a0d6a704
+Source record ID: alpacka_prompt_66c149f2-200f-4158-9b6e-b1a4a0d6a704
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

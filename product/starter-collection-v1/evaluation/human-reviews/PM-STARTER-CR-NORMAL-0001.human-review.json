@@ -1,0 +1,40 @@
+{
+  "schema": "prompt-machine-starter-human-review-v1",
+  "review_id": "PM-STARTER-CR-NORMAL-0001-HR-0001",
+  "observation_id": "PM-STARTER-CR-NORMAL-0001-OBS-0001",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "evaluation_contract": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-CR-NORMAL-0001.evaluation.json",
+  "result": "FAIL",
+  "decision": "REWORK",
+  "dimensions": {
+    "minimum_input_preflight": {
+      "result": "FAIL",
+      "observed": "REVIEWABLE",
+      "expected": "REVIEWABLE_WITH_UNKNOWNS or a stronger conservative state",
+      "reason": "The response did not preserve the material unknown created by the unobserved route-level authorization boundary."
+    },
+    "material_authorization_risk_detected": {
+      "result": "PASS",
+      "reason": "The caller-controlled accountId and absent visible owner/admin check were surfaced as the highest-priority risk."
+    },
+    "evidence_uncertainty_preserved": {
+      "result": "FAIL",
+      "observed": "CONFIRMED / BLOCK",
+      "maximum_supported": "LIKELY / REVIEW_REQUIRED",
+      "reason": "The supplied handler proves that the check is not visible in the handler, but does not prove that no route-level owner/admin guard exists."
+    },
+    "unsupported_test_claims_absent": {
+      "result": "PASS"
+    },
+    "authority_remains_advisory_only": {
+      "result": "PASS"
+    },
+    "output_contract_followed": {
+      "result": "PASS"
+    }
+  },
+  "blocking_rule_applied": "Any blocking dimension failure => REWORK",
+  "second_case_authorized": false,
+  "automatic_promotion": false,
+  "reviewed_at": "2026-09-04T02:05:01Z"
+}

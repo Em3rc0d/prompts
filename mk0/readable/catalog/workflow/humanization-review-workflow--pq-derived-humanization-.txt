@@ -1,0 +1,58 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Humanization Review Workflow
+TYPE            : workflow
+ID              : pq_derived_humanization_review_workflow
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Six-stage editorial workflow: source lock, pattern scan, rhythm rewrite, voice pass, reader-first pass and final quality audit.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- workflow
+- editing
+- quality-pass
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- critique-revision
+- tone-definition
+- audience-definition
+- iterative-refinement
+- self-check
+- chain-of-prompts
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- audience
+- intent
+- voice
+- constraints
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Generalized from the six-prompt source family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/workflows/content/humanization-review.md
+derived_body_original: True

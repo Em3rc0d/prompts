@@ -1,0 +1,28 @@
+{
+  "schema": "verlune-g14-lemon-brand-activation-observation-v1",
+  "recorded_date": "2026-09-08",
+  "mode": "test",
+  "store_id": 462419,
+  "customer_facing_brand": "Verlune",
+  "observed_store_name": "Verlune",
+  "store_logo_observed": true,
+  "currency": "USD",
+  "activation_application": {
+    "submitted": true,
+    "provider_message": "application received and will be reviewed",
+    "identity_verification_state": "IN_REVIEW",
+    "approved": false
+  },
+  "store_url_recorded": false,
+  "contact_email_recorded": false,
+  "customer_pii_recorded": false,
+  "product_branding_reconciled": false,
+  "verlune_final_archive_uploaded": false,
+  "final_test_provider_metadata_validated": false,
+  "live_mode_ready": false,
+  "public_checkout_enabled": false,
+  "real_purchase_observed": false,
+  "real_revenue_observed": false,
+  "claim_boundary": "This receipt records the observed customer-facing store rebrand and provider activation-review state only. It does not prove provider approval, Live readiness, final Verlune product/file validation, buyer delivery, real revenue, or public-sale authorization.",
+  "next": "Rebrand the Test product to Verlune Code Review, replace the historical RC2 file with verlune-code-review-v1.0.0.zip, then run the read-only Test metadata probe."
+}

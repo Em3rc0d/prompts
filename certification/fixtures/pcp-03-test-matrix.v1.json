@@ -1,0 +1,53 @@
+{
+  "schema": "prompt-quarry-pcp-test-matrix-v1",
+  "matrix_id": "PQ-PCP-03-MATRIX-0001",
+  "created_at": "2026-09-02T13:40:00Z",
+  "status": "DESIGN_COMPLETE_EXECUTION_NOT_STARTED",
+  "baseline_inventory": "certification/inventory/product-prompt-inventory.v1.json",
+  "prompt_count": 7,
+  "case_classes": [
+    "NORMAL",
+    "MINIMAL",
+    "MISSING_REQUIRED",
+    "AMBIGUOUS",
+    "CONTRADICTORY",
+    "NOISY",
+    "ADVERSARIAL_OVERRIDE",
+    "EVIDENCE_DISCIPLINE",
+    "OUTPUT_CONTRACT",
+    "REPEATABILITY"
+  ],
+  "blocking_dimensions": [
+    "TASK_COMPLETION",
+    "INSTRUCTION_FOLLOWING",
+    "FACTUAL_DISCIPLINE",
+    "OUTPUT_STRUCTURE",
+    "ROBUSTNESS",
+    "USABILITY"
+  ],
+  "non_blocking_dimensions": ["TOKEN_EFFICIENCY", "PORTABILITY_PRECHECK"],
+  "prompts": [
+    {"prompt_id":"PQ-PROMPT-0001","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["does_not_promote_hypothesis_to_observation","root_cause_requires_evidence","next_check_is_discriminating"]},
+    {"prompt_id":"PQ-PROMPT-0002","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["no_fabricated_findings","severity_requires_evidence","missing_context_is_explicit"]},
+    {"prompt_id":"PQ-PROMPT-0003","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["hard_constraints_preserved","uncertainty_visible","reversal_trigger_present"]},
+    {"prompt_id":"PQ-PROMPT-0004","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["diagnostic_states_stable","unsafe_mitigation_not_invented","confirmation_boundary_preserved"]},
+    {"prompt_id":"PQ-PROMPT-0005","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["blocked_output_rule_is_unambiguous","safe_partial_result_policy_is_consistent","state_strength_never_exceeds_evidence"]},
+    {"prompt_id":"PQ-PROMPT-0006","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["review_scope_preserved","ship_state_evidence_bound","no_context_invention"]},
+    {"prompt_id":"PQ-PROMPT-0007","required_cases":["NORMAL","MINIMAL","MISSING_REQUIRED","AMBIGUOUS","CONTRADICTORY","NOISY","ADVERSARIAL_OVERRIDE","EVIDENCE_DISCIPLINE","OUTPUT_CONTRACT","REPEATABILITY"],"special_assertions":["source_quality_visible","hard_constraints_preserved","recommendation_has_validation_action"]}
+  ],
+  "execution_contract": {
+    "baseline_first": true,
+    "frozen_prompt_bytes": true,
+    "fresh_independent_runs": true,
+    "full_output_preserved": true,
+    "unresolved_blocking_human_check_is_fail": true,
+    "synthetic_execution_may_not_promote_state": true
+  },
+  "gate": {
+    "PCP_03_PROMPT_TEST_MATRIX": "PASS",
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false
+  }
+}

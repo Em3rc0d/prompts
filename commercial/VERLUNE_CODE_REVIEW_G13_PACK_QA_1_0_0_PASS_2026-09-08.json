@@ -1,0 +1,33 @@
+{
+  "schema": "prompt-machine-g13-pack-qa-receipt-v1",
+  "recorded_at": "2026-09-08",
+  "gate": "G13",
+  "brand": "Verlune",
+  "product": "Verlune Code Review",
+  "version": "1.0.0",
+  "verdict": "PASS",
+  "archive": {
+    "name": "verlune-code-review-v1.0.0.zip",
+    "bytes": 18859,
+    "sha256": "4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649"
+  },
+  "qa": {
+    "check_count": 77,
+    "failed_checks": [],
+    "customer_surface_contains_verlune": true,
+    "customer_surface_no_internal_prompt_machine_brand": true,
+    "customer_surface_no_internal_prompt_quarry_brand": true,
+    "workflow_identity_exact": true,
+    "license_boundary_pass": true,
+    "sale_terms_boundary_pass": true,
+    "model_scope_boundary_pass": true,
+    "release_candidate_reference_absent": true,
+    "transient_launch_state_absent": true
+  },
+  "ci": {
+    "workflow_run_id": 34260289747,
+    "artifact_id": 10069577806,
+    "head_sha": "6fd45574be1cf8ee12533f2974ffe37544c6d757"
+  },
+  "claim_boundary": "PACK_QA_ONLY_NOT_PROVIDER_CUSTODY_DELIVERY_OR_REVENUE"
+}

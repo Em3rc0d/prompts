@@ -1,0 +1,79 @@
+{
+  "schema": "prompt-machine-starter-code-review-release-state-v1",
+  "recorded_on": "2026-09-08",
+  "state_id": "PM-STARTER-CODE-REVIEW-G14-PROVIDER-HANDOFF-2026-09-08",
+  "supersedes_for_current_truth": [
+    "commercial/STARTER_CODE_REVIEW_RELEASE_STATE_G14_OFFLINE_READY_2026-09-08.json",
+    "commercial/STATUS_CURRENT.md@pre-RC2",
+    "commercial/README.md@pre-RC2",
+    "PR #4 body@pre-RC2"
+  ],
+  "product": {
+    "name": "Prompt Machine Starter — Code Review Edition",
+    "profile": "PM-STARTER-CODE-REVIEW-EDITION-V1",
+    "version": "1.0.0-rc2",
+    "price_hypothesis_usd": 9,
+    "workflow_count": 1,
+    "excluded_workflows": ["Evidence-first Bug Diagnosis"]
+  },
+  "canonical_workflow": {
+    "workflow_id": "pm-starter-evidence-first-code-review-v2",
+    "contract_version": "2.2.0",
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977",
+    "authority": "ADVISORY_ONLY",
+    "certification_id": "PM-CERT-STARTER-CR-V2.2-GEMINI-SCOPE-001",
+    "model_scope": "gemini-3.5-flash",
+    "portability_classification": "MODEL_SPECIFIC"
+  },
+  "release_archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0-rc2.zip",
+    "bytes": 19161,
+    "sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+    "member_count": 8,
+    "customer_license_frozen": true,
+    "sale_terms_frozen": true,
+    "stale_rc1_references": false
+  },
+  "gates": {
+    "G05": "FAIL_REWORK_HISTORICAL_BASELINE_PRESERVED",
+    "G06": "CLOSED",
+    "G07": "PASS",
+    "G08": "PASS_4_OF_4",
+    "G09": "MODEL_SPECIFIC_PASS_FOR_DEMONSTRATED_SCOPE",
+    "G10": "KEEP_RECORDED",
+    "G11": "PASS_FOR_EXACT_DECLARED_SCOPE",
+    "G12": "PASS_RC2",
+    "G13": "PASS_RC2_65_OF_65",
+    "G14": "OFFLINE_PASS_EXTERNAL_PROVIDER_HANDOFF_IN_PROGRESS"
+  },
+  "g14": {
+    "provider": "LEMON_SQUEEZY",
+    "provider_mode": "TEST_MODE",
+    "store_name": "Prompt Quarry",
+    "provider_api_key_value_recorded": false,
+    "provider_api_key_repository_storage": false,
+    "read_only_discovery_probe": "tools/pm_g14_lemonsqueezy_probe.py",
+    "handoff": "commercial/STARTER_CODE_REVIEW_G14_LEMONSQUEEZY_HANDOFF_V1.md",
+    "provider_side_effects_from_probe": 0,
+    "provider_product": "NOT_OBSERVED",
+    "provider_variant": "NOT_OBSERVED",
+    "provider_file": "NOT_OBSERVED",
+    "exact_provider_custody": "NOT_OBSERVED",
+    "test_checkout_order": "NOT_OBSERVED",
+    "signed_webhook_observation": "NOT_OBSERVED",
+    "delivery_canary": "NOT_OBSERVED"
+  },
+  "commercial": {
+    "product_ready": false,
+    "ready_to_sell": false,
+    "public_checkout": "OFF",
+    "real_purchases": 0,
+    "real_revenue_observed": false,
+    "pq_1_observed": false
+  },
+  "next_boundary": "CREATE_TEST_MODE_PRODUCT_AND_VARIANT_AND_UPLOAD_EXACT_RC2_IN_LEMON_SQUEEZY_DASHBOARD_THEN_RUN_READ_ONLY_CUSTODY_PROBE",
+  "merge_authorized": false,
+  "public_sale_authorized": false,
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE"
+}

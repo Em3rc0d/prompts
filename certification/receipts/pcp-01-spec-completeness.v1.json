@@ -1,0 +1,29 @@
+{
+  "schema": "prompt-quarry-pcp-gate-receipt-v1",
+  "receipt_id": "PQ-PCP-01-RECEIPT-0001",
+  "program_gate": "PCP-01",
+  "original_alias": "MK3.1",
+  "gate_name": "PROMPT_SPEC_COMPLETE",
+  "observed_at": "2026-09-01T14:05:31Z",
+  "inventory_id": "PQ-PCP-00-INV-0001",
+  "specification_set_id": "PQ-PCP-01-SPECSET-0001",
+  "checks": [
+    {"id": "PCP01-C01", "name": "inventory_coverage", "status": "PASS", "observed": "7 inventory prompt IDs mapped to 7 specifications"},
+    {"id": "PCP01-C02", "name": "spec_ids_unique", "status": "PASS", "observed": "PQ-SPEC-0001-V1 through PQ-SPEC-0007-V1"},
+    {"id": "PCP01-C03", "name": "source_basis_bound", "status": "PASS", "observed": "Every spec records the frozen prompt source path and Git blob SHA"},
+    {"id": "PCP01-C04", "name": "purpose_and_target_user_complete", "status": "PASS", "observed": "7 of 7"},
+    {"id": "PCP01-C05", "name": "input_contract_complete", "status": "PASS", "observed": "Required, optional, blocking, and missing-information behavior present for 7 of 7"},
+    {"id": "PCP01-C06", "name": "output_contract_complete", "status": "PASS", "observed": "Required elements, allowed statuses, and completion rule present for 7 of 7"},
+    {"id": "PCP01-C07", "name": "constraints_complete", "status": "PASS", "observed": "7 of 7"},
+    {"id": "PCP01-C08", "name": "expected_value_is_unproven_hypothesis", "status": "PASS", "observed": "7 of 7 explicitly HYPOTHESIS_UNTESTED"},
+    {"id": "PCP01-C09", "name": "limitations_supported_and_out_of_scope_complete", "status": "PASS", "observed": "7 of 7"},
+    {"id": "PCP01-C10", "name": "acceptance_conditions_complete", "status": "PASS", "observed": "7 of 7"},
+    {"id": "PCP01-C11", "name": "claim_boundary_preserved", "status": "PASS", "observed": "F4, F5, F6, and F7 remain false for all seven specs"},
+    {"id": "PCP01-C12", "name": "frozen_before_behavioral_testing", "status": "PASS", "observed": "Every specification is immutable and bound to the PCP-00 baseline"}
+  ],
+  "counts": {"checks": 12, "pass": 12, "warn": 0, "fail": 0, "specifications": 7, "complete": 7, "incomplete": 0},
+  "status": "PASS",
+  "scope": "Specification completeness and pre-test expectation freeze only.",
+  "does_not_establish": ["STATIC_AUDIT_COMPLETE", "PROMPT_TEST_MATRIX", "F4_TESTED", "F5_IMPROVED", "F6_CERTIFIED", "F7_PORTABLE", "PRODUCT_READY", "READY_TO_SELL"],
+  "next_gate": "PCP-02 / STATIC_AUDIT_COMPLETE"
+}

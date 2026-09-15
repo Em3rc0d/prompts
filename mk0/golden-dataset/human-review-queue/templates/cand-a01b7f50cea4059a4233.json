@@ -1,0 +1,26 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-a01b7f50cea4059a4233",
+  "candidate_id": "cand-a01b7f50cea4059a4233",
+  "candidate_fingerprint": "sha256:2656fdaa5249c0787a1bc4a9c12ac150e45de12eab85ed68a814e1f16dd78f92",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "REJECT",
+  "decision_reason_codes": [
+    "NOT_PROMPT_ARTIFACT",
+    "PROGRAMMING_MANUAL"
+  ],
+  "rationale": "Human owner rejected the candidate because the observed artifact is a programming/technical manual rather than a prompt-quality artifact suitable for the Golden Dataset.",
+  "reviewed_at": "2026-08-27T21:08:00-05:00",
+  "machine_confidence_at_review": 0.945,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [
+    {
+      "field": "artifact_type",
+      "from": "prompt",
+      "to": "documentation/manual",
+      "reason": "The source primarily documents programming, setup, configuration, and operational usage rather than providing a reusable prompt artifact."
+    }
+  ],
+  "source_commit": null
+}

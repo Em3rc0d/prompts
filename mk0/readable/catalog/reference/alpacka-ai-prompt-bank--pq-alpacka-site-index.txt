@@ -1,0 +1,93 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Alpacka AI prompt bank
+TYPE            : reference
+ID              : pq_alpacka_site_index
+AUTHOR          : Alpacka AI
+SOURCE          : https://alpackaai.xyz/bank-prompts?utm_source=threads&utm_medium=social&utm_content=link_in_bio
+OFFICIAL POST   : None
+RAW URL         : None
+VERIFICATION    : source-url-observed
+CAPTURE MODE    : rendered-page
+LANGUAGE        : es
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Public sales page for an Alpacka AI prompt pack. Live rendering shows a +500-prompt claim across 16 areas, while the page title and structured metadata advertise 1,000+ prompts; both observations are preserved as source claims rather than reconciled as fact.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/writing
+- business/marketing
+- productivity/learning
+- software/coding
+
+TAGS
+----------------------------------------------------------------------------------------
+- prompt-bank
+- prompt-engineering
+- social-media
+- vibe-coding
+- productivity
+- business
+- notion
+- hotmart
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+(none)
+
+VARIABLES
+----------------------------------------------------------------------------------------
+(none)
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://alpackaai.xyz/bank-prompts?utm_source=threads&utm_medium=social&utm_content=link_in_bio
+  relation: primary
+  note: Rendered public sales page captured successfully with HTTP 200.
+-
+  url: https://www.alpackaai.xyz/
+  relation: discovery
+  note: Public website root.
+-
+  url: https://pay.hotmart.com/K99381988U?checkoutMode=10&bid=1778363157034
+  relation: discovery
+  note: Checkout destination observed from the public sales page; the paid pack itself was not accessed.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+rendered_source_observed: True
+observed_page_title: Banco de Prompts de IA · +1.000 prompts para ChatGPT, Claude y Gemini | Alpacka
+structured_metadata_claim: more than 1,000 prompts
+rendered_sales_copy_claim: more than 500 prompts
+claim_discrepancy: True
+observed_areas_count: 16
+observed_areas:
+  - Copywriting & Contenido
+  - Marketing & Ventas
+  - Marketing para Redes Sociales
+  - Aprender Inglés
+  - Creación de Contenido
+  - Finanzas Personales
+  - Astrología
+  - Canal de YouTube Sin Rostro
+  - Crecimiento Personal
+  - Bajar de Peso
+  - Conseguir Empleo
+  - Productividad
+  - Aprender Francés
+  - SEO y Contenido
+  - Vibe Coding
+  - Creatividad
+delivery_claim: Notion workspace
+observed_price_usd: 14.99
+observed_previous_price_usd: 29
+checkout_provider: Hotmart
+checkout_url: https://pay.hotmart.com/K99381988U?checkoutMode=10&bid=1778363157034
+access_boundary: Paid pack not publicly exposed by the supplied URL; no login, checkout or access control was bypassed.
+harvest_http_status: 200
+harvest_records: 9
+harvest_links: 3

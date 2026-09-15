@@ -1,0 +1,100 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Planificador de Contenido Infinito (30 días)
+TYPE               : Prompt
+CATEGORY           : Marketing
+SOURCE ACCESS      : FREE
+SOURCE BODY STATUS : PUBLICLY AVAILABLE AT SOURCE, BUT NOT DUPLICATED IN THIS READER LAYER
+READABLE CONTENT   : REPOSITORY-AUTHORED READER VERSION
+FIDELITY           : metadata-and-corpus-pattern-derived-not-source-reproduction
+SOURCE UUID        : e6ab8a10-61cd-44dd-93c9-726dc2ee0d57
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/e6ab8a10-61cd-44dd-93c9-726dc2ee0d57
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : (not applicable; generated for human reading from the source metadata record)
+CONTENT HASH       : sha256:ccfe873f4b2d49eb086439b325054ef280d7b39e72c2f29b894e3358080a65c4
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- oferta
+- audiencia
+- canal
+- objetivo
+- baseline
+- presupuesto/restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un estratega de marketing basado en experimentos.
+
+OBJETIVO
+Planificador de Contenido Infinito (30 días).
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {oferta}
+- {audiencia}
+- {canal}
+- {objetivo}
+- {baseline}
+- {presupuesto/restricciones}
+
+PROCESO
+1. Diagnostica el punto de partida.
+2. Define el resultado objetivo y las restricciones.
+3. Construye un plan por fases con prioridades y métricas.
+4. Cierra con las primeras acciones ejecutables.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+SOURCE-OBSERVED STRUCTURAL SIGNALS
+----------------------------------------------------------------------------------------
+role_assignment: True
+stepwise_procedure: True
+output_contract: False
+question_first: False
+explicit_constraints: False
+numbered_steps: 4
+bullet_lines: 5
+line_count: 21
+paragraph_count: 5
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/e6ab8a10-61cd-44dd-93c9-726dc2ee0d57
+Source record ID: alpacka_prompt_e6ab8a10-61cd-44dd-93c9-726dc2ee0d57
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

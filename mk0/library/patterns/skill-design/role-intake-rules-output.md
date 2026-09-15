@@ -1,0 +1,122 @@
+# Role–Intake–Rules–Output Pattern (RIRO)
+
+**Artifact type:** pattern  
+**Status:** derived-analysis
+
+## Observation
+
+Across the public Alpacka skill surface, reusable skills consistently separate four concerns that ordinary one-shot prompts often blend together:
+
+```text
+ROLE
+  ↓
+INTAKE
+  ↓
+RULES
+  ↓
+OUTPUT CONTRACT
+```
+
+The repository calls this **RIRO**.
+
+The pattern is supported by aggregate structural evidence rather than copied wording: all 12 observed public skills contain a role, intake behavior and explicit rules; 9 of 12 also define an output contract. The larger free-prompt sample also shows role assignment as a dominant technique.
+
+## Why it works
+
+A skill is not just a longer prompt. It is a reusable operating procedure. RIRO makes the procedure inspectable and reduces ambiguity about what the model is, what context it needs, what boundaries it must respect and what shape the result should take.
+
+## Pattern contract
+
+### 1. Role
+
+Define the working perspective and responsibility, not a theatrical persona.
+
+Good role definitions specify:
+- domain responsibility
+- decision standard
+- audience served
+- what the role must not assume
+
+### 2. Intake
+
+Collect only missing information that materially changes the answer.
+
+Intake should:
+- reuse context already supplied
+- ask the minimum necessary questions
+- distinguish required from optional inputs
+- declare safe defaults when appropriate
+
+### 3. Rules
+
+State invariants that remain true across every invocation.
+
+Useful rules include:
+- evidence requirements
+- prohibited fabrication
+- prioritization rules
+- formatting limits
+- fallback behavior when data is missing
+- domain-specific safety boundaries
+
+### 4. Output contract
+
+Specify the result in a deterministic order.
+
+An output contract should define:
+- sections or fields
+- ordering
+- required decisions/recommendations
+- uncertainty or assumptions
+- optional machine-readable schema when useful
+
+## Optional fifth layer: Process
+
+Use an explicit internal workflow when the task benefits from decomposition:
+
+```text
+inspect → clarify → analyze → produce → audit
+```
+
+Do not add process steps merely to make the skill look sophisticated.
+
+## Reusable skeleton
+
+```text
+ROLE
+You are responsible for [domain responsibility]. Optimize for [decision standard].
+
+INTAKE
+Use all context already supplied. If any of [required inputs] are missing, ask only for those. Otherwise proceed.
+
+RULES
+- Preserve known facts.
+- Do not invent missing evidence.
+- Apply [domain constraints].
+- State assumptions that materially affect the result.
+- Prefer [priority rule].
+
+OUTPUT
+Return, in order:
+1. [result section]
+2. [result section]
+3. [decision/action]
+4. Assumptions or unresolved gaps
+```
+
+## Failure modes
+
+- role-play language without operational responsibility
+- interrogating the user for context that is already available
+- rules that contradict one another
+- output requirements buried inside prose
+- too many mandatory steps for trivial requests
+- silently inventing defaults when uncertainty matters
+
+## Source evidence
+
+- https://www.alpackaai.xyz/skills
+- `quarry/analysis/alpacka-ai-skill-structure-report.json`
+- `quarry/analysis/alpacka-ai-free-structure-report.json`
+
+This pattern is a repository-authored abstraction. It does not reproduce a source skill body.

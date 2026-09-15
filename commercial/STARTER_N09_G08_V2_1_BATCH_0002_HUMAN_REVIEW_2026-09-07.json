@@ -1,0 +1,59 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-1-batch-human-review-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "contract_version": "2.1.0",
+  "provider": "GOOGLE_GEMINI_API",
+  "model": "gemini-3.5-flash",
+  "provider_requests_attempted": 4,
+  "automatic_retries": 0,
+  "behavioral_observations": 4,
+  "evaluation_contracts_sent": false,
+  "expected_results_sent": false,
+  "human_review_required": true,
+  "automatic_semantic_judgement": false,
+  "case_results": [
+    {
+      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-G08-BATCH-0001-2F985E2DFE76",
+      "raw_output_sha256": "dd21a3f39cd364728b3f28141a77235f0318ee0ad525bcb7759207aef215bb7f",
+      "finish_reason": "STOP",
+      "result": "PASS"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "execution_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001-G08-BATCH-0001-1354C5A9A6EF",
+      "raw_output_sha256": "2241ae61258e67f778e8aaec19704d1c53e19e353a4cccb87c61fb4b2a36c99a",
+      "finish_reason": "STOP",
+      "result": "PASS"
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "execution_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0001-2CB65E8D2D4B",
+      "raw_output_sha256": "850c06f6359d9a5e04e6b766510942a2ef38762d929073cd8a1152ca574c66c6",
+      "finish_reason": "STOP",
+      "result": "FAIL",
+      "decision": "REWORK",
+      "blocking_failures": [
+        "negative_evidence_not_overweighted"
+      ],
+      "observed_failure": "The supplied owner/admin guard was recognized, but the response still promoted hypothetical numeric-vs-string IDs to a LIKELY HIGH finding and treated hypothetical failure of supplied requireAuth as a CONFIRMED secondary finding. Both rely on prerequisites not established by supplied evidence."
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+      "execution_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001-G08-BATCH-0001-C3E8BEFC87CB",
+      "raw_output_sha256": "98dc7605f8929cd313c414f61ae2cef1560df5cb5c2a685deecee1d68418ce08",
+      "finish_reason": "STOP",
+      "result": "PASS"
+    }
+  ],
+  "passes": 3,
+  "fails": 1,
+  "overall_result": "FAIL",
+  "decision": "REWORK",
+  "g08_pass": false,
+  "automatic_retry": false,
+  "automatic_next_gate": false,
+  "authorization_consumed": true,
+  "truth_boundary": "FOUR_CLEAN_RUNTIME_OBSERVATIONS_HUMAN_REVIEWED; THREE_PASS_ONE_FAIL; G08_REWORK"
+}
