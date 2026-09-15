@@ -63,6 +63,8 @@ mk0/readable
 MK1 — Prompt / Skill Forge
 ```
 
+Not every source family requires a bulk raw-body harvest. Architecture/reference sources may be registered as revision-bound source maps plus derived analysis when that is the relevant evidence surface. That narrower characterization still obeys the same truth boundary and does not create an implicit MK1 promotion.
+
 ## Truth boundaries
 
 ```text
@@ -78,12 +80,14 @@ Examples:
 - an observed public UUID/title/category is source evidence;
 - an extracted technique vector is MK0 analysis;
 - a reconstruction authored from public metadata is MK0 derived knowledge, not observed source wording;
+- a source repository's schema/configuration is source architecture evidence;
+- an architecture recommendation derived from that schema belongs to MK0 analysis;
 - RIRO is reviewed reusable MK0 knowledge;
 - a new Prompt Quarry prompt or skill built from those signals belongs to MK1.
 
 ## Current characterized baseline
 
-The current MK0 snapshot records:
+The current primary prompt-corpus snapshot records:
 
 - 530 public prompt references;
 - 22 source-observed categories;
@@ -97,7 +101,44 @@ The current MK0 snapshot records:
 - a reviewed Golden Dataset;
 - an additive TXT/human-reading layer.
 
-These are receipts for the characterized snapshot, not universal claims about everything available on the source platform.
+These figures belong to the characterized prompt-corpus snapshot that produced them. They are **not** global counts across every source family registered in MK0.
+
+## Additional revision-bound source characterization
+
+### prompts.chat
+
+Captured architecture snapshot:
+
+```text
+repository  f/prompts.chat
+branch      main
+commit      f78a1c5136fa080155d928e0d7e2b4a41ddef03e
+captured    2026-09-15
+```
+
+This source is characterized for prompt-library/product architecture and distribution patterns, not bulk prompt promotion.
+
+Canonical records:
+
+- `mk0/sources/prompts-chat/README.md`
+- `mk0/sources/prompts-chat/SOURCE_MAP.md`
+- `mk0/analysis/prompts-chat-product-architecture-benchmark.md`
+
+Observed areas include prompt versions/change requests, categories/tags, collections, prompt connections, model/MCP hints, CLI/MCP/plugin distribution, self-hosting/white-label configuration, governance and an authenticated prompt-improvement API surface.
+
+Truth rule for this source:
+
+```text
+upstream capability observed
+        !=
+Prompt Quarry quality endorsement
+        !=
+MK1 artifact promotion
+        !=
+certification
+```
+
+No bulk upstream prompt-body import or automatic Golden Dataset promotion is part of this characterization.
 
 ## Canonical MK0 paths
 
@@ -126,6 +167,8 @@ MK1 should consume stable MK0 knowledge products, not silently depend on arbitra
 
 `mk0/raw/` remains available for audit, reproducibility and debugging.
 
+Source architecture analysis may inform a future design decision, but it must not be treated as an executable prompt fixture or behavioral result unless a separate governed promotion explicitly creates that evidence.
+
 ## MK0 quality rules
 
 - Evidence before claims.
@@ -134,8 +177,10 @@ MK1 should consume stable MK0 knowledge products, not silently depend on arbitra
 - Provenance survives deduplication.
 - Raw evidence is not silently rewritten.
 - Source text and repository-authored text remain distinguishable.
+- Source architecture observation and repository design recommendation remain distinguishable.
 - Human-readable material is additive; it never replaces machine evidence.
 - A failed validation gate must not silently promote an artifact.
+- Popularity, catalog size or integration breadth must not be relabeled as behavioral quality.
 
 ## Boundary with MK1
 
