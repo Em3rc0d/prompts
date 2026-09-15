@@ -106,20 +106,33 @@ def request_once(base: str, path: str, *, timeout: float, unique: int, no_redire
 
     # Checkout has two legitimate public states:
     # 1) an HTTPS redirect when public commerce is explicitly live/configured; or
-    # 2) a structured fail-closed response while commerce is intentionally off.
-    # Never accept an arbitrary 503: the body must prove the exact NOT_FOR_SALE/off state.
+    # 2) a structured 503 fail-closed response while public sale is NOT_FOR_SALE.
+    #
+    # Two exact fail-closed payload generations exist in deployed history:
+    # - legacy: checkout_not_configured + NOT_FOR_SALE
+    # - current: commerce_disabled + NOT_FOR_SALE + commerce_mode=off
+    #
+    # Never accept an arbitrary 503, a LIVE state, or an unknown error payload.
     if path == CHECKOUT_ROUTE and status == 503:
         try:
             payload = json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError):
             payload = None
-        integrity_ok = (
+
+        current_off_contract = (
             isinstance(payload, dict)
             and payload.get("ok") is False
             and payload.get("error") == "commerce_disabled"
             and payload.get("sale_status") == "NOT_FOR_SALE"
             and payload.get("commerce_mode") == "off"
         )
+        legacy_unconfigured_contract = (
+            isinstance(payload, dict)
+            and payload.get("ok") is False
+            and payload.get("error") == "checkout_not_configured"
+            and payload.get("sale_status") == "NOT_FOR_SALE"
+        )
+        integrity_ok = current_off_contract or legacy_unconfigured_contract
         if not integrity_ok:
             error = "checkout_fail_closed_mismatch"
 
@@ -183,8 +196,8 @@ def baseline(base: str, timeout: float) -> dict:
     checkout = request_once(base, CHECKOUT_ROUTE, timeout=timeout, unique=2000, no_redirect=True)
     routes[CHECKOUT_ROUTE] = asdict(checkout)
     checkout_redirect = checkout.status in (301, 302, 303, 307, 308)
-    checkout_intentionally_off = checkout.status == 503 and checkout.integrity_ok is True
-    if not (checkout_redirect or checkout_intentionally_off):
+    checkout_intentionally_closed = checkout.status == 503 and checkout.integrity_ok is True
+    if not (checkout_redirect or checkout_intentionally_closed):
         result["golden_path_pass"] = False
         suffix = checkout.error or f"HTTP_{checkout.status}"
         result["breaks"].append(f"{CHECKOUT_ROUTE}:{suffix}")  # type: ignore[union-attr]
