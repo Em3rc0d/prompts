@@ -1,395 +1,359 @@
-# Prompt Machine
+# Verlune / Prompt Machine / Prompt Quarry
 
-**Reusable AI workflows for real tasks — engineered and evidenced by Prompt Quarry.**
+This repository contains the product-engineering and evidence system behind the first **Verlune** release.
 
-Prompt Machine is the customer-facing product direction of this repository: a platform where people discover AI workflows by **what they need to get done**, use useful workflows for free, and upgrade only when broader reusable coverage earns the price.
-
-Prompt Quarry is the internal factory that acquires knowledge, engineers artifacts, tests behavior, preserves provenance, and governs what Prompt Machine is allowed to claim.
-
-Canonical strategy: [`docs/PRODUCT_VISION_V3.md`](docs/PRODUCT_VISION_V3.md).
-Commercial experiment: [`commercial/REVENUE_EXPERIMENT_V1.md`](commercial/REVENUE_EXPERIMENT_V1.md).
+Current identity boundary:
 
 ```text
-CUSTOMER
-   │
-   ▼
-PROMPT MACHINE
-choose outcome → use workflow → verify → reuse → collection
-   │
-   │ powered by
-   ▼
-PROMPT QUARRY
-MK0 → MK1 → PCP → evidence → eligible product artifact
+CUSTOMER-FACING
+Verlune
+└── Verlune Code Review
+
+PRODUCT ENGINE
+Prompt Machine
+└── packaging / release / commerce orchestration
+
+EVIDENCE FACTORY
+Prompt Quarry
+└── MK0 / MK1 / PCP / experiments / evaluation / certification
 ```
 
-## What this project is becoming
+**Prompt Machine and Prompt Quarry are internal engineering identities.** Stable historical IDs may retain `pm` / `pq` prefixes where changing them would damage provenance, but buyer-facing product copy must use `Verlune`.
 
-Prompt Machine is **not a store of raw prompt files**.
+Current canonical entrypoints:
 
-The primary unit of customer value is a **workflow**: a reusable way to perform a task with clear inputs, process, output, fallback, boundaries, and verification guidance.
+- [`commercial/STATUS_CURRENT.md`](commercial/STATUS_CURRENT.md) — operational/commercial truth.
+- [`commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md`](commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md) — adopted brand boundary.
+- [`docs/INTEGRATION_2026-09-15.md`](docs/INTEGRATION_2026-09-15.md) — current repository consolidation record.
+- [`docs/ROADMAP.md`](docs/ROADMAP.md) — MK0/MK1/MK2 capability roadmap.
+- [`docs/PROVENANCE.md`](docs/PROVENANCE.md) — provenance/truth rules.
 
-The primary merchandising unit is a **collection**: related workflows grouped around an outcome.
+`docs/PRODUCT_VISION_V3.md` is preserved as a historical pre-Verlune strategy snapshot. Its customer-brand wording is no longer authoritative.
 
-Initial outcome taxonomy:
+---
 
-- **Build & Ship** — review work, diagnose problems, design solutions, validate changes.
-- **Research & Decide** — compare options, structure evidence, make defensible decisions.
-- **Learn & Create** — turn knowledge into projects and useful deliverables.
-- **Operate & Automate** — reduce repetitive administrative and operational work.
-
-Professions remain useful metadata, but discovery begins with:
-
-> **What are you trying to get done?**
-
-## Commercial model
-
-Current launch hypothesis:
+## First customer product
 
 ```text
-FREE LIBRARY                 USD 0
-STARTER COLLECTION           USD 9 one-time   ← primary first paid offer
-FULL DEVELOPER COLLECTION    USD 19 one-time  ← broader premium / upsell
-SUBSCRIPTION                 DEFERRED
+brand            Verlune
+product          Verlune Code Review
+version          1.0.0
+price            USD 9 one-time — PRICE_HYPOTHESIS
+workflow count   1
+archive          verlune-code-review-v1.0.0.zip
+bytes            18,859
+sha256           4d7def57143c53fd0b99cf26b57a36b12215f671c52a12f0564a34aa239f9649
+payload fp       46554b5aa36166e6bee7f07b572fa4bece29811270e014cb96381099c87ca430
+pack QA          77/77 PASS
 ```
 
-Both paid prices remain `PRICE_HYPOTHESIS`. Public checkout remains disabled.
-
-### Free Library — $0
-
-The free layer must be useful by itself. It exists to create value, trust, repeat usage, and evidence of demand—not to intentionally cripple the customer experience.
-
-Current concrete free release:
+The canonical workflow identity remains:
 
 ```text
-Prompt Machine Free Developer Workflows
-version           1.1.0
-workflows         3
-customer files    7
-archive bytes     23,498
-SHA-256           55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
-delivery          VERIFIED
+workflow_id      pm-starter-evidence-first-code-review-v2
+contract         2.2.0
+bytes            25,295
+sha256           6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977
+authority        ADVISORY_ONLY
 ```
 
-Available workflows:
+The historical `pm-` identifier is preserved for evidence continuity; it is not buyer-facing branding.
 
-1. Code Review
-2. Bug Diagnosis
-3. Technical Decision
+Commercial observations above are sourced from the last reconciled release record dated `2026-09-08`. The 2026-09-15 repository integration does not pretend to refresh external provider state.
 
-The historical route `/free/developer-starter-pack` remains for compatibility. Naming compatibility does not redefine the paid Starter Collection.
+## Commercial truth boundary
 
-### Starter Collection — $9 one-time hypothesis
-
-The Starter Collection is the primary first-purchase experiment.
-
-Frozen commercial scope:
-
-- Evidence-first Code Review workflow;
-- Evidence-first Bug Diagnosis workflow;
-- `review-code-with-evidence` skill candidate;
-- `diagnose-bugs-with-evidence` skill candidate;
-- `START_HERE` entrypoint and task chooser;
-- worked examples;
-- verification guidance;
-- adaptation cheatsheet;
-- explicit evidence and limitations.
+Current recorded state remains conservative:
 
 ```text
-product id       pq-developer-starter-collection
-candidate        1.2.0-candidate
-workflow families 2
-skill candidates 2
-launch price      USD 9 one-time (PRICE_HYPOTHESIS)
-scope             FROZEN
-checkout          DISABLED
-sale state        NOT_FOR_SALE
+PRODUCT_READY       NO
+READY_TO_SELL       NO
+PUBLIC_CHECKOUT     OFF
+real purchases      0
+real revenue        0
+PQ-$1               NOT OBSERVED
 ```
 
-`SCOPE FROZEN` is a product decision only. It does not imply runtime testing, certification, portability, deterministic packaging, provider custody, or readiness to sell.
+Repository consolidation, documentation cleanup, package integrity, Test provider observations or a passing build do not independently change those values.
 
-### Full Developer Workflow Collection — $19 one-time hypothesis
-
-The full collection is the broader upsell only when additional coverage earns it.
-
-```text
-product id         pq-developer-pack
-candidate          1.2.0-candidate
-workflow families  4
-skill candidates   4
-launch price        USD 19 one-time (PRICE_HYPOTHESIS)
-checkout            DISABLED
-sale state          NOT_FOR_SALE
-```
-
-Full adds Technical Decision and AI Workflow Design coverage, the complete four-skill candidate set, broader operating contracts, examples, adaptation guidance, and collection-level orchestration.
-
-The $19 tier must win on **additional value**, not artificial restrictions in Free or Starter.
-
-No public checkout should be enabled before the exact SKU's release and delivery gates close.
-
-## Customer funnel
-
-```text
-content / search / social
-        ↓
-Prompt Machine home
-        ↓
-"What do you want to get done?"
-        ↓
-free workflow / outcome
-        ↓
-real task usage
-        ↓
-repeat usage + trust
-        ↓
-$9 Starter intent / purchase
-        ↓
-$19 Full intent / upgrade when needed
-        ↓
-repeat purchase / referral / expansion
-```
-
-The product should measure observed movement through this funnel rather than assume market demand before launch.
-
-Primary commercial milestone:
-
-```text
-PQ-$1 = first real non-test paid purchase successfully delivered
-```
-
-A CTA click, checkout creation, provider test order, or synthetic smoke event does not satisfy `PQ-$1`.
-
-## Observability
-
-The customer-facing app forwards only allowlisted intent events to:
-
-`POST /api/analytics/intent`
-
-Server runtime emits:
-
-```text
-PM_INTENT_EVENT
-evidence_class = UNTRUSTED_CLIENT_INTENT
-```
-
-The intent path is now runtime-observed on the isolated staging project. Synthetic staging events are explicitly not customer demand and not purchase evidence.
-
-Important evidence boundaries:
-
-```text
-client intent                 != purchase evidence
-free artifact serve           != revenue
-checkout created              != revenue
-provider test order           != revenue
-accepted real paid provider event == purchase evidence
-```
-
-The anonymous browser session identifier stays browser-session-only and is not intentionally sent to the server intent sink.
-
-## Trust model
-
-Prompt Quarry exists so Prompt Machine can make conservative, inspectable claims.
-
-Master rule:
+Master invariant:
 
 ```text
 MARKETING CLAIM <= OBSERVED EVIDENCE
 ```
 
-Canonical maturity ladder for engineered artifacts:
+---
+
+## Evidence and release gates
+
+Current first-product gate state recorded in `commercial/STATUS_CURRENT.md`:
+
+```text
+G05 Baseline Execution    FAIL / REWORK — historical defect preserved
+G06 Failure Mining        CLOSED
+G07 Improvement           PASS
+G08 Regression            PASS — 4/4 required final cases
+G09 Portability           MODEL_SPECIFIC / PASS_FOR_DEMONSTRATED_SCOPE
+G10 Human Value Review    KEEP / RECORDED
+G11 Certification         PASS_FOR_EXACT_DECLARED_SCOPE
+G12 Pack Rebuild          PASS — Verlune 1.0.0
+G13 Pack-level QA         PASS — Verlune 1.0.0, 77/77
+G14 Provider Gates        HISTORICAL RC2 TEST PATH PASS / VERLUNE TEST PROVIDER VALIDATION PENDING
+```
+
+Behavioral evidence is scoped to the declared model/runtime evidence. `MODEL_SPECIFIC` is not cross-model portability.
+
+The next external/commercial frontier recorded by the repository is still provider/live validation. The integration branch must not silently turn Test-path evidence into Live readiness.
+
+---
+
+# Internal system
+
+## Prompt Quarry
+
+Prompt Quarry is the evidence and engineering factory. It keeps source observation, repository derivation and engineered artifacts separate.
+
+```text
+EXTERNAL SOURCES
+      │
+      ▼
+MK0 — KNOWLEDGE QUARRY
+source evidence → normalization → analysis → fixtures → reviewed knowledge
+      │
+      ▼
+MK1 — PROMPT / WORKFLOW FORGE
+brief → architecture → candidate → critique → runtime evidence → comparison
+      │
+      ▼
+PCP — CERTIFICATION PROGRAM
+frozen contract → execution → review → regression → scoped certification
+      │
+      ▼
+ELIGIBLE PRODUCT ARTIFACT
+      │
+      ▼
+Prompt Machine release/commerce orchestration
+      │
+      ▼
+Verlune customer product
+```
+
+Truth boundary:
+
+```text
+SOURCE OBSERVATION
+    !=
+REPOSITORY-DERIVED KNOWLEDGE
+    !=
+ENGINEERED ARTIFACT
+    !=
+TESTED
+    !=
+IMPROVED
+    !=
+CERTIFIED
+    !=
+PORTABLE
+    !=
+READY_TO_SELL
+```
+
+### MK0 — Knowledge Quarry
+
+> What exists, what did we actually observe, and what reusable knowledge can be extracted?
+
+Canonical root: `mk0/`.
+
+MK0 owns:
+
+- raw/source observations;
+- normalized evidence;
+- source registry/provenance;
+- indexes and analysis;
+- Golden Dataset/regression evidence;
+- reviewed reusable knowledge;
+- source-family maps;
+- human-readable projections.
+
+External source characterization now includes the revision-bound `prompts.chat` architecture benchmark:
+
+- [`mk0/sources/prompts-chat/README.md`](mk0/sources/prompts-chat/README.md)
+- [`mk0/sources/prompts-chat/SOURCE_MAP.md`](mk0/sources/prompts-chat/SOURCE_MAP.md)
+- [`mk0/analysis/prompts-chat-product-architecture-benchmark.md`](mk0/analysis/prompts-chat-product-architecture-benchmark.md)
+
+That benchmark informs architecture; it does not promote upstream prompts into MK1.
+
+### MK1 — Prompt / Workflow Forge
+
+> Can we engineer, test and compare reusable AI artifacts from governed knowledge?
+
+Canonical evidence ladder:
 
 ```text
 DRAFT
   ↓
 VALID
-  ↓
+  ↓ real behavioral evidence
 TESTED
-  ↓
+  ↓ fair baseline comparison
 CANDIDATE / IMPROVED
-  ↓
+  ↓ repeated same-target evidence
 CERTIFIED
-  ↓
+  ↓ optional cross-provider evidence
 PORTABLE
 ```
 
-Important distinctions:
+`CERTIFIED` and `PORTABLE` are intentionally distinct. See:
 
-```text
-generated != valid
-valid != tested
-tested != improved
-improved != certified
-certified != portable
-packaged != behaviorally proven
-scope frozen != behavior proven
-build pass != deployed
-deployed != used
-CTA != revenue
-provider test != customer purchase
-not observed == unknown
-```
-
-## Internal factory
-
-### MK0 — Knowledge Quarry
-
-> What exists, and what do we actually know about it?
-
-Owns source evidence, semantic artifact identity, characterization, normalized metadata, mined techniques, fixtures, provenance, and human-readable materialization.
-
-### MK1 — Prompt Forge
-
-> Can we engineer and evaluate reusable workflow artifacts?
-
-Owns prompt contracts, architecture selection, assembly, static critique, runtime fixtures, baseline comparison, promotion receipts, and generator infrastructure.
+- `mk1/specs/F6_TARGET_RUNTIME_CERTIFICATION.md`
+- `mk1/specs/F7_PORTABILITY.md`
 
 ### MK2 — Prompt Engine
 
-> Can the system automatically route, compose, test, and improve workflows?
+MK2 is the future orchestration layer for routing, retrieval/composition, evaluation, selection and feedback.
 
-`ARCHITECTURE ONLY / DEFERRED` until MK1 and certification evidence are mature enough to justify orchestration.
+Current policy remains: **architecture/deferred until the lower-stage evidence contracts justify orchestration.**
 
 ### PCP — Prompt Certification Program
 
-Owns frozen baselines, specifications, static audit, behavioral test matrices, real execution receipts, failure mining, improvements, regression, portability, and certification decisions.
+PCP owns product-facing certification evidence such as frozen baselines, behavioral test matrices, execution receipts, failure mining, improvement/regression and scoped release decisions.
 
-Current PCP execution boundary on this product branch:
+A historical or failed execution remains part of the evidence record; it is not rewritten away to make a release look cleaner.
 
-```text
-PROMPT_INVENTORY_AUDITED    PASS
-PROMPT_SPEC_COMPLETE        PASS
-STATIC_AUDIT_COMPLETE       PASS
-PROMPT_TEST_MATRIX          PASS
-PCP04_FIXTURES              PASS
-PCP04_WORK_ORDERS           PASS
-PCP04_REQUIRED_EXECUTIONS   84
-PCP04_REAL_EXECUTIONS       0 / 84
+---
 
-F4_TESTED                   NO
-F5_IMPROVED                 NO
-F6_CERTIFIED                NO
-F7_PORTABLE                 NO
-```
+## Prompt Machine
 
-The 84-observation requirement includes three independent executions of every repeatability fixture. Synthetic or incomplete receipts cannot promote F4.
+Prompt Machine is the internal product engine between evidence and commercial delivery.
 
-## Skills
+Its responsibilities include:
 
-The full Developer Workflow Collection candidate contains four installable skill candidates:
+- selecting eligible artifacts from governed evidence;
+- assembling deterministic customer packages;
+- preserving version/fingerprint lineage;
+- release-state gating;
+- provider/store integration;
+- delivery verification;
+- customer-surface orchestration;
+- commercial observability without inflating claims.
 
-- `review-code-with-evidence`
-- `diagnose-bugs-with-evidence`
-- `make-technical-decisions`
-- `design-ai-workflows`
+It is **not** the public masterbrand.
 
-Starter's frozen commercial scope contains the first two only.
+---
 
-Current evidence:
+## External architecture benchmark: prompts.chat
+
+The captured source revision is:
 
 ```text
-SKILL_STRUCTURE             PASS
-TRIGGER/NON-TRIGGER INPUTS  DEFINED
-HOST BEHAVIORAL TEST        NOT_COMPLETED
-PROMPT/SKILL PARITY         NOT_COMPLETED
-PORTABILITY                 NOT_COMPLETED
+f/prompts.chat
+main@f78a1c5136fa080155d928e0d7e2b4a41ddef03e
 ```
 
-A structurally valid skill is not implicitly host-tested or portable.
+Observed architecture includes first-class prompt versions/change requests, categories/tags, collections, prompt connections, model/MCP hints, CLI/MCP/plugin distribution, self-hosting/white-label configuration and authenticated AI-assisted improvement.
 
-## Public web
+Prompt Quarry derives several useful product hypotheses from that source while preserving stricter evidence rules:
 
-`web/` is the Prompt Machine customer-facing application.
+```text
+catalog size        != quality
+popularity          != behavioral validity
+AI generation       != improvement evidence
+model hints         != portability
+MCP support         != certification
+community feedback  != certification
+```
 
-Primary routes on this branch:
+Current near-term implications are deliberately narrow: improve source registration, artifact metadata and customer-readable version projections; evaluate CLI/MCP/plugin delivery only after commercial proof and only if exact version/fingerprint identity survives the adapter.
 
-- `/` — outcome-first landing and `$0 → $9 → $19` ladder
-- `/collections` — Starter + Full collection discovery
-- `/free/developer-starter-pack` — current free developer workflows
-- `/starter-collection` — $9 Starter scope/status
-- `/developer-pack` — $19 Full collection status; compatibility route
-- `/learn` — education/acquisition layer
-- `/license` — license summary
-
-Frontend validation:
-
-`.github/workflows/validate-prompt-machine-web.yml`
-
-Staging deployment:
-
-`.github/workflows/deploy-prompt-machine-staging.yml`
-
-The deployment workflow is hard-bound to the isolated `prompt-quarry-stage` Vercel project, verifies Prompt Machine identity, and requires an HTTP 202 synthetic intent smoke before passing. The separate public production project is not targeted by this workflow.
-
-See [`web/README.md`](web/README.md).
+---
 
 ## Repository map
 
 ```text
 prompts/
-├── web/                    # Prompt Machine customer surface
-├── product/                # customer product sources / candidates
-├── commercial/             # funnel, commerce, provider and launch contracts
-├── certification/          # PCP + skill certification evidence
-├── mk0/                    # internal source knowledge + characterization
-├── mk1/                    # internal prompt/workflow engineering
+├── commercial/             # brand, provider, release and sale-state truth
+├── certification/          # PCP/product certification evidence and receipts
+├── product/                # customer product sources/candidates/packages
+├── web/                    # customer-facing web implementation
+├── mk0/                    # Knowledge Quarry — source evidence + derived knowledge
+│   ├── raw/
+│   ├── normalized/
+│   ├── catalog/
+│   ├── indexes/
+│   ├── analysis/
+│   ├── golden-dataset/
+│   ├── promotions/
+│   ├── library/
+│   ├── sources/
+│   └── readable/
+├── mk1/                    # engineered candidate/evaluation/certification machinery
 ├── mk2/                    # deferred orchestration architecture
-├── quarry/                 # raw / normalized / analysis / fixtures
-├── library/                # governed reusable material
-├── readable/               # human-readable materializations
 ├── tools/                  # builders, validators, probes and harnesses
-├── .ci/                    # durable CI / release receipts
-├── .approvals/             # explicit approval evidence
-└── .github/workflows/      # automation entry points
+├── docs/                   # cross-stage architecture and integration records
+├── .ci/                    # durable CI/release receipts
+├── .approvals/             # explicit approvals
+└── .github/workflows/      # automation entrypoints
 ```
 
-## Revenue objective, product discipline
+Legacy paths may remain inside immutable historical evidence. Active consumers should use the canonical MK0 paths.
 
-Prompt Machine exists to become a real revenue channel. Revenue is the business outcome, but it must come from customer value rather than from inflating the catalog or claims.
+---
 
-North-star product signal:
+## Repository integration state — 2026-09-15
 
-> **A person successfully uses a workflow on a real task and comes back for another task.**
-
-Commercial signals follow:
+The review branch is:
 
 ```text
-visitor
-→ free activation
-→ repeat user
-→ Starter intent
-→ $9 purchase
-→ Full intent / $19 upgrade
-→ repeat purchase / referral
+integration/prompt-machine-consolidated-20260915
 ```
 
-There is no honest pre-launch variable that guarantees people will buy. Confidence grows through observed activation, repeat usage, conversion, purchases, support/refund signals, and demand for additional outcomes.
+It was created from the exact starting `main` head:
+
+```text
+d4427e50ca4ec2b2f089b6b0e7469ebe78ffd983
+```
+
+Then the primary product/evidence train was fast-forwarded from:
+
+```text
+feat/workflow-kits-product-model-20260902
+1c6b740a34037086c5b8730ff0392f7881be4585
+```
+
+GitHub comparison showed that train was `1257` commits ahead and `0` behind the starting `main` baseline.
+
+The standalone F7 history commit `1f6fe248370d733f3b90d7a1e48ec1954183d4c9` was preserved through an ancestry-only merge without altering the effective current tree or promoting certification state.
+
+See [`docs/INTEGRATION_2026-09-15.md`](docs/INTEGRATION_2026-09-15.md) for the exact integration contract.
+
+**`main` remains the review target, not an automatically updated branch.** Opening a PR does not authorize merging it.
+
+---
 
 ## Current critical path
 
+The repository integration does not replace the product-release frontier.
+
+Recorded commercial path remains approximately:
+
 ```text
-Prompt Machine positioning      DONE ON PRODUCT BRANCH
+reconcile exact Verlune Test product/file metadata
         ↓
-$0 → $9 → $19 customer UX       IMPLEMENTED + STAGING OBSERVED
+provider activation/identity approval observed
         ↓
-Starter commercial scope        FROZEN / NOT FOR SALE
+copy exact Verlune 1.0.0 into Live
         ↓
-PCP-04 real baseline execution  0 / 84
+freeze Live provider IDs/credentials outside repo
         ↓
-failure mining + improvement    OPEN
+verify provider-served bytes + exact SHA
         ↓
-skill behavioral/parity tests   OPEN
+Live webhook/private canary gate
         ↓
-final customer surfaces         OPEN
+buyer delivery canary only if separately authorized
         ↓
-Starter deterministic archive   OPEN
+public checkout only when release evidence permits
         ↓
-provider + delivery canary       OPEN
-        ↓
-USD 9 public experiment          NOT ENABLED
-        ↓
-PQ-$1 + observed conversion      NOT OBSERVED
-        ↓
-USD 19 upgrade behavior          NOT OBSERVED
+first real paid delivery / PQ-$1
 ```
 
-We do not call Prompt Machine commercially successful before a real customer pays, and we do not call a workflow certified before its evidence earns that label.
+No repository cleanup step may skip those gates.
