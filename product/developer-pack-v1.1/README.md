@@ -2,6 +2,8 @@
 
 Internal product status: `PACKAGING_READY / PROVIDER_GATE_PENDING / NOT FOR SALE`
 
+Commercial release state: `DRAFT / NOT FOR SALE` until the required provider custody, provider integration, live-delivery canary and explicit public-release decision gates are satisfied. `DRAFT` here is a sale/release boundary; it does not downgrade the separately recorded static artifact maturity below.
+
 Target version: `1.1.0`
 
 This directory is the governed authoring and release source for Developer Pack v1.1. It does not replace or mutate the frozen `product/developer-pack-v1/` v1.0 release history.
