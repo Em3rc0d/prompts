@@ -1,6 +1,10 @@
 # Prompt Machine — Product Vision v3
 
-Status: `FROZEN STRATEGIC DIRECTION / CUSTOMER EXPERIENCE IMPLEMENTED ON PRODUCT BRANCH`
+> **Historical strategy snapshot.** This document records the product direction frozen on `2026-09-02`, before the customer brand architecture changed. Customer-facing naming in this file is **superseded** by `commercial/VERLUNE_BRAND_ARCHITECTURE_V1.md` adopted on `2026-09-08`. Current operational/commercial truth lives in `commercial/STATUS_CURRENT.md`.
+>
+> Current boundary: `Verlune` = customer-facing masterbrand, `Verlune Code Review` = first product, `Prompt Machine` = internal product engine, `Prompt Quarry` = internal evidence/certification factory. The historical content below is preserved for provenance and must not be used to reintroduce Prompt Machine as the buyer-facing brand.
+
+Status: `HISTORICAL / STRATEGY PRESERVED / CUSTOMER BRAND SUPERSEDED`
 
 Date: `2026-09-02`
 
