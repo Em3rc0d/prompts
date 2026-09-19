@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Why Workflows Beat Random Prompts | Verlune",
+  alternates: { canonical: "/learn/workflows-not-random-prompts" },
+  title: "Why Workflows Beat Random Prompts",
   description: "A practical guide to turning one-off AI prompting into reusable workflows with explicit inputs, outputs, fallbacks, and verification.",
 };
 
@@ -32,9 +33,9 @@ export default function WorkflowGuidePage() {
 
     <section className="section"><div className="wrap"><div className="grid2">
       <article className="card"><h3>Why the ZIP is not the product</h3><p>A ZIP can transport files. It cannot tell a new customer which workflow matches their goal, where to start, what has been tested, what remains uncertain, or how to use the workflow correctly. Delivery format and product experience are different problems.</p></article>
-      <article className="card"><h3>What Verlune changes</h3><p>Verlune starts from the job: choose an outcome, inspect the workflow, apply it, verify the result, and reuse it. The deeper Prompt Machine and Prompt Quarry systems handle packaging, evidence, regression, and certification underneath.</p></article>
+      <article className="card"><h3>What Verlune changes</h3><p>Verlune starts from the job: choose an outcome, inspect the workflow, apply it, verify the result, and reuse it. Each workflow makes its process and limits explicit, so the useful parts can be repeated without rebuilding the setup.</p></article>
     </div></div></section>
 
-    <section className="cta"><div className="wrap"><h2>Try the idea on a real task.</h2><p>The current Free Library has three structured developer workflows. Use one before deciding whether this approach is useful to you.</p><div className="actions"><Link className="btn btnPrimary" href="/free/developer-starter-pack">Open the Free Library →</Link><Link className="btn btnSecondary" href="/learn">Back to Learn</Link></div></div></section>
+    <section className="cta"><div className="wrap"><h2>Try the idea on a real task.</h2><p>The current free workflows has three structured developer workflows. Use one before deciding whether this approach is useful to you.</p><div className="actions"><Link className="btn btnPrimary" href="/free">Open the free workflows →</Link><Link className="btn btnSecondary" href="/learn">Back to Learn</Link></div></div></section>
   </main>;
 }

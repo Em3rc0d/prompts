@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Learn | Verlune",
+  alternates: { canonical: "/learn" },
+  title: "Learn",
   description: "Practical notes on reusable AI workflows, evidence, verification, and the engineering principles behind Verlune.",
 };
 
@@ -41,8 +42,8 @@ export default function LearnPage() {
     </div></section>
 
     <section className="section"><div className="wrap"><div className="productFrame"><div className="productFrameGrid">
-      <div className="productMain"><div className="eyebrow">HOW VERLUNE IS BUILT</div><h2>Evidence is part of the product.</h2><p>Verlune turns recurring work into reusable workflow products with explicit inputs, process, boundaries, outputs, and verification. Prompt Machine and Prompt Quarry remain the internal engineering systems underneath; customers should not need to understand those systems to use the product.</p></div>
-      <aside className="purchasePanel"><span className="purchaseLabel">CONTENT RULE</span><h3>Teach first. Sell second.</h3><p>A useful article should leave the reader with a better operating model even when they never buy anything.</p><Link className="btn btnSecondary" href="/free/developer-starter-pack">Try the free workflows →</Link></aside>
+      <div className="productMain"><div className="eyebrow">HOW VERLUNE IS BUILT</div><h2>Evidence is part of the product.</h2><p>Verlune turns recurring work into reusable workflow products with explicit inputs, process, boundaries, outputs, and verification. The goal is practical: spend less time setting up the task and more time checking the result.</p></div>
+      <aside className="purchasePanel"><span className="purchaseLabel">CONTENT RULE</span><h3>Teach first. Sell second.</h3><p>A useful article should leave the reader with a better operating model even when they never buy anything.</p><Link className="btn btnSecondary" href="/free">Try the free workflows →</Link></aside>
     </div></div></div></section>
   </main>;
 }

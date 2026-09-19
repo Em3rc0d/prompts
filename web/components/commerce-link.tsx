@@ -4,7 +4,7 @@ import type { MouseEvent, ReactNode } from "react";
 
 const ATTRIBUTION_KEY = "pq:attribution";
 
-type Props = { kind: "free" | "starter" | "paid"; children: ReactNode; className?: string };
+type Props = { kind: "free" | "code-review" | "starter" | "paid"; children: ReactNode; className?: string };
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
 
 function readAttribution(): Attribution {
@@ -23,8 +23,10 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
   const publicFullSaleLive = process.env.NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE";
   const href = kind === "free"
     ? (freeExternal || "/api/free-pack/v1")
-    : kind === "starter"
-      ? "/starter-collection"
+    : kind === "code-review"
+      ? "/api/commerce/starter-code-review/checkout"
+      : kind === "starter"
+      ? "/code-review"
       : (publicFullSaleLive ? "/api/commerce/developer-pack/checkout" : "/developer-pack");
 
   function handleClick(event: MouseEvent<HTMLAnchorElement>) {
@@ -36,7 +38,9 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
           collection_id: "developer",
           surface: "free-library",
         }
-      : kind === "starter"
+      : kind === "code-review"
+        ? { event: "starter_cta_clicked", product_id: "prompt-machine-starter-code-review-edition", product_version: "1.0.0", collection_id: "developer", surface: "code-review" }
+        : kind === "starter"
         ? {
             event: "starter_cta_clicked",
             product_id: "prompt-machine-starter-collection",
