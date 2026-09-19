@@ -1,10 +1,10 @@
-name: Deploy Prompt Machine Staging
+name: Deploy Verlune Staging
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - feat/workflow-kits-product-model-20260902
+      - feat/verlune-public-site-20260919
     paths:
       - 'web/**'
       - '.github/workflows/deploy-prompt-machine-staging.yml'
@@ -79,29 +79,42 @@ jobs:
             -T "$VERCEL_ORG_ID" \
             --token="$VERCEL_TOKEN")"
           echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
-          echo "### Prompt Machine staging deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Verlune staging deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Source SHA: $GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
           echo "- Vercel project: prompt-quarry-stage ($VERCEL_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
           echo "- Team: $VERCEL_ORG_ID" >> "$GITHUB_STEP_SUMMARY"
           echo "- Deployment: $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Public Prompt Quarry production project was not targeted." >> "$GITHUB_STEP_SUMMARY"
+          echo "- Public prompt-quarry production project was not targeted." >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Verify Prompt Machine staging identity
+      - name: Verify Verlune staging identity and canonical routes
         run: |
-          for attempt in 1 2 3 4 5 6 7 8 9 10; do
-            HTML="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
-            STARTER="$(curl --fail --silent --show-error "$STAGING_URL/starter-collection" || true)"
-            if printf '%s' "$HTML" | grep -Fq 'Prompt Machine — Reusable AI Workflows for Real Tasks' \
-              && printf '%s' "$HTML" | grep -Fq 'Start with the task. Not a blank chat.' \
-              && printf '%s' "$HTML" | grep -Fq '$9 one-time Starter' \
-              && printf '%s' "$HTML" | grep -Fq '$19 one-time Full' \
-              && printf '%s' "$STARTER" | grep -Fq 'NOT FOR SALE · SCOPE FROZEN · RELEASE HARDENING' \
-              && printf '%s' "$STARTER" | grep -Fq 'Planned launch price: $9 one-time.'; then
-              echo 'STAGING IDENTITY + COMMERCIAL LADDER: PASS'
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            HOME="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
+            CODE_REVIEW="$(curl --fail --silent --show-error "$STAGING_URL/code-review" || true)"
+            FREE="$(curl --fail --silent --show-error "$STAGING_URL/free" || true)"
+            LEGACY_STARTER="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$STAGING_URL/starter-collection" || true)"
+            LEGACY_PACK="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$STAGING_URL/developer-pack" || true)"
+
+            if printf '%s' "$HOME" | grep -Fq 'VERLUNE' \
+              && printf '%s' "$HOME" | grep -Fq 'Work that deserves more than a' \
+              && printf '%s' "$HOME" | grep -Fq 'Verlune Code Review' \
+              && printf '%s' "$CODE_REVIEW" | grep -Fq 'Verlune Code Review' \
+              && printf '%s' "$CODE_REVIEW" | grep -Fq '$9' \
+              && printf '%s' "$CODE_REVIEW" | grep -Fq 'Gemini 3.5 Flash' \
+              && printf '%s' "$FREE" | grep -Fq 'Verlune Free Workflows' \
+              && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Prompt Quarry' \
+              && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Developer Pack' \
+              && [ "$LEGACY_STARTER" = "$STAGING_URL/code-review" ] \
+              && [ "$LEGACY_PACK" = "$STAGING_URL/code-review" ]; then
+              echo 'VERLUNE STAGING IDENTITY + CANONICAL ROUTES: PASS'
               exit 0
             fi
+
+            echo "VERLUNE STAGING IDENTITY: waiting for canonical alias propagation (attempt $attempt/12)"
             sleep 5
           done
-          echo 'STAGING IDENTITY: FAIL — canonical staging alias does not serve the governed Prompt Machine $0 -> $9 -> $19 surface.'
+
+          echo 'VERLUNE STAGING IDENTITY: FAIL — canonical staging alias does not serve the expected Verlune surface.'
           exit 1
 
       - name: Emit non-commercial observability smoke events
@@ -129,9 +142,9 @@ jobs:
           }
 
           post_intent \
-            '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            '{"event":"landing_view","surface":"staging-smoke","source":"github-actions","campaign":"verlune-staging-observability"}' \
             'landing_view'
 
           post_intent \
-            '{"event":"starter_cta_clicked","product_id":"pq-developer-starter-collection","product_version":"1.2.0-candidate","collection_id":"developer","surface":"starter-collection-staging-smoke","source":"github-actions","campaign":"staging-observability"}' \
+            '{"event":"starter_cta_clicked","product_id":"prompt-machine-starter-code-review-edition","product_version":"1.0.0","collection_id":"developer","surface":"code-review-staging-smoke","source":"github-actions","campaign":"verlune-staging-observability"}' \
             'starter_cta_clicked'
