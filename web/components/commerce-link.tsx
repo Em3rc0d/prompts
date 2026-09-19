@@ -1,6 +1,7 @@
 "use client";
 
 import type { MouseEvent, ReactNode } from "react";
+import { STARTER_CODE_REVIEW_RELEASE } from "@/lib/starter-code-review-release";
 
 const ATTRIBUTION_KEY = "pq:attribution";
 
@@ -39,7 +40,7 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
           surface: "free-library",
         }
       : kind === "code-review"
-        ? { event: "starter_cta_clicked", product_id: "prompt-machine-starter-code-review-edition", product_version: "1.0.0", collection_id: "developer", surface: "code-review" }
+        ? { event: "starter_cta_clicked", product_id: STARTER_CODE_REVIEW_RELEASE.productId, product_version: STARTER_CODE_REVIEW_RELEASE.version, collection_id: "developer", surface: "code-review" }
         : kind === "starter"
         ? {
             event: "starter_cta_clicked",
@@ -57,7 +58,7 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
           };
 
     window.dispatchEvent(new CustomEvent("pq:funnel", { detail }));
-    if (kind === "free" && freeExternal) return;
+    if ((kind === "free" && freeExternal) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     window.location.assign(internalUrl(href));
   }

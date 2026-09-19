@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { STARTER_CODE_REVIEW_RELEASE } from "@/lib/starter-code-review-release";
 
 const ATTRIBUTION_KEY = "pq:attribution";
 const SESSION_KEY = "pq:session-id";
@@ -41,12 +43,14 @@ function captureAttribution(): void {
   sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(next));
 }
 
-function sessionId(): string {
-  const existing = sessionStorage.getItem(SESSION_KEY);
-  if (existing) return existing;
-  const created = crypto.randomUUID();
-  sessionStorage.setItem(SESSION_KEY, created);
-  return created;
+function sessionId(): string | undefined {
+  try {
+    const existing = sessionStorage.getItem(SESSION_KEY);
+    if (existing) return existing;
+    const created = crypto.randomUUID();
+    sessionStorage.setItem(SESSION_KEY, created);
+    return created;
+  } catch { return undefined; }
 }
 
 function observeIntent(payload: FunnelEvent): void {
@@ -66,22 +70,20 @@ function observeIntent(payload: FunnelEvent): void {
 
 function emit(payload: FunnelEvent) {
   const detail = { ...payload, timestamp: new Date().toISOString(), session_id: sessionId(), ...readAttribution() };
-  if ((process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off") === "debug") console.info("[Prompt Machine analytics]", detail);
+  if ((process.env.NEXT_PUBLIC_ANALYTICS_MODE || "off") === "debug") console.info("[Verlune analytics]", detail);
   observeIntent(payload);
   window.dispatchEvent(new CustomEvent("pq:analytics", { detail }));
 }
 
 export function FunnelTracker() {
+  const path = usePathname();
   useEffect(() => {
-    captureAttribution();
-    sessionId();
-
-    const path = window.location.pathname;
+    try { captureAttribution(); sessionId(); } catch { /* Storage is optional. */ }
     if (path === "/") {
       emit({ event: "landing_view", surface: "home" });
     } else if (path === "/collections") {
       emit({ event: "collections_viewed", surface: "collections" });
-    } else if (path.startsWith("/free/developer-starter-pack")) {
+    } else if (path === "/free") {
       emit({
         event: "free_product_viewed",
         product_id: "pq-developer-starter",
@@ -89,13 +91,13 @@ export function FunnelTracker() {
         collection_id: "developer",
         surface: "free-library",
       });
-    } else if (path.startsWith("/starter-collection")) {
+    } else if (path === "/code-review") {
       emit({
         event: "starter_product_viewed",
-        product_id: "prompt-machine-starter-collection",
-        product_version: "1.0.0-candidate",
+        product_id: STARTER_CODE_REVIEW_RELEASE.productId,
+        product_version: STARTER_CODE_REVIEW_RELEASE.version,
         collection_id: "developer",
-        surface: "starter-collection",
+        surface: "code-review",
       });
     } else if (path.startsWith("/developer-pack")) {
       emit({
@@ -113,6 +115,6 @@ export function FunnelTracker() {
     };
     window.addEventListener("pq:funnel", handler);
     return () => window.removeEventListener("pq:funnel", handler);
-  }, []);
+  }, [path]);
   return null;
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CODE_REVIEW } from "@/lib/public-products";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/learn/test-ai-workflows" },
@@ -33,7 +34,7 @@ export default function TestWorkflowGuidePage() {
 
     <section className="section"><div className="wrap"><div className="productFrame"><div className="productFrameGrid">
       <div className="productMain"><div className="eyebrow">CURRENT VERLUNE RULE</div><h2>Marketing claim ≤ observed evidence.</h2><p>Build success, archive integrity, a checkout test, provider custody, buyer delivery, and customer value are different claims. We do not silently collapse them into one stronger statement.</p></div>
-      <aside className="purchasePanel"><span className="purchaseLabel">FIRST PAID PRODUCT</span><h3>Verlune Code Review</h3><p>The exact workflow has model-specific evidence on Gemini 3.5 Flash, with 4/4 human-review passes in its declared final regression and 77/77 Pack QA checks. These are scoped results, not a guarantee for every model or codebase.</p><Link className="btn btnSecondary" href="/code-review">Explore Code Review →</Link></aside>
+      <aside className="purchasePanel"><span className="purchaseLabel">FIRST PAID PRODUCT</span><h3>{CODE_REVIEW.name}</h3><p>The exact workflow has model-specific evidence on {CODE_REVIEW.evidenceSummary.model}, with {CODE_REVIEW.evidenceSummary.regression} in its declared final regression and {CODE_REVIEW.evidenceSummary.packQA} Pack QA checks. These are scoped results, not a guarantee for every model or codebase.</p><Link className="btn btnSecondary" href="/code-review">Explore Code Review →</Link></aside>
     </div></div></div></section>
 
     <section className="cta"><div className="wrap"><h2>Trust should be inspectable.</h2><p>Start with the free workflows, then judge whether the structure and evidence are useful on your own task.</p><div className="actions"><Link className="btn btnPrimary" href="/free">Try the free workflows →</Link><Link className="btn btnSecondary" href="/learn">Back to Learn</Link></div></div></section>
