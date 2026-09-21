@@ -1,0 +1,111 @@
+name: Promote Verlune Production
+
+on:
+  push:
+    branches:
+      - feat/verlune-public-site-20260919
+    paths:
+      - '.github/workflows/promote-verlune-production.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verlune-production
+  cancel-in-progress: false
+
+jobs:
+  promote-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERCEL_ORG_ID: team_FTC62CRbJz9veMUDYeVzf7yI
+      VERCEL_PROJECT_ID: prj_pD7pypwGYJKvKN5aQsPubFi4Okpz
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      PRODUCTION_URL: https://prompt-quarry.vercel.app
+      TARGET_SHA: a98e2e5d49154b4bafed5582b70b958f6155df56
+      PREVIOUS_PROD_DEPLOYMENT: dpl_5WxCPP6mTuwe9NCwxa3Wnzh77kvk
+    steps:
+      - name: Checkout exact validated candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_SHA }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: web/package.json
+
+      - name: Fail closed without Vercel credential
+        run: |
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            echo 'PRODUCTION PROMOTION: BLOCKED — repository secret VERCEL_TOKEN is not configured.'
+            exit 1
+          fi
+
+      - name: Verify production project identity
+        run: |
+          STATUS="$(curl --silent --show-error --output /tmp/vercel-project.json --write-out '%{http_code}'             "https://api.vercel.com/v9/projects/$VERCEL_PROJECT_ID?teamId=$VERCEL_ORG_ID"             -H "Authorization: Bearer $VERCEL_TOKEN")"
+          echo "VERCEL PRODUCTION PROJECT PROBE: HTTP $STATUS"
+          if [ "$STATUS" != '200' ]; then
+            cat /tmp/vercel-project.json
+            echo 'PRODUCTION PROMOTION: BLOCKED — token cannot read the configured production project.'
+            exit 1
+          fi
+          node -e "const fs=require('fs'); const p=JSON.parse(fs.readFileSync('/tmp/vercel-project.json','utf8')); if(p.id!==process.env.VERCEL_PROJECT_ID||p.name!=='prompt-quarry'||p.accountId!==process.env.VERCEL_ORG_ID) process.exit(1); console.log('VERCEL PRODUCTION PROJECT IDENTITY: PASS')"
+
+      - name: Verify exact source SHA
+        run: |
+          ACTUAL_SHA="$(git rev-parse HEAD)"
+          echo "TARGET SHA: $TARGET_SHA"
+          echo "ACTUAL SHA: $ACTUAL_SHA"
+          test "$ACTUAL_SHA" = "$TARGET_SHA"
+          echo 'SOURCE SHA: PASS'
+
+      - name: Link workspace explicitly to production project
+        run: |
+          mkdir -p web/.vercel
+          printf '{"orgId":"%s","projectId":"%s"}\n' "$VERCEL_ORG_ID" "$VERCEL_PROJECT_ID" > web/.vercel/project.json
+          echo 'VERCEL PROJECT LINK: prompt-quarry production only'
+
+      - name: Install web dependencies
+        working-directory: web
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+
+      - name: Deploy exact candidate to production
+        id: deploy
+        working-directory: web
+        run: |
+          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy             --prod             --yes             --project "$VERCEL_PROJECT_ID"             -T "$VERCEL_ORG_ID"             --token="$VERCEL_TOKEN")"
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "### Verlune production promotion" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Exact source SHA: $TARGET_SHA" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Vercel project: prompt-quarry ($VERCEL_PROJECT_ID)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Deployment: $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Previous production deployment for rollback: $PREVIOUS_PROD_DEPLOYMENT" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify production identity and canonical routes
+        run: |
+          for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            HOME="$(curl --fail --silent --show-error "$PRODUCTION_URL/" || true)"
+            CODE_REVIEW="$(curl --fail --silent --show-error "$PRODUCTION_URL/code-review" || true)"
+            FREE="$(curl --fail --silent --show-error "$PRODUCTION_URL/free" || true)"
+            LEGACY_STARTER="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$PRODUCTION_URL/starter-collection" || true)"
+            LEGACY_PACK="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$PRODUCTION_URL/developer-pack" || true)"
+
+            if printf '%s' "$HOME" | grep -Fq 'VERLUNE'               && printf '%s' "$HOME" | grep -Fq 'Work that deserves more than a'               && printf '%s' "$HOME" | grep -Fq 'Verlune Code Review'               && printf '%s' "$CODE_REVIEW" | grep -Fq 'Verlune Code Review'               && printf '%s' "$CODE_REVIEW" | grep -Fq '$9'               && printf '%s' "$FREE" | grep -Fq 'Verlune Free Workflows'               && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Prompt Quarry'               && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Developer Pack'               && [ "$LEGACY_STARTER" = "$PRODUCTION_URL/code-review" ]               && [ "$LEGACY_PACK" = "$PRODUCTION_URL/code-review" ]; then
+              echo 'VERLUNE PRODUCTION IDENTITY + CANONICAL ROUTES: PASS'
+              exit 0
+            fi
+
+            echo "VERLUNE PRODUCTION IDENTITY: waiting for canonical alias propagation (attempt $attempt/12)"
+            sleep 5
+          done
+
+          echo 'VERLUNE PRODUCTION IDENTITY: FAIL'
+          exit 1
