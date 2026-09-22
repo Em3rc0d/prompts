@@ -1,0 +1,47 @@
+{
+  "schema": "verlune-v1-runtime-test-plan",
+  "status": "DESIGNED_NOT_EXECUTED",
+  "date": "2026-09-22",
+  "principle": "Test the bounded launch core. Backlog does not block launch.",
+  "result_states": ["PASS", "FAIL", "INCONCLUSIVE"],
+  "free_prompt_protocol": {
+    "cases_per_asset": 2,
+    "cases": ["normal", "missing_or_ambiguous_input"],
+    "review": ["task_completion", "factual_discipline", "input_handling", "output_usefulness", "verification"]
+  },
+  "free_workflow_protocol": {
+    "cases_per_asset": 3,
+    "cases": ["normal", "missing_critical_input", "ambiguous_or_contradictory"],
+    "review": ["state_behavior", "fallback", "factual_discipline", "output_contract", "verification"]
+  },
+  "premium_prompt_protocol": {
+    "cases_per_asset": 4,
+    "cases": ["normal", "minimal_or_missing_input", "ambiguous_or_noisy", "adversarial_or_instruction_conflict"],
+    "review": ["task_completion", "instruction_following", "factual_discipline", "assumption_control", "fallback", "output_contract", "verification"]
+  },
+  "premium_workflow_protocol": {
+    "cases_per_asset": 6,
+    "cases": ["normal", "missing_critical_input", "ambiguous_or_noisy", "contradictory", "adversarial_embedded_instruction", "repeatability"],
+    "review": ["state_transitions", "authority", "evidence_discipline", "fallback", "output_contract", "verification", "repeatability"]
+  },
+  "builders": {
+    "matrix": "product/verlune-v1/evaluation/BUILDER_TEST_MATRIX.json",
+    "minimum": "all 8 categories plus cross-category stress cases",
+    "required_follow_through": "At least one generated prompt and one generated workflow must be executed on a real second instance and reviewed."
+  },
+  "launch_core_asset_counts": {
+    "free_prompts": 8,
+    "free_workflows": 3,
+    "premium_prompts": 8,
+    "premium_workflows": 5,
+    "builders": 2
+  },
+  "minimum_planned_non_builder_executions": 69,
+  "calculation": "8*2 + 3*3 + 8*4 + 5*6 = 87; premium workflow repeatability may require paired executions and Builder matrix is additional. 69 is NOT authoritative; use per-asset protocol totals when scheduling.",
+  "correction": {
+    "authoritative_minimum_non_builder_case_count": 87,
+    "note": "The earlier minimum_planned_non_builder_executions field is retained only to make the arithmetic correction explicit and must not be used."
+  },
+  "promotion_rule": "No asset becomes public merely because another asset in its category passed.",
+  "evidence_rule": "Record exact artifact version, runtime/model/host, case, raw output, human review and limitations."
+}
