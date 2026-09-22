@@ -76,6 +76,12 @@ Return exactly one:
 8. Highest-value next validation.
 9. Reversal trigger: what new evidence should cause the decision to be reconsidered.
 
+## Fallback
+
+If a hard constraint cannot be evaluated because required information is missing, do not treat the option as passing. Return `VALIDATE_FIRST` and request the smallest information set that could change viability or the recommendation.
+
+If every option fails a confirmed hard constraint, return `REJECT_ALL` rather than selecting the least-bad option.
+
 ## Verification
 
 Before finishing, check that the recommendation:
