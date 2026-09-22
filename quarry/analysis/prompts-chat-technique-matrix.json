@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "source_id": "src_prompts_chat",
+  "records": 2169,
+  "heuristic_notice": "Technique detection is structural heuristic evidence, not a quality score, author-intent claim, or certification result.",
+  "technique_order": [
+    "role-assignment",
+    "context-injection",
+    "question-first",
+    "variable-template",
+    "audience-definition",
+    "tone-definition",
+    "stepwise-procedure",
+    "task-decomposition",
+    "explicit-constraints",
+    "output-formatting",
+    "output-schema",
+    "alternative-generation",
+    "comparison",
+    "examples-few-shot",
+    "critique-revision",
+    "self-check",
+    "evidence-requirement",
+    "confidence-labeling",
+    "temporal-plan",
+    "personalization"
+  ],
+  "technique_presence": {
+    "role-assignment": {
+      "count": 1165,
+      "percent": 53.71
+    },
+    "context-injection": {
+      "count": 802,
+      "percent": 36.98
+    },
+    "question-first": {
+      "count": 129,
+      "percent": 5.95
+    },
+    "variable-template": {
+      "count": 680,
+      "percent": 31.35
+    },
+    "audience-definition": {
+      "count": 167,
+      "percent": 7.7
+    },
+    "tone-definition": {
+      "count": 567,
+      "percent": 26.14
+    },
+    "stepwise-procedure": {
+      "count": 520,
+      "percent": 23.97
+    },
+    "task-decomposition": {
+      "count": 564,
+      "percent": 26
+    },
+    "explicit-constraints": {
+      "count": 1311,
+      "percent": 60.44
+    },
+    "output-formatting": {
+      "count": 547,
+      "percent": 25.22
+    },
+    "output-schema": {
+      "count": 393,
+      "percent": 18.12
+    },
+    "alternative-generation": {
+      "count": 429,
+      "percent": 19.78
+    },
+    "comparison": {
+      "count": 243,
+      "percent": 11.2
+    },
+    "examples-few-shot": {
+      "count": 451,
+      "percent": 20.79
+    },
+    "critique-revision": {
+      "count": 474,
+      "percent": 21.85
+    },
+    "self-check": {
+      "count": 260,
+      "percent": 11.99
+    },
+    "evidence-requirement": {
+      "count": 527,
+      "percent": 24.3
+    },
+    "confidence-labeling": {
+      "count": 173,
+      "percent": 7.98
+    },
+    "temporal-plan": {
+      "count": 143,
+      "percent": 6.59
+    },
+    "personalization": {
+      "count": 72,
+      "percent": 3.32
+    }
+  },
+  "top_architecture_signatures": [
+    {
+      "signature": "none",
+      "count": 196,
+      "percent": 9.04
+    },
+    {
+      "signature": "context-injection",
+      "count": 56,
+      "percent": 2.58
+    },
+    {
+      "signature": "role-assignment+variable-template+explicit-constraints",
+      "count": 53,
+      "percent": 2.44
+    },
+    {
+      "signature": "role-assignment+explicit-constraints",
+      "count": 50,
+      "percent": 2.31
+    },
+    {
+      "signature": "role-assignment",
+      "count": 38,
+      "percent": 1.75
+    },
+    {
+      "signature": "variable-template",
+      "count": 31,
+      "percent": 1.43
+    },
+    {
+      "signature": "explicit-constraints",
+      "count": 28,
+      "percent": 1.29
+    },
+    {
+      "signature": "context-injection+tone-definition+explicit-constraints+evidence-requirement",
+      "count": 23,
+      "percent": 1.06
+    },
+    {
+      "signature": "role-assignment+context-injection+examples-few-shot",
+      "count": 20,
+      "percent": 0.92
+    },
+    {
+      "signature": "role-assignment+variable-template+tone-definition+explicit-constraints",
+      "count": 20,
+      "percent": 0.92
+    },
+    {
+      "signature": "context-injection+output-schema",
+      "count": 18,
+      "percent": 0.83
+    },
+    {
+      "signature": "role-assignment+explicit-constraints+examples-few-shot",
+      "count": 17,
+      "percent": 0.78
+    },
+    {
+      "signature": "tone-definition",
+      "count": 17,
+      "percent": 0.78
+    },
+    {
+      "signature": "output-schema",
+      "count": 16,
+      "percent": 0.74
+    },
+    {
+      "signature": "alternative-generation",
+      "count": 14,
+      "percent": 0.65
+    },
+    {
+      "signature": "output-formatting",
+      "count": 14,
+      "percent": 0.65
+    },
+    {
+      "signature": "role-assignment+variable-template+explicit-constraints+critique-revision",
+      "count": 14,
+      "percent": 0.65
+    },
+    {
+      "signature": "context-injection+tone-definition",
+      "count": 14,
+      "percent": 0.65
+    },
+    {
+      "signature": "role-assignment+variable-template+explicit-constraints+examples-few-shot",
+      "count": 13,
+      "percent": 0.6
+    },
+    {
+      "signature": "role-assignment+context-injection+explicit-constraints",
+      "count": 13,
+      "percent": 0.6
+    },
+    {
+      "signature": "context-injection+evidence-requirement",
+      "count": 13,
+      "percent": 0.6
+    },
+    {
+      "signature": "context-injection+explicit-constraints",
+      "count": 12,
+      "percent": 0.55
+    },
+    {
+      "signature": "context-injection+variable-template",
+      "count": 12,
+      "percent": 0.55
+    },
+    {
+      "signature": "role-assignment+explicit-constraints+critique-revision",
+      "count": 12,
+      "percent": 0.55
+    },
+    {
+      "signature": "evidence-requirement",
+      "count": 10,
+      "percent": 0.46
+    }
+  ],
+  "type_counts": {
+    "TEXT": 1836,
+    "STRUCTURED": 312,
+    "IMAGE": 21
+  },
+  "aggregate_features": {
+    "variable_markers": 3861
+  }
+}
