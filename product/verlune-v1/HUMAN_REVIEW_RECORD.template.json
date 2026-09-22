@@ -1,0 +1,32 @@
+{
+  "schema": "verlune-v1-human-review-record",
+  "status": "UNEXECUTED",
+  "candidate_commit": null,
+  "reviewer": null,
+  "reviewed_at": null,
+  "results": {
+    "H1_product_comprehension": "NOT_RUN",
+    "H2_free_usefulness": "NOT_RUN",
+    "H3_premium_depth": "NOT_RUN",
+    "H4_prompt_vs_workflow_distinction": "NOT_RUN",
+    "H5_prompt_builder": "NOT_RUN",
+    "H6_workflow_builder": "NOT_RUN",
+    "H7_cross_category_credibility": "NOT_RUN",
+    "H8_free_vs_premium_purchase_logic": "NOT_RUN",
+    "H9_usd9_test_purchase_threshold": "NOT_RUN",
+    "H10_trust_boundary": "NOT_RUN",
+    "H11_friction": "NOT_RUN"
+  },
+  "observed_failures": [],
+  "objections_verbatim": [],
+  "assets_rejected": [],
+  "assets_demoted_to_backlog": [],
+  "notes": [],
+  "final_disposition": "NOT_RUN",
+  "allowed_final_dispositions": [
+    "PASS_FOR_LANDING_REDESIGN",
+    "PASS_WITH_NONBLOCKING_NOTES",
+    "REWORK_REQUIRED"
+  ],
+  "landing_redesign_authorized": false
+}
