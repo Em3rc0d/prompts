@@ -91,6 +91,17 @@ Choose the next concept, revisit, or delayed retrieval check.
 6. Error/misconception ledger.
 7. Next action.
 
+## Fallback
+
+If prerequisite knowledge, source material, or scope is insufficient:
+
+- keep the relevant concept at `NOT_SEEN` or `FRAGILE`;
+- identify the smallest missing prerequisite or source;
+- do not manufacture a mastery result;
+- propose the next bounded learning action.
+
+If the requested topic is too broad for one coherent mastery cycle, split it into prerequisite units before proceeding.
+
 ## Boundaries
 
 - Do not invent facts from missing study material.
