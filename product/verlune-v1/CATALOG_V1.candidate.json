@@ -1,0 +1,105 @@
+{
+  "schema": "verlune-catalog-v1-candidate",
+  "version": "1.0.0-candidate",
+  "status": "CANDIDATE_NOT_FOR_SALE",
+  "created_at": "2026-09-22",
+  "commercial": {
+    "free_usd": 0,
+    "premium_launch_price_usd": 9,
+    "premium_billing": "ONE_TIME",
+    "price_state": "HYPOTHESIS"
+  },
+  "categories": [
+    "development-tech",
+    "study-learning",
+    "research-analysis",
+    "business-operations",
+    "writing-communication",
+    "content-marketing",
+    "planning-productivity",
+    "career-job-search"
+  ],
+  "free": {
+    "principle": "Useful standalone assets; never deliberately crippled.",
+    "prompts": [
+      {"id":"VF-P-DEV-001","category":"development-tech","name":"Explain Code Clearly","state":"CANDIDATE"},
+      {"id":"VF-P-STUDY-001","category":"study-learning","name":"Learn a Difficult Topic","state":"CANDIDATE"},
+      {"id":"VF-P-RES-001","category":"research-analysis","name":"Research a Topic","state":"CANDIDATE"},
+      {"id":"VF-P-BIZ-001","category":"business-operations","name":"Analyze a Business Problem","state":"CANDIDATE"},
+      {"id":"VF-P-WRITE-001","category":"writing-communication","name":"Improve Writing","state":"CANDIDATE"},
+      {"id":"VF-P-CONTENT-001","category":"content-marketing","name":"Improve a Content Draft","state":"CANDIDATE"},
+      {"id":"VF-P-PLAN-001","category":"planning-productivity","name":"Plan a Project","state":"CANDIDATE"},
+      {"id":"VF-P-CAREER-001","category":"career-job-search","name":"Prepare for an Interview","state":"CANDIDATE"}
+    ],
+    "workflows": [
+      {"id":"VF-WF-001","categories":["business-operations","research-analysis","planning-productivity"],"name":"Compare Options","state":"CANDIDATE"},
+      {"id":"VF-WF-002","categories":["study-learning"],"name":"Guided Study Session","state":"CANDIDATE"},
+      {"id":"VF-WF-003","categories":["development-tech"],"name":"Bug Diagnosis","state":"EXISTING_LINEAGE_REQUIRES_FREE_RELEASE_REVIEW"}
+    ]
+  },
+  "premium": {
+    "principle": "Depth, specialization, adaptation, creation and evaluation justify payment; not file count.",
+    "prompts": [
+      {"id":"VP-P-DEV-001","category":"development-tech","name":"Requirements Analysis","state":"CANDIDATE"},
+      {"id":"VP-P-DEV-002","category":"development-tech","name":"Safe Refactoring Plan","state":"CANDIDATE"},
+      {"id":"VP-P-STUDY-001","category":"study-learning","name":"Exam Preparation","state":"CANDIDATE"},
+      {"id":"VP-P-STUDY-002","category":"study-learning","name":"Active Recall Coach","state":"CANDIDATE"},
+      {"id":"VP-P-RES-001","category":"research-analysis","name":"Source Quality Review","state":"CANDIDATE"},
+      {"id":"VP-P-RES-002","category":"research-analysis","name":"Evidence Synthesis","state":"CANDIDATE"},
+      {"id":"VP-P-BIZ-001","category":"business-operations","name":"SOP Drafting","state":"CANDIDATE"},
+      {"id":"VP-P-BIZ-002","category":"business-operations","name":"Customer Problem Analysis","state":"CANDIDATE"},
+      {"id":"VP-P-WRITE-001","category":"writing-communication","name":"Rewrite for Audience and Intent","state":"CANDIDATE"},
+      {"id":"VP-P-WRITE-002","category":"writing-communication","name":"Document Critique","state":"CANDIDATE"},
+      {"id":"VP-P-CONTENT-001","category":"content-marketing","name":"Content Strategy Brief","state":"CANDIDATE"},
+      {"id":"VP-P-CONTENT-002","category":"content-marketing","name":"Audience and Angle Research","state":"CANDIDATE"},
+      {"id":"VP-P-PLAN-001","category":"planning-productivity","name":"Risk-Aware Project Plan","state":"CANDIDATE"},
+      {"id":"VP-P-PLAN-002","category":"planning-productivity","name":"Prioritize Under Constraints","state":"CANDIDATE"},
+      {"id":"VP-P-CAREER-001","category":"career-job-search","name":"Tailor a Resume to a Role","state":"CANDIDATE"},
+      {"id":"VP-P-CAREER-002","category":"career-job-search","name":"Interview Preparation System","state":"CANDIDATE"}
+    ],
+    "workflows": [
+      {"id":"VP-WF-001","categories":["development-tech"],"name":"Evidence-first Code Review","state":"EXISTING_CERTIFIED_LINEAGE"},
+      {"id":"VP-WF-002","categories":["development-tech"],"name":"Root Cause Analysis","state":"CANDIDATE"},
+      {"id":"VP-WF-003","categories":["research-analysis"],"name":"Evidence-first Deep Research","state":"CANDIDATE"},
+      {"id":"VP-WF-004","categories":["business-operations","research-analysis"],"name":"Decision Analysis","state":"CANDIDATE"},
+      {"id":"VP-WF-005","categories":["planning-productivity","business-operations"],"name":"Project Planning and Risk","state":"CANDIDATE"},
+      {"id":"VP-WF-006","categories":["study-learning"],"name":"Master a Topic","state":"CANDIDATE"},
+      {"id":"VP-WF-007","categories":["content-marketing"],"name":"Content Strategy System","state":"CANDIDATE"}
+    ],
+    "builders": [
+      {
+        "id":"VP-BUILDER-001",
+        "name":"Prompt Builder",
+        "state":"EXISTING_METHOD_LINEAGE_REQUIRES_PRODUCTIZATION_AND_TESTING",
+        "execution":"CUSTOMER_AI"
+      },
+      {
+        "id":"VP-BUILDER-002",
+        "name":"Workflow Builder",
+        "state":"EXISTING_METHOD_LINEAGE_REQUIRES_PRODUCTIZATION_AND_TESTING",
+        "execution":"CUSTOMER_AI"
+      }
+    ],
+    "toolkit": [
+      {"id":"VP-TK-001","name":"Adaptation Guide","state":"EXISTING_DRAFT_LINEAGE"},
+      {"id":"VP-TK-002","name":"Evaluation Toolkit","state":"CANDIDATE"}
+    ]
+  },
+  "catalog_rules": {
+    "same_categories_for_free_and_premium": true,
+    "free_must_be_useful": true,
+    "premium_must_not_be_defined_by_length_or_count": true,
+    "public_item_requires_release_gate": true,
+    "generated_customer_asset_is_not_certified": true,
+    "universal_model_compatibility_claim": false,
+    "high_stakes_professional_substitution": false
+  },
+  "launch_inventory_counts": {
+    "free_prompts_candidate": 8,
+    "free_workflows_candidate": 3,
+    "premium_prompts_candidate": 16,
+    "premium_workflows_candidate": 7,
+    "premium_builders_candidate": 2
+  },
+  "note": "Counts are a bounded launch target, not a marketing quota. Any candidate may be rejected rather than promoted."
+}
