@@ -70,6 +70,35 @@ Finish with:
 - 3 retrieval questions for later;
 - the next recommended study unit.
 
+## Output contract
+
+For each session return:
+
+1. current learning target;
+2. short explanation/example for the active unit;
+3. retrieval/application question;
+4. evaluation state after the learner answers;
+5. specific gap or misconception;
+6. next action;
+7. end-of-session mastery summary.
+
+## Fallback
+
+If the topic, goal, or source material is too incomplete to teach responsibly:
+
+- do not pretend the learner completed the topic;
+- identify the smallest missing prerequisite or source;
+- return `NOT_YET`;
+- propose the next bounded learning step.
+
+## Verification
+
+Before advancing:
+- require evidence of recall/application rather than confidence alone;
+- keep source-dependent claims inside the supplied material unless external research is explicitly available;
+- ensure feedback explains the specific reasoning gap;
+- do not mark mastery after explanation alone.
+
 ## Boundaries
 
 - Do not invent facts from source material that was not provided.
