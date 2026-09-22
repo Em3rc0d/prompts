@@ -1,0 +1,63 @@
+{
+  "schema": "verlune-v1-static-surface-audit",
+  "observed_at": "2026-09-22",
+  "branch": "feat/verlune-product-model-v1-20260922-r2",
+  "scope": "launch_core_customer_surfaces",
+  "result": "PASS_STATIC_SURFACE",
+  "files_checked": 28,
+  "files_passed": 28,
+  "files_failed": 0,
+  "groups": {
+    "free_prompts": {
+      "checked": 8,
+      "passed": 8
+    },
+    "free_workflows": {
+      "checked": 3,
+      "passed": 3
+    },
+    "premium_prompts": {
+      "checked": 8,
+      "passed": 8
+    },
+    "premium_workflows": {
+      "checked": 5,
+      "passed": 5
+    },
+    "premium_builders": {
+      "checked": 2,
+      "passed": 2
+    },
+    "premium_toolkit": {
+      "checked": 2,
+      "passed": 2
+    }
+  },
+  "remediation_during_audit": [
+    "VP-P-WRITE-001: added explicit verification contract",
+    "VP-P-CONTENT-001: added explicit verification contract",
+    "VF-WF-001: added explicit fallback behavior",
+    "VF-WF-002: added explicit output, fallback and verification contracts",
+    "VP-WF-006: added explicit fallback behavior"
+  ],
+  "checks": [
+    "customer surface exists",
+    "candidate status is explicit",
+    "minimum output contract marker is present",
+    "verification marker is present where required",
+    "workflow fallback/insufficient-information behavior is explicit",
+    "builders/toolkit expose use and evidence boundaries"
+  ],
+  "does_not_establish": [
+    "runtime behavior",
+    "quality on real tasks",
+    "model or host compatibility",
+    "portability",
+    "customer usability",
+    "commercial value",
+    "human review",
+    "release readiness",
+    "landing redesign authorization"
+  ],
+  "interpretation": "The launch-core customer surfaces are structurally coherent enough to enter runtime testing. STATIC PASS is not a behavioral or commercial PASS."
+}
