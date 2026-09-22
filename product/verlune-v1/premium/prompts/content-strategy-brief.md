@@ -55,4 +55,12 @@ OUTPUT
 7. Metrics tied to the objective.
 8. Risks and invalidation signals.
 9. Next research needed.
+
+VERIFICATION
+Before finalizing:
+- every pillar must connect to a stated audience problem, question, or explicit hypothesis;
+- every metric must connect to the stated objective rather than vanity alone;
+- observed audience evidence and hypotheses must remain distinguishable;
+- repeated topics/angles must not be presented as new strategy;
+- no customer result, market fact, or performance claim may be invented.
 ```
