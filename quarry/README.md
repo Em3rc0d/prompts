@@ -179,3 +179,21 @@ SOURCE OBSERVATION ≠ LIBRARY ARTIFACT
 ```
 
 Every reusable artifact remains traceable to evidence, while its body is clearly identified as source-observed or repository-authored.
+
+
+## prompts.chat public corpus
+
+Prompt Quarry consumes the public prompt corpus from `f/prompts.chat` at pinned revision `f78a1c5136fa080155d928e0d7e2b4a41ddef03e` (source blob `3b985c0084fb28e1b9acace419ed34696ac63a92`).
+
+The current ingest contains **2169** source prompts (**2165** unique bodies). prompts.chat dedicates its prompt content/data under **CC0-1.0**, so bodies can be retained for mining. The upstream contributor column is intentionally omitted from our normalized corpus because it can contain email addresses and is unnecessary for technique analysis.
+
+Key files:
+
+- `sources/prompts-chat/README.md`
+- `quarry/raw/prompts-chat/source-manifest.json`
+- `quarry/normalized/prompts-chat/manifest.json`
+- `quarry/normalized/prompts-chat/prompts-*.jsonl`
+- `quarry/analysis/prompts-chat-technique-vectors.jsonl`
+- `quarry/analysis/prompts-chat-technique-matrix.json`
+
+All imported records remain **UNREVIEWED source observations** until they pass Prompt Quarry's own review, testing and evidence gates.

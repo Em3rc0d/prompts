@@ -1,0 +1,48 @@
+{
+  "source_id": "src_prompts_chat",
+  "artifact_type": "remote-source-snapshot-reference",
+  "source_repository": "https://github.com/f/prompts.chat",
+  "source_commit": "f78a1c5136fa080155d928e0d7e2b4a41ddef03e",
+  "source_file": "prompts.csv",
+  "source_git_blob_sha": "3b985c0084fb28e1b9acace419ed34696ac63a92",
+  "capture_mode": "GitHub Git blob API",
+  "rows": 2169,
+  "license": "CC0-1.0",
+  "raw_body_stored_locally": false,
+  "reason": "The exact upstream blob remains addressable by commit/blob SHA. Bodies are retained in a privacy-minimized normalized corpus without contributor identifiers.",
+  "privacy_minimization": {
+    "contributor_column_copied": false,
+    "normalized_fields": [
+      "act",
+      "prompt",
+      "for_devs",
+      "type"
+    ]
+  },
+  "integrity": {
+    "malformed_rows": 0,
+    "empty_prompt_rows": 0
+  },
+  "duplicates": [
+    {
+      "first_source_row": 319,
+      "duplicate_source_row": 321,
+      "title": "Selar ideas for automation "
+    },
+    {
+      "first_source_row": 320,
+      "duplicate_source_row": 361,
+      "title": "Ai new"
+    },
+    {
+      "first_source_row": 960,
+      "duplicate_source_row": 1588,
+      "title": "Bikini_Girl"
+    },
+    {
+      "first_source_row": 313,
+      "duplicate_source_row": 2035,
+      "title": "Image"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "source_id": "src_prompts_chat",
+  "source_name": "prompts.chat",
+  "source_repository": "https://github.com/f/prompts.chat",
+  "source_commit": "f78a1c5136fa080155d928e0d7e2b4a41ddef03e",
+  "source_file": "prompts.csv",
+  "source_git_blob_sha": "3b985c0084fb28e1b9acace419ed34696ac63a92",
+  "captured_on": "2026-09-21",
+  "license": "CC0-1.0",
+  "records": 2169,
+  "unique_exact_prompt_bodies": 2165,
+  "exact_duplicate_rows": 4,
+  "type_counts": {
+    "TEXT": 1836,
+    "STRUCTURED": 312,
+    "IMAGE": 21
+  },
+  "for_devs_true": 159,
+  "prompt_length_chars": {
+    "min": 29,
+    "median": 945,
+    "p90": 4948,
+    "p95": 9439,
+    "max": 144268
+  },
+  "corpus_parts": [
+    "quarry/normalized/prompts-chat/prompts-0001.jsonl",
+    "quarry/normalized/prompts-chat/prompts-0002.jsonl",
+    "quarry/normalized/prompts-chat/prompts-0003.jsonl",
+    "quarry/normalized/prompts-chat/prompts-0004.jsonl",
+    "quarry/normalized/prompts-chat/prompts-0005.jsonl"
+  ],
+  "contributor_policy": "The upstream contributor column is intentionally omitted because it includes handles and email addresses and is not required for prompt mining.",
+  "state_boundary": "SOURCE OBSERVATION; imported records remain UNREVIEWED.",
+  "fingerprint_scheme": "fnvpair-v1 over JavaScript UTF-16 code units; provenance integrity is anchored by upstream Git blob SHA."
+}
