@@ -52,4 +52,12 @@ OUTPUT
 3. Material information removed or repositioned.
 4. Any unresolved ambiguity.
 5. Factual-preservation check.
+
+VERIFICATION
+Before finalizing:
+- compare material claims against the original draft;
+- confirm immutable facts/terms remain intact;
+- confirm the rewrite matches the stated audience and channel;
+- flag any sentence whose meaning may have changed materially;
+- confirm no unsupported claim, evidence, urgency, credential, or outcome was added.
 ```
