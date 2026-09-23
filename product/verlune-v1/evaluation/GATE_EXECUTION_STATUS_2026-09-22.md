@@ -434,3 +434,33 @@ Next execution path:
 build the prebuilt artifact in a Linux filesystem/environment (WSL Linux home or equivalent), then deploy that Linux-built `.vercel/output`.
 
 `STAGING_DEPLOY_PASS = false`
+
+
+## 2026-09-23 staging access deployment — PASS
+
+Linux prebuilt deployment:
+- project: `prompt-quarry-stage`
+- deployment: `dpl_44HrayDpj2iQD7SmnBMrZoRGqNKf`
+- alias: `https://prompt-quarry-stage.vercel.app`
+- state: READY
+
+Observed:
+- `vercel build --prod`: PASS
+- Next.js production build: PASS
+- Golden Path build parity: PASS
+- Premium build audit: PASS
+- `/`: 200
+- `/unlock`: 200
+- unauthenticated `/app`: rendered through `/unlock`, locked notice present
+- unauthenticated `/app/asset/VP-BUILDER-001`: rendered through `/unlock`, locked notice present
+- protected Prompt Builder body absent from unauthenticated response
+- runtime error clusters in observed 30-minute window: none
+
+Evidence:
+`product/verlune-v1/evaluation/STAGING_ACCESS_DEPLOYMENT_EVIDENCE_2026-09-23.json`
+
+Gate effect:
+- `STAGING_DEPLOY_PASS = true`
+- `UNAUTHENTICATED_ACCESS_BOUNDARY_SMOKE = PASS`
+- `ACCESS_PRODUCT_E2E_PASS = false`
+- next: obtain one Lemon Test-mode purchase/license and exercise provider-backed unlock → /app.
