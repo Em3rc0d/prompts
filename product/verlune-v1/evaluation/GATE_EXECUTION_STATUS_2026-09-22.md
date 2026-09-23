@@ -586,3 +586,28 @@ Closed:
 
 Open:
 session tamper, stale-session revalidation/revocation, provider-outage retry behavior, and 3-browser/4th-browser activation policy.
+
+
+## 2026-09-23 revalidation + disabled entitlement
+
+Observed:
+- valid active entitlement revalidation → 303 back to `/app`: PASS;
+- disabled Test license during an existing session → Premium locked: security fail-closed PASS;
+- UI showed `revalidation-unavailable` and preserved the signed session: semantic/session-clear defect;
+- license re-enabled and valid unlock restored `Active (1/3)`.
+
+This means the security boundary held, but `ACCESS-13` was **not fully closed** on the first run because provider rejection was misclassified as outage.
+
+Remediation implemented:
+- provider License API 4xx validation rejection (except 429) → `session-invalid` + clear authorization/device cookies;
+- Admin API 4xx missing/rejected license (except 429) → same invalidation path;
+- network / 429 / provider 5xx → remain `revalidation-unavailable` with retryable local state.
+
+Evidence:
+`product/verlune-v1/evaluation/REVALIDATION_REVOCATION_EVIDENCE_2026-09-23.json`
+
+State:
+- valid revalidation = PASS
+- revoked/disabled fail-closed security = PASS
+- revoked/disabled clear-session semantics = RETEST REQUIRED
+- provider-outage case = OPEN
