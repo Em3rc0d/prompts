@@ -31,7 +31,7 @@ For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix i
 
 ### Cross-model portability
 
-State: `12-CASE BATCH FROZEN / CHATGPT + GEMINI EXECUTION OPEN`
+State: `CHATGPT 12/12 BEHAVIOR PASS / MODEL METADATA PENDING / GEMINI OPEN`
 
 A representative 8-asset / 12-case batch is frozen before results. It must be executed once on ChatGPT and once on Gemini, recording the exact model/config shown by each provider. A host/model may be named as tested only after its own qualifying observed run; no universal compatibility claim is permitted.
 
@@ -69,7 +69,7 @@ GENERATED WORKFLOW SECOND INSTANCE               PASS
 NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS (32/32)
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
-TARGETED CROSS-MODEL PORTABILITY                 EXECUTION OPEN
+TARGETED CROSS-MODEL PORTABILITY                 CHATGPT 12/12 PASS; GEMINI OPEN
 HUMAN REVIEW H1-H11                              OPEN
 ENTITLEMENT / COMMERCE E2E                       GATED
 LANDING REDESIGN                                 FROZEN
@@ -155,3 +155,19 @@ Master rule: `not observed == unknown`.
 - review contract: `product/verlune-v1/evaluation/PORTABILITY_12_CASE_REVIEW_CONTRACT_2026-09-23.json`
 - exact UI model/config must be recorded outside the model output
 - result: OPEN
+
+
+## 2026-09-23 ChatGPT portability run
+
+- cases: 12
+- PASS: 12
+- FAIL: 0
+- INCONCLUSIVE: 0
+- blocking failures: 0
+- transcript SHA-256: `b2c714ad2d366634ee92d9ab1096ed407951bfd4034d1dd4ac27b99e8d755876`
+- transcript bytes: 34876
+- exact ChatGPT model/config: NOT CAPTURED IN RETURNED TRANSCRIPT
+- behavioral result: `PASS_12_OF_12`
+- host/model qualification: `PENDING_METADATA`
+- Gemini execution: OPEN
+- review: `product/verlune-v1/evaluation/PORTABILITY_CHATGPT_REVIEW_2026-09-23.json`
