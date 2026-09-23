@@ -110,7 +110,7 @@
     }
   },
   "formal_release_state": {
-    "non_builder_exact_asset_runtime_matrix": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "non_builder_exact_asset_runtime_matrix": "RISK_BASED_32_CASE_GATE_FROZEN_READY_FOR_EXECUTION",
     "builder_32_category_cases": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
     "builder_5_stress_cases": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
     "cross_model_portability": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
@@ -129,5 +129,17 @@
   },
   "execution_environment_boundary": "This chat can prepare/freeze exact execution packets and review returned evidence, but it cannot create independent clean consumer-model sessions, operate the user's Gemini/ChatGPT UI as a separate evaluator, impersonate an external human reviewer, or complete a Premium entitlement E2E that is not implemented.",
   "exact_asset_binding_manifest": "product/verlune-v1/evaluation/EXACT_ASSET_BINDING_2026-09-22.json",
-  "formal_execution_precondition": "READY: exact launch-core asset blob identities frozen; independent/clean execution evidence still required."
+  "formal_execution_precondition": "READY: exact launch-core asset blob identities frozen; independent/clean execution evidence still required.",
+  "v1_risk_based_exact_asset_gate": {
+    "status": "FROZEN_READY_FOR_SINGLE_CHAT_SEGMENTED_EXECUTION",
+    "plan": "product/verlune-v1/evaluation/RISK_BASED_EXACT_ASSET_RUNTIME_GATE_2026-09-23.json",
+    "batch": "product/verlune-v1/evaluation/NON_BUILDER_32_SINGLE_CHAT_EXACT_ASSET_BATCH_2026-09-23.txt",
+    "asset_count": 24,
+    "case_count": 32,
+    "normal_cases": 24,
+    "targeted_edge_cases": 8,
+    "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_EXACT_ASSET",
+    "launch_gate_policy": "For v1 launch, this risk-based gate supersedes the 87 isolated-case matrix as the mandatory non-Builder runtime closure. The 87-case packet remains preserved for deeper qualification.",
+    "evidence_boundary": "A PASS is segmented exact-asset runtime evidence only; it does not establish independent-context robustness or cross-model portability."
+  }
 }
