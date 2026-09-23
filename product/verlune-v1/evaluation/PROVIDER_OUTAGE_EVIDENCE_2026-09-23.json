@@ -1,7 +1,7 @@
 {
   "schema": "verlune-v1-provider-outage-evidence-v1",
   "date": "2026-09-23",
-  "status": "PARTIAL_PASS_RESTORE_RETRY_PENDING",
+  "status": "PASS",
   "outage_deployment": {
     "id": "dpl_3upqJP3Tu25CWCZHi9vmmCvdJomL",
     "state": "READY"
@@ -20,15 +20,17 @@
     "repeated_revalidation_during_outage": {
       "runtime": "GET /api/verlune/session/revalidate -> 303",
       "result": "PASS_FAIL_CLOSED"
+    },
+    "restore_retry": {
+      "runtime": "GET /api/verlune/session/revalidate -> 303 on restored deployment; subsequent GET /app -> 200",
+      "user_visible_result": "Premium library restored without re-entering license key/email",
+      "result": "PASS"
     }
   },
-  "pending": [
-    "Press Retry license check after the restored deployment is active.",
-    "Confirm successful provider validation returns to /app without re-entering license key/email."
-  ],
+  "pending": [],
   "gate_effect": {
     "ACCESS_14_PROVIDER_OUTAGE_FAIL_CLOSED": "PASS",
-    "ACCESS_14_RETRY_AFTER_PROVIDER_RESTORE": "PENDING",
+    "ACCESS_14_RETRY_AFTER_PROVIDER_RESTORE": "PASS",
     "ACCESS_PRODUCT_E2E_PASS": false
   }
 }
