@@ -209,3 +209,28 @@ Current state:
 
 Delta batch:
 `product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_4_CASE_BATCH_2026-09-23.txt`
+
+
+## 2026-09-23 second Deep Research portability remediation
+
+The first remediation fixed the original Gemini ledger/registry failure, and VP-WF-006 now passes on both observed hosts. A separate Gemini failure remained in `VP-WF-003-NORMAL`:
+
+- evidence outside the requested 2015-2026 scope was used as direct support;
+- one cited source was omitted from the source list;
+- vague unnamed "contemporary meta-analyses" were invoked;
+- mixed-population evidence was generalized too strongly to higher education.
+
+Deep Research was tightened again:
+- scope fields are now evidence inclusion constraints;
+- out-of-scope sources may only be clearly labeled background unless scope is expanded;
+- every material source must be traceable;
+- vague unnamed confirming literature is prohibited;
+- mixed-population evidence cannot be silently promoted to target-population evidence;
+- missing registry matches should be described as verification gaps/tension unless direct contradiction is established.
+
+New VP-WF-003 blob: `afa65c9cdccff26d6fe92cee800818f3066d4220`
+
+Current state:
+- VP-WF-006 delta behavior: PASS on ChatGPT + Gemini;
+- VP-WF-003 final current-blob delta: OPEN;
+- exact model/config metadata: still pending.
