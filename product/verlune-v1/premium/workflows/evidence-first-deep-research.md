@@ -78,13 +78,17 @@ Record:
 
 ### 5. Build claim ledger
 
-Each material proposition is one of:
+Each material proposition is exactly one of:
 
 - `SUPPORTED`
 - `PARTIALLY_SUPPORTED`
 - `CONTESTED`
 - `UNSUPPORTED`
 - `UNKNOWN`
+
+Do not invent additional ledger states such as `DISPROVED` or `FALSE`.
+
+An absent matching registry entry, missing source, or failed lookup is not by itself proof that a claim is false. Unless the evidence directly establishes falsity and the relevant registry/search scope is known to be complete for that claim, keep the proposition `UNSUPPORTED`, `CONTESTED`, or `UNKNOWN` as appropriate and state the limitation explicitly.
 
 Repeated reporting of the same underlying claim is not independent confirmation.
 
