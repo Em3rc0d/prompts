@@ -66,7 +66,7 @@ GENERATED PROMPT SECOND INSTANCE                 PASS
 GENERATED WORKFLOW SECOND INSTANCE               PASS
 
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
-NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS (32/32)
+NON-BUILDER EXACT-ASSET 32-CASE BATCH          PRIOR BLOBS PASS; 2-ASSET DELTA OPEN
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
 TARGETED CROSS-MODEL PORTABILITY                 REWORK REQUIRED (GEMINI 2 BLOCKING FAILS)
@@ -187,3 +187,25 @@ Master rule: `not observed == unknown`.
 - result: `NOT_QUALIFIED / REWORK_REQUIRED`
 - cross-model portability gate: OPEN
 - review: `product/verlune-v1/evaluation/PORTABILITY_GEMINI_REVIEW_2026-09-23.json`
+
+
+## 2026-09-23 portability remediation
+
+Gemini exposed two blocking portability failures and the evidence was preserved before changing product bytes.
+
+Changed assets:
+- VP-WF-003: `136f837... → 6daeae311de1fc1a9b5b9ad180951608443a8fa9`
+- VP-WF-006: `4c2a695... → b2d98d24db14b2369d62709a330e95e3e9ec31b4`
+
+Remediation:
+- Deep Research now forbids invented claim-ledger states and explicitly prevents a missing registry match from becoming proof of falsity without direct/complete evidence.
+- Master a Topic now treats self-reported background as context, not mastery proof, and caps it at FRAGILE until retrieval/application or explicit assessment evidence exists.
+
+Current state:
+- historical 32/32 exact-asset PASS remains evidence for prior blobs;
+- current exact-asset release gate requires delta requalification;
+- cross-model portability requires ChatGPT + Gemini delta retest;
+- exact UI model/config metadata remains mandatory.
+
+Delta batch:
+`product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_4_CASE_BATCH_2026-09-23.txt`
