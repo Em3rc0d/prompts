@@ -464,3 +464,24 @@ Gate effect:
 - `UNAUTHENTICATED_ACCESS_BOUNDARY_SMOKE = PASS`
 - `ACCESS_PRODUCT_E2E_PASS = false`
 - next: obtain one Lemon Test-mode purchase/license and exercise provider-backed unlock → /app.
+
+
+## 2026-09-23 provider-backed valid unlock — PASS
+
+Observed on staging deployment `dpl_44HrayDpj2iQD7SmnBMrZoRGqNKf`:
+
+- before unlock: unauthenticated `/app` and protected asset routes returned 307 to `/unlock`;
+- `POST /api/verlune/unlock`: 200;
+- immediately after unlock: `/app`: 200;
+- `/app/access`: 200;
+- multiple protected Premium asset routes: 200;
+- customer-visible Premium library rendered all 17 launch-core surfaces;
+- runtime error clusters in the checked 15-minute window: none.
+
+Because the implemented unlock path requires exact license validity + checkout email + store + product + variant + activation policy before signing the authorization session, this closes the **valid entitlement unlock path** for the observed Test-mode purchase.
+
+Evidence:
+`product/verlune-v1/evaluation/PROVIDER_BACKED_UNLOCK_EVIDENCE_2026-09-23.json`
+
+Still open before `ACCESS_PRODUCT_E2E_PASS`:
+invalid/mismatched entitlement cases, session tamper, revalidation/revocation, logout/reuse, deactivation, provider-outage behavior and three-browser/4th-browser policy.
