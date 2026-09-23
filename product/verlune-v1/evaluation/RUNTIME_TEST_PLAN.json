@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-runtime-test-plan",
-  "status": "BEHAVIORAL_SCREENING_PASS_FORMAL_EXACT_ASSET_BINDING_OPEN",
+  "status": "FORMAL_PACKETS_FROZEN_EXTERNAL_EXECUTION_AND_ACCESS_GATES_OPEN",
   "date": "2026-09-22",
   "principle": "Test the bounded launch core. Backlog does not block launch.",
   "result_states": [
