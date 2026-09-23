@@ -410,3 +410,27 @@ Gate effect:
 - `LOCAL_BUILD_GATE = PASS`
 - `ACCESS_PRODUCT_E2E_PASS = false`
 - next: staging environment + deployment + provider-backed access test plan
+
+
+## 2026-09-23 Vercel prebuilt deployment attempt — Windows packaging blocker
+
+Observed:
+- `vercel build --prod`: application build PASS
+- governed Free Pack materialization: PASS
+- Premium private materialization: PASS
+- Next.js production build: PASS
+- Golden Path build parity: PASS
+- Premium build audit: PASS
+- Vercel Build Output packaging completed only when PowerShell ran elevated
+- `vercel deploy --prebuilt --prod`: ERROR
+- deployment: `dpl_4DVovTUVraomnTMTwkr7PxmFvnto`
+- failure: missing function-segment target under Linux upload path:
+  `ENOENT ... .vercel/output/functions/_global-error.segments/__PAGE__.segment.rsc.func`
+
+Interpretation:
+the application/build gate remains PASS. The blocker is cross-platform prebuilt artifact packaging from Windows to Vercel's Linux deployment environment, not an observed Verlune runtime failure.
+
+Next execution path:
+build the prebuilt artifact in a Linux filesystem/environment (WSL Linux home or equivalent), then deploy that Linux-built `.vercel/output`.
+
+`STAGING_DEPLOY_PASS = false`
