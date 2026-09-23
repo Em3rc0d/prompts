@@ -30,6 +30,10 @@ Add when material:
 - desired depth;
 - deadline.
 
+Treat supplied population, geography, time period, source requirements, exclusions, and freshness thresholds as evidence-scope constraints, not decorative context.
+
+A source outside the requested evidence scope may be used only as clearly labeled background when it materially helps interpretation. Do not use it as direct support for an in-scope conclusion unless the user explicitly allows the scope to expand.
+
 ## Research state
 
 Choose one:
@@ -68,13 +72,19 @@ Prefer primary sources for claims they can directly establish.
 
 Collect sources deliberately. Do not maximize source count.
 
-Record:
+For every source used to support a material claim, record:
 
-- source;
+- traceable source identity or locator;
 - date/freshness;
 - source class;
+- population / setting when material;
 - claim supported;
-- material limitation.
+- material limitation;
+- whether it is inside the requested evidence scope.
+
+Do not write vague support such as "other studies confirm" or "recent meta-analyses show" without identifying the actual source.
+
+Do not generalize evidence from a mixed or different population to the requested target population as if it were direct evidence. Label it as indirect or broader-context evidence unless the target subgroup is actually established.
 
 ### 5. Build claim ledger
 
@@ -89,6 +99,8 @@ Each material proposition is exactly one of:
 Do not invent additional ledger states such as `DISPROVED` or `FALSE`.
 
 An absent matching registry entry, missing source, or failed lookup is not by itself proof that a claim is false. Unless the evidence directly establishes falsity and the relevant registry/search scope is known to be complete for that claim, keep the proposition `UNSUPPORTED`, `CONTESTED`, or `UNKNOWN` as appropriate and state the limitation explicitly.
+
+Likewise, do not describe a missing registry match as a direct contradiction of the underlying certification claim unless registry completeness, identifier matching, and search scope make that inference defensible. Otherwise describe it as an unresolved verification gap or evidentiary tension.
 
 Repeated reporting of the same underlying claim is not independent confirmation.
 
@@ -138,7 +150,9 @@ Stop when:
 Before finalizing:
 
 - every externally checkable material claim has traceable support;
-- source dates match time-sensitive claims;
+- every source cited in the answer appears in the source list or ledger with enough identity to trace it;
+- source dates and populations fit the requested evidence scope, or any out-of-scope use is clearly labeled as background/indirect evidence;
+- no vague unnamed source class is used as proof for a material claim;
 - source claims are not silently promoted to verified facts;
 - contradictory evidence is not hidden;
 - scope limitations remain visible;
