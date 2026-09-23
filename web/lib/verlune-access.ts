@@ -59,6 +59,16 @@ export type LicenseDeactivationResponse = {
   meta?: LicenseMeta;
 };
 
+export class LemonAdminApiError extends Error {
+  constructor(
+    public readonly resource: "license-key",
+    public readonly status: number
+  ) {
+    super(`lemonsqueezy_admin_${resource}_failed:${status}`);
+    this.name = "LemonAdminApiError";
+  }
+}
+
 type AdminLicenseKeyResponse = {
   data?: {
     id?: string;
@@ -207,7 +217,7 @@ export async function retrieveRawLicenseKey(licenseKeyId: string, config = getVe
     cache: "no-store"
   });
   const payload = (await response.json().catch(() => ({}))) as AdminLicenseKeyResponse;
-  if (!response.ok) throw new Error(`lemonsqueezy_license_retrieve_failed:${response.status}`);
+  if (!response.ok) throw new LemonAdminApiError("license-key", response.status);
   const raw = payload.data?.attributes?.key;
   if (!raw) throw new Error("lemonsqueezy_license_retrieve_missing_key");
   return raw;
