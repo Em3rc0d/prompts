@@ -1,0 +1,15 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-set",
+  "status": "FROZEN_BEFORE_BATCH_RESULTS",
+  "date": "2026-09-23",
+  "purpose": "Validate that the 37-case single-chat segmented batch did not materially benefit from or suffer from cross-case context leakage.",
+  "selected_cases": [
+    "VB-writing-communication-P-NORMAL",
+    "VB-business-operations-P-UNDER",
+    "VB-research-analysis-W-NORMAL",
+    "VB-career-job-search-W-UNDER",
+    "VB-STRESS-003"
+  ],
+  "execution_rule": "Rerun each selected case in its own fresh temporary unpersonalized conversation using the exact same Builder blob and case input. Compare behavior semantically to the segmented-batch result.",
+  "closure_rule": "5/5 must show no material contradiction. Any material contradiction reopens the affected Builder/category/stress coverage."
+}
