@@ -121,7 +121,8 @@ if (JSON.stringify(manifestPaths) !== JSON.stringify(sortedPaths)) {
 
 const entries = assets.map((asset) => {
   const absolute = path.join(productRoot, asset.path);
-  const data = fs.readFileSync(absolute);
+  const sourceText = fs.readFileSync(absolute, "utf8");
+  const data = Buffer.from(sourceText.replace(/\r\n?/g, "\n"), "utf8");
   const observedSha256 = sha256(data);
   const observedGitBlob = gitBlobSha1(data);
 
@@ -162,6 +163,7 @@ fs.writeFileSync(path.join(dir, "free-pack-archive.ts"), output, "utf8");
 
 console.log("FREE PACK MATERIALIZE: PASS");
 console.log("source=local-governed-manifest");
+console.log("text_normalization=CRLF/CR-to-LF-before-identity-check");
 console.log(`assets=${entries.length}`);
 console.log(`size=${archive.length}`);
 console.log(`sha256=${observed}`);
