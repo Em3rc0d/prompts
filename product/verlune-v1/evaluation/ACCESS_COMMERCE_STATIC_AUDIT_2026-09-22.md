@@ -98,22 +98,35 @@ Official references:
 
 ## Provider identity still open
 
-The **new Verlune Premium SKU identity is not frozen yet**.
+The **Test-mode Verlune Premium SKU identity is now frozen**:
 
-Do not reuse historical provider IDs merely because previous Code Review/test-provider integration succeeded. The actual Premium product and variant must be configured with license keys enabled and activation limit 3, then their exact IDs frozen before E2E.
+- store: `462419`
+- product: `1383189` — `Verlune Premium`
+- variant: `2160866` — default variant
+- price: USD 9 one-time
+- license keys: enabled
+- activation limit: 3
+- license length: unlimited
+- test mode: true
+
+The observed variant status is `pending`. Lemon Squeezy documents this as the expected state for a product's sole default variant; it is not shown as a separate checkout option.
+
+Evidence:
+`product/verlune-v1/evaluation/PREMIUM_PROVIDER_IDENTITY_TEST_2026-09-23.json`
+
+Live-mode identity remains separate and unfrozen.
 
 ## Required next
 
-1. Create/configure the actual Verlune Premium Lemon Squeezy product/variant with license keys enabled and activation limit 3.
-2. Freeze exact store/product/variant IDs.
-3. Configure server-only staging values and strong independent session/fingerprint secrets.
-4. Run `npm run typecheck`.
-5. Run `npm run build`, including the Premium build leakage audit.
-6. Deploy the candidate to staging.
-7. Execute `ACCESS_PRODUCT_TEST_PLAN_2026-09-23.json`.
-8. Only after access-product PASS, execute Human Review H1-H11 on the real customer surface.
-9. Run Lemon test-mode commerce E2E.
-10. Run one controlled live-canary E2E before public sale.
+1. Configure the frozen Test-mode provider IDs in staging together with strong independent session/fingerprint secrets.
+2. Run `npm run typecheck`.
+3. Run `npm run build`, including the Premium build leakage audit.
+4. Deploy the candidate to staging.
+5. Execute `ACCESS_PRODUCT_TEST_PLAN_2026-09-23.json` against the frozen Test-mode identity.
+6. Only after access-product PASS, execute Human Review H1-H11 on the real customer surface.
+7. Run Lemon test-mode commerce E2E.
+8. Audit the accidentally-created Live-mode Premium product before any live canary; keep public sale disabled.
+9. Run one controlled live-canary E2E before public sale.
 
 ## Gate
 
