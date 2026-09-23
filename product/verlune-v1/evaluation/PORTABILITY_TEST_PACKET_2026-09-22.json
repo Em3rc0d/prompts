@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-portability-test-packet",
-  "status": "DEEP_RESEARCH_REMEDIATED_AGAIN / FINAL_DELTA_REQUIRED",
+  "status": "CURRENT_BINDING_BEHAVIOR_PASS / NAMED_MODEL_METADATA_OPEN",
   "frozen_at": "2026-09-22",
   "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
@@ -8,12 +8,12 @@
     {
       "host": "ChatGPT",
       "model": "record exact UI model/config observed",
-      "status": "NOT_EXECUTED"
+      "status": "BEHAVIOR_PASS_MODEL_METADATA_MISSING"
     },
     {
       "host": "Gemini",
       "model": "record exact UI model observed",
-      "status": "NOT_EXECUTED"
+      "status": "BEHAVIOR_PASS_WITH_SOURCE_ACCESS_LIMITATION_MODEL_METADATA_MISSING"
     }
   ],
   "sample": [
@@ -45,17 +45,17 @@
       "id": "VP-WF-003",
       "name": "Evidence-first Deep Research",
       "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
-      "git_blob_sha": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "git_blob_sha": "afa65c9cdccff26d6fe92cee800818f3066d4220",
       "bytes": 3245,
-      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+      "state": "CURRENT_BLOB_BEHAVIOR_PASS_CHATGPT_AND_GEMINI_FALLBACK_LIMITATION"
     },
     {
       "id": "VP-WF-006",
       "name": "Master a Topic",
       "path": "product/verlune-v1/premium/workflows/master-a-topic.md",
-      "git_blob_sha": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9",
+      "git_blob_sha": "b2d98d24db14b2369d62709a330e95e3e9ec31b4",
       "bytes": 2496,
-      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+      "state": "CURRENT_BLOB_BEHAVIOR_PASS_CHATGPT_AND_GEMINI"
     },
     {
       "id": "VP-WF-007",
@@ -121,7 +121,7 @@
       "transcript_sha256": "525611106f0abd644404f9aebe4a6f4c3283a94714cff2198338c035ce8fad0e",
       "qualification": "NOT_QUALIFIED"
     },
-    "cross_model_gate": "OPEN_REWORK_REQUIRED",
+    "cross_model_gate": "BEHAVIORAL_SAMPLE_PASS / NAMED_MODEL_METADATA_OPEN",
     "remediation": {
       "changed_assets": [
         "VP-WF-003",
@@ -144,13 +144,21 @@
       "old_blob": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
       "new_blob": "afa65c9cdccff26d6fe92cee800818f3066d4220",
       "trigger": "Gemini VP-WF-003-NORMAL scope/traceability blocking failure",
-      "result": "FROZEN_READY_FOR_EXECUTION",
+      "result": "PASS_3_OF_3_BOTH_HOSTS_BEHAVIOR",
       "batch": "product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_3_CASE_BATCH_2026-09-23.txt",
       "contract": "product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_CONTRACT_2026-09-23.json",
       "required_hosts": [
         "ChatGPT",
         "Gemini"
-      ]
+      ],
+      "review": "product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_2026-09-23.json"
+    },
+    "current_binding_resolution": {
+      "VP-WF-003": "PASS_CURRENT_BLOB_BEHAVIOR_ON_BOTH_HOSTS_WITH_GEMINI_SOURCE_ACCESS_LIMITATION",
+      "VP-WF-006": "PASS_CURRENT_BLOB_BEHAVIOR_ON_BOTH_HOSTS",
+      "targeted_cross_host_behavior": "PASS_BOUNDED_SAMPLE",
+      "named_model_portability": "OPEN_EXACT_MODEL_METADATA_MISSING",
+      "universal_portability": "NOT_CLAIMED"
     }
   }
 }
