@@ -611,3 +611,27 @@ State:
 - revoked/disabled fail-closed security = PASS
 - revoked/disabled clear-session semantics = RETEST REQUIRED
 - provider-outage case = OPEN
+
+
+## 2026-09-23 revoked-entitlement revalidation retest — PASS
+
+Observed on staging deployment `dpl_8o76QB3wiz5kHfrnbZWmPWq5BcaK`:
+
+- provider state: `Disabled (1/3)`;
+- forced `GET /api/verlune/session/revalidate` → 303;
+- customer UI: `This Premium session is no longer valid. Enter your purchase details again.`;
+- unlock attempt while disabled → HTTP 401;
+- customer UI: controlled inactive-entitlement denial.
+
+This closes the earlier revoked-entitlement classification/session-clear defect.
+
+Evidence:
+`product/verlune-v1/evaluation/REVOKED_ENTITLEMENT_RETEST_2026-09-23.json`
+
+Closed:
+- `ACCESS-13 Disabled/revoked entitlement fails closed = PASS`
+- revoked entitlement invalid-session semantics = PASS
+
+Still open:
+- provider-outage retry branch;
+- 3 active browsers + 4th-browser denial.
