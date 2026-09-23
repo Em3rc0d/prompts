@@ -1,6 +1,7 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
 export const VERLUNE_SESSION_COOKIE = "verlune_premium_session";
+export const VERLUNE_DEVICE_COOKIE = "verlune_premium_device";
 
 export type PremiumSession = {
   v: 1;
@@ -23,7 +24,15 @@ function hmac(value: string, key: string): string {
   return createHmac("sha256", key).update(value).digest("base64url");
 }
 
-function encode(payload: PremiumSession): string {
+export type PremiumDeviceRef = {
+  v: 1;
+  licenseKeyId: string;
+  instanceId: string;
+  licenseFingerprint: string;
+  createdAt: number;
+};
+
+function encode(payload: PremiumSession | PremiumDeviceRef): string {
   return Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
 }
 
@@ -41,13 +50,21 @@ export function hashCustomerEmail(email: string): string {
   return hmac(email.trim().toLowerCase(), secret("VERLUNE_LICENSE_FINGERPRINT_SECRET"));
 }
 
-export function signPremiumSession(payload: PremiumSession): string {
+function signPayload(payload: PremiumSession | PremiumDeviceRef): string {
   const body = encode(payload);
   const signature = hmac(body, secret("VERLUNE_SESSION_SECRET"));
   return `${body}.${signature}`;
 }
 
-export function parsePremiumSession(token: string | undefined): PremiumSession | null {
+export function signPremiumSession(payload: PremiumSession): string {
+  return signPayload(payload);
+}
+
+export function signPremiumDeviceRef(payload: PremiumDeviceRef): string {
+  return signPayload(payload);
+}
+
+function verifiedBody(token: string | undefined): unknown | null {
   if (!token) return null;
   const [body, signature, extra] = token.split(".");
   if (!body || !signature || extra) return null;
@@ -61,22 +78,40 @@ export function parsePremiumSession(token: string | undefined): PremiumSession |
   if (!safeEqual(signature, expected)) return null;
 
   try {
-    const payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8")) as PremiumSession;
-    if (
-      payload.v !== 1 ||
-      !/^\d+$/.test(payload.licenseKeyId) ||
-      !payload.instanceId ||
-      !payload.licenseFingerprint ||
-      !payload.emailHash ||
-      !Number.isFinite(payload.issuedAt) ||
-      !Number.isFinite(payload.validatedAt) ||
-      !Number.isFinite(payload.expiresAt)
-    ) return null;
-    if (payload.expiresAt <= Math.floor(Date.now() / 1000)) return null;
-    return payload;
+    return JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
   } catch {
     return null;
   }
+}
+
+export function parsePremiumSession(token: string | undefined): PremiumSession | null {
+  const payload = verifiedBody(token) as PremiumSession | null;
+  if (!payload) return null;
+  if (
+    payload.v !== 1 ||
+    !/^\d+$/.test(payload.licenseKeyId) ||
+    !payload.instanceId ||
+    !payload.licenseFingerprint ||
+    !payload.emailHash ||
+    !Number.isFinite(payload.issuedAt) ||
+    !Number.isFinite(payload.validatedAt) ||
+    !Number.isFinite(payload.expiresAt)
+  ) return null;
+  if (payload.expiresAt <= Math.floor(Date.now() / 1000)) return null;
+  return payload;
+}
+
+export function parsePremiumDeviceRef(token: string | undefined): PremiumDeviceRef | null {
+  const payload = verifiedBody(token) as PremiumDeviceRef | null;
+  if (!payload) return null;
+  if (
+    payload.v !== 1 ||
+    !/^\d+$/.test(payload.licenseKeyId) ||
+    !payload.instanceId ||
+    !payload.licenseFingerprint ||
+    !Number.isFinite(payload.createdAt)
+  ) return null;
+  return payload;
 }
 
 export function sessionMaxAgeSeconds(): number {
@@ -87,6 +122,20 @@ export function sessionMaxAgeSeconds(): number {
 export function revalidateAfterSeconds(): number {
   const parsed = Number(process.env.VERLUNE_SESSION_REVALIDATE_SECONDS ?? "86400");
   return Number.isFinite(parsed) && parsed >= 900 && parsed <= 604800 ? Math.floor(parsed) : 86400;
+}
+
+export function newPremiumDeviceRef(input: {
+  licenseKeyId: string;
+  instanceId: string;
+  licenseKey: string;
+}): PremiumDeviceRef {
+  return {
+    v: 1,
+    licenseKeyId: input.licenseKeyId,
+    instanceId: input.instanceId,
+    licenseFingerprint: fingerprintLicense(input.licenseKey),
+    createdAt: Math.floor(Date.now() / 1000)
+  };
 }
 
 export function newPremiumSession(input: {
@@ -124,6 +173,16 @@ export function premiumCookieOptions(session: PremiumSession) {
     sameSite: "lax" as const,
     path: "/",
     maxAge: Math.max(0, session.expiresAt - now)
+  };
+}
+
+export function premiumDeviceCookieOptions() {
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge: 31536000
   };
 }
 
