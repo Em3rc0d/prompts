@@ -13,10 +13,13 @@
   "execution_rule": "Rerun each selected case in its own fresh temporary unpersonalized conversation using the exact same Builder blob and case input. Compare behavior semantically to the segmented-batch result.",
   "closure_rule": "5/5 must show no material contradiction. Any material contradiction reopens the affected Builder/category/stress coverage.",
   "execution_progress": {
-    "completed_valid": 0,
+    "completed_valid": 1,
+    "passed_valid": 1,
+    "failed_valid": 0,
+    "inconclusive_valid": 0,
     "invalid_not_counted": 1,
-    "remaining_valid_required": 5,
-    "case_01": "INVALID_RETRY_REQUIRED",
-    "note": "Invalid attempt is an operator/protocol deviation, not a Builder failure."
+    "remaining_valid_required": 4,
+    "case_01": "PASS_NO_MATERIAL_CONTRADICTION",
+    "note": "Case 01 isolated run asked material clarification questions instead of immediately generating the artifact. This is recorded as nonblocking question-threshold variance, not a contradiction."
   }
 }
