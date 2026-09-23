@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-runtime-test-plan",
-  "status": "DESIGNED_NOT_EXECUTED",
+  "status": "BEHAVIORAL_SCREENING_PASS_FORMAL_EXACT_ASSET_BINDING_OPEN",
   "date": "2026-09-22",
   "principle": "Test the bounded launch core. Backlog does not block launch.",
   "result_states": [
@@ -90,5 +90,30 @@
   "calculation": "8*2 + 3*3 + 8*4 + 5*6 = 87",
   "promotion_rule": "No asset becomes public merely because another asset in its category passed.",
   "evidence_rule": "Record exact artifact version, runtime/model/host, case, raw output, human review and limitations.",
-  "minimum_planned_non_builder_case_count": 87
+  "minimum_planned_non_builder_case_count": 87,
+  "observed_evidence": {
+    "behavioral_screening": {
+      "raw_observations": 104,
+      "pass": 104,
+      "fail": 0,
+      "inconclusive": 0,
+      "primary_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED",
+      "evidence": "product/verlune-v1/evaluation/BEHAVIORAL_SCREENING_EVIDENCE_2026-09-22.md",
+      "qualification": "SCREENING_ONLY_NOT_FORMAL_87_CASE_RELEASE_CLOSURE"
+    },
+    "builder_follow_through": {
+      "generated_prompt_second_instance": "PASS",
+      "generated_workflow_second_instance": "PASS",
+      "workflow_builder_customer_like_observed_case": "PASS",
+      "prompt_builder_full_intake_transcript": "NOT_FULLY_OBSERVED",
+      "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
+    }
+  },
+  "formal_release_state": {
+    "non_builder_exact_asset_runtime_matrix": "OPEN",
+    "builder_32_category_cases": "OPEN",
+    "builder_5_stress_cases": "OPEN",
+    "cross_model_portability": "OPEN",
+    "human_review_h1_h11": "OPEN"
+  }
 }
