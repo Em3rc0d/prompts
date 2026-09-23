@@ -1,7 +1,7 @@
 {
   "schema": "verlune-catalog-v1-candidate",
   "version": "1.0.0-candidate",
-  "status": "STATIC_CORE_PASS_BEHAVIORAL_SCREENING_PASS_FORMAL_RUNTIME_BUILDER_MATRIX_HUMAN_REVIEW_OPEN",
+  "status": "STATIC_CORE_PASS_FORMAL_PACKETS_FROZEN_EXTERNAL_RUNTIME_HUMAN_ACCESS_GATES_OPEN",
   "created_at": "2026-09-22",
   "commercial": {
     "free_usd": 0,
@@ -411,5 +411,17 @@
       "full_builder_matrix": "OPEN",
       "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
     }
+  },
+  "release_readiness": {
+    "exact_asset_manifest": "FROZEN",
+    "non_builder_formal_runtime": "READY_FOR_EXTERNAL_EXECUTION",
+    "builder_formal_matrix": "READY_FOR_EXTERNAL_EXECUTION",
+    "generated_prompt_follow_through": "PASS",
+    "generated_workflow_follow_through": "PASS",
+    "cross_model_portability": "READY_FOR_EXTERNAL_EXECUTION",
+    "human_review_h1_h11": "EXTERNAL_REVIEWER_REQUIRED",
+    "entitlement_e2e": "BLOCKED_ACCESS_LAYER_NOT_IMPLEMENTED",
+    "public_claim_audit": "SOURCE_STATIC_PASS_LIVE_DEPLOYMENT_UNOBSERVED",
+    "ready_to_sell": false
   }
 }
