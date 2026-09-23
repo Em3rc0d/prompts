@@ -661,3 +661,25 @@ Closed:
 
 Pre-outage hardening:
 Admin API authentication/permission failures (401/403) are now treated as retryable provider/configuration unavailability, not as customer entitlement revocation. Only Admin license-key 404/410 is treated as missing/revoked entitlement. Redeploy required before the outage case.
+
+
+## 2026-09-23 pre-outage fail-closed hardening
+
+Before executing the provider-outage fault injection, review found an edge case in the forced revalidation path:
+
+- on a retryable provider/admin outage, the UI correctly rendered `revalidation-unavailable`;
+- however, the signed authorization session was preserved with a fresh-enough `validatedAt`;
+- a direct `/app` request after a *manually forced* failed revalidation could therefore still authorize until the normal 24-hour threshold elapsed.
+
+This was not observed leaking content in the real stale-session path, but it violates the intended stronger invariant: once a revalidation attempt fails, Premium must stay locked until provider validation succeeds.
+
+Patch:
+- retryable outage now re-signs the session with `validatedAt=0`;
+- the session is retained only as a retry token;
+- every protected route sees it as stale and redirects back through revalidation;
+- successful retry refreshes `validatedAt` and restores Premium;
+- revoked/invalid entitlement continues to clear session + device reference.
+
+State:
+- `ACCESS-14 PROVIDER OUTAGE` remains unexecuted;
+- redeploy required before fault injection.
