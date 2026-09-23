@@ -11,3 +11,4 @@ node_modules/
 playwright-report/
 quarry/raw/**/snapshots/*.html
 mk1/staging/
+web/.verlune-private/
