@@ -15,13 +15,13 @@ Status: `PRE-FORMAL-EXECUTION READY / EXTERNAL EXECUTION GATES OPEN`
 
 ## Not claimed as complete
 
-### Formal Builder matrix
+### Builder v1 coverage gate
 
-State: `PASS`
+State: `BOUNDED V1 COVERAGE PASS / ORIGINAL 38-INDEPENDENT FORMAL PACKET NOT EXECUTED`
 
 Observed segmented batch result: **37 PASS / 0 FAIL / 0 INCONCLUSIVE** against the frozen review contract.
 
-The batch used the exact frozen Builder identities and covered all 32 category cases plus 5 stress cases. The pre-frozen clean-context sample was then rerun in five physically isolated temporary unpersonalized chats: **5 PASS / 0 FAIL / 0 INCONCLUSIVE / 0 material contradictions**. `BUILDER_COVERAGE_GATE = PASS`.
+The batch used the exact frozen Builder identities and covered all 32 category cases plus 5 stress cases. The pre-frozen clean-context sample was then rerun in five physically isolated temporary unpersonalized chats: **5 PASS / 0 FAIL / 0 INCONCLUSIVE / 0 material contradictions**. `BUILDER_COVERAGE_GATE = PASS` for the bounded v1 policy. The older frozen protocol requiring at least 38 independent conversations remains historical deeper-qualification work and was **not** executed; this status does not rewrite that history.
 
 ### Formal non-Builder exact-asset runtime
 
@@ -41,11 +41,11 @@ State: `OPEN`
 
 Reason: the gate explicitly requires a reviewer to use the customer product. An internal repository pass cannot substitute for external human observation or purchase-value feedback.
 
-### Entitlement / commerce E2E
+### Premium access / entitlement / commerce E2E
 
-State: `GATED`
+State: `ACCESS LAYER IMPLEMENTED CANDIDATE / BUILD + PROVIDER E2E OPEN`
 
-Reason: it follows product/runtime/human readiness and requires the candidate Premium access path to exist and be exercised end-to-end. It is not promoted by documentation alone.
+The candidate `/unlock → /app` product now exists in the repository with server-side entitlement checks, signed browser authorization, protected asset delivery, periodic revalidation, logout/deactivation and a build-time leakage audit. This is implementation evidence only. Typecheck/build, staging deployment, exact new Premium provider identity and provider-backed E2E remain open; therefore `ENTITLEMENT_E2E_PASS = false`.
 
 ### Landing redesign
 
@@ -70,8 +70,9 @@ NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS ON CURRENT BINDING
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
 TARGETED CROSS-HOST BEHAVIOR                     PASS BOUNDED SAMPLE; MODEL METADATA OPEN
+PREMIUM ACCESS IMPLEMENTATION                    CANDIDATE IMPLEMENTED; BUILD/E2E OPEN
 HUMAN REVIEW H1-H11                              OPEN
-ENTITLEMENT / COMMERCE E2E                       GATED
+ENTITLEMENT / COMMERCE E2E                       OPEN AFTER ACCESS BUILD/PROVIDER TEST
 LANDING REDESIGN                                 FROZEN
 READY_TO_SELL                                    NO
 ```
@@ -263,3 +264,42 @@ Current state:
 
 Interpretation:
 Gemini demonstrated the correct fail-safe source-access path, not live academic retrieval. Therefore the behavior gate is closed, but no claim that the observed Gemini environment can execute source-retrieval research is permitted.
+
+
+## 2026-09-23 Premium access implementation candidate
+
+Implemented in repository:
+- `/unlock`;
+- protected `/app`;
+- protected `/app/asset/:id`;
+- `/app/access`;
+- Lemon license validate / activate / deactivate integration;
+- exact store/product/variant/email checks;
+- 3-browser activation policy candidate;
+- signed HttpOnly authorization session, max 7 days;
+- entitlement revalidation at least every 24 hours;
+- signed non-authorizing device reference to reuse the same provider instance after logout/session expiry;
+- server-only Premium build materialization;
+- exact Git-blob verification before asset delivery;
+- post-build Premium public/static leakage audit;
+- 17 launch-core Premium surfaces in the protected library.
+
+Frozen execution contract:
+`product/verlune-v1/evaluation/ACCESS_PRODUCT_TEST_PLAN_2026-09-23.json`
+
+Implementation record:
+`product/verlune-v1/evaluation/ACCESS_PRODUCT_IMPLEMENTATION_2026-09-23.md`
+
+Still not observed:
+- typecheck/build PASS;
+- current-branch staging deployment;
+- new Verlune Premium Lemon product/variant with license keys;
+- provider IDs/secrets configured;
+- access E2E;
+- H1-H11;
+- commerce test purchase;
+- live canary.
+
+`ACCESS_LAYER_IMPLEMENTED_CANDIDATE = true`  
+`ACCESS_PRODUCT_E2E_PASS = false`  
+`READY_TO_SELL = false`
