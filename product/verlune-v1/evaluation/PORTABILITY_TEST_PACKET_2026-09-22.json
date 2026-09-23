@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-portability-test-packet",
-  "status": "RISK_BASED_12_CASE_BATCH_FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+  "status": "CHATGPT_BEHAVIOR_PASS_12_OF_12_METADATA_PENDING_GEMINI_OPEN",
   "frozen_at": "2026-09-22",
   "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
@@ -99,6 +99,16 @@
     ],
     "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_PORTABILITY",
     "host_claim_rule": "A host/model may be named as tested only after 12/12 qualifying observed cases on that exact recorded UI model/config.",
-    "cross_model_closure": "Both target hosts must have qualifying observed runs; no extrapolation to other model versions."
+    "cross_model_closure": "Both target hosts must have qualifying observed runs; no extrapolation to other model versions.",
+    "chatgpt": {
+      "behavioral_result": "PASS_12_OF_12",
+      "fail": 0,
+      "inconclusive": 0,
+      "blocking_failures": 0,
+      "exact_model_label": "PENDING_OPERATOR_METADATA",
+      "review": "product/verlune-v1/evaluation/PORTABILITY_CHATGPT_REVIEW_2026-09-23.json",
+      "transcript_sha256": "b2c714ad2d366634ee92d9ab1096ed407951bfd4034d1dd4ac27b99e8d755876",
+      "qualification": "BEHAVIOR_PASS_MODEL_METADATA_INCOMPLETE"
+    }
   }
 }
