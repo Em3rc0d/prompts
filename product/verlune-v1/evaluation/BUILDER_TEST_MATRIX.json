@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-builder-test-matrix",
-  "status": "DESIGNED_MATRIX_OPEN_FOLLOW_THROUGH_OBSERVED",
+  "status": "FROZEN_READY_FOR_EXTERNAL_EXECUTION_FOLLOW_THROUGH_OBSERVED",
   "date": "2026-09-22",
   "builders": [
     "VP-BUILDER-001",
@@ -118,8 +118,9 @@
     "generated_workflow_second_clean_instance": "PASS",
     "generated_prompt_second_clean_instance": "PASS",
     "prompt_builder_full_intake_ux": "NOT_FULLY_OBSERVED",
-    "category_matrix_execution": "OPEN",
-    "stress_matrix_execution": "OPEN",
+    "category_matrix_execution": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "stress_matrix_execution": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
     "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
-  }
+  },
+  "formal_execution_packet": "product/verlune-v1/evaluation/BUILDER_FORMAL_EXECUTION_PACKET_2026-09-22.json"
 }
