@@ -356,3 +356,18 @@ configure these non-secret IDs plus server-only API key and strong session/finge
 
 Live-mode note:
 the operator reported an earlier product creation happened in Live mode. No live identity or exposure claim is made; it must be audited before the controlled live canary.
+
+
+## 2026-09-23 first local access-product build attempt
+
+- `npm install`: PASS, 0 vulnerabilities
+- `npm run typecheck`: PASS
+- `npm run build`: BLOCKED in prebuild before Next.js compilation
+- blocker: historical Free Pack production endpoint returned HTTP 500 integrity failure
+- observed remote archive: 23498 bytes / SHA-256 `ba02210e8649ec1e601d65afae3b31e4985de1ab577483d5c155540f5f8f7dbf`
+- frozen archive: 23498 bytes / SHA-256 `55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32`
+- root cause: locale-sensitive ZIP entry sorting diverged from governed raw lexicographic ordering
+- route sort patched
+- prebuild changed to deterministic local governed materialization; remote verification now opt-in
+- state: `PATCHED / OPERATOR BUILD RERUN REQUIRED`
+- evidence: `product/verlune-v1/evaluation/BUILD_BLOCKER_FREE_PACK_2026-09-23.md`
