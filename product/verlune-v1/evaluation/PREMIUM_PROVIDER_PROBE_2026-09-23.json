@@ -1,0 +1,32 @@
+{
+  "schema": "verlune-premium-provider-probe-v1",
+  "observed_at": "2026-09-23",
+  "source": "operator-executed read-only provider probe",
+  "api_key_recorded": false,
+  "provider_side_effects": 0,
+  "state": "ACTION_REQUIRED",
+  "stage": "CREATE_OR_RENAME_PREMIUM_PRODUCT",
+  "reason": "No exact product named 'Verlune Premium' was observed in this API-key mode/store.",
+  "store_id": "462419",
+  "target_product_name": "Verlune Premium",
+  "target_price_cents": 900,
+  "target_activation_limit": 3,
+  "required_dashboard_settings": {
+    "product_name": "Verlune Premium",
+    "price": "USD 9 one-time",
+    "license_keys": true,
+    "activation_limit": 3,
+    "license_length": "unlimited"
+  },
+  "verlune_products_observed": [
+    {
+      "name": "Verlune Code Review",
+      "product_id": "1347720",
+      "status": "published",
+      "test_mode": true,
+      "price": 900
+    }
+  ],
+  "decision": "CREATE_NEW_PRODUCT_DO_NOT_RENAME_HISTORICAL_CODE_REVIEW",
+  "rationale": "The historical Code Review SKU is already bound to prior evidence and should remain independently auditable. Verlune Premium is a different product entitlement."
+}
