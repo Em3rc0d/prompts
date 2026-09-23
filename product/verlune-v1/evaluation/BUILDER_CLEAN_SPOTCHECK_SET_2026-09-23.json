@@ -13,14 +13,15 @@
   "execution_rule": "Rerun each selected case in its own fresh temporary unpersonalized conversation using the exact same Builder blob and case input. Compare behavior semantically to the segmented-batch result.",
   "closure_rule": "5/5 must show no material contradiction. Any material contradiction reopens the affected Builder/category/stress coverage.",
   "execution_progress": {
-    "completed_valid": 2,
-    "passed_valid": 2,
+    "completed_valid": 3,
+    "passed_valid": 3,
     "failed_valid": 0,
     "inconclusive_valid": 0,
     "invalid_not_counted": 1,
-    "remaining_valid_required": 3,
+    "remaining_valid_required": 2,
     "case_01": "PASS_NO_MATERIAL_CONTRADICTION",
-    "note": "Cases 01-02 valid isolated runs both PASS with no material contradiction versus the segmented batch.",
-    "case_02": "PASS_NO_MATERIAL_CONTRADICTION"
+    "note": "Cases 01-03 valid isolated runs PASS. Cases 01 and 03 show nonblocking question-threshold variance versus the segmented batch.",
+    "case_02": "PASS_NO_MATERIAL_CONTRADICTION",
+    "case_03": "PASS_NO_MATERIAL_CONTRADICTION"
   }
 }
