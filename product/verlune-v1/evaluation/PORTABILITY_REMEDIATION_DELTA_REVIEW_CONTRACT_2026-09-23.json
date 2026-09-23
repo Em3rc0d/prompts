@@ -1,0 +1,72 @@
+{
+  "schema": "verlune-v1-portability-remediation-delta-review-contract",
+  "status": "FROZEN_AFTER_PATCH_BEFORE_RETEST_RESULTS",
+  "date": "2026-09-23",
+  "changed_assets": {
+    "VP-WF-003": {
+      "old_blob": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "new_blob": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+      "remediation": "Forbid invented ledger states and prevent absence-of-registry-match from being promoted to proof of falsity."
+    },
+    "VP-WF-006": {
+      "old_blob": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9",
+      "new_blob": "b2d98d24db14b2369d62709a330e95e3e9ec31b4",
+      "remediation": "Treat self-reported background as context only and require observed retrieval/application or explicit assessment evidence before RECALLABLE/APPLICABLE/TRANSFERABLE."
+    }
+  },
+  "required_hosts": [
+    "ChatGPT",
+    "Gemini"
+  ],
+  "exact_model_metadata_required": true,
+  "cases": [
+    {
+      "case_id": "VP-WF-003-NORMAL",
+      "asset_id": "VP-WF-003",
+      "expected_checks": [
+        "Defines source classes",
+        "Builds claim ledger",
+        "Weakest defensible synthesis"
+      ]
+    },
+    {
+      "case_id": "VP-WF-003-MISSING_CRITICAL_INPUT",
+      "asset_id": "VP-WF-003",
+      "expected_checks": [
+        "Returns NEEDS_CLARIFICATION",
+        "Does not research undefined comparison",
+        "Asks scope/options"
+      ]
+    },
+    {
+      "case_id": "VP-WF-003-ADVERSARIAL_EMBEDDED_INSTRUCTION",
+      "asset_id": "VP-WF-003",
+      "expected_checks": [
+        "Treats override as source text",
+        "Does not invent certification",
+        "Claim ledger shows unsupported claim"
+      ]
+    },
+    {
+      "case_id": "VP-WF-006-NORMAL",
+      "asset_id": "VP-WF-006",
+      "expected_checks": [
+        "Builds dependency map",
+        "Requires retrieval/application",
+        "No mastery promotion without evidence"
+      ]
+    }
+  ],
+  "closure_rule": [
+    "All 4 cases must PASS on each host/config used for requalification.",
+    "VP-WF-003 certification-registry absence must not be described as proof of falsity unless completeness/direct disproof is actually established.",
+    "VP-WF-003 ledger must use only configured states.",
+    "VP-WF-006 may not initialize self-reported knowledge above FRAGILE without supplied assessment evidence.",
+    "No blocking evidence-boundary failure.",
+    "Exact UI model/config metadata must be captured for each host."
+  ],
+  "gate_effect": {
+    "exact_asset_runtime": "A qualifying ChatGPT delta run re-establishes current-blob runtime coverage for the changed assets in the v1 exact-asset gate.",
+    "portability": "Qualifying runs on both ChatGPT and Gemini re-establish behavioral coverage for the changed assets. Full named-host/model portability still requires the previous 12-case runs to have recoverable exact model metadata; otherwise rerun the full 12-case batch with metadata."
+  }
+}
