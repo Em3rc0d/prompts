@@ -1,0 +1,91 @@
+{
+  "schema": "verlune-v1-portability-test-packet",
+  "status": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+  "frozen_at": "2026-09-22",
+  "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
+  "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
+  "target_hosts": [
+    {
+      "host": "ChatGPT",
+      "model": "record exact UI model/config observed",
+      "status": "NOT_EXECUTED"
+    },
+    {
+      "host": "Gemini",
+      "model": "record exact UI model observed",
+      "status": "NOT_EXECUTED"
+    }
+  ],
+  "sample": [
+    {
+      "id": "VP-BUILDER-001",
+      "name": "Prompt Builder",
+      "path": "product/verlune-v1/premium/builders/prompt-builder.md",
+      "git_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "bytes": 3880,
+      "state": "STATIC_PASS_GENERATED_PROMPT_FOLLOW_THROUGH_PASS_MATRIX_OPEN"
+    },
+    {
+      "id": "VP-BUILDER-002",
+      "name": "Workflow Builder",
+      "path": "product/verlune-v1/premium/builders/workflow-builder.md",
+      "git_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+      "bytes": 4561,
+      "state": "STATIC_PASS_OBSERVED_CASE_AND_GENERATED_WORKFLOW_FOLLOW_THROUGH_PASS_MATRIX_OPEN"
+    },
+    {
+      "id": "VP-WF-001",
+      "name": "Evidence-first Code Review",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-code-review.md",
+      "git_blob_sha": "beb62117c24bb7fde552397b89e1e159e294449a",
+      "bytes": 6878,
+      "state": "STATIC_PASS_CERTIFIED_LINEAGE_REBIND_REQUIRED"
+    },
+    {
+      "id": "VP-WF-003",
+      "name": "Evidence-first Deep Research",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
+      "git_blob_sha": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "bytes": 3245,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-006",
+      "name": "Master a Topic",
+      "path": "product/verlune-v1/premium/workflows/master-a-topic.md",
+      "git_blob_sha": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9",
+      "bytes": 2496,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-007",
+      "name": "Content Strategy System",
+      "path": "product/verlune-v1/premium/workflows/content-strategy-system.md",
+      "git_blob_sha": "d7142fce26e6e303028d77f0134212267d2393a5",
+      "bytes": 2529,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-WF-003",
+      "name": "Bug Diagnosis",
+      "path": "product/verlune-v1/free/workflows/bug-diagnosis.md",
+      "git_blob_sha": "47418dec37f63cea58e083ccd4e3f3e42bb944d3",
+      "bytes": 8897,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-WRITE-001",
+      "name": "Rewrite for Audience and Intent",
+      "path": "product/verlune-v1/premium/prompts/rewrite-for-audience-and-intent.md",
+      "git_blob_sha": "867911106e6463c15ea8b3a575e10b4e41786f36",
+      "bytes": 1857,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    }
+  ],
+  "required_case_types": [
+    "normal",
+    "underspecified_or_missing",
+    "adversarial_or_embedded_instruction_where_relevant"
+  ],
+  "claim_rule": "Only name a host/model as tested after exact-asset observed PASS evidence exists for that host/model. Never extrapolate to all models."
+}
