@@ -17,15 +17,11 @@ Status: `PRE-FORMAL-EXECUTION READY / EXTERNAL EXECUTION GATES OPEN`
 
 ### Formal Builder matrix
 
-State: `OPEN`
+State: `SEGMENTED_BATCH_PASS / CLEAN_SPOTCHECKS_OPEN`
 
-Reason: the contract requires clean/isolated consumer-AI execution of the frozen Builder bytes. This repository pass can freeze and validate the exact envelopes, but it cannot honestly manufacture independent clean-chat model runs.
+Observed segmented batch result: **37 PASS / 0 FAIL / 0 INCONCLUSIVE** against the frozen review contract.
 
-Required evidence:
-- full transcript per case;
-- exact Builder blob identity;
-- result PASS/FAIL/INCONCLUSIVE;
-- review across all frozen dimensions.
+The batch used the exact frozen Builder identities and covered all 32 category cases plus 5 stress cases. Because all cases ran in one segmented chat, the pre-frozen 5-case clean-context spot-check set remains required before the Builder coverage gate closes.
 
 ### Formal non-Builder exact-asset runtime
 
@@ -69,8 +65,9 @@ EXECUTION PREFLIGHT                              PASS
 GENERATED PROMPT SECOND INSTANCE                 PASS
 GENERATED WORKFLOW SECOND INSTANCE               PASS
 
-37 BUILDER CLEAN EXECUTIONS                      OPEN
+37 BUILDER SEGMENTED CASES                     PASS (37/37)
 FORMAL NON-BUILDER EXACT-ASSET EXECUTIONS        OPEN
+5 BUILDER CLEAN SPOT-CHECKS                     OPEN
 TARGETED CROSS-MODEL PORTABILITY                 OPEN
 HUMAN REVIEW H1-H11                              OPEN
 ENTITLEMENT / COMMERCE E2E                       GATED
@@ -79,3 +76,14 @@ READY_TO_SELL                                    NO
 ```
 
 Master rule: `not observed == unknown`.
+
+
+## 2026-09-23 Builder batch update
+
+- segmented batch transcript SHA-256: `4d606d5a0ab7ecb25862f752487b1ed6e5a00dc9e8be7a37c9e1b99c23bbe83c`
+- cases reviewed: 37
+- PASS: 37
+- FAIL: 0
+- INCONCLUSIVE: 0
+- clean-context spot-checks remaining: 5
+- review record: `product/verlune-v1/evaluation/BUILDER_BATCH_37_REVIEW_2026-09-23.json`
