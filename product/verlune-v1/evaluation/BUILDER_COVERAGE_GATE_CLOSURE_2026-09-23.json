@@ -1,0 +1,52 @@
+{
+  "schema": "verlune-v1-builder-coverage-gate-closure",
+  "date": "2026-09-23",
+  "builder_identities": {
+    "VP-BUILDER-001": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+    "VP-BUILDER-002": "3a479f0cc5411383b813394685b91649a1b603fc"
+  },
+  "segmented_matrix": {
+    "cases": 37,
+    "pass": 37,
+    "fail": 0,
+    "inconclusive": 0,
+    "review_record": "product/verlune-v1/evaluation/BUILDER_BATCH_37_REVIEW_2026-09-23.json"
+  },
+  "segmented_spotcheck": {
+    "cases": 5,
+    "pass": 5,
+    "fail": 0,
+    "inconclusive": 0,
+    "material_contradictions": 0,
+    "review_record": "product/verlune-v1/evaluation/BUILDER_SPOTCHECK_5_SEGMENTED_REVIEW_2026-09-23.json"
+  },
+  "clean_context_spotchecks": {
+    "physically_isolated": true,
+    "cases": 5,
+    "pass": 5,
+    "fail": 0,
+    "inconclusive": 0,
+    "material_contradictions": 0,
+    "selected_case_set": "product/verlune-v1/evaluation/BUILDER_CLEAN_SPOTCHECK_SET_2026-09-23.json",
+    "results": [
+      "product/verlune-v1/evaluation/clean-spotchecks/results/01-VB-writing-communication-P-NORMAL.valid-result.json",
+      "product/verlune-v1/evaluation/clean-spotchecks/results/02-VB-business-operations-P-UNDER.valid-result.json",
+      "product/verlune-v1/evaluation/clean-spotchecks/results/03-VB-research-analysis-W-NORMAL.valid-result.json",
+      "product/verlune-v1/evaluation/clean-spotchecks/results/04-VB-career-job-search-W-UNDER.valid-result.json",
+      "product/verlune-v1/evaluation/clean-spotchecks/results/05-VB-STRESS-003.valid-result.json"
+    ],
+    "invalid_attempts_not_counted": 1
+  },
+  "observed_variance": [
+    "Some isolated clean runs asked material clarification questions where the segmented batch generated an artifact immediately.",
+    "This question-threshold variance did not change the task goal, evidence boundary, assumption discipline, authority boundary, or certification boundary."
+  ],
+  "gate": "BUILDER_COVERAGE_GATE",
+  "result": "PASS",
+  "limitations": [
+    "This closes Builder coverage for the exact frozen Builder blobs only.",
+    "It does not establish cross-model portability.",
+    "It does not certify customer-generated artifacts by default.",
+    "It does not close the formal non-Builder exact-asset runtime gate."
+  ]
+}
