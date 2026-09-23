@@ -31,9 +31,9 @@ For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix i
 
 ### Cross-model portability
 
-State: `OPEN`
+State: `12-CASE BATCH FROZEN / CHATGPT + GEMINI EXECUTION OPEN`
 
-Reason: requires observed runs on each model/host named in a compatibility claim. No universal compatibility claim is permitted from repository/static evidence.
+A representative 8-asset / 12-case batch is frozen before results. It must be executed once on ChatGPT and once on Gemini, recording the exact model/config shown by each provider. A host/model may be named as tested only after its own qualifying observed run; no universal compatibility claim is permitted.
 
 ### Human review H1-H11
 
@@ -69,7 +69,7 @@ GENERATED WORKFLOW SECOND INSTANCE               PASS
 NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS (32/32)
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
-TARGETED CROSS-MODEL PORTABILITY                 OPEN
+TARGETED CROSS-MODEL PORTABILITY                 EXECUTION OPEN
 HUMAN REVIEW H1-H11                              OPEN
 ENTITLEMENT / COMMERCE E2E                       GATED
 LANDING REDESIGN                                 FROZEN
@@ -143,3 +143,15 @@ Master rule: `not observed == unknown`.
 - review record: `product/verlune-v1/evaluation/NON_BUILDER_32_EXACT_ASSET_REVIEW_2026-09-23.json`
 - independent-context robustness: NOT ESTABLISHED
 - cross-model portability: OPEN
+
+
+## 2026-09-23 portability execution packet
+
+- representative exact assets: 8
+- frozen cases: 12
+- required hosts: ChatGPT + Gemini
+- execution mode: `MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_PORTABILITY`
+- batch: `product/verlune-v1/evaluation/PORTABILITY_12_CASE_SINGLE_CHAT_BATCH_2026-09-23.txt`
+- review contract: `product/verlune-v1/evaluation/PORTABILITY_12_CASE_REVIEW_CONTRACT_2026-09-23.json`
+- exact UI model/config must be recorded outside the model output
+- result: OPEN
