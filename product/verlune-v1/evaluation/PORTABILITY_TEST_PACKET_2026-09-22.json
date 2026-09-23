@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-portability-test-packet",
-  "status": "REWORK_REQUIRED_GEMINI_2_BLOCKING_FAILURES",
+  "status": "REMEDIATED_TWO_ASSETS / DELTA_RETEST_REQUIRED",
   "frozen_at": "2026-09-22",
   "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
@@ -121,6 +121,23 @@
       "transcript_sha256": "525611106f0abd644404f9aebe4a6f4c3283a94714cff2198338c035ce8fad0e",
       "qualification": "NOT_QUALIFIED"
     },
-    "cross_model_gate": "OPEN_REWORK_REQUIRED"
+    "cross_model_gate": "OPEN_REWORK_REQUIRED",
+    "remediation": {
+      "changed_assets": [
+        "VP-WF-003",
+        "VP-WF-006"
+      ],
+      "new_blobs": {
+        "VP-WF-003": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+        "VP-WF-006": "b2d98d24db14b2369d62709a330e95e3e9ec31b4"
+      },
+      "batch": "product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_4_CASE_BATCH_2026-09-23.txt",
+      "contract": "product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_REVIEW_CONTRACT_2026-09-23.json",
+      "required_hosts": [
+        "ChatGPT",
+        "Gemini"
+      ],
+      "result": "OPEN"
+    }
   }
 }
