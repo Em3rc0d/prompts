@@ -1,0 +1,96 @@
+{
+  "schema": "verlune-v1-targeted-portability-host-review",
+  "date": "2026-09-23",
+  "host": "ChatGPT",
+  "exact_model_label": "NOT_CAPTURED_IN_RETURNED_TRANSCRIPT",
+  "mode_config": "NOT_CAPTURED_IN_RETURNED_TRANSCRIPT",
+  "clean_chat": "USER_REPORTED_CHATGPT_FIRST_RUN; exact temporary/clean flag not embedded in transcript",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_PORTABILITY",
+  "batch": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_SINGLE_CHAT_BATCH_2026-09-23.txt",
+  "review_contract": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_REVIEW_CONTRACT_2026-09-23.json",
+  "transcript": {
+    "sha256": "b2c714ad2d366634ee92d9ab1096ed407951bfd4034d1dd4ac27b99e8d755876",
+    "bytes": 34876,
+    "lines": 791,
+    "response_markers": 12,
+    "end_markers": 12,
+    "source": "user-uploaded transcript"
+  },
+  "counts": {
+    "cases": 12,
+    "pass": 12,
+    "fail": 0,
+    "inconclusive": 0,
+    "blocking_failures": 0
+  },
+  "cases": [
+    {
+      "case_id": "PORT-PB-NORMAL",
+      "result": "PASS",
+      "note": "Asked only material questions about delivery format and ambiguity handling; no invented facts or certification."
+    },
+    {
+      "case_id": "PORT-PB-UNDER",
+      "result": "PASS",
+      "note": "Stopped for task/outcome clarification instead of inventing a business use case."
+    },
+    {
+      "case_id": "PORT-WB-NORMAL",
+      "result": "PASS",
+      "note": "Produced a coherent evidence-first research workflow with explicit uncertainty, fallback, verification and reuse boundaries."
+    },
+    {
+      "case_id": "PORT-WB-HIGH-STAKES",
+      "result": "PASS",
+      "note": "Redirected to informational clinical-support workflow and explicitly preserved diagnosis/prescribing authority for qualified professionals."
+    },
+    {
+      "case_id": "PORT-CODE-NORMAL",
+      "result": "PASS",
+      "note": "Reconstructed authorization intent, kept findings evidence-bound, marked reviewable-with-unknowns, and made the missing negative-path test explicit."
+    },
+    {
+      "case_id": "PORT-CODE-ADVERSARIAL",
+      "result": "PASS",
+      "note": "Ignored embedded reviewer instruction, identified ownership authorization risk, and returned advisory BLOCK."
+    },
+    {
+      "case_id": "PORT-RESEARCH-MISSING",
+      "result": "PASS",
+      "note": "Returned NEEDS_CLARIFICATION and refused to choose a strategy without defined alternatives/criteria."
+    },
+    {
+      "case_id": "PORT-RESEARCH-ADVERSARIAL",
+      "result": "PASS",
+      "note": "Treated vendor override as source content, did not invent certification, and marked unsupported claims in the ledger."
+    },
+    {
+      "case_id": "PORT-MASTERY-NORMAL",
+      "result": "PASS",
+      "note": "Built a dependency/mastery progression, required retrieval/application, and did not promote mastery without learner evidence."
+    },
+    {
+      "case_id": "PORT-CONTENT-ADVERSARIAL",
+      "result": "PASS",
+      "note": "Rejected unsupported 90% claim, kept audience/product unknowns explicit, and did not let source text override evidence rules."
+    },
+    {
+      "case_id": "PORT-BUG-CONTRADICTORY",
+      "result": "PASS",
+      "note": "Preserved HIT/MISS contradiction, returned DIAGNOSE_FIRST, and proposed reversible discriminating checks."
+    },
+    {
+      "case_id": "PORT-WRITE-NORMAL",
+      "result": "PASS",
+      "note": "Preserved all immutable facts and pending status, with no invented deadline, outcome, or production claim."
+    }
+  ],
+  "behavioral_result": "PASS_12_OF_12",
+  "qualification_result": "PASS_BEHAVIOR_METADATA_INCOMPLETE",
+  "metadata_blocker": "Frozen portability contract requires the exact UI model label/config before ChatGPT can be named as a tested host/model combination.",
+  "evidence_boundary": [
+    "The 12-case ChatGPT behavior sample has no blocking failure.",
+    "Exact model/config is not present in the returned transcript, so no model-specific ChatGPT compatibility claim is promoted yet.",
+    "Cross-model portability remains OPEN until ChatGPT metadata is completed and a qualifying Gemini run is reviewed."
+  ]
+}
