@@ -1,0 +1,52 @@
+{
+  "schema": "verlune-v1-provider-backed-unlock-evidence-v1",
+  "date": "2026-09-23",
+  "deployment": "dpl_44HrayDpj2iQD7SmnBMrZoRGqNKf",
+  "staging_alias": "https://prompt-quarry-stage.vercel.app",
+  "result": "PASS_VALID_UNLOCK_PATH",
+  "observations": {
+    "operator_customer_surface": {
+      "post_unlock_page": "/app",
+      "premium_library_rendered": true,
+      "visible_launch_core_asset_count": 17,
+      "builders": [
+        "VP-BUILDER-001",
+        "VP-BUILDER-002"
+      ],
+      "toolkit": [
+        "VP-TK-001",
+        "VP-TK-002"
+      ]
+    },
+    "vercel_runtime": {
+      "unlock_post": {
+        "timestamp_utc": "2026-09-23T22:29:29Z",
+        "method": "POST",
+        "path": "/api/verlune/unlock",
+        "status": 200
+      },
+      "after_unlock": {
+        "app_200_observed": true,
+        "access_settings_200_observed": true,
+        "premium_asset_routes_200_observed": true
+      },
+      "before_unlock": {
+        "app_307_to_unlock_observed": true,
+        "premium_asset_307_to_unlock_observed": true
+      },
+      "runtime_error_clusters_last_15m": "NONE_OBSERVED"
+    }
+  },
+  "interpretation": [
+    "A real staging request passed the server-side provider-backed unlock endpoint and was followed by authorized Premium app requests.",
+    "Because the unlock implementation rejects invalid license/email/store/product/variant/activation-policy combinations before issuing a session, this is evidence that one valid Test-mode entitlement satisfied the configured identity checks.",
+    "The user-visible Premium library exposed the expected 17 launch-core surfaces after authorization.",
+    "This does not by itself close invalid-key, wrong-email, wrong-product, tamper, revalidation, revocation, logout, deactivation, or multi-browser cases."
+  ],
+  "gate_effect": {
+    "ACCESS_07_VALID_UNLOCK_CREATES_SECURE_SESSION": "PASS_BEHAVIORAL_PATH",
+    "ACCESS_08_PREMIUM_LIBRARY_INVENTORY": "PASS",
+    "provider_backed_valid_unlock": "PASS",
+    "ACCESS_PRODUCT_E2E_PASS": false
+  }
+}
