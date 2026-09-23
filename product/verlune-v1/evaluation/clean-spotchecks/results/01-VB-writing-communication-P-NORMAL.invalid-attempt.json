@@ -1,0 +1,19 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-attempt",
+  "date": "2026-09-23",
+  "case_id": "VB-writing-communication-P-NORMAL",
+  "expected_builder_id": "VP-BUILDER-001",
+  "expected_builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+  "transcript_sha256": "f178d8db8104470167fff339e6bd6a9a2e72ed2a41dad89f3aa5b283787483cb",
+  "transcript_bytes": 11468,
+  "result": "INVALID_EXECUTION_NOT_COUNTED",
+  "reason": [
+    "The operator pasted the entire packet instead of sending MESSAGE 1 alone.",
+    "After the Builder asked its required opening question, the next user response did not send the frozen MESSAGE 2 for this case.",
+    "The actual task supplied was article summarization/triage, which is a different task from the frozen writing-communication fixture."
+  ],
+  "expected_message_2": "I repeatedly rewrite technical updates for non-technical clients while preserving facts and commitments.",
+  "observed_follow_up_task_summary": "Summarize pasted internet articles into structured lines and decide whether to study, save for later, or discard.",
+  "disposition": "RETRY_SAME_CASE_IN_NEW_TEMPORARY_UNPERSONALIZED_CHAT",
+  "evidence_boundary": "This is an operator/protocol invalidation, not a Builder FAIL."
+}
