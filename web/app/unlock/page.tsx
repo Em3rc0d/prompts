@@ -24,10 +24,11 @@ export default async function UnlockPage({
 }: {
   searchParams: Promise<{ reason?: string; next?: string }>;
 }) {
-  const existing = await readPremiumSession();
-  if (existing) redirect("/app");
-
   const params = await searchParams;
+  const existing = await readPremiumSession();
+  const revalidationBlocked = params.reason === "revalidation-unavailable";
+  if (existing && !revalidationBlocked) redirect("/app");
+
   const nextPath = safePremiumNextPath(params.next);
   const config = getVerluneAccessConfigState();
   const reason = params.reason ? reasonCopy[params.reason] : undefined;
@@ -43,6 +44,7 @@ export default async function UnlockPage({
             <p><strong>No account password.</strong> Your purchase remains the entitlement.</p>
             <p><strong>No hosted AI credits.</strong> Prompts, workflows and Builders run in your compatible AI assistant.</p>
             <p><strong>Fail closed.</strong> Invalid, expired, disabled or mismatched licenses do not unlock Premium.</p>
+            <p><strong>Three active browsers.</strong> A signed device reference lets the same browser reuse its existing activation after a session expires.</p>
           </div>
           <Link className="textLink" href="/">← Back to Verlune</Link>
         </div>
@@ -50,9 +52,17 @@ export default async function UnlockPage({
           <div className="eyebrow">PURCHASE ACCESS</div>
           <h2>License + checkout email</h2>
           {reason ? <p className="notice">{reason}</p> : null}
-          {config.ready
-            ? <VerluneUnlockForm nextPath={nextPath} />
-            : <div className="notice"><strong>Candidate access is not connected on this deployment yet.</strong><p>The customer surface is implemented, but provider credentials and the final Premium product identity must be configured before unlock can run.</p></div>}
+          {existing && revalidationBlocked
+            ? <div>
+                <p>Your signed browser session still exists, but Premium is locked until the entitlement provider can be checked again.</p>
+                <div className="accessActions">
+                  <Link className="btn btnPrimary" href={`/api/verlune/session/revalidate?next=${encodeURIComponent(nextPath)}`}>Retry license check</Link>
+                  <form action="/api/verlune/logout" method="post"><button className="btn btnSecondary" type="submit">Log out</button></form>
+                </div>
+              </div>
+            : config.ready
+              ? <VerluneUnlockForm nextPath={nextPath} />
+              : <div className="notice"><strong>Candidate access is not connected on this deployment yet.</strong><p>The customer surface is implemented, but provider credentials and the final Premium product identity must be configured before unlock can run.</p></div>}
         </div>
       </div>
     </section>
