@@ -1,7 +1,7 @@
 {
   "schema": "verlune-v1-exact-asset-binding-manifest",
-  "status": "FROZEN_BINDING_READY_EXECUTION_OPEN",
-  "date": "2026-09-22",
+  "status": "REFROZEN_AFTER_PORTABILITY_REWORK / DELTA_REQUALIFICATION_REQUIRED",
+  "date": "2026-09-23",
   "branch": "feat/verlune-product-model-v1-20260922-r2",
   "branch_head_at_binding": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "note": "Git blob SHA is the exact repository object identity for the customer surface. Formal runtime evidence must reference these identities or a later explicitly re-frozen manifest.",
@@ -164,15 +164,15 @@
       "id": "VP-WF-003",
       "type": "premium_workflow",
       "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
-      "blob_sha": "136f837741d44cd31f11c6d450acf63b77e91b6b",
-      "size_bytes": 3245
+      "blob_sha": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+      "size_bytes": 3682
     },
     {
       "id": "VP-WF-006",
       "type": "premium_workflow",
       "path": "product/verlune-v1/premium/workflows/master-a-topic.md",
-      "blob_sha": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9",
-      "size_bytes": 2496
+      "blob_sha": "b2d98d24db14b2369d62709a330e95e3e9ec31b4",
+      "size_bytes": 2919
     },
     {
       "id": "VP-BUILDER-001",
@@ -188,5 +188,20 @@
       "blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
       "size_bytes": 4561
     }
-  ]
+  ],
+  "portability_rework": {
+    "changed_assets": [
+      "VP-WF-003",
+      "VP-WF-006"
+    ],
+    "old_blobs": {
+      "VP-WF-003": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "VP-WF-006": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9"
+    },
+    "new_blobs": {
+      "VP-WF-003": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+      "VP-WF-006": "b2d98d24db14b2369d62709a330e95e3e9ec31b4"
+    },
+    "evidence_effect": "Historical runtime evidence remains valid for old blobs only. New blobs require delta requalification before current release gates can return to PASS."
+  }
 }
