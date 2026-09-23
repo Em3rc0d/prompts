@@ -125,6 +125,17 @@ function formBody(values: Record<string, string>): URLSearchParams {
   return body;
 }
 
+export class LemonLicenseApiError extends Error {
+  constructor(
+    public readonly operation: "activate" | "validate" | "deactivate",
+    public readonly status: number,
+    public readonly providerReason: string
+  ) {
+    super(`lemonsqueezy_license_${operation}_failed:${providerReason}`);
+    this.name = "LemonLicenseApiError";
+  }
+}
+
 async function licensePost<T>(path: "activate" | "validate" | "deactivate", values: Record<string, string>): Promise<T> {
   const response = await fetch(`${LICENSE_API}/${path}`, {
     method: "POST",
@@ -139,7 +150,7 @@ async function licensePost<T>(path: "activate" | "validate" | "deactivate", valu
   const payload = await response.json().catch(() => ({ error: "invalid_provider_response" }));
   if (!response.ok) {
     const reason = typeof payload?.error === "string" ? payload.error : `provider_http_${response.status}`;
-    throw new Error(`lemonsqueezy_license_${path}_failed:${reason}`);
+    throw new LemonLicenseApiError(path, response.status, reason);
   }
   return payload as T;
 }
