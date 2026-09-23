@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-portability-test-packet",
-  "status": "REMEDIATED_TWO_ASSETS / DELTA_RETEST_REQUIRED",
+  "status": "DEEP_RESEARCH_REMEDIATED_AGAIN / FINAL_DELTA_REQUIRED",
   "frozen_at": "2026-09-22",
   "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
@@ -137,6 +137,13 @@
         "ChatGPT",
         "Gemini"
       ],
+      "result": "OPEN"
+    },
+    "remediation_2": {
+      "asset_id": "VP-WF-003",
+      "old_blob": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+      "new_blob": "afa65c9cdccff26d6fe92cee800818f3066d4220",
+      "trigger": "Gemini VP-WF-003-NORMAL scope/traceability blocking failure",
       "result": "OPEN"
     }
   }
