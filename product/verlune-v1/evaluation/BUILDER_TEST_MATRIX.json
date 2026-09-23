@@ -1,8 +1,11 @@
 {
   "schema": "verlune-v1-builder-test-matrix",
-  "status": "DESIGNED_NOT_EXECUTED",
+  "status": "DESIGNED_MATRIX_OPEN_FOLLOW_THROUGH_OBSERVED",
   "date": "2026-09-22",
-  "builders": ["VP-BUILDER-001", "VP-BUILDER-002"],
+  "builders": [
+    "VP-BUILDER-001",
+    "VP-BUILDER-002"
+  ],
   "category_cases": [
     {
       "category": "development-tech",
@@ -105,5 +108,18 @@
     "reuse_quality",
     "certification_boundary"
   ],
-  "result_states": ["PASS", "FAIL", "INCONCLUSIVE"]
+  "result_states": [
+    "PASS",
+    "FAIL",
+    "INCONCLUSIVE"
+  ],
+  "observed_follow_through": {
+    "workflow_builder_customer_like_case": "PASS",
+    "generated_workflow_second_clean_instance": "PASS",
+    "generated_prompt_second_clean_instance": "PASS",
+    "prompt_builder_full_intake_ux": "NOT_FULLY_OBSERVED",
+    "category_matrix_execution": "OPEN",
+    "stress_matrix_execution": "OPEN",
+    "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
+  }
 }
