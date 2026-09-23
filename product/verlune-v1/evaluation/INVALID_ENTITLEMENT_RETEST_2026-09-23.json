@@ -1,0 +1,46 @@
+{
+  "schema": "verlune-v1-invalid-entitlement-retest-v1",
+  "date": "2026-09-23",
+  "deployment": {
+    "id": "dpl_2X36LEthfNDUcKvVqPKtiKrRyJog",
+    "state": "READY"
+  },
+  "result": "PASS",
+  "observed_sequence": [
+    {
+      "case": "invalid/rejected entitlement attempt 1",
+      "runtime": "POST /api/verlune/unlock -> 401",
+      "ui": "controlled entitlement mismatch/invalid purchase denial",
+      "result": "PASS"
+    },
+    {
+      "case": "invalid/rejected entitlement attempt 2",
+      "runtime": "POST /api/verlune/unlock -> 401",
+      "ui": "controlled entitlement mismatch/invalid purchase denial",
+      "result": "PASS"
+    },
+    {
+      "case": "valid entitlement after negative tests",
+      "runtime": "POST /api/verlune/unlock -> 200; GET /app -> 200",
+      "result": "PASS"
+    }
+  ],
+  "provider_state": {
+    "before_reactivation": "Inactive (0/3)",
+    "after_valid_reactivation": "Active (1/3)",
+    "result": "PASS"
+  },
+  "gate_effect": {
+    "ACCESS_03_INVALID_LICENSE_DENIED": "PASS",
+    "ACCESS_04_WRONG_EMAIL_DENIED": "PASS",
+    "ACCESS_17_DEACTIVATE_SEMANTICS": "PASS",
+    "deactivate_then_reactivate": "PASS",
+    "provider_activation_transition": "0/3 -> 1/3",
+    "ACCESS_PRODUCT_E2E_PASS": false
+  },
+  "evidence_boundary": [
+    "The raw Test-mode license key is intentionally not recorded.",
+    "The screenshots exposed the Test-mode key in the conversation; it should be disabled/deleted after qualification.",
+    "This evidence does not close tamper, 24-hour revalidation, revocation while session is active, provider-outage, or three-browser/fourth-browser policy."
+  ]
+}
