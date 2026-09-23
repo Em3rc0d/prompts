@@ -110,10 +110,22 @@
     }
   },
   "formal_release_state": {
-    "non_builder_exact_asset_runtime_matrix": "OPEN",
-    "builder_32_category_cases": "OPEN",
-    "builder_5_stress_cases": "OPEN",
-    "cross_model_portability": "OPEN",
-    "human_review_h1_h11": "OPEN"
-  }
+    "non_builder_exact_asset_runtime_matrix": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "builder_32_category_cases": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "builder_5_stress_cases": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "cross_model_portability": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+    "human_review_h1_h11": "READY_EXTERNAL_REVIEWER_REQUIRED",
+    "entitlement_e2e": "BLOCKED_ACCESS_LAYER_NOT_IMPLEMENTED_FOR_VERLUNE_PREMIUM",
+    "public_site_claim_audit": "SOURCE_STATIC_PASS_LIVE_DEPLOYMENT_UNOBSERVED"
+  },
+  "formal_execution_artifacts": {
+    "exact_asset_manifest": "product/verlune-v1/evaluation/EXACT_ASSET_MANIFEST_2026-09-22.json",
+    "non_builder_87_case_packet": "product/verlune-v1/evaluation/NON_BUILDER_FORMAL_RUNTIME_PACKET_2026-09-22.json",
+    "builder_37_scenario_packet": "product/verlune-v1/evaluation/BUILDER_FORMAL_EXECUTION_PACKET_2026-09-22.json",
+    "portability_packet": "product/verlune-v1/evaluation/PORTABILITY_TEST_PACKET_2026-09-22.json",
+    "human_review_packet": "product/verlune-v1/evaluation/HUMAN_REVIEW_EXECUTION_PACKET_2026-09-22.md",
+    "access_commerce_static_audit": "product/verlune-v1/evaluation/ACCESS_COMMERCE_STATIC_AUDIT_2026-09-22.md",
+    "public_claim_static_audit": "product/verlune-v1/evaluation/PUBLIC_CLAIM_STATIC_AUDIT_2026-09-22.md"
+  },
+  "execution_environment_boundary": "This chat can prepare/freeze exact execution packets and review returned evidence, but it cannot create independent clean consumer-model sessions, operate the user's Gemini/ChatGPT UI as a separate evaluator, impersonate an external human reviewer, or complete a Premium entitlement E2E that is not implemented."
 }
