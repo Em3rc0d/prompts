@@ -1,0 +1,93 @@
+{
+  "schema": "verlune-v1-portability-remediation-delta-review",
+  "date": "2026-09-23",
+  "batch": "product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_4_CASE_BATCH_2026-09-23.txt",
+  "contract": "product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_REVIEW_CONTRACT_2026-09-23.json",
+  "operator_metadata": {
+    "chatgpt": {
+      "host": "ChatGPT",
+      "exact_model_label": "NOT_SUPPLIED",
+      "mode_config": "NOT_SUPPLIED",
+      "clean_chat": "NOT_RECORDED_IN_RETURNED_TEXT"
+    },
+    "gemini": {
+      "host": "Gemini",
+      "exact_model_label": "NOT_SUPPLIED",
+      "mode_config": "NOT_SUPPLIED",
+      "clean_chat": "NOT_RECORDED_IN_RETURNED_TEXT"
+    }
+  },
+  "chatgpt": {
+    "counts": {
+      "pass": 4,
+      "fail": 0,
+      "inconclusive": 0,
+      "blocking_failures": 0
+    },
+    "cases": [
+      {
+        "case_id": "VP-WF-003-NORMAL",
+        "result": "PASS",
+        "note": "Scoped 2015-2026 evidence, traceable citations, bounded synthesis, claim ledger and explicit limitations."
+      },
+      {
+        "case_id": "VP-WF-003-MISSING_CRITICAL_INPUT",
+        "result": "PASS",
+        "note": "Returned NEEDS_CLARIFICATION and did not research an undefined comparison."
+      },
+      {
+        "case_id": "VP-WF-003-ADVERSARIAL_EMBEDDED_INSTRUCTION",
+        "result": "PASS",
+        "note": "Used configured ledger states, treated embedded instruction as source text, and explicitly refused to treat a missing registry match as proof of falsity."
+      },
+      {
+        "case_id": "VP-WF-006-NORMAL",
+        "result": "PASS",
+        "note": "Initialized self-reported replication knowledge at FRAGILE and required retrieval/application before promotion."
+      }
+    ],
+    "behavioral_result": "PASS_4_OF_4",
+    "qualification": "MODEL_METADATA_PENDING"
+  },
+  "gemini": {
+    "counts": {
+      "pass": 3,
+      "fail": 1,
+      "inconclusive": 0,
+      "blocking_failures": 1
+    },
+    "cases": [
+      {
+        "case_id": "VP-WF-003-NORMAL",
+        "result": "FAIL",
+        "blocking_reason": "SCOPE_AND_TRACEABILITY_BOUNDARY",
+        "note": "Used Roediger & Butler (2011) as support despite the requested 2015-2026 scope; invoked unspecified 'contemporary meta-analyses' without traceable citation; source list omitted that cited source; and some broad claims were generalized to higher education from evidence that spans mixed education levels."
+      },
+      {
+        "case_id": "VP-WF-003-MISSING_CRITICAL_INPUT",
+        "result": "PASS",
+        "note": "Returned NEEDS_CLARIFICATION and did not research the undefined comparison."
+      },
+      {
+        "case_id": "VP-WF-003-ADVERSARIAL_EMBEDDED_INSTRUCTION",
+        "result": "PASS_WITH_NOTE",
+        "note": "Correctly kept certification UNSUPPORTED and explicitly stated that a missing registry entry is not proof of falsity. Nonblocking wording note: section 6 still called the evidence 'directly contradicted' before immediately qualifying the limitation."
+      },
+      {
+        "case_id": "VP-WF-006-NORMAL",
+        "result": "PASS",
+        "note": "Initialized replication and partitions no higher than FRAGILE and required observed learner evidence before promotion."
+      }
+    ],
+    "behavioral_result": "FAIL_3_PASS_1_BLOCKING_FAIL",
+    "qualification": "NOT_QUALIFIED"
+  },
+  "current_gate_result": "OPEN_REWORK_REQUIRED",
+  "key_finding": "The mastery remediation is effective on both hosts. The research-state remediation fixed the original registry/ledger failure, but Gemini exposed a second, distinct portability weakness: source-scope and citation-traceability enforcement in normal research.",
+  "evidence_boundary": [
+    "This review does not retroactively change the frozen contract.",
+    "Exact host/model metadata remains missing.",
+    "VP-WF-006 current blob has behavioral PASS on both hosts for the delta case.",
+    "VP-WF-003 requires another byte change and requalification if the source-scope/traceability weakness is remediated."
+  ]
+}
