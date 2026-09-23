@@ -515,3 +515,18 @@ Closed:
 
 Still open:
 negative entitlement cases, session tamper, periodic revalidation/revocation, provider-outage behavior, provider deactivation, and 3-browser/4th-browser policy.
+
+
+## 2026-09-23 customer-surface copy note from first Premium use
+
+Observed in the protected Prompt Builder customer surface:
+
+`Status: PREMIUM BUILDER CANDIDATE / RUNTIME TESTING REQUIRED`
+
+Interpretation:
+- this does **not** invalidate the access/session tests;
+- it is stale/internal qualification language exposed to a paying customer;
+- it conflicts with the current bounded Builder evidence state and weakens customer trust;
+- treat as a nonblocking access defect but a **blocking Human Review copy/UX issue before H1-H11 can pass**.
+
+Do not rewrite the tested Builder instruction block merely to fix presentation. Resolve at the product-surface/presentation boundary or through a governed metadata update that preserves behavioral lineage.
