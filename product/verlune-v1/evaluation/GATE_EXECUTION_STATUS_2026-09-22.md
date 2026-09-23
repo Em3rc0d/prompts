@@ -371,3 +371,15 @@ the operator reported an earlier product creation happened in Live mode. No live
 - prebuild changed to deterministic local governed materialization; remote verification now opt-in
 - state: `PATCHED / OPERATOR BUILD RERUN REQUIRED`
 - evidence: `product/verlune-v1/evaluation/BUILD_BLOCKER_FREE_PACK_2026-09-23.md`
+
+
+## 2026-09-23 second local build blocker
+
+Second operator rerun:
+- typecheck: PASS
+- build: stopped in Free Pack materialization on `LICENSE.md` size mismatch
+- cause: Windows working-tree CRLF conversion vs canonical LF Git blob bytes
+- frozen release hashes: unchanged
+- patch: normalize Markdown CRLF/CR → LF before identity checks/materialization
+- Premium private materializer patched proactively with the same canonicalization
+- state: `PATCHED / OPERATOR BUILD RERUN REQUIRED`
