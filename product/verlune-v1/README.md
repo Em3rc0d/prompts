@@ -46,14 +46,29 @@ This folder contains the v1 customer-product candidate. Public website copy must
 ```text
 STATIC CORE                         PASS
 BEHAVIORAL RUNTIME SCREENING        104 PASS / 0 FAIL / 0 INCONCLUSIVE
-FORMAL EXACT-ASSET RUNTIME          OPEN
+FORMAL EXACT-ASSET RUNTIME          FROZEN / EXTERNAL EXECUTION REQUIRED
 GENERATED WORKFLOW 2ND INSTANCE     PASS
 GENERATED PROMPT 2ND INSTANCE       PASS
-BUILDER 32 CATEGORY CASES           OPEN
-BUILDER 5 STRESS CASES              OPEN
-CROSS-MODEL PORTABILITY             OPEN
-HUMAN REVIEW H1-H11                 OPEN
+BUILDER 32 CATEGORY CASES           FROZEN / EXTERNAL EXECUTION REQUIRED
+BUILDER 5 STRESS CASES              FROZEN / EXTERNAL EXECUTION REQUIRED
+CROSS-MODEL PORTABILITY             FROZEN / EXTERNAL EXECUTION REQUIRED
+HUMAN REVIEW H1-H11                 EXTERNAL REVIEWER REQUIRED
+ENTITLEMENT E2E                     BLOCKED / ACCESS LAYER NOT IMPLEMENTED
+PUBLIC CLAIM AUDIT                  STATIC PASS / LIVE DEPLOYMENT UNOBSERVED
 READY_TO_SELL                       NO
 ```
 
 The 104 screening observations are deliberately **not** represented as the formal 87-case release matrix until every required execution is bound to the exact frozen customer asset/version.
+
+
+## Formal execution packets now frozen
+
+- `evaluation/EXACT_ASSET_MANIFEST_2026-09-22.json`
+- `evaluation/NON_BUILDER_FORMAL_RUNTIME_PACKET_2026-09-22.json` — exact 87-case runtime packet.
+- `evaluation/BUILDER_FORMAL_EXECUTION_PACKET_2026-09-22.json` — 37 scenarios / minimum 38 isolated conversations because repeatability requires two runs.
+- `evaluation/PORTABILITY_TEST_PACKET_2026-09-22.json`
+- `evaluation/HUMAN_REVIEW_EXECUTION_PACKET_2026-09-22.md`
+- `evaluation/ACCESS_COMMERCE_STATIC_AUDIT_2026-09-22.md`
+- `evaluation/PUBLIC_CLAIM_STATIC_AUDIT_2026-09-22.md`
+
+The remaining formal runtime/model/human gates require evidence from execution environments that are independent of this project-aware chat. The Premium entitlement E2E is additionally blocked because the new Verlune Premium unlock/session layer does not exist yet.
