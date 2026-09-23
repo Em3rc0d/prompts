@@ -329,3 +329,30 @@ After creation, rerun:
 
 Evidence:
 `product/verlune-v1/evaluation/PREMIUM_PROVIDER_PROBE_2026-09-23.json`
+
+
+## 2026-09-23 Premium provider identity frozen — Test mode
+
+Read-only provider probe: PASS.
+
+- store: `462419`
+- product: `1383189` / `Verlune Premium`
+- variant: `2160866` / default
+- product status: published
+- product test_mode: true
+- variant test_mode: true
+- price: USD 9 one-time
+- license keys: enabled
+- activation limit: 3
+- license length: unlimited
+- variant status: `pending` (expected provider default-variant state)
+- provider side effects: 0
+
+Evidence:
+`product/verlune-v1/evaluation/PREMIUM_PROVIDER_IDENTITY_TEST_2026-09-23.json`
+
+Next blocker:
+configure these non-secret IDs plus server-only API key and strong session/fingerprint secrets in the staging environment, then run build + access E2E.
+
+Live-mode note:
+the operator reported an earlier product creation happened in Live mode. No live identity or exposure claim is made; it must be audited before the controlled live canary.
