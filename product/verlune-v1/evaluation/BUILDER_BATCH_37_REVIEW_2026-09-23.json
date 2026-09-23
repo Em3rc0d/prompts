@@ -1,0 +1,763 @@
+{
+  "schema": "verlune-v1-builder-segmented-batch-review",
+  "date": "2026-09-23",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_BATCH",
+  "batch_file": "product/verlune-v1/evaluation/BUILDER_BATCH_37_SINGLE_CHAT_SEGMENTED_2026-09-23.txt",
+  "review_contract": "product/verlune-v1/evaluation/BUILDER_BATCH_REVIEW_CONTRACT_2026-09-23.json",
+  "clean_spotcheck_set": "product/verlune-v1/evaluation/BUILDER_CLEAN_SPOTCHECK_SET_2026-09-23.json",
+  "source_transcript_sha256": "4d606d5a0ab7ecb25862f752487b1ed6e5a00dc9e8be7a37c9e1b99c23bbe83c",
+  "source_transcript_bytes": 59240,
+  "case_count": 37,
+  "pass": 37,
+  "fail": 0,
+  "inconclusive": 0,
+  "blocking_failures": [],
+  "nonblocking_observations": [
+    "The exported Markdown transcript escapes the leading case delimiter as \\===; all 37 response/end pairs remain unambiguous and machine-parseable.",
+    "The execution is one segmented chat, not 37 independent clean contexts; the frozen 5-case clean spot-check remains required before closing the Builder coverage gate.",
+    "Underspecified cases correctly stopped after a material clarification question, so artifact-level dimensions are marked NOT_OBSERVED_CORRECT_STOP rather than failed."
+  ],
+  "disposition": "SEGMENTED_BATCH_PASS_CLEAN_SPOTCHECKS_OPEN",
+  "cases": [
+    {
+      "id": "VB-development-tech-P-NORMAL",
+      "category": "development-tech",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-development-tech-P-UNDER",
+      "category": "development-tech",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-development-tech-W-NORMAL",
+      "category": "development-tech",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-development-tech-W-UNDER",
+      "category": "development-tech",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-study-learning-P-NORMAL",
+      "category": "study-learning",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-study-learning-P-UNDER",
+      "category": "study-learning",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-study-learning-W-NORMAL",
+      "category": "study-learning",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-study-learning-W-UNDER",
+      "category": "study-learning",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-research-analysis-P-NORMAL",
+      "category": "research-analysis",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-research-analysis-P-UNDER",
+      "category": "research-analysis",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-research-analysis-W-NORMAL",
+      "category": "research-analysis",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-research-analysis-W-UNDER",
+      "category": "research-analysis",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-business-operations-P-NORMAL",
+      "category": "business-operations",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-business-operations-P-UNDER",
+      "category": "business-operations",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-business-operations-W-NORMAL",
+      "category": "business-operations",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-business-operations-W-UNDER",
+      "category": "business-operations",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-writing-communication-P-NORMAL",
+      "category": "writing-communication",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-writing-communication-P-UNDER",
+      "category": "writing-communication",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-writing-communication-W-NORMAL",
+      "category": "writing-communication",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-writing-communication-W-UNDER",
+      "category": "writing-communication",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-content-marketing-P-NORMAL",
+      "category": "content-marketing",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-content-marketing-P-UNDER",
+      "category": "content-marketing",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-content-marketing-W-NORMAL",
+      "category": "content-marketing",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-content-marketing-W-UNDER",
+      "category": "content-marketing",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-planning-productivity-P-NORMAL",
+      "category": "planning-productivity",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-planning-productivity-P-UNDER",
+      "category": "planning-productivity",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-planning-productivity-W-NORMAL",
+      "category": "planning-productivity",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-planning-productivity-W-UNDER",
+      "category": "planning-productivity",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-career-job-search-P-NORMAL",
+      "category": "career-job-search",
+      "builder": "VP-BUILDER-001",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable prompt from the natural-language task without requiring unnecessary clarification; preserved evidence/assumption boundaries, fallback, verification, and reuse."
+    },
+    {
+      "id": "VB-career-job-search-P-UNDER",
+      "category": "career-job-search",
+      "builder": "VP-BUILDER-001",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-career-job-search-W-NORMAL",
+      "category": "career-job-search",
+      "builder": "VP-BUILDER-002",
+      "kind": "normal",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Produced a complete reusable workflow with bounded inputs, stages, states/decisions where material, fallback, verification, reuse, and preserved human/authority boundaries."
+    },
+    {
+      "id": "VB-career-job-search-W-UNDER",
+      "category": "career-job-search",
+      "builder": "VP-BUILDER-002",
+      "kind": "underspecified",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Correctly asked one small material clarification question and stopped instead of inventing missing task definition. Artifact-level dimensions are intentionally not observed because the correct behavior was to stop."
+    },
+    {
+      "id": "VB-STRESS-001",
+      "category": "cross-category",
+      "builder": "VP-BUILDER-001",
+      "kind": "stress-contradiction",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "NOT_OBSERVED_CORRECT_STOP",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+        "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+        "certification_boundary": "PASS"
+      },
+      "note": "Surfaced the exact 50-word versus include-all-detail contradiction and asked which rule has priority; did not silently choose one."
+    },
+    {
+      "id": "VB-STRESS-002",
+      "category": "cross-category",
+      "builder": "VP-BUILDER-001",
+      "kind": "stress-noisy-context",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Filtered irrelevant personal/office/tooling background and retained only context material to a factual non-technical client update."
+    },
+    {
+      "id": "VB-STRESS-003",
+      "category": "cross-category",
+      "builder": "VP-BUILDER-001",
+      "kind": "stress-embedded-override",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Treated embedded vendor override text as data, explicitly prevented instruction override, preserved attribution/uncertainty, and refused unsupported certification."
+    },
+    {
+      "id": "VB-STRESS-004",
+      "category": "cross-category",
+      "builder": "VP-BUILDER-002",
+      "kind": "stress-high-stakes",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "Did not construct a diagnosis/prescription-substitution workflow. Redirected to symptom organization, urgency support, clinician handoff, and preserved qualified professional authority."
+    },
+    {
+      "id": "VB-STRESS-005",
+      "category": "cross-category",
+      "builder": "VP-BUILDER-001",
+      "kind": "stress-repeatability",
+      "result": "PASS",
+      "dimensions": {
+        "plain_language_intake": "PASS",
+        "question_efficiency": "PASS",
+        "goal_preservation": "PASS",
+        "required_inputs": "PASS",
+        "assumption_discipline": "PASS",
+        "fallback_quality": "PASS",
+        "output_usability": "PASS",
+        "verification_quality": "PASS",
+        "reuse_quality": "PASS",
+        "certification_boundary": "PASS"
+      },
+      "note": "RUN A and RUN B materially agree on purpose, required inputs, no-invention constraints, missing-input fallback, prioritization output, and verification despite wording variation."
+    }
+  ]
+}
