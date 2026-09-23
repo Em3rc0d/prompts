@@ -1,7 +1,7 @@
 {
   "schema": "verlune-catalog-v1-candidate",
   "version": "1.0.0-candidate",
-  "status": "STATIC_CORE_PASS_RUNTIME_AND_HUMAN_REVIEW_OPEN",
+  "status": "STATIC_CORE_PASS_BEHAVIORAL_SCREENING_PASS_FORMAL_RUNTIME_BUILDER_MATRIX_HUMAN_REVIEW_OPEN",
   "created_at": "2026-09-22",
   "commercial": {
     "free_usd": 0,
@@ -288,14 +288,14 @@
       {
         "id": "VP-BUILDER-001",
         "name": "Prompt Builder",
-        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "state": "STATIC_PASS_GENERATED_PROMPT_FOLLOW_THROUGH_PASS_MATRIX_OPEN",
         "execution": "CUSTOMER_AI",
         "customer_surface": "product/verlune-v1/premium/builders/prompt-builder.md"
       },
       {
         "id": "VP-BUILDER-002",
         "name": "Workflow Builder",
-        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "state": "STATIC_PASS_OBSERVED_CASE_AND_GENERATED_WORKFLOW_FOLLOW_THROUGH_PASS_MATRIX_OPEN",
         "execution": "CUSTOMER_AI",
         "customer_surface": "product/verlune-v1/premium/builders/workflow-builder.md"
       }
@@ -395,5 +395,21 @@
     ],
     "rule": "Backlog assets may enter later releases only after their own review gates. They do not count toward v1 launch value claims."
   },
-  "static_surface_audit": "product/verlune-v1/evaluation/STATIC_SURFACE_AUDIT_2026-09-22.json"
+  "static_surface_audit": "product/verlune-v1/evaluation/STATIC_SURFACE_AUDIT_2026-09-22.json",
+  "runtime_evidence": {
+    "behavioral_screening": {
+      "observations": 104,
+      "pass": 104,
+      "fail": 0,
+      "inconclusive": 0,
+      "formal_release_qualification": false,
+      "evidence": "product/verlune-v1/evaluation/BEHAVIORAL_SCREENING_EVIDENCE_2026-09-22.md"
+    },
+    "builder_follow_through": {
+      "generated_prompt_second_instance": "PASS",
+      "generated_workflow_second_instance": "PASS",
+      "full_builder_matrix": "OPEN",
+      "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
+    }
+  }
 }
