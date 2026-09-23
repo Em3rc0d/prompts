@@ -1,0 +1,34 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-result",
+  "date": "2026-09-23",
+  "case_id": "VB-research-analysis-W-NORMAL",
+  "builder_id": "VP-BUILDER-002",
+  "builder_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+  "execution_mode": "PHYSICALLY_ISOLATED_TEMPORARY_UNPERSONALIZED_CHAT",
+  "result": "PASS_NO_MATERIAL_CONTRADICTION",
+  "observed_behavior": {
+    "opening_question": "What do you repeatedly need to do, from the moment the task starts until you consider it finished?",
+    "frozen_fixture_received": true,
+    "after_fixture": "Asked four material follow-up questions covering research domain, source-quality policy, evidence-ledger fields, and authority for choosing the next research step.",
+    "final_artifact_generated": false,
+    "stopped_after_first_post_fixture_response": true
+  },
+  "comparison_to_segmented_batch": {
+    "material_contradiction": false,
+    "note": "The segmented batch generated a general-purpose evidence-grounded research workflow immediately. The isolated run instead requested four materially relevant parameters before building. The requested parameters map directly to scope, source eligibility, ledger structure, and human-vs-AI authority already represented in the segmented workflow.",
+    "variance": "QUESTION_THRESHOLD_VARIANCE_NONBLOCKING"
+  },
+  "review": {
+    "plain_language_intake": "PASS",
+    "question_efficiency": "PASS",
+    "goal_preservation": "PASS",
+    "required_inputs": "PASS_PARTIAL_DISCOVERY",
+    "assumption_discipline": "PASS",
+    "fallback_quality": "PASS_BY_STOPPING_FOR_MATERIAL_INPUT",
+    "output_usability": "NOT_OBSERVED_BECAUSE_RUN_STOPPED_AFTER_MATERIAL_CLARIFICATION",
+    "verification_quality": "NOT_OBSERVED_BECAUSE_RUN_STOPPED_AFTER_MATERIAL_CLARIFICATION",
+    "reuse_quality": "NOT_OBSERVED_BECAUSE_RUN_STOPPED_AFTER_MATERIAL_CLARIFICATION",
+    "certification_boundary": "PASS"
+  },
+  "disposition": "CLEAN_SPOTCHECK_PASS_3_OF_5"
+}
