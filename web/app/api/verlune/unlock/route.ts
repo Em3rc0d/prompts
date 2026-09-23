@@ -5,6 +5,7 @@ import {
   activateLicenseKey,
   entitlementMatches,
   getVerluneAccessConfigState,
+  LemonLicenseApiError,
   normalizeEmail,
   validateLicenseKey
 } from "@/lib/verlune-access";
@@ -108,13 +109,28 @@ export async function POST(request: NextRequest) {
     );
     return response;
   } catch (error) {
-    const message = error instanceof Error ? error.message : "";
-    if (message.includes("license_activate_failed")) {
-      return NextResponse.json(
-        { ok: false, message: "This license could not activate another browser. Deactivate an old browser or check the activation limit." },
-        { status: 409 }
-      );
+    if (error instanceof LemonLicenseApiError) {
+      const isClientRejectedValidation =
+        error.operation === "validate" &&
+        error.status >= 400 &&
+        error.status < 500 &&
+        error.status !== 429;
+
+      if (isClientRejectedValidation) {
+        return NextResponse.json(
+          { ok: false, message: "That license and email do not match an active Verlune Premium purchase." },
+          { status: 401 }
+        );
+      }
+
+      if (error.operation === "activate") {
+        return NextResponse.json(
+          { ok: false, message: "This license could not activate another browser. Deactivate an old browser or check the activation limit." },
+          { status: 409 }
+        );
+      }
     }
+
     return NextResponse.json(
       { ok: false, message: "Premium access could not be verified right now. Please try again." },
       { status: 502 }
