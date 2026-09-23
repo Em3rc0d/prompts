@@ -383,3 +383,30 @@ Second operator rerun:
 - patch: normalize Markdown CRLF/CR → LF before identity checks/materialization
 - Premium private materializer patched proactively with the same canonicalization
 - state: `PATCHED / OPERATOR BUILD RERUN REQUIRED`
+
+
+## 2026-09-23 local access-product build — PASS
+
+Observed on operator Windows / Node 24.11.1:
+
+- `npm install`: PASS / 0 vulnerabilities
+- `npm run typecheck`: PASS
+- governed Free Pack materialization: PASS
+- Free Pack: 7 assets / 23498 bytes / SHA-256 `55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32`
+- Premium private materialization: PASS / 18 Markdown files
+- Next.js 16.3.3 production build: PASS
+- static pages: 25/25
+- Verlune protected routes present: PASS
+- Golden Path build parity: PASS
+- Premium build audit: PASS
+- private launch-core assets: 17
+- protected routes: 8
+- public/static files scanned: 15
+
+Evidence:
+`product/verlune-v1/evaluation/ACCESS_PRODUCT_LOCAL_BUILD_EVIDENCE_2026-09-23.json`
+
+Gate effect:
+- `LOCAL_BUILD_GATE = PASS`
+- `ACCESS_PRODUCT_E2E_PASS = false`
+- next: staging environment + deployment + provider-backed access test plan
