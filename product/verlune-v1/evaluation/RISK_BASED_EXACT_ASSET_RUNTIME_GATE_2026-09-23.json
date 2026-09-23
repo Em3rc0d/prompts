@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-risk-based-exact-asset-runtime-gate",
-  "status": "FROZEN_READY_FOR_SINGLE_CHAT_SEGMENTED_EXECUTION",
+  "status": "PASS_32_OF_32",
   "date": "2026-09-23",
   "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_EXACT_ASSET",
   "asset_count": 24,
@@ -30,5 +30,17 @@
     "VP-WF-004-CONTRADICTORY",
     "VP-WF-007-ADVERSARIAL_EMBEDDED_INSTRUCTION"
   ],
-  "closure_rule": "32/32 PASS and no blocking failure. FAIL blocks the affected asset and gate. INCONCLUSIVE must be resolved or the affected asset removed from launch. A PASS establishes segmented exact-asset runtime evidence only; it does not establish independent-context robustness or cross-model portability."
+  "closure_rule": "32/32 PASS and no blocking failure. FAIL blocks the affected asset and gate. INCONCLUSIVE must be resolved or the affected asset removed from launch. A PASS establishes segmented exact-asset runtime evidence only; it does not establish independent-context robustness or cross-model portability.",
+  "execution_result": {
+    "cases": 32,
+    "pass": 32,
+    "fail": 0,
+    "inconclusive": 0,
+    "blocking_failures": 0,
+    "transcript_sha256": "d3f682cd75879eee6dba375899938b984ac19ca9496091754947f8739559ada4",
+    "transcript_bytes": 112125,
+    "review_record": "product/verlune-v1/evaluation/NON_BUILDER_32_EXACT_ASSET_REVIEW_2026-09-23.json",
+    "runtime_host_model": "NOT_CAPTURED_IN_TRANSCRIPT"
+  },
+  "gate_result": "PASS"
 }
