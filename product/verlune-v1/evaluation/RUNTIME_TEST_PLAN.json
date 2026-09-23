@@ -127,5 +127,7 @@
     "access_commerce_static_audit": "product/verlune-v1/evaluation/ACCESS_COMMERCE_STATIC_AUDIT_2026-09-22.md",
     "public_claim_static_audit": "product/verlune-v1/evaluation/PUBLIC_CLAIM_STATIC_AUDIT_2026-09-22.md"
   },
-  "execution_environment_boundary": "This chat can prepare/freeze exact execution packets and review returned evidence, but it cannot create independent clean consumer-model sessions, operate the user's Gemini/ChatGPT UI as a separate evaluator, impersonate an external human reviewer, or complete a Premium entitlement E2E that is not implemented."
+  "execution_environment_boundary": "This chat can prepare/freeze exact execution packets and review returned evidence, but it cannot create independent clean consumer-model sessions, operate the user's Gemini/ChatGPT UI as a separate evaluator, impersonate an external human reviewer, or complete a Premium entitlement E2E that is not implemented.",
+  "exact_asset_binding_manifest": "product/verlune-v1/evaluation/EXACT_ASSET_BINDING_2026-09-22.json",
+  "formal_execution_precondition": "READY: exact launch-core asset blob identities frozen; independent/clean execution evidence still required."
 }
