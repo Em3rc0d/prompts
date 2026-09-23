@@ -1,0 +1,152 @@
+{
+  "schema": "verlune-v1-access-product-test-plan",
+  "status": "FROZEN_BEFORE_ACCESS_EXECUTION",
+  "date": "2026-09-23",
+  "purpose": "Bounded verification of the candidate Verlune Premium access product before Human Review H1-H11 and commerce E2E.",
+  "implementation_surface": {
+    "unlock": "/unlock",
+    "library": "/app",
+    "asset": "/app/asset/:assetId",
+    "access_settings": "/app/access",
+    "unlock_api": "POST /api/verlune/unlock",
+    "revalidate_api": "GET /api/verlune/session/revalidate",
+    "logout_api": "POST /api/verlune/logout",
+    "deactivate_api": "POST /api/verlune/deactivate",
+    "premium_launch_core_asset_count": 17
+  },
+  "provider_identity": {
+    "required": [
+      "VERLUNE_PREMIUM_STORE_ID",
+      "VERLUNE_PREMIUM_PRODUCT_ID",
+      "VERLUNE_PREMIUM_VARIANT_ID"
+    ],
+    "activation_limit": 3,
+    "current_state": "NOT_FROZEN_FOR_NEW_VERLUNE_PREMIUM_SKU",
+    "historical_identity_is_not_reused": "Historical Verlune Code Review / test-provider IDs are not evidence of the new Premium SKU identity."
+  },
+  "session_policy": {
+    "authorization_session_max_age_seconds": 604800,
+    "entitlement_revalidate_after_seconds": 86400,
+    "cookie": "Secure in production; HttpOnly; SameSite=Lax",
+    "raw_license_key_in_cookie": false,
+    "device_reference": "Signed non-authorizing browser reference may persist so the same browser can reuse an existing Lemon instance after session expiry.",
+    "logout": "Clears authorization session only.",
+    "deactivate": "Calls provider deactivation, then clears authorization session and device reference.",
+    "provider_outage": "Fail closed for Premium content; preserve valid local references for retry rather than silently granting access."
+  },
+  "cases": [
+    {
+      "id": "ACCESS-01",
+      "name": "Unauthenticated library is locked",
+      "expected": "GET /app does not render Premium content and redirects to /unlock."
+    },
+    {
+      "id": "ACCESS-02",
+      "name": "Missing provider configuration fails closed",
+      "expected": "Unlock cannot authorize Premium when required server configuration or secrets are absent/invalid."
+    },
+    {
+      "id": "ACCESS-03",
+      "name": "Invalid license denied",
+      "expected": "Invalid license key returns denial and creates no authorization session."
+    },
+    {
+      "id": "ACCESS-04",
+      "name": "Wrong checkout email denied",
+      "expected": "Valid license with mismatched checkout email is denied before a new provider activation is created."
+    },
+    {
+      "id": "ACCESS-05",
+      "name": "Wrong entitlement identity denied",
+      "expected": "Store/product/variant mismatch is denied before Premium authorization."
+    },
+    {
+      "id": "ACCESS-06",
+      "name": "Activation-limit policy enforced",
+      "expected": "License metadata must match the frozen 3-activation Premium policy; provider also denies a fourth active instance."
+    },
+    {
+      "id": "ACCESS-07",
+      "name": "Valid unlock creates secure session",
+      "expected": "Valid entitlement creates signed HttpOnly SameSite=Lax authorization cookie; Secure in production; raw license key absent from browser cookies."
+    },
+    {
+      "id": "ACCESS-08",
+      "name": "Premium library inventory",
+      "expected": "Authorized /app exposes exactly the 17 launch-core Premium customer surfaces, including both Builders and both toolkit items."
+    },
+    {
+      "id": "ACCESS-09",
+      "name": "Exact asset identity",
+      "expected": "Authorized asset body is server-loaded and Git-blob identity matches the frozen catalog metadata before delivery."
+    },
+    {
+      "id": "ACCESS-10",
+      "name": "Premium bytes absent from public bundle",
+      "expected": "Build audit finds no protected asset markers in public/ or .next/static client artifacts."
+    },
+    {
+      "id": "ACCESS-11",
+      "name": "Session tamper fails closed",
+      "expected": "Modified or invalid signed session cannot authorize /app."
+    },
+    {
+      "id": "ACCESS-12",
+      "name": "24-hour entitlement revalidation",
+      "expected": "A stale authorization session cannot serve Premium until the exact provider instance revalidates."
+    },
+    {
+      "id": "ACCESS-13",
+      "name": "Disabled expired revoked entitlement fails closed",
+      "expected": "Disabled/expired/invalid provider status or missing instance clears authorization and blocks Premium on revalidation."
+    },
+    {
+      "id": "ACCESS-14",
+      "name": "Provider outage fail-closed retry",
+      "expected": "Provider/network outage during required revalidation locks Premium, preserves retryable local state, and does not create a redirect loop."
+    },
+    {
+      "id": "ACCESS-15",
+      "name": "Logout semantics",
+      "expected": "Logout removes authorization but keeps the signed non-authorizing device reference; /app becomes locked immediately."
+    },
+    {
+      "id": "ACCESS-16",
+      "name": "Same-browser re-unlock reuses activation",
+      "expected": "After logout/session expiry, same browser + same license can reuse its existing valid provider instance without incrementing activation usage."
+    },
+    {
+      "id": "ACCESS-17",
+      "name": "Deactivate semantics",
+      "expected": "Deactivation removes the provider instance and both local cookies, releasing an activation slot."
+    },
+    {
+      "id": "ACCESS-18",
+      "name": "Deactivation outage is recoverable",
+      "expected": "If provider deactivation is unavailable, session remains authorized so the user can retry; no false success is shown."
+    },
+    {
+      "id": "ACCESS-19",
+      "name": "Seven-day authorization maximum",
+      "expected": "Authorization session cannot exceed the frozen seven-day max-age policy."
+    },
+    {
+      "id": "ACCESS-20",
+      "name": "Three-browser policy",
+      "expected": "Three distinct browser instances can activate; a fourth is denied while all three remain active."
+    }
+  ],
+  "closure_rule": {
+    "static_build": "Typecheck + production build + Premium build leakage audit PASS.",
+    "provider_integration": "All applicable provider-backed cases PASS against the exact frozen Premium store/product/variant in Lemon Squeezy test mode.",
+    "blockers": "Any unauthorized Premium delivery, raw-key client exposure, identity mismatch acceptance, session-tamper acceptance, or revoked-entitlement access is blocking.",
+    "gate_result": "ACCESS_PRODUCT_E2E_PASS only after all 20 cases are PASS or a case is explicitly proven not applicable before execution."
+  },
+  "evidence_boundary": [
+    "Implementation in repository is not deployment evidence.",
+    "Build PASS is not provider E2E PASS.",
+    "Provider test mode is not live purchase evidence.",
+    "Human Review H1-H11 still requires a real reviewer using the candidate customer surface.",
+    "Public landing and live sale remain frozen."
+  ]
+}
