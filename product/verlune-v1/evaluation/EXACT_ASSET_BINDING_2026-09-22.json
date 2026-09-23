@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-exact-asset-binding-manifest",
-  "status": "REFROZEN_AFTER_PORTABILITY_REWORK / DELTA_REQUALIFICATION_REQUIRED",
+  "status": "REFROZEN_AFTER_PORTABILITY_REWORK_2 / VP-WF-003_FINAL_DELTA_REQUIRED",
   "date": "2026-09-23",
   "branch": "feat/verlune-product-model-v1-20260922-r2",
   "branch_head_at_binding": "886060c1f991aadd4b458f05fc7c62056942e9ca",
@@ -164,8 +164,8 @@
       "id": "VP-WF-003",
       "type": "premium_workflow",
       "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
-      "blob_sha": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
-      "size_bytes": 3682
+      "blob_sha": "afa65c9cdccff26d6fe92cee800818f3066d4220",
+      "size_bytes": 5200
     },
     {
       "id": "VP-WF-006",
@@ -203,5 +203,13 @@
       "VP-WF-006": "b2d98d24db14b2369d62709a330e95e3e9ec31b4"
     },
     "evidence_effect": "Historical runtime evidence remains valid for old blobs only. New blobs require delta requalification before current release gates can return to PASS."
+  },
+  "portability_rework_2": {
+    "date": "2026-09-23",
+    "changed_asset": "VP-WF-003",
+    "old_blob": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+    "new_blob": "afa65c9cdccff26d6fe92cee800818f3066d4220",
+    "reason": "Gemini normal-research delta exposed evidence-scope and citation-traceability drift after the first remediation.",
+    "requalification_required": true
   }
 }
