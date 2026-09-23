@@ -234,3 +234,13 @@ Current state:
 - VP-WF-006 delta behavior: PASS on ChatGPT + Gemini;
 - VP-WF-003 final current-blob delta: OPEN;
 - exact model/config metadata: still pending.
+
+
+## 2026-09-23 final Deep Research delta frozen
+
+- exact current blob: `afa65c9cdccff26d6fe92cee800818f3066d4220`
+- cases: 3
+- hosts: ChatGPT + Gemini
+- result: OPEN
+- batch: `product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_3_CASE_BATCH_2026-09-23.txt`
+- contract: `product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_CONTRACT_2026-09-23.json`
