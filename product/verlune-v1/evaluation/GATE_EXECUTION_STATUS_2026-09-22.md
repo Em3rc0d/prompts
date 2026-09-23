@@ -25,9 +25,9 @@ The batch used the exact frozen Builder identities and covered all 32 category c
 
 ### Formal non-Builder exact-asset runtime
 
-State: `OPEN`
+State: `RISK_BASED_32_CASE_GATE_FROZEN / EXECUTION_OPEN`
 
-Reason: exact asset identities are now frozen, but the runtime cases still require execution in an AI runtime and raw-output capture. The earlier 104 observations are behavioral screening and are not silently upgraded.
+For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix is preserved but no longer mandatory. Before seeing runtime results, a proportional exact-asset gate was frozen: all 24 exact non-Builder launch-core assets receive one NORMAL runtime case, plus 8 preselected edge/adversarial cases. Total: 32 cases in one segmented batch. The earlier 104 observations remain screening only and are not silently upgraded.
 
 ### Cross-model portability
 
@@ -66,7 +66,7 @@ GENERATED PROMPT SECOND INSTANCE                 PASS
 GENERATED WORKFLOW SECOND INSTANCE               PASS
 
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
-FORMAL NON-BUILDER EXACT-ASSET EXECUTIONS        OPEN
+NON-BUILDER EXACT-ASSET 32-CASE BATCH          OPEN
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
 TARGETED CROSS-MODEL PORTABILITY                 OPEN
@@ -113,3 +113,15 @@ Master rule: `not observed == unknown`.
 - `BUILDER_COVERAGE_GATE = PASS`
 - closure record: `product/verlune-v1/evaluation/BUILDER_COVERAGE_GATE_CLOSURE_2026-09-23.json`
 - remaining major gates: formal non-Builder exact-asset runtime, targeted cross-model portability, human H1-H11, entitlement/commerce E2E
+
+
+## 2026-09-23 non-Builder gate compression
+
+- exact non-Builder assets covered: 24/24
+- runtime cases frozen: 32
+- normal cases: 24
+- targeted edge/adversarial cases: 8
+- execution mode: `MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_EXACT_ASSET`
+- original 87-case packet preserved for deeper qualification, not mandatory for bounded v1 launch
+- plan: `product/verlune-v1/evaluation/RISK_BASED_EXACT_ASSET_RUNTIME_GATE_2026-09-23.json`
+- batch: `product/verlune-v1/evaluation/NON_BUILDER_32_SINGLE_CHAT_EXACT_ASSET_BATCH_2026-09-23.txt`
