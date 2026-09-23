@@ -1,0 +1,30 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-result",
+  "date": "2026-09-23",
+  "case_id": "VB-writing-communication-P-NORMAL",
+  "builder_id": "VP-BUILDER-001",
+  "builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+  "execution_mode": "PHYSICALLY_ISOLATED_TEMPORARY_UNPERSONALIZED_CHAT",
+  "result": "PASS_NO_MATERIAL_CONTRADICTION",
+  "observed_behavior": {
+    "opening_question": "What do you want the AI to help you do repeatedly?",
+    "frozen_fixture_received": true,
+    "after_fixture": "Asked three follow-up questions about output format, preservation of dates/metrics/versions/risks/pending items/uncertainty, and fallback behavior for ambiguity/missing information.",
+    "final_artifact_generated": false,
+    "stopped_after_first_post_fixture_response": true
+  },
+  "comparison_to_segmented_batch": {
+    "material_contradiction": false,
+    "note": "The segmented batch built a generic reusable prompt immediately; the isolated run instead asked three material clarifying questions before building. Both preserve the same goal, fact/commitment fidelity, uncertainty boundary, and no-invention behavior.",
+    "variance": "QUESTION_THRESHOLD_VARIANCE_NONBLOCKING"
+  },
+  "review": {
+    "plain_language_intake": "PASS",
+    "question_efficiency": "PASS",
+    "goal_preservation": "PASS",
+    "assumption_discipline": "PASS",
+    "certification_boundary": "PASS",
+    "artifact_level_dimensions": "NOT_OBSERVED_BECAUSE_RUN_STOPPED_AFTER_MATERIAL_CLARIFICATION"
+  },
+  "disposition": "CLEAN_SPOTCHECK_PASS_1_OF_5"
+}
