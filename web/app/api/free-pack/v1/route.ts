@@ -40,7 +40,7 @@ export function buildStoredZip(entries: ReadonlyArray<{ path: string; content: s
   const centralChunks: Buffer[] = [];
   let offset = 0;
 
-  for (const entry of [...entries].sort((a, b) => a.path.localeCompare(b.path))) {
+  for (const entry of [...entries].sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0)) {
     const data = Buffer.from(entry.content, "utf8");
     const archiveName = Buffer.from(`${ZIP_ROOT}/${entry.path}`, "utf8");
     const crc = crc32(data);
