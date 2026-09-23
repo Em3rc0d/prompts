@@ -1,0 +1,30 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-result",
+  "date": "2026-09-23",
+  "case_id": "VB-business-operations-P-UNDER",
+  "builder_id": "VP-BUILDER-001",
+  "builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+  "execution_mode": "PHYSICALLY_ISOLATED_TEMPORARY_UNPERSONALIZED_CHAT",
+  "result": "PASS_NO_MATERIAL_CONTRADICTION",
+  "observed_behavior": {
+    "opening_question": "What do you want the AI to help you do repeatedly?",
+    "frozen_fixture_received": true,
+    "after_fixture": "Recognized the request as too broad, asked what recurring kind of business help is needed, and gave concrete examples to help the user specify the task.",
+    "final_artifact_generated": false,
+    "stopped_after_first_post_fixture_response": true
+  },
+  "comparison_to_segmented_batch": {
+    "material_contradiction": false,
+    "note": "The segmented batch asked what recurring business task and result were desired. The isolated run asks the same material clarification in slightly more guided language and provides examples. Both correctly stop instead of inventing a business task."
+  },
+  "review": {
+    "plain_language_intake": "PASS",
+    "question_efficiency": "PASS",
+    "goal_preservation": "PASS",
+    "assumption_discipline": "PASS",
+    "fallback_quality": "PASS",
+    "certification_boundary": "PASS",
+    "artifact_level_dimensions": "NOT_OBSERVED_CORRECT_STOP"
+  },
+  "disposition": "CLEAN_SPOTCHECK_PASS_2_OF_5"
+}
