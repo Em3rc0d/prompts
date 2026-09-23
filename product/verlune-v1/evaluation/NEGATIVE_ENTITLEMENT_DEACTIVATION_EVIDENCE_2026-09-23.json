@@ -1,0 +1,48 @@
+{
+  "schema": "verlune-v1-negative-entitlement-and-deactivation-evidence-v1",
+  "date": "2026-09-23",
+  "deployment": "dpl_44HrayDpj2iQD7SmnBMrZoRGqNKf",
+  "observations": {
+    "wrong_email": {
+      "ui_message": "That license and email do not match an active Verlune Premium purchase.",
+      "runtime_status": 401,
+      "result": "PASS_FAIL_CLOSED"
+    },
+    "invalid_license": {
+      "ui_message": "Premium access could not be verified right now. Please try again.",
+      "runtime_status": 502,
+      "access_result": "PASS_FAIL_CLOSED",
+      "ux_result": "FAIL_ERROR_CLASSIFICATION",
+      "defect": "Invalid/rejected license validation was mapped to provider-unavailable UX instead of controlled invalid-entitlement denial."
+    },
+    "valid_reunlock_before_deactivation": {
+      "runtime_status": 200,
+      "result": "PASS"
+    },
+    "deactivate": {
+      "runtime_status": 303,
+      "provider_dashboard_after": "Inactive (0/3)",
+      "result": "PASS"
+    }
+  },
+  "remediation": {
+    "status": "IMPLEMENTED_IN_REPOSITORY_REDEPLOY_REQUIRED",
+    "changes": [
+      "Added typed LemonLicenseApiError carrying operation, HTTP status and provider reason.",
+      "Validation 4xx responses except rate-limit are now mapped to the same controlled 401 entitlement-denial message as wrong-email/mismatch cases.",
+      "Provider/network/5xx errors remain 502 so outages are not mislabeled as invalid purchases."
+    ]
+  },
+  "sensitive_data_boundary": [
+    "The operator screenshot exposed a Test-mode license key to the conversation.",
+    "The key value is intentionally not recorded in repository evidence.",
+    "Because it is Test-mode only, it does not represent a live customer entitlement; it should still be treated as exposed test credential and disabled/deleted after this qualification cycle."
+  ],
+  "gate_effect": {
+    "ACCESS_04_WRONG_EMAIL_DENIED": "PASS",
+    "ACCESS_03_INVALID_LICENSE_DENIED": "PASS_SECURITY_BEHAVIOR / UX_REMEDIATION_PENDING_REDEPLOY",
+    "ACCESS_17_DEACTIVATE_SEMANTICS": "PASS",
+    "activation_after_deactivation": "0/3",
+    "ACCESS_PRODUCT_E2E_PASS": false
+  }
+}
