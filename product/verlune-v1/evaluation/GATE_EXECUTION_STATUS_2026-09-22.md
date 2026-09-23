@@ -701,3 +701,17 @@ Evidence:
 State:
 - `ACCESS-14 provider outage fail-closed = PASS`
 - `ACCESS-14 retry after provider restore = PENDING USER RETRY`
+
+
+## 2026-09-23 provider outage restore retry — PASS
+
+Observed on restored staging deployment `dpl_HW3MorA762ag2SpGzSuPphKQD8jU`:
+- Retry license check triggered provider revalidation;
+- revalidation route returned 303;
+- subsequent `/app` requests returned 200;
+- Premium library was restored without re-entering checkout email or license key.
+
+This completes `ACCESS-14 Provider outage fail-closed retry = PASS`.
+
+Evidence updated:
+`product/verlune-v1/evaluation/PROVIDER_OUTAGE_EVIDENCE_2026-09-23.json`
