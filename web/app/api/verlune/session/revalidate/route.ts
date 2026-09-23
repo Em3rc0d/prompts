@@ -14,6 +14,7 @@ import {
   premiumCookieOptions,
   refreshedPremiumSession,
   signPremiumSession,
+  VERLUNE_DEVICE_COOKIE,
   VERLUNE_SESSION_COOKIE
 } from "@/lib/verlune-session";
 
@@ -21,7 +22,10 @@ export const runtime = "nodejs";
 
 function unlockRedirect(request: NextRequest, reason: string, clear = false) {
   const response = NextResponse.redirect(new URL(`/unlock?reason=${encodeURIComponent(reason)}`, request.url), 303);
-  if (clear) response.cookies.set(VERLUNE_SESSION_COOKIE, "", clearPremiumCookieOptions);
+  if (clear) {
+    response.cookies.set(VERLUNE_SESSION_COOKIE, "", clearPremiumCookieOptions);
+    response.cookies.set(VERLUNE_DEVICE_COOKIE, "", clearPremiumCookieOptions);
+  }
   return response;
 }
 
