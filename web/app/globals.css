@@ -180,3 +180,70 @@ em { font-style: normal; color: var(--accent); }
   .productMeta { gap: 10px 18px; } .reviewPromise { padding-left: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Verlune Premium candidate access surface */
+.accessPage, .premiumApp { min-height: 70vh; }
+.accessGrid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 64px; align-items: start; }
+.accessPanel { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 34px; }
+.accessTrust { margin: 30px 0; border-top: 1px solid var(--line); }
+.accessTrust p { padding: 15px 0; margin: 0; border-bottom: 1px solid var(--line); }
+.accessTrust strong { color: var(--text); }
+.unlockForm { display: grid; gap: 18px; margin-top: 24px; }
+.unlockForm label { display: grid; gap: 8px; color: var(--muted); font-size: .9rem; }
+.unlockForm input { width: 100%; min-height: 48px; border: 1px solid #44515a; border-radius: 5px; background: #0e1518; color: var(--text); padding: 11px 13px; font: inherit; }
+.unlockForm input:focus { border-color: var(--accent); outline: 2px solid transparent; }
+.unlockForm button[disabled] { opacity: .65; cursor: wait; }
+.formError { color: #f2b5ad; margin: 0; }
+.appHero { padding: 78px 0 58px; border-bottom: 1px solid var(--line); }
+.appTopline, .assetTitleRow { display: flex; justify-content: space-between; align-items: flex-start; gap: 36px; }
+.appTopline > div:first-child, .assetTitleRow > div:first-child { max-width: 820px; }
+.appHowTo { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); border-block: 1px solid var(--line); }
+.appHowTo li { padding: 22px 18px; border-right: 1px solid var(--line); display: grid; gap: 5px; }
+.appHowTo li:first-child { padding-left: 0; }
+.appHowTo li:last-child { border-right: 0; }
+.appHowTo span { color: var(--accent); font: .76rem var(--font-mono); }
+.appHowTo strong { font-weight: 550; }
+.appHowTo small { color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.appCategory { padding: 20px 0 54px; }
+.appCategory + .appCategory { border-top: 1px solid var(--line); padding-top: 54px; }
+.appCategoryHeading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+.appCategoryHeading h2 { margin-bottom: 0; }
+.assetCount { color: var(--muted); font: .8rem var(--font-mono); padding-bottom: 8px; }
+.assetGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.assetCard { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 24px; display: flex; flex-direction: column; min-height: 260px; }
+.assetCardBuilder { border-color: #54695f; background: linear-gradient(180deg,#17231e 0%,var(--panel) 100%); }
+.assetCardMeta { display: flex; justify-content: space-between; gap: 12px; color: var(--accent); font: .72rem var(--font-mono); text-transform: uppercase; }
+.assetCard p { flex: 1; }
+.assetPageHero { padding: 58px 0 44px; border-bottom: 1px solid var(--line); }
+.assetPageHero .textLink { margin-bottom: 30px; }
+.assetUseGrid { display: grid; grid-template-columns: minmax(220px,.38fr) minmax(0,1fr); gap: 42px; align-items: start; }
+.assetUseGuide { position: sticky; top: 110px; }
+.assetCodeHeader { display: flex; justify-content: space-between; gap: 20px; padding: 13px 17px; background: #10171b; border: 1px solid var(--line); border-bottom: 0; border-radius: 7px 7px 0 0; color: var(--muted); font-size: .82rem; }
+.premiumAssetCode { margin: 0; border: 1px solid var(--line); background: #080c0f; padding: 24px; max-height: 72vh; overflow: auto; border-radius: 0 0 7px 7px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.premiumAssetCode code { color: #dbe6e2; line-height: 1.62; }
+.narrowPage { max-width: 860px; }
+.sessionFacts { margin: 34px 0; border-block: 1px solid var(--line); }
+.sessionFacts > div { display: grid; grid-template-columns: 210px 1fr; gap: 24px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+.sessionFacts > div:last-child { border-bottom: 0; }
+.sessionFacts dt { color: var(--muted); }
+.sessionFacts dd { margin: 0; }
+.accessActions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 18px; }
+.accessActions form { margin: 0; }
+@media (max-width: 1050px) {
+  .assetGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 780px) {
+  .accessGrid, .assetUseGrid { grid-template-columns: 1fr; gap: 30px; }
+  .appTopline, .assetTitleRow, .appCategoryHeading { align-items: flex-start; flex-direction: column; }
+  .appHowTo { grid-template-columns: 1fr 1fr; }
+  .appHowTo li, .appHowTo li:first-child { padding: 18px; border-bottom: 1px solid var(--line); }
+  .assetGrid { grid-template-columns: 1fr; }
+  .assetUseGuide { position: static; }
+  .premiumAssetCode { max-height: none; }
+  .sessionFacts > div { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 480px) {
+  .accessPanel { padding: 24px; }
+  .appHowTo { grid-template-columns: 1fr; }
+  .appHowTo li { border-right: 0; }
+}
