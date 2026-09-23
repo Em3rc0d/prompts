@@ -33,6 +33,8 @@ Track each concept as:
 
 Do not promote a concept based only on the learner saying it feels clear.
 
+Self-reported background such as "I understand X" is context, not mastery evidence. At session start, a self-reported known concept may be initialized no higher than `FRAGILE` unless the user supplies actual prior assessment evidence. Promote to `RECALLABLE`, `APPLICABLE`, or `TRANSFERABLE` only from observed retrieval/application performance in the current session or explicit assessment evidence supplied by the user.
+
 ## Workflow
 
 ### 1. Define mastery target
