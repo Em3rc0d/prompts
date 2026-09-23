@@ -17,11 +17,11 @@ Status: `PRE-FORMAL-EXECUTION READY / EXTERNAL EXECUTION GATES OPEN`
 
 ### Formal Builder matrix
 
-State: `SEGMENTED_BATCH_PASS / CLEAN_SPOTCHECKS_OPEN`
+State: `PASS`
 
 Observed segmented batch result: **37 PASS / 0 FAIL / 0 INCONCLUSIVE** against the frozen review contract.
 
-The batch used the exact frozen Builder identities and covered all 32 category cases plus 5 stress cases. Because all cases ran in one segmented chat, the pre-frozen 5-case clean-context spot-check set remains required before the Builder coverage gate closes.
+The batch used the exact frozen Builder identities and covered all 32 category cases plus 5 stress cases. The pre-frozen clean-context sample was then rerun in five physically isolated temporary unpersonalized chats: **5 PASS / 0 FAIL / 0 INCONCLUSIVE / 0 material contradictions**. `BUILDER_COVERAGE_GATE = PASS`.
 
 ### Formal non-Builder exact-asset runtime
 
@@ -68,7 +68,7 @@ GENERATED WORKFLOW SECOND INSTANCE               PASS
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
 FORMAL NON-BUILDER EXACT-ASSET EXECUTIONS        OPEN
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
-5 BUILDER CLEAN SPOT-CHECKS                     OPEN
+5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
 TARGETED CROSS-MODEL PORTABILITY                 OPEN
 HUMAN REVIEW H1-H11                              OPEN
 ENTITLEMENT / COMMERCE E2E                       GATED
@@ -100,3 +100,16 @@ Master rule: `not observed == unknown`.
 - transcript SHA-256: `284bb509026fdc30ab7cefe4b040f04c9aa024abfad4f5d865ed39c0b0faeaf7`
 - this is consistency evidence only; it does not satisfy the previously frozen five physically isolated clean-context requirement
 - review record: `product/verlune-v1/evaluation/BUILDER_SPOTCHECK_5_SEGMENTED_REVIEW_2026-09-23.json`
+
+
+## 2026-09-23 Builder coverage gate closure
+
+- exact Builder blobs unchanged
+- segmented matrix: 37/37 PASS
+- segmented consistency sample: 5/5 PASS
+- physically isolated clean-context sample: 5/5 PASS
+- material contradictions: 0
+- invalid operator attempt excluded from scoring: 1
+- `BUILDER_COVERAGE_GATE = PASS`
+- closure record: `product/verlune-v1/evaluation/BUILDER_COVERAGE_GATE_CLOSURE_2026-09-23.json`
+- remaining major gates: formal non-Builder exact-asset runtime, targeted cross-model portability, human H1-H11, entitlement/commerce E2E
