@@ -530,3 +530,30 @@ Interpretation:
 - treat as a nonblocking access defect but a **blocking Human Review copy/UX issue before H1-H11 can pass**.
 
 Do not rewrite the tested Builder instruction block merely to fix presentation. Resolve at the product-surface/presentation boundary or through a governed metadata update that preserves behavioral lineage.
+
+
+## 2026-09-23 negative entitlement + deactivate block
+
+Observed:
+- correct license + wrong checkout email → controlled denial / HTTP 401: PASS;
+- invalid license → fail closed / HTTP 502: security behavior PASS, UX/error classification defect found;
+- valid re-unlock before deactivation → HTTP 200;
+- `POST /api/verlune/deactivate` → 303;
+- Lemon provider dashboard after deactivation → `Inactive (0/3)`: PASS.
+
+Defect:
+invalid license/provider 4xx validation was being presented as temporary provider unavailability.
+
+Remediation implemented:
+- typed Lemon License API error classification;
+- validation-side 4xx rejection (except 429) now maps to the controlled 401 invalid-entitlement response;
+- true upstream/network/5xx conditions remain 502.
+
+Evidence:
+`product/verlune-v1/evaluation/NEGATIVE_ENTITLEMENT_DEACTIVATION_EVIDENCE_2026-09-23.json`
+
+Gate effect:
+- `ACCESS-04 Wrong checkout email denied = PASS`
+- `ACCESS-03 Invalid license denied = PASS_SECURITY / UX_RETEST_REQUIRED_AFTER_REDEPLOY`
+- `ACCESS-17 Deactivate semantics = PASS`
+- provider activation after deactivation: `0/3`
