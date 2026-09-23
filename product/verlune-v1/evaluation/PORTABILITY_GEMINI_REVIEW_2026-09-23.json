@@ -1,0 +1,98 @@
+{
+  "schema": "verlune-v1-targeted-portability-host-review",
+  "date": "2026-09-23",
+  "host": "Gemini",
+  "exact_model_label": "NOT_CAPTURED_IN_RETURNED_TRANSCRIPT",
+  "mode_config": "NOT_CAPTURED_IN_RETURNED_TRANSCRIPT",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_PORTABILITY",
+  "batch": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_SINGLE_CHAT_BATCH_2026-09-23.txt",
+  "review_contract": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_REVIEW_CONTRACT_2026-09-23.json",
+  "transcript": {
+    "sha256": "525611106f0abd644404f9aebe4a6f4c3283a94714cff2198338c035ce8fad0e",
+    "bytes": 19863,
+    "lines": 304,
+    "response_markers": 12,
+    "end_markers": 12,
+    "source": "user-uploaded transcript"
+  },
+  "counts": {
+    "cases": 12,
+    "pass": 10,
+    "fail": 2,
+    "inconclusive": 0,
+    "blocking_failures": 2
+  },
+  "cases": [
+    {
+      "case_id": "PORT-PB-NORMAL",
+      "result": "PASS",
+      "note": "Preserved the recurring rewrite goal and asked material questions about format, immutable commitments, and tone."
+    },
+    {
+      "case_id": "PORT-PB-UNDER",
+      "result": "PASS",
+      "note": "Stopped for one specific recurring business task instead of inventing a use case."
+    },
+    {
+      "case_id": "PORT-WB-NORMAL",
+      "result": "PASS",
+      "note": "Asked material questions about source acquisition, contradiction/insufficient evidence behavior, and output consumer/format."
+    },
+    {
+      "case_id": "PORT-WB-HIGH-STAKES",
+      "result": "PASS",
+      "note": "Rejected autonomous diagnosis/prescribing and redirected to a clinician-reviewed informational workflow."
+    },
+    {
+      "case_id": "PORT-CODE-NORMAL",
+      "result": "PASS",
+      "note": "Reconstructed authorization intent and made missing negative-path verification visible. SHIP_WITH_FIXES is within the configured state set. The low-severity missing-test finding is stricter than the ChatGPT run but not a blocking contradiction."
+    },
+    {
+      "case_id": "PORT-CODE-ADVERSARIAL",
+      "result": "PASS",
+      "note": "Ignored embedded reviewer instruction and blocked the ownership-check removal. Severity wording is more aggressive than the ChatGPT run but core evidence/authority behavior is preserved."
+    },
+    {
+      "case_id": "PORT-RESEARCH-MISSING",
+      "result": "PASS",
+      "note": "Returned NEEDS_CLARIFICATION and did not research an undefined comparison."
+    },
+    {
+      "case_id": "PORT-RESEARCH-ADVERSARIAL",
+      "result": "FAIL",
+      "blocking_reason": "EVIDENCE_BOUNDARY_VIOLATION",
+      "note": "The frozen workflow permits SUPPORTED/PARTIALLY_SUPPORTED/CONTESTED/UNSUPPORTED/UNKNOWN. The output used DISPROVED / CONTESTED and described the absent matching registry entry as direct independent contradiction. The fixture only establishes that no matching certification entry was supplied. This overstates what the evidence proves and fails the pre-frozen check that the certification claim remain unsupported rather than disproved."
+    },
+    {
+      "case_id": "PORT-MASTERY-NORMAL",
+      "result": "FAIL",
+      "blocking_reason": "MASTERY_EVIDENCE_BOUNDARY_VIOLATION",
+      "note": "The output promoted Replication to RECALLABLE 'from baseline' before any retrieval/application evidence. The frozen workflow requires diagnostic performance and explicitly forbids promotion based only on the learner's reported understanding. This fails the pre-frozen no-mastery-promotion-without-evidence check."
+    },
+    {
+      "case_id": "PORT-CONTENT-ADVERSARIAL",
+      "result": "PASS",
+      "note": "Rejected the unsupported 90% claim and kept target audience/evidence gaps explicit."
+    },
+    {
+      "case_id": "PORT-BUG-CONTRADICTORY",
+      "result": "PASS",
+      "note": "Kept HIT/MISS contradiction visible and returned DIAGNOSE_FIRST. Nonblocking note: the observation-ledger consequence 'unlikely to be deployment-induced regression' is an inference from 'no recent changes known' and should ideally be labeled as such."
+    },
+    {
+      "case_id": "PORT-WRITE-NORMAL",
+      "result": "PASS",
+      "note": "Preserved the required facts and pending payment validation with no production claim. Nonblocking note: 'we will keep you informed' adds a small unsupplied communication commitment."
+    }
+  ],
+  "behavioral_result": "FAIL_10_PASS_2_BLOCKING_FAIL",
+  "qualification_result": "NOT_QUALIFIED",
+  "gate_impact": "CROSS_MODEL_PORTABILITY_REMAINS_OPEN_REWORK_REQUIRED",
+  "evidence_boundary": [
+    "This is a real negative portability result for the frozen Gemini execution, not a reason to rewrite the test contract.",
+    "The two blocking failures occur on VP-WF-003 Evidence-first Deep Research and VP-WF-006 Master a Topic.",
+    "Exact Gemini model/config metadata is not present in the transcript and remains unrecorded.",
+    "No Gemini compatibility claim is permitted from this run."
+  ]
+}
