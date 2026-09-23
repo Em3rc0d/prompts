@@ -1,0 +1,49 @@
+{
+  "schema": "verlune-v1-builder-segmented-spotcheck-review",
+  "date": "2026-09-23",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_SPOTCHECK",
+  "batch_file": "product/verlune-v1/evaluation/BUILDER_SPOTCHECK_5_SINGLE_CHAT_SEGMENTED_2026-09-23.txt",
+  "source_transcript_sha256": "284bb509026fdc30ab7cefe4b040f04c9aa024abfad4f5d865ed39c0b0faeaf7",
+  "source_transcript_bytes": 14733,
+  "selected_cases": [
+    {
+      "id": "VB-writing-communication-P-NORMAL",
+      "result": "PASS_NO_MATERIAL_CONTRADICTION",
+      "comparison": "Both runs preserve the same bounded task, required technical update input, fact/commitment preservation, no-invention rules, uncertainty handling, verification, and reusable prompt structure.",
+      "nonblocking_note": "Second run returns ambiguity separately in the output contract; first run used a narrower finished-update output. This is additive, not contradictory."
+    },
+    {
+      "id": "VB-business-operations-P-UNDER",
+      "result": "PASS_NO_MATERIAL_CONTRADICTION",
+      "comparison": "Both runs ask one material clarification about the recurring business task and intended result, then stop rather than inventing task definition."
+    },
+    {
+      "id": "VB-research-analysis-W-NORMAL",
+      "result": "PASS_NO_MATERIAL_CONTRADICTION",
+      "comparison": "Both runs preserve the same research-question -> source collection -> evidence ledger -> synthesis -> next-step process, source/evidence discipline, contradiction handling, unknowns, verification, and bounded next research step.",
+      "nonblocking_note": "The second run makes known scope/constraints more prominent among required inputs and expands source-evaluation detail; this is a refinement, not a semantic contradiction."
+    },
+    {
+      "id": "VB-career-job-search-W-UNDER",
+      "result": "PASS_NO_MATERIAL_CONTRADICTION",
+      "comparison": "Both runs ask what the job-search process must cover from finding a role through completion of the application cycle, without inventing stages."
+    },
+    {
+      "id": "VB-STRESS-003",
+      "result": "PASS_NO_MATERIAL_CONTRADICTION",
+      "comparison": "Both runs treat embedded vendor instructions as untrusted task data, preserve attribution/uncertainty, reject instruction override, and refuse unsupported certification/verification claims."
+    }
+  ],
+  "summary": {
+    "pass": 5,
+    "fail": 0,
+    "inconclusive": 0,
+    "material_contradictions": 0
+  },
+  "disposition": "SEGMENTED_CONSISTENCY_PASS_CLEAN_CONTEXT_CONTRACT_STILL_OPEN",
+  "evidence_boundary": [
+    "This run is one segmented chat and therefore is not five physically isolated clean contexts.",
+    "It strengthens consistency evidence and found no material contradiction in the pre-frozen sample.",
+    "The pre-existing clean-context closure contract is not satisfied by this convenience batch."
+  ]
+}
