@@ -9,9 +9,15 @@ import {
   validateLicenseKey
 } from "@/lib/verlune-access";
 import {
+  fingerprintLicense,
+  newPremiumDeviceRef,
   newPremiumSession,
+  parsePremiumDeviceRef,
   premiumCookieOptions,
+  premiumDeviceCookieOptions,
+  signPremiumDeviceRef,
   signPremiumSession,
+  VERLUNE_DEVICE_COOKIE,
   VERLUNE_SESSION_COOKIE
 } from "@/lib/verlune-session";
 
@@ -52,21 +58,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const activation = await activateLicenseKey(licenseKey);
-    const activationMatch = entitlementMatches(activation, email);
-    if (!activationMatch.ok || !activation.instance?.id || !activation.license_key?.id) {
-      return NextResponse.json(
-        { ok: false, message: "The license is valid, but this browser could not be activated." },
-        { status: 409 }
-      );
+    const licenseKeyId = String(validation.license_key.id);
+    const licenseFingerprint = fingerprintLicense(licenseKey);
+    const existingDevice = parsePremiumDeviceRef(request.cookies.get(VERLUNE_DEVICE_COOKIE)?.value);
+
+    let instanceId: string | null = null;
+    if (
+      existingDevice &&
+      existingDevice.licenseKeyId === licenseKeyId &&
+      existingDevice.licenseFingerprint === licenseFingerprint
+    ) {
+      const existingValidation = await validateLicenseKey(licenseKey, existingDevice.instanceId);
+      const existingMatch = entitlementMatches(existingValidation, email);
+      if (existingMatch.ok && existingValidation.instance?.id === existingDevice.instanceId) {
+        instanceId = existingDevice.instanceId;
+      }
+    }
+
+    if (!instanceId) {
+      const activation = await activateLicenseKey(licenseKey);
+      const activationMatch = entitlementMatches(activation, email);
+      if (!activationMatch.ok || !activation.instance?.id || !activation.license_key?.id) {
+        return NextResponse.json(
+          { ok: false, message: "The license is valid, but this browser could not be activated." },
+          { status: 409 }
+        );
+      }
+      instanceId = activation.instance.id;
     }
 
     const session = newPremiumSession({
-      licenseKeyId: String(activation.license_key.id),
-      instanceId: activation.instance.id,
+      licenseKeyId,
+      instanceId,
       licenseKey,
       customerEmail: email
     });
+    const device = newPremiumDeviceRef({ licenseKeyId, instanceId, licenseKey });
 
     const response = NextResponse.json({ ok: true, redirect: nextPath });
     response.cookies.set(
@@ -74,8 +101,20 @@ export async function POST(request: NextRequest) {
       signPremiumSession(session),
       premiumCookieOptions(session)
     );
+    response.cookies.set(
+      VERLUNE_DEVICE_COOKIE,
+      signPremiumDeviceRef(device),
+      premiumDeviceCookieOptions()
+    );
     return response;
-  } catch {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (message.includes("license_activate_failed")) {
+      return NextResponse.json(
+        { ok: false, message: "This license could not activate another browser. Deactivate an old browser or check the activation limit." },
+        { status: 409 }
+      );
+    }
     return NextResponse.json(
       { ok: false, message: "Premium access could not be verified right now. Please try again." },
       { status: 502 }
