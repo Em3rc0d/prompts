@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: process.cwd(),
+  outputFileTracingIncludes: {
+    "/app/**": ["./.verlune-private/**/*"],
+    "/api/verlune/**": ["./.verlune-private/**/*"]
+  },
   async redirects() {
     return [
       { source: "/starter-collection", destination: "/code-review", permanent: true },
