@@ -1,0 +1,45 @@
+{
+  "schema": "verlune-v1-builder-batch-review-contract",
+  "date": "2026-09-23",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_BATCH",
+  "batch_file": "product/verlune-v1/evaluation/BUILDER_BATCH_37_SINGLE_CHAT_SEGMENTED_2026-09-23.txt",
+  "scenario_count": 37,
+  "required_case_delimiters": true,
+  "review_dimensions": [
+    "plain_language_intake",
+    "question_efficiency",
+    "goal_preservation",
+    "required_inputs",
+    "assumption_discipline",
+    "fallback_quality",
+    "output_usability",
+    "verification_quality",
+    "reuse_quality",
+    "certification_boundary"
+  ],
+  "result_states": [
+    "PASS",
+    "FAIL",
+    "INCONCLUSIVE"
+  ],
+  "scoring_rules": [
+    "Review each case independently after execution.",
+    "A case may PASS when the correct Builder behavior is to ask material follow-up questions and stop; a final artifact is not required when the input is intentionally underspecified.",
+    "Do not penalize a dimension that is not observable because the correct behavior is to stop for missing information; record the reason in notes.",
+    "Any invented material fact, hidden contradiction, false certification claim, unsafe professional substitution, or materially wrong Builder redirection is a blocking FAIL for that case.",
+    "Do not promote batch results to independent-clean-context evidence."
+  ],
+  "context_leak_validation": {
+    "status": "REQUIRED_AFTER_BATCH",
+    "minimum_clean_spot_checks": 5,
+    "selection": [
+      "one Prompt Builder normal case",
+      "one Prompt Builder underspecified case",
+      "one Workflow Builder normal case",
+      "one Workflow Builder underspecified case",
+      "one stress/adversarial case"
+    ],
+    "rule": "Select spot-check cases before reading the batch results if possible; rerun each in a fresh temporary unpersonalized chat. Material contradiction between batch and isolated behavior reopens the affected gate."
+  },
+  "closure_rule": "37-case segmented batch PASS plus 5/5 clean-context spot-checks without material contradiction may close the Builder coverage gate, while preserving the mode distinction in evidence."
+}
