@@ -107,11 +107,15 @@ export function getVerluneAccessConfigState(): { ready: boolean; missing: string
     ["LEMONSQUEEZY_API_KEY", process.env.LEMONSQUEEZY_API_KEY],
     ["VERLUNE_PREMIUM_STORE_ID", process.env.VERLUNE_PREMIUM_STORE_ID],
     ["VERLUNE_PREMIUM_PRODUCT_ID", process.env.VERLUNE_PREMIUM_PRODUCT_ID],
-    ["VERLUNE_PREMIUM_VARIANT_ID", process.env.VERLUNE_PREMIUM_VARIANT_ID],
-    ["VERLUNE_SESSION_SECRET", process.env.VERLUNE_SESSION_SECRET],
-    ["VERLUNE_LICENSE_FINGERPRINT_SECRET", process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET]
+    ["VERLUNE_PREMIUM_VARIANT_ID", process.env.VERLUNE_PREMIUM_VARIANT_ID]
   ];
   const missing = required.filter(([, value]) => !value?.trim()).map(([name]) => name);
+  if ((process.env.VERLUNE_SESSION_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_SESSION_SECRET");
+  if ((process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_LICENSE_FINGERPRINT_SECRET");
+  const activationLimit = Number(process.env.VERLUNE_PREMIUM_ACTIVATION_LIMIT ?? "3");
+  if (!Number.isInteger(activationLimit) || activationLimit < 1 || activationLimit > 20) {
+    missing.push("VERLUNE_PREMIUM_ACTIVATION_LIMIT");
+  }
   return { ready: missing.length === 0, missing };
 }
 
