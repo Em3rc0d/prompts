@@ -635,3 +635,29 @@ Closed:
 Still open:
 - provider-outage retry branch;
 - 3 active browsers + 4th-browser denial.
+
+
+## 2026-09-23 three-browser activation policy — PASS
+
+Observed on staging:
+- provider dashboard reached `Active (3/3)`;
+- three distinct browser contexts were able to hold activations;
+- fourth browser remained locked;
+- fourth unlock attempt returned HTTP 409;
+- customer message: `This license could not activate another browser. Deactivate an old browser or check the activation limit.`;
+- provider activation usage remained 3/3.
+
+Runtime corroboration:
+- additional valid unlocks → 200;
+- fourth-context unlock → 409;
+- locked fourth context `GET /app` → 307.
+
+Evidence:
+`product/verlune-v1/evaluation/MULTI_BROWSER_ACTIVATION_LIMIT_EVIDENCE_2026-09-23.json`
+
+Closed:
+- `ACCESS-20 Three-browser policy = PASS`
+- fourth-browser denial = PASS
+
+Pre-outage hardening:
+Admin API authentication/permission failures (401/403) are now treated as retryable provider/configuration unavailability, not as customer entitlement revocation. Only Admin license-key 404/410 is treated as missing/revoked entitlement. Redeploy required before the outage case.
