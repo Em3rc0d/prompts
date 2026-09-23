@@ -31,6 +31,23 @@ function unlockRedirect(request: NextRequest, reason: string, clear = false) {
   return response;
 }
 
+function retryableOutageRedirect(request: NextRequest, session: NonNullable<ReturnType<typeof parsePremiumSession>>) {
+  const response = NextResponse.redirect(
+    new URL("/unlock?reason=revalidation-unavailable", request.url),
+    303
+  );
+
+  // Preserve the signed entitlement reference for Retry, but force it stale so
+  // every protected route keeps redirecting to revalidation until the provider succeeds.
+  const blockedSession = { ...session, validatedAt: 0 };
+  response.cookies.set(
+    VERLUNE_SESSION_COOKIE,
+    signPremiumSession(blockedSession),
+    premiumCookieOptions(blockedSession)
+  );
+  return response;
+}
+
 export async function GET(request: NextRequest) {
   const nextPath = safePremiumNextPath(request.nextUrl.searchParams.get("next"));
   const session = parsePremiumSession(request.cookies.get(VERLUNE_SESSION_COOKIE)?.value);
@@ -77,7 +94,8 @@ export async function GET(request: NextRequest) {
       return unlockRedirect(request, "session-invalid", true);
     }
 
-    // Network, rate-limit and upstream 5xx failures remain retryable but fail closed.
-    return unlockRedirect(request, "revalidation-unavailable", false);
+    // Network, rate-limit and upstream 5xx failures remain retryable and fail closed.
+    // The session is retained only as a stale retry token; it cannot authorize Premium.
+    return retryableOutageRedirect(request, session);
   }
 }
