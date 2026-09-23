@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-builder-test-matrix",
-  "status": "FROZEN_READY_FOR_EXTERNAL_EXECUTION_FOLLOW_THROUGH_OBSERVED",
+  "status": "SEGMENTED_BATCH_37_PASS_CLEAN_SPOTCHECKS_OPEN",
   "date": "2026-09-22",
   "builders": [
     "VP-BUILDER-001",
@@ -127,11 +127,18 @@
   "execution_precondition": "READY: exact Builder blob identities and all 37 cases frozen; clean/isolated model executions are still required.",
   "batch_execution": {
     "mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_BATCH",
-    "status": "READY_NOT_EXECUTED",
+    "status": "PASS_37_OF_37",
     "batch_file": "product/verlune-v1/evaluation/BUILDER_BATCH_37_SINGLE_CHAT_SEGMENTED_2026-09-23.txt",
     "review_contract": "product/verlune-v1/evaluation/BUILDER_BATCH_REVIEW_CONTRACT_2026-09-23.json",
     "case_count": 37,
     "independent_context_equivalent": false,
-    "follow_up_clean_spot_checks_required": 5
+    "follow_up_clean_spot_checks_required": 5,
+    "review_record": "product/verlune-v1/evaluation/BUILDER_BATCH_37_REVIEW_2026-09-23.json",
+    "source_transcript_sha256": "4d606d5a0ab7ecb25862f752487b1ed6e5a00dc9e8be7a37c9e1b99c23bbe83c",
+    "pass": 37,
+    "fail": 0,
+    "inconclusive": 0,
+    "clean_spotchecks_status": "OPEN_5_REQUIRED",
+    "closure_state": "OPEN"
   }
 }
