@@ -5,6 +5,7 @@ export type VerluneAccessConfig = {
   storeId: string;
   productId: string;
   variantId: string;
+  activationLimit: number;
 };
 
 export type LicenseMeta = {
@@ -85,10 +86,19 @@ export function getVerluneAccessConfig(): VerluneAccessConfig {
     apiKey: process.env.LEMONSQUEEZY_API_KEY?.trim() ?? "",
     storeId: process.env.VERLUNE_PREMIUM_STORE_ID?.trim() ?? "",
     productId: process.env.VERLUNE_PREMIUM_PRODUCT_ID?.trim() ?? "",
-    variantId: process.env.VERLUNE_PREMIUM_VARIANT_ID?.trim() ?? ""
+    variantId: process.env.VERLUNE_PREMIUM_VARIANT_ID?.trim() ?? "",
+    activationLimit: Number(process.env.VERLUNE_PREMIUM_ACTIVATION_LIMIT ?? "3")
   };
-  const missing = Object.entries(values).filter(([, value]) => !value).map(([key]) => key);
+  const missing = [
+    ["apiKey", values.apiKey],
+    ["storeId", values.storeId],
+    ["productId", values.productId],
+    ["variantId", values.variantId]
+  ].filter(([, value]) => !value).map(([key]) => key);
   if (missing.length) throw new Error(`verlune_access_not_configured:${missing.join(",")}`);
+  if (!Number.isInteger(values.activationLimit) || values.activationLimit < 1 || values.activationLimit > 20) {
+    throw new Error("verlune_access_invalid_activation_limit");
+  }
   return values;
 }
 
@@ -166,6 +176,7 @@ export function entitlementMatches(
   if (String(meta.variant_id) !== config.variantId) return { ok: false, reason: "variant_mismatch" };
   if (normalizeEmail(meta.customer_email) !== normalizeEmail(email)) return { ok: false, reason: "email_mismatch" };
   if (key.status === "expired" || key.status === "disabled") return { ok: false, reason: `license_${key.status}` };
+  if (key.activation_limit !== config.activationLimit) return { ok: false, reason: "activation_limit_mismatch" };
   return { ok: true };
 }
 
