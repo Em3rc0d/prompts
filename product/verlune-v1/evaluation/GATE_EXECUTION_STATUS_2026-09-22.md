@@ -303,3 +303,29 @@ Still not observed:
 `ACCESS_LAYER_IMPLEMENTED_CANDIDATE = true`  
 `ACCESS_PRODUCT_E2E_PASS = false`  
 `READY_TO_SELL = false`
+
+
+## 2026-09-23 Premium provider discovery
+
+Read-only Lemon Squeezy probe result:
+
+- store: `462419`
+- exact product `Verlune Premium`: NOT OBSERVED
+- observed historical SKU: `Verlune Code Review` / product `1347720` / test_mode=true / USD 9
+- provider side effects: 0
+- state: `ACTION_REQUIRED / CREATE_NEW_PREMIUM_PRODUCT`
+
+Decision:
+Do **not** rename or repurpose the historical Code Review SKU. Create a separate `Verlune Premium` product so prior commerce/evidence identity remains auditable.
+
+Required Premium provider settings:
+- USD 9 one-time;
+- license keys enabled;
+- activation limit 3;
+- license length unlimited.
+
+After creation, rerun:
+`python3 tools/pm_verlune_premium_provider_probe.py --store-id 462419`
+
+Evidence:
+`product/verlune-v1/evaluation/PREMIUM_PROVIDER_PROBE_2026-09-23.json`
