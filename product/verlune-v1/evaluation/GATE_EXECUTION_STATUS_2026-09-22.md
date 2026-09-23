@@ -683,3 +683,21 @@ Patch:
 State:
 - `ACCESS-14 PROVIDER OUTAGE` remains unexecuted;
 - redeploy required before fault injection.
+
+
+## 2026-09-23 provider outage fault injection — fail-closed PASS / restore retry pending
+
+Observed on outage deployment `dpl_3upqJP3Tu25CWCZHi9vmmCvdJomL`:
+- forced revalidation repeatedly returned 303 to the locked state;
+- UI displayed the explicit provider-unavailable message;
+- signed browser session was retained only for retry;
+- direct `GET /app` during outage returned 307 and did not expose Premium.
+
+A subsequent READY production-target staging deployment `dpl_HW3MorA762ag2SpGzSuPphKQD8jU` exists as the restore candidate.
+
+Evidence:
+`product/verlune-v1/evaluation/PROVIDER_OUTAGE_EVIDENCE_2026-09-23.json`
+
+State:
+- `ACCESS-14 provider outage fail-closed = PASS`
+- `ACCESS-14 retry after provider restore = PENDING USER RETRY`
