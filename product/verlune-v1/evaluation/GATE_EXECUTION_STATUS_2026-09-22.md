@@ -485,3 +485,33 @@ Evidence:
 
 Still open before `ACCESS_PRODUCT_E2E_PASS`:
 invalid/mismatched entitlement cases, session tamper, revalidation/revocation, logout/reuse, deactivation, provider-outage behavior and three-browser/4th-browser policy.
+
+
+## 2026-09-23 logout + same-browser activation reuse — PASS
+
+Operator-observed:
+- Prompt Builder opened with complete protected body;
+- Copy full asset: PASS;
+- Lemon license remained `Active (1/3)`;
+- after logout, `/app` locked again;
+- same browser re-unlocked with the same Test entitlement;
+- activation usage remained `1/3` rather than increasing.
+
+Runtime corroboration:
+- `POST /api/verlune/logout` → 303;
+- subsequent `GET /app` → 307;
+- `POST /api/verlune/unlock` → 200;
+- subsequent `GET /app` → 200;
+- subsequent `GET /app/asset/VP-BUILDER-001` → 200.
+
+Evidence:
+`product/verlune-v1/evaluation/SESSION_REUSE_EVIDENCE_2026-09-23.json`
+
+Closed:
+- `ACCESS-15 Logout semantics = PASS`
+- `ACCESS-16 Same-browser re-unlock reuses activation = PASS`
+- Prompt Builder protected delivery/copy path = PASS observed
+- activation reuse `1/3 → 1/3` = PASS
+
+Still open:
+negative entitlement cases, session tamper, periodic revalidation/revocation, provider-outage behavior, provider deactivation, and 3-browser/4th-browser policy.
