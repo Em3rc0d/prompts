@@ -80,3 +80,29 @@ sha256=55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32
 ```
 
 Then the Next.js build and Premium post-build audit must also pass before the access build gate can close.
+
+
+## Second operator rerun — Windows working-tree line endings
+
+Observed after the first patch:
+
+```text
+npm run typecheck
+PASS
+
+npm run build
+FREE PACK MATERIALIZE FAIL: size mismatch LICENSE.md
+```
+
+The failure occurred before archive assembly. The governed manifest records canonical Git blob bytes, while the operator's Windows checkout materialized Markdown with CRLF line endings. A byte-for-byte identity check against canonical LF Git blobs therefore failed even though the logical text was unchanged.
+
+### Second patch
+
+- Free Pack materialization now normalizes checked-out text from CRLF/CR to LF **before** size, Git-blob and SHA-256 verification.
+- Premium private Markdown materialization now applies the same canonical LF normalization before writing server-private bytes.
+- This prevents the same Windows checkout issue from appearing later in Premium Git-blob verification.
+- Non-Markdown Premium files remain byte-preserved.
+
+The frozen hashes were **not changed**. The patch makes platform checkout bytes converge back to the already-governed canonical identity.
+
+State: `PATCHED_2 / OPERATOR RERUN REQUIRED`.
