@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { safePremiumNextPath } from "@/lib/verlune-auth.server";
 import {
   entitlementMatches,
+  LemonAdminApiError,
+  LemonLicenseApiError,
   retrieveRawLicenseKey,
   validateLicenseKey
 } from "@/lib/verlune-access";
@@ -58,8 +60,26 @@ export async function GET(request: NextRequest) {
       premiumCookieOptions(refreshed)
     );
     return response;
-  } catch {
-    // Fail closed without destroying the local session on a provider/network outage.
+  } catch (error) {
+    const rejectedLicense =
+      error instanceof LemonLicenseApiError &&
+      error.operation === "validate" &&
+      error.status >= 400 &&
+      error.status < 500 &&
+      error.status !== 429;
+
+    const missingOrRejectedAdminLicense =
+      error instanceof LemonAdminApiError &&
+      error.status >= 400 &&
+      error.status < 500 &&
+      error.status !== 429;
+
+    if (rejectedLicense || missingOrRejectedAdminLicense) {
+      // A provider-side entitlement rejection is not an outage. Invalidate the browser authorization.
+      return unlockRedirect(request, "session-invalid", true);
+    }
+
+    // Network, rate-limit and upstream 5xx failures remain retryable but fail closed.
     return unlockRedirect(request, "revalidation-unavailable", false);
   }
 }
