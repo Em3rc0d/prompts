@@ -31,7 +31,7 @@ For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix i
 
 ### Cross-model portability
 
-State: `REWORK_REQUIRED — CHATGPT 12/12 PASS; GEMINI 10/12 PASS WITH 2 BLOCKING FAILURES`
+State: `CURRENT-BLOB BEHAVIOR PASS / NAMED MODEL METADATA OPEN`
 
 A representative 8-asset / 12-case batch is frozen before results. It must be executed once on ChatGPT and once on Gemini, recording the exact model/config shown by each provider. A host/model may be named as tested only after its own qualifying observed run; no universal compatibility claim is permitted.
 
@@ -66,10 +66,10 @@ GENERATED PROMPT SECOND INSTANCE                 PASS
 GENERATED WORKFLOW SECOND INSTANCE               PASS
 
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
-NON-BUILDER EXACT-ASSET 32-CASE BATCH          PRIOR BLOBS PASS; 2-ASSET DELTA OPEN
+NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS ON CURRENT BINDING
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
-TARGETED CROSS-MODEL PORTABILITY                 REWORK REQUIRED (GEMINI 2 BLOCKING FAILS)
+TARGETED CROSS-HOST BEHAVIOR                     PASS BOUNDED SAMPLE; MODEL METADATA OPEN
 HUMAN REVIEW H1-H11                              OPEN
 ENTITLEMENT / COMMERCE E2E                       GATED
 LANDING REDESIGN                                 FROZEN
@@ -244,3 +244,22 @@ Current state:
 - result: OPEN
 - batch: `product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_3_CASE_BATCH_2026-09-23.txt`
 - contract: `product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_CONTRACT_2026-09-23.json`
+
+
+## 2026-09-23 final Deep Research delta result
+
+- exact current blob: `afa65c9cdccff26d6fe92cee800818f3066d4220`
+- ChatGPT: 3/3 behavioral PASS
+- Gemini: 3/3 behavioral PASS, with `SOURCE_ACCESS_BLOCKED` on the normal research case because live source retrieval was unavailable
+- blocking failures: 0
+- VP-WF-006 current blob: PASS on both observed hosts from prior delta
+- exact-asset runtime gate: PASS on current binding
+- targeted cross-host behavioral sample: PASS
+- exact ChatGPT model/config: NOT SUPPLIED
+- exact Gemini model/config: NOT SUPPLIED
+- named host/model portability qualification: OPEN
+- universal portability: NOT CLAIMED
+- review: `product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_2026-09-23.json`
+
+Interpretation:
+Gemini demonstrated the correct fail-safe source-access path, not live academic retrieval. Therefore the behavior gate is closed, but no claim that the observed Gemini environment can execute source-retrieval research is permitted.
