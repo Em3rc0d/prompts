@@ -70,9 +70,7 @@ export async function GET(request: NextRequest) {
 
     const missingOrRejectedAdminLicense =
       error instanceof LemonAdminApiError &&
-      error.status >= 400 &&
-      error.status < 500 &&
-      error.status !== 429;
+      (error.status === 404 || error.status === 410);
 
     if (rejectedLicense || missingOrRejectedAdminLicense) {
       // A provider-side entitlement rejection is not an outage. Invalidate the browser authorization.
