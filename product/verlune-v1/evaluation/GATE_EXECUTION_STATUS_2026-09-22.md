@@ -25,9 +25,9 @@ The batch used the exact frozen Builder identities and covered all 32 category c
 
 ### Formal non-Builder exact-asset runtime
 
-State: `RISK_BASED_32_CASE_GATE_FROZEN / EXECUTION_OPEN`
+State: `PASS / 32 OF 32`
 
-For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix is preserved but no longer mandatory. Before seeing runtime results, a proportional exact-asset gate was frozen: all 24 exact non-Builder launch-core assets receive one NORMAL runtime case, plus 8 preselected edge/adversarial cases. Total: 32 cases in one segmented batch. The earlier 104 observations remain screening only and are not silently upgraded.
+For the bounded v1 launch gate, the earlier exhaustive 87-case isolated matrix is preserved but no longer mandatory. Before seeing runtime results, a proportional exact-asset gate was frozen: all 24 exact non-Builder launch-core assets receive one NORMAL runtime case, plus 8 preselected edge/adversarial cases. Result: **32 PASS / 0 FAIL / 0 INCONCLUSIVE**. The earlier 104 observations remain screening only and are not silently upgraded.
 
 ### Cross-model portability
 
@@ -66,7 +66,7 @@ GENERATED PROMPT SECOND INSTANCE                 PASS
 GENERATED WORKFLOW SECOND INSTANCE               PASS
 
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
-NON-BUILDER EXACT-ASSET 32-CASE BATCH          OPEN
+NON-BUILDER EXACT-ASSET 32-CASE BATCH          PASS (32/32)
 5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     PASS (5/5)
 TARGETED CROSS-MODEL PORTABILITY                 OPEN
@@ -125,3 +125,21 @@ Master rule: `not observed == unknown`.
 - original 87-case packet preserved for deeper qualification, not mandatory for bounded v1 launch
 - plan: `product/verlune-v1/evaluation/RISK_BASED_EXACT_ASSET_RUNTIME_GATE_2026-09-23.json`
 - batch: `product/verlune-v1/evaluation/NON_BUILDER_32_SINGLE_CHAT_EXACT_ASSET_BATCH_2026-09-23.txt`
+
+
+## 2026-09-23 non-Builder exact-asset gate closure
+
+- exact non-Builder assets observed: 24/24
+- cases reviewed: 32
+- PASS: 32
+- FAIL: 0
+- INCONCLUSIVE: 0
+- blocking failures: 0
+- transcript SHA-256: `d3f682cd75879eee6dba375899938b984ac19ca9496091754947f8739559ada4`
+- transcript bytes: 112125
+- runtime/model/host metadata: NOT CAPTURED IN TRANSCRIPT
+- evidence mode: `MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_EXACT_ASSET`
+- `NON_BUILDER_EXACT_ASSET_RUNTIME_GATE = PASS`
+- review record: `product/verlune-v1/evaluation/NON_BUILDER_32_EXACT_ASSET_REVIEW_2026-09-23.json`
+- independent-context robustness: NOT ESTABLISHED
+- cross-model portability: OPEN
