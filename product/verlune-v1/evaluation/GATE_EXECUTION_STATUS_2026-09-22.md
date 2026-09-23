@@ -557,3 +557,32 @@ Gate effect:
 - `ACCESS-03 Invalid license denied = PASS_SECURITY / UX_RETEST_REQUIRED_AFTER_REDEPLOY`
 - `ACCESS-17 Deactivate semantics = PASS`
 - provider activation after deactivation: `0/3`
+
+
+## 2026-09-23 invalid-entitlement UX retest — PASS
+
+Redeployed access fix observed on staging deployment `dpl_2X36LEthfNDUcKvVqPKtiKrRyJog`.
+
+Runtime:
+- rejected unlock attempt #1 → HTTP 401;
+- rejected unlock attempt #2 → HTTP 401;
+- valid unlock afterward → HTTP 200;
+- `/app` afterward → HTTP 200.
+
+Provider state:
+- after deactivation: `Inactive (0/3)`;
+- after valid reactivation: `Active (1/3)`.
+
+This closes the earlier invalid-license error-classification defect.
+
+Evidence:
+`product/verlune-v1/evaluation/INVALID_ENTITLEMENT_RETEST_2026-09-23.json`
+
+Closed:
+- `ACCESS-03 Invalid license denied = PASS`
+- `ACCESS-04 Wrong checkout email denied = PASS`
+- `ACCESS-17 Deactivate semantics = PASS`
+- deactivate → reactivate `0/3 → 1/3 = PASS`
+
+Open:
+session tamper, stale-session revalidation/revocation, provider-outage retry behavior, and 3-browser/4th-browser activation policy.
