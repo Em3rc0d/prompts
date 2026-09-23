@@ -1,6 +1,6 @@
 {
   "schema": "verlune-v1-portability-test-packet",
-  "status": "FROZEN_READY_FOR_EXTERNAL_EXECUTION",
+  "status": "RISK_BASED_12_CASE_BATCH_FROZEN_READY_FOR_EXTERNAL_EXECUTION",
   "frozen_at": "2026-09-22",
   "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
   "purpose": "Bound portability claims to observed behavior on exact current assets. This is a representative risk-based sample, not a universal-model claim.",
@@ -87,5 +87,18 @@
     "underspecified_or_missing",
     "adversarial_or_embedded_instruction_where_relevant"
   ],
-  "claim_rule": "Only name a host/model as tested after exact-asset observed PASS evidence exists for that host/model. Never extrapolate to all models."
+  "claim_rule": "Only name a host/model as tested after exact-asset observed PASS evidence exists for that host/model. Never extrapolate to all models.",
+  "v1_execution": {
+    "batch": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_SINGLE_CHAT_BATCH_2026-09-23.txt",
+    "review_contract": "product/verlune-v1/evaluation/PORTABILITY_12_CASE_REVIEW_CONTRACT_2026-09-23.json",
+    "asset_count": 8,
+    "case_count": 12,
+    "hosts_required": [
+      "ChatGPT",
+      "Gemini"
+    ],
+    "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_PORTABILITY",
+    "host_claim_rule": "A host/model may be named as tested only after 12/12 qualifying observed cases on that exact recorded UI model/config.",
+    "cross_model_closure": "Both target hosts must have qualifying observed runs; no extrapolation to other model versions."
+  }
 }
