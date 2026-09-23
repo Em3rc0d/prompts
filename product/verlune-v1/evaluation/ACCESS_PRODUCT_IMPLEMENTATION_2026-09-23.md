@@ -95,15 +95,20 @@ If the provider cannot be reached when revalidation is required, Premium fails c
 
 The access implementation is **not E2E-qualified yet**.
 
+Test-mode provider identity is now frozen:
+- `VERLUNE_PREMIUM_STORE_ID=462419`
+- `VERLUNE_PREMIUM_PRODUCT_ID=1383189`
+- `VERLUNE_PREMIUM_VARIANT_ID=2160866`
+- `VERLUNE_PREMIUM_ACTIVATION_LIMIT=3`
+
 Still required:
-1. create/freeze the actual new Verlune Premium Lemon Squeezy product + variant with license keys enabled and activation limit 3;
-2. freeze its exact store/product/variant IDs;
-3. configure server-only staging environment values and strong independent secrets;
-4. run typecheck + production build + leakage audit;
-5. deploy candidate access surface to staging;
-6. execute the frozen access test plan;
-7. run Human Review H1-H11 against this customer surface;
-8. only later run commerce test E2E and controlled live canary.
+1. configure these non-secret IDs plus the private Test-mode API key and strong independent session/fingerprint secrets in staging;
+2. run typecheck + production build + leakage audit;
+3. deploy candidate access surface to staging;
+4. execute the frozen access test plan;
+5. run Human Review H1-H11 against this customer surface;
+6. run commerce test E2E;
+7. audit/freeze the separate Live-mode identity only when preparing the controlled live canary.
 
 ## Gate
 
