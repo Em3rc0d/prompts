@@ -67,6 +67,7 @@ GENERATED WORKFLOW SECOND INSTANCE               PASS
 
 37 BUILDER SEGMENTED CASES                     PASS (37/37)
 FORMAL NON-BUILDER EXACT-ASSET EXECUTIONS        OPEN
+5 BUILDER SEGMENTED SPOT-CHECKS                 PASS (5/5)
 5 BUILDER CLEAN SPOT-CHECKS                     OPEN
 TARGETED CROSS-MODEL PORTABILITY                 OPEN
 HUMAN REVIEW H1-H11                              OPEN
@@ -87,3 +88,15 @@ Master rule: `not observed == unknown`.
 - INCONCLUSIVE: 0
 - clean-context spot-checks remaining: 5
 - review record: `product/verlune-v1/evaluation/BUILDER_BATCH_37_REVIEW_2026-09-23.json`
+
+
+## 2026-09-23 segmented spot-check update
+
+- pre-frozen sample executed in one segmented temporary chat
+- cases: 5
+- PASS/no material contradiction: 5
+- FAIL: 0
+- INCONCLUSIVE: 0
+- transcript SHA-256: `284bb509026fdc30ab7cefe4b040f04c9aa024abfad4f5d865ed39c0b0faeaf7`
+- this is consistency evidence only; it does not satisfy the previously frozen five physically isolated clean-context requirement
+- review record: `product/verlune-v1/evaluation/BUILDER_SPOTCHECK_5_SEGMENTED_REVIEW_2026-09-23.json`
