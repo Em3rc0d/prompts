@@ -1,0 +1,70 @@
+[
+  {
+    "width": 1920,
+    "height": 1080,
+    "state": {
+      "canvas": 1,
+      "ready": true,
+      "cards": [
+        "≡ PROMPT Structured input",
+        "◇ WORKFLOW Stages + decisions",
+        "▱ BUILDER Build yours",
+        "✓ VERIFY Verify"
+      ],
+      "webgl2": true,
+      "overlay": false
+    },
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "height": 1000,
+    "state": {
+      "canvas": 1,
+      "ready": true,
+      "cards": [
+        "≡ PROMPT Structured input",
+        "◇ WORKFLOW Stages + decisions",
+        "▱ BUILDER Build yours",
+        "✓ VERIFY Verify"
+      ],
+      "webgl2": true,
+      "overlay": false
+    },
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "state": {
+      "canvas": 1,
+      "ready": true,
+      "cards": [
+        "≡ PROMPT Structured input",
+        "◇ WORKFLOW Stages + decisions",
+        "▱ BUILDER Build yours",
+        "✓ VERIFY Verify"
+      ],
+      "webgl2": true,
+      "overlay": false
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "state": {
+      "canvas": 0,
+      "ready": false,
+      "cards": [
+        "≡ PROMPT Structured input",
+        "◇ WORKFLOW Stages + decisions",
+        "▱ BUILDER Build yours",
+        "✓ VERIFY Verify"
+      ],
+      "webgl2": true,
+      "overlay": false
+    },
+    "errors": []
+  }
+]
