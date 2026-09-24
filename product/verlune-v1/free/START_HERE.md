@@ -27,3 +27,10 @@ Verlune Free lets you try structured AI work on real tasks without payment.
 5. Follow the verification guidance before acting.
 
 Free assets are intended to be complete for their stated task. They are not intentionally broken previews.
+
+
+## License
+
+All eleven launch-core assets in this Free Library are governed by `LICENSE.md`.
+
+The license permits authorized use and adaptation for your own work while restricting resale or redistribution of the Free Library materials themselves. Read the full license before redistributing or embedding substantial portions.
