@@ -68,15 +68,32 @@ jobs:
         working-directory: web
         run: npm run typecheck
 
-      - name: Deploy source to staging project only
+      - name: Pull staging production environment
+        working-directory: web
+        run: |
+          npx --yes vercel@59.26.0 pull \
+            --yes \
+            --environment=production \
+            --scope "$VERCEL_ORG_ID" \
+            --token="$VERCEL_TOKEN"
+
+      - name: Build prebuilt artifact on Linux runner
+        working-directory: web
+        run: |
+          npx --yes vercel@59.26.0 build \
+            --prod \
+            --scope "$VERCEL_ORG_ID" \
+            --token="$VERCEL_TOKEN"
+
+      - name: Deploy prebuilt artifact to staging project only
         id: deploy
         working-directory: web
         run: |
-          DEPLOYMENT_URL="$(npx --yes vercel@latest deploy \
+          DEPLOYMENT_URL="$(npx --yes vercel@59.26.0 deploy \
+            --prebuilt \
             --prod \
             --yes \
-            --project "$VERCEL_PROJECT_ID" \
-            -T "$VERCEL_ORG_ID" \
+            --scope "$VERCEL_ORG_ID" \
             --token="$VERCEL_TOKEN")"
           echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
           echo "### Verlune staging deployment" >> "$GITHUB_STEP_SUMMARY"
@@ -86,35 +103,31 @@ jobs:
           echo "- Deployment: $DEPLOYMENT_URL" >> "$GITHUB_STEP_SUMMARY"
           echo "- Public prompt-quarry production project was not targeted." >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Verify Verlune staging identity and canonical routes
+      - name: Verify Verlune V3 staging identity and access boundary
         run: |
           for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
             HOME="$(curl --fail --silent --show-error "$STAGING_URL/" || true)"
-            CODE_REVIEW="$(curl --fail --silent --show-error "$STAGING_URL/code-review" || true)"
             FREE="$(curl --fail --silent --show-error "$STAGING_URL/free" || true)"
-            LEGACY_STARTER="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$STAGING_URL/starter-collection" || true)"
-            LEGACY_PACK="$(curl --silent --show-error --location --output /dev/null --write-out '%{url_effective}' "$STAGING_URL/developer-pack" || true)"
+            APP_LOCATION="$(curl --silent --show-error --output /dev/null --write-out '%{redirect_url}' "$STAGING_URL/app" || true)"
 
             if printf '%s' "$HOME" | grep -Fq 'VERLUNE' \
-              && printf '%s' "$HOME" | grep -Fq 'Work that deserves more than a' \
-              && printf '%s' "$HOME" | grep -Fq 'Verlune Code Review' \
-              && printf '%s' "$CODE_REVIEW" | grep -Fq 'Verlune Code Review' \
-              && printf '%s' "$CODE_REVIEW" | grep -Fq '$9' \
-              && printf '%s' "$CODE_REVIEW" | grep -Fq 'Gemini 3.5 Flash' \
-              && printf '%s' "$FREE" | grep -Fq 'Verlune Free Workflows' \
-              && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Prompt Quarry' \
-              && ! printf '%s' "$HOME$CODE_REVIEW" | grep -Fq 'Developer Pack' \
-              && [ "$LEGACY_STARTER" = "$STAGING_URL/code-review" ] \
-              && [ "$LEGACY_PACK" = "$STAGING_URL/code-review" ]; then
-              echo 'VERLUNE STAGING IDENTITY + CANONICAL ROUTES: PASS'
+              && printf '%s' "$HOME" | grep -Fq 'Use ours.' \
+              && printf '%s' "$HOME" | grep -Fq 'Build yours.' \
+              && printf '%s' "$HOME" | grep -Fq 'Work better with AI.' \
+              && printf '%s' "$FREE" | grep -Fq 'VERLUNE FREE' \
+              && printf '%s' "$FREE" | grep -Fq 'FREE PROMPTS' \
+              && printf '%s' "$FREE" | grep -Fq 'FREE WORKFLOWS' \
+              && ! printf '%s' "$HOME$FREE" | grep -Fq 'Prompt Quarry' \
+              && printf '%s' "$APP_LOCATION" | grep -Fq '/unlock'; then
+              echo 'VERLUNE V3 STAGING IDENTITY + ACCESS BOUNDARY: PASS'
               exit 0
             fi
 
-            echo "VERLUNE STAGING IDENTITY: waiting for canonical alias propagation (attempt $attempt/12)"
+            echo "VERLUNE V3 STAGING IDENTITY: waiting for canonical alias propagation (attempt $attempt/12)"
             sleep 5
           done
 
-          echo 'VERLUNE STAGING IDENTITY: FAIL — canonical staging alias does not serve the expected Verlune surface.'
+          echo 'VERLUNE V3 STAGING IDENTITY: FAIL — canonical staging alias does not serve the expected V3 surface.'
           exit 1
 
       - name: Emit non-commercial observability smoke events
