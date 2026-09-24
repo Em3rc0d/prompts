@@ -948,3 +948,14 @@ At that point:
 7. validate responsive/a11y/motion/performance;
 8. run visual regression;
 9. human visual acceptance.
+
+
+## Implementation authorization — 2026-09-23
+
+The user explicitly authorized refactoring and redesigning the Verlune web product from the approved visual plan. This supersedes the earlier implementation freeze.
+
+Boundary:
+- redesign implementation: AUTHORIZED;
+- Human Review H1-H11: still REQUIRED on the redesigned candidate;
+- commerce/live canary: still REQUIRED before READY_TO_SELL;
+- mockup-only fabricated claims remain prohibited.
