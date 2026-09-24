@@ -1,6 +1,6 @@
 # Verlune UI Contract v2
 
-Status: `CONTRACT CANDIDATE / MOCKUP-BOUND / IMPLEMENTATION FROZEN UNTIL HUMAN REVIEW`
+Status: `IMPLEMENTED CANDIDATE / MOCKUP-BOUND / PUBLIC RELEASE FROZEN`
 
 Date: 2026-09-23
 
@@ -12,7 +12,7 @@ Related:
 
 This document converts the approved mockup direction into an implementation-ready UI contract.
 
-It does **not** authorize implementation yet.
+Implementation on the feature branch was explicitly authorized by the user after this contract was drafted. Public release/merge remains gated.
 
 It defines:
 - screen architecture;
@@ -932,11 +932,11 @@ Current state:
 DESIGN_V2.md              CANDIDATE
 UI_CONTRACT_V2.md         MOCKUP-BOUND CANDIDATE
 MOCKUP DIRECTION          APPROVED FOR EXPLORATION
-FRONTEND IMPLEMENTATION   FROZEN
+FRONTEND IMPLEMENTATION   FEATURE-BRANCH CANDIDATE
 HUMAN REVIEW H1-H11       OPEN
 ```
 
-Implementation begins only after the Human Review disposition authorizes redesign.
+The feature-branch implementation now exists. Human Review remains required before public release/merge authorization.
 
 At that point:
 1. update contract from reviewer evidence;
