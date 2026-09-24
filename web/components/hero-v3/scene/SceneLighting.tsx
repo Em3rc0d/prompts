@@ -1,10 +1,10 @@
 export function SceneLighting() {
   return <>
-    <ambientLight intensity={.22} color="#a4b6b0" />
-    <directionalLight position={[-3, 4.2, 4]} intensity={2.3} color="#adffd4" />
-    <directionalLight position={[4.5, 1.5, 2.2]} intensity={2.5} color="#edf7f2" />
-    <directionalLight position={[-1.5, -3, 1.6]} intensity={.65} color="#a9e9d0" />
-    <pointLight position={[.4, -1.1, .1]} intensity={5.2} distance={5} decay={2} color="#45e59d" />
-    <pointLight position={[1.8, 1.6, 1.5]} intensity={2} distance={4} decay={2} color="#caffdf" />
+    <ambientLight intensity={.14} color="#9fb1ab" />
+    <directionalLight position={[-3.4, 4.5, 4.6]} intensity={1.85} color="#d8eee4" />
+    <directionalLight position={[4.7, 1.7, 2.6]} intensity={2.1} color="#f4f8f6" />
+    <directionalLight position={[-2.2, -3.2, 1.3]} intensity={.48} color="#8fc9ae" />
+    <pointLight position={[.25, -.72, .35]} intensity={2.85} distance={4.4} decay={2.2} color="#5ce5a4" />
+    <pointLight position={[1.85, 1.72, 1.8]} intensity={1.15} distance={3.8} decay={2.1} color="#e9fff3" />
   </>;
 }
