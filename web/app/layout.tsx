@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import Link from "next/link";
 import { FunnelTracker } from "@/components/funnel-tracker";
 import "./globals.css";
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>
+    <Script src="https://app.lemonsqueezy.com/js/lemon.js" strategy="afterInteractive" />
     <a className="skipLink" href="#main-content">Skip to content</a>
     <FunnelTracker />
     <header className="nav vNav"><div className="wrap navInner">
