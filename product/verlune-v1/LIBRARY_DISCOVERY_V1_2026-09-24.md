@@ -55,15 +55,16 @@ protected complete asset
 
 `/library` is the public catalog surface.
 
-It may expose:
-- asset ID;
-- customer-facing name;
-- tier;
-- type;
-- customer-facing category;
-- summary.
+For Free assets, the public catalog may expose the normal discovery metadata and summary.
 
-It must not expose Premium source bytes, raw Markdown, source paths, source blob hashes, or any other field that substitutes for entitlement.
+For Premium assets, the customer-facing public card exposes only:
+- the customer-facing asset name;
+- a Premium marker;
+- the route to the Premium value/access surface.
+
+Premium summaries, IDs, category labels, type labels, source bytes, raw Markdown, source paths, source blob hashes, and complete asset bodies are not rendered on the public card.
+
+Internal classification may still be used to power catalog filtering, but it is not presented as Premium asset content.
 
 ## Filters
 
@@ -111,7 +112,7 @@ CATALOGED ≠ RUNTIME TESTED
 STRUCTURE CHECKED ≠ CERTIFIED
 ```
 
-Premium metadata is deliberately discoverable before purchase. Premium asset content remains protected.
+Premium asset names are deliberately discoverable before purchase. Premium summaries and asset contents remain protected.
 
 ## Explicitly out of scope
 
@@ -137,7 +138,7 @@ CATEGORY_FILTER             IMPLEMENTED
 CURATED_COLLECTIONS         IMPLEMENTED
 FREE_REUSE                  IMPLEMENTED
 PREMIUM_REUSE               IMPLEMENTED
-PREMIUM_CONTENT_BOUNDARY    METADATA_ONLY_PUBLIC
+PREMIUM_CONTENT_BOUNDARY    NAME_ONLY_PUBLIC
 BUILD_GATE                  OPEN
 STAGING_REVIEW              OPEN
 HUMAN_VISUAL_ACCEPTANCE     OPEN

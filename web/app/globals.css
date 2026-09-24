@@ -2218,3 +2218,17 @@ body {
   .vExplorerCardFooter { align-items: flex-start; flex-direction: column; }
   .vShowMore { flex-direction: column; }
 }
+
+
+/* Premium public discovery: name-only cards */
+.vExplorerCardNameOnly {
+  min-height: 190px;
+  justify-content: space-between;
+}
+.vExplorerCardNameOnly h3 {
+  margin-top: 26px;
+  max-width: 28ch;
+}
+.vExplorerCardNameOnly .vExplorerCardFooter {
+  margin-top: 24px;
+}

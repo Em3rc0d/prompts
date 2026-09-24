@@ -11,7 +11,8 @@ export type LibraryDiscoveryAsset = {
   tier: LibraryTier;
   category: string;
   categoryLabel: string;
-  summary: string;
+  summary: string | null;
+  publicNameOnly?: boolean;
   href: string;
   cta: string;
 };
@@ -123,7 +124,8 @@ function premiumAssets(destination: "public" | "private"): LibraryDiscoveryAsset
     tier: "premium",
     category: asset.category,
     categoryLabel: asset.categoryLabel,
-    summary: asset.summary,
+    summary: destination === "private" ? asset.summary : null,
+    publicNameOnly: destination === "public",
     href: destination === "private"
       ? `/app/asset/${encodeURIComponent(asset.id)}`
       : "/premium",
