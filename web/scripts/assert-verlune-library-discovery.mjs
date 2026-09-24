@@ -68,6 +68,15 @@ if (discovery.includes("sourceBlobSha: asset.sourceBlobSha") || discovery.includ
 if (!discovery.includes('destination === "private"') || !discovery.includes('href: destination === "private"')) {
   throw new Error("VERLUNE LIBRARY DISCOVERY AUDIT FAIL: Premium public/private destination boundary missing");
 }
+if (!discovery.includes('summary: destination === "private" ? asset.summary : null') ||
+    !discovery.includes('publicNameOnly: destination === "public"')) {
+  throw new Error("VERLUNE LIBRARY DISCOVERY AUDIT FAIL: public Premium must be name-only");
+}
+if (!explorer.includes('!asset.publicNameOnly && asset.summary') ||
+    !explorer.includes('!asset.publicNameOnly ? <div className="vExplorerCategory"') ||
+    !explorer.includes('!asset.publicNameOnly ? <small>{asset.id}</small>')) {
+  throw new Error("VERLUNE LIBRARY DISCOVERY AUDIT FAIL: public Premium name-only rendering boundary missing");
+}
 
 for (const [surface, source, markers] of [
   ["Free", freePage, ["LibraryExplorer", 'fixedTier="free"', 'initialCollectionId="start-here"']],
@@ -95,5 +104,5 @@ console.log("filters=tier+type+category");
 console.log("curated_collections=8");
 console.log("default_public_collection=start-here");
 console.log("pagination=12_at_a_time");
-console.log("premium_public_content=metadata_only");
+console.log("premium_public_content=name_only");
 console.log("premium_protected_content=entitlement_required");
