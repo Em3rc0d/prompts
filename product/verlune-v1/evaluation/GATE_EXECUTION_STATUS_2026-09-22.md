@@ -794,3 +794,48 @@ State:
 - staging visual review = PENDING
 - Human Review H1-H11 = OPEN ON REDESIGNED CANDIDATE
 - READY_TO_SELL = false
+
+
+## 2026-09-23 Verlune v2 build + staging deployment — PASS
+
+Operator-observed on WSL / Node.js 24.19.0 from commit `4e50f90bd518b5d5656396d33f835e15da05ac2e`:
+
+- `npm run typecheck`: PASS;
+- governed Free Pack materialization: PASS;
+- Free Pack identity: 7 assets / 23498 bytes / SHA-256 `55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32`;
+- Verlune Free materialization: PASS / 12 files;
+- Verlune Premium private materialization: PASS / 18 files;
+- Next.js 16.3.3 production build: PASS;
+- static generation: 25/25;
+- Golden Path build parity: PASS;
+- Premium build audit: PASS;
+- Verlune v2 build audit: PASS;
+- Free launch-core assets: 11 = 8 prompts + 3 workflows;
+- Premium launch-core assets: 17;
+- semantic 3D boundary: DOM/CSS;
+- unsupported mockup claims detected: 0;
+- `vercel build --prod`: PASS;
+- prebuilt deployment: PASS.
+
+Vercel deployment corroboration:
+- project: `prompt-quarry-stage`;
+- deployment: `dpl_9E1bZLatjjUieBnAorQVDoieNK4U`;
+- deployment URL: `prompt-quarry-stage-k2uwselc1-faridmerinos-projects.vercel.app`;
+- alias: `https://prompt-quarry-stage.vercel.app`;
+- state: `READY`;
+- target: `production` within the staging project;
+- runtime error/fatal logs in the checked post-deploy 30-minute window: none observed.
+
+Audit correction note:
+the first v2 audit failure (`free missing VF-P-`) was a test-boundary defect, not a customer-surface defect. `/free` renders IDs from `FREE_ASSETS`, so ID-family validation now correctly occurs at the catalog boundary and explicitly asserts 8 Free prompts + 3 Free workflows.
+
+Gate effect:
+- `V2_TYPECHECK_BUILD_PASS = true`;
+- `V2_POSTBUILD_AUDITS_PASS = true`;
+- `V2_STAGING_DEPLOY_PASS = true`;
+- `V2_STAGING_VISUAL_REVIEW = OPEN`;
+- `HUMAN_REVIEW_H1_H11 = OPEN`;
+- `READY_TO_SELL = false`.
+
+Important boundary:
+this closes build/package/deploy evidence only. It does not establish visual fidelity, responsive visual quality, customer comprehension, or purchase-value judgment.
