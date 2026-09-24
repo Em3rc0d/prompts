@@ -16,12 +16,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <header className="nav vNav"><div className="wrap navInner">
       <Link className="brand" href="/" aria-label="Verlune home"><span className="brandMark" aria-hidden="true">V</span><span>VERLUNE</span></Link>
       <nav className="navLinks" aria-label="Primary">
-        <Link href="/app">Library</Link>
+        <Link href="/premium">Premium</Link>
         <Link href="/free">Free</Link>
         <Link href="/learn">Learn</Link>
         <Link href="/code-review">Code Review</Link>
       </nav>
-      <Link className="navCta vNavCta" href="/unlock">Premium access <span aria-hidden="true">→</span></Link>
+      <Link className="navCta vNavCta" href="/unlock">Unlock access <span aria-hidden="true">→</span></Link>
     </div></header>
     <div id="main-content" tabIndex={-1}>{children}</div>
     <footer className="footer vFooter"><div className="wrap footerGrid">
@@ -35,7 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <span>AI execution happens in your compatible assistant.</span>
       </div>
       <nav className="footerLinks" aria-label="Footer">
-        <Link href="/app">Premium Library</Link>
+        <Link href="/premium">Premium</Link>
         <Link href="/free">Free</Link>
         <Link href="/learn">Learn</Link>
         <Link href="/license">License</Link>
