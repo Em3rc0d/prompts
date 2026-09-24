@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArtifactMiniObject, VerluneGraph } from "@/components/verlune-visuals";
+import { ArtifactMiniObject } from "@/components/verlune-visuals";
+import { VerluneHeroScene } from "@/components/hero-v3/VerluneHeroScene";
+import "@/components/hero-v3/hero-v3.css";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -38,14 +40,14 @@ export default function HomePage() {
             <Link className="btn btnPrimary" href="/free">Explore free <span aria-hidden="true">→</span></Link>
             <Link className="btn btnSecondary" href="/unlock">Premium access</Link>
           </div>
-          <div className="vHeroProof" aria-label="What Verlune provides">
-            <span><b>Prompts</b><small>bounded tasks</small></span>
-            <span><b>Workflows</b><small>recurring processes</small></span>
-            <span><b>Builders</b><small>your own reusable work</small></span>
-          </div>
         </div>
         <div className="v2HeroVisual">
-          <VerluneGraph label="A messy request becoming a structured prompt, workflow and verified reusable process" />
+          <VerluneHeroScene />
+        </div>
+        <div className="vHeroProof" aria-label="What Verlune provides">
+          <span><b>Prompts</b><small>bounded tasks</small></span>
+          <span><b>Workflows</b><small>recurring processes</small></span>
+          <span><b>Builders</b><small>your own reusable work</small></span>
         </div>
       </div>
     </section>

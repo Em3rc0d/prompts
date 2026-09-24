@@ -29,7 +29,7 @@ const requiredHomeMarkers = [
   "Use ours.",
   "Build yours.",
   "PROMPT ≠ WORKFLOW",
-  "VerluneGraph"
+  "VerluneHeroScene"
 ];
 for (const marker of requiredHomeMarkers) {
   if (!home.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: home missing ${marker}`);
@@ -57,6 +57,7 @@ const requiredPremiumMarkers = ["BUILD YOURS", "WORKFLOWS", "PROMPTS", "ADAPT & 
 for (const marker of requiredPremiumMarkers) {
   if (!premium.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: premium missing ${marker}`);
 }
+if (!premium.includes("VerluneGraph")) throw new Error("VERLUNE V2 AUDIT FAIL: premium missing VerluneGraph");
 
 const requiredCssMarkers = [
   "VERLUNE V2 — EDITORIAL COMPUTATIONAL",
@@ -104,6 +105,6 @@ console.log("free_launch_core_assets=11");
 console.log("free_launch_core_prompts=8");
 console.log("free_launch_core_workflows=3");
 console.log("premium_launch_core_assets=17");
-console.log("semantic_3d=dom_css");
+console.log("semantic_3d=hero-v3-hybrid; premium-v2-dom-css");
 console.log("unsupported_mockup_claims=0");
 console.log("boundary=build/source/materialization audit; human visual comprehension not implied");
