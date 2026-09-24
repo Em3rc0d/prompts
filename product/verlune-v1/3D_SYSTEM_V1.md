@@ -1,125 +1,132 @@
 # Verlune 3D System v1
 
-Status: `IMPLEMENTED CANDIDATE / FEATURE BRANCH ONLY`
+Status: IMPLEMENTED CANDIDATE / VALIDATION REQUIRED
 Date: 2026-09-23
 
 ## Purpose
 
-Define the semantic 3D language implemented in the Verlune v2 feature-branch redesign.
+Define the semantic 3D language used by Verlune v2.
 
-3D is not a decoration layer. It materializes structure, transformation, state and verification.
+3D exists to make structure, transformation, hierarchy, and verification visible. It is not ambient decoration.
 
-## Implementation priority
-
-1. CSS 3D transforms + DOM.
-2. SVG + CSS where path semantics are clearer.
-3. Canvas/WebGL only if an observed implementation limitation justifies it.
-
-Current implementation uses CSS/DOM and does not require a 3D engine.
-
-## Semantic primitives
+## Object grammar
 
 ### StructureBlock
+Represents a Prompt, Workflow, Builder artifact, or verification object.
 
-Represents a Prompt, Workflow, Builder or verification object.
-
-Properties:
-- dark low-gloss surface;
-- restrained mint edge;
-- shallow perceived extrusion;
-- readable front face;
-- no toy/plastic appearance.
+Rules:
+- dark low-gloss material;
+- mint edge light;
+- subtle extrusion;
+- labels stay readable;
+- no toy/plastic styling.
 
 ### GraphPlane
+Represents process context and relations between objects.
 
-Represents the structured context around a group of related objects.
-
-Properties:
-- subtle grid;
-- fades before page edges;
-- never carries unique information.
+Rules:
+- grid is subordinate to content;
+- no fake analytics;
+- grid density reduces on small screens.
 
 ### Connector
+Represents a real flow or dependency.
 
-Represents a real relationship or flow.
-
-Use only for:
-- valid stage connection;
-- transfer;
-- dependency;
-- fallback;
-- verification path.
+Rules:
+- every connection must correspond to a product concept;
+- no decorative spaghetti lines.
 
 ### VerificationSeal
+Represents an actual check/boundary.
 
-Represents an actual check or verification state.
+Rules:
+- mint confirmation only after a real verification state in interactive UI;
+- never imply certification where none exists.
 
-Never use it as a generic quality badge.
+## Material recipe
 
-## Depth levels
+Base:
+- #090D0F / #0D1316 / #11191D
+- low-gloss dark surfaces
+- 1px borders with mint-alpha 0.2–0.5
 
-- Z0 — page field.
-- Z1 — reading/navigation surface.
-- Z2 — semantic graph plane.
-- Z3 — focused StructureBlock.
+Accent:
+- #BFE3D0
+- stronger active highlight: #77F2BA
 
-Do not exceed four meaningful depth levels in one scene.
+Light:
+- single dominant mint edge light;
+- neutral white specular highlight;
+- no rainbow reflections;
+- glow only around active semantic states.
 
 ## Perspective
 
 Desktop:
-- mild perspective;
-- primary readable faces remain close to frontal;
-- rotation target <= approximately 8 degrees.
+- CSS perspective ~1100px;
+- primary object rotation <= 8 degrees;
+- layered z-depth remains readable.
 
 Mobile:
-- no perspective dependency;
-- transform into a vertical semantic stack;
-- all labels remain legible without rotation.
+- perspective simplified;
+- semantic vertical stack preferred;
+- no orbit/camera control.
 
-## Motion verbs
+## Motion
 
-- ASSEMBLE — fragments align into structured blocks.
-- CONNECT — semantic relationships become visible.
-- FOCUS — selected object gains subtle z-depth.
-- VERIFY — a state resolves into the verification state.
-- TRANSFER — a structured object moves directionally toward execution/reuse.
+Allowed:
+- ASSEMBLE
+- CONNECT
+- FOCUS
+- VERIFY
+- TRANSFER
+
+Timing:
+- micro: 120ms
+- UI: 180ms
+- graph: 260ms
+- scene: 420ms
 
 Forbidden:
-- infinite idle floating;
-- continuous rotation;
+- infinite floating loops;
+- idle spin;
 - camera fly-through;
-- orbit controls;
 - physics bounce;
-- decorative particles.
+- decorative particles;
+- interaction that requires 3D to understand content.
 
-## Timing
+## Implementation priority
 
-- micro feedback: 120ms;
-- standard UI: 180ms;
-- graph transition: 260ms;
-- scene transformation: 420ms target.
+1. DOM + CSS 3D
+2. SVG + CSS
+3. Canvas/WebGL only if a measured implementation limit requires it
 
-Reduced-motion mode removes nonessential transforms and preserves all information.
+Current implementation uses DOM/CSS primitives so:
+- text stays semantic;
+- first frame works before animation;
+- responsive fallback is cheap;
+- reduced-motion can remove transforms.
 
-## Current code mapping
+## Accessibility
 
-`web/components/verlune-visuals.tsx`
-- `VerluneGraph`
-- `ArtifactMiniObject`
-- `AssetStructureMap`
+- 3D never carries unique information;
+- each graph has a textual/ARIA equivalent;
+- reduced-motion removes scene animation/perspective shifts;
+- focus/selection must remain visible without glow;
+- color is not the only state signal.
 
-`web/app/globals.css`
-- `.vGraph*`
-- `.vMiniObject*`
-- `.vStructureMap*`
+## Performance
 
-## Validation
+- no external 3D runtime;
+- no texture packs;
+- no video background;
+- no continuous animation after entry except subtle nonessential effects;
+- no layout shifts from scene hydration.
 
-Before public release:
-- validate at 390 / 768 / 1440 / 1920;
-- confirm reduced-motion parity;
-- verify no graph label becomes unreadable;
-- profile initial paint and idle CPU;
-- confirm 3D does not delay meaningful first content;
-- visually compare Home, Premium Library and Asset Detail for material consistency.
+## Implemented primitives
+
+- VerluneGraph
+- ArtifactMiniObject
+- AssetStructureMap
+
+These map to the UI contract and may evolve only if visual validation shows a real usability or performance reason.
