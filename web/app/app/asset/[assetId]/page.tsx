@@ -9,6 +9,16 @@ import { getPremiumAssetMeta } from "@/lib/verlune-premium-catalog";
 
 export const dynamic = "force-dynamic";
 
+function customerVisibleContent(source: string): string {
+  // Keep the governed source byte-identical for copy/runtime. Hide only the
+  // internal release-status metadata line from the customer-facing preview.
+  return source
+    .split("\n")
+    .filter((line) => !/^Status:\s+`/.test(line))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n");
+}
+
 export async function generateMetadata({
   params
 }: {
@@ -74,7 +84,7 @@ export default async function PremiumAssetPage({
         </aside>
         <div>
           <div className="assetCodeHeader"><span>Complete asset</span><code>{asset.meta.id}</code></div>
-          <pre className="premiumAssetCode"><code>{asset.content}</code></pre>
+          <pre className="premiumAssetCode"><code>{customerVisibleContent(asset.content)}</code></pre>
         </div>
       </div>
     </section>
