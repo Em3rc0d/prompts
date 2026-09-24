@@ -64,10 +64,20 @@ if (new Set(names).size !== names.length) fail("duplicate prompt names");
 
 const normalizedBodies = new Map();
 
-for (const [tier, assets, required] of [
-  ["free", free, ["## Prompt", "RULES", "OUTPUT", "VERIFICATION"]],
-  ["premium", premium, ["## Prompt", "RULES", "PROCESS", "OUTPUT", "VERIFICATION"]]
-]) {
+const newIds = new Set([
+  "VF-P-DEV-002","VF-P-STUDY-002","VF-P-RES-002","VF-P-BIZ-002",
+  "VF-P-WRITE-002","VF-P-CONTENT-002","VF-P-PLAN-002","VF-P-CAREER-002",
+  "VP-P-DEV-002","VP-P-DEV-003","VP-P-DEV-004",
+  "VP-P-STUDY-002","VP-P-STUDY-003","VP-P-STUDY-004",
+  "VP-P-RES-003","VP-P-RES-004","VP-P-RES-005",
+  "VP-P-BIZ-002","VP-P-BIZ-003","VP-P-BIZ-004",
+  "VP-P-WRITE-002","VP-P-WRITE-003","VP-P-WRITE-004",
+  "VP-P-CONTENT-002","VP-P-CONTENT-003","VP-P-CONTENT-004",
+  "VP-P-PLAN-002","VP-P-PLAN-003","VP-P-PLAN-004",
+  "VP-P-CAREER-002","VP-P-CAREER-003","VP-P-CAREER-004"
+]);
+
+for (const [tier, assets] of [["free", free], ["premium", premium]]) {
   for (const asset of assets) {
     const file = path.join(productRoot, tier, asset.relativePath);
     if (!fs.existsSync(file)) fail(`${asset.id}: missing source ${tier}/${asset.relativePath}`);
@@ -78,7 +88,15 @@ for (const [tier, assets, required] of [
 
     const body = normalized.toString("utf8");
     if (!body.startsWith(`# ${asset.name}\n`)) fail(`${asset.id}: title does not match catalog name`);
-    for (const marker of required) if (!body.includes(marker)) fail(`${asset.id}: missing structural marker ${marker}`);
+
+    for (const marker of ["## Prompt", "RULES", "OUTPUT"]) {
+      if (!body.includes(marker)) fail(`${asset.id}: missing baseline structural marker ${marker}`);
+    }
+
+    if (newIds.has(asset.id)) {
+      if (!body.includes("VERIFICATION")) fail(`${asset.id}: new prompt missing explicit VERIFICATION`);
+      if (tier === "premium" && !body.includes("PROCESS")) fail(`${asset.id}: new Premium prompt missing explicit PROCESS`);
+    }
 
     const normalizedPrompt = body
       .replace(/^# .*$/m, "")
