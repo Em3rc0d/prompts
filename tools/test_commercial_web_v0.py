@@ -25,6 +25,7 @@ DEVELOPER_PACK = WEB / "app/developer-pack/page.tsx"
 STARTER_COLLECTION = WEB / "app/starter-collection/page.tsx"
 COMMERCE_LINK = WEB / "components/commerce-link.tsx"
 CODE_REVIEW_RELEASE = WEB / "lib/starter-code-review-release.ts"
+PUBLIC_PRODUCTS = WEB / "lib/public-products.ts"
 PREMIUM_COMMERCE = WEB / "lib/verlune-premium-commerce.ts"
 PREMIUM_CHECKOUT = WEB / "app/api/commerce/verlune-premium/checkout/route.ts"
 ENV = WEB / ".env.example"
@@ -79,6 +80,7 @@ def main() -> None:
     starter_collection = text(STARTER_COLLECTION)
     commerce_link = text(COMMERCE_LINK)
     release = text(CODE_REVIEW_RELEASE)
+    public_products = text(PUBLIC_PRODUCTS)
     premium_commerce = text(PREMIUM_COMMERCE)
     premium_checkout = text(PREMIUM_CHECKOUT)
     env = text(ENV)
@@ -163,15 +165,26 @@ def main() -> None:
     )
 
     require(
-        "Code Review page",
+        "Code Review page wiring",
         code_review,
+        "CODE_REVIEW as product",
+        "ProductActions",
         "A WORKFLOW FOR THE CHANGE IN FRONT OF YOU",
-        "Verlune Code Review",
-        "77/77",
-        "4/4",
-        "Gemini 3.5 Flash",
-        "model-specific evidence",
+        "EVIDENCE WITH BOUNDARIES",
+        "product.evidenceSummary.packQA",
+        "product.evidenceSummary.regression",
+        "product.evidenceSummary.model",
         "It is advisory.",
+    )
+    require(
+        "Code Review public product facts",
+        public_products,
+        'name: "Verlune Code Review"',
+        "price: 9",
+        'billingModel: "one-time"',
+        'packQA: "77/77"',
+        'regression: "4/4 human-review passes"',
+        'model: "Gemini 3.5 Flash"',
     )
 
     require(
