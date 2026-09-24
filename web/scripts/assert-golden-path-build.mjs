@@ -4,9 +4,11 @@ import path from "node:path";
 const nextRoot = path.resolve(process.cwd(), ".next");
 const requiredFragments = [
   "code-review",
+  "premium/page",
   "free/page",
   "learn/page",
   "api/commerce/starter-code-review/checkout",
+  "api/commerce/verlune-premium/checkout",
   "api/commerce/lemonsqueezy/starter-code-review-webhook",
   "free/developer-starter-pack",
   "starter-collection",
