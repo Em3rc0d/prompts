@@ -21,6 +21,7 @@ for (const rel of requiredSourceFiles) {
 
 const home = fs.readFileSync(path.join(root, "app/page.tsx"), "utf8");
 const free = fs.readFileSync(path.join(root, "app/free/page.tsx"), "utf8");
+const freeCatalog = fs.readFileSync(path.join(root, "lib/verlune-free-catalog.ts"), "utf8");
 const premium = fs.readFileSync(path.join(root, "app/app/page.tsx"), "utf8");
 const css = fs.readFileSync(path.join(root, "app/globals.css"), "utf8");
 
@@ -34,12 +35,25 @@ for (const marker of requiredHomeMarkers) {
   if (!home.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: home missing ${marker}`);
 }
 
-const requiredFreeMarkers = ["FREE PROMPTS","FREE WORKFLOWS","VF-P-","VF-WF-"];
-for (const marker of requiredFreeMarkers) {
+const requiredFreePageMarkers = ["FREE PROMPTS", "FREE WORKFLOWS"];
+for (const marker of requiredFreePageMarkers) {
   if (!free.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: free missing ${marker}`);
 }
 
-const requiredPremiumMarkers = ["BUILD YOURS","WORKFLOWS","PROMPTS","ADAPT & EVALUATE"];
+const requiredFreeCatalogMarkers = ["VF-P-", "VF-WF-"];
+for (const marker of requiredFreeCatalogMarkers) {
+  if (!freeCatalog.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: free catalog missing ${marker}`);
+}
+
+const freePromptIds = freeCatalog.match(/id:\s*"VF-P-[^"]+"/g) ?? [];
+const freeWorkflowIds = freeCatalog.match(/id:\s*"VF-WF-[^"]+"/g) ?? [];
+if (freePromptIds.length !== 8 || freeWorkflowIds.length !== 3) {
+  throw new Error(
+    `VERLUNE V2 AUDIT FAIL: expected 8 free prompts + 3 free workflows, got ${freePromptIds.length} + ${freeWorkflowIds.length}`
+  );
+}
+
+const requiredPremiumMarkers = ["BUILD YOURS", "WORKFLOWS", "PROMPTS", "ADAPT & EVALUATE"];
 for (const marker of requiredPremiumMarkers) {
   if (!premium.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: premium missing ${marker}`);
 }
@@ -87,6 +101,8 @@ for (const rel of [
 
 console.log("VERLUNE V2 BUILD AUDIT: PASS");
 console.log("free_launch_core_assets=11");
+console.log("free_launch_core_prompts=8");
+console.log("free_launch_core_workflows=3");
 console.log("premium_launch_core_assets=17");
 console.log("semantic_3d=dom_css");
 console.log("unsupported_mockup_claims=0");
