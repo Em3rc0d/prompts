@@ -8,6 +8,17 @@ const ATTRIBUTION_KEY = "pq:attribution";
 type Props = { kind: "free" | "code-review" | "starter" | "paid"; children: ReactNode; className?: string };
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
 
+declare global {
+  interface Window {
+    createLemonSqueezy?: () => void;
+    LemonSqueezy?: {
+      Url?: {
+        Open?: (url: string) => void;
+      };
+    };
+  }
+}
+
 function readAttribution(): Attribution {
   try { return JSON.parse(sessionStorage.getItem(ATTRIBUTION_KEY) || "{}") as Attribution; }
   catch { return {}; }
@@ -17,6 +28,29 @@ function internalUrl(path: string): string {
   const url = new URL(path, window.location.origin);
   for (const [key, value] of Object.entries(readAttribution())) if (value) url.searchParams.set(key, value);
   return `${url.pathname}${url.search}`;
+}
+
+async function openCheckoutOverlay(path: string): Promise<void> {
+  const response = await fetch(internalUrl(path), {
+    method: "GET",
+    redirect: "manual",
+    headers: { Accept: "application/json" },
+  });
+
+  const location = response.headers.get("location");
+  if (!location) {
+    window.location.assign(internalUrl(path));
+    return;
+  }
+
+  window.createLemonSqueezy?.();
+  const open = window.LemonSqueezy?.Url?.Open;
+  if (!open) {
+    window.location.assign(location);
+    return;
+  }
+
+  open(location);
 }
 
 export function CommerceLink({ kind, children, className = "btn btnPrimary" }: Props) {
@@ -60,6 +94,12 @@ export function CommerceLink({ kind, children, className = "btn btnPrimary" }: P
     window.dispatchEvent(new CustomEvent("pq:funnel", { detail }));
     if ((kind === "free" && freeExternal) || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+
+    if (kind === "code-review" || (kind === "paid" && publicFullSaleLive)) {
+      void openCheckoutOverlay(href);
+      return;
+    }
+
     window.location.assign(internalUrl(href));
   }
 
