@@ -743,3 +743,20 @@ this is a mixed-evidence gate closure. Runtime-observed cases are not silently r
 
 Next blocker:
 customer-facing Human Review H1-H11. The stale internal Builder status line already observed in the Premium asset body must be removed from the customer presentation before that review can pass.
+
+
+## 2026-09-23 customer Premium metadata audit
+
+Audit of all 17 launch-core Premium source heads found internal release-status metadata exposed in every raw asset preview, including `NOT_FOR_SALE`, `CANDIDATE`, and `RUNTIME TESTING REQUIRED` labels.
+
+Remediation implemented at the **preview presentation layer only**:
+- protected asset preview hides lines beginning with `Status:`;
+- governed source blobs remain unchanged;
+- `Copy full asset` remains byte-identical to the governed/tested source;
+- runtime evidence binding is therefore not rewritten.
+
+Evidence:
+`product/verlune-v1/evaluation/CUSTOMER_SURFACE_METADATA_AUDIT_2026-09-23.json`
+
+Human-review note:
+the visible trust defect is removed from preview, but Human Review should still verify whether the exact copied source's internal status metadata is confusing when pasted into an AI assistant.
