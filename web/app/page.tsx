@@ -36,7 +36,7 @@ export default function HomePage() {
           <p className="lead">Verlune is a library and toolkit for structured AI work: reusable prompts, workflows and Builders that you run in your own compatible AI assistant.</p>
           <div className="actions">
             <Link className="btn btnPrimary" href="/free">Explore free <span aria-hidden="true">→</span></Link>
-            <Link className="btn btnSecondary" href="/unlock">See Premium</Link>
+            <Link className="btn btnSecondary" href="/unlock">Premium access</Link>
           </div>
           <div className="vHeroProof" aria-label="What Verlune provides">
             <span><b>Prompts</b><small>bounded tasks</small></span>
