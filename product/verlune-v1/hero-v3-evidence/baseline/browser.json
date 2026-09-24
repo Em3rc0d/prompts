@@ -1,0 +1,77 @@
+[
+  {
+    "name": "1920",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1920,
+      "viewport": 1920,
+      "heroHeight": 843.40625,
+      "visual": {
+        "x": 940.109375,
+        "y": 249.703125,
+        "width": 659.890625,
+        "height": 520
+      }
+    }
+  },
+  {
+    "name": "1440",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1440,
+      "viewport": 1440,
+      "heroHeight": 805.71875,
+      "visual": {
+        "x": 700.109375,
+        "y": 230.859375,
+        "width": 659.890625,
+        "height": 520
+      }
+    }
+  },
+  {
+    "name": "768",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 768,
+      "viewport": 768,
+      "heroHeight": 1078.5,
+      "visual": {
+        "x": 20,
+        "y": 687.5,
+        "width": 728,
+        "height": 420
+      }
+    }
+  },
+  {
+    "name": "390",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 390,
+      "viewport": 390,
+      "heroHeight": 1299.34375,
+      "visual": {
+        "x": 20,
+        "y": 988.34375,
+        "width": 350,
+        "height": 390
+      }
+    }
+  },
+  {
+    "name": "reduced-1920",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1920,
+      "viewport": 1920,
+      "heroHeight": 843.40625,
+      "visual": {
+        "x": 940.109375,
+        "y": 249.703125,
+        "width": 659.890625,
+        "height": 520
+      }
+    }
+  }
+]
