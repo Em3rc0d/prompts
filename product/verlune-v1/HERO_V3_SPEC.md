@@ -31,7 +31,19 @@ The approved direction is the user-reviewed cinematic Verlune hero:
 
 The image is a visual target only. It is not a factual source.
 
-## 3. Architecture decision
+## 3. Contract precedence for Hero V3
+
+This specification is the more specific contract for the homepage Hero V3 and supersedes the earlier CSS/DOM-first implementation priority **for this hero only**.
+
+Explicit bounded changes:
+- WebGL/R3F is now authorized for the homepage hero when isolated behind a progressive fallback;
+- finite/static ambient depth points are permitted as spatial cues;
+- continuous decorative particle systems remain forbidden;
+- the rest of Verlune remains under the existing V2 DOM/CSS-first contracts unless separately authorized.
+
+This does not relax product-truth, accessibility, responsive, or performance boundaries.
+
+## 4. Architecture decision
 
 Use a HYBRID scene.
 
@@ -58,7 +70,7 @@ Reason:
 - DOM keeps text crisp, selectable, responsive, accessible and SEO-safe;
 - only the hero carries runtime 3D complexity.
 
-## 4. Scene composition
+## 5. Scene composition
 
 Desktop hero remains approximately 5/12 text + 7/12 visual.
 
@@ -98,7 +110,7 @@ Four DOM overlays:
 Cards use perspective/translate/rotate only for placement.
 No continuous floating.
 
-## 5. Material system
+## 6. Material system
 
 ### Core slab
 Candidate:
@@ -129,7 +141,7 @@ Forbidden:
 - saturated blue/purple cyberpunk mix;
 - bloom that reduces text legibility.
 
-## 6. Lighting
+## 7. Lighting
 
 Desktop target:
 - one mint key/rim source;
@@ -140,7 +152,7 @@ Desktop target:
 
 The scene should read clearly with bloom disabled. Bloom enhances; it must not create the structure.
 
-## 7. Motion
+## 8. Motion
 
 Motion is secondary to the first frame.
 
@@ -163,7 +175,7 @@ Reduced motion:
 - no camera/perspective animation;
 - all semantic information identical.
 
-## 8. Responsive model
+## 9. Responsive model
 
 ### >= 1200
 Full hybrid 3D scene.
@@ -186,7 +198,7 @@ Use vertical semantic stack / still illustration treatment.
 ### prefers-reduced-motion
 Use static fallback unless runtime scene has zero motion and no accessibility/performance penalty.
 
-## 9. Performance boundaries
+## 10. Performance boundaries
 
 Target budgets:
 - hero text and CTA must render without waiting for WebGL;
@@ -206,7 +218,7 @@ Dependency preference:
 
 Do not add `@react-three/drei` by default; add only for a concrete implementation need.
 
-## 10. Accessibility
+## 11. Accessibility
 
 - Canvas is decorative/semantic-supporting, never the only carrier of information.
 - Existing hero copy remains server-rendered DOM.
@@ -216,7 +228,7 @@ Do not add `@react-three/drei` by default; add only for a concrete implementatio
 - Reduced motion respected.
 - Color is never sole state encoding.
 
-## 11. Product truth boundaries
+## 12. Product truth boundaries
 
 Do not add:
 - fake activity;
@@ -230,7 +242,7 @@ Do not add:
 
 The scene represents product concepts, not live telemetry.
 
-## 12. Visual acceptance criteria
+## 13. Visual acceptance criteria
 
 At 1440×1000 and 1920×1080, reviewers should observe:
 
@@ -245,7 +257,7 @@ At 1440×1000 and 1920×1080, reviewers should observe:
 9. Mobile does not look like a shrunk desktop 3D scene.
 10. Reduced-motion view communicates the same product meaning.
 
-## 13. Gate
+## 14. Gate
 
 V3 may replace v2 only after:
 - visual target comparison;
