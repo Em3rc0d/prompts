@@ -1404,3 +1404,149 @@ body {
     transform:none !important;
   }
 }
+
+
+/* FREE LIBRARY */
+
+.vFreeHero {
+  padding: 68px 0 52px;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 76% 38%,rgba(119,242,186,.06),transparent 23rem);
+}
+.vFreeHeroGrid {
+  display: grid;
+  grid-template-columns: 1fr .9fr;
+  gap: 64px;
+  align-items: center;
+}
+.vFreeHero h1 {
+  font-size: clamp(3.4rem,5.5vw,5.3rem);
+  max-width: 760px;
+}
+.vFreeHeroVisual {
+  min-height: 390px;
+  position: relative;
+  border: 1px solid rgba(119,242,186,.22);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(119,242,186,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(119,242,186,.04) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(119,242,186,.1),transparent 13rem),
+    #0c1316;
+  background-size: 34px 34px,34px 34px,auto,auto;
+}
+.vFreeObject {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font: .68rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vFreeObjectPrompt { left: 16%; top: 20%; }
+.vFreeObjectWorkflow { right: 13%; bottom: 17%; }
+.vFreeObjectPrompt .vMiniObject { transform: scale(1.18); }
+.vFreeObjectWorkflow .vMiniObject { transform: scale(1.3); }
+.vFreeConnector {
+  position: absolute;
+  left: 38%;
+  top: 47%;
+  width: 31%;
+  height: 1px;
+  background: rgba(119,242,186,.42);
+  transform: rotate(26deg);
+  transform-origin: left center;
+}
+.vFreeConnector::before,
+.vFreeConnector::after {
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--v-accent-strong);
+  top:-3px;
+  box-shadow:0 0 16px rgba(119,242,186,.56);
+}
+.vFreeConnector::before { left:0; }
+.vFreeConnector::after { right:0; }
+
+.vFreePromptGrid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+.vFreeAssetCard {
+  min-height:300px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 84% 18%,rgba(119,242,186,.045),transparent 9rem),
+    rgba(17,25,29,.76);
+}
+.vFreeAssetCard:hover { border-color:rgba(119,242,186,.32); }
+.vFreeAssetVisual {
+  position:absolute;
+  right:4px;
+  top:2px;
+  opacity:.55;
+}
+.vFreeAssetCard .assetCardMeta { padding-right:72px; }
+.vFreeAssetCard h3 { margin-top:42px; max-width:84%; }
+.vFreeAssetCard p { font-size:.86rem; }
+
+.vFreeWorkflowSection {
+  background:linear-gradient(180deg,transparent,rgba(119,242,186,.018),transparent);
+}
+.vFreeWorkflowGrid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.vFreeWorkflowCard {
+  min-height:340px;
+  padding:26px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(119,242,186,.24);
+  border-radius:13px;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(119,242,186,.07),transparent 10rem),
+    linear-gradient(155deg,rgba(19,33,29,.78),rgba(11,17,20,.96));
+}
+.vFreeWorkflowVisual {
+  position:absolute;
+  right:6px;
+  top:4px;
+  opacity:.72;
+}
+.vFreeWorkflowCard .assetCardMeta { padding-right:84px; }
+.vFreeWorkflowCard h3 { margin-top:54px; max-width:75%; font-size:1.35rem; }
+.vFreeBoundary { border-top:1px solid var(--line); }
+.vFreeAssetDetail .vAssetHero { background:radial-gradient(circle at 74% 42%,rgba(119,242,186,.055),transparent 20rem); }
+
+@media (max-width: 1120px) {
+  .vFreePromptGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 840px) {
+  .vFreeHeroGrid { grid-template-columns:1fr; gap:34px; }
+  .vFreeHeroVisual { min-height:340px; }
+  .vFreeWorkflowGrid { grid-template-columns:1fr; }
+}
+@media (max-width: 600px) {
+  .vFreeHero { padding-top:42px; }
+  .vFreeHero h1 { font-size:clamp(2.7rem,12vw,4rem); }
+  .vFreeHeroVisual { min-height:300px; }
+  .vFreeObjectPrompt { left:4%; top:14%; }
+  .vFreeObjectWorkflow { right:3%; bottom:10%; }
+  .vFreeObjectPrompt .vMiniObject,
+  .vFreeObjectWorkflow .vMiniObject { transform:scale(.92); }
+  .vFreePromptGrid { grid-template-columns:1fr; }
+  .vFreeAssetCard { min-height:260px; }
+}
