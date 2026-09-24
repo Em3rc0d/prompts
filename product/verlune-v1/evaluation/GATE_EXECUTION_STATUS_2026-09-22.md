@@ -715,3 +715,31 @@ This completes `ACCESS-14 Provider outage fail-closed retry = PASS`.
 
 Evidence updated:
 `product/verlune-v1/evaluation/PROVIDER_OUTAGE_EVIDENCE_2026-09-23.json`
+
+
+## 2026-09-23 Premium access product gate closure
+
+Final bounded audit against the pre-frozen 20-case access plan:
+
+- PASS_RUNTIME: provider/customer staging behavior observed for the customer-critical paths;
+- PASS_BUILD: private materialization / route presence / public-bundle leakage checks;
+- PASS_CODE_INVARIANT: deterministic security/session/error-handling properties where another destructive manual fault injection would add little value;
+- all 20 cases: PASS under their recorded evidence mode;
+- blocking unauthorized Premium delivery observed: 0.
+
+Closure record:
+`product/verlune-v1/evaluation/ACCESS_PRODUCT_GATE_CLOSURE_2026-09-23.json`
+
+State:
+- `LOCAL_BUILD_GATE = PASS`
+- `STAGING_DEPLOY_GATE = PASS`
+- `ACCESS_PRODUCT_E2E_PASS = true`
+- `ENTITLEMENT_TEST_MODE_E2E_PASS = true`
+- `HUMAN_REVIEW_H1_H11 = OPEN`
+- `READY_TO_SELL = false`
+
+Important boundary:
+this is a mixed-evidence gate closure. Runtime-observed cases are not silently relabeled as exhaustive fault injection, and code-invariant cases are not claimed as provider/browser observations.
+
+Next blocker:
+customer-facing Human Review H1-H11. The stale internal Builder status line already observed in the Premium asset body must be removed from the customer presentation before that review can pass.
