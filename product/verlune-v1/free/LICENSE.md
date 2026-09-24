@@ -2,7 +2,7 @@
 
 Copyright © Prompt Quarry. All rights reserved.
 
-This license governs the eleven launch-core assets distributed through Verlune Free: eight structured prompts, three structured workflows, and the accompanying Free documentation (the "Free Library").
+This license governs the nineteen library assets distributed through Verlune Free: sixteen structured prompts, three structured workflows, and the accompanying Free documentation (the "Free Library").
 
 ## Permitted use
 
