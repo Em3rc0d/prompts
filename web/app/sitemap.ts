@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteUrl.replace(/\/$/, "");
   const routes = [
     "/",
+    "/library",
     "/free",
     "/premium",
     "/learn",
