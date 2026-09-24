@@ -1,0 +1,146 @@
+{
+  "schema": "verlune-v1-access-product-gate-closure-v1",
+  "date": "2026-09-23",
+  "status": "PASS_MIXED_EVIDENCE",
+  "access_product_e2e_pass": true,
+  "qualification": "The customer access path is provider-backed E2E on staging. The 20-case gate is closed using a mix of observed staging/provider behavior, production-build evidence, and deterministic code invariants. Cases not individually fault-injected in staging are explicitly labeled CODE_INVARIANT rather than RUNTIME_OBSERVED.",
+  "cases": [
+    {
+      "id": "ACCESS-01",
+      "status": "PASS_RUNTIME",
+      "basis": "Unauthenticated /app and protected asset routes redirected to /unlock; Premium body absent."
+    },
+    {
+      "id": "ACCESS-02",
+      "status": "PASS_CODE_INVARIANT",
+      "basis": "Unlock calls getVerluneAccessConfigState first and returns 503 without issuing session when required provider IDs/API key/secrets/config are absent or invalid."
+    },
+    {
+      "id": "ACCESS-03",
+      "status": "PASS_RUNTIME",
+      "basis": "Invalid/rejected license returned controlled 401 after remediation/retest and did not authorize Premium."
+    },
+    {
+      "id": "ACCESS-04",
+      "status": "PASS_RUNTIME",
+      "basis": "Correct key + wrong checkout email returned controlled 401; no extra activation consumed."
+    },
+    {
+      "id": "ACCESS-05",
+      "status": "PASS_CODE_INVARIANT",
+      "basis": "entitlementMatches rejects store_id, product_id, and variant_id mismatches before activation/session issuance; correct frozen identity succeeded in provider-backed staging."
+    },
+    {
+      "id": "ACCESS-06",
+      "status": "PASS_RUNTIME_PLUS_CODE",
+      "basis": "Provider metadata required activation_limit=3; three active browser instances succeeded and fourth activation returned 409 while provider stayed 3/3."
+    },
+    {
+      "id": "ACCESS-07",
+      "status": "PASS_RUNTIME_PLUS_CODE",
+      "basis": "Valid provider-backed unlock returned 200 and authorized /app. Session cookie options are HttpOnly, SameSite=Lax, Secure in production; signed payload contains keyed fingerprints/hashes and identifiers, not raw license key."
+    },
+    {
+      "id": "ACCESS-08",
+      "status": "PASS_RUNTIME",
+      "basis": "Authorized /app rendered exactly 17 launch-core customer surfaces including both Builders and both toolkit items."
+    },
+    {
+      "id": "ACCESS-09",
+      "status": "PASS_BUILD_RUNTIME_CODE",
+      "basis": "Premium assets are private-build materialized; readPremiumAsset recomputes Git blob SHA and rejects identity mismatch before delivery. Prompt Builder protected body was opened successfully."
+    },
+    {
+      "id": "ACCESS-10",
+      "status": "PASS_BUILD",
+      "basis": "VERLUNE PREMIUM BUILD AUDIT PASS; 17 private launch-core assets, 8 protected routes, 15 public/static files scanned with no protected marker leak observed."
+    },
+    {
+      "id": "ACCESS-11",
+      "status": "PASS_CODE_INVARIANT",
+      "basis": "Signed session uses HMAC-SHA256; parser timing-safe compares signature and returns null on mismatch; requirePremiumSession redirects null sessions. Independent deterministic reproduction of the exact signing/parse algorithm rejected a one-character token mutation."
+    },
+    {
+      "id": "ACCESS-12",
+      "status": "PASS_RUNTIME_PLUS_CODE",
+      "basis": "sessionNeedsRevalidation enforces 86400-second threshold. Forced revalidation exercised active, revoked, outage, and restore paths; stale outage token was hardened to validatedAt=0 so protected routes keep revalidating until success."
+    },
+    {
+      "id": "ACCESS-13",
+      "status": "PASS_RUNTIME",
+      "basis": "Disabled Test entitlement forced revalidation to session-invalid, cleared authorization semantics, blocked Premium, and rejected unlock while disabled."
+    },
+    {
+      "id": "ACCESS-14",
+      "status": "PASS_RUNTIME",
+      "basis": "Fault-injected provider/admin outage locked Premium, direct /app remained 307, retry state survived, restored provider revalidation returned to /app 200 without re-entering purchase details."
+    },
+    {
+      "id": "ACCESS-15",
+      "status": "PASS_RUNTIME",
+      "basis": "Logout returned 303; subsequent /app returned 307/locked while non-authorizing device reference remained available for reuse."
+    },
+    {
+      "id": "ACCESS-16",
+      "status": "PASS_RUNTIME",
+      "basis": "Same browser re-unlocked with same entitlement and provider activation stayed 1/3 rather than incrementing."
+    },
+    {
+      "id": "ACCESS-17",
+      "status": "PASS_RUNTIME",
+      "basis": "Deactivate returned 303; Lemon state changed Active 1/3 -> Inactive 0/3; later valid unlock restored Active 1/3."
+    },
+    {
+      "id": "ACCESS-18",
+      "status": "PASS_CODE_INVARIANT",
+      "basis": "On provider deactivation error, route redirects to /app/access?error=deactivation-unavailable without clearing authorization/device cookies; no false deactivation success is emitted, allowing retry."
+    },
+    {
+      "id": "ACCESS-19",
+      "status": "PASS_CODE_INVARIANT",
+      "basis": "newPremiumSession sets expiresAt = issuedAt + sessionMaxAgeSeconds; configured/default candidate is 604800 seconds. Parser rejects expired session and cookie maxAge cannot exceed remaining signed expiry."
+    },
+    {
+      "id": "ACCESS-20",
+      "status": "PASS_RUNTIME",
+      "basis": "Three distinct contexts reached Active 3/3; fourth browser unlock returned 409 and remained locked."
+    }
+  ],
+  "deterministic_invariant_checks": {
+    "session_algorithm_reproduction": {
+      "valid_signed_session_parses": true,
+      "one_character_tamper_rejected": true,
+      "expired_session_rejected": true,
+      "raw_license_absent_from_signed_payload": true,
+      "session_lifetime_seconds": 604800,
+      "stale_after_24h_boundary": true
+    },
+    "entitlement_match_reproduction": {
+      "correct_identity": "PASS",
+      "wrong_store": "REJECTED",
+      "wrong_product": "REJECTED",
+      "wrong_variant": "REJECTED",
+      "wrong_activation_limit": "REJECTED",
+      "disabled_status": "REJECTED"
+    },
+    "note": "These deterministic reproductions independently checked the exact pure-logic contract observed in the repository; they are not represented as browser/provider runtime executions."
+  },
+  "evidence_boundary": [
+    "Test-mode provider identity only: store 462419 / product 1383189 / variant 2160866.",
+    "This does not qualify the separate Live-mode product identity.",
+    "The exact ChatGPT/Gemini model labels remain an administrative portability metadata gap unrelated to access.",
+    "Human Review H1-H11 remains open and is the next customer-product gate.",
+    "A stale internal Builder status string is exposed in the protected customer asset body and must be resolved before Human Review can pass.",
+    "Commerce test purchase evidence exists for the entitlement used in staging, but the final production-candidate live canary remains required before READY_TO_SELL.",
+    "The Test license key exposed in screenshots should be retired after this qualification cycle."
+  ],
+  "gate_effect": {
+    "LOCAL_BUILD_GATE": "PASS",
+    "STAGING_DEPLOY_GATE": "PASS",
+    "ACCESS_PRODUCT_E2E_PASS": true,
+    "ENTITLEMENT_TEST_MODE_E2E_PASS": true,
+    "HUMAN_REVIEW_H1_H11": "OPEN",
+    "COMMERCE_FINAL_PRODUCTION_CANARY": "OPEN",
+    "READY_TO_SELL": false
+  }
+}
