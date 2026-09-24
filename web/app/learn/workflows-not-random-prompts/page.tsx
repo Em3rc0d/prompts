@@ -36,6 +36,6 @@ export default function WorkflowGuidePage() {
       <article className="card"><h3>What Verlune changes</h3><p>Verlune starts from the job: choose an outcome, inspect the workflow, apply it, verify the result, and reuse it. Each workflow makes its process and limits explicit, so the useful parts can be repeated without rebuilding the setup.</p></article>
     </div></div></section>
 
-    <section className="cta"><div className="wrap"><h2>Try the idea on a real task.</h2><p>The current free workflows has three structured developer workflows. Use one before deciding whether this approach is useful to you.</p><div className="actions"><Link className="btn btnPrimary" href="/free">Open the free workflows →</Link><Link className="btn btnSecondary" href="/learn">Back to Learn</Link></div></div></section>
+    <section className="cta"><div className="wrap"><h2>Try the idea on a real task.</h2><p>The current Free Library has eleven complete launch-core assets across eight categories: eight prompts and three workflows. Use one on a real task before deciding whether this approach is useful to you.</p><div className="actions"><Link className="btn btnPrimary" href="/free">Explore the Free Library →</Link><Link className="btn btnSecondary" href="/learn">Back to Learn</Link></div></div></section>
   </main>;
 }
