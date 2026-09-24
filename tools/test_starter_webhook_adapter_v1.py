@@ -94,7 +94,7 @@ def main() -> int:
         raise SystemExit("STARTER WEBHOOK ADAPTER V1: FAIL — Starter checkout route exists before release authorization")
     if "/api/commerce/starter-collection/checkout" in link:
         raise SystemExit("STARTER WEBHOOK ADAPTER V1: FAIL — customer CTA exposes a Starter checkout path")
-    require("Starter CTA hold", link, ('kind === "starter"', '"/starter-collection"'))
+    require("Starter CTA hold", link, ('kind === "starter"', '"/code-review"'))
 
     print("STARTER WEBHOOK ADAPTER V1: PASS")
     print(f"product_id={CANONICAL_ID}")
