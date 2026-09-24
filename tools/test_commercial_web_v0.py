@@ -15,6 +15,7 @@ COMMERCIAL = ROOT / "commercial"
 LAYOUT = WEB / "app/layout.tsx"
 HOME = WEB / "app/page.tsx"
 FREE = WEB / "app/free/page.tsx"
+LIBRARY = WEB / "app/library/page.tsx"
 PREMIUM = WEB / "app/premium/page.tsx"
 CODE_REVIEW = WEB / "app/code-review/page.tsx"
 LEARN = WEB / "app/learn/page.tsx"
@@ -70,6 +71,7 @@ def main() -> None:
     layout = text(LAYOUT)
     home = text(HOME)
     free = text(FREE)
+    library = text(LIBRARY)
     premium = text(PREMIUM)
     code_review = text(CODE_REVIEW)
     learn = text(LEARN)
@@ -87,7 +89,7 @@ def main() -> None:
     brand = text(BRAND)
 
     public_surface = "\n".join(
-        (layout, home, free, premium, code_review, learn, license_page, unlock)
+        (layout, home, library, free, premium, code_review, learn, license_page, unlock)
     )
     lower = public_surface.lower()
 
@@ -102,6 +104,7 @@ def main() -> None:
         'applicationName: "Verlune"',
         'aria-label="Verlune home"',
         '<span>VERLUNE</span>',
+        'href="/library">Library</',
         'href="/premium">Premium</',
         'href="/unlock">Unlock access',
     )
@@ -118,7 +121,19 @@ def main() -> None:
         "PROMPT ≠ WORKFLOW",
         'href="/free"',
         'href="/premium"',
+        'href="/library"',
         "Generated is not certified.",
+    )
+
+    require(
+        "Unified Library",
+        library,
+        "VERLUNE LIBRARY",
+        "Find the work.",
+        "getPublicLibraryAssets",
+        "LibraryExplorer",
+        'initialCollectionId="start-here"',
+        "DISCOVERY ≠ ACCESS",
     )
 
     require(
@@ -126,11 +141,12 @@ def main() -> None:
         free,
         "VERLUNE FREE",
         "Useful before",
-        "FREE PROMPTS",
-        "FREE WORKFLOWS",
+        "LibraryExplorer",
+        'fixedTier="free"',
         "FREE ≠ THROWAWAY",
         "No universal model claim.",
         'href="/premium"',
+        'href="/library"',
     )
 
     require(
@@ -266,6 +282,8 @@ def main() -> None:
     print("COMMERCIAL WEB V0: PASS")
     print("customer_brand=Verlune")
     print("home_positioning=Use ours / Build yours / Work better with AI")
+    print("library_discovery=/library")
+    print("library_assets=60")
     print("free_library_assets=19")
     print("premium_library_assets=41")
     print("premium_discovery=/premium")
