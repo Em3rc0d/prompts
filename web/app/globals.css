@@ -1564,3 +1564,262 @@ body {
 .vPremiumPublic .vCapabilityCard {
   min-height: 300px;
 }
+
+
+/* Verlune product-closure P1 UX */
+.vCategoryCardLink {
+  color: inherit;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.vCategoryCardLink:hover,
+.vCategoryCardLink:focus-visible {
+  border-color: rgba(119,242,186,.48);
+  background: linear-gradient(180deg,rgba(119,242,186,.055),rgba(17,25,29,.98));
+}
+.vCategoryCardLink:hover .vCategoryArrow,
+.vCategoryCardLink:focus-visible .vCategoryArrow {
+  color: var(--v-accent-strong);
+  transform: translate(2px,-2px);
+}
+.vCategoryArrow { transition: color .18s ease, transform .18s ease; }
+
+.mobileNav { display: none; }
+
+@media (max-width: 780px) {
+  .vNav .navInner {
+    min-height: 72px;
+    padding-block: 12px;
+    flex-wrap: nowrap;
+  }
+  .vNav .navLinks,
+  .vNav .vNavCta {
+    display: none;
+  }
+  .mobileNav {
+    display: block;
+    position: relative;
+    margin-left: auto;
+  }
+  .mobileNav summary {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+    list-style: none;
+    background: rgba(17,25,29,.92);
+  }
+  .mobileNav summary::-webkit-details-marker { display: none; }
+  .mobileNav summary span {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--text);
+  }
+  .mobileNav[open] summary {
+    border-color: rgba(119,242,186,.48);
+  }
+  .mobileNav nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 50;
+    min-width: min(280px, calc(100vw - 40px));
+    padding: 8px;
+    display: grid;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(9,13,15,.98);
+    box-shadow: 0 24px 60px rgba(0,0,0,.42);
+    backdrop-filter: blur(18px);
+  }
+  .mobileNav nav a {
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: var(--muted);
+  }
+  .mobileNav nav a:hover,
+  .mobileNav nav a:focus-visible {
+    color: var(--text);
+    background: var(--panel2);
+  }
+}
+
+@media (max-width: 480px) {
+  .vNav .navInner {
+    display: flex;
+    min-height: 68px;
+    padding-block: 10px;
+  }
+}
+
+
+/* =========================================================
+   VERLUNE V4.1 — SHARED SMOKED-GLASS MATERIAL LANGUAGE
+   Premium uses semantic DOM/CSS; only the Home hero uses WebGL.
+   ========================================================= */
+
+:root {
+  --v-glass-bg: rgba(10, 20, 19, .64);
+  --v-glass-bg-deep: rgba(7, 14, 15, .82);
+  --v-glass-border: rgba(170, 218, 196, .23);
+  --v-glass-border-strong: rgba(193, 239, 217, .38);
+  --v-glass-highlight: rgba(245, 255, 250, .09);
+  --v-glass-mint: rgba(119, 242, 186, .065);
+  --v-depth-shadow: 0 28px 70px rgba(0,0,0,.29);
+}
+
+.vGraph {
+  border-color: var(--v-glass-border);
+  background:
+    radial-gradient(circle at 51% 52%, rgba(93, 185, 137, .085), transparent 18%),
+    radial-gradient(circle at 50% 50%, rgba(81, 142, 110, .034), transparent 43%),
+    linear-gradient(145deg, rgba(246,255,250,.018), transparent 31%),
+    rgba(7, 14, 15, .73);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.035),
+    inset 0 -1px rgba(111,164,139,.05),
+    var(--v-depth-shadow);
+}
+.vGraph::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(112deg, rgba(244,255,249,.045), transparent 22%),
+    linear-gradient(180deg, transparent 62%, rgba(78,134,108,.035));
+}
+.vGraphGrid { opacity: .68; }
+.vGraphOrbit { border-color: rgba(146, 207, 177, .22); }
+.vGraphOrbitB { opacity: .34; }
+
+.vGraphSlab {
+  border-color: rgba(181, 230, 207, .28);
+  background:
+    linear-gradient(138deg, rgba(245,255,249,.055), transparent 27%, rgba(58,93,77,.035)),
+    rgba(10, 21, 19, .61);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.09),
+    inset 0 -1px rgba(78,137,108,.06),
+    0 18px 32px rgba(0,0,0,.16);
+  backdrop-filter: blur(14px);
+}
+.vGraphSlabBottom {
+  transform: translateZ(-58px);
+  opacity: .32;
+}
+.vGraphSlabMid {
+  transform: translateZ(-10px);
+  opacity: .57;
+}
+.vGraphSlabTop {
+  transform: translateZ(40px);
+  border-color: rgba(218, 252, 235, .43);
+}
+.vGraphCore {
+  border-color: rgba(210, 255, 234, .5);
+  background: rgba(5, 18, 14, .87);
+  color: #caffdf;
+  box-shadow:
+    0 0 0 8px rgba(119,242,186,.018),
+    0 0 26px rgba(84,193,137,.12),
+    inset 0 0 18px rgba(119,242,186,.055);
+}
+
+.vGraphBlock,
+.vPremiumLibrary .vBuilderFeature,
+.vPremiumLibrary .vWorkflowFeature,
+.vPremiumLibrary .vPromptRow,
+.vPremiumLibrary .vToolkitCard,
+.vPremiumPublic .vCapabilityCard,
+.vPremiumPublic .vPremiumSummary {
+  border-color: var(--v-glass-border);
+  background:
+    linear-gradient(132deg, var(--v-glass-highlight), transparent 29%, rgba(58,93,77,.025) 74%),
+    var(--v-glass-bg);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.075),
+    inset 0 -1px rgba(73,124,100,.055),
+    0 22px 52px rgba(0,0,0,.19);
+  backdrop-filter: blur(16px) saturate(108%);
+}
+
+.vGraphBlock:hover,
+.vPremiumLibrary .vBuilderFeature:hover,
+.vPremiumLibrary .vWorkflowFeature:hover,
+.vPremiumLibrary .vPromptRow:hover,
+.vPremiumLibrary .vToolkitCard:hover {
+  border-color: var(--v-glass-border-strong);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.1),
+    0 27px 58px rgba(0,0,0,.23),
+    0 0 24px rgba(119,242,186,.025);
+}
+
+.vMiniObject > span {
+  border-color: rgba(164, 211, 190, .26);
+  background:
+    linear-gradient(142deg, rgba(247,255,251,.06), transparent 28%),
+    rgba(8, 19, 18, .68);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 15px 28px rgba(0,0,0,.2);
+  backdrop-filter: blur(10px);
+}
+.vMiniObjectBack { opacity: .25; transform: translate(-16px,-12px) rotateY(14deg); }
+.vMiniObjectMid { opacity: .45; transform: translate(-8px,-6px) rotateY(10deg); }
+.vMiniObjectFront { color: #bde6d1; }
+.vMiniObject--builder .vMiniObjectFront {
+  border-color: rgba(194, 240, 218, .4);
+}
+
+.vPremiumHero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 38%, rgba(94, 180, 137, .06), transparent 24rem),
+    linear-gradient(180deg, rgba(15,27,24,.2), transparent 78%);
+}
+.vPremiumHero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 48%, rgba(238,255,247,.017) 61%, transparent 74%);
+}
+.vPremiumHero > .wrap { position: relative; z-index: 1; }
+
+.vPremiumLibrary .vCategoryRail {
+  border-color: rgba(151,193,174,.18);
+  background:
+    linear-gradient(180deg, rgba(240,255,248,.018), transparent 26%),
+    rgba(8,15,16,.48);
+  backdrop-filter: blur(14px);
+}
+.vPremiumLibrary .vCategoryRail a:hover,
+.vPremiumLibrary .vCategoryRail a:focus-visible {
+  background: rgba(119,242,186,.035);
+  border-color: rgba(174,219,199,.25);
+}
+.vPremiumLibrary .assetCardMeta,
+.vPremiumPublic .eyebrow {
+  color: #a9cdbb;
+}
+
+.vPremiumPublic .pageHero {
+  background:
+    radial-gradient(circle at 75% 38%, rgba(91,177,135,.065), transparent 25rem),
+    linear-gradient(180deg, rgba(15,27,24,.14), transparent);
+}
+.vPremiumPublic .vPremiumSummary {
+  border-radius: 14px;
+}

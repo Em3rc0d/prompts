@@ -23,9 +23,8 @@ export default function FreePage() {
           <p className="lead">Start with complete, reusable assets across real categories. Free is not a crippled demo: choose a task, run it in your compatible AI assistant, verify the result, and reuse the structure.</p>
           <div className="actions">
             <a className="btn btnPrimary" href="#free-assets">Explore free assets <span aria-hidden="true">↓</span></a>
-            <CommerceLink kind="free">Download developer starter ZIP <span aria-hidden="true">↓</span></CommerceLink>
           </div>
-          <p className="micro">The ZIP is the existing governed developer starter pack. The web library below exposes the broader Verlune v1 free launch-core assets individually.</p>
+          <p className="micro">Eleven complete launch-core assets are available individually below: eight prompts and three workflows.</p>
         </div>
         <div className="vFreeHeroVisual" aria-label="Free prompts and workflows">
           <div className="vFreeObject vFreeObjectPrompt"><ArtifactMiniObject type="Prompt" /><span>PROMPTS</span></div>
@@ -84,6 +83,24 @@ export default function FreePage() {
             <Link className="textLink" href={`/free/asset/${encodeURIComponent(asset.id)}`}>Open free workflow →</Link>
           </article>)}
         </div>
+      </div>
+    </section>
+
+    <section className="section vDeveloperResource">
+      <div className="wrap">
+        <div className="productFrame"><div className="productFrameGrid">
+          <div className="productMain">
+            <div className="eyebrow">DEVELOPMENT & TECH / DOWNLOAD</div>
+            <h2>Prefer a developer starter ZIP?</h2>
+            <p>The governed developer starter pack remains available as a separate download for code-focused work. It is a delivery option for that developer resource, not the definition of the broader Free Library.</p>
+          </div>
+          <aside className="purchasePanel">
+            <span className="purchaseLabel">DEVELOPER RESOURCE</span>
+            <h3>Starter ZIP</h3>
+            <p>Use the web library for the full eleven-asset Verlune Free launch core, or download the existing developer starter archive.</p>
+            <CommerceLink kind="free">Download developer starter ZIP ↓</CommerceLink>
+          </aside>
+        </div></div>
       </div>
     </section>
 

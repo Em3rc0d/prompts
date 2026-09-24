@@ -22,6 +22,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Link href="/code-review">Code Review</Link>
       </nav>
       <Link className="navCta vNavCta" href="/unlock">Unlock access <span aria-hidden="true">→</span></Link>
+      <details className="mobileNav">
+        <summary aria-label="Open navigation"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></summary>
+        <nav aria-label="Mobile">
+          <Link href="/premium">Premium</Link>
+          <Link href="/free">Free</Link>
+          <Link href="/learn">Learn</Link>
+          <Link href="/code-review">Code Review</Link>
+          <Link href="/unlock">Unlock access</Link>
+        </nav>
+      </details>
     </div></header>
     <div id="main-content" tabIndex={-1}>{children}</div>
     <footer className="footer vFooter"><div className="wrap footerGrid">
