@@ -3,7 +3,7 @@
   "date": "2026-09-23",
   "authorization": "USER_EXPLICIT",
   "branch": "feat/verlune-product-model-v1-20260922-r2",
-  "status": "IMPLEMENTED_IN_BRANCH / BUILD_VALIDATION_PENDING_OPERATOR_OR_DEPLOY",
+  "status": "IMPLEMENTED_IN_BRANCH / BUILD_AND_STAGING_VALIDATION_PENDING",
   "implemented": [
     "Global product shell and metadata broadened from Code Review-first to Verlune-first.",
     "Homepage rebuilt as Editorial Computational composition.",
@@ -15,7 +15,11 @@
     "Premium asset detail redesigned as a tool with structure map, persistent copy, usage rail, and related assets.",
     "Copy interaction gained success and error states.",
     "Unlock/access surfaces visually aligned without changing entitlement/security behavior.",
-    "Responsive layouts defined for desktop/tablet/mobile and reduced-motion path retained."
+    "Responsive layouts defined for desktop/tablet/mobile and reduced-motion path retained.",
+    "Free Library redesigned to expose all 11 governed free launch-core assets across eight categories.",
+    "Individual free asset pages added with verified source identity, structure map, copy flow, and trust boundaries.",
+    "Prebuild now materializes free launch-core source bytes separately from the legacy governed developer starter ZIP.",
+    "Postbuild v2 audit added to block unsupported mockup claims and require all 11 free + 17 Premium launch-core surfaces."
   ],
   "source_truth_boundary": {
     "fake_mockup_metrics_rendered": false,
@@ -28,9 +32,9 @@
   },
   "validation": {
     "static_repository_review": "PASS",
-    "typecheck": "PENDING_RUNTIME",
-    "production_build": "PENDING_RUNTIME",
-    "visual_regression": "PENDING_STAGING",
+    "typecheck": "PENDING_OPERATOR_BUILD",
+    "production_build": "PENDING_OPERATOR_BUILD",
+    "visual_regression": "PENDING_STAGING_DEPLOY",
     "human_review_H1_H11": "OPEN"
   },
   "release_effect": {
