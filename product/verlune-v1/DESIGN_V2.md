@@ -1,7 +1,7 @@
 
 # Verlune Visual Contract v2
 
-Status: DESIGN CANDIDATE / MOCKUPS AUTHORIZED / FRONTEND IMPLEMENTATION FROZEN UNTIL HUMAN REVIEW
+Status: IMPLEMENTATION CANDIDATE / FEATURE BRANCH AUTHORIZED / PUBLIC RELEASE FROZEN
 Date: 2026-09-23
 
 ## 1. Purpose
@@ -420,7 +420,7 @@ Where this visual contract is general and the UI contract is specific, the more 
 Current state:
 - Visual Contract v2: CANDIDATE.
 - Mockups: AUTHORIZED.
-- Frontend redesign: FROZEN.
-- Human Review H1-H11: required before implementation.
+- Frontend redesign: IMPLEMENTED AS FEATURE-BRANCH CANDIDATE BY EXPLICIT USER AUTHORIZATION.
+- Human Review H1-H11: still required before public release/merge authorization.
 
 After Human Review, revise this contract with reviewer-derived evidence before converting candidate tokens/layouts into production components.
