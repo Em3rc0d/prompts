@@ -79,8 +79,8 @@ if (!unlock.includes('href="/premium">← Explore Premium')) {
 }
 
 for (const marker of [
-  "eleven launch-core assets",
-  "eight structured prompts",
+  "nineteen library assets",
+  "sixteen structured prompts",
   "three structured workflows",
   "No resale or redistribution"
 ]) {
@@ -97,9 +97,9 @@ const workflowIds = catalog.match(/id:\s*"VP-WF-[^"]+"/g) ?? [];
 const builderIds = catalog.match(/id:\s*"VP-BUILDER-[^"]+"/g) ?? [];
 const toolkitIds = catalog.match(/id:\s*"VP-TK-[^"]+"/g) ?? [];
 
-if (promptIds.length !== 8 || workflowIds.length !== 5 || builderIds.length !== 2 || toolkitIds.length !== 2) {
+if (promptIds.length !== 32 || workflowIds.length !== 5 || builderIds.length !== 2 || toolkitIds.length !== 2) {
   throw new Error(
-    `VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium catalog expected 8/5/2/2, got ${promptIds.length}/${workflowIds.length}/${builderIds.length}/${toolkitIds.length}`
+    `VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium catalog expected 32/5/2/2, got ${promptIds.length}/${workflowIds.length}/${builderIds.length}/${toolkitIds.length}`
   );
 }
 
@@ -108,6 +108,6 @@ console.log("premium_public_discovery=present");
 console.log("premium_public_sale_default=NOT_FOR_SALE");
 console.log("premium_checkout=fail_closed_gated");
 console.log("unlock=existing_purchase_surface");
-console.log("free_license_scope=11_assets");
-console.log("premium_launch_core=17_assets");
+console.log("free_license_scope=19_assets");
+console.log("premium_launch_core=41_assets");
 console.log("boundary=source/build contract only; live commerce and human value review not implied");
