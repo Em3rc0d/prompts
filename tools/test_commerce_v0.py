@@ -226,11 +226,11 @@ def main() -> None:
         "public CTA fail-closed contract",
         link,
         (
-            'kind: "free" | "starter" | "paid"',
+            'kind: "free" | "code-review" | "starter" | "paid"',
             'NEXT_PUBLIC_DEVELOPER_PACK_SALE_STATUS === "LIVE"',
             '"/api/commerce/developer-pack/checkout"',
             '"/developer-pack"',
-            '"/starter-collection"',
+            '"/code-review"',
             f'product_id: "{CANONICAL_STARTER_ID}"',
             "event.preventDefault()",
         ),
