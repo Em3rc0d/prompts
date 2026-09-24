@@ -46,7 +46,7 @@ export default async function UnlockPage({
             <p><strong>Fail closed.</strong> Invalid, expired, disabled or mismatched licenses do not unlock Premium.</p>
             <p><strong>Three active browsers.</strong> A signed device reference lets the same browser reuse its existing activation after a session expires.</p>
           </div>
-          <Link className="textLink" href="/">← Back to Verlune</Link>
+          <div className="accessActions"><Link className="textLink" href="/premium">← Explore Premium</Link><Link className="textLink" href="/">Back to Verlune</Link></div>
         </div>
         <div className="accessPanel">
           <div className="eyebrow">PURCHASE ACCESS</div>
