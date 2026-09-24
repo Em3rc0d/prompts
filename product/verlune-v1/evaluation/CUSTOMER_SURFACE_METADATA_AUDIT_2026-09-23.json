@@ -1,0 +1,29 @@
+{
+  "schema": "verlune-v1-customer-surface-metadata-audit-v1",
+  "date": "2026-09-23",
+  "result": "REMEDIATED_PREVIEW_ONLY",
+  "observed": {
+    "premium_assets_checked": 17,
+    "assets_with_internal_status_line": 17,
+    "examples": [
+      "PREMIUM PROMPT CANDIDATE / NOT_FOR_SALE",
+      "PREMIUM WORKFLOW CANDIDATE / NOT_FOR_SALE",
+      "PREMIUM BUILDER CANDIDATE / RUNTIME TESTING REQUIRED",
+      "PREMIUM TOOLKIT CANDIDATE / NOT_FOR_SALE",
+      "PREMIUM WORKFLOW CANDIDATE / CERTIFIED LINEAGE / EXACT RELEASE RE-BIND REQUIRED"
+    ]
+  },
+  "decision": {
+    "source_blobs_changed": false,
+    "copy_payload_changed": false,
+    "customer_preview_changed": true,
+    "transform": "Hide lines beginning with `Status: ` from the protected on-page preview only.",
+    "rationale": "The status lines are internal release-governance metadata and are misleading to paying customers. Keeping Copy full asset byte-identical preserves the exact runtime evidence binding while removing the visible trust defect from the customer UI."
+  },
+  "boundary": [
+    "The exact governed asset source remains unchanged.",
+    "Copy full asset still copies the exact governed source, including internal status metadata.",
+    "Therefore behavioral/runtime lineage remains bound to the same source blobs.",
+    "If Human Review finds the copied status line materially confusing in the AI execution experience, a governed customer-payload transform will require its own evidence decision."
+  ]
+}
