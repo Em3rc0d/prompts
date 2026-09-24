@@ -393,8 +393,10 @@ Ask:
 
 ## 21. Non-goals
 
+3D is permitted only as semantic structure under `UI_CONTRACT_V2.md`.
+
 Do not add merely for novelty:
-- 3D objects;
+- decorative/non-semantic 3D objects;
 - fake AI terminals;
 - invented activity streams;
 - fake customer metrics;
@@ -405,7 +407,15 @@ Do not add merely for novelty:
 - irrelevant avatars/people;
 - dashboards unrelated to the customer's workflow.
 
-## 22. Gate
+## 22. Mockup-bound UI contract
+
+The detailed screen/component/3D/state contract derived from the approved mockup direction lives in:
+
+`product/verlune-v1/UI_CONTRACT_V2.md`
+
+Where this visual contract is general and the UI contract is specific, the more specific UI contract governs unless it conflicts with a frozen product/evidence boundary.
+
+## 23. Gate
 
 Current state:
 - Visual Contract v2: CANDIDATE.
