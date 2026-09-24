@@ -1564,3 +1564,97 @@ body {
 .vPremiumPublic .vCapabilityCard {
   min-height: 300px;
 }
+
+
+/* Verlune product-closure P1 UX */
+.vCategoryCardLink {
+  color: inherit;
+  transition: border-color .18s ease, background .18s ease, transform .18s ease;
+}
+.vCategoryCardLink:hover,
+.vCategoryCardLink:focus-visible {
+  border-color: rgba(119,242,186,.48);
+  background: linear-gradient(180deg,rgba(119,242,186,.055),rgba(17,25,29,.98));
+}
+.vCategoryCardLink:hover .vCategoryArrow,
+.vCategoryCardLink:focus-visible .vCategoryArrow {
+  color: var(--v-accent-strong);
+  transform: translate(2px,-2px);
+}
+.vCategoryArrow { transition: color .18s ease, transform .18s ease; }
+
+.mobileNav { display: none; }
+
+@media (max-width: 780px) {
+  .vNav .navInner {
+    min-height: 72px;
+    padding-block: 12px;
+    flex-wrap: nowrap;
+  }
+  .vNav .navLinks,
+  .vNav .vNavCta {
+    display: none;
+  }
+  .mobileNav {
+    display: block;
+    position: relative;
+    margin-left: auto;
+  }
+  .mobileNav summary {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    cursor: pointer;
+    list-style: none;
+    background: rgba(17,25,29,.92);
+  }
+  .mobileNav summary::-webkit-details-marker { display: none; }
+  .mobileNav summary span {
+    display: block;
+    width: 18px;
+    height: 1px;
+    background: var(--text);
+  }
+  .mobileNav[open] summary {
+    border-color: rgba(119,242,186,.48);
+  }
+  .mobileNav nav {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 50;
+    min-width: min(280px, calc(100vw - 40px));
+    padding: 8px;
+    display: grid;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(9,13,15,.98);
+    box-shadow: 0 24px 60px rgba(0,0,0,.42);
+    backdrop-filter: blur(18px);
+  }
+  .mobileNav nav a {
+    min-height: 46px;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: var(--muted);
+  }
+  .mobileNav nav a:hover,
+  .mobileNav nav a:focus-visible {
+    color: var(--text);
+    background: var(--panel2);
+  }
+}
+
+@media (max-width: 480px) {
+  .vNav .navInner {
+    display: flex;
+    min-height: 68px;
+    padding-block: 10px;
+  }
+}
