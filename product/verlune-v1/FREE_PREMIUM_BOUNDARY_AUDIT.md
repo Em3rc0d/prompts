@@ -4,6 +4,8 @@ Status: `MANUAL STATIC REVIEW / RUNTIME + HUMAN VALUE REVIEW OPEN`
 
 Date: 2026-09-22
 
+> This audit covers the original launch core. The 2026-09-24 library expansion adds statically structured prompts without inheriting this audit's runtime or human-review evidence. See `LIBRARY_EXPANSION_48_PROMPTS_2026-09-24.md`.
+
 ## Question
 
 Does Premium provide materially different capability from Free, or is it merely more text/more files?

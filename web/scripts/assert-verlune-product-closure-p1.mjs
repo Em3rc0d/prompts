@@ -27,7 +27,7 @@ const freeHero = free.split('<section className="vProcessBand">')[0];
 if (freeHero.includes("Download developer starter ZIP")) {
   throw new Error("VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: developer ZIP still competes in Free hero");
 }
-for (const marker of ["DEVELOPMENT & TECH / DOWNLOAD", "Download developer starter ZIP", "eleven-asset Verlune Free launch core"]) {
+for (const marker of ["DEVELOPMENT & TECH / DOWNLOAD", "Download developer starter ZIP", "nineteen-asset Verlune Free library"]) {
   if (!free.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: Free resource boundary missing ${marker}`);
 }
 
@@ -52,7 +52,7 @@ if (!css.includes(".mobileNav") || !css.includes("@media (max-width: 780px)")) {
   throw new Error("VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: mobile navigation responsive CSS missing");
 }
 
-for (const marker of ["eleven complete launch-core assets", "eight prompts and three workflows", "Explore the Free Library"]) {
+for (const marker of ["nineteen complete assets", "sixteen prompts and three workflows", "Explore the Free Library"]) {
   if (!learn.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: Learn current-state copy missing ${marker}`);
 }
 if (learn.includes("current free workflows has three structured developer workflows")) {

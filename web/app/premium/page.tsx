@@ -42,7 +42,7 @@ export default function PremiumPage() {
             : "The Premium customer surface is available for review, but public purchasing remains closed until the remaining release gates are complete."}</p>
         </div>
         <aside className="reviewPromise vPremiumSummary">
-          <span className="eyebrow">LAUNCH-CORE SURFACE</span>
+          <span className="eyebrow">CURRENT PREMIUM LIBRARY</span>
           <h2>{PREMIUM_ASSETS.length} structured assets.<br />More than longer prompts.</h2>
           <ul className="checkList">
             <li>{prompts.length} Premium Prompts across the eight public categories</li>
@@ -76,8 +76,8 @@ export default function PremiumPage() {
           <article className="vCapabilityCard">
             <div className="vCapabilityIcon"><ArtifactMiniObject type="Prompt" /></div>
             <div className="eyebrow">EIGHT CATEGORIES</div>
-            <h3>Deeper prompts for real work</h3>
-            <p>Requirements, study, evidence synthesis, SOPs, audience-aware writing, content strategy, risk-aware planning, and resume adaptation.</p>
+            <h3>Four prompts per public category</h3>
+            <p>Thirty-two structured Premium prompts span engineering, learning, research, operations, writing, content, planning, and career work.</p>
           </article>
           <article className="vCapabilityCard">
             <div className="vCapabilityIcon"><ArtifactMiniObject type="Toolkit" /></div>

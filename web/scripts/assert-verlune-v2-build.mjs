@@ -47,9 +47,9 @@ for (const marker of requiredFreeCatalogMarkers) {
 
 const freePromptIds = freeCatalog.match(/id:\s*"VF-P-[^"]+"/g) ?? [];
 const freeWorkflowIds = freeCatalog.match(/id:\s*"VF-WF-[^"]+"/g) ?? [];
-if (freePromptIds.length !== 8 || freeWorkflowIds.length !== 3) {
+if (freePromptIds.length !== 16 || freeWorkflowIds.length !== 3) {
   throw new Error(
-    `VERLUNE V2 AUDIT FAIL: expected 8 free prompts + 3 free workflows, got ${freePromptIds.length} + ${freeWorkflowIds.length}`
+    `VERLUNE V2 AUDIT FAIL: expected 16 free prompts + 3 free workflows, got ${freePromptIds.length} + ${freeWorkflowIds.length}`
   );
 }
 
@@ -91,6 +91,14 @@ for (const rel of [
   "prompts/improve-a-content-draft.md",
   "prompts/plan-a-project.md",
   "prompts/prepare-for-an-interview.md",
+  "prompts/diagnose-a-technical-error.md",
+  "prompts/check-your-understanding.md",
+  "prompts/compare-sources.md",
+  "prompts/document-a-business-process.md",
+  "prompts/executive-email-from-notes.md",
+  "prompts/generate-content-angles.md",
+  "prompts/prioritize-competing-tasks.md",
+  "prompts/understand-a-job-description.md",
   "workflows/compare-options.md",
   "workflows/guided-study-session.md",
   "workflows/bug-diagnosis.md"
@@ -101,10 +109,10 @@ for (const rel of [
 }
 
 console.log("VERLUNE V2 BUILD AUDIT: PASS");
-console.log("free_launch_core_assets=11");
-console.log("free_launch_core_prompts=8");
+console.log("free_launch_core_assets=19");
+console.log("free_launch_core_prompts=16");
 console.log("free_launch_core_workflows=3");
-console.log("premium_launch_core_assets=17");
+console.log("premium_launch_core_assets=41");
 console.log("semantic_3d=hero-v3-hybrid; premium-v2-dom-css");
 console.log("unsupported_mockup_claims=0");
 console.log("boundary=build/source/materialization audit; human visual comprehension not implied");

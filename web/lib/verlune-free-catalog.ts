@@ -93,6 +93,86 @@ export const FREE_ASSETS: readonly FreeAssetMeta[] = [
     summary: "Prepare for a real role using only experience and evidence you actually have."
   },
   {
+    id: "VF-P-DEV-002",
+    name: "Diagnose a Technical Error",
+    type: "Prompt",
+    category: "development-tech",
+    categoryLabel: "Development & Tech",
+    relativePath: "prompts/diagnose-a-technical-error.md",
+    sourceBlobSha: "7824192adba60c870bb3d592b0d75131ccacf58e",
+    summary: "Diagnose a bounded technical failure by separating observations, hypotheses, checks, and safe fixes."
+  },
+  {
+    id: "VF-P-STUDY-002",
+    name: "Check Your Understanding",
+    type: "Prompt",
+    category: "study-learning",
+    categoryLabel: "Study & Learning",
+    relativePath: "prompts/check-your-understanding.md",
+    sourceBlobSha: "a836b61d7d445ef31c12e7ccba7f41904ce990a1",
+    summary: "Test retrieval, explanation, application, and transfer without confusing fluency with mastery."
+  },
+  {
+    id: "VF-P-RES-002",
+    name: "Compare Sources",
+    type: "Prompt",
+    category: "research-analysis",
+    categoryLabel: "Research & Analysis",
+    relativePath: "prompts/compare-sources.md",
+    sourceBlobSha: "56c90e855cf8ebca0781672a43ef14e38b39cfaa",
+    summary: "Compare sources by claim, scope, evidence, and limitation without forcing false agreement."
+  },
+  {
+    id: "VF-P-BIZ-002",
+    name: "Document a Business Process",
+    type: "Prompt",
+    category: "business-operations",
+    categoryLabel: "Business & Operations",
+    relativePath: "prompts/document-a-business-process.md",
+    sourceBlobSha: "941610d2ed761e282c7eb55b7c35d3138a2e922e",
+    summary: "Capture an existing recurring process with steps, handoffs, decisions, and open rules."
+  },
+  {
+    id: "VF-P-WRITE-002",
+    name: "Executive Email from Notes",
+    type: "Prompt",
+    category: "writing-communication",
+    categoryLabel: "Writing & Communication",
+    relativePath: "prompts/executive-email-from-notes.md",
+    sourceBlobSha: "7c47729ec7042e8a5db3771ff2227fd23360d202",
+    summary: "Turn technical or operational notes into a concise factual email for a non-technical stakeholder."
+  },
+  {
+    id: "VF-P-CONTENT-002",
+    name: "Generate Content Angles",
+    type: "Prompt",
+    category: "content-marketing",
+    categoryLabel: "Content & Marketing",
+    relativePath: "prompts/generate-content-angles.md",
+    sourceBlobSha: "6a2682fa73cc54bdc194387da912279e1ffbe86c",
+    summary: "Generate distinct evidence-grounded content angles without inventing authority, results, or anecdotes."
+  },
+  {
+    id: "VF-P-PLAN-002",
+    name: "Prioritize Competing Tasks",
+    type: "Prompt",
+    category: "planning-productivity",
+    categoryLabel: "Planning & Productivity",
+    relativePath: "prompts/prioritize-competing-tasks.md",
+    sourceBlobSha: "e9206b28af9cb145cd51660e1419bdb7607996fc",
+    summary: "Order competing work using real constraints, dependencies, unknowns, and re-prioritization rules."
+  },
+  {
+    id: "VF-P-CAREER-002",
+    name: "Understand a Job Description",
+    type: "Prompt",
+    category: "career-job-search",
+    categoryLabel: "Career & Job Search",
+    relativePath: "prompts/understand-a-job-description.md",
+    sourceBlobSha: "976d81879ed3ee61579c7296ec6c3e3d38c12fc8",
+    summary: "Translate a job posting into explicit responsibilities, requirements, preferences, and preparation questions."
+  },
+  {
     id: "VF-WF-001",
     name: "Compare Options",
     type: "Workflow",
