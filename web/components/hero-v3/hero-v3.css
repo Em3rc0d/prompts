@@ -4,7 +4,17 @@
   width: 100%;
   height: 580px;
   overflow: hidden;
-  background: radial-gradient(ellipse at 51% 54%, rgba(55, 139, 106, .09), transparent 53%);
+  background: radial-gradient(ellipse at 52% 62%, rgba(46, 116, 84, .15), transparent 59%),
+    linear-gradient(180deg, rgba(11, 27, 23, .12), transparent 72%);
+}
+.vHero3::before {
+  content: ""; position: absolute; inset: 4% -8% 4%; pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 18%, rgba(84, 183, 126, .07) 18.1%, transparent 18.4%),
+    linear-gradient(90deg, transparent 68%, rgba(112, 203, 153, .06) 68.1%, transparent 68.35%),
+    linear-gradient(90deg, transparent 83%, rgba(91, 164, 128, .07) 83.1%, transparent 83.35%),
+    repeating-linear-gradient(90deg, transparent 0 108px, rgba(77, 146, 110, .035) 109px 110px, transparent 111px 190px);
+  mask-image: linear-gradient(180deg, transparent, black 18%, black 64%, transparent 97%);
 }
 .v2HeroGrid { grid-template-areas: "copy visual" "proof visual"; row-gap: 0; }
 .v2HeroCopy { grid-area: copy; }
@@ -21,7 +31,7 @@
   border-radius: 50%;
 }
 .vHero3FallbackOrbit--inner { width: 73%; height: 29%; border-style: dotted; opacity: .6; transform: translate(-50%, -50%) rotate(9deg); }
-.vHero3Runtime { position: absolute; inset: 0; opacity: 0; transition: opacity 360ms ease; pointer-events: none; mask-image: radial-gradient(ellipse 91% 92% at 52% 51%, black 54%, transparent 100%); }
+.vHero3Runtime { position: absolute; inset: 0; opacity: 0; transition: opacity 360ms ease; pointer-events: none; mask-image: radial-gradient(ellipse 96% 100% at 53% 49%, black 56%, transparent 100%); }
 .vHero3Runtime--ready { opacity: 1; }
 .vHero3Runtime--ready ~ .vHero3Fallback { opacity: 0; }
 .vHero3FallbackField {
@@ -50,9 +60,8 @@
   box-shadow: inset 0 2px 2px rgba(233, 255, 245, .18), inset 0 -14px 26px rgba(53, 167, 114, .09), 0 8px 0 rgba(33, 77, 62, .55), 0 11px 3px rgba(0, 0, 0, .55);
   transform: perspective(850px) rotateX(57deg) rotateZ(-30deg);
 }
-.vHero3FallbackSlab--base { transform: translateY(83px) perspective(850px) rotateX(57deg) rotateZ(-30deg); opacity: .57; }
-.vHero3FallbackSlab--lower { transform: translateY(51px) perspective(850px) rotateX(57deg) rotateZ(-30deg); opacity: .75; }
-.vHero3FallbackSlab--middle { transform: translateY(22px) perspective(850px) rotateX(57deg) rotateZ(-30deg); opacity: .88; }
+.vHero3FallbackSlab--lower { transform: translateY(86px) perspective(850px) rotateX(57deg) rotateZ(-30deg); opacity: .48; }
+.vHero3FallbackSlab--middle { transform: translateY(41px) perspective(850px) rotateX(57deg) rotateZ(-30deg); opacity: .7; }
 .vHero3FallbackSlab--top { border-color: rgba(217, 255, 238, .76); }
 .vHero3FallbackSeal {
   position: absolute; left: 50%; top: 30%;
@@ -68,13 +77,13 @@
 .vHero3Card {
   position: absolute;
   display: flex; align-items: center; gap: 14px;
-  width: 188px; min-height: 99px;
-  padding: 17px 16px;
-  border: 1px solid rgba(156, 246, 198, .42);
-  border-radius: 14px;
-  background: linear-gradient(145deg, rgba(73, 123, 94, .19), transparent 63%), rgba(8, 22, 21, .83);
-  box-shadow: inset 0 1px rgba(236, 255, 244, .13), inset -1px -1px rgba(58, 130, 94, .15), 0 26px 42px rgba(0, 0, 0, .45), 0 1px 12px rgba(65, 201, 125, .06);
-  backdrop-filter: blur(14px);
+  width: 218px; min-height: 111px;
+  padding: 19px 18px;
+  border: 1px solid rgba(169, 239, 201, .38);
+  border-radius: 15px;
+  background: linear-gradient(135deg, rgba(158, 221, 189, .1), transparent 36%, rgba(12, 38, 29, .2) 80%), rgba(11, 29, 26, .74);
+  box-shadow: inset 0 1px rgba(246, 255, 250, .24), inset -1px -1px rgba(71, 148, 105, .16), 0 29px 38px rgba(0, 0, 0, .38), 0 0 22px rgba(65, 201, 125, .05);
+  backdrop-filter: blur(18px);
   animation: vHero3CardIn 440ms ease-out both;
 }
 .vHero3Card::after {
@@ -83,10 +92,18 @@
   background: linear-gradient(108deg, rgba(231, 255, 245, .08), transparent 45%);
   pointer-events: none;
 }
-.vHero3Card--prompt { left: 3%; top: 9%; transform: perspective(750px) rotateY(9deg) rotateZ(-3deg); animation-delay: 70ms; }
-.vHero3Card--workflow { right: 2%; top: 17%; transform: perspective(750px) rotateY(-9deg) rotateZ(3deg); animation-delay: 150ms; }
-.vHero3Card--builder { left: 6%; bottom: 9%; transform: perspective(750px) rotateY(6deg) rotateZ(3deg); animation-delay: 220ms; }
-.vHero3Card--verify { right: 6%; bottom: 8%; transform: perspective(750px) rotateY(-7deg) rotateZ(-3deg); animation-delay: 320ms; }
+.vHero3Card--prompt { left: 1%; top: 5%; transform: perspective(750px) rotateY(11deg) rotateZ(-3deg); animation-delay: 70ms; }
+.vHero3Card--workflow { right: 0; top: 15%; transform: perspective(750px) rotateY(-12deg) rotateZ(3deg); animation-delay: 150ms; }
+.vHero3Card--builder { left: 3%; bottom: 7%; transform: perspective(750px) rotateY(9deg) rotateZ(3deg); animation-delay: 220ms; }
+.vHero3Card--verify { right: 2%; bottom: 5%; transform: perspective(750px) rotateY(-10deg) rotateZ(-3deg); animation-delay: 320ms; }
+.vHero3Card--prompt::before, .vHero3Card--builder::before {
+  content: ""; position: absolute; left: 100%; top: 52%; width: 36px; height: 1px;
+  background: linear-gradient(90deg, rgba(127, 236, 174, .5), transparent);
+}
+.vHero3Card--workflow::before, .vHero3Card--verify::before {
+  content: ""; position: absolute; right: 100%; top: 52%; width: 36px; height: 1px;
+  background: linear-gradient(270deg, rgba(127, 236, 174, .5), transparent);
+}
 .vHero3CardMark {
   flex: 0 0 34px; width: 34px; height: 34px;
   display: grid; place-items: center;
@@ -97,7 +114,7 @@
 }
 .vHero3CardCopy { display: grid; gap: 6px; min-width: 0; }
 .vHero3CardLabel { font: 600 .66rem var(--font-mono); letter-spacing: .1em; color: #b6efd0; }
-.vHero3Card strong { color: #eef9f2; font-size: .89rem; line-height: 1.24; font-weight: 600; }
+.vHero3Card strong { color: #eef9f2; font-size: .93rem; line-height: 1.24; font-weight: 600; }
 @keyframes vHero3CardIn { from { opacity: 0; filter: brightness(.65); } to { opacity: 1; filter: brightness(1); } }
 @media (max-width: 899px) {
   .v2HeroGrid { grid-template-areas: "copy" "visual" "proof"; row-gap: 18px; }
@@ -105,6 +122,12 @@
   .vHero3 { height: 440px; }
   .vHero3FallbackStack { transform: translate(-50%, -50%) scale(.83); }
   .vHero3Card { width: 174px; min-height: 86px; padding: 13px; }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  .vHero3Card { width: 168px; min-height: 90px; padding: 12px; gap: 9px; }
+  .vHero3Card strong { font-size: .77rem; }
+  .vHero3Card--prompt { left: 0; }
+  .vHero3Card--workflow { right: 0; }
 }
 @media (max-width: 599px) {
   .vHero3 { height: 482px; }
@@ -116,6 +139,7 @@
   .vHero3Card, .vHero3Card--prompt, .vHero3Card--workflow, .vHero3Card--builder, .vHero3Card--verify {
     position: relative; inset: auto; transform: none; width: auto; min-height: 86px; padding: 10px 8px; gap: 8px;
   }
+  .vHero3Card::before { display: none; }
   .vHero3CardMark { flex-basis: 27px; width: 27px; height: 27px; font-size: 1rem; border-radius: 7px; }
   .vHero3CardLabel { font-size: .6rem; }
   .vHero3Card strong { font-size: .79rem; }
