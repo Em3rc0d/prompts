@@ -11,11 +11,16 @@ import { OrbitSystem } from "./scene/OrbitSystem";
 export default function VerluneHeroCanvas({ medium, onReady }: { medium: boolean; onReady: () => void }) {
   return <Canvas
     className="vHero3Canvas"
-    camera={{ position: [0, .38, 7.55], fov: 47, near: .1, far: 70 }}
+    camera={{ position: [0, .32, 7.45], fov: 46, near: .1, far: 70 }}
     dpr={medium ? [1, 1.25] : [1, 1.6]}
     frameloop="demand"
     gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
-    onCreated={({ gl }) => { gl.setClearColor("#090d0f", 0); gl.toneMapping = ACESFilmicToneMapping; gl.toneMappingExposure = 1.12; onReady(); }}
+    onCreated={({ gl }) => {
+      gl.setClearColor("#090d0f", 0);
+      gl.toneMapping = ACESFilmicToneMapping;
+      gl.toneMappingExposure = 1.04;
+      onReady();
+    }}
   >
     <SceneLighting />
     <AmbientDepth medium={medium} />
