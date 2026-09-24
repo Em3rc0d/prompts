@@ -24,7 +24,7 @@ export default function FreePage() {
           <div className="actions">
             <a className="btn btnPrimary" href="#free-assets">Explore free assets <span aria-hidden="true">↓</span></a>
           </div>
-          <p className="micro">Eleven complete launch-core assets are available individually below: eight prompts and three workflows.</p>
+          <p className="micro">Nineteen complete library assets are available individually below: sixteen prompts and three workflows.</p>
         </div>
         <div className="vFreeHeroVisual" aria-label="Free prompts and workflows">
           <div className="vFreeObject vFreeObjectPrompt"><ArtifactMiniObject type="Prompt" /><span>PROMPTS</span></div>
@@ -97,7 +97,7 @@ export default function FreePage() {
           <aside className="purchasePanel">
             <span className="purchaseLabel">DEVELOPER RESOURCE</span>
             <h3>Starter ZIP</h3>
-            <p>Use the web library for the full eleven-asset Verlune Free launch core, or download the existing developer starter archive.</p>
+            <p>Use the web library for the full nineteen-asset Verlune Free library, or download the existing developer starter archive.</p>
             <CommerceLink kind="free">Download developer starter ZIP ↓</CommerceLink>
           </aside>
         </div></div>
