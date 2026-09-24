@@ -71,7 +71,7 @@ export function LibraryExplorer({
     if (normalizedQuery) {
       const haystack = [
         asset.name,
-        asset.summary,
+        asset.summary ?? "",
         asset.categoryLabel,
         asset.type,
         asset.tier,
@@ -198,18 +198,18 @@ export function LibraryExplorer({
 
     {matches.length ? <>
       <div className="vExplorerGrid">
-        {visible.map((asset) => <article className="vExplorerCard" key={asset.id}>
+        {visible.map((asset) => <article className={`vExplorerCard${asset.publicNameOnly ? " vExplorerCardNameOnly" : ""}`} key={asset.id}>
           <div className="vExplorerMeta">
             <span className={asset.tier === "free" ? "vTierBadge vTierBadgeFree" : "vTierBadge vTierBadgePremium"}>
               {asset.tier === "free" ? "FREE" : "PREMIUM"}
             </span>
-            <span>{asset.type}</span>
+            {!asset.publicNameOnly ? <span>{asset.type}</span> : null}
           </div>
-          <div className="vExplorerCategory">{asset.categoryLabel}</div>
+          {!asset.publicNameOnly ? <div className="vExplorerCategory">{asset.categoryLabel}</div> : null}
           <h3>{asset.name}</h3>
-          <p>{asset.summary}</p>
+          {!asset.publicNameOnly && asset.summary ? <p>{asset.summary}</p> : null}
           <div className="vExplorerCardFooter">
-            <small>{asset.id}</small>
+            {!asset.publicNameOnly ? <small>{asset.id}</small> : <span />}
             <Link className="textLink" href={asset.href}>{asset.cta} →</Link>
           </div>
         </article>)}
