@@ -1,0 +1,40 @@
+{
+  "schema": "verlune-v2-redesign-implementation-record-v1",
+  "date": "2026-09-23",
+  "authorization": "USER_EXPLICIT",
+  "branch": "feat/verlune-product-model-v1-20260922-r2",
+  "status": "IMPLEMENTED_IN_BRANCH / BUILD_VALIDATION_PENDING_OPERATOR_OR_DEPLOY",
+  "implemented": [
+    "Global product shell and metadata broadened from Code Review-first to Verlune-first.",
+    "Homepage rebuilt as Editorial Computational composition.",
+    "Semantic CSS/DOM 3D Verlune Graph added; no WebGL/runtime 3D dependency.",
+    "Prompt vs Workflow visual distinction implemented.",
+    "Use ours / Build yours capability split implemented.",
+    "Broad category exploration implemented without fabricated usage metrics.",
+    "Premium Library redesigned with category rail and differentiated Builder/Workflow/Prompt/Toolkit hierarchy.",
+    "Premium asset detail redesigned as a tool with structure map, persistent copy, usage rail, and related assets.",
+    "Copy interaction gained success and error states.",
+    "Unlock/access surfaces visually aligned without changing entitlement/security behavior.",
+    "Responsive layouts defined for desktop/tablet/mobile and reduced-motion path retained."
+  ],
+  "source_truth_boundary": {
+    "fake_mockup_metrics_rendered": false,
+    "fake_ratings_rendered": false,
+    "fake_popularity_badges_rendered": false,
+    "lifetime_access_claim_rendered": false,
+    "priority_support_claim_rendered": false,
+    "governed_asset_content_changed": false,
+    "access_logic_changed": false
+  },
+  "validation": {
+    "static_repository_review": "PASS",
+    "typecheck": "PENDING_RUNTIME",
+    "production_build": "PENDING_RUNTIME",
+    "visual_regression": "PENDING_STAGING",
+    "human_review_H1_H11": "OPEN"
+  },
+  "release_effect": {
+    "READY_TO_SELL": false,
+    "reason": "V2 build/staging visual validation, Human Review H1-H11, and final commerce/live canary remain required."
+  }
+}
