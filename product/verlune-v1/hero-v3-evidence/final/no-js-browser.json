@@ -1,0 +1,24 @@
+[
+  {
+    "name": "1920",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1920,
+      "viewport": 1920,
+      "heroHeight": 859.40625,
+      "canvasCount": 0,
+      "runtimeClass": "vHero3Runtime",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 940.109375,
+        "y": 227.703125,
+        "width": 659.890625,
+        "height": 580
+      }
+    }
+  }
+]

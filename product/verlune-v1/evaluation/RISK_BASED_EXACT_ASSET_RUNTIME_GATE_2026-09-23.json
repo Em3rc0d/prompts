@@ -1,0 +1,58 @@
+{
+  "schema": "verlune-v1-risk-based-exact-asset-runtime-gate",
+  "status": "PASS_CURRENT_BINDING",
+  "date": "2026-09-23",
+  "execution_mode": "MANUAL-OBSERVED / SINGLE_CHAT_SEGMENTED_EXACT_ASSET",
+  "asset_count": 24,
+  "case_count": 32,
+  "normal_cases": 24,
+  "targeted_edge_cases": 8,
+  "exact_binding_manifest": "product/verlune-v1/evaluation/EXACT_ASSET_BINDING_2026-09-22.json",
+  "original_87_case_packet": "product/verlune-v1/evaluation/NON_BUILDER_FORMAL_RUNTIME_PACKET_2026-09-22.json",
+  "batch_file": "product/verlune-v1/evaluation/NON_BUILDER_32_SINGLE_CHAT_EXACT_ASSET_BATCH_2026-09-23.txt",
+  "v1_launch_policy": {
+    "supersedes_as_mandatory_gate": "87 isolated cases",
+    "preserves_87_case_packet_as": "optional deeper qualification evidence",
+    "rationale": [
+      "Observe every exact frozen non-Builder launch-core asset at runtime at least once.",
+      "Preselect additional edge/adversarial coverage before seeing results.",
+      "Avoid turning a USD 9 bounded v1 launch into an unnecessarily exhaustive 87-chat qualification exercise.",
+      "Keep segmented-context and cross-model limitations explicit."
+    ]
+  },
+  "targeted_case_ids": [
+    "VF-WF-001-MISSING_CRITICAL_INPUT",
+    "VF-WF-003-AMBIGUOUS_OR_CONTRADICTORY",
+    "VP-P-DEV-001-ADVERSARIAL_OR_INSTRUCTION_CONFLICT",
+    "VP-P-RES-002-ADVERSARIAL_OR_INSTRUCTION_CONFLICT",
+    "VP-WF-001-ADVERSARIAL_EMBEDDED_INSTRUCTION",
+    "VP-WF-003-ADVERSARIAL_EMBEDDED_INSTRUCTION",
+    "VP-WF-004-CONTRADICTORY",
+    "VP-WF-007-ADVERSARIAL_EMBEDDED_INSTRUCTION"
+  ],
+  "closure_rule": "32/32 PASS and no blocking failure. FAIL blocks the affected asset and gate. INCONCLUSIVE must be resolved or the affected asset removed from launch. A PASS establishes segmented exact-asset runtime evidence only; it does not establish independent-context robustness or cross-model portability.",
+  "execution_result": {
+    "cases": 32,
+    "pass": 32,
+    "fail": 0,
+    "inconclusive": 0,
+    "blocking_failures": 0,
+    "transcript_sha256": "d3f682cd75879eee6dba375899938b984ac19ca9496091754947f8739559ada4",
+    "transcript_bytes": 112125,
+    "review_record": "product/verlune-v1/evaluation/NON_BUILDER_32_EXACT_ASSET_REVIEW_2026-09-23.json",
+    "runtime_host_model": "NOT_CAPTURED_IN_TRANSCRIPT"
+  },
+  "gate_result": "PASS",
+  "current_binding_effect": {
+    "changed_assets": [
+      "VP-WF-003",
+      "VP-WF-006"
+    ],
+    "prior_pass_applies_to_prior_blobs_only": true,
+    "current_release_gate": "PASS_AFTER_DELTA_REQUALIFICATION",
+    "delta_reviews": [
+      "product/verlune-v1/evaluation/PORTABILITY_REMEDIATION_DELTA_REVIEW_2026-09-23.json",
+      "product/verlune-v1/evaluation/FINAL_DEEP_RESEARCH_DELTA_REVIEW_2026-09-23.json"
+    ]
+  }
+}

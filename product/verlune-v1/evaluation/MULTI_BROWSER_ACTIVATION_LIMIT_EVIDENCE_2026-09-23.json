@@ -1,0 +1,41 @@
+{
+  "schema": "verlune-v1-multi-browser-activation-limit-evidence-v1",
+  "date": "2026-09-23",
+  "deployment": "dpl_8o76QB3wiz5kHfrnbZWmPWq5BcaK",
+  "result": "PASS",
+  "observations": {
+    "provider_dashboard": {
+      "license_status": "Active (3/3)",
+      "total_activations": 3,
+      "new_activations": 3
+    },
+    "browser_contexts": {
+      "first_three": "authorized Premium access observed across three distinct browser contexts",
+      "fourth": {
+        "ui": "This license could not activate another browser. Deactivate an old browser or check the activation limit.",
+        "runtime_status": 409,
+        "app_access": "locked",
+        "result": "PASS_DENIED"
+      }
+    }
+  },
+  "runtime_corroboration": {
+    "successful_unlocks": [
+      "POST /api/verlune/unlock -> 200 at 23:20:02Z",
+      "POST /api/verlune/unlock -> 200 at 23:20:29Z"
+    ],
+    "fourth_attempt": "POST /api/verlune/unlock -> 409 at 23:21:08Z",
+    "locked_context": "GET /app -> 307 immediately before denied fourth-context attempt"
+  },
+  "gate_effect": {
+    "ACCESS_20_THREE_BROWSER_POLICY": "PASS",
+    "fourth_browser_denied": "PASS",
+    "activation_limit_preserved": "3/3",
+    "ACCESS_PRODUCT_E2E_PASS": false
+  },
+  "evidence_boundary": [
+    "The Test-mode license key is intentionally not recorded.",
+    "Provider-outage behavior and signed-session tamper behavior remain open.",
+    "Automatic stale-session revalidation timing remains to be observed separately from forced revalidation."
+  ]
+}

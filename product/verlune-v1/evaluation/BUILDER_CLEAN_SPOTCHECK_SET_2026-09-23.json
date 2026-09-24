@@ -1,0 +1,31 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-set",
+  "status": "PASS_5_OF_5_CLEAN_CONTEXT",
+  "date": "2026-09-23",
+  "purpose": "Validate that the 37-case single-chat segmented batch did not materially benefit from or suffer from cross-case context leakage.",
+  "selected_cases": [
+    "VB-writing-communication-P-NORMAL",
+    "VB-business-operations-P-UNDER",
+    "VB-research-analysis-W-NORMAL",
+    "VB-career-job-search-W-UNDER",
+    "VB-STRESS-003"
+  ],
+  "execution_rule": "Rerun each selected case in its own fresh temporary unpersonalized conversation using the exact same Builder blob and case input. Compare behavior semantically to the segmented-batch result.",
+  "closure_rule": "5/5 must show no material contradiction. Any material contradiction reopens the affected Builder/category/stress coverage.",
+  "execution_progress": {
+    "completed_valid": 5,
+    "passed_valid": 5,
+    "failed_valid": 0,
+    "inconclusive_valid": 0,
+    "invalid_not_counted": 1,
+    "remaining_valid_required": 0,
+    "case_01": "PASS_NO_MATERIAL_CONTRADICTION",
+    "note": "Cases 01-04 valid isolated runs PASS. Cases 01, 03 and 04 show nonblocking question-threshold variance versus the segmented batch.",
+    "case_02": "PASS_NO_MATERIAL_CONTRADICTION",
+    "case_03": "PASS_NO_MATERIAL_CONTRADICTION",
+    "case_04": "PASS_NO_MATERIAL_CONTRADICTION",
+    "case_05": "PASS_NO_MATERIAL_CONTRADICTION",
+    "closure_state": "PASS",
+    "closure_record": "product/verlune-v1/evaluation/BUILDER_COVERAGE_GATE_CLOSURE_2026-09-23.json"
+  }
+}

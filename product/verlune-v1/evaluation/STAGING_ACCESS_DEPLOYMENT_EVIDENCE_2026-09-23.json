@@ -1,0 +1,61 @@
+{
+  "schema": "verlune-v1-staging-deployment-evidence-v1",
+  "date": "2026-09-23",
+  "project": "prompt-quarry-stage",
+  "deployment": {
+    "id": "dpl_44HrayDpj2iQD7SmnBMrZoRGqNKf",
+    "url": "https://prompt-quarry-stage-7nfnsfr7z-faridmerinos-projects.vercel.app",
+    "alias": "https://prompt-quarry-stage.vercel.app",
+    "target": "production",
+    "state": "READY",
+    "build_origin": "WSL Linux prebuilt"
+  },
+  "build_observations": {
+    "vercel_build_prod": "PASS",
+    "next_build": "PASS",
+    "free_pack_materialization": "PASS",
+    "premium_private_materialization": "PASS",
+    "golden_path_build_parity": "PASS",
+    "premium_build_audit": "PASS"
+  },
+  "runtime_smoke": {
+    "root": {
+      "status": 200,
+      "result": "PASS"
+    },
+    "unlock": {
+      "status": 200,
+      "result": "PASS"
+    },
+    "app_unauthenticated": {
+      "status": 200,
+      "matched_path": "/unlock",
+      "locked_notice": true,
+      "premium_asset_body_observed": false,
+      "result": "PASS"
+    },
+    "premium_asset_unauthenticated": {
+      "path": "/app/asset/VP-BUILDER-001",
+      "status": 200,
+      "matched_path": "/unlock",
+      "locked_notice": true,
+      "premium_asset_body_observed": false,
+      "result": "PASS"
+    },
+    "runtime_errors_last_30m": "NONE_OBSERVED"
+  },
+  "evidence_boundary": [
+    "The app route internally redirects to /unlock; Vercel's fetch surface reports the final rendered status 200.",
+    "Unauthenticated route smoke does not prove provider-backed entitlement unlock.",
+    "No valid Test license was exercised in this evidence.",
+    "No checkout, logout, deactivate, revocation, multi-device, or periodic revalidation behavior is implied.",
+    "Human Review H1-H11 remains open.",
+    "READY_TO_SELL remains false."
+  ],
+  "gate_effect": {
+    "local_build_gate": "PASS",
+    "staging_deploy_gate": "PASS",
+    "unauthenticated_access_boundary_smoke": "PASS",
+    "provider_backed_access_e2e": "NEXT"
+  }
+}

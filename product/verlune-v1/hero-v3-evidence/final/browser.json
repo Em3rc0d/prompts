@@ -1,0 +1,112 @@
+[
+  {
+    "name": "1920",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1920,
+      "viewport": 1920,
+      "heroHeight": 859.40625,
+      "canvasCount": 1,
+      "runtimeClass": "vHero3Runtime vHero3Runtime--ready",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 940.109375,
+        "y": 227.703125,
+        "width": 659.890625,
+        "height": 580
+      }
+    }
+  },
+  {
+    "name": "1440",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1440,
+      "viewport": 1440,
+      "heroHeight": 821.71875,
+      "canvasCount": 1,
+      "runtimeClass": "vHero3Runtime vHero3Runtime--ready",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 700.109375,
+        "y": 208.859375,
+        "width": 659.890625,
+        "height": 580
+      }
+    }
+  },
+  {
+    "name": "768",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 768,
+      "viewport": 768,
+      "heroHeight": 1082.5,
+      "canvasCount": 0,
+      "runtimeClass": "vHero3Runtime",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 20,
+        "y": 576.734375,
+        "width": 728,
+        "height": 440
+      }
+    }
+  },
+  {
+    "name": "390",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 390,
+      "viewport": 390,
+      "heroHeight": 1375.34375,
+      "canvasCount": 0,
+      "runtimeClass": "vHero3Runtime",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 20,
+        "y": 744.046875,
+        "width": 350,
+        "height": 482
+      }
+    }
+  },
+  {
+    "name": "reduced-1920",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1920,
+      "viewport": 1920,
+      "heroHeight": 859.40625,
+      "canvasCount": 0,
+      "runtimeClass": "vHero3Runtime",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 940.109375,
+        "y": 227.703125,
+        "width": 659.890625,
+        "height": 580
+      }
+    }
+  }
+]

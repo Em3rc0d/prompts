@@ -1,0 +1,16 @@
+{
+  "schema": "verlune-v1-binding-preflight",
+  "date": "2026-09-22",
+  "catalog_blob_sha": "e61fe081899c962443884718a5acfaade6c55830",
+  "exact_asset_manifest_blob_sha": "0014a6601e283215987ce496f8b10e17f6e1c3f8",
+  "builder_execution_manifest_blob_sha": "4aee6220d4893baf766780d4cf712b71d3ba4c84",
+  "launch_core_expected_asset_count": 26,
+  "bound_asset_count": 26,
+  "missing": [],
+  "extra": [],
+  "duplicate_ids": [],
+  "builder_case_count": 37,
+  "expected_builder_case_count": 37,
+  "builder_cases_ready": 37,
+  "result": "PASS"
+}

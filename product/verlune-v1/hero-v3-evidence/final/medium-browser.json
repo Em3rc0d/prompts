@@ -1,0 +1,24 @@
+[
+  {
+    "name": "1024",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1024,
+      "viewport": 1024,
+      "heroHeight": 830.625,
+      "canvasCount": 1,
+      "runtimeClass": "vHero3Runtime vHero3Runtime--ready",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "visual": {
+        "x": 491.953125,
+        "y": 213.3125,
+        "width": 500.046875,
+        "height": 580
+      }
+    }
+  }
+]

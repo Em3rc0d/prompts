@@ -180,3 +180,1373 @@ em { font-style: normal; color: var(--accent); }
   .productMeta { gap: 10px 18px; } .reviewPromise { padding-left: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Verlune Premium candidate access surface */
+.accessPage, .premiumApp { min-height: 70vh; }
+.accessGrid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 64px; align-items: start; }
+.accessPanel { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 34px; }
+.accessTrust { margin: 30px 0; border-top: 1px solid var(--line); }
+.accessTrust p { padding: 15px 0; margin: 0; border-bottom: 1px solid var(--line); }
+.accessTrust strong { color: var(--text); }
+.unlockForm { display: grid; gap: 18px; margin-top: 24px; }
+.unlockForm label { display: grid; gap: 8px; color: var(--muted); font-size: .9rem; }
+.unlockForm input { width: 100%; min-height: 48px; border: 1px solid #44515a; border-radius: 5px; background: #0e1518; color: var(--text); padding: 11px 13px; font: inherit; }
+.unlockForm input:focus { border-color: var(--accent); outline: 2px solid transparent; }
+.unlockForm button[disabled] { opacity: .65; cursor: wait; }
+.formError { color: #f2b5ad; margin: 0; }
+.appHero { padding: 78px 0 58px; border-bottom: 1px solid var(--line); }
+.appTopline, .assetTitleRow { display: flex; justify-content: space-between; align-items: flex-start; gap: 36px; }
+.appTopline > div:first-child, .assetTitleRow > div:first-child { max-width: 820px; }
+.appHowTo { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); border-block: 1px solid var(--line); }
+.appHowTo li { padding: 22px 18px; border-right: 1px solid var(--line); display: grid; gap: 5px; }
+.appHowTo li:first-child { padding-left: 0; }
+.appHowTo li:last-child { border-right: 0; }
+.appHowTo span { color: var(--accent); font: .76rem var(--font-mono); }
+.appHowTo strong { font-weight: 550; }
+.appHowTo small { color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.appCategory { padding: 20px 0 54px; }
+.appCategory + .appCategory { border-top: 1px solid var(--line); padding-top: 54px; }
+.appCategoryHeading { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+.appCategoryHeading h2 { margin-bottom: 0; }
+.assetCount { color: var(--muted); font: .8rem var(--font-mono); padding-bottom: 8px; }
+.assetGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.assetCard { border: 1px solid var(--line); background: var(--panel); border-radius: 7px; padding: 24px; display: flex; flex-direction: column; min-height: 260px; }
+.assetCardBuilder { border-color: #54695f; background: linear-gradient(180deg,#17231e 0%,var(--panel) 100%); }
+.assetCardMeta { display: flex; justify-content: space-between; gap: 12px; color: var(--accent); font: .72rem var(--font-mono); text-transform: uppercase; }
+.assetCard p { flex: 1; }
+.assetPageHero { padding: 58px 0 44px; border-bottom: 1px solid var(--line); }
+.assetPageHero .textLink { margin-bottom: 30px; }
+.assetUseGrid { display: grid; grid-template-columns: minmax(220px,.38fr) minmax(0,1fr); gap: 42px; align-items: start; }
+.assetUseGuide { position: sticky; top: 110px; }
+.assetCodeHeader { display: flex; justify-content: space-between; gap: 20px; padding: 13px 17px; background: #10171b; border: 1px solid var(--line); border-bottom: 0; border-radius: 7px 7px 0 0; color: var(--muted); font-size: .82rem; }
+.premiumAssetCode { margin: 0; border: 1px solid var(--line); background: #080c0f; padding: 24px; max-height: 72vh; overflow: auto; border-radius: 0 0 7px 7px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.premiumAssetCode code { color: #dbe6e2; line-height: 1.62; }
+.narrowPage { max-width: 860px; }
+.sessionFacts { margin: 34px 0; border-block: 1px solid var(--line); }
+.sessionFacts > div { display: grid; grid-template-columns: 210px 1fr; gap: 24px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+.sessionFacts > div:last-child { border-bottom: 0; }
+.sessionFacts dt { color: var(--muted); }
+.sessionFacts dd { margin: 0; }
+.accessActions { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 18px; }
+.accessActions form { margin: 0; }
+@media (max-width: 1050px) {
+  .assetGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 780px) {
+  .accessGrid, .assetUseGrid { grid-template-columns: 1fr; gap: 30px; }
+  .appTopline, .assetTitleRow, .appCategoryHeading { align-items: flex-start; flex-direction: column; }
+  .appHowTo { grid-template-columns: 1fr 1fr; }
+  .appHowTo li, .appHowTo li:first-child { padding: 18px; border-bottom: 1px solid var(--line); }
+  .assetGrid { grid-template-columns: 1fr; }
+  .assetUseGuide { position: static; }
+  .premiumAssetCode { max-height: none; }
+  .sessionFacts > div { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 480px) {
+  .accessPanel { padding: 24px; }
+  .appHowTo { grid-template-columns: 1fr; }
+  .appHowTo li { border-right: 0; }
+}
+
+
+/* =========================================================
+   VERLUNE V2 — EDITORIAL COMPUTATIONAL / SEMANTIC 3D SYSTEM
+   ========================================================= */
+
+:root {
+  --bg: #090d0f;
+  --panel: #11191d;
+  --panel2: #172126;
+  --text: #f4f6f5;
+  --muted: #92a19f;
+  --line: #26353a;
+  --accent: #bfe3d0;
+  --v-accent-strong: #77f2ba;
+  --v-accent-dim: #8eb7a1;
+  --v-surface-3: #1c282e;
+  --v-danger: #e4a8a0;
+  --v-warning: #e7c88e;
+  --max: 1280px;
+}
+
+body {
+  background:
+    radial-gradient(circle at 72% 6%, rgba(119,242,186,.055), transparent 23rem),
+    linear-gradient(180deg,#090d0f 0%,#0a0f12 100%);
+}
+
+.vNav {
+  background: rgba(9,13,15,.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: rgba(150,190,175,.18);
+}
+
+.vNav .navInner { min-height: 74px; }
+.vNav .brandMark { box-shadow: inset 0 0 18px rgba(191,227,208,.06); }
+.vNavCta {
+  border-color: rgba(119,242,186,.48);
+  background: rgba(119,242,186,.055);
+  box-shadow: inset 0 0 18px rgba(119,242,186,.03);
+}
+.vNavCta:hover {
+  color: var(--text);
+  border-color: var(--v-accent-strong);
+  background: rgba(119,242,186,.09);
+}
+
+.vFooter {
+  background:
+    linear-gradient(180deg,rgba(9,13,15,.7),#070b0d),
+    radial-gradient(circle at 12% 0%,rgba(119,242,186,.04),transparent 24rem);
+}
+.vFooter .footerBottom { color: #71817f; }
+
+/* Shared v2 controls */
+
+.v2Home .btn,
+.vPremiumLibrary .btn,
+.vAssetDetail .btn {
+  border-radius: 8px;
+  transition:
+    transform 120ms ease-out,
+    border-color 180ms ease-out,
+    background 180ms ease-out,
+    box-shadow 180ms ease-out;
+}
+.v2Home .btn:hover,
+.vPremiumLibrary .btn:hover,
+.vAssetDetail .btn:hover {
+  transform: translateY(-1px);
+}
+.btnPrimary {
+  background: var(--accent);
+  color: #092016;
+  box-shadow: 0 10px 30px rgba(119,242,186,.08);
+}
+.btnPrimary:hover {
+  background: #d4f0e2;
+  border-color: #d4f0e2;
+}
+.vCopyButton.isCopied {
+  background: #d6f6e5;
+  border-color: #d6f6e5;
+}
+.vCopyButton.isError {
+  background: transparent;
+  color: var(--v-danger);
+  border-color: rgba(228,168,160,.65);
+}
+
+.vRoundLink {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  transition: transform 120ms ease-out, border-color 180ms ease-out, background 180ms ease-out;
+}
+.vRoundLink:hover,
+.vRoundLink:focus-visible {
+  transform: translateX(2px);
+  border-color: var(--v-accent-strong);
+  background: rgba(119,242,186,.06);
+}
+
+/* Semantic 3D graph */
+
+.vGraph {
+  position: relative;
+  min-height: 520px;
+  perspective: 1100px;
+  transform-style: preserve-3d;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(127,167,153,.22);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 51% 52%,rgba(82,255,170,.14),transparent 18%),
+    radial-gradient(circle at 50% 50%,rgba(82,255,170,.05),transparent 40%),
+    linear-gradient(180deg,rgba(14,23,26,.72),rgba(7,12,14,.9));
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.025),
+    0 30px 90px rgba(0,0,0,.24);
+}
+
+.vGraph::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg,transparent 25%,rgba(255,255,255,.026) 46%,transparent 65%);
+  transform: translateX(-100%);
+  animation: vGraphSweep 720ms ease-out 520ms 1 both;
+}
+
+.vGraphGrid {
+  position: absolute;
+  inset: 12% -12% -10%;
+  transform: rotateX(64deg) rotateZ(-1deg) translateZ(-130px);
+  transform-origin: 50% 70%;
+  background-image:
+    linear-gradient(rgba(119,242,186,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(119,242,186,.08) 1px,transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(ellipse at center,#000 15%,transparent 72%);
+}
+
+.vGraphStack {
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+  transform: translate(-50%,-44%) rotateX(61deg) rotateZ(-43deg);
+}
+
+.vGraphSlab {
+  position: absolute;
+  inset: 28px;
+  border: 1px solid rgba(132,244,191,.42);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.07),rgba(119,242,186,.025)),
+    rgba(13,22,24,.95);
+  box-shadow:
+    inset 0 0 30px rgba(119,242,186,.05),
+    0 0 24px rgba(119,242,186,.06);
+}
+.vGraphSlabBottom { transform: translateZ(-44px); opacity: .62; }
+.vGraphSlabMid { transform: translateZ(-8px); opacity: .82; }
+.vGraphSlabTop { transform: translateZ(28px); }
+.vGraphCore {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  transform: translate(-50%,-50%) translateZ(54px);
+  border-radius: 50%;
+  border: 1px solid rgba(180,255,221,.72);
+  background: #0a1511;
+  color: var(--v-accent-strong);
+  font: 700 2rem var(--font-sans);
+  box-shadow:
+    0 0 0 9px rgba(119,242,186,.035),
+    0 0 40px rgba(72,255,162,.3),
+    inset 0 0 25px rgba(119,242,186,.11);
+}
+
+.vGraphOrbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid rgba(119,242,186,.34);
+  border-radius: 50%;
+  transform: translate(-50%,-50%) rotateX(69deg);
+}
+.vGraphOrbitA { width: 82%; height: 38%; }
+.vGraphOrbitB { width: 60%; height: 29%; opacity: .5; }
+
+.vGraphBlock {
+  position: absolute;
+  width: 170px;
+  min-height: 100px;
+  padding: 16px 17px;
+  border: 1px solid rgba(141,205,181,.44);
+  border-radius: 12px;
+  background:
+    linear-gradient(140deg,rgba(28,52,43,.72),rgba(11,18,21,.92)),
+    rgba(17,25,29,.88);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.24),
+    inset 0 1px rgba(255,255,255,.04),
+    0 0 24px rgba(119,242,186,.035);
+  backdrop-filter: blur(10px);
+  transform-style: preserve-3d;
+  transition: transform 260ms ease-out, border-color 180ms ease-out, box-shadow 180ms ease-out;
+}
+.vGraphBlock:hover {
+  border-color: rgba(119,242,186,.72);
+  box-shadow: 0 24px 60px rgba(0,0,0,.3), 0 0 34px rgba(119,242,186,.07);
+}
+.vGraphBlock strong {
+  display: block;
+  margin-top: 6px;
+  font-size: .94rem;
+  font-weight: 560;
+}
+.vGraphBlock > i {
+  display: block;
+  height: 4px;
+  width: 70%;
+  margin-top: 11px;
+  border-radius: 99px;
+  background: rgba(214,222,219,.12);
+}
+.vGraphBlock > i + i { width: 48%; margin-top: 6px; }
+.vGraphKicker {
+  color: var(--accent);
+  font: .64rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vGraphBlockPrompt {
+  top: 9%;
+  left: 11%;
+  transform: rotateY(7deg) translateZ(40px);
+}
+.vGraphBlockWorkflow {
+  right: 7%;
+  top: 28%;
+  width: 190px;
+  transform: rotateY(-7deg) translateZ(34px);
+}
+.vGraphBlockBuilder {
+  left: 9%;
+  bottom: 12%;
+  transform: rotateY(6deg) translateZ(26px);
+}
+.vGraphBlockVerify {
+  right: 13%;
+  bottom: 10%;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: rotateY(-5deg) translateZ(28px);
+}
+.vVerifyMark {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(119,242,186,.75);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--v-accent-strong);
+  box-shadow: 0 0 22px rgba(119,242,186,.15);
+}
+
+.vMiniFlow {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 16px;
+}
+.vMiniFlow i {
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgba(191,227,208,.44);
+  border-radius: 4px;
+  position: relative;
+}
+.vMiniFlow i + i::before {
+  content: "";
+  width: 17px;
+  height: 1px;
+  background: rgba(119,242,186,.36);
+  position: absolute;
+  top: 8px;
+  right: 100%;
+}
+
+.vGraphNode {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  background: var(--v-accent-strong);
+  box-shadow: 0 0 20px rgba(119,242,186,.72);
+}
+.vGraphNodeA { left: 9%; top: 49%; }
+.vGraphNodeB { right: 10%; top: 15%; }
+.vGraphNodeC { right: 17%; bottom: 28%; }
+
+.vGraph--library { min-height: 400px; }
+.vGraph--library .vGraphBlock { transform: scale(.88); }
+.vGraph--library .vGraphBlockPrompt { top: 8%; left: 8%; }
+.vGraph--library .vGraphBlockWorkflow { top: 24%; right: 4%; }
+.vGraph--library .vGraphBlockBuilder { bottom: 9%; left: 5%; }
+.vGraph--library .vGraphBlockVerify { right: 9%; bottom: 6%; }
+.vGraph--compact { min-height: 280px; }
+
+@keyframes vGraphSweep {
+  0%,70% { transform: translateX(-100%); }
+  88%,100% { transform: translateX(100%); }
+}
+
+/* Mini semantic 3D objects */
+
+.vMiniObject {
+  position: relative;
+  width: 112px;
+  height: 92px;
+  perspective: 700px;
+  flex: 0 0 auto;
+}
+.vMiniObject > span {
+  position: absolute;
+  width: 64px;
+  height: 62px;
+  left: 23px;
+  top: 13px;
+  border-radius: 8px;
+  border: 1px solid rgba(126,210,177,.4);
+  background: linear-gradient(145deg,rgba(34,64,52,.68),rgba(9,16,19,.94));
+  box-shadow: inset 0 1px rgba(255,255,255,.03), 0 12px 30px rgba(0,0,0,.25);
+}
+.vMiniObjectBack { transform: translate(-14px,-10px) rotateY(14deg); opacity: .4; }
+.vMiniObjectMid { transform: translate(-7px,-5px) rotateY(10deg); opacity: .68; }
+.vMiniObjectFront {
+  transform: translateZ(20px);
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+.vMiniObjectLines { width: 34px; display: grid; gap: 6px; }
+.vMiniObjectLines i { height: 2px; border-radius: 2px; background: rgba(191,227,208,.62); }
+.vMiniObjectLines i:nth-child(2){ width: 80%; }
+.vMiniObjectLines i:nth-child(3){ width: 58%; }
+.vMiniObjectFlow { display: flex; gap: 6px; align-items: center; }
+.vMiniObjectFlow i {
+  width: 11px;
+  height: 11px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+}
+.vMiniObjectCube,.vMiniObjectCheck { font-size: 1.5rem; }
+.vMiniObject--builder .vMiniObjectFront { border-color: rgba(119,242,186,.65); }
+.vMiniObject--workflow .vMiniObjectFront { box-shadow: 0 0 28px rgba(119,242,186,.06), inset 0 1px rgba(255,255,255,.03); }
+
+/* HOME */
+
+.v2Hero {
+  padding: 72px 0 46px;
+  min-height: 710px;
+  display: flex;
+  align-items: center;
+}
+.v2HeroGrid {
+  display: grid;
+  grid-template-columns: .92fr 1.08fr;
+  gap: 58px;
+  align-items: center;
+}
+.v2HeroCopy h1 {
+  font-size: clamp(3.5rem,5.5vw,5.5rem);
+  max-width: 760px;
+  margin-top: 18px;
+}
+.v2HeroCopy h1 em {
+  font-style: normal;
+  color: var(--v-accent-strong);
+  text-shadow: 0 0 30px rgba(119,242,186,.08);
+}
+.v2HeroCopy .lead { max-width: 680px; }
+.v2HeroVisual { min-width: 0; }
+.vHeroProof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 34px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.vHeroProof > span {
+  display: grid;
+  gap: 2px;
+  padding: 15px 23px;
+  min-width: 145px;
+  border-right: 1px solid var(--line);
+}
+.vHeroProof > span:first-child { padding-left: 0; }
+.vHeroProof > span:last-child { border-right: 0; }
+.vHeroProof b { font-size: .9rem; font-weight: 560; }
+.vHeroProof small { color: var(--muted); font-size: .72rem; }
+
+.vProcessBand {
+  padding: 26px 0 34px;
+  border-block: 1px solid rgba(84,112,103,.32);
+  background: linear-gradient(90deg,rgba(15,27,24,.42),rgba(10,15,18,.35));
+}
+.vProcessLabel {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  color: var(--accent);
+  font: .72rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vProcessLabel small { color: var(--muted); letter-spacing: 0; font-family: var(--font-sans); }
+.vProcessRail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(17,25,29,.55);
+}
+.vProcessRail li {
+  position: relative;
+  min-height: 112px;
+  padding: 18px 18px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-content: center;
+  border-right: 1px solid var(--line);
+}
+.vProcessRail li:last-child { border-right: 0; }
+.vProcessNumber {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(119,242,186,.42);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  font: .7rem var(--font-mono);
+  background: rgba(119,242,186,.035);
+}
+.vProcessRail strong { display: block; font-size: .9rem; }
+.vProcessRail small { display: block; margin-top: 4px; color: var(--muted); line-height: 1.45; font-size: .76rem; }
+.vProcessArrow {
+  position: absolute;
+  right: -8px;
+  top: 44px;
+  z-index: 2;
+  color: var(--accent);
+  background: var(--panel);
+  width: 16px;
+  text-align: center;
+}
+
+.vCapabilityGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+.vCapabilityCard {
+  min-height: 360px;
+  padding: 34px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 88% 12%,rgba(119,242,186,.055),transparent 12rem),
+    var(--panel);
+  position: relative;
+  overflow: hidden;
+}
+.vCapabilityCardAccent { border-color: rgba(119,242,186,.34); }
+.vCapabilityCard h3 { font-size: 1.75rem; max-width: 420px; margin-top: 14px; }
+.vCapabilityCard p { max-width: 540px; }
+.vCapabilityIcon {
+  position: absolute;
+  right: 26px;
+  top: 22px;
+  opacity: .84;
+}
+
+.vTaxonomyGrid {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 22px;
+}
+.vTaxonomyCard {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 30px;
+  min-height: 340px;
+  background: linear-gradient(180deg,rgba(17,25,29,.9),rgba(11,17,20,.92));
+  overflow: hidden;
+}
+.vTaxonomyWorkflow { border-color: rgba(119,242,186,.3); }
+.vTaxonomyTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  color: var(--accent);
+  font: .72rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vTaxonomyCard h3 { font-size: 1.75rem; margin-top: -6px; }
+.vInlineFlow,.vWorkflowDiagram {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 34px 0;
+  font: .68rem var(--font-mono);
+}
+.vInlineFlow span,.vWorkflowDiagram span {
+  border: 1px solid rgba(119,242,186,.28);
+  background: rgba(119,242,186,.035);
+  padding: 9px 10px;
+  border-radius: 6px;
+  color: var(--text);
+}
+.vInlineFlow b,.vWorkflowDiagram b { color: var(--accent); font-weight: 400; }
+.vWorkflowDiagram { position: relative; padding-bottom: 34px; }
+.vWorkflowDiagram i {
+  position: absolute;
+  bottom: 0;
+  left: 44%;
+  color: var(--v-warning);
+  font-style: normal;
+}
+
+.vBrowseHeading,.vLibraryGroupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 30px;
+  margin-bottom: 28px;
+}
+.vBrowseHeading h2,.vLibraryGroupHeader h2 { margin-bottom: 0; }
+.vCategoryGrid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 12px;
+}
+.vCategoryCard {
+  min-height: 190px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(150deg,rgba(20,31,35,.82),rgba(11,17,20,.94));
+  position: relative;
+  transition: transform 160ms ease-out, border-color 180ms ease-out, background 180ms ease-out;
+}
+.vCategoryCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(119,242,186,.38);
+  background: linear-gradient(150deg,rgba(24,43,36,.84),rgba(11,17,20,.96));
+}
+.vCategoryCard h3 { margin: 14px 30px 8px 0; }
+.vCategoryCard p { font-size: .86rem; line-height: 1.55; }
+.vCategoryIndex { color: var(--accent); font: .7rem var(--font-mono); }
+.vCategoryArrow { position: absolute; top: 19px; right: 20px; color: var(--accent); }
+
+.vTrustSection { background: linear-gradient(180deg,transparent,rgba(119,242,186,.02)); }
+.vTrustGrid {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 90px;
+  align-items: start;
+}
+.vTrustPoints {
+  border-top: 1px solid var(--line);
+}
+.vTrustPoints p {
+  display: grid;
+  grid-template-columns: minmax(170px,.45fr) 1fr;
+  gap: 28px;
+  padding: 20px 0;
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+.vTrustPoints strong { color: var(--text); }
+.vTrustPoints span { color: var(--muted); }
+
+.v2Closing {
+  padding: 86px 0;
+  border-top: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 50% 120%,rgba(119,242,186,.1),transparent 48%),
+    #080c0e;
+}
+.v2ClosingInner {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+}
+.v2Closing h2 { margin-bottom: 8px; }
+
+/* PREMIUM LIBRARY */
+
+.vPremiumHero {
+  padding: 62px 0 44px;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 72% 24%,rgba(119,242,186,.065),transparent 25rem);
+}
+.vPremiumHeroGrid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 58px;
+  align-items: center;
+  margin-bottom: 34px;
+}
+.vPremiumHero h1 { font-size: clamp(3.2rem,5vw,5rem); }
+.vPremiumHero h1 em { color: var(--v-accent-strong); font-style: normal; }
+.vProcessRailPremium li { min-height: 96px; }
+
+.vLibraryLayout {
+  display: grid;
+  grid-template-columns: 220px minmax(0,1fr);
+  gap: 38px;
+  align-items: start;
+}
+.vCategoryRail {
+  position: sticky;
+  top: 96px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(17,25,29,.72);
+}
+.vCategoryRailTitle {
+  padding: 17px 18px;
+  border-bottom: 1px solid var(--line);
+  color: var(--accent);
+  font: .72rem var(--font-mono);
+  letter-spacing: .11em;
+}
+.vCategoryRail > a {
+  min-height: 44px;
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(38,53,58,.7);
+  font-size: .82rem;
+}
+.vCategoryRail > a:hover,.vCategoryRail > a:focus-visible {
+  color: var(--text);
+  background: rgba(119,242,186,.045);
+}
+.vCategoryRail > a small { color: #667774; font: .68rem var(--font-mono); }
+.vTypeKey {
+  display: grid;
+  gap: 10px;
+  padding: 18px 14px;
+}
+.vTypeKey > span { color: var(--muted); font: .66rem var(--font-mono); letter-spacing: .1em; }
+.vTypeKey small { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+.vTypeDot { width: 7px; height: 7px; display: inline-block; border-radius: 50%; }
+.vTypePrompt { background:#8eb7a1; }
+.vTypeWorkflow { background:#77f2ba; box-shadow:0 0 10px rgba(119,242,186,.35); }
+.vTypeBuilder { border:1px solid #77f2ba; }
+.vTypeToolkit { background:#e7c88e; }
+
+.vLibraryMain { min-width: 0; }
+.vLibraryGroup {
+  padding: 0 0 54px;
+  scroll-margin-top: 100px;
+}
+.vLibraryGroup + .vLibraryGroup {
+  border-top: 1px solid var(--line);
+  padding-top: 54px;
+}
+.vLibraryGroupHeader h2 { max-width: 720px; }
+
+.vBuilderGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.vBuilderFeature {
+  position: relative;
+  overflow: hidden;
+  min-height: 330px;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 120px;
+  align-items: end;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid rgba(119,242,186,.38);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 80% 30%,rgba(119,242,186,.09),transparent 13rem),
+    linear-gradient(160deg,rgba(21,39,33,.9),rgba(11,18,20,.96));
+}
+.vBuilderContent { align-self: stretch; display: flex; flex-direction: column; }
+.vBuilderFeature h3 { font-size: 1.6rem; }
+.vBuilderFeature p { flex: 1; }
+.vMiniPipeline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 12px 0 22px;
+  color: var(--muted);
+  font: .64rem var(--font-mono);
+}
+.vMiniPipeline b { color: var(--accent); font-weight: 400; }
+
+.vWorkflowFeatureGrid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 16px;
+}
+.vWorkflowFeature {
+  min-height: 320px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 84% 18%,rgba(119,242,186,.05),transparent 9rem),
+    rgba(17,25,29,.8);
+  position: relative;
+  overflow: hidden;
+}
+.vWorkflowFeature:hover { border-color: rgba(119,242,186,.36); }
+.vArtifactVisual {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  opacity: .72;
+}
+.vWorkflowFeature .assetCardMeta { padding-right: 100px; }
+.vWorkflowFeature h3 { margin-top: 22px; max-width: 75%; }
+.vWorkflowFeature p { max-width: 90%; }
+.vWorkflowMiniMap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 18px 0 8px;
+}
+.vWorkflowMiniMap span {
+  color: var(--muted);
+  font: .58rem var(--font-mono);
+  border: 1px solid rgba(119,242,186,.18);
+  border-radius: 5px;
+  padding: 7px;
+}
+.vWorkflowMiniMap i {
+  height: 1px;
+  flex: 1;
+  min-width: 12px;
+  background: rgba(119,242,186,.25);
+}
+
+.vPromptList {
+  display: grid;
+  gap: 10px;
+}
+.vPromptRow {
+  display: grid;
+  grid-template-columns: 112px minmax(0,1fr) 44px;
+  gap: 18px;
+  align-items: center;
+  min-height: 145px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(17,25,29,.68);
+  scroll-margin-top: 100px;
+}
+.vPromptRow:hover { border-color: rgba(119,242,186,.28); }
+.vPromptGlyph { width: 112px; overflow: hidden; }
+.vPromptRow h3 { margin: 6px 0 5px; }
+.vPromptRow p { margin: 0; font-size: .86rem; }
+.vPromptRowBody { min-width: 0; }
+
+.vToolkitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.vToolkitCard {
+  min-height: 250px;
+  display: grid;
+  grid-template-columns: 120px minmax(0,1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(17,25,29,.75);
+}
+
+/* ASSET DETAIL */
+
+.vAssetHero {
+  padding: 48px 0 48px;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 74% 44%,rgba(119,242,186,.07),transparent 20rem);
+}
+.vBackLink { margin-bottom: 34px; }
+.vAssetHeroGrid {
+  display: grid;
+  grid-template-columns: .96fr 1.04fr;
+  gap: 58px;
+  align-items: center;
+}
+.vAssetHeroCopy h1 {
+  font-size: clamp(3rem,5vw,4.8rem);
+  max-width: 760px;
+}
+.vAssetMetaTop {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-bottom: 10px;
+}
+.vAssetVisualPanel {
+  min-height: 360px;
+  padding: 32px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(119,242,186,.28);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 44%,rgba(119,242,186,.1),transparent 13rem),
+    linear-gradient(165deg,rgba(18,31,28,.82),rgba(9,15,17,.94));
+}
+.vAssetVisualPanel .vMiniObject {
+  transform: scale(1.55);
+  margin-bottom: 60px;
+}
+.vStructureMap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.vAssetVisualPanel .vStructureMap {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 24px;
+  width: auto;
+}
+.vStructureStep {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font: .61rem var(--font-mono);
+}
+.vStructureNode {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(119,242,186,.36);
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(119,242,186,.035);
+}
+.vStructureStep strong { color: var(--text); font-weight: 500; }
+.vStructureArrow { color: var(--accent); }
+
+.vAssetGuideBand {
+  padding: 24px 0 30px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(15,25,24,.35);
+}
+.vAssetGuideHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.vAssetGuideHeading small { color: var(--muted); }
+.vAssetGuideRail {
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  border:1px solid var(--line);
+  border-radius:10px;
+  overflow:hidden;
+}
+.vAssetGuideRail li {
+  min-height:88px;
+  padding:16px;
+  display:grid;
+  grid-template-columns:28px 1fr;
+  gap:10px;
+  border-right:1px solid var(--line);
+}
+.vAssetGuideRail li:last-child { border-right:0; }
+.vAssetGuideRail > li > span { color:var(--accent); font:.68rem var(--font-mono); padding-top:2px; }
+.vAssetGuideRail strong { display:block; font-size:.84rem; }
+.vAssetGuideRail small { color:var(--muted); line-height:1.4; font-size:.72rem; display:block; margin-top:4px; }
+
+.vAssetBodyGrid {
+  display:grid;
+  grid-template-columns:260px minmax(0,1fr);
+  gap:32px;
+  align-items:start;
+}
+.vAssetSide {
+  position:sticky;
+  top:96px;
+  display:grid;
+  gap:14px;
+}
+.vAssetSideCard {
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(17,25,29,.72);
+  padding:20px;
+}
+.vAssetSideCard dl { margin:16px 0 0; }
+.vAssetSideCard dl > div {
+  display:grid;
+  gap:3px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(38,53,58,.75);
+}
+.vAssetSideCard dl > div:last-child { border-bottom:0; }
+.vAssetSideCard dt { color:var(--muted); font-size:.72rem; }
+.vAssetSideCard dd { margin:0; font-size:.86rem; }
+.vAssetSideCard p { margin:14px 0 0; font-size:.83rem; }
+.vStickyCopy .btn { width:100%; }
+.vAssetReadingSurface { min-width:0; }
+.vPremiumAssetCode {
+  max-height:none;
+  min-height:640px;
+  border-color:rgba(65,90,82,.72);
+  background:
+    linear-gradient(180deg,rgba(8,12,15,.96),rgba(7,11,13,.99));
+  box-shadow: inset 0 1px rgba(255,255,255,.018);
+}
+.vPremiumAssetCode code { font-size:.82rem; color:#d2dcda; }
+.vRelatedGrid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.vRelatedCard {
+  min-height:300px;
+  position:relative;
+  overflow:hidden;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(17,25,29,.72);
+}
+.vRelatedCard > .vMiniObject {
+  position:absolute;
+  right:10px;
+  top:10px;
+  opacity:.64;
+}
+.vRelatedCard .assetCardMeta { padding-right:86px; }
+.vRelatedCard h3 { margin-top:34px; max-width:76%; }
+
+/* Access surfaces — visual alignment only */
+
+.accessPage .pageHero {
+  background: radial-gradient(circle at 78% 20%,rgba(119,242,186,.045),transparent 24rem);
+}
+.accessPanel {
+  border-radius:14px;
+  background:
+    linear-gradient(160deg,rgba(18,30,27,.78),rgba(14,21,25,.94));
+  border-color:rgba(119,242,186,.22);
+  box-shadow:0 28px 70px rgba(0,0,0,.2);
+}
+.unlockForm input {
+  border-radius:8px;
+  background:#0a1114;
+}
+.sessionFacts {
+  border-color:rgba(119,242,186,.2);
+}
+
+/* Responsive */
+
+@media (max-width: 1120px) {
+  .v2HeroGrid,.vPremiumHeroGrid,.vAssetHeroGrid { gap:34px; }
+  .vGraph { min-height:460px; }
+  .vCategoryGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .vLibraryLayout { grid-template-columns:190px minmax(0,1fr); gap:24px; }
+  .vBuilderGrid,.vWorkflowFeatureGrid { grid-template-columns:1fr; }
+  .vBuilderFeature { min-height:290px; }
+}
+
+@media (max-width: 840px) {
+  .v2Hero { padding-top:50px; }
+  .v2HeroGrid,.vPremiumHeroGrid,.vAssetHeroGrid,
+  .vCapabilityGrid,.vTaxonomyGrid,.vTrustGrid,
+  .vLibraryLayout,.vAssetBodyGrid {
+    grid-template-columns:1fr;
+  }
+  .v2HeroCopy h1,.vPremiumHero h1,.vAssetHeroCopy h1 { max-width:760px; }
+  .vGraph { min-height:420px; }
+  .vProcessRail,.vAssetGuideRail { grid-template-columns:1fr 1fr; }
+  .vProcessRail li:nth-child(2n),.vAssetGuideRail li:nth-child(2n) { border-right:0; }
+  .vProcessRail li,.vAssetGuideRail li { border-bottom:1px solid var(--line); }
+  .vProcessArrow { display:none; }
+  .vCapabilityCard { min-height:310px; }
+  .vCategoryRail {
+    position:static;
+    display:flex;
+    overflow-x:auto;
+    align-items:stretch;
+    border-radius:10px;
+    scrollbar-width:thin;
+  }
+  .vCategoryRailTitle,.vTypeKey { display:none; }
+  .vCategoryRail > a {
+    min-width:145px;
+    border-bottom:0;
+    border-right:1px solid var(--line);
+  }
+  .vToolkitGrid { grid-template-columns:1fr; }
+  .vAssetSide { position:static; grid-template-columns:1fr 1fr; }
+  .vStickyCopy { grid-column:1 / -1; }
+  .vRelatedGrid { grid-template-columns:1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .v2Hero { min-height:auto; padding:42px 0 28px; }
+  .v2HeroCopy h1 { font-size:clamp(2.7rem,12vw,4rem); line-height:1.02; }
+  .v2HeroVisual { margin-top:8px; }
+  .vGraph {
+    min-height:390px;
+    border-radius:14px;
+    perspective:none;
+  }
+  .vGraphStack {
+    width:150px;height:150px;
+    transform:translate(-50%,-38%) rotateX(61deg) rotateZ(-43deg) scale(.88);
+  }
+  .vGraphBlock {
+    width:132px;
+    min-height:80px;
+    padding:12px;
+  }
+  .vGraphBlock strong { font-size:.75rem; }
+  .vGraphBlockWorkflow { width:145px; }
+  .vGraphBlockPrompt { top:8%; left:4%; }
+  .vGraphBlockWorkflow { top:29%; right:1%; }
+  .vGraphBlockBuilder { bottom:7%; left:2%; }
+  .vGraphBlockVerify { right:3%; bottom:6%; min-height:66px; }
+  .vGraphGrid { background-size:26px 26px; }
+  .vGraphOrbitA { width:92%; }
+  .vHeroProof { display:grid; grid-template-columns:1fr; }
+  .vHeroProof > span,.vHeroProof > span:first-child {
+    padding:12px 0;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+  .vHeroProof > span:last-child { border-bottom:0; }
+
+  .vProcessLabel { display:block; }
+  .vProcessLabel small { display:block; margin-top:4px; }
+  .vProcessRail,.vAssetGuideRail { grid-template-columns:1fr; }
+  .vProcessRail li,.vProcessRail li:nth-child(2n),
+  .vAssetGuideRail li,.vAssetGuideRail li:nth-child(2n) {
+    border-right:0;
+  }
+  .vProcessRail li { min-height:88px; }
+  .vCapabilityCard { padding:24px; }
+  .vCapabilityIcon { opacity:.36; right:4px; top:6px; }
+  .vTaxonomyCard { padding:22px; min-height:300px; }
+  .vTaxonomyTop .vMiniObject { transform:scale(.78); transform-origin:top right; }
+  .vInlineFlow,.vWorkflowDiagram { gap:6px; }
+  .vCategoryGrid { grid-template-columns:1fr; }
+  .vCategoryCard { min-height:150px; }
+  .vBrowseHeading,.vLibraryGroupHeader,.v2ClosingInner {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .vTrustGrid { gap:34px; }
+  .vTrustPoints p { grid-template-columns:1fr; gap:6px; }
+  .v2ClosingInner .actions { width:100%; }
+
+  .vPremiumHero { padding-top:40px; }
+  .vPremiumHero .vGraph { min-height:360px; }
+  .vCategoryRail > a { min-width:132px; }
+  .vBuilderFeature {
+    grid-template-columns:1fr;
+    padding:22px;
+    min-height:340px;
+  }
+  .vBuilderFeature > .vMiniObject { position:absolute; right:2px; bottom:4px; opacity:.32; }
+  .vWorkflowFeatureGrid { grid-template-columns:1fr; }
+  .vPromptRow {
+    grid-template-columns:76px minmax(0,1fr) 44px;
+    padding:14px;
+  }
+  .vPromptGlyph { width:76px; }
+  .vPromptGlyph .vMiniObject { transform:scale(.72); transform-origin:left center; }
+  .vToolkitCard { grid-template-columns:82px minmax(0,1fr); padding:18px; }
+  .vToolkitCard .vMiniObject { transform:scale(.7); transform-origin:left center; }
+
+  .vAssetHero { padding-top:34px; }
+  .vAssetVisualPanel { min-height:310px; padding:22px; }
+  .vAssetVisualPanel .vMiniObject { transform:scale(1.15); margin-bottom:70px; }
+  .vAssetVisualPanel .vStructureMap { left:12px; right:12px; bottom:16px; }
+  .vStructureMap { gap:6px; justify-content:flex-start; }
+  .vStructureStep strong { font-size:.58rem; }
+  .vAssetSide { grid-template-columns:1fr; }
+  .vStickyCopy { grid-column:auto; }
+  .vRelatedGrid { grid-template-columns:1fr; }
+  .vPremiumAssetCode { padding:18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vGraph::after { animation:none !important; }
+  .vGraphBlock,.vCategoryCard,.vRoundLink,.v2Home .btn,.vPremiumLibrary .btn,.vAssetDetail .btn {
+    transform:none !important;
+  }
+}
+
+
+/* FREE LIBRARY */
+
+.vFreeHero {
+  padding: 68px 0 52px;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 76% 38%,rgba(119,242,186,.06),transparent 23rem);
+}
+.vFreeHeroGrid {
+  display: grid;
+  grid-template-columns: 1fr .9fr;
+  gap: 64px;
+  align-items: center;
+}
+.vFreeHero h1 {
+  font-size: clamp(3.4rem,5.5vw,5.3rem);
+  max-width: 760px;
+}
+.vFreeHeroVisual {
+  min-height: 390px;
+  position: relative;
+  border: 1px solid rgba(119,242,186,.22);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(119,242,186,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(119,242,186,.04) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(119,242,186,.1),transparent 13rem),
+    #0c1316;
+  background-size: 34px 34px,34px 34px,auto,auto;
+}
+.vFreeObject {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font: .68rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vFreeObjectPrompt { left: 16%; top: 20%; }
+.vFreeObjectWorkflow { right: 13%; bottom: 17%; }
+.vFreeObjectPrompt .vMiniObject { transform: scale(1.18); }
+.vFreeObjectWorkflow .vMiniObject { transform: scale(1.3); }
+.vFreeConnector {
+  position: absolute;
+  left: 38%;
+  top: 47%;
+  width: 31%;
+  height: 1px;
+  background: rgba(119,242,186,.42);
+  transform: rotate(26deg);
+  transform-origin: left center;
+}
+.vFreeConnector::before,
+.vFreeConnector::after {
+  content:"";
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--v-accent-strong);
+  top:-3px;
+  box-shadow:0 0 16px rgba(119,242,186,.56);
+}
+.vFreeConnector::before { left:0; }
+.vFreeConnector::after { right:0; }
+
+.vFreePromptGrid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+}
+.vFreeAssetCard {
+  min-height:300px;
+  padding:22px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:
+    radial-gradient(circle at 84% 18%,rgba(119,242,186,.045),transparent 9rem),
+    rgba(17,25,29,.76);
+}
+.vFreeAssetCard:hover { border-color:rgba(119,242,186,.32); }
+.vFreeAssetVisual {
+  position:absolute;
+  right:4px;
+  top:2px;
+  opacity:.55;
+}
+.vFreeAssetCard .assetCardMeta { padding-right:72px; }
+.vFreeAssetCard h3 { margin-top:42px; max-width:84%; }
+.vFreeAssetCard p { font-size:.86rem; }
+
+.vFreeWorkflowSection {
+  background:linear-gradient(180deg,transparent,rgba(119,242,186,.018),transparent);
+}
+.vFreeWorkflowGrid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+.vFreeWorkflowCard {
+  min-height:340px;
+  padding:26px;
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(119,242,186,.24);
+  border-radius:13px;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(119,242,186,.07),transparent 10rem),
+    linear-gradient(155deg,rgba(19,33,29,.78),rgba(11,17,20,.96));
+}
+.vFreeWorkflowVisual {
+  position:absolute;
+  right:6px;
+  top:4px;
+  opacity:.72;
+}
+.vFreeWorkflowCard .assetCardMeta { padding-right:84px; }
+.vFreeWorkflowCard h3 { margin-top:54px; max-width:75%; font-size:1.35rem; }
+.vFreeBoundary { border-top:1px solid var(--line); }
+.vFreeAssetDetail .vAssetHero { background:radial-gradient(circle at 74% 42%,rgba(119,242,186,.055),transparent 20rem); }
+
+@media (max-width: 1120px) {
+  .vFreePromptGrid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 840px) {
+  .vFreeHeroGrid { grid-template-columns:1fr; gap:34px; }
+  .vFreeHeroVisual { min-height:340px; }
+  .vFreeWorkflowGrid { grid-template-columns:1fr; }
+}
+@media (max-width: 600px) {
+  .vFreeHero { padding-top:42px; }
+  .vFreeHero h1 { font-size:clamp(2.7rem,12vw,4rem); }
+  .vFreeHeroVisual { min-height:300px; }
+  .vFreeObjectPrompt { left:4%; top:14%; }
+  .vFreeObjectWorkflow { right:3%; bottom:10%; }
+  .vFreeObjectPrompt .vMiniObject,
+  .vFreeObjectWorkflow .vMiniObject { transform:scale(.92); }
+  .vFreePromptGrid { grid-template-columns:1fr; }
+  .vFreeAssetCard { min-height:260px; }
+}

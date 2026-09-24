@@ -1,0 +1,25 @@
+[
+  {
+    "name": "1440-retina",
+    "errors": [],
+    "layout": {
+      "htmlWidth": 1440,
+      "viewport": 1440,
+      "heroHeight": 821.71875,
+      "canvasCount": 1,
+      "runtimeClass": "vHero3Runtime vHero3Runtime--ready",
+      "webgl2": true,
+      "layoutShift": 0,
+      "primaryHref": "/free",
+      "secondaryHref": "/unlock",
+      "semanticCards": 4,
+      "canvasPixelRatio": 1.6,
+      "visual": {
+        "x": 700.109375,
+        "y": 208.859375,
+        "width": 659.890625,
+        "height": 580
+      }
+    }
+  }
+]

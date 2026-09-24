@@ -1,0 +1,115 @@
+{
+  "schema": "verlune-v1-lineage-map",
+  "status": "CANDIDATE",
+  "date": "2026-09-22",
+  "rule": "Existing lineage may accelerate construction but does not automatically promote an asset into the Verlune v1 launch catalog.",
+  "existing_product_lineage": [
+    {
+      "target": "VP-WF-001",
+      "name": "Evidence-first Code Review",
+      "source_paths": [
+        "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+        "certification/receipts/starter-code-review-v2.2-g11-certification.json",
+        "commercial/VERLUNE_CODE_REVIEW_RELEASE_PROFILE_1_0_0_V1.json"
+      ],
+      "reuse_state": "STRONG_EXISTING_LINEAGE",
+      "note": "Reuse exact certified semantics where applicable; new bundle/host claims require their own release evidence."
+    },
+    {
+      "target": "VF-WF-003",
+      "name": "Bug Diagnosis",
+      "source_paths": [
+        "product/starter-collection-v1/workflows/evidence-first-bug-diagnosis.md",
+        "product/developer-pack-v1.1/templates/bug-diagnosis-system.md",
+        "product/developer-pack-v1.1/quality/BUG_DIAGNOSIS_SCORECARD.md"
+      ],
+      "reuse_state": "STRONG_STATIC_AND_WORKFLOW_LINEAGE",
+      "note": "Free release still requires the v1 Free runtime gate."
+    },
+    {
+      "target": "VP-WF-004",
+      "name": "Decision Analysis",
+      "source_paths": [
+        "product/developer-pack-v1.1/templates/technical-research-decision-system.md",
+        "product/developer-pack-v1.1/examples/technical-decision-policy-transformation.md"
+      ],
+      "reuse_state": "STRONG_STATIC_LINEAGE"
+    },
+    {
+      "target": "VP-BUILDER-002",
+      "name": "Workflow Builder",
+      "source_paths": [
+        "product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md",
+        "product/developer-workflow-kit-v1.2/skills/design-ai-workflows/SKILL.md",
+        "product/developer-pack-v1.1/methodology/adaptation-playbook.md",
+        "product/developer-pack-v1.1/checklists/workflow-static-review.md"
+      ],
+      "reuse_state": "STRONG_METHOD_LINEAGE_RUNTIME_OPEN"
+    },
+    {
+      "target": "VP-TK-001",
+      "name": "Adaptation Guide",
+      "source_paths": [
+        "product/developer-pack-v1.1/methodology/adaptation-playbook.md"
+      ],
+      "reuse_state": "EXISTING_DRAFT_LINEAGE"
+    },
+    {
+      "target": "VP-TK-002",
+      "name": "Evaluation Toolkit",
+      "source_paths": [
+        "product/developer-pack-v1.1/checklists/workflow-static-review.md",
+        "product/starter-collection-v1/evaluation/"
+      ],
+      "reuse_state": "METHOD_AND_FIXTURE_LINEAGE_REQUIRES_CUSTOMER_PRODUCTIZATION"
+    }
+  ],
+  "repository_pattern_lineage": [
+    {
+      "target": "VF-P-WRITE-001",
+      "name": "Improve Writing",
+      "source_paths": [
+        "library/templates/content/reader-centered-rewrite.md",
+        "library/templates/content/final-quality-audit.md"
+      ],
+      "reuse_state": "PROMISING_REPOSITORY_AUTHORED_LINEAGE"
+    },
+    {
+      "target": "VP-P-CONTENT-001",
+      "name": "Content Strategy Brief",
+      "source_paths": [
+        "library/templates/content/lead-magnet-design-system.md"
+      ],
+      "reuse_state": "PARTIAL_LINEAGE_REQUIRES_NEW_PRODUCT_SURFACE"
+    },
+    {
+      "target": "VF-P-PLAN-001",
+      "name": "Plan a Project",
+      "source_paths": [
+        "library/templates/business/growth-90-day-system.md"
+      ],
+      "reuse_state": "TECHNIQUE_LINEAGE_ONLY"
+    },
+    {
+      "target": "VP-BUILDER-001",
+      "name": "Prompt Builder",
+      "source_paths": [
+        "library/patterns/skill-design/role-intake-rules-output.md",
+        "product/developer-pack-v1.1/templates/general-operating-contract.md",
+        "product/developer-pack-v1.1/methodology/adaptation-playbook.md"
+      ],
+      "reuse_state": "METHOD_LINEAGE_REQUIRES_SIMPLIFIED_CUSTOMER_BUILDER"
+    }
+  ],
+  "external_quarry_source": {
+    "branch": "feat/quarry-prompts-chat-ingest-20260921",
+    "commit": "808f3a031b473f35848213ed24435818d02995ed",
+    "purpose": "candidate and pattern mining only",
+    "rules": [
+      "Do not promote source references directly into Verlune.",
+      "Do not represent metadata-derived reconstructions as recovered premium source bodies.",
+      "Deduplicate and rewrite into Verlune-owned product surfaces.",
+      "Every promoted asset must pass Verlune release gates independently."
+    ]
+  }
+}

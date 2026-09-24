@@ -1,0 +1,215 @@
+{
+  "schema": "verlune-v1-exact-asset-binding-manifest",
+  "status": "REFROZEN_AFTER_PORTABILITY_REWORK_2 / VP-WF-003_FINAL_DELTA_REQUIRED",
+  "date": "2026-09-23",
+  "branch": "feat/verlune-product-model-v1-20260922-r2",
+  "branch_head_at_binding": "886060c1f991aadd4b458f05fc7c62056942e9ca",
+  "note": "Git blob SHA is the exact repository object identity for the customer surface. Formal runtime evidence must reference these identities or a later explicitly re-frozen manifest.",
+  "assets": [
+    {
+      "id": "VF-P-BIZ-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/analyze-a-business-problem.md",
+      "blob_sha": "4151af09710f32fb2661d77598a57ae3a14e05f6",
+      "size_bytes": 1220
+    },
+    {
+      "id": "VF-P-DEV-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/explain-code-clearly.md",
+      "blob_sha": "19b6eed105f9680fd567c7fb5fe5a6f8a51fc74d",
+      "size_bytes": 1565
+    },
+    {
+      "id": "VF-P-CONTENT-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/improve-a-content-draft.md",
+      "blob_sha": "9a2015048dc36c08c251b707d73f134153990103",
+      "size_bytes": 1059
+    },
+    {
+      "id": "VF-P-WRITE-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/improve-writing.md",
+      "blob_sha": "c81edeb65c8e395138c2946605323b19df6e7ece",
+      "size_bytes": 976
+    },
+    {
+      "id": "VF-P-STUDY-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/learn-a-difficult-topic.md",
+      "blob_sha": "09486bc7800f22df95ab5f3c407c4787afbc8848",
+      "size_bytes": 1088
+    },
+    {
+      "id": "VF-P-PLAN-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/plan-a-project.md",
+      "blob_sha": "ea6cbbbd176d929c07f49c1ce5d65c8c63305a11",
+      "size_bytes": 1062
+    },
+    {
+      "id": "VF-P-CAREER-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/prepare-for-an-interview.md",
+      "blob_sha": "b58dcd6c130f45c83b7e8c323e97160cfbe5d510",
+      "size_bytes": 1219
+    },
+    {
+      "id": "VF-P-RES-001",
+      "type": "free_prompt",
+      "path": "product/verlune-v1/free/prompts/research-a-topic.md",
+      "blob_sha": "5f1d47194825385c3ef0188648954e92fa41db5c",
+      "size_bytes": 1296
+    },
+    {
+      "id": "VF-WF-003",
+      "type": "free_workflow",
+      "path": "product/verlune-v1/free/workflows/bug-diagnosis.md",
+      "blob_sha": "47418dec37f63cea58e083ccd4e3f3e42bb944d3",
+      "size_bytes": 8897
+    },
+    {
+      "id": "VF-WF-001",
+      "type": "free_workflow",
+      "path": "product/verlune-v1/free/workflows/compare-options.md",
+      "blob_sha": "09036b5521e82c6422f7afa41c2359a91025e7c8",
+      "size_bytes": 2612
+    },
+    {
+      "id": "VF-WF-002",
+      "type": "free_workflow",
+      "path": "product/verlune-v1/free/workflows/guided-study-session.md",
+      "blob_sha": "f0c07bd11550514dc5d04d38089fdc6ea3136219",
+      "size_bytes": 2670
+    },
+    {
+      "id": "VP-P-CONTENT-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/content-strategy-brief.md",
+      "blob_sha": "bd1e26acc3f3237562b3a3e765bd6efb0b8f9f1d",
+      "size_bytes": 2025
+    },
+    {
+      "id": "VP-P-RES-002",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/evidence-synthesis.md",
+      "blob_sha": "fd7b99e9c2a7f73debb2e68b5b9205f20f5ac6cc",
+      "size_bytes": 1742
+    },
+    {
+      "id": "VP-P-STUDY-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/exam-preparation.md",
+      "blob_sha": "48f9ca9e2daa10a43bff15b6206278bef2f24ad4",
+      "size_bytes": 1741
+    },
+    {
+      "id": "VP-P-DEV-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/requirements-analysis.md",
+      "blob_sha": "4a401a6c48e6f8af1b922f076775452107dbd15f",
+      "size_bytes": 2038
+    },
+    {
+      "id": "VP-P-WRITE-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/rewrite-for-audience-and-intent.md",
+      "blob_sha": "867911106e6463c15ea8b3a575e10b4e41786f36",
+      "size_bytes": 1857
+    },
+    {
+      "id": "VP-P-PLAN-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/risk-aware-project-plan.md",
+      "blob_sha": "50dec50962b97ef525384de532494792fcbd3043",
+      "size_bytes": 1786
+    },
+    {
+      "id": "VP-P-BIZ-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/sop-drafting.md",
+      "blob_sha": "4e766cab2870f001a98affbaf468f4a8e28b5a2e",
+      "size_bytes": 1674
+    },
+    {
+      "id": "VP-P-CAREER-001",
+      "type": "premium_prompt",
+      "path": "product/verlune-v1/premium/prompts/tailor-a-resume-to-a-role.md",
+      "blob_sha": "533174c537546642cdf082d59d91dececa297f0f",
+      "size_bytes": 1684
+    },
+    {
+      "id": "VP-WF-007",
+      "type": "premium_workflow",
+      "path": "product/verlune-v1/premium/workflows/content-strategy-system.md",
+      "blob_sha": "d7142fce26e6e303028d77f0134212267d2393a5",
+      "size_bytes": 2529
+    },
+    {
+      "id": "VP-WF-004",
+      "type": "premium_workflow",
+      "path": "product/verlune-v1/premium/workflows/decision-analysis.md",
+      "blob_sha": "1cc57576c91af09054b32d932bb0fe55e42c2bf6",
+      "size_bytes": 2286
+    },
+    {
+      "id": "VP-WF-001",
+      "type": "premium_workflow",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-code-review.md",
+      "blob_sha": "beb62117c24bb7fde552397b89e1e159e294449a",
+      "size_bytes": 6878
+    },
+    {
+      "id": "VP-WF-003",
+      "type": "premium_workflow",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
+      "blob_sha": "afa65c9cdccff26d6fe92cee800818f3066d4220",
+      "size_bytes": 5200
+    },
+    {
+      "id": "VP-WF-006",
+      "type": "premium_workflow",
+      "path": "product/verlune-v1/premium/workflows/master-a-topic.md",
+      "blob_sha": "b2d98d24db14b2369d62709a330e95e3e9ec31b4",
+      "size_bytes": 2919
+    },
+    {
+      "id": "VP-BUILDER-001",
+      "type": "builder",
+      "path": "product/verlune-v1/premium/builders/prompt-builder.md",
+      "blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "size_bytes": 3880
+    },
+    {
+      "id": "VP-BUILDER-002",
+      "type": "builder",
+      "path": "product/verlune-v1/premium/builders/workflow-builder.md",
+      "blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+      "size_bytes": 4561
+    }
+  ],
+  "portability_rework": {
+    "changed_assets": [
+      "VP-WF-003",
+      "VP-WF-006"
+    ],
+    "old_blobs": {
+      "VP-WF-003": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "VP-WF-006": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9"
+    },
+    "new_blobs": {
+      "VP-WF-003": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+      "VP-WF-006": "b2d98d24db14b2369d62709a330e95e3e9ec31b4"
+    },
+    "evidence_effect": "Historical runtime evidence remains valid for old blobs only. New blobs require delta requalification before current release gates can return to PASS."
+  },
+  "portability_rework_2": {
+    "date": "2026-09-23",
+    "changed_asset": "VP-WF-003",
+    "old_blob": "6daeae311de1fc1a9b5b9ad180951608443a8fa9",
+    "new_blob": "afa65c9cdccff26d6fe92cee800818f3066d4220",
+    "reason": "Gemini normal-research delta exposed evidence-scope and citation-traceability drift after the first remediation.",
+    "requalification_required": true
+  }
+}

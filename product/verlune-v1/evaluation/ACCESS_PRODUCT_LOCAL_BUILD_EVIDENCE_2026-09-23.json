@@ -1,0 +1,77 @@
+{
+  "schema": "verlune-v1-access-product-local-build-evidence-v1",
+  "date": "2026-09-23",
+  "environment": {
+    "operator_os": "Windows",
+    "shell": "PowerShell",
+    "node": "24.11.1",
+    "next": "16.3.3"
+  },
+  "branch": "feat/verlune-product-model-v1-20260922-r2",
+  "result": "PASS",
+  "observations": {
+    "npm_install": {
+      "result": "PASS",
+      "vulnerabilities": 0
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "PASS"
+    },
+    "prebuild": {
+      "result": "PASS",
+      "free_pack": {
+        "result": "PASS",
+        "source": "local-governed-manifest",
+        "normalization": "CRLF/CR-to-LF-before-identity-check",
+        "assets": 7,
+        "bytes": 23498,
+        "sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32"
+      },
+      "premium_private_materialization": {
+        "result": "PASS",
+        "markdown_files": 18,
+        "normalization": "CRLF/CR-to-LF-for-markdown"
+      }
+    },
+    "next_build": {
+      "result": "PASS",
+      "compiled": true,
+      "typecheck_in_build": true,
+      "static_pages": "25/25",
+      "protected_routes_observed": [
+        "/api/verlune/deactivate",
+        "/api/verlune/logout",
+        "/api/verlune/session/revalidate",
+        "/api/verlune/unlock",
+        "/app",
+        "/app/access",
+        "/app/asset/[assetId]",
+        "/unlock"
+      ]
+    },
+    "golden_path_build_parity": {
+      "result": "PASS",
+      "required_routes": 13,
+      "manifests_inspected": 133
+    },
+    "premium_build_audit": {
+      "result": "PASS",
+      "private_launch_core_assets": 17,
+      "protected_routes": 8,
+      "public_files_scanned": 15
+    }
+  },
+  "evidence_boundary": [
+    "This is local build/typecheck/static-bundle evidence only.",
+    "No provider-backed unlock, entitlement, revocation, staging deployment, checkout, or live purchase behavior is implied.",
+    "Human Review H1-H11 remains open.",
+    "READY_TO_SELL remains false."
+  ],
+  "gate_effect": {
+    "local_build_gate": "PASS",
+    "access_product_e2e": "OPEN",
+    "entitlement_e2e": "OPEN",
+    "staging_deploy": "NEXT"
+  }
+}

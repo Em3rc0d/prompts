@@ -1,0 +1,34 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-result",
+  "date": "2026-09-23",
+  "case_id": "VB-career-job-search-W-UNDER",
+  "builder_id": "VP-BUILDER-002",
+  "builder_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+  "execution_mode": "PHYSICALLY_ISOLATED_TEMPORARY_UNPERSONALIZED_CHAT",
+  "result": "PASS_NO_MATERIAL_CONTRADICTION",
+  "observed_behavior": {
+    "opening_question": "What do you repeatedly need to do, from the moment the task starts until you consider it finished?",
+    "frozen_fixture_received": true,
+    "after_fixture": "Recognized the request as underspecified and asked four material questions about target roles, workflow scope, job-search sources, and whether final application authority remains human or permits auto-apply.",
+    "final_artifact_generated": false,
+    "stopped_after_first_post_fixture_response": true
+  },
+  "comparison_to_segmented_batch": {
+    "material_contradiction": false,
+    "note": "The segmented batch asked what the job-search process should cover from finding a role through completion. The isolated run asks the same scope question in more operational detail, including sourcing and authority. Both stop rather than inventing a job-search process.",
+    "variance": "QUESTION_THRESHOLD_VARIANCE_NONBLOCKING"
+  },
+  "review": {
+    "plain_language_intake": "PASS",
+    "question_efficiency": "PASS",
+    "goal_preservation": "PASS",
+    "required_inputs": "PASS_PARTIAL_DISCOVERY",
+    "assumption_discipline": "PASS",
+    "fallback_quality": "PASS_BY_STOPPING_FOR_MATERIAL_INPUT",
+    "output_usability": "NOT_OBSERVED_CORRECT_STOP",
+    "verification_quality": "NOT_OBSERVED_CORRECT_STOP",
+    "reuse_quality": "NOT_OBSERVED_CORRECT_STOP",
+    "certification_boundary": "PASS"
+  },
+  "disposition": "CLEAN_SPOTCHECK_PASS_4_OF_5"
+}

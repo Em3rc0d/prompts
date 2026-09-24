@@ -1,0 +1,427 @@
+{
+  "schema": "verlune-catalog-v1-candidate",
+  "version": "1.0.0-candidate",
+  "status": "STATIC_CORE_PASS_FORMAL_PACKETS_FROZEN_EXTERNAL_RUNTIME_HUMAN_ACCESS_GATES_OPEN",
+  "created_at": "2026-09-22",
+  "commercial": {
+    "free_usd": 0,
+    "premium_launch_price_usd": 9,
+    "premium_billing": "ONE_TIME",
+    "price_state": "HYPOTHESIS"
+  },
+  "categories": [
+    "development-tech",
+    "study-learning",
+    "research-analysis",
+    "business-operations",
+    "writing-communication",
+    "content-marketing",
+    "planning-productivity",
+    "career-job-search"
+  ],
+  "free": {
+    "principle": "Useful standalone assets; never deliberately crippled.",
+    "prompts": [
+      {
+        "id": "VF-P-DEV-001",
+        "category": "development-tech",
+        "name": "Explain Code Clearly",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/explain-code-clearly.md"
+      },
+      {
+        "id": "VF-P-STUDY-001",
+        "category": "study-learning",
+        "name": "Learn a Difficult Topic",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/learn-a-difficult-topic.md"
+      },
+      {
+        "id": "VF-P-RES-001",
+        "category": "research-analysis",
+        "name": "Research a Topic",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/research-a-topic.md"
+      },
+      {
+        "id": "VF-P-BIZ-001",
+        "category": "business-operations",
+        "name": "Analyze a Business Problem",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/analyze-a-business-problem.md"
+      },
+      {
+        "id": "VF-P-WRITE-001",
+        "category": "writing-communication",
+        "name": "Improve Writing",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/improve-writing.md"
+      },
+      {
+        "id": "VF-P-CONTENT-001",
+        "category": "content-marketing",
+        "name": "Improve a Content Draft",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/improve-a-content-draft.md"
+      },
+      {
+        "id": "VF-P-PLAN-001",
+        "category": "planning-productivity",
+        "name": "Plan a Project",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/plan-a-project.md"
+      },
+      {
+        "id": "VF-P-CAREER-001",
+        "category": "career-job-search",
+        "name": "Prepare for an Interview",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/prompts/prepare-for-an-interview.md"
+      }
+    ],
+    "workflows": [
+      {
+        "id": "VF-WF-001",
+        "categories": [
+          "business-operations",
+          "research-analysis",
+          "planning-productivity"
+        ],
+        "name": "Compare Options",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/workflows/compare-options.md"
+      },
+      {
+        "id": "VF-WF-002",
+        "categories": [
+          "study-learning"
+        ],
+        "name": "Guided Study Session",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/workflows/guided-study-session.md"
+      },
+      {
+        "id": "VF-WF-003",
+        "categories": [
+          "development-tech"
+        ],
+        "name": "Bug Diagnosis",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/free/workflows/bug-diagnosis.md"
+      }
+    ]
+  },
+  "premium": {
+    "principle": "Depth, specialization, adaptation, creation and evaluation justify payment; not file count.",
+    "prompts": [
+      {
+        "id": "VP-P-DEV-001",
+        "category": "development-tech",
+        "name": "Requirements Analysis",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/requirements-analysis.md"
+      },
+      {
+        "id": "VP-P-DEV-002",
+        "category": "development-tech",
+        "name": "Safe Refactoring Plan",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-STUDY-001",
+        "category": "study-learning",
+        "name": "Exam Preparation",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/exam-preparation.md"
+      },
+      {
+        "id": "VP-P-STUDY-002",
+        "category": "study-learning",
+        "name": "Active Recall Coach",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-RES-001",
+        "category": "research-analysis",
+        "name": "Source Quality Review",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-RES-002",
+        "category": "research-analysis",
+        "name": "Evidence Synthesis",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/evidence-synthesis.md"
+      },
+      {
+        "id": "VP-P-BIZ-001",
+        "category": "business-operations",
+        "name": "SOP Drafting",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/sop-drafting.md"
+      },
+      {
+        "id": "VP-P-BIZ-002",
+        "category": "business-operations",
+        "name": "Customer Problem Analysis",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-WRITE-001",
+        "category": "writing-communication",
+        "name": "Rewrite for Audience and Intent",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/rewrite-for-audience-and-intent.md"
+      },
+      {
+        "id": "VP-P-WRITE-002",
+        "category": "writing-communication",
+        "name": "Document Critique",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-CONTENT-001",
+        "category": "content-marketing",
+        "name": "Content Strategy Brief",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/content-strategy-brief.md"
+      },
+      {
+        "id": "VP-P-CONTENT-002",
+        "category": "content-marketing",
+        "name": "Audience and Angle Research",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-PLAN-001",
+        "category": "planning-productivity",
+        "name": "Risk-Aware Project Plan",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/risk-aware-project-plan.md"
+      },
+      {
+        "id": "VP-P-PLAN-002",
+        "category": "planning-productivity",
+        "name": "Prioritize Under Constraints",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-P-CAREER-001",
+        "category": "career-job-search",
+        "name": "Tailor a Resume to a Role",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/prompts/tailor-a-resume-to-a-role.md"
+      },
+      {
+        "id": "VP-P-CAREER-002",
+        "category": "career-job-search",
+        "name": "Interview Preparation System",
+        "state": "CANDIDATE"
+      }
+    ],
+    "workflows": [
+      {
+        "id": "VP-WF-001",
+        "categories": [
+          "development-tech"
+        ],
+        "name": "Evidence-first Code Review",
+        "state": "STATIC_PASS_CERTIFIED_LINEAGE_REBIND_REQUIRED",
+        "customer_surface": "product/verlune-v1/premium/workflows/evidence-first-code-review.md"
+      },
+      {
+        "id": "VP-WF-002",
+        "categories": [
+          "development-tech"
+        ],
+        "name": "Root Cause Analysis",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-WF-003",
+        "categories": [
+          "research-analysis"
+        ],
+        "name": "Evidence-first Deep Research",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md"
+      },
+      {
+        "id": "VP-WF-004",
+        "categories": [
+          "business-operations",
+          "research-analysis"
+        ],
+        "name": "Decision Analysis",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/workflows/decision-analysis.md"
+      },
+      {
+        "id": "VP-WF-005",
+        "categories": [
+          "planning-productivity",
+          "business-operations"
+        ],
+        "name": "Project Planning and Risk",
+        "state": "CANDIDATE"
+      },
+      {
+        "id": "VP-WF-006",
+        "categories": [
+          "study-learning"
+        ],
+        "name": "Master a Topic",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/workflows/master-a-topic.md"
+      },
+      {
+        "id": "VP-WF-007",
+        "categories": [
+          "content-marketing"
+        ],
+        "name": "Content Strategy System",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/workflows/content-strategy-system.md"
+      }
+    ],
+    "builders": [
+      {
+        "id": "VP-BUILDER-001",
+        "name": "Prompt Builder",
+        "state": "STATIC_PASS_GENERATED_PROMPT_FOLLOW_THROUGH_PASS_MATRIX_OPEN",
+        "execution": "CUSTOMER_AI",
+        "customer_surface": "product/verlune-v1/premium/builders/prompt-builder.md"
+      },
+      {
+        "id": "VP-BUILDER-002",
+        "name": "Workflow Builder",
+        "state": "STATIC_PASS_OBSERVED_CASE_AND_GENERATED_WORKFLOW_FOLLOW_THROUGH_PASS_MATRIX_OPEN",
+        "execution": "CUSTOMER_AI",
+        "customer_surface": "product/verlune-v1/premium/builders/workflow-builder.md"
+      }
+    ],
+    "toolkit": [
+      {
+        "id": "VP-TK-001",
+        "name": "Adaptation Guide",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/toolkit/adaptation-guide.md"
+      },
+      {
+        "id": "VP-TK-002",
+        "name": "Evaluation Toolkit",
+        "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN",
+        "customer_surface": "product/verlune-v1/premium/toolkit/evaluation-toolkit.md"
+      }
+    ]
+  },
+  "catalog_rules": {
+    "same_categories_for_free_and_premium": true,
+    "free_must_be_useful": true,
+    "premium_must_not_be_defined_by_length_or_count": true,
+    "public_item_requires_release_gate": true,
+    "generated_customer_asset_is_not_certified": true,
+    "universal_model_compatibility_claim": false,
+    "high_stakes_professional_substitution": false
+  },
+  "launch_inventory_counts": {
+    "free_prompts_core": 8,
+    "free_workflows_core": 3,
+    "premium_prompts_core": 8,
+    "premium_workflows_core": 5,
+    "premium_builders_core": 2,
+    "premium_toolkit_core": 2,
+    "premium_prompt_backlog": 8,
+    "premium_workflow_backlog": 2
+  },
+  "note": "The catalog is intentionally bounded. Launch claims count only launch_core assets that pass release gates; backlog candidates are not part of the v1 value proposition until promoted.",
+  "launch_core": {
+    "principle": "This is the maximum v1 launch review set. Backlog candidates do not block launch.",
+    "free_prompts": [
+      "VF-P-DEV-001",
+      "VF-P-STUDY-001",
+      "VF-P-RES-001",
+      "VF-P-BIZ-001",
+      "VF-P-WRITE-001",
+      "VF-P-CONTENT-001",
+      "VF-P-PLAN-001",
+      "VF-P-CAREER-001"
+    ],
+    "free_workflows": [
+      "VF-WF-001",
+      "VF-WF-002",
+      "VF-WF-003"
+    ],
+    "premium_prompts": [
+      "VP-P-DEV-001",
+      "VP-P-STUDY-001",
+      "VP-P-RES-002",
+      "VP-P-BIZ-001",
+      "VP-P-WRITE-001",
+      "VP-P-CONTENT-001",
+      "VP-P-PLAN-001",
+      "VP-P-CAREER-001"
+    ],
+    "premium_workflows": [
+      "VP-WF-001",
+      "VP-WF-003",
+      "VP-WF-004",
+      "VP-WF-006",
+      "VP-WF-007"
+    ],
+    "builders": [
+      "VP-BUILDER-001",
+      "VP-BUILDER-002"
+    ],
+    "toolkit": [
+      "VP-TK-001",
+      "VP-TK-002"
+    ]
+  },
+  "backlog_candidates": {
+    "premium_prompts": [
+      "VP-P-DEV-002",
+      "VP-P-STUDY-002",
+      "VP-P-RES-001",
+      "VP-P-BIZ-002",
+      "VP-P-WRITE-002",
+      "VP-P-CONTENT-002",
+      "VP-P-PLAN-002",
+      "VP-P-CAREER-002"
+    ],
+    "premium_workflows": [
+      "VP-WF-002",
+      "VP-WF-005"
+    ],
+    "rule": "Backlog assets may enter later releases only after their own review gates. They do not count toward v1 launch value claims."
+  },
+  "static_surface_audit": "product/verlune-v1/evaluation/STATIC_SURFACE_AUDIT_2026-09-22.json",
+  "runtime_evidence": {
+    "behavioral_screening": {
+      "observations": 104,
+      "pass": 104,
+      "fail": 0,
+      "inconclusive": 0,
+      "formal_release_qualification": false,
+      "evidence": "product/verlune-v1/evaluation/BEHAVIORAL_SCREENING_EVIDENCE_2026-09-22.md"
+    },
+    "builder_follow_through": {
+      "generated_prompt_second_instance": "PASS",
+      "generated_workflow_second_instance": "PASS",
+      "full_builder_matrix": "OPEN",
+      "evidence": "product/verlune-v1/evaluation/BUILDER_FOLLOW_THROUGH_EVIDENCE_2026-09-22.md"
+    }
+  },
+  "release_readiness": {
+    "exact_asset_manifest": "FROZEN",
+    "non_builder_formal_runtime": "READY_FOR_EXTERNAL_EXECUTION",
+    "builder_formal_matrix": "READY_FOR_EXTERNAL_EXECUTION",
+    "generated_prompt_follow_through": "PASS",
+    "generated_workflow_follow_through": "PASS",
+    "cross_model_portability": "READY_FOR_EXTERNAL_EXECUTION",
+    "human_review_h1_h11": "EXTERNAL_REVIEWER_REQUIRED",
+    "entitlement_e2e": "BLOCKED_ACCESS_LAYER_NOT_IMPLEMENTED",
+    "public_claim_audit": "SOURCE_STATIC_PASS_LIVE_DEPLOYMENT_UNOBSERVED",
+    "ready_to_sell": false
+  }
+}

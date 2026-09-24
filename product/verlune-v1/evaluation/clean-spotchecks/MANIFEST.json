@@ -1,0 +1,43 @@
+{
+  "schema": "verlune-v1-builder-clean-spotcheck-execution-pack",
+  "status": "READY_FOR_OPERATOR_EXECUTION",
+  "date": "2026-09-23",
+  "execution_rule": "Each case must run in its own brand-new Temporary Chat with personalization disabled. Message 1 is the exact frozen Builder block. After the required opening question, send Message 2 verbatim. Capture the assistant response and stop the case.",
+  "cases": [
+    {
+      "order": "01",
+      "id": "VB-writing-communication-P-NORMAL",
+      "builder_id": "VP-BUILDER-001",
+      "builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "packet_path": "product/verlune-v1/evaluation/clean-spotchecks/01-VB-writing-communication-P-NORMAL.txt"
+    },
+    {
+      "order": "02",
+      "id": "VB-business-operations-P-UNDER",
+      "builder_id": "VP-BUILDER-001",
+      "builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "packet_path": "product/verlune-v1/evaluation/clean-spotchecks/02-VB-business-operations-P-UNDER.txt"
+    },
+    {
+      "order": "03",
+      "id": "VB-research-analysis-W-NORMAL",
+      "builder_id": "VP-BUILDER-002",
+      "builder_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+      "packet_path": "product/verlune-v1/evaluation/clean-spotchecks/03-VB-research-analysis-W-NORMAL.txt"
+    },
+    {
+      "order": "04",
+      "id": "VB-career-job-search-W-UNDER",
+      "builder_id": "VP-BUILDER-002",
+      "builder_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+      "packet_path": "product/verlune-v1/evaluation/clean-spotchecks/04-VB-career-job-search-W-UNDER.txt"
+    },
+    {
+      "order": "05",
+      "id": "VB-STRESS-003",
+      "builder_id": "VP-BUILDER-001",
+      "builder_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "packet_path": "product/verlune-v1/evaluation/clean-spotchecks/05-VB-STRESS-003.txt"
+    }
+  ]
+}

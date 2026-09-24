@@ -1,0 +1,241 @@
+{
+  "schema": "verlune-v1-exact-asset-manifest",
+  "status": "FROZEN_FOR_FORMAL_EXECUTION",
+  "frozen_at": "2026-09-22",
+  "repository": "Em3rc0d/prompts",
+  "branch": "feat/verlune-product-model-v1-20260922-r2",
+  "product_candidate_commit": "886060c1f991aadd4b458f05fc7c62056942e9ca",
+  "identity_rule": "Formal runtime evidence must bind to this commit plus the exact Git blob SHA for the executed customer surface. Any asset-byte change invalidates inherited runtime qualification for that asset.",
+  "counts": {
+    "launch_core_customer_surfaces": 28,
+    "non_builder_runtime_assets": 24,
+    "builders": 2,
+    "toolkit": 2
+  },
+  "assets": [
+    {
+      "id": "VF-P-DEV-001",
+      "name": "Explain Code Clearly",
+      "path": "product/verlune-v1/free/prompts/explain-code-clearly.md",
+      "git_blob_sha": "19b6eed105f9680fd567c7fb5fe5a6f8a51fc74d",
+      "bytes": 1565,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-STUDY-001",
+      "name": "Learn a Difficult Topic",
+      "path": "product/verlune-v1/free/prompts/learn-a-difficult-topic.md",
+      "git_blob_sha": "09486bc7800f22df95ab5f3c407c4787afbc8848",
+      "bytes": 1088,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-RES-001",
+      "name": "Research a Topic",
+      "path": "product/verlune-v1/free/prompts/research-a-topic.md",
+      "git_blob_sha": "5f1d47194825385c3ef0188648954e92fa41db5c",
+      "bytes": 1296,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-BIZ-001",
+      "name": "Analyze a Business Problem",
+      "path": "product/verlune-v1/free/prompts/analyze-a-business-problem.md",
+      "git_blob_sha": "4151af09710f32fb2661d77598a57ae3a14e05f6",
+      "bytes": 1220,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-WRITE-001",
+      "name": "Improve Writing",
+      "path": "product/verlune-v1/free/prompts/improve-writing.md",
+      "git_blob_sha": "c81edeb65c8e395138c2946605323b19df6e7ece",
+      "bytes": 976,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-CONTENT-001",
+      "name": "Improve a Content Draft",
+      "path": "product/verlune-v1/free/prompts/improve-a-content-draft.md",
+      "git_blob_sha": "9a2015048dc36c08c251b707d73f134153990103",
+      "bytes": 1059,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-PLAN-001",
+      "name": "Plan a Project",
+      "path": "product/verlune-v1/free/prompts/plan-a-project.md",
+      "git_blob_sha": "ea6cbbbd176d929c07f49c1ce5d65c8c63305a11",
+      "bytes": 1062,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-P-CAREER-001",
+      "name": "Prepare for an Interview",
+      "path": "product/verlune-v1/free/prompts/prepare-for-an-interview.md",
+      "git_blob_sha": "b58dcd6c130f45c83b7e8c323e97160cfbe5d510",
+      "bytes": 1219,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-WF-001",
+      "name": "Compare Options",
+      "path": "product/verlune-v1/free/workflows/compare-options.md",
+      "git_blob_sha": "09036b5521e82c6422f7afa41c2359a91025e7c8",
+      "bytes": 2612,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-WF-002",
+      "name": "Guided Study Session",
+      "path": "product/verlune-v1/free/workflows/guided-study-session.md",
+      "git_blob_sha": "f0c07bd11550514dc5d04d38089fdc6ea3136219",
+      "bytes": 2670,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VF-WF-003",
+      "name": "Bug Diagnosis",
+      "path": "product/verlune-v1/free/workflows/bug-diagnosis.md",
+      "git_blob_sha": "47418dec37f63cea58e083ccd4e3f3e42bb944d3",
+      "bytes": 8897,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-DEV-001",
+      "name": "Requirements Analysis",
+      "path": "product/verlune-v1/premium/prompts/requirements-analysis.md",
+      "git_blob_sha": "4a401a6c48e6f8af1b922f076775452107dbd15f",
+      "bytes": 2038,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-STUDY-001",
+      "name": "Exam Preparation",
+      "path": "product/verlune-v1/premium/prompts/exam-preparation.md",
+      "git_blob_sha": "48f9ca9e2daa10a43bff15b6206278bef2f24ad4",
+      "bytes": 1741,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-RES-002",
+      "name": "Evidence Synthesis",
+      "path": "product/verlune-v1/premium/prompts/evidence-synthesis.md",
+      "git_blob_sha": "fd7b99e9c2a7f73debb2e68b5b9205f20f5ac6cc",
+      "bytes": 1742,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-BIZ-001",
+      "name": "SOP Drafting",
+      "path": "product/verlune-v1/premium/prompts/sop-drafting.md",
+      "git_blob_sha": "4e766cab2870f001a98affbaf468f4a8e28b5a2e",
+      "bytes": 1674,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-WRITE-001",
+      "name": "Rewrite for Audience and Intent",
+      "path": "product/verlune-v1/premium/prompts/rewrite-for-audience-and-intent.md",
+      "git_blob_sha": "867911106e6463c15ea8b3a575e10b4e41786f36",
+      "bytes": 1857,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-CONTENT-001",
+      "name": "Content Strategy Brief",
+      "path": "product/verlune-v1/premium/prompts/content-strategy-brief.md",
+      "git_blob_sha": "bd1e26acc3f3237562b3a3e765bd6efb0b8f9f1d",
+      "bytes": 2025,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-PLAN-001",
+      "name": "Risk-Aware Project Plan",
+      "path": "product/verlune-v1/premium/prompts/risk-aware-project-plan.md",
+      "git_blob_sha": "50dec50962b97ef525384de532494792fcbd3043",
+      "bytes": 1786,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-P-CAREER-001",
+      "name": "Tailor a Resume to a Role",
+      "path": "product/verlune-v1/premium/prompts/tailor-a-resume-to-a-role.md",
+      "git_blob_sha": "533174c537546642cdf082d59d91dececa297f0f",
+      "bytes": 1684,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-001",
+      "name": "Evidence-first Code Review",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-code-review.md",
+      "git_blob_sha": "beb62117c24bb7fde552397b89e1e159e294449a",
+      "bytes": 6878,
+      "state": "STATIC_PASS_CERTIFIED_LINEAGE_REBIND_REQUIRED"
+    },
+    {
+      "id": "VP-WF-003",
+      "name": "Evidence-first Deep Research",
+      "path": "product/verlune-v1/premium/workflows/evidence-first-deep-research.md",
+      "git_blob_sha": "136f837741d44cd31f11c6d450acf63b77e91b6b",
+      "bytes": 3245,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-004",
+      "name": "Decision Analysis",
+      "path": "product/verlune-v1/premium/workflows/decision-analysis.md",
+      "git_blob_sha": "1cc57576c91af09054b32d932bb0fe55e42c2bf6",
+      "bytes": 2286,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-006",
+      "name": "Master a Topic",
+      "path": "product/verlune-v1/premium/workflows/master-a-topic.md",
+      "git_blob_sha": "4c2a69568b915eae4434ca0ab2cb4d606f23e1f9",
+      "bytes": 2496,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-WF-007",
+      "name": "Content Strategy System",
+      "path": "product/verlune-v1/premium/workflows/content-strategy-system.md",
+      "git_blob_sha": "d7142fce26e6e303028d77f0134212267d2393a5",
+      "bytes": 2529,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-BUILDER-001",
+      "name": "Prompt Builder",
+      "path": "product/verlune-v1/premium/builders/prompt-builder.md",
+      "git_blob_sha": "9e89741f2802d2d49816acc74abd84a5d3178d9e",
+      "bytes": 3880,
+      "state": "STATIC_PASS_GENERATED_PROMPT_FOLLOW_THROUGH_PASS_MATRIX_OPEN"
+    },
+    {
+      "id": "VP-BUILDER-002",
+      "name": "Workflow Builder",
+      "path": "product/verlune-v1/premium/builders/workflow-builder.md",
+      "git_blob_sha": "3a479f0cc5411383b813394685b91649a1b603fc",
+      "bytes": 4561,
+      "state": "STATIC_PASS_OBSERVED_CASE_AND_GENERATED_WORKFLOW_FOLLOW_THROUGH_PASS_MATRIX_OPEN"
+    },
+    {
+      "id": "VP-TK-001",
+      "name": "Adaptation Guide",
+      "path": "product/verlune-v1/premium/toolkit/adaptation-guide.md",
+      "git_blob_sha": "7d963d4138249e2443ef9ee417a5ce32e09d7f1e",
+      "bytes": 3076,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    },
+    {
+      "id": "VP-TK-002",
+      "name": "Evaluation Toolkit",
+      "path": "product/verlune-v1/premium/toolkit/evaluation-toolkit.md",
+      "git_blob_sha": "77832d31e0f32b2bd7d281527ecfa8345a10d4c9",
+      "bytes": 3386,
+      "state": "STATIC_PASS_RUNTIME_REVIEW_OPEN"
+    }
+  ]
+}

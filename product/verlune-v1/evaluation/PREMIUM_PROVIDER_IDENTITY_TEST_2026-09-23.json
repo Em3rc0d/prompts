@@ -1,0 +1,49 @@
+{
+  "schema": "verlune-v1-premium-provider-identity-v1",
+  "status": "FROZEN_TEST_MODE_IDENTITY",
+  "date": "2026-09-23",
+  "source": "operator-executed read-only provider probe",
+  "provider": "Lemon Squeezy",
+  "mode": "test",
+  "api_key_recorded": false,
+  "provider_side_effects": 0,
+  "store": {
+    "id": "462419",
+    "name": "Verlune"
+  },
+  "product": {
+    "id": "1383189",
+    "name": "Verlune Premium",
+    "status": "published",
+    "test_mode": true,
+    "price_cents": 900
+  },
+  "variant": {
+    "id": "2160866",
+    "name": "Default",
+    "status": "pending",
+    "test_mode": true,
+    "price_cents": 900,
+    "is_subscription": false,
+    "has_license_keys": true,
+    "license_activation_limit": 3,
+    "is_license_limit_unlimited": false,
+    "is_license_length_unlimited": true,
+    "observed_license_length_value": 1,
+    "observed_license_length_unit": "years",
+    "status_interpretation": "Expected Lemon Squeezy default-variant state when a product has only one variant; it is not shown as a separate checkout option."
+  },
+  "env_candidate": {
+    "VERLUNE_PREMIUM_STORE_ID": "462419",
+    "VERLUNE_PREMIUM_PRODUCT_ID": "1383189",
+    "VERLUNE_PREMIUM_VARIANT_ID": "2160866",
+    "VERLUNE_PREMIUM_ACTIVATION_LIMIT": "3"
+  },
+  "evidence_boundary": [
+    "This freezes the Test-mode Premium provider identity only.",
+    "Live-mode product and variant IDs are separate and are not inferred from Test mode.",
+    "The API key and session/fingerprint secrets are not recorded.",
+    "Provider identity PASS does not imply checkout, entitlement, build, staging, or live E2E PASS."
+  ],
+  "live_mode_note": "Operator reported an earlier Verlune Premium creation occurred in Live mode. Its exact identity/exposure state is not captured here and must be audited before any live canary or public sale."
+}
