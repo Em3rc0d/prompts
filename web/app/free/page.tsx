@@ -101,7 +101,7 @@ export default function FreePage() {
     <section className="v2Closing">
       <div className="wrap v2ClosingInner">
         <div><div className="eyebrow">READY FOR MORE STRUCTURE?</div><h2>Use ours. Build yours.</h2><p>Premium adds Builders, deeper workflows, adaptation, and evaluation tools.</p></div>
-        <div className="actions"><Link className="btn btnPrimary" href="/unlock">Premium access →</Link><Link className="btn btnSecondary" href="/">Back to Verlune</Link></div>
+        <div className="actions"><Link className="btn btnPrimary" href="/premium">Explore Premium →</Link><Link className="btn btnSecondary" href="/">Back to Verlune</Link></div>
       </div>
     </section>
   </main>;
