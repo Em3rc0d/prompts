@@ -760,3 +760,37 @@ Evidence:
 
 Human-review note:
 the visible trust defect is removed from preview, but Human Review should still verify whether the exact copied source's internal status metadata is confusing when pasted into an AI assistant.
+
+
+## 2026-09-23 Verlune v2 redesign implementation
+
+User explicitly authorized implementing the approved visual/UI plan.
+
+Implemented on `feat/verlune-product-model-v1-20260922-r2`:
+- Verlune-first global shell;
+- Editorial Computational homepage;
+- semantic DOM/CSS 3D graph system;
+- Prompt ≠ Workflow visual explanation;
+- Use ours / Build yours capability split;
+- responsive category exploration;
+- Premium Library hierarchy: Builders → Workflows → Prompts → Toolkit;
+- Premium Asset Detail tool surface;
+- Free Library exposing all 11 governed free launch-core assets;
+- individual verified free asset pages;
+- copy success/error states;
+- responsive + reduced-motion rules;
+- postbuild v2 unsupported-claim/materialization audit.
+
+Truth boundary preserved:
+- no fake ratings, use counts, creator counts, popularity badges, lifetime/future-update/support claims;
+- governed Premium asset source blobs unchanged;
+- Premium entitlement/security logic unchanged;
+- CSS/DOM 3D only; no WebGL dependency.
+
+State:
+- redesign implementation = DONE IN BRANCH
+- static repository review = PASS
+- typecheck/build = PENDING OPERATOR/Vercel BUILD
+- staging visual review = PENDING
+- Human Review H1-H11 = OPEN ON REDESIGNED CANDIDATE
+- READY_TO_SELL = false
