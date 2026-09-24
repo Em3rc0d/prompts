@@ -47,7 +47,7 @@ export default function LibraryPage() {
           collections={LIBRARY_COLLECTIONS}
           initialCollectionId="start-here"
           heading="Start from the job, not the format."
-          intro="Search all current Verlune assets. Tier tells you what you can open now; type tells you whether the job is best handled as a prompt, workflow, Builder or toolkit asset."
+          intro="Search all current Verlune assets. Free entries include their public descriptions; Premium entries expose names only until you have access."
         />
       </div>
     </section>
@@ -60,7 +60,7 @@ export default function LibraryPage() {
         </div>
         <div className="vTrustPoints">
           <p><strong>Free assets open directly.</strong><span>The complete Free artifact is available without payment.</span></p>
-          <p><strong>Premium metadata is public.</strong><span>Names and summaries help you evaluate the library; protected asset contents stay behind entitlement.</span></p>
+          <p><strong>Premium names are public.</strong><span>You can see which Premium assets exist, but their summaries and contents stay behind entitlement.</span></p>
           <p><strong>Structure checked is not certified.</strong><span>Catalog presence does not imply universal model compatibility or behavioral certification.</span></p>
         </div>
       </div>
