@@ -9,7 +9,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/fetch-free-pack.mjs && node scripts/materialize-verlune-free.mjs && node scripts/materialize-verlune-private.mjs",
     "build": "next build",
-    "postbuild": "node scripts/assert-golden-path-build.mjs && node scripts/assert-verlune-premium-build.mjs && node scripts/assert-verlune-v2-build.mjs && node scripts/assert-verlune-hero-v3-build.mjs",
+    "postbuild": "node scripts/assert-golden-path-build.mjs && node scripts/assert-verlune-premium-build.mjs && node scripts/assert-verlune-v2-build.mjs && node scripts/assert-verlune-hero-v3-build.mjs && node scripts/assert-verlune-product-closure.mjs",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "predev": "node scripts/materialize-verlune-free.mjs && node scripts/materialize-verlune-private.mjs"
