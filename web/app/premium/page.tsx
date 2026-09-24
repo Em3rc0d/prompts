@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LemonCheckoutLink } from "@/components/lemon-checkout-link";
 
 import { ArtifactMiniObject } from "@/components/verlune-visuals";
 import {
@@ -33,7 +34,7 @@ export default function PremiumPage() {
           <p className="lead">Premium extends the Verlune method with deeper structured assets, reusable Builders, adaptation guidance, and evaluation tools. You still run the work in your own compatible AI assistant.</p>
           <div className="actions">
             {commerce.purchaseAvailable
-              ? <a className="btn btnPrimary" href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD <span aria-hidden="true">→</span></a>
+              ? <LemonCheckoutLink href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD <span aria-hidden="true">→</span></LemonCheckoutLink>
               : <span className="btn btnPrimary vDisabledCta" aria-disabled="true">Purchasing not open yet</span>}
             <Link className="btn btnSecondary" href="/unlock">Already purchased? Unlock</Link>
           </div>
@@ -125,7 +126,7 @@ export default function PremiumPage() {
         </div>
         <div className="actions">
           {commerce.purchaseAvailable
-            ? <a className="btn btnPrimary" href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD →</a>
+            ? <LemonCheckoutLink href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD →</LemonCheckoutLink>
             : <Link className="btn btnPrimary" href="/free">Use Free first →</Link>}
           <Link className="btn btnSecondary" href="/unlock">Unlock existing purchase</Link>
         </div>
