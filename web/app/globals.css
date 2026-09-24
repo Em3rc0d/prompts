@@ -1550,3 +1550,17 @@ body {
   .vFreePromptGrid { grid-template-columns:1fr; }
   .vFreeAssetCard { min-height:260px; }
 }
+
+
+/* Verlune product-closure P0 */
+.vDisabledCta {
+  opacity: .58;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.vPremiumSummary {
+  align-self: stretch;
+}
+.vPremiumPublic .vCapabilityCard {
+  min-height: 300px;
+}
