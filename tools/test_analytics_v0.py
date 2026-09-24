@@ -57,8 +57,8 @@ def main() -> None:
         'credentials: "same-origin"',
         "keepalive: true",
         'path === "/code-review"',
-        f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
-        'product_version: "1.0.0-candidate"',
+        "STARTER_CODE_REVIEW_RELEASE.productId",
+        "STARTER_CODE_REVIEW_RELEASE.version",
     ):
         if token not in tracker:
             fail(f"client intent forwarding contract missing: {token}")
@@ -67,8 +67,8 @@ def main() -> None:
         'kind: "free" | "code-review" | "starter" | "paid"',
         'event: "starter_cta_clicked"',
         '"/code-review"',
-        f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
-        'product_version: "1.0.0-candidate"',
+        "STARTER_CODE_REVIEW_RELEASE.productId",
+        "STARTER_CODE_REVIEW_RELEASE.version",
     ):
         if token not in link:
             fail(f"Starter commerce-intent contract missing: {token}")
