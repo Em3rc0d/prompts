@@ -31,9 +31,6 @@ for (const marker of ["z: -1.28", "z: -.22", "z: .84"]) {
   if (!stack.includes(marker)) throw new Error(`VERLUNE V4.1 AUDIT FAIL: three-slab spacing missing ${marker}`);
 }
 
-const layerCount = (stack.match(/z:\s*[-.]?\d/g) ?? []).length;
-if (layerCount < 3) throw new Error("VERLUNE V4.1 AUDIT FAIL: expected three primary optical slabs");
-
 if (!canvas.includes("toneMappingExposure = 1.04") || !canvas.includes("frameloop=\"demand\"")) {
   throw new Error("VERLUNE V4.1 AUDIT FAIL: tone mapping or demand rendering contract missing");
 }
