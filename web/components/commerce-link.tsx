@@ -9,17 +9,6 @@ const ATTRIBUTION_KEY = "pq:attribution";
 type Props = { kind: "free" | "code-review" | "starter" | "paid"; children: ReactNode; className?: string };
 type Attribution = { source?: string; medium?: string; campaign?: string; content?: string };
 
-declare global {
-  interface Window {
-    createLemonSqueezy?: () => void;
-    LemonSqueezy?: {
-      Url?: {
-        Open?: (url: string) => void;
-      };
-    };
-  }
-}
-
 function readAttribution(): Attribution {
   try { return JSON.parse(sessionStorage.getItem(ATTRIBUTION_KEY) || "{}") as Attribution; }
   catch { return {}; }
