@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArtifactMiniObject } from "@/components/verlune-visuals";
 import { VerluneHeroScene } from "@/components/hero-v3/VerluneHeroScene";
+import { FREE_ASSETS } from "@/lib/verlune-free-catalog";
 import "@/components/hero-v3/hero-v3.css";
 
 export const metadata: Metadata = {
@@ -10,14 +11,14 @@ export const metadata: Metadata = {
 };
 
 const categories = [
-  ["Development & Tech", "Requirements, code review, debugging and technical work."],
-  ["Study & Learning", "Preparation, guided study and durable understanding."],
-  ["Research & Analysis", "Evidence, synthesis, scope control and bounded conclusions."],
-  ["Business & Operations", "Decisions, SOPs, processes and recurring operational work."],
-  ["Writing & Communication", "Audience-aware writing with factual boundaries."],
-  ["Content & Marketing", "Strategy grounded in evidence, hypotheses and review loops."],
-  ["Planning & Productivity", "Projects with dependencies, risks and validation."],
-  ["Career & Job Search", "Role preparation without fabricated experience."],
+  ["development-tech", "Development & Tech", "Requirements, code review, debugging and technical work."],
+  ["study-learning", "Study & Learning", "Preparation, guided study and durable understanding."],
+  ["research-analysis", "Research & Analysis", "Evidence, synthesis, scope control and bounded conclusions."],
+  ["business-operations", "Business & Operations", "Decisions, SOPs, processes and recurring operational work."],
+  ["writing-communication", "Writing & Communication", "Audience-aware writing with factual boundaries."],
+  ["content-marketing", "Content & Marketing", "Strategy grounded in evidence, hypotheses and review loops."],
+  ["planning-productivity", "Planning & Productivity", "Projects with dependencies, risks and validation."],
+  ["career-job-search", "Career & Job Search", "Role preparation without fabricated experience."],
 ] as const;
 
 const process = [
@@ -38,7 +39,7 @@ export default function HomePage() {
           <p className="lead">Verlune is a library and toolkit for structured AI work: reusable prompts, workflows and Builders that you run in your own compatible AI assistant.</p>
           <div className="actions">
             <Link className="btn btnPrimary" href="/free">Explore free <span aria-hidden="true">→</span></Link>
-            <Link className="btn btnSecondary" href="/unlock">Premium access</Link>
+            <Link className="btn btnSecondary" href="/premium">Explore Premium</Link>
           </div>
         </div>
         <div className="v2HeroVisual">
@@ -84,7 +85,7 @@ export default function HomePage() {
             <div className="eyebrow">BUILD YOURS</div>
             <h3>Turn recurring work into a reusable system.</h3>
             <p>Prompt Builder and Workflow Builder guide you from an ordinary-language need to a reusable artifact without requiring prompt-engineering vocabulary.</p>
-            <Link className="textLink" href="/unlock">Explore Premium Builders →</Link>
+            <Link className="textLink" href="/premium">Explore Premium Builders →</Link>
           </article>
         </div>
       </div>
@@ -120,14 +121,18 @@ export default function HomePage() {
       <div className="wrap">
         <div className="vBrowseHeading">
           <div><div className="eyebrow">EXPLORE THE LIBRARY</div><h2>Structured work across real categories.</h2></div>
-          <Link className="textLink" href="/unlock">Open Premium access →</Link>
+          <Link className="textLink" href="/premium">Explore Premium →</Link>
         </div>
         <div className="vCategoryGrid">
-          {categories.map(([name, summary], index) => <article className="vCategoryCard" key={name}>
-            <span className="vCategoryIndex">{String(index + 1).padStart(2, "0")}</span>
-            <div><h3>{name}</h3><p>{summary}</p></div>
-            <span className="vCategoryArrow" aria-hidden="true">↗</span>
-          </article>)}
+          {categories.map(([category, name, summary], index) => {
+            const freePrompt = FREE_ASSETS.find((asset) => asset.category === category && asset.type === "Prompt");
+            const href = freePrompt ? `/free/asset/${encodeURIComponent(freePrompt.id)}` : "/free";
+            return <Link className="vCategoryCard vCategoryCardLink" href={href} key={category} aria-label={`Explore ${name} in the Free Library`}>
+              <span className="vCategoryIndex">{String(index + 1).padStart(2, "0")}</span>
+              <div><h3>{name}</h3><p>{summary}</p></div>
+              <span className="vCategoryArrow" aria-hidden="true">↗</span>
+            </Link>;
+          })}
         </div>
       </div>
     </section>
@@ -149,7 +154,7 @@ export default function HomePage() {
     <section className="v2Closing">
       <div className="wrap v2ClosingInner">
         <div><div className="eyebrow">VERLUNE</div><h2>Use ours. Build yours.</h2><p>Start with something useful now. Keep the structure when the input changes.</p></div>
-        <div className="actions"><Link className="btn btnPrimary" href="/free">Explore free →</Link><Link className="btn btnSecondary" href="/unlock">Premium access</Link></div>
+        <div className="actions"><Link className="btn btnPrimary" href="/free">Explore free →</Link><Link className="btn btnSecondary" href="/premium">Explore Premium</Link></div>
       </div>
     </section>
   </main>;

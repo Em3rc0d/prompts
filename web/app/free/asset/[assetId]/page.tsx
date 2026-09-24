@@ -20,7 +20,7 @@ function customerVisibleContent(source: string): string {
 export async function generateMetadata({params}:{params:Promise<{assetId:string}>}):Promise<Metadata>{
   const {assetId}=await params;
   const meta=getFreeAssetMeta(assetId);
-  return { title: meta?.name ?? "Free Asset", robots:{index:true,follow:true} };
+  return { title: meta?.name ?? "Free Asset", description: meta?.summary, alternates: meta ? { canonical: `/free/asset/${encodeURIComponent(meta.id)}` } : undefined, robots:{index:true,follow:true} };
 }
 
 export default async function FreeAssetPage({params}:{params:Promise<{assetId:string}>}){

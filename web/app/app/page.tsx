@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { ArtifactMiniObject, VerluneGraph } from "@/components/verlune-visuals";
 import { requirePremiumSession } from "@/lib/verlune-auth.server";
-import { PREMIUM_ASSETS, PREMIUM_CATEGORY_ORDER } from "@/lib/verlune-premium-catalog";
+import { PREMIUM_ASSETS } from "@/lib/verlune-premium-catalog";
 
 export const metadata: Metadata = {
   title: "Premium Library",
@@ -11,13 +11,6 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = "force-dynamic";
-
-const categoryLabels = Object.fromEntries(
-  PREMIUM_CATEGORY_ORDER.map((category) => {
-    const asset = PREMIUM_ASSETS.find((item) => item.category === category);
-    return [category, asset?.categoryLabel ?? category];
-  })
-);
 
 export default async function PremiumLibraryPage() {
   await requirePremiumSession("/app");
@@ -60,20 +53,16 @@ export default async function PremiumLibraryPage() {
 
     <section className="section vLibrarySection">
       <div className="wrap vLibraryLayout">
-        <aside className="vCategoryRail" aria-label="Premium categories">
-          <div className="vCategoryRailTitle">Browse</div>
-          {PREMIUM_CATEGORY_ORDER.map((category) => {
-            const count = PREMIUM_ASSETS.filter((asset) => asset.category === category).length;
-            return <a href={`#${category}`} key={category}>
-              <span>{categoryLabels[category]}</span><small>{count}</small>
-            </a>;
-          })}
+        <aside className="vCategoryRail" aria-label="Premium library sections">
+          <div className="vCategoryRailTitle">Sections</div>
+          <a href="#builders"><span>Build Yours</span><small>{builders.length}</small></a>
+          <a href="#workflows"><span>Workflows</span><small>{workflows.length}</small></a>
+          <a href="#prompts"><span>Prompts</span><small>{prompts.length}</small></a>
+          <a href="#toolkit"><span>Adapt & Evaluate</span><small>{toolkit.length}</small></a>
           <div className="vTypeKey">
-            <span>TYPE</span>
-            <small><i className="vTypeDot vTypePrompt" />Prompt</small>
-            <small><i className="vTypeDot vTypeWorkflow" />Workflow</small>
-            <small><i className="vTypeDot vTypeBuilder" />Builder</small>
-            <small><i className="vTypeDot vTypeToolkit" />Toolkit</small>
+            <span>BROWSE MODEL</span>
+            <small>Sections navigate by asset type.</small>
+            <small>Category labels remain visible on each asset.</small>
           </div>
         </aside>
 

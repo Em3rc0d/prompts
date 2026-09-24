@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Commercial web acceptance for the current Verlune customer surface.
+"""Commercial web acceptance for the active Verlune customer surface.
 
-Legacy Prompt Machine/Starter artifacts remain historical evidence and have their own
-validators. This check protects the active buyer-facing brand, evidence boundaries,
-commercial ladder, and fail-closed checkout state without forcing obsolete copy back
-onto the website.
+Historical Prompt Machine / Starter artifacts retain their own evidence and validators.
+This check protects the current buyer-facing Verlune information architecture, claim
+boundaries, Code Review release identity, Premium fail-closed state, and legacy redirects.
 """
 
 from pathlib import Path
@@ -15,21 +14,22 @@ COMMERCIAL = ROOT / "commercial"
 
 LAYOUT = WEB / "app/layout.tsx"
 HOME = WEB / "app/page.tsx"
-COLLECTIONS = WEB / "app/collections/page.tsx"
+FREE = WEB / "app/free/page.tsx"
+PREMIUM = WEB / "app/premium/page.tsx"
+CODE_REVIEW = WEB / "app/code-review/page.tsx"
 LEARN = WEB / "app/learn/page.tsx"
-FREE = WEB / "app/free/developer-starter-pack/page.tsx"
-PRODUCT = WEB / "app/starter-collection/page.tsx"
-FUTURE = WEB / "app/developer-pack/page.tsx"
 LICENSE = WEB / "app/license/page.tsx"
-ENGINE = WEB / "components/quarry-engine.tsx"
+UNLOCK = WEB / "app/unlock/page.tsx"
+COLLECTIONS = WEB / "app/collections/page.tsx"
+DEVELOPER_PACK = WEB / "app/developer-pack/page.tsx"
+STARTER_COLLECTION = WEB / "app/starter-collection/page.tsx"
 COMMERCE_LINK = WEB / "components/commerce-link.tsx"
-RELEASE = WEB / "lib/starter-code-review-release.ts"
+CODE_REVIEW_RELEASE = WEB / "lib/starter-code-review-release.ts"
+PUBLIC_PRODUCTS = WEB / "lib/public-products.ts"
+PREMIUM_COMMERCE = WEB / "lib/verlune-premium-commerce.ts"
+PREMIUM_CHECKOUT = WEB / "app/api/commerce/verlune-premium/checkout/route.ts"
 ENV = WEB / ".env.example"
 BRAND = COMMERCIAL / "VERLUNE_BRAND_ARCHITECTURE_V1.md"
-STATUS = COMMERCIAL / "STATUS_CURRENT.md"
-REVENUE = COMMERCIAL / "REVENUE_EXPERIMENT_V1.md"
-LEGACY_PUBLIC_STARTER_CHECKOUT = WEB / "app/api/commerce/starter-collection/checkout/route.ts"
-GOVERNED_CODE_REVIEW_CHECKOUT = WEB / "app/api/commerce/starter-code-review/checkout/route.ts"
 
 VERLUNE_ARCHIVE = "verlune-code-review-v1.0.0.zip"
 VERLUNE_ARCHIVE_BYTES = "18859"
@@ -44,6 +44,9 @@ FORBIDDEN_MARKETING = (
     "universally portable",
     "guaranteed revenue",
     "guaranteed to sell",
+    "new content weekly",
+    "lifetime access",
+    "priority support",
 )
 
 
@@ -66,21 +69,26 @@ def require(label: str, source: str, *tokens: str) -> None:
 def main() -> None:
     layout = text(LAYOUT)
     home = text(HOME)
-    collections = text(COLLECTIONS)
-    learn = text(LEARN)
     free = text(FREE)
-    product = text(PRODUCT)
-    future = text(FUTURE)
+    premium = text(PREMIUM)
+    code_review = text(CODE_REVIEW)
+    learn = text(LEARN)
     license_page = text(LICENSE)
-    engine = text(ENGINE)
+    unlock = text(UNLOCK)
+    collections = text(COLLECTIONS)
+    developer_pack = text(DEVELOPER_PACK)
+    starter_collection = text(STARTER_COLLECTION)
     commerce_link = text(COMMERCE_LINK)
-    release = text(RELEASE)
+    release = text(CODE_REVIEW_RELEASE)
+    public_products = text(PUBLIC_PRODUCTS)
+    premium_commerce = text(PREMIUM_COMMERCE)
+    premium_checkout = text(PREMIUM_CHECKOUT)
     env = text(ENV)
     brand = text(BRAND)
-    status = text(STATUS)
-    revenue = text(REVENUE)
 
-    public_surface = "\n".join((layout, home, collections, learn, free, product, future, license_page, engine))
+    public_surface = "\n".join(
+        (layout, home, free, premium, code_review, learn, license_page, unlock)
+    )
     lower = public_surface.lower()
 
     for phrase in FORBIDDEN_MARKETING:
@@ -90,10 +98,12 @@ def main() -> None:
     require(
         "layout",
         layout,
-        'title: "Verlune — Reusable AI Workflows You Can Inspect"',
+        'default: "Verlune — Structured AI work"',
         'applicationName: "Verlune"',
         'aria-label="Verlune home"',
-        '<b>VERLUNE</b>',
+        '<span>VERLUNE</span>',
+        'href="/premium">Premium</',
+        'href="/unlock">Unlock access',
     )
     if "Prompt <b>Machine</b>" in layout:
         fail("legacy Prompt Machine wordmark leaked into global customer shell")
@@ -101,64 +111,81 @@ def main() -> None:
     require(
         "home",
         home,
-        "VERLUNE / REUSABLE AI WORKFLOWS",
-        "Stop starting from a blank chat.",
-        "What are you trying to get done?",
-        "FREE LIBRARY",
-        "Verlune Code Review",
-        "$9",
-        "77/77",
-        "marketing claim",
-        "observed evidence",
-        "checkout remains off",
+        "STRUCTURED AI WORK",
+        "Use ours.",
+        "Build yours.",
+        "Work better with AI.",
+        "PROMPT ≠ WORKFLOW",
+        'href="/free"',
+        'href="/premium"',
+        "Generated is not certified.",
     )
 
     require(
-        "Verlune Code Review page",
-        product,
-        "Verlune Code Review",
-        "One focused workflow. Exact evidence. No borrowed certainty.",
-        "$9 PRICE HYPOTHESIS",
-        "gemini-3.5-flash",
-        "4/4",
-        "77/77",
-        "18,859",
-        VERLUNE_ARCHIVE,
-        "PROVIDER VALIDATION PENDING",
-        "public checkout",
+        "Free Library",
+        free,
+        "VERLUNE FREE",
+        "Useful before",
+        "FREE PROMPTS",
+        "FREE WORKFLOWS",
+        "FREE ≠ THROWAWAY",
+        "No universal model claim.",
+        'href="/premium"',
     )
-    for stale in ("0 PASS, 0 FAIL, 1 INCONCLUSIVE", "9-file customer payload", "two governed workflows"):
-        if stale in product:
-            fail(f"superseded Starter claim leaked into Verlune product page: {stale}")
 
     require(
-        "collections",
-        collections,
-        "VERLUNE / WORKFLOWS",
-        "Verlune Code Review",
-        "$9",
-        "77/77",
-        "not for sale",
-        "Verlune Developer Collection",
-        "$19",
-        "NOT A RELEASE",
+        "Premium discovery",
+        premium,
+        "VERLUNE PREMIUM",
+        "Go deeper.",
+        "Build your own.",
+        "Purchasing not open yet",
+        "Already purchased? Unlock",
+        "PREMIUM_ASSETS.length",
+        "getVerlunePremiumCommerceState",
+        "/api/commerce/verlune-premium/checkout",
     )
-    require("future collection", future, "Verlune", "$19", "price hypothesis", "NOT FOR SALE")
-
-    require("free library", free, "Verlune", "Three workflows", "Code Review", "Bug Diagnosis", "Technical Decision")
-    require("learn", learn, "VERLUNE / LEARN", "Useful ideas before a purchase.", "Evidence is part of the product.")
 
     require(
-        "license",
-        license_page,
-        "VERLUNE / COMMERCIAL LICENSE",
-        "Verlune Code Review is not publicly for sale yet.",
-        "CUSTOMER-LICENSE.md",
-        "Gemini 3.5 Flash",
-        "model-specific claim",
+        "Premium commerce state",
+        premium_commerce,
+        'VERLUNE_PREMIUM_CANDIDATE_PRICE_USD = 9',
+        'VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE"',
+        'VERLUNE_PREMIUM_COMMERCE_MODE',
+        'purchaseAvailable: mode === "live"',
+    )
+    require(
+        "Premium checkout boundary",
+        premium_checkout,
+        "commerce_disabled",
+        "premium_access_not_configured",
+        "provider_test_not_authorized",
+        "live_canary_not_authorized",
+        "checkout_url_not_allowed",
     )
 
-    require("workflow visualization", engine, 'aria-label="Verlune workflow visualization"', "VERLUNE WORKFLOW", "evidence visible by design")
+    require(
+        "Code Review page wiring",
+        code_review,
+        "CODE_REVIEW as product",
+        "ProductActions",
+        "A WORKFLOW FOR THE CHANGE IN FRONT OF YOU",
+        "EVIDENCE WITH BOUNDARIES",
+        "product.evidenceSummary.packQA",
+        "product.evidenceSummary.regression",
+        "product.evidenceSummary.model",
+        "It is advisory.",
+    )
+    require(
+        "Code Review public product facts",
+        public_products,
+        'name: "Verlune Code Review"',
+        "price: 9",
+        'billingModel: "one-time"',
+        'packQA: "77/77"',
+        'regression: "4/4 human-review passes"',
+        'model: "Gemini 3.5 Flash"',
+    )
 
     require(
         "Code Review release identity",
@@ -170,54 +197,82 @@ def main() -> None:
         VERLUNE_ARCHIVE_SHA,
         "Buyer-facing brand/product name is Verlune Code Review.",
     )
-    if not GOVERNED_CODE_REVIEW_CHECKOUT.is_file():
-        fail("governed Code Review checkout route is missing")
-    if LEGACY_PUBLIC_STARTER_CHECKOUT.exists():
-        fail("superseded public Starter checkout route still exists")
+
+    require(
+        "Learn",
+        learn,
+        "VERLUNE / LEARN",
+        "Useful ideas before a purchase.",
+        "Evidence is part of the product.",
+    )
+
+    require(
+        "License",
+        license_page,
+        "VERLUNE / LICENSE",
+        "Your work.",
+        "VERLUNE FREE LIBRARY",
+        "FREE_ASSETS.length",
+        "CUSTOMER-LICENSE.md",
+    )
+
+    require(
+        "Unlock",
+        unlock,
+        "VERLUNE PREMIUM / PRIVATE ACCESS",
+        "Unlock the library you purchased.",
+        "License + checkout email",
+        'href="/premium">← Explore Premium',
+    )
+
+    for label, source in (
+        ("collections redirect", collections),
+        ("developer-pack redirect", developer_pack),
+        ("starter-collection redirect", starter_collection),
+    ):
+        require(label, source, 'permanentRedirect("/code-review")')
 
     require(
         "commerce defaults",
         env,
         "NEXT_PUBLIC_STARTER_CODE_REVIEW_SALE_STATUS=NOT_FOR_SALE",
         "STARTER_CODE_REVIEW_COMMERCE_MODE=off",
-        "LEMONSQUEEZY_STARTER_CODE_REVIEW_TEST_CHECKOUT_URL=",
-        "LEMONSQUEEZY_STARTER_CODE_REVIEW_LIVE_CHECKOUT_URL=",
+        "VERLUNE_PREMIUM_COMMERCE_MODE=off",
+        "VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE",
+        "LEMONSQUEEZY_VERLUNE_PREMIUM_TEST_CHECKOUT_URL=",
+        "LEMONSQUEEZY_VERLUNE_PREMIUM_LIVE_CHECKOUT_URL=",
     )
-    require("commerce link", commerce_link, 'kind: "free" | "starter" | "paid"', '"/starter-collection"', "event.preventDefault()")
-
-    require("brand architecture", brand, "Verlune", "customer-facing", "Prompt Machine", "Prompt Quarry")
-    require(
-        "current commercial status",
-        status,
-        "CUSTOMER-FACING  Verlune",
-        "PRODUCT          Verlune Code Review",
-        VERLUNE_ARCHIVE,
-        VERLUNE_ARCHIVE_SHA,
-        "PUBLIC_CHECKOUT     OFF",
-        "real purchases      0",
-        "real revenue        0",
-    )
+    if "VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=LIVE" in env:
+        fail("Premium public sale is enabled in example/default configuration")
 
     require(
-        "revenue experiment",
-        revenue,
-        "PQ-$1 = first real non-test paid purchase successfully delivered",
-        "USD 9",
-        "USD 19",
-        "PRICE HYPOTHESIS",
-        "free download          != revenue",
-        "accepted real purchase == purchase evidence",
+        "commerce link",
+        commerce_link,
+        'kind: "free" | "code-review" | "starter" | "paid"',
+        '"/api/commerce/starter-code-review/checkout"',
+        '"/code-review"',
+        "event.preventDefault()",
+    )
+
+    require(
+        "brand architecture",
+        brand,
+        "Verlune",
+        "customer-facing",
+        "Prompt Machine",
+        "Prompt Quarry",
     )
 
     print("COMMERCIAL WEB V0: PASS")
     print("customer_brand=Verlune")
-    print("first_paid_product=Verlune Code Review")
-    print("price_hypothesis_usd=9")
-    print("future_collection_hypothesis_usd=19")
-    print(f"archive={VERLUNE_ARCHIVE}")
-    print(f"archive_bytes={VERLUNE_ARCHIVE_BYTES}")
-    print(f"archive_sha256={VERLUNE_ARCHIVE_SHA}")
-    print("public_checkout=OFF")
+    print("home_positioning=Use ours / Build yours / Work better with AI")
+    print("free_launch_core=11")
+    print("premium_launch_core=17")
+    print("premium_discovery=/premium")
+    print("premium_public_sale=OFF")
+    print("unlock_role=existing_purchase")
+    print("code_review_release=1.0.0")
+    print(f"code_review_archive={VERLUNE_ARCHIVE}")
     print("ready_to_sell=false")
 
 
