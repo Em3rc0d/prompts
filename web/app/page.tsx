@@ -38,7 +38,7 @@ export default function HomePage() {
           <p className="lead">Verlune is a library and toolkit for structured AI work: reusable prompts, workflows and Builders that you run in your own compatible AI assistant.</p>
           <div className="actions">
             <Link className="btn btnPrimary" href="/free">Explore free <span aria-hidden="true">→</span></Link>
-            <Link className="btn btnSecondary" href="/unlock">Premium access</Link>
+            <Link className="btn btnSecondary" href="/premium">Explore Premium</Link>
           </div>
         </div>
         <div className="v2HeroVisual">
@@ -84,7 +84,7 @@ export default function HomePage() {
             <div className="eyebrow">BUILD YOURS</div>
             <h3>Turn recurring work into a reusable system.</h3>
             <p>Prompt Builder and Workflow Builder guide you from an ordinary-language need to a reusable artifact without requiring prompt-engineering vocabulary.</p>
-            <Link className="textLink" href="/unlock">Explore Premium Builders →</Link>
+            <Link className="textLink" href="/premium">Explore Premium Builders →</Link>
           </article>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function HomePage() {
       <div className="wrap">
         <div className="vBrowseHeading">
           <div><div className="eyebrow">EXPLORE THE LIBRARY</div><h2>Structured work across real categories.</h2></div>
-          <Link className="textLink" href="/unlock">Open Premium access →</Link>
+          <Link className="textLink" href="/premium">Explore Premium →</Link>
         </div>
         <div className="vCategoryGrid">
           {categories.map(([name, summary], index) => <article className="vCategoryCard" key={name}>
@@ -149,7 +149,7 @@ export default function HomePage() {
     <section className="v2Closing">
       <div className="wrap v2ClosingInner">
         <div><div className="eyebrow">VERLUNE</div><h2>Use ours. Build yours.</h2><p>Start with something useful now. Keep the structure when the input changes.</p></div>
-        <div className="actions"><Link className="btn btnPrimary" href="/free">Explore free →</Link><Link className="btn btnSecondary" href="/unlock">Premium access</Link></div>
+        <div className="actions"><Link className="btn btnPrimary" href="/free">Explore free →</Link><Link className="btn btnSecondary" href="/premium">Explore Premium</Link></div>
       </div>
     </section>
   </main>;
