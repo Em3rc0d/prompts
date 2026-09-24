@@ -56,7 +56,7 @@ def main() -> None:
         "CLIENT_INTENT_EVENTS",
         'credentials: "same-origin"',
         "keepalive: true",
-        'path.startsWith("/starter-collection")',
+        'path === "/code-review"',
         f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
         'product_version: "1.0.0-candidate"',
     ):
@@ -64,9 +64,9 @@ def main() -> None:
             fail(f"client intent forwarding contract missing: {token}")
 
     for token in (
-        'kind: "free" | "starter" | "paid"',
+        'kind: "free" | "code-review" | "starter" | "paid"',
         'event: "starter_cta_clicked"',
-        '"/starter-collection"',
+        '"/code-review"',
         f'product_id: "{CANONICAL_STARTER_PRODUCT_ID}"',
         'product_version: "1.0.0-candidate"',
     ):
