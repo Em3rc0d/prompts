@@ -383,7 +383,7 @@ body {
   pointer-events: none;
   background: linear-gradient(115deg,transparent 25%,rgba(255,255,255,.026) 46%,transparent 65%);
   transform: translateX(-100%);
-  animation: vGraphSweep 8s ease-in-out 1.2s infinite;
+  animation: vGraphSweep 720ms ease-out 520ms 1 both;
 }
 
 .vGraphGrid {
@@ -643,6 +643,7 @@ body {
   margin-top: 18px;
 }
 .v2HeroCopy h1 em {
+  font-style: normal;
   color: var(--v-accent-strong);
   text-shadow: 0 0 30px rgba(119,242,186,.08);
 }
@@ -887,7 +888,7 @@ body {
   margin-bottom: 34px;
 }
 .vPremiumHero h1 { font-size: clamp(3.2rem,5vw,5rem); }
-.vPremiumHero h1 em { color: var(--v-accent-strong); }
+.vPremiumHero h1 em { color: var(--v-accent-strong); font-style: normal; }
 .vProcessRailPremium li { min-height: 96px; }
 
 .vLibraryLayout {
