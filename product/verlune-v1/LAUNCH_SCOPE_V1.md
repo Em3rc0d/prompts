@@ -4,6 +4,8 @@ Status: `SCOPE_CANDIDATE / LANDING_FROZEN`
 
 Date: 2026-09-22
 
+> Historical launch-core freeze. The later 48-prompt catalog expansion is recorded in `LIBRARY_EXPANSION_48_PROMPTS_2026-09-24.md`; this file preserves the original bounded-core decision and its evidence state.
+
 ## Decision
 
 The public landing must not be rewritten around the new Verlune product model until the v1 product package passes the human review gate defined in `HUMAN_REVIEW_GATE.md`.
