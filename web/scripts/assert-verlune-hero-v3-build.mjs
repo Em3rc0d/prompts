@@ -11,7 +11,7 @@ const css = read("components/hero-v3/hero-v3.css");
 
 const checks = [
   [!home.startsWith('"use client"'), "homepage must remain a server component"],
-  [home.includes("<VerluneHeroScene />") && home.includes("href=\"/free\"") && home.includes("href=\"/unlock\""), "server hero/CTAs missing"],
+  [home.includes("<VerluneHeroScene />") && home.includes("href=\"/free\"") && home.includes("href=\"/premium\""), "server hero/CTAs missing"],
   [shell.includes("<HeroSceneFallback />") && shell.includes("<HeroSemanticCards />"), "server fallback or semantic cards missing"],
   [gate.includes('dynamic(() => import("./VerluneHeroCanvas.client")') && gate.includes("ssr: false"), "WebGL runtime must be lazy"],
   [gate.includes('min-width: 900px') && gate.includes('prefers-reduced-motion: reduce') && gate.includes('getContext("webgl2")'), "responsive/reduced-motion/WebGL gate missing"],
