@@ -121,7 +121,7 @@ export default function HomePage() {
       <div className="wrap">
         <div className="vBrowseHeading">
           <div><div className="eyebrow">EXPLORE THE LIBRARY</div><h2>Structured work across real categories.</h2></div>
-          <Link className="textLink" href="/premium">Explore Premium →</Link>
+          <Link className="textLink" href="/library">Browse all 60 assets →</Link>
         </div>
         <div className="vCategoryGrid">
           {categories.map(([category, name, summary], index) => {

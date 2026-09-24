@@ -1823,3 +1823,398 @@ body {
 .vPremiumPublic .vPremiumSummary {
   border-radius: 14px;
 }
+
+
+/* =========================================================
+   VERLUNE LIBRARY DISCOVERY V1
+   Search + filters + curated collections, shared across
+   public Library, Free and authenticated Premium.
+   ========================================================= */
+
+.vLibraryHero {
+  padding: 78px 0 54px;
+  border-bottom: 1px solid rgba(111,154,135,.18);
+  background:
+    radial-gradient(circle at 78% 34%, rgba(101,190,146,.07), transparent 24rem),
+    linear-gradient(180deg, rgba(16,29,25,.17), transparent 84%);
+}
+.vLibraryHeroGrid {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(360px,.72fr);
+  gap: 70px;
+  align-items: center;
+}
+.vLibraryHero h1 em {
+  color: var(--v-accent-strong);
+  font-style: normal;
+}
+.vLibraryStats {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  border: 1px solid var(--v-glass-border);
+  border-radius: 16px;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgba(242,255,249,.035), transparent 30%),
+    var(--v-glass-bg);
+  box-shadow: var(--v-depth-shadow);
+  backdrop-filter: blur(16px);
+}
+.vLibraryStats > div {
+  min-height: 138px;
+  padding: 28px;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  border-right: 1px solid rgba(149,194,174,.14);
+  border-bottom: 1px solid rgba(149,194,174,.14);
+}
+.vLibraryStats > div:nth-child(2n) { border-right: 0; }
+.vLibraryStats > div:nth-last-child(-n+2) { border-bottom: 0; }
+.vLibraryStats strong {
+  font-size: clamp(2.2rem,4vw,3.4rem);
+  line-height: 1;
+  font-weight: 530;
+  letter-spacing: -.045em;
+}
+.vLibraryStats span {
+  color: var(--muted);
+  font: .72rem var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.vExplorerSection {
+  background:
+    radial-gradient(circle at 52% 12%, rgba(119,242,186,.035), transparent 30rem);
+}
+.vLibraryExplorer {
+  display: grid;
+  gap: 26px;
+}
+.vExplorerHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: end;
+}
+.vExplorerHeader > div:first-child { max-width: 760px; }
+.vExplorerHeader h2 { margin: 8px 0 12px; }
+.vExplorerHeader p { margin: 0; color: var(--muted); max-width: 720px; }
+.vExplorerCount {
+  min-width: 112px;
+  display: grid;
+  justify-items: end;
+}
+.vExplorerCount strong {
+  font-size: 2.2rem;
+  line-height: 1;
+  font-weight: 520;
+}
+.vExplorerCount span {
+  margin-top: 5px;
+  color: var(--muted);
+  font: .68rem var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
+.vCollectionShelf {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+  scrollbar-width: thin;
+}
+.vCollectionShelf button {
+  flex: 0 0 auto;
+  min-height: 54px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(145,188,168,.2);
+  border-radius: 9px;
+  background: rgba(11,21,20,.55);
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color .16s ease, background .16s ease, color .16s ease, transform .12s ease;
+}
+.vCollectionShelf button:hover,
+.vCollectionShelf button:focus-visible {
+  color: var(--text);
+  border-color: rgba(190,232,212,.34);
+  background: rgba(25,42,35,.58);
+}
+.vCollectionShelf button.isActive {
+  color: #e9f8f0;
+  border-color: rgba(119,242,186,.46);
+  background:
+    linear-gradient(145deg, rgba(119,242,186,.075), transparent 70%),
+    rgba(13,30,24,.78);
+  box-shadow: inset 0 1px rgba(255,255,255,.06);
+}
+.vCollectionShelf button small {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 99px;
+  background: rgba(255,255,255,.045);
+  color: #8eaaa0;
+  font: .65rem var(--font-mono);
+}
+.vCollectionContext {
+  display: grid;
+  grid-template-columns: auto minmax(160px,.3fr) minmax(0,1fr);
+  gap: 18px 26px;
+  align-items: center;
+  padding: 18px 20px;
+  border: 1px solid rgba(150,197,176,.16);
+  border-radius: 10px;
+  background:
+    linear-gradient(110deg, rgba(119,242,186,.035), transparent 46%),
+    rgba(10,18,18,.5);
+}
+.vCollectionContext > span {
+  color: var(--v-accent-dim);
+  font: .64rem var(--font-mono);
+  letter-spacing: .1em;
+}
+.vCollectionContext strong { font-weight: 560; }
+.vCollectionContext p { margin: 0; color: var(--muted); }
+
+.vExplorerControls {
+  display: grid;
+  grid-template-columns: minmax(260px,1.2fr) auto auto minmax(190px,.55fr) auto;
+  gap: 14px;
+  align-items: end;
+  padding: 18px;
+  border: 1px solid rgba(145,188,168,.18);
+  border-radius: 12px;
+  background:
+    linear-gradient(145deg, rgba(241,255,248,.018), transparent 28%),
+    rgba(8,16,17,.64);
+  box-shadow: inset 0 1px rgba(255,255,255,.025);
+}
+.vSearchControl,
+.vCategoryControl {
+  display: grid;
+  gap: 7px;
+}
+.vSearchControl > span,
+.vCategoryControl > span,
+.vFilterGroup legend {
+  color: #8fa49d;
+  font: .63rem var(--font-mono);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.vSearchControl input,
+.vCategoryControl select {
+  min-height: 44px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid rgba(147,187,170,.24);
+  border-radius: 7px;
+  background: rgba(6,13,14,.78);
+  color: var(--text);
+  font: inherit;
+}
+.vSearchControl input::placeholder { color: #697b76; }
+.vSearchControl input:focus,
+.vCategoryControl select:focus {
+  border-color: rgba(119,242,186,.62);
+  outline: 2px solid rgba(119,242,186,.08);
+  outline-offset: 1px;
+}
+.vFilterGroup {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.vFilterGroup legend { margin-bottom: 7px; }
+.vFilterChips {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px;
+  border: 1px solid rgba(147,187,170,.2);
+  border-radius: 8px;
+  background: rgba(6,13,14,.66);
+}
+.vFilterChips button {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font: .76rem var(--font-sans);
+  cursor: pointer;
+}
+.vFilterChips button:hover,
+.vFilterChips button:focus-visible { color: var(--text); }
+.vFilterChips button.isActive {
+  background: rgba(119,242,186,.09);
+  color: #dff8eb;
+  box-shadow: inset 0 0 0 1px rgba(119,242,186,.16);
+}
+.vResetFilters {
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: .76rem var(--font-sans);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.vExplorerGrid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 14px;
+}
+.vExplorerCard {
+  min-height: 286px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--v-glass-border);
+  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(244,255,249,.045), transparent 25%, rgba(66,108,87,.022) 74%),
+    rgba(9,19,18,.68);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.06),
+    0 18px 40px rgba(0,0,0,.17);
+  transition: border-color .17s ease, transform .12s ease, box-shadow .17s ease;
+}
+.vExplorerCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(185,230,209,.34);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 24px 48px rgba(0,0,0,.23);
+}
+.vExplorerMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #849991;
+  font: .64rem var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.vTierBadge {
+  padding: 4px 7px;
+  border: 1px solid rgba(150,194,174,.18);
+  border-radius: 5px;
+}
+.vTierBadgeFree {
+  color: #c4e4d5;
+  background: rgba(157,211,185,.04);
+}
+.vTierBadgePremium {
+  color: #bcffd9;
+  border-color: rgba(119,242,186,.27);
+  background: rgba(119,242,186,.055);
+}
+.vExplorerCategory {
+  margin-top: 22px;
+  color: var(--v-accent-dim);
+  font: .67rem var(--font-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.vExplorerCard h3 {
+  margin: 9px 0 10px;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.vExplorerCard > p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.55;
+  flex: 1;
+}
+.vExplorerCardFooter {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  border-top: 1px solid rgba(147,187,170,.12);
+}
+.vExplorerCardFooter small {
+  color: #667a72;
+  font: .62rem var(--font-mono);
+}
+.vExplorerCardFooter .textLink { white-space: nowrap; }
+
+.vShowMore {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding-top: 6px;
+}
+.vShowMore > span {
+  color: var(--muted);
+  font-size: .78rem;
+}
+.vShowMore .btn { min-height: 42px; }
+.vExplorerEmpty {
+  padding: 56px 24px;
+  text-align: center;
+  border: 1px dashed rgba(147,187,170,.22);
+  border-radius: 12px;
+  background: rgba(9,17,17,.34);
+}
+.vExplorerEmpty strong { font-size: 1.05rem; }
+.vExplorerEmpty p { color: var(--muted); margin: 7px 0 16px; }
+.vExplorerEmpty .textLink {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.vLibraryBoundary {
+  border-top: 1px solid rgba(123,163,145,.15);
+}
+
+@media (max-width: 1180px) {
+  .vExplorerControls {
+    grid-template-columns: minmax(240px,1fr) 1fr 1fr;
+  }
+  .vSearchControl { grid-column: 1 / -1; }
+  .vResetFilters { justify-self: start; }
+  .vExplorerGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 900px) {
+  .vLibraryHeroGrid { grid-template-columns: 1fr; gap: 38px; }
+  .vLibraryStats { max-width: 620px; }
+  .vCollectionContext { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 720px) {
+  .vExplorerHeader { align-items: flex-start; }
+  .vExplorerCount { justify-items: start; min-width: auto; }
+  .vExplorerControls { grid-template-columns: 1fr; }
+  .vSearchControl { grid-column: auto; }
+  .vFilterChips { overflow-x: auto; }
+  .vExplorerGrid { grid-template-columns: 1fr; }
+  .vExplorerCard { min-height: 250px; }
+}
+@media (max-width: 520px) {
+  .vLibraryHero { padding: 58px 0 40px; }
+  .vLibraryStats > div { min-height: 108px; padding: 20px; }
+  .vExplorerHeader { display: grid; gap: 18px; }
+  .vCollectionShelf { margin-inline: -4px; }
+  .vExplorerCardFooter { align-items: flex-start; flex-direction: column; }
+  .vShowMore { flex-direction: column; }
+}

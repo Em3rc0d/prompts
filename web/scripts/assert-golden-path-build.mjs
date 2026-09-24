@@ -5,6 +5,7 @@ const nextRoot = path.resolve(process.cwd(), ".next");
 const requiredFragments = [
   "code-review",
   "premium/page",
+  "library/page",
   "free/page",
   "learn/page",
   "api/commerce/starter-code-review/checkout",

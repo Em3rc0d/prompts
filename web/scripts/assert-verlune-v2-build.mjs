@@ -5,9 +5,12 @@ const root = process.cwd();
 
 const requiredSourceFiles = [
   "app/page.tsx",
+  "app/library/page.tsx",
   "app/free/page.tsx",
   "app/free/asset/[assetId]/page.tsx",
   "app/app/page.tsx",
+  "components/library-explorer.client.tsx",
+  "lib/verlune-library-discovery.ts",
   "app/app/asset/[assetId]/page.tsx",
   "components/verlune-visuals.tsx",
   "lib/verlune-free-catalog.ts",
@@ -20,7 +23,10 @@ for (const rel of requiredSourceFiles) {
 }
 
 const home = fs.readFileSync(path.join(root, "app/page.tsx"), "utf8");
+const library = fs.readFileSync(path.join(root, "app/library/page.tsx"), "utf8");
 const free = fs.readFileSync(path.join(root, "app/free/page.tsx"), "utf8");
+const discovery = fs.readFileSync(path.join(root, "lib/verlune-library-discovery.ts"), "utf8");
+const explorer = fs.readFileSync(path.join(root, "components/library-explorer.client.tsx"), "utf8");
 const freeCatalog = fs.readFileSync(path.join(root, "lib/verlune-free-catalog.ts"), "utf8");
 const premium = fs.readFileSync(path.join(root, "app/app/page.tsx"), "utf8");
 const css = fs.readFileSync(path.join(root, "app/globals.css"), "utf8");
@@ -35,9 +41,9 @@ for (const marker of requiredHomeMarkers) {
   if (!home.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: home missing ${marker}`);
 }
 
-const requiredFreePageMarkers = ["FREE PROMPTS", "FREE WORKFLOWS"];
+const requiredFreePageMarkers = ["LibraryExplorer", 'fixedTier="free"', 'initialCollectionId="start-here"'];
 for (const marker of requiredFreePageMarkers) {
-  if (!free.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: free missing ${marker}`);
+  if (!free.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: free discovery missing ${marker}`);
 }
 
 const requiredFreeCatalogMarkers = ["VF-P-", "VF-WF-"];
@@ -53,11 +59,20 @@ if (freePromptIds.length !== 16 || freeWorkflowIds.length !== 3) {
   );
 }
 
-const requiredPremiumMarkers = ["BUILD YOURS", "WORKFLOWS", "PROMPTS", "ADAPT & EVALUATE"];
+const requiredPremiumMarkers = ["LibraryExplorer", 'fixedTier="premium"', 'initialCollectionId="premium-essentials"', "VerluneGraph"];
 for (const marker of requiredPremiumMarkers) {
-  if (!premium.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: premium missing ${marker}`);
+  if (!premium.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: premium discovery missing ${marker}`);
 }
-if (!premium.includes("VerluneGraph")) throw new Error("VERLUNE V2 AUDIT FAIL: premium missing VerluneGraph");
+
+for (const marker of ["VERLUNE LIBRARY", "getPublicLibraryAssets", "LibraryExplorer"]) {
+  if (!library.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: public library missing ${marker}`);
+}
+for (const marker of ["start-here", "premium-essentials", "ship-software", "research-decide"]) {
+  if (!discovery.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: discovery model missing collection ${marker}`);
+}
+for (const marker of ['type="search"', "Tier", "Type", "Category", "Show 12 more"]) {
+  if (!explorer.includes(marker)) throw new Error(`VERLUNE V2 AUDIT FAIL: explorer missing ${marker}`);
+}
 
 const requiredCssMarkers = [
   "VERLUNE V2 — EDITORIAL COMPUTATIONAL",
@@ -112,7 +127,8 @@ console.log("VERLUNE V2 BUILD AUDIT: PASS");
 console.log("free_launch_core_assets=19");
 console.log("free_launch_core_prompts=16");
 console.log("free_launch_core_workflows=3");
-console.log("premium_launch_core_assets=41");
+console.log("premium_library_assets=41");
+console.log("discovery_surface=public_library+free+premium");
 console.log("semantic_3d=hero-v3-hybrid; premium-v2-dom-css");
 console.log("unsupported_mockup_claims=0");
 console.log("boundary=build/source/materialization audit; human visual comprehension not implied");

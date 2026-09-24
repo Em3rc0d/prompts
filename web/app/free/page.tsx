@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+
 import { CommerceLink } from "@/components/commerce-link";
+import { LibraryExplorer } from "@/components/library-explorer.client";
 import { ArtifactMiniObject } from "@/components/verlune-visuals";
-import { FREE_ASSETS } from "@/lib/verlune-free-catalog";
+import {
+  getFreeLibraryDiscoveryAssets,
+  LIBRARY_COLLECTIONS
+} from "@/lib/verlune-library-discovery";
 
 export const metadata: Metadata = {
   title: "Free Library",
@@ -11,8 +16,9 @@ export const metadata: Metadata = {
 };
 
 export default function FreePage() {
-  const prompts = FREE_ASSETS.filter((asset) => asset.type === "Prompt");
-  const workflows = FREE_ASSETS.filter((asset) => asset.type === "Workflow");
+  const assets = getFreeLibraryDiscoveryAssets();
+  const prompts = assets.filter((asset) => asset.type === "Prompt");
+  const workflows = assets.filter((asset) => asset.type === "Workflow");
 
   return <main className="vFreeLibrary">
     <section className="vFreeHero">
@@ -22,9 +28,10 @@ export default function FreePage() {
           <h1>Useful before<br />you pay anything.</h1>
           <p className="lead">Start with complete, reusable assets across real categories. Free is not a crippled demo: choose a task, run it in your compatible AI assistant, verify the result, and reuse the structure.</p>
           <div className="actions">
-            <a className="btn btnPrimary" href="#free-assets">Explore free assets <span aria-hidden="true">↓</span></a>
+            <a className="btn btnPrimary" href="#library">Find a Free asset <span aria-hidden="true">↓</span></a>
+            <Link className="btn btnSecondary" href="/library">Browse all 60 assets</Link>
           </div>
-          <p className="micro">Nineteen complete library assets are available individually below: sixteen prompts and three workflows.</p>
+          <p className="micro">{assets.length} complete Free assets: {prompts.length} prompts and {workflows.length} workflows.</p>
         </div>
         <div className="vFreeHeroVisual" aria-label="Free prompts and workflows">
           <div className="vFreeObject vFreeObjectPrompt"><ArtifactMiniObject type="Prompt" /><span>PROMPTS</span></div>
@@ -49,40 +56,16 @@ export default function FreePage() {
       </div>
     </section>
 
-    <section className="section" id="free-assets">
+    <section className="section vExplorerSection">
       <div className="wrap">
-        <div className="vLibraryGroupHeader">
-          <div><div className="eyebrow">FREE PROMPTS</div><h2>Bounded tasks across eight categories.</h2></div>
-          <span className="assetCount">{prompts.length} prompts</span>
-        </div>
-        <div className="vFreePromptGrid">
-          {prompts.map((asset)=><article className="vFreeAssetCard" key={asset.id}>
-            <div className="vFreeAssetVisual"><ArtifactMiniObject type="Prompt" /></div>
-            <div className="assetCardMeta"><span>{asset.categoryLabel}</span><span>{asset.id}</span></div>
-            <h3>{asset.name}</h3>
-            <p>{asset.summary}</p>
-            <Link className="textLink" href={`/free/asset/${encodeURIComponent(asset.id)}`}>Open free prompt →</Link>
-          </article>)}
-        </div>
-      </div>
-    </section>
-
-    <section className="section vFreeWorkflowSection">
-      <div className="wrap">
-        <div className="vLibraryGroupHeader">
-          <div><div className="eyebrow">FREE WORKFLOWS</div><h2>Use a process when one prompt is not enough.</h2></div>
-          <span className="assetCount">{workflows.length} workflows</span>
-        </div>
-        <div className="vFreeWorkflowGrid">
-          {workflows.map((asset)=><article className="vFreeWorkflowCard" key={asset.id}>
-            <div className="vFreeWorkflowVisual"><ArtifactMiniObject type="Workflow" /></div>
-            <div className="assetCardMeta"><span>{asset.categoryLabel}</span><span>{asset.id}</span></div>
-            <h3>{asset.name}</h3>
-            <p>{asset.summary}</p>
-            <div className="vWorkflowMiniMap" aria-hidden="true"><span>START</span><i/><span>STAGES</span><i/><span>VERIFY</span></div>
-            <Link className="textLink" href={`/free/asset/${encodeURIComponent(asset.id)}`}>Open free workflow →</Link>
-          </article>)}
-        </div>
+        <LibraryExplorer
+          assets={assets}
+          collections={LIBRARY_COLLECTIONS}
+          fixedTier="free"
+          initialCollectionId="start-here"
+          heading="Find a Free asset by the job."
+          intro="Search nineteen complete Free assets, narrow by type or category, or start from a curated collection."
+        />
       </div>
     </section>
 
@@ -118,7 +101,7 @@ export default function FreePage() {
     <section className="v2Closing">
       <div className="wrap v2ClosingInner">
         <div><div className="eyebrow">READY FOR MORE STRUCTURE?</div><h2>Use ours. Build yours.</h2><p>Premium adds Builders, deeper workflows, adaptation, and evaluation tools.</p></div>
-        <div className="actions"><Link className="btn btnPrimary" href="/premium">Explore Premium →</Link><Link className="btn btnSecondary" href="/">Back to Verlune</Link></div>
+        <div className="actions"><Link className="btn btnPrimary" href="/premium">Explore Premium →</Link><Link className="btn btnSecondary" href="/library">Browse Library</Link></div>
       </div>
     </section>
   </main>;

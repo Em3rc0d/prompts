@@ -32,10 +32,11 @@ export default function PremiumPage() {
           <h1>Go deeper.<br /><em>Build your own.</em></h1>
           <p className="lead">Premium extends the Verlune method with deeper structured assets, reusable Builders, adaptation guidance, and evaluation tools. You still run the work in your own compatible AI assistant.</p>
           <div className="actions">
+            <Link className="btn btnSecondary" href="/library">Browse the Library</Link>
             {commerce.purchaseAvailable
               ? <a className="btn btnPrimary" href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD <span aria-hidden="true">→</span></a>
               : <span className="btn btnPrimary vDisabledCta" aria-disabled="true">Purchasing not open yet</span>}
-            <Link className="btn btnSecondary" href="/unlock">Already purchased? Unlock</Link>
+            <Link className="textLink" href="/unlock">Already purchased? Unlock →</Link>
           </div>
           <p className="micro">{commerce.purchaseAvailable
             ? "One-time purchase · License-based private access · AI-provider access and fees are separate."

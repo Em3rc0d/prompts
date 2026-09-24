@@ -32,17 +32,12 @@ for (const marker of ["DEVELOPMENT & TECH / DOWNLOAD", "Download developer start
 }
 
 for (const marker of [
-  'aria-label="Premium library sections"',
-  'href="#builders"',
-  'href="#workflows"',
-  'href="#prompts"',
-  'href="#toolkit"',
-  "Sections navigate by asset type."
+  "LibraryExplorer",
+  'fixedTier="premium"',
+  'initialCollectionId="premium-essentials"',
+  "getPremiumLibraryDiscoveryAssets"
 ]) {
-  if (!premium.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: Premium section nav missing ${marker}`);
-}
-if (premium.includes("PREMIUM_CATEGORY_ORDER")) {
-  throw new Error("VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: Premium still presents category anchors as primary section navigation");
+  if (!premium.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: Premium discovery missing ${marker}`);
 }
 
 for (const marker of ['className="mobileNav"', 'aria-label="Open navigation"', 'aria-label="Mobile"', 'href="/unlock">Unlock access']) {
@@ -62,7 +57,7 @@ if (learn.includes("current free workflows has three structured developer workfl
 for (const marker of ["NEXT_PUBLIC_INDEXING_MODE", 'disallow: "/"']) {
   if (!robots.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: robots fail-closed marker missing ${marker}`);
 }
-for (const marker of ["FREE_ASSETS", '"/free"', '"/premium"', '"/code-review"', '"/license"']) {
+for (const marker of ["FREE_ASSETS", '"/library"', '"/free"', '"/premium"', '"/code-review"', '"/license"']) {
   if (!sitemap.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE P1 AUDIT FAIL: sitemap missing ${marker}`);
 }
 if (!env.includes("NEXT_PUBLIC_INDEXING_MODE=off") || !env.includes("NEXT_PUBLIC_SITE_URL=")) {
@@ -77,7 +72,7 @@ console.log("VERLUNE PRODUCT CLOSURE P1 UX AUDIT: PASS");
 console.log("home_category_affordances=actionable");
 console.log("free_hero=library_first");
 console.log("developer_zip=secondary_resource");
-console.log("premium_navigation=section_truthful");
+console.log("premium_navigation=search_filter_discovery");
 console.log("mobile_navigation=present");
 console.log("learn_free_copy=current");
 console.log("robots_and_sitemap=fail_closed_until_configured");
