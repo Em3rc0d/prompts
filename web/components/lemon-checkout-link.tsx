@@ -35,6 +35,13 @@ async function resolveCheckoutUrl(path: string): Promise<string | null> {
     headers: { Accept: "application/json" },
   });
 
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("application/json")) {
+    const payload = await response.json().catch(() => null) as { checkoutUrl?: unknown } | null;
+    if (response.ok && typeof payload?.checkoutUrl === "string") return payload.checkoutUrl;
+    return null;
+  }
+
   return response.headers.get("location");
 }
 
