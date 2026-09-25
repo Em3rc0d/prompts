@@ -133,5 +133,14 @@ export async function GET(request: Request) {
     ...attribution,
   }));
 
+  if (request.headers.get("accept")?.includes("application/json")) {
+    return Response.json({
+      ok: true,
+      checkoutUrl: destination.toString(),
+      commerce_gate: gate,
+      commerce_mode: mode,
+    });
+  }
+
   return Response.redirect(destination, 302);
 }

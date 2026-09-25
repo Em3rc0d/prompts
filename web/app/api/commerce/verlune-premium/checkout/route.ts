@@ -2,6 +2,10 @@ import { timingSafeEqual } from "node:crypto";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
 import { getVerluneAccessConfigState } from "@/lib/verlune-access";
+import {
+  premiumTestSessionMatches,
+  VERLUNE_PREMIUM_TEST_SESSION_COOKIE,
+} from "@/lib/verlune-premium-test-session";
 
 const ATTRIBUTION_FIELDS = ["source", "medium", "campaign", "content"] as const;
 
@@ -24,12 +28,23 @@ function secretsMatch(expected: string | undefined, observed: string | null): bo
 function authorizeGateToken(input: {
   expected: string | undefined;
   observed: string | null;
+  sessionAuthorized?: boolean;
   notConfiguredError: string;
   unauthorizedError: string;
 }): Response | null {
   if (!input.expected) return Response.json({ ok: false, error: input.notConfiguredError }, { status: 503 });
-  if (!secretsMatch(input.expected, input.observed)) {
+  if (!input.sessionAuthorized && !secretsMatch(input.expected, input.observed)) {
     return Response.json({ ok: false, error: input.unauthorizedError }, { status: 403 });
+  }
+  return null;
+}
+
+function cookieValue(request: Request, name: string): string | null {
+  const cookie = request.headers.get("cookie");
+  if (!cookie) return null;
+  for (const pair of cookie.split(";")) {
+    const [key, ...rest] = pair.trim().split("=");
+    if (key === name) return decodeURIComponent(rest.join("="));
   }
   return null;
 }
@@ -69,6 +84,7 @@ export async function GET(request: Request) {
     const denial = authorizeGateToken({
       expected: process.env.VERLUNE_PREMIUM_PROVIDER_TEST_TOKEN,
       observed: request.headers.get("x-verlune-provider-test-token"),
+      sessionAuthorized: premiumTestSessionMatches(cookieValue(request, VERLUNE_PREMIUM_TEST_SESSION_COOKIE)),
       notConfiguredError: "provider_test_token_not_configured",
       unauthorizedError: "provider_test_not_authorized"
     });
@@ -136,6 +152,15 @@ export async function GET(request: Request) {
     timestamp: new Date().toISOString(),
     ...attribution
   }));
+
+  if (request.headers.get("accept")?.includes("application/json")) {
+    return Response.json({
+      ok: true,
+      checkoutUrl: destination.toString(),
+      commerce_gate: gate,
+      commerce_mode: mode,
+    });
+  }
 
   return Response.redirect(destination, 302);
 }
