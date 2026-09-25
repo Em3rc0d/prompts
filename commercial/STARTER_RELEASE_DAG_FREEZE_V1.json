@@ -1,0 +1,61 @@
+{
+  "schema": "prompt-machine-starter-release-dag-freeze-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-RELEASE-DAG-FREEZE-V1-0001",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_RELEASE_DAG_PASS_TWO_REAL_EVIDENCE_FRONTIERS",
+  "dag": "commercial/STARTER_RELEASE_DAG_V1.json",
+  "validated_by": {
+    "workflow": "Validate Starter Release DAG v1",
+    "run_id": 33811290994,
+    "conclusion": "success"
+  },
+  "graph": {
+    "node_count": 20,
+    "cycles": 0,
+    "closed_or_intentionally_deferred_nodes": 12,
+    "open_evidence_frontier_nodes": 2
+  },
+  "frontier": [
+    {
+      "node": "N09_STARTER_RUNTIME_EVIDENCE",
+      "authorization_required": "EXPLICIT_MODEL_BUDGET_AUTHORIZATION",
+      "smallest_experiment": "ONE PM-STARTER-CR-NORMAL-0001 EXECUTION THEN HUMAN REVIEW",
+      "automatic_retries": 0,
+      "authorized_now": false
+    },
+    {
+      "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
+      "authorization_required": "EXPLICIT_PROVIDER_SIDE_EFFECT_AUTHORIZATION",
+      "smallest_experiment": "ONE CONTROLLED PROVIDER CUSTODY ATTEMPT THEN HUMAN REVIEW",
+      "automatic_retries": 0,
+      "authorized_now": false
+    }
+  ],
+  "downstream_blockers": {
+    "provider_integration_pass": "BLOCKED_BY_PROVIDER_PROVISIONING_AND_CUSTODY",
+    "live_delivery_canary": "BLOCKED_BY_PROVIDER_INTEGRATION_PASS",
+    "starter_product_ready_review": "BLOCKED_BY_RUNTIME_EVIDENCE_AND_LIVE_DELIVERY",
+    "public_checkout": "BLOCKED_BY_HUMAN_RELEASE_DECISION",
+    "pq_dollar_one": "NOT_STARTED"
+  },
+  "current_truth": {
+    "starter_runtime_observations": 0,
+    "provider_custody_observations": 0,
+    "provider_integration_pass": false,
+    "live_delivery_canary_pass": false,
+    "starter_product_ready": false,
+    "public_checkout": false,
+    "real_purchases": 0,
+    "pq_dollar_one": false
+  },
+  "stop_line": {
+    "continue_zero_evidence_architecture_by_default": false,
+    "reason": "The release dependency graph has no additional launch-critical static frontier. Further launch progress requires an explicitly authorized real observation on either the product-behavior lane or provider lane.",
+    "non_launch_maintenance_may_continue": true,
+    "automatic_frontier_selection": false
+  },
+  "model_calls_created_by_freeze": 0,
+  "provider_calls_created_by_freeze": 0,
+  "master_rule": "WHEN STATIC DEPENDENCIES ARE CLOSED, STOP DESIGNING AROUND THE UNKNOWN AND BUY THE SMALLEST JUSTIFIED OBSERVATION"
+}

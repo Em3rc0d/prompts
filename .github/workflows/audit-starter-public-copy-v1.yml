@@ -1,0 +1,66 @@
+name: Audit Starter Public Copy v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'web/app/page.tsx'
+      - 'web/app/collections/**'
+      - 'web/app/starter-collection/**'
+      - 'web/app/developer-pack/**'
+      - 'web/app/free/developer-starter-pack/**'
+      - 'web/app/license/**'
+      - 'web/app/layout.tsx'
+      - 'web/components/commerce-link.tsx'
+      - 'commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md'
+      - 'tools/audit_starter_public_copy_v1.py'
+      - '.github/workflows/audit-starter-public-copy-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit-starter-public-copy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Audit public copy against current Starter evidence ceiling
+        run: python tools/audit_starter_public_copy_v1.py
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Prompt Machine Starter Public Copy Evidence Audit v1
+
+          | Signal | State |
+          |---|---|
+          | Product identity | PROMPT MACHINE |
+          | Starter price | $9 HYPOTHESIS |
+          | Starter checkout | OFF / NO ROUTE |
+          | Starter runtime observations | 1 |
+          | Clean independent runtime observations | 0 |
+          | Effective runtime PASS / FAIL / INCONCLUSIVE | 0 / 0 / 1 |
+          | Runtime classification | INCONCLUSIVE_PROTOCOL_CONTAMINATION |
+          | Historical FAIL / REWORK artifact | PRESERVED / NOT EFFECTIVE WORKFLOW FAIL |
+          | Same frozen candidate clean retest | REQUIRED / DISARMED |
+          | Deterministic packaging claim | SCOPED / ALLOWED |
+          | Supported Starter skills | 0 |
+          | Unsupported tested/certified/customer claims | ABSENT |
+          | License stale Prompt Quarry purchase wording | ABSENT AFTER FIX |
+          | Final audit state | PASS_CURRENT_EVIDENCE_BOUNDARY |
+          | Model calls | 0 |
+          | Provider calls | 0 |
+          | Customer/revenue evidence created | 0 |
+          EOF

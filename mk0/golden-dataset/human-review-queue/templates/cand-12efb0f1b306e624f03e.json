@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-12efb0f1b306e624f03e",
+  "candidate_id": "cand-12efb0f1b306e624f03e",
+  "candidate_fingerprint": "sha256:b58f7124b610282668a08d3537a28e2281673fc483ad17c3f43b777d88890470",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "HOLD",
+  "decision_reason_codes": [
+    "PENDING_HUMAN_DECISION"
+  ],
+  "rationale": "Pending human review; replace this placeholder with the review rationale.",
+  "reviewed_at": "1970-01-01T00:00:00Z",
+  "machine_confidence_at_review": 0.865,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [],
+  "source_commit": null
+}

@@ -1,0 +1,84 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Negocia tu Salario: el guion para subir la oferta un 20%
+TYPE               : Prompt
+CATEGORY           : Empleo
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : f6593987-295a-4910-b185-57c69e4ab22a
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/f6593987-295a-4910-b185-57c69e4ab22a
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:f773b0ba2d6b39155d34a74b02b6329cd4980651258f0d9e78739f63afe6868a
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- rol objetivo
+- experiencia real
+- vacante o contexto
+- restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un consultor de carrera y selección.
+
+OBJETIVO
+Negocia tu Salario: el guion para subir la oferta un 20%.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {rol objetivo}
+- {experiencia real}
+- {vacante o contexto}
+- {restricciones}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/f6593987-295a-4910-b185-57c69e4ab22a
+Source record ID: alpacka_prompt_f6593987-295a-4910-b185-57c69e4ab22a
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

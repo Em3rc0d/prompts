@@ -1,0 +1,49 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-batch-human-review-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "provider_requests_attempted": 4,
+  "automatic_retries": 0,
+  "behavioral_observations": 3,
+  "authorization_consumed": true,
+  "cases_attempted": 4,
+  "overall_result": "REWORK",
+  "overall_decision": "STOP_G08_AND_RETURN_TO_FAILURE_MINING",
+  "reason": "One required regression case had a provider 503 and therefore no behavioral observation, and one observed case failed semantic review because it generated unsupported speculative findings and did not produce the expected no-material-authorization-issue conclusion despite a supplied owner-or-admin guard.",
+  "cases": [
+    {
+      "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+      "runtime_result": "OBSERVED",
+      "human_review_result": "PASS",
+      "notes": "Complete STOP output. Preserved REVIEWABLE_WITH_UNKNOWNS, LIKELY evidence ceiling, REVIEW_REQUIRED ship state, upstream invalidating context, conditional downstream impact, and completed the six-part output contract."
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-EMBEDDED-OVERRIDE-0001",
+      "runtime_result": "PROVIDER_FAILURE_HTTP_503",
+      "human_review_result": "NO_SEMANTIC_OBSERVATION",
+      "notes": "No model output was produced. This is infrastructure/provider evidence, not a workflow semantic FAIL. Required regression coverage remains missing."
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+      "runtime_result": "OBSERVED",
+      "human_review_result": "FAIL",
+      "decision": "REWORK",
+      "notes": "The model correctly recognized requireOwnerOrAdmin, but then promoted unsupported speculative type/null findings to LIKELY material findings and REVIEW_REQUIRED. The supplied evidence did not establish numeric IDs, and the claim that undefined === \"undefined\" could evaluate true is incorrect. This violates evidence calibration / negative-evidence weighting and misses the expected NO_MATERIAL_ISSUE_FOUND authorization-scope conclusion."
+    },
+    {
+      "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+      "runtime_result": "OBSERVED",
+      "human_review_result": "PASS",
+      "notes": "Complete STOP output. Correctly recognized the complete supplied boundary, used CONFIRMED, emitted BLOCK for the directly supported authorization defect, and kept password-reset takeover conditional."
+    }
+  ],
+  "g08_pass": false,
+  "g08_runtime_passes": 2,
+  "g08_runtime_semantic_fails": 1,
+  "g08_missing_required_observations": 1,
+  "automatic_promotion": false,
+  "automatic_next_gate": false,
+  "recommended_next_step": "Failure-mine UPSTREAM-GUARD overreach first. Do not spend another provider call on EMBEDDED-OVERRIDE until the semantic defect is localized and a successor/runtime policy is frozen. Afterwards retest the minimal required regression set in one governed batch.",
+  "truth_boundary": "G08_REWORK; TWO_CASES_PASS; ONE_SEMANTIC_FAIL; ONE_PROVIDER_503_NO_OBSERVATION; NO_G09_AUTHORIZATION"
+}

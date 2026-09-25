@@ -1,0 +1,32 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : ¿Qué es una Skill en Claude? Guía completa para entenderlas y usarlas
+TYPE            : Blog / Reference
+CATEGORY        : Claude
+OFFICIAL SOURCE : https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude
+PUBLISHED       : True
+CREATED         : 2026-07-16T14:38:11.428816+00:00
+UPDATED         : 2026-07-16T14:38:11.428816+00:00
+CONTENT LENGTH  : 8122
+CONTENT HASH    : sha256:9983306738dd9aef
+MACHINE RECORD  : quarry/normalized/alpacka-ai-blog-articles.jsonl
+
+ARTICLE OUTLINE
+----------------------------------------------------------------------------------------
+H1
+- ¿Qué es una Skill en Claude? Guía completa para entenderlas y usarlas
+H2
+- Qué es exactamente una Skill
+- Cómo funciona por dentro
+- Skill, prompt y MCP: en qué se diferencian
+- Dónde puedes usar Skills
+- Ejemplos prácticos
+- Cómo crear tu primera Skill
+- Una nota sobre seguridad
+- En resumen
+- ¿Quieres resultados así con tu IA?
+
+NOTE
+----------------------------------------------------------------------------------------
+The article body is not mirrored here. This TXT preserves the readable source map, outline,
+metadata, hashes and direct official URL while the quarry keeps the machine-readable record.

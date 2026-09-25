@@ -1,0 +1,17 @@
+{
+  "source": "quarry/raw/alpacka-ai/surface/root-links.jsonl",
+  "unique_links": 538,
+  "route_type_counts": {
+    "commercial": 1,
+    "internal-other": 2,
+    "policy-or-auth": 2,
+    "prompt-candidate": 531,
+    "root": 1,
+    "skill-candidate": 1
+  },
+  "candidate_links": 532,
+  "notes": [
+    "Classification is route/label based and must be verified by fetching each candidate.",
+    "www.alpackaai.xyz and alpackaai.xyz are canonicalized to the same host."
+  ]
+}

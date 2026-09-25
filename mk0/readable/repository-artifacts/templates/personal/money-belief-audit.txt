@@ -1,0 +1,60 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/library/templates/personal/money-belief-audit.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# Money Belief Audit Template
+
+**Artifact type:** template  
+**Status:** derived-analysis  
+**Source inspiration:** Alpacka AI Threads post `DPwn67yDrZK`  
+**Official source:** https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK
+
+## Purpose
+
+A structured reflection template for examining assumptions and recurring beliefs that may influence personal financial decisions.
+
+This is not financial advice and does not attempt to diagnose psychological conditions.
+
+## Template
+
+```text
+Help me examine the beliefs that may be shaping my relationship with money.
+
+Context I can provide:
+- financial goal: {{goal}}
+- recurring situation or frustration: {{situation}}
+- phrases about money I heard growing up, if relevant: {{background}}
+- recent decisions I want to understand: {{decisions}}
+
+Process:
+1. Ask me up to five clarifying questions before drawing conclusions.
+2. From my answers, identify up to three candidate beliefs or assumptions. Label them as hypotheses, not facts.
+3. For each hypothesis, show:
+   - evidence from what I actually said;
+   - behavior it might encourage;
+   - evidence that could contradict it;
+   - a more useful alternative framing;
+   - one low-risk experiment I can try this week.
+4. Separate emotional reflection from financial recommendations.
+5. Do not recommend investments, debt products or major financial actions unless I explicitly ask for that separately.
+
+Output:
+HYPOTHESIS
+EVIDENCE
+POSSIBLE EFFECT
+COUNTER-EVIDENCE
+ALTERNATIVE FRAME
+SMALL EXPERIMENT
+```
+
+## Techniques
+
+- question-first
+- structured-reflection
+- assumption-audit
+- evidence-requirement
+- confidence-labeling
+
+## Provenance
+
+Derived from the topic and structure publicly associated with the Alpacka Threads money-belief prompt. The original post body has not been captured directly, so this template is intentionally an original, evidence-aware generalization.

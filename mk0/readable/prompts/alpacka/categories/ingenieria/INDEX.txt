@@ -1,0 +1,8 @@
+PROMPTS — Ingeniería
+========================================================================================
+Total: 2
+
+[PREMIUM] Arquitecto de Prompting (Pro)
+          arquitecto-de-prompting-pro--f070fe94.txt
+[PREMIUM] Megaprompt: Arquitecto de Soluciones Cloud AWS
+          megaprompt-arquitecto-de-soluciones-cloud-aws--7c952b8d.txt

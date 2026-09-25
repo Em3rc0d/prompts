@@ -1,0 +1,34 @@
+PROMPTS — Crear logos
+========================================================================================
+Total: 15
+
+[PREMIUM] Arquitecto de Logos Geométricos (Proporción Áurea)
+          arquitecto-de-logos-geometricos-proporcion-aurea--d56775f4.txt
+[PREMIUM] Emblema de Lujo para Hostelería y Gastronomía
+          emblema-de-lujo-para-hosteleria-y-gastronomia--dea1871d.txt
+[PREMIUM] Estratega de Rediseño de Logo (Evolutionary Branding)
+          estratega-de-rediseno-de-logo-evolutionary-branding--87b51cb6.txt
+[PREMIUM] Identidad Visual de Estilo Brutalista / Ecléctico
+          identidad-visual-de-estilo-brutalista-eclectico--eda99eff.txt
+[PREMIUM] Identidad Visual estilo "Bauhaus" (Funcionalismo)
+          identidad-visual-estilo-bauhaus-funcionalismo--fd2eb9fb.txt
+[PREMIUM] Isotipo de Espacio Negativo (El Logo Oculto)
+          isotipo-de-espacio-negativo-el-logo-oculto--185298fc.txt
+[PREMIUM] Logo Cyberpunk / Tech del Futuro
+          logo-cyberpunk-tech-del-futuro--f1684874.txt
+[PREMIUM] Logo Vintage con Herencia y Carácter
+          logo-vintage-con-herencia-y-caracter--49ad80ed.txt
+[PREMIUM] Logo de Línea Única (Single Line Art)
+          logo-de-linea-unica-single-line-art--9c52b7ff.txt
+[PREMIUM] Logo de Tipografía Personalizada (Hand-Lettering)
+          logo-de-tipografia-personalizada-hand-lettering--36f09ba6.txt
+[PREMIUM] Logotipo 3D / Isométrico para Era Digital
+          logotipo-3d-isometrico-para-era-digital--9e877b3a.txt
+[PREMIUM] Logotipo Monograma Minimalista de Lujo
+          logotipo-monograma-minimalista-de-lujo--eced1f4a.txt
+[PREMIUM] Marca de Estética Orgánica y Ecológica
+          marca-de-estetica-organica-y-ecologica--553737f8.txt
+[PREMIUM] Mascota / Logo de E-sports de Alto Nivel
+          mascota-logo-de-e-sports-de-alto-nivel--8d563661.txt
+[PREMIUM] Símbolo Abstrato de Energía y Movimiento
+          simbolo-abstrato-de-energia-y-movimiento--2a876f2a.txt

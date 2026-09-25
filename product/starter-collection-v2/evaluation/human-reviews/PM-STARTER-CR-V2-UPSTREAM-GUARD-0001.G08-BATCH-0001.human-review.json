@@ -1,0 +1,24 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "review_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0001-HR",
+  "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "execution_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0001-FCA1019BAE70",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "raw_output_bytes": 5861,
+  "raw_output_sha256": "2e5acffddaa91ca49b134febfddc8dd8803bf924783cf7cc0f460acb186c80e2",
+  "finish_reasons": ["STOP"],
+  "result": "FAIL",
+  "decision": "REWORK",
+  "dimensions": {
+    "supplied_external_guard_recognized": "PASS",
+    "false_authorization_finding_absent": "PASS",
+    "negative_evidence_not_overweighted": "FAIL",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "blocking_failure": "negative_evidence_not_overweighted",
+  "notes": "The response recognized requireOwnerOrAdmin and did not claim the handler-only IDOR. However, it promoted an unobserved numeric-vs-string ID possibility to a LIKELY material finding and REVIEW_REQUIRED, despite no supplied evidence establishing numeric IDs. It also asserted that undefined === \"undefined\" could evaluate true, which is incorrect JavaScript semantics. The expected authorization-scope conclusion was NO_MATERIAL_ISSUE_FOUND.",
+  "automatic_retry": false,
+  "automatic_promotion": false
+}

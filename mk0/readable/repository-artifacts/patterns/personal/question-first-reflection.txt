@@ -1,0 +1,58 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+SOURCE REPOSITORY FILE: /home/runner/work/prompts/prompts/library/patterns/personal/question-first-reflection.md
+CONTENT ORIGIN       : REPOSITORY FILE (human-readable copy)
+# Question-First Reflection Pattern
+
+**Artifact type:** pattern  
+**Status:** derived-analysis  
+**Source inspiration:** Alpacka AI Threads post `DPwn67yDrZK`
+
+## Problem
+
+Reflection prompts often jump directly from a vague user concern to confident psychological conclusions. That creates false certainty and encourages the model to project generic narratives onto the user.
+
+## Pattern
+
+```text
+USER CONTEXT
+   ↓
+CLARIFYING QUESTIONS
+   ↓
+CANDIDATE HYPOTHESES
+   ↓
+EVIDENCE / COUNTER-EVIDENCE
+   ↓
+ALTERNATIVE FRAME
+   ↓
+SMALL EXPERIMENT
+```
+
+## Rules
+
+1. Ask before inferring.
+2. Label interpretations as hypotheses.
+3. Tie every hypothesis to user-provided evidence.
+4. Include at least one plausible counter-explanation.
+5. Prefer small reversible experiments over dramatic advice.
+6. Separate reflection from professional/financial/medical recommendations.
+
+## Useful domains
+
+- personal finance reflection
+- career blockers
+- productivity habits
+- communication patterns
+- decision-making
+
+## Techniques
+
+- question-first
+- structured-reflection
+- assumption-audit
+- evidence-requirement
+- confidence-labeling
+
+## Provenance
+
+This pattern is a generalized and safety-strengthened interpretation of the structured self-reflection topic publicly associated with `https://www.threads.com/@alpacka.ai/post/DPwn67yDrZK`. It is not the original prompt text.

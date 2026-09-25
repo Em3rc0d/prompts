@@ -1,0 +1,41 @@
+{
+  "schema": "prompt-machine-g14-test-checkout-ready-v1",
+  "observed_at": "2026-09-08",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "release_version": "1.0.0-rc2",
+  "provider": "Lemon Squeezy",
+  "provider_mode": "test",
+  "state": "PASS",
+  "stage": "TEST_CHECKOUT_READY",
+  "vercel": {
+    "project": "prompt-quarry-stage",
+    "deployment_id": "dpl_8aoy1xPf5w9o6zPnBQLN6GT3YMXT",
+    "deployment_state": "READY",
+    "target": "production",
+    "stable_alias": "prompt-quarry-stage.vercel.app",
+    "deployment_action": "redeploy"
+  },
+  "runtime_observation": {
+    "event": "provider_test_checkout_started",
+    "http_status": 302,
+    "commerce_gate": "provider_test",
+    "product_id": "prompt-machine-starter-code-review-edition",
+    "product_version": "1.0.0-rc2",
+    "archive_sha256": "1f141d705d8bc26d469cc84f68b7a0612bb6db2eaa744c3f5d68c08dd533eb88",
+    "archive_size": 19161,
+    "observed_timestamp": "2026-09-08T16:09:28.994Z"
+  },
+  "webhook_route_ready": true,
+  "checkout_url_recorded_in_repo": false,
+  "secret_values_recorded_in_repo": false,
+  "api_key_recorded": false,
+  "real_money_effect": false,
+  "public_sale": "NOT_FOR_SALE",
+  "remaining": [
+    "complete one Lemon Squeezy Test-mode checkout with provider test payment data",
+    "observe provider-signed order_created webhook",
+    "verify accepted provider_test_order_accepted evidence in Vercel runtime logs",
+    "reserve Live byte custody and delivery for a later controlled canary"
+  ],
+  "claim_boundary": "This receipt proves the redeployed Test-mode checkout gate is live and redirects to the provider with the exact RC2 release identity. It does not prove order creation, signed webhook acceptance, delivery, revenue, or readiness to sell."
+}

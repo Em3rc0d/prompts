@@ -1,0 +1,123 @@
+{
+  "schema": "prompt-machine-architecture-pilot-static-audit-v1",
+  "audit_version": "1.0.0",
+  "basis": "Static semantic review only; no external model calls and no behavioral claim.",
+  "architecture_count": 9,
+  "overall_disposition": "REWORK_BEFORE_BULK_REGENERATION",
+  "common_findings": [
+    {
+      "id": "ARCH-COMMON-001",
+      "severity": "HIGH",
+      "finding": "All blueprints list output status values but do not define explicit state transition rules.",
+      "impact": "A runtime could choose a stronger state for rhetorical decisiveness even when evidence or inputs do not justify it.",
+      "required_change": "Add a STATE POLICY section with deterministic semantic conditions for every allowed state; strongest state must never exceed evidence/input state."
+    },
+    {
+      "id": "ARCH-COMMON-002",
+      "severity": "MEDIUM",
+      "finding": "The input contract presents one combined list as 'required or conditionally required' without distinguishing minimum execution inputs from contextual enhancers.",
+      "impact": "A binder cannot deterministically know when to execute, continue with unknowns, or block.",
+      "required_change": "Split minimum required inputs, conditionally required inputs, and optional context at configuration/binding time."
+    },
+    {
+      "id": "ARCH-COMMON-003",
+      "severity": "PASS",
+      "finding": "Instruction/data boundary is explicit and consistent across all nine blueprints.",
+      "impact": "Embedded instructions in code, logs, documents, tickets, web content and tool output are explicitly data and cannot change workflow authority or policy.",
+      "required_change": "Preserve as an invariant in all successors."
+    },
+    {
+      "id": "ARCH-COMMON-004",
+      "severity": "PASS",
+      "finding": "Authority is explicitly bounded to ADVISORY_ONLY by default.",
+      "impact": "Availability of tools or external access does not silently expand execution authority.",
+      "required_change": "Preserve and make authority configurable only through an authorized binding surface."
+    },
+    {
+      "id": "ARCH-COMMON-005",
+      "severity": "PASS",
+      "finding": "Evidence vocabulary separates supplied claims, observations, source claims, inference, assumptions, unknowns and contradiction.",
+      "impact": "The architecture no longer treats user-supplied statements as automatically observed facts.",
+      "required_change": "Preserve."
+    },
+    {
+      "id": "ARCH-COMMON-006",
+      "severity": "HIGH",
+      "finding": "High-stakes categories are intentionally not encoded into the generic base architecture.",
+      "impact": "This is correct for reuse, but the 69 current high-stakes records must not be regenerated from the generic blueprint without a separate domain safety binding contract.",
+      "required_change": "Keep all high-stakes records in explicit review and design a separate high-stakes binding gate before any domain-specific regeneration."
+    }
+  ],
+  "mode_findings": {
+    "general": [
+      {
+        "severity": "MEDIUM",
+        "finding": "UNSUPPORTED is listed but its distinction from BLOCKED is not defined.",
+        "required_change": "Define BLOCKED as missing/contradictory required input and UNSUPPORTED as a requested conclusion/action outside evidence, scope or authority even when inputs are present."
+      }
+    ],
+    "plan": [
+      {
+        "severity": "MEDIUM",
+        "finding": "READY can be misread as evidence that the plan will succeed.",
+        "required_change": "Define READY as plan-contract completeness only; it must not imply outcome success. Unknown owner, estimate or dependency facts remain explicit."
+      }
+    ],
+    "generation": [
+      {
+        "severity": "HIGH",
+        "finding": "The output requests a shortlist but does not define behavior when no candidate satisfies hard constraints or candidates are effectively tied.",
+        "required_change": "Add NO_VALID_CANDIDATE/HOLD semantics or equivalent and forbid forcing a winner."
+      }
+    ],
+    "writing": [
+      {
+        "severity": "HIGH",
+        "finding": "The output always asks for a final draft even when unresolved factual information is required to write responsibly.",
+        "required_change": "When a missing fact is material to the requested claim, return BLOCKED or preserve explicit placeholders; never silently complete the claim."
+      }
+    ],
+    "audit": [
+      {
+        "severity": "MEDIUM",
+        "finding": "COMPLETE could be mistaken for a certification/pass result.",
+        "required_change": "Define COMPLETE as completion of the declared audit procedure only; overall disposition must not imply external certification or uninspected scope."
+      }
+    ],
+    "simulation": [
+      {
+        "severity": "HIGH",
+        "finding": "The architecture mixes interactive multi-turn execution with a one-shot output contract without declaring invocation mode.",
+        "required_change": "Add INTERACTIVE vs BATCH/DEBRIEF invocation semantics. IN_PROGRESS is valid only for interactive execution; simulated facts remain non-evidence."
+      }
+    ],
+    "learning": [
+      {
+        "severity": "HIGH",
+        "finding": "OBJECTIVE_MET can be selected without an explicit evidence threshold.",
+        "required_change": "Require observable assessment evidence tied to the learning objective before OBJECTIVE_MET; self-declared understanding alone is insufficient unless that is the configured criterion."
+      }
+    ],
+    "optimization": [
+      {
+        "severity": "MEDIUM",
+        "finding": "READY and DIAGNOSE_FIRST need an explicit baseline threshold.",
+        "required_change": "Use DIAGNOSE_FIRST when the baseline/metric evidence is insufficient to identify a defensible bottleneck or measure improvement."
+      }
+    ],
+    "checklist": [
+      {
+        "severity": "HIGH",
+        "finding": "PASS is not tied to an explicit item-level completion rule.",
+        "required_change": "PASS requires every applicable required item to satisfy the declared pass condition and no blocking UNKNOWN/RISK; missing evidence never becomes PASS."
+      }
+    ]
+  },
+  "truth_boundary": {
+    "external_model_calls": 0,
+    "behavioral_evidence": false,
+    "product_promotions": 0,
+    "ready_to_sell": false
+  },
+  "next_gate": "Revise the nine architecture blueprints to close all HIGH findings, re-run deterministic tests, then perform a second static semantic audit before bulk regeneration."
+}

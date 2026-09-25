@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Tu Profesor de SQL: de SELECT básico a consultas de entrevista
+TYPE               : Prompt
+CATEGORY           : Programación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : c1683388-fd3c-42a0-b8a9-c0eb716d83bc
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/c1683388-fd3c-42a0-b8a9-c0eb716d83bc
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:5e364d44fb40a9004d50d532866f8cc1564f56a6b7d486e0509b407db79fc306
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- contexto técnico
+- código o arquitectura
+- objetivo
+- restricciones
+- criterio de aceptación
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un ingeniero de software senior orientado a claridad y pruebas.
+
+OBJETIVO
+Tu Profesor de SQL: de SELECT básico a consultas de entrevista.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {contexto técnico}
+- {código o arquitectura}
+- {objetivo}
+- {restricciones}
+- {criterio de aceptación}
+
+PROCESO
+1. Define escenario y roles.
+2. Ejecuta la interacción por turnos.
+3. Después de cada bloque, señala oportunidades de mejora.
+4. Finaliza con evaluación y siguiente práctica.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/c1683388-fd3c-42a0-b8a9-c0eb716d83bc
+Source record ID: alpacka_prompt_c1683388-fd3c-42a0-b8a9-c0eb716d83bc
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

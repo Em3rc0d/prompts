@@ -1,0 +1,61 @@
+{
+  "schema": "prompt-machine-starter-payload-freeze-v1",
+  "receipt_id": "PM-STARTER-PAYLOAD-FREEZE-V1-0001",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT",
+  "collection": "starter-collection-v1",
+  "required_customer_assets": [
+    "START_HERE.md",
+    "workflows/evidence-first-code-review.md",
+    "workflows/evidence-first-bug-diagnosis.md",
+    "VERIFICATION_GUIDE.md",
+    "ADAPTATION_CHEATSHEET.md",
+    "examples/code-review-worked-example.md",
+    "examples/bug-diagnosis-worked-example.md",
+    "EVIDENCE_AND_LIMITATIONS.md",
+    "LICENSE.md"
+  ],
+  "required_customer_asset_count": 9,
+  "required_customer_assets_present": 9,
+  "required_customer_assets_pending": 0,
+  "conditional_not_required_for_first_payload": [
+    "skills/review-code-with-evidence/",
+    "skills/diagnose-bugs-with-evidence/",
+    "trust/code-review-trust-card.json",
+    "trust/bug-diagnosis-trust-card.json"
+  ],
+  "rules": {
+    "synthetic_examples_are_runtime_evidence": false,
+    "conditional_skill_candidates_are_supported_features": false,
+    "campaign_level_trust_card_is_workflow_level_trust_card": false,
+    "payload_static_complete_implies_runtime_tested": false,
+    "payload_static_complete_implies_product_ready": false,
+    "payload_static_complete_implies_ready_to_sell": false,
+    "archive_identity_may_be_claimed_before_build": false
+  },
+  "truth": {
+    "workflow_contracts_frozen": 2,
+    "executable_prompt_surfaces_frozen": 2,
+    "starter_sku_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "real_customer_outcomes": 0,
+    "real_purchases": 0,
+    "archive_built": false,
+    "archive_sha256": null,
+    "provider_custody": false,
+    "live_delivery_canary": false,
+    "public_checkout": false,
+    "product_ready": false,
+    "ready_to_sell": false,
+    "external_model_calls_created_by_freeze": 0,
+    "provider_calls_created_by_freeze": 0
+  },
+  "next_gates": [
+    "STARTER_SPECIFIC_BEHAVIORAL_EVIDENCE",
+    "WORKFLOW_LEVEL_TRUST_HISTORY",
+    "DETERMINISTIC_ARCHIVE_BUILD",
+    "PROVIDER_CUSTODY_AND_DELIVERY"
+  ],
+  "master_rule": "CUSTOMER_PAYLOAD_COMPLETE != PRODUCT_READY"
+}

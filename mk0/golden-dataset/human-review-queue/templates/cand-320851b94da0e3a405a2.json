@@ -1,0 +1,16 @@
+{
+  "schema": "prompt-quarry-human-review-v1",
+  "review_id": "review-320851b94da0e3a405a2",
+  "candidate_id": "cand-320851b94da0e3a405a2",
+  "candidate_fingerprint": "sha256:4a08d206d5fd29729d90999f15530743af1ce2ea788df6dbe45d596c1e6438d5",
+  "policy_version": "1.1.0",
+  "reviewer_role": "human-owner",
+  "decision": "REJECT",
+  "decision_reason_codes": ["NOT_PROMPT_ARTIFACT", "ACTIVITY_LOG"],
+  "rationale": "Human owner rejected the candidate. The observed artifact is a chronological activity and ingest log rather than a reusable prompt artifact suitable for the Golden Dataset.",
+  "reviewed_at": "2026-08-27T21:08:00-05:00",
+  "machine_confidence_at_review": 0.93,
+  "machine_route_at_review": "HUMAN_REVIEW_REQUIRED",
+  "corrections": [{"field":"artifact_type","from":"prompt","to":"activity-log","reason":"The source records repository/wiki operations and historical changes rather than prompt instructions."}],
+  "source_commit": null
+}

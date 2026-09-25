@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "name": "Prompt Quarry Golden Path Wave 2 Production Resilience",
+  "observed_at": "2026-08-29T18:14:37Z",
+  "target": "https://prompt-quarry.vercel.app",
+  "production_deployment_id": "dpl_5WxCPP6mTuwe9NCwxa3Wnzh77kvk",
+  "build_gates": {
+    "free_pack_materialize": "PASS",
+    "free_pack_size_bytes": 23498,
+    "free_pack_sha256": "55455f134da0486ca43c6b09dcff722a4295a1fc9ed3b1caf2c046902e76ea32",
+    "golden_path_build_parity": "PASS",
+    "required_routes": 7
+  },
+  "runtime_baseline": {
+    "home_status": 200,
+    "free_pack_status": 200,
+    "free_pack_integrity": true,
+    "checkout_status": 503,
+    "checkout_expected_state": "checkout_not_configured / NOT_FOR_SALE",
+    "webhook_get_status": 405
+  },
+  "phases": [
+    {"name":"static-c10","concurrency":10,"total":30,"success":30,"fail":0,"p50_ms":29.1,"p95_ms":67.4,"p99_ms":77.8,"max_ms":195.2,"rps":99.62},
+    {"name":"free-c1","concurrency":1,"total":15,"success":15,"fail":0,"integrity_failures":0,"p50_ms":43.5,"p95_ms":139.3,"p99_ms":139.3,"max_ms":143.8,"rps":15.94},
+    {"name":"free-c5","concurrency":5,"total":25,"success":25,"fail":0,"integrity_failures":0,"p50_ms":38.3,"p95_ms":163.3,"p99_ms":482.2,"max_ms":483.2,"rps":28.22},
+    {"name":"free-c10","concurrency":10,"total":40,"success":40,"fail":0,"integrity_failures":0,"p50_ms":37.8,"p95_ms":130.6,"p99_ms":435.1,"max_ms":458.3,"rps":55.03},
+    {"name":"free-c20","concurrency":20,"total":60,"success":60,"fail":0,"integrity_failures":0,"p50_ms":45.8,"p95_ms":168.1,"p99_ms":239.5,"max_ms":406.0,"rps":73.95},
+    {"name":"free-c40","concurrency":40,"total":80,"success":80,"fail":0,"integrity_failures":0,"p50_ms":200.5,"p95_ms":449.3,"p99_ms":467.3,"max_ms":476.7,"rps":102.56},
+    {"name":"free-c60","concurrency":60,"total":120,"success":120,"fail":0,"integrity_failures":0,"p50_ms":68.7,"p95_ms":146.5,"p99_ms":468.7,"max_ms":514.0,"rps":176.02},
+    {"name":"free-c80","concurrency":80,"total":160,"success":160,"fail":0,"integrity_failures":0,"p50_ms":95.1,"p95_ms":168.1,"p99_ms":183.8,"max_ms":439.0,"rps":249.16},
+    {"name":"free-c120","concurrency":120,"total":240,"success":240,"fail":0,"integrity_failures":0,"p50_ms":261.5,"p95_ms":592.2,"p99_ms":625.3,"max_ms":804.1,"rps":198.91},
+    {"name":"free-c160","concurrency":160,"total":320,"success":320,"fail":0,"integrity_failures":0,"p50_ms":165.7,"p95_ms":349.0,"p99_ms":395.9,"max_ms":626.5,"rps":360.03},
+    {"name":"free-c200","concurrency":200,"total":400,"success":400,"fail":0,"integrity_failures":0,"p50_ms":234.1,"p95_ms":342.8,"p99_ms":423.1,"max_ms":618.7,"rps":412.64}
+  ],
+  "post_load_telemetry": {
+    "status_200_count": 1497,
+    "status_405_count": 2,
+    "status_503_count": 2,
+    "runtime_errors": 0
+  },
+  "classification": "HEALTHY_THROUGH_C200_WITHIN_TESTED_ENVELOPE",
+  "first_break": null,
+  "stop_reason": "No error/integrity/p95>1000ms threshold observed through bounded concurrency 200; stopped to avoid purposeless provider stress.",
+  "evidence_boundary": "Infrastructure delivery resilience only. This is not F4 TESTED, F5 IMPROVED, F6 CERTIFIED, F7 PORTABLE, provider payment validation, or a capacity guarantee beyond the tested envelope."
+}

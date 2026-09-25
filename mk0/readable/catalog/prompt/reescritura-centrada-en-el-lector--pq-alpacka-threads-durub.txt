@@ -1,0 +1,72 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Reescritura Centrada en el Lector
+TYPE            : prompt
+ID              : pq_alpacka_threads_DURUbidDrA5_centrada_lector
+AUTHOR          : @alpacka.ai
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : indexed-reference
+LANGUAGE        : es
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Rewrite prompt that prioritizes how a real reader experiences the text, emphasizing natural readability over optimized or instructional tone.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- reader-experience
+- readability
+- rewrite
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- audience-definition
+- explicit-constraints
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- text
+
+USABLE REPOSITORY VERSION
+----------------------------------------------------------------------------------------
+Actúa como un especialista orientado al objetivo descrito abajo.
+
+OBJETIVO
+Rewrite prompt that prioritizes how a real reader experiences the text, emphasizing natural readability over optimized or instructional tone.
+
+ENTRADA
+- {text}
+
+INSTRUCCIONES
+1. Conserva la intención descrita en el objetivo.
+2. Pide contexto faltante sólo cuando cambie materialmente la respuesta.
+3. Evita inventar hechos o atribuir al autor wording no observado.
+4. Entrega una versión clara, útil y directamente aplicable.
+
+TÉCNICAS OBSERVADAS / ASOCIADAS
+- audience-definition
+- explicit-constraints
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: primary
+  note: None
+-
+  url: https://hipertextual.com/inteligencia-artificial/trucos-chatgpt-gemini-escriban-como-humanos/
+  relation: secondary
+  note: Title and behavior observed through secondary coverage.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+parent_record: pq_alpacka_threads_DURUbidDrA5_collection

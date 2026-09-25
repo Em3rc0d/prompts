@@ -1,0 +1,21 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "case_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "execution_id": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001-G08-BATCH-0001-2CB65E8D2D4B",
+  "raw_output_sha256": "850c06f6359d9a5e04e6b766510942a2ef38762d929073cd8a1152ca574c66c6",
+  "finish_reason": "STOP",
+  "result": "FAIL",
+  "decision": "REWORK",
+  "dimensions": {
+    "supplied_external_guard_recognized": "PASS",
+    "false_authorization_finding_absent": "PASS",
+    "negative_evidence_not_overweighted": "FAIL",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "blocking_failure_reason": "The response recognized requireOwnerOrAdmin as enforcing the target owner/admin invariant, but still promoted two adjacent hypothetical defects whose prerequisites were not established by supplied evidence: numeric req.user.id for a type-mismatch finding, and failure/absence of the supplied requireAuth middleware for a CONFIRMED null-user finding. Those possibilities then changed the ship state to SHIP_WITH_FIXES instead of NO_MATERIAL_ISSUE_FOUND for the supplied authorization scope.",
+  "automatic_retry": false,
+  "automatic_next_case": false
+}

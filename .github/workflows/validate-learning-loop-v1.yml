@@ -1,0 +1,83 @@
+name: Validate Workflow Learning Loop v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/workflow-kits-product-model-20260902
+    paths:
+      - 'docs/WORKFLOW_LEARNING_LOOP_V1.md'
+      - 'quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json'
+      - 'quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json'
+      - 'tools/validate_learning_loop_policy.py'
+      - '.github/workflows/validate-learning-loop-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-learning-loop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/workflow-kits-product-model-20260902
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate frozen baseline and current campaign separation
+        run: python tools/validate_learning_loop_policy.py
+
+      - name: Enforce zero-call governance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = json.loads(Path('quarry/learning-loop/LEARNING_LOOP_POLICY_V1.json').read_text())
+          ledger = json.loads(Path('quarry/etl/prompt-library-v1/manual-canary-campaign-v1/ledger.json').read_text())
+
+          # Frozen policy snapshot: intentionally pre-behavior.
+          assert p['truth']['behavioral_observations'] == 0
+          assert p['truth']['real_customer_outcomes'] == 0
+          assert p['truth']['real_purchases'] == 0
+          assert p['truth']['ready_to_sell'] is False
+          assert p['automatic_promotion'] is False
+          assert p['automatic_wave_execution'] is False
+
+          # Current campaign truth: separate governed ledger.
+          assert ledger['observations_completed'] == 7
+          assert ledger['expected_state_matches'] == 7
+          assert ledger['blocking_review_failures'] == 0
+          assert ledger['ready_to_sell'] is False
+          assert ledger['next_gate']['armed'] is False
+
+          print('LEARNING LOOP BASELINE/CURRENT SEPARATION: PASS')
+          print('model_calls=0')
+          PY
+
+      - name: Summarize
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## Workflow Learning Loop v1
+
+          The policy file is an immutable **pre-behavior frozen baseline**. Current campaign truth is stored separately in the manual campaign ledger.
+
+          | Signal | Frozen baseline | Current campaign |
+          |---|---:|---:|
+          | Behavioral observations | 0 | 7 |
+          | Expected-state matches | not applicable | 7 / 7 |
+          | Blocking review failures | not applicable | 0 |
+          | Automatic promotion | BLOCKED | BLOCKED |
+          | Ready to sell | NO | NO |
+          | Next case | CHECKLIST-NORMAL was prepared | PLAN-EMBEDDED_OVERRIDE, DISARMED |
+
+          External model calls created by this validation: **0**.
+
+          The frozen baseline must not be mistaken for current behavioral truth, and current behavioral truth does not retroactively mutate the frozen policy receipt.
+          EOF

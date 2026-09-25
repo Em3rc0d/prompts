@@ -1,0 +1,32 @@
+name: Test Developer Pack v1.1 Quality
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/mk1-prompt-generator-v0-20260827
+    paths:
+      - 'product/developer-pack-v1.1/**'
+      - 'tools/test_developer_pack_v1_1_quality.py'
+      - '.github/workflows/test-developer-pack-v1-1-quality.yml'
+  pull_request:
+    paths:
+      - 'product/developer-pack-v1.1/**'
+      - 'tools/test_developer_pack_v1_1_quality.py'
+      - '.github/workflows/test-developer-pack-v1-1-quality.yml'
+
+jobs:
+  static-product-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile quality guard
+        run: python -m py_compile tools/test_developer_pack_v1_1_quality.py
+
+      - name: Validate Developer Pack v1.1 product-quality architecture
+        run: python tools/test_developer_pack_v1_1_quality.py

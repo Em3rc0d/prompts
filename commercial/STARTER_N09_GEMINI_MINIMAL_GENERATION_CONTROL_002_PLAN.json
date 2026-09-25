@@ -1,0 +1,59 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-minimal-generation-control-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "control_id": "PM-GEMINI-MINIMAL-GEN-CTRL-002",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "state": "PREPARED_ZERO_MODEL_PREFLIGHT_REQUIRED",
+  "purpose": "Retest the minimal Gemini generateContent path after control 001 proved HTTP 200 but exhausted maxOutputTokens=8 on thinking before visible text was emitted.",
+  "experiment_class": "PROVIDER_GENERATION_PATH_DIAGNOSTIC_NOT_G05",
+  "supersedes_for_future_diagnostic_use": "PM-GEMINI-MINIMAL-GEN-CTRL-001",
+  "historical_control_001_preserved": true,
+  "execution_location": "USER_WSL",
+  "provider": "GOOGLE_GEMINI_API",
+  "api_family": "Gemini generateContent",
+  "model": "gemini-3.5-flash",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "prompt": "Return exactly: OK",
+  "prompt_is_workflow_envelope": false,
+  "workflow_candidate_sent": false,
+  "evaluation_contract_sent": false,
+  "generation_config": {
+    "maxOutputTokens": 64,
+    "thinkingConfig": {
+      "thinkingLevel": "minimal"
+    }
+  },
+  "change_from_control_001": {
+    "max_output_tokens": {
+      "from": 8,
+      "to": 64
+    },
+    "thinking_level": {
+      "from": "MODEL_DEFAULT_MEDIUM",
+      "to": "minimal"
+    },
+    "reason": "Control 001 returned HTTP 200 with finishReason=MAX_TOKENS, 5 prompt tokens, 5 thinking tokens, and zero visible text."
+  },
+  "maximum_provider_requests": 1,
+  "automatic_retries": 0,
+  "automatic_second_request": false,
+  "fresh_explicit_authorization_required": true,
+  "authorization_format": "AUTORIZO PM-GEMINI-MINIMAL-GEN-CTRL-002: 1 ejecución, 0 reintentos.",
+  "output_directory": "$HOME/.local/share/prompt-machine/n09/provider-min-gen-002",
+  "g05_claim": "NONE",
+  "behavioral_observation_allowed": false,
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "success_rule": "HTTP 200 AND visible response text exactly equals OK AND finishReason is not MAX_TOKENS",
+  "interpretation": {
+    "http_200_exact_ok": "MINIMAL_GENERATION_CONTROL_PASS_PATH_AND_VISIBLE_TEXT",
+    "http_200_no_text": "GENERATION_PATH_AVAILABLE_BUT_VISIBLE_OUTPUT_UNOBSERVED_REVIEW_RAW_RESPONSE",
+    "http_200_non_exact_text": "GENERATION_PATH_AVAILABLE_SEMANTIC_CONTROL_MISMATCH",
+    "http_503": "MINIMAL_GENERATION_PATH_UNAVAILABLE_503_PROVIDER_GENERATION_BACKEND_SIGNAL",
+    "http_429": "PROVIDER_RATE_OR_QUOTA_PATH_SIGNAL",
+    "other_4xx": "REQUEST_OR_ACCESS_CONFIGURATION_REQUIRES_REVIEW",
+    "other_5xx": "PROVIDER_GENERATION_BACKEND_FAILURE_SIGNAL"
+  },
+  "truth_boundary": "DIAGNOSTIC_PLAN_ONLY_NO_PROVIDER_REQUEST_NO_G05_BEHAVIORAL_EVIDENCE"
+}

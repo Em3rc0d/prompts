@@ -1,0 +1,42 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-wsl-retest-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "attempt_id": "G05-RETEST-005",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "gate": "G05_BASELINE_EXECUTION",
+  "state": "PREPARED_FRESH_AUTH_REQUIRED",
+  "experiment_class": "GOVERNED_PROVIDER_RECOVERY_RETEST",
+  "justification": {
+    "previous_same_model_attempt": "G05-FALLBACK-004",
+    "previous_same_model_http_status": 503,
+    "minimal_generation_control": "PM-GEMINI-MINIMAL-GEN-CTRL-002",
+    "minimal_generation_control_http_status": 200,
+    "minimal_generation_control_exact_text_ok": true,
+    "provider_generation_path_recovery_observed": true,
+    "blind_retry": false
+  },
+  "execution_location": "USER_WSL",
+  "execution_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
+  "provider": "GOOGLE_GEMINI_API",
+  "model": "gemini-3.5-flash",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "candidate_prompt_mutated": false,
+  "runtime_envelope_bytes": 8100,
+  "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "generation_config": {
+    "maxOutputTokens": 4096
+  },
+  "request_configuration_matches_g05_fallback_004": true,
+  "maximum_surface_submissions": 1,
+  "maximum_provider_requests": 1,
+  "automatic_retries": 0,
+  "automatic_second_case": false,
+  "human_review_required": true,
+  "output_directory": "$HOME/.local/share/prompt-machine/n09/g05-retest-005",
+  "fresh_explicit_authorization_required": true,
+  "authorization_format": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.",
+  "success_boundary": "A successful provider response creates one clean gemini-3.5-flash-scoped G05 behavioral observation requiring human review. It does not certify, promote, advance G06 automatically, rebuild packs, open checkout, or create a sale claim.",
+  "failure_boundary": "Any provider or transport failure creates no behavioral observation and must not be retried automatically.",
+  "truth_boundary": "RETEST_PLAN_ONLY_NO_PROVIDER_REQUEST_NO_NEW_G05_BEHAVIORAL_EVIDENCE"
+}

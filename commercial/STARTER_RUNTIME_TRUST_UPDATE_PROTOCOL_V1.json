@@ -1,0 +1,131 @@
+{
+  "schema": "prompt-machine-starter-runtime-trust-update-protocol-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "PROTOCOL_FROZEN_RUNTIME_UNEXECUTED",
+  "purpose": "Define before the first Starter SKU runtime execution how raw model behavior becomes immutable observation evidence, human review, a bounded decision, and an append-only Trust History update without automatic promotion.",
+  "first_transaction": {
+    "case_id": "PM-STARTER-CR-NORMAL-0001",
+    "workflow_id": "pm-starter-evidence-first-code-review",
+    "workflow_version": "1.0.0-candidate",
+    "runtime_envelope_size_bytes": 8100,
+    "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+    "target_trust_context": "product/starter-collection-v1/trust/code-review.trust-context.json",
+    "current_runtime_observations": 0,
+    "armed_now": false
+  },
+  "pre_execution_invariants": [
+    "exact runtime envelope identity must match the frozen canary receipt",
+    "evaluation contract and expected result remain out-of-band and unavailable to runtime input",
+    "maximum submissions before human review is one",
+    "automatic retries are zero",
+    "automatic second case is false",
+    "automatic wave is false",
+    "automatic promotion is false"
+  ],
+  "observation_receipt": {
+    "must_be_created_before_interpretation": true,
+    "immutable_after_human_review_starts": true,
+    "required_fields": [
+      "observation_id",
+      "case_id",
+      "workflow_id",
+      "workflow_version",
+      "execution_surface",
+      "provider_or_host_model_identity_when_observable",
+      "runtime_envelope_sha256",
+      "raw_output_sha256",
+      "raw_output_storage_reference",
+      "started_at",
+      "completed_or_failed_at",
+      "execution_status",
+      "usage_observation_when_available",
+      "automatic_retries_observed"
+    ],
+    "execution_status_values": [
+      "COMPLETED",
+      "FAILED_BEFORE_USEFUL_OUTPUT",
+      "INCONCLUSIVE_EXECUTION_STATE"
+    ],
+    "raw_output_is_review_decision": false,
+    "runtime_completion_is_pass": false,
+    "provider_or_host_success_is_workflow_success": false
+  },
+  "human_review_transaction": {
+    "starts_only_after_observation_receipt_is_frozen": true,
+    "evaluation_contract_loaded_after_runtime": true,
+    "expected_result_loaded_after_runtime": true,
+    "review_dimensions_must_preexist": true,
+    "allowed_decisions": [
+      "RETAIN",
+      "REWORK",
+      "RETIRE",
+      "EXPAND_EVIDENCE"
+    ],
+    "review_result_states": [
+      "PASS",
+      "FAIL",
+      "INCONCLUSIVE"
+    ],
+    "failure_record_required_on_fail": [
+      "BEFORE",
+      "OBSERVED_FAILURE",
+      "WHY_IT_MATTERS",
+      "HYPOTHESIS",
+      "PROPOSED_CHANGE",
+      "REGRESSION_CASES_REQUIRED"
+    ],
+    "no_decision_may_rewrite_raw_observation": true
+  },
+  "trust_history_commit": {
+    "allowed_only_after_human_review": true,
+    "append_observation_reference": true,
+    "append_human_review_reference": true,
+    "increment_pass_fail_or_inconclusive_from_review_only": true,
+    "preserve_historical_pre_runtime_issues": true,
+    "preserve_existing_known_limitations_unless_evidence_directly_resolves_them": true,
+    "preserve_unknowns_unless_the_observation_materially_resolves_them": true,
+    "new_failures_are_append_only": true,
+    "observed_workflow_version_may_not_be_overwritten": true,
+    "successor_requires_new_version": true,
+    "successor_inherits_predecessor_behavioral_evidence": false,
+    "public_trust_card_publication": "BLOCKED_UNTIL_SEPARATE_ELIGIBILITY_REVIEW"
+  },
+  "release_gate_update": {
+    "raw_completed_execution_may_increment_runtime_observation_count": true,
+    "pass_fail_counts_require_human_review": true,
+    "one_pass_may_set_starter_product_ready": false,
+    "one_pass_may_enable_public_checkout": false,
+    "one_pass_may_claim_certification": false,
+    "one_pass_may_claim_portability": false,
+    "one_pass_may_claim_customer_value": false
+  },
+  "usage_and_cost_observation": {
+    "record_when_available": true,
+    "shared_plan_percentages_are_coarse_observations_not_token_billing_truth": true,
+    "missing_usage_is_unknown_not_zero": true,
+    "failed_execution_may_have_unknown_hidden_cost": true,
+    "cost_observation_may_inform_next_experiment_size": true
+  },
+  "privacy": {
+    "synthetic_canary_task_data_may_be_persisted": true,
+    "future_real_customer_task_content_should_not_be_persisted_by_default": true,
+    "customer_pii_required_for_trust_history": false
+  },
+  "current_truth": {
+    "first_case_executed": false,
+    "starter_runtime_observations": 0,
+    "starter_runtime_passes": 0,
+    "starter_runtime_fails": 0,
+    "starter_runtime_inconclusive": 0,
+    "public_trust_cards": 0,
+    "starter_product_ready": false,
+    "public_checkout": false
+  },
+  "execution_authorization": {
+    "authorized_now": false,
+    "model_calls_created_by_protocol": 0,
+    "provider_calls_created_by_protocol": 0
+  },
+  "master_rule": "RAW BEHAVIOR IS PRESERVED FIRST; INTERPRETATION AND PRODUCT CLAIMS ARE SEPARATE REVIEWED COMMITS"
+}

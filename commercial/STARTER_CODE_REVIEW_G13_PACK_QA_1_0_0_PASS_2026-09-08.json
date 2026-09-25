@@ -1,0 +1,37 @@
+{
+  "schema": "prompt-machine-starter-code-review-g13-pack-qa-v1",
+  "observed_at": "2026-09-08",
+  "state": "PASS",
+  "gate": "G13",
+  "stage": "PACK_LEVEL_QA",
+  "product": "Prompt Machine Starter — Code Review Edition",
+  "version": "1.0.0",
+  "source_head": "982817275436ad9dc93f43a070c1678fe830b008",
+  "workflow_run_id": 34254022304,
+  "product_archive": {
+    "name": "prompt-machine-starter-code-review-edition-v1.0.0.zip",
+    "bytes": 18955,
+    "sha256": "9c313e5b71f4bcc2d48d32507c677e6f09f7cda6d7fe1b2fae16cb7386ecdcc3",
+    "members": 8
+  },
+  "qa": {
+    "verdict": "PASS",
+    "checks": 67,
+    "failed_checks": 0,
+    "workflow_bytes_exact": true,
+    "workflow_sha256_exact": true,
+    "manifest_version_final": true,
+    "manifest_status_customer_release": true,
+    "manifest_has_no_operational_public_sale_flag": true,
+    "no_release_candidate_reference": true,
+    "no_internal_launch_state_in_customer_surface": true,
+    "customer_surface_no_internal_prompt_quarry_brand": true,
+    "license_and_sale_terms_checks": "PASS",
+    "model_scope_and_claim_boundary_checks": "PASS"
+  },
+  "workflow_identity": {
+    "bytes": 25295,
+    "sha256": "6739f9c3a54e77fc94fee1879f963982feaddf62151c791c48adc6a655959977"
+  },
+  "claim_boundary": "G13 proves final package-level integrity and customer-surface QA only. It does not prove provider custody, buyer delivery, customer value, real revenue, readiness to sell, or public-sale authorization."
+}

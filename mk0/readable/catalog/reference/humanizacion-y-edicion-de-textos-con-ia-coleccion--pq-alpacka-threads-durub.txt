@@ -1,0 +1,71 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Humanización y edición de textos con IA — colección
+TYPE            : reference
+ID              : pq_alpacka_threads_DURUbidDrA5_collection
+AUTHOR          : @alpacka.ai
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : indexed-reference
+LANGUAGE        : es
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Threads collection referenced by multiple publications as a set of six prompts for making AI-assisted prose sound more natural and reader-oriented.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- humanization
+- editing
+- voice
+- reader-experience
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- tone-definition
+- critique-revision
+- audience-definition
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- text
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: primary
+  note: Official Threads post URL resolved from a source link.
+-
+  url: https://hipertextual.com/inteligencia-artificial/trucos-chatgpt-gemini-escriban-como-humanos/
+  relation: secondary
+  note: Public article referencing the Threads post and naming the six prompts.
+-
+  url: https://reportematutino.com/tecnologia/trucos-para-que-chatgpt-y-gemini-escriban-como-humanos/
+  relation: secondary
+  note: Independent page linking to the same Threads post.
+-
+  url: https://www.infobae.com/tecno/2026/02/03/como-humanizar-textos-de-ia-los-mejores-prompts-para-que-no-sepan-que-usaste-chatgpt-o-gemini/
+  relation: secondary
+  note: Additional secondary description of the prompt set.
+-
+  url: https://www.radiovivafenix.com/noticia/musica-y-entretenimiento/revelan-trucos-para-que-chatgpt-y-gemini-escriban-con-un-estilo-mas-humano
+  relation: secondary
+  note: Additional public coverage of the same prompt family.
+-
+  url: https://archivologo.blogspot.com/2026/05/?m=0
+  relation: secondary
+  note: Public mirror/reference attributing the prompt family to @alpacka.ai.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+primary_body_status: not-directly-retrieved

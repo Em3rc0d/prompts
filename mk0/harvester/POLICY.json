@@ -1,0 +1,152 @@
+{
+  "schema": "prompt-quarry-harvester-policy-v1",
+  "policy_version": "1.3.0",
+  "routing": {
+    "auto_candidate_min_confidence": 0.95,
+    "human_review_min_confidence": 0.90,
+    "human_review_max_confidence_exclusive": 0.95,
+    "below_human_review_default": "HOLD",
+    "golden_requires_governed_promotion": true
+  },
+  "corpus_governance": {
+    "golden_dataset": {
+      "canonical": true,
+      "authority": "CANONICAL_PROMPT_KNOWLEDGE",
+      "allowed_semantic_dispositions": ["GOLDEN_EVALUATION"],
+      "requires_governed_promotion": true,
+      "reference_material_cannot_auto_promote": true,
+      "source_containers_cannot_auto_promote": true
+    },
+    "reference_corpus": {
+      "canonical": false,
+      "authority": "NON_CANONICAL_REFERENCE",
+      "purpose": "Retain potentially useful source material without treating it as Prompt Quarry truth, Golden evidence, or behavioral certification.",
+      "may_contain_errors_or_bias": true,
+      "may_inform_research": true,
+      "may_define_canonical_rules": false,
+      "may_count_as_golden_evidence": false,
+      "may_count_as_behavioral_evidence": false,
+      "may_auto_promote_to_golden": false,
+      "promotion_requires_reclassification": true,
+      "promotion_requires_governed_review": true
+    },
+    "extraction_queue": {
+      "canonical": false,
+      "authority": "SOURCE_CONTAINER_ONLY",
+      "purpose": "Retain documents that contain one or more prompt-like child artifacts without treating the source document itself as a prompt.",
+      "source_document_is_not_prompt_artifact": true,
+      "child_extraction_requires_provenance": true,
+      "child_extraction_requires_fingerprint": true,
+      "child_must_reenter_semantic_gate": true,
+      "may_define_canonical_rules": false,
+      "may_count_as_golden_evidence": false,
+      "may_auto_promote_to_golden": false
+    },
+    "quarantine": {
+      "canonical": false,
+      "authority": "UNRESOLVED",
+      "may_define_canonical_rules": false
+    },
+    "rejected": {
+      "canonical": false,
+      "authority": "NON_USABLE",
+      "may_define_canonical_rules": false
+    }
+  },
+  "eligibility_gates": {
+    "golden_research_eligibility": {
+      "purpose": "Internal research, technique learning, architecture analysis, fixtures, and governed Golden Dataset candidacy.",
+      "license_unknown_blocks": false,
+      "requires_observed_body": true,
+      "requires_verified_source_identity": true,
+      "requires_content_hash": true
+    },
+    "distribution_eligibility": {
+      "purpose": "Commercial redistribution or bundling of third-party source wording/body.",
+      "license_unknown_blocks": true,
+      "allowed_license_statuses": ["ALLOWED"],
+      "requires_observed_body": true,
+      "requires_verified_source_identity": true,
+      "requires_content_hash": true
+    }
+  },
+  "critical_overrides": {
+    "force_human_review": [
+      "conflicting_classifiers",
+      "unusual_architecture",
+      "high_novelty_ambiguous_mapping",
+      "source_identity_ambiguity",
+      "content_observation_ambiguity"
+    ],
+    "block_research_auto_candidate": [
+      "access_boundary_uncertain",
+      "provenance_incomplete",
+      "body_unavailable_but_reconstructed",
+      "hash_missing_for_observed_body"
+    ],
+    "block_distribution": [
+      "license_unknown_for_redistribution",
+      "license_forbids_redistribution",
+      "access_boundary_uncertain",
+      "provenance_incomplete",
+      "body_unavailable_but_reconstructed",
+      "hash_missing_for_observed_body"
+    ],
+    "force_reject": [
+      "access_control_bypass_required",
+      "known_nonpermitted_acquisition",
+      "source_integrity_failure"
+    ]
+  },
+  "non_probabilistic_facts": [
+    "license_status",
+    "access_status",
+    "source_identity",
+    "body_observation_status",
+    "canonical_url",
+    "content_hash",
+    "corpus_canonicality"
+  ],
+  "confidence_dimensions": [
+    "classification",
+    "technique_extraction",
+    "architecture_mapping",
+    "deduplication"
+  ],
+  "quality_dimensions": [
+    "structural_quality",
+    "novelty",
+    "coverage_value",
+    "golden_value"
+  ],
+  "aggregate_confidence": {
+    "method": "minimum_required_dimension",
+    "required_dimensions": [
+      "classification",
+      "technique_extraction",
+      "architecture_mapping",
+      "deduplication"
+    ],
+    "reason": "A high average must not hide a weak critical classification dimension."
+  },
+  "human_sampling": {
+    "enabled_for_auto_candidates": true,
+    "initial_calibration_window": 200,
+    "initial_sample_rate": 0.20,
+    "target_human_agreement": 0.98
+  },
+  "truth_boundary": {
+    "unknown_remains_unknown": true,
+    "confidence_is_not_quality": true,
+    "quality_is_not_evidence": true,
+    "research_eligibility_is_not_distribution_permission": true,
+    "human_approval_is_not_behavioral_certification": true,
+    "reference_corpus_is_non_canonical": true,
+    "reference_material_is_not_truth": true,
+    "reference_material_is_not_golden_evidence": true,
+    "reference_material_requires_governed_promotion": true,
+    "prompt_container_is_not_prompt_artifact": true,
+    "embedded_prompt_requires_child_extraction": true,
+    "extracted_child_requires_independent_semantic_gate": true
+  }
+}

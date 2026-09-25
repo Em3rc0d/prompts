@@ -1,0 +1,17 @@
+{
+  "records": 12,
+  "categories": {
+    "MARKETING": 3,
+    "PRODUCTIVIDAD": 2,
+    "ESCRITURA": 2,
+    "NEGOCIOS": 2,
+    "DATOS": 1,
+    "DESARROLLO": 1,
+    "ESTUDIO": 1
+  },
+  "access": {
+    "gratis": 12
+  },
+  "source": "quarry/raw/alpacka-ai/surface/skills-index.jsonl",
+  "policy": "Normalized/library layers do not duplicate the observed third-party skill body. They retain provenance, concise metadata, fingerprints and structure only."
+}

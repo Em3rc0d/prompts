@@ -1,0 +1,200 @@
+{
+  "schema": "prompt-machine-workflow-contract-v1",
+  "contract_version": "1.0.0",
+  "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+  "workflow_version": "1.0.0-candidate",
+  "collection": "starter-collection-v1",
+  "state": "CONTRACT_FROZEN_STATIC_ONLY_BEHAVIORAL_EVIDENCE_OPEN",
+  "recorded_on": "2026-09-03",
+  "customer_job": "Diagnose a software defect or incident from supplied evidence without collapsing observations, hypotheses, mitigation, and confirmed cause into the same claim.",
+  "authority": "ADVISORY_ONLY",
+  "source_provenance": [
+    {
+      "path": "product/free-developer-starter-v1/prompts/bug-diagnosis.md",
+      "blob_sha": "5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e",
+      "role": "finished_free_prompt_baseline"
+    },
+    {
+      "path": "product/developer-pack-v1.1/templates/bug-diagnosis-system.md",
+      "blob_sha": "7a320cf8bbf5587024f201b8a02fa5421979f396",
+      "role": "reusable_system_template_baseline"
+    }
+  ],
+  "input_contract": {
+    "required": [
+      "expected_behavior",
+      "observed_behavior",
+      "environment_or_version_context",
+      "at_least_one_material_evidence_source_or_explicit_none_observed_state"
+    ],
+    "conditionally_required_when_material": [
+      "reproduction_information",
+      "recent_deployments_or_configuration_changes",
+      "dependency_changes",
+      "data_or_schema_changes",
+      "blast_radius_or_affected_cohort",
+      "last_known_good_point",
+      "prior_incident_context",
+      "monitoring_anomalies",
+      "rollback_or_mitigation_constraints"
+    ],
+    "input_states": [
+      "DIAGNOSABLE",
+      "DIAGNOSABLE_WITH_UNKNOWNS",
+      "INSUFFICIENT_EVIDENCE"
+    ],
+    "minimum_preflight": {
+      "if_required_inputs_do_not_support_responsible_diagnosis": "INSUFFICIENT_EVIDENCE",
+      "behavior": "Ask only for the smallest additional evidence set with clear diagnostic value; do not invent logs, reproduction results, versions, or infrastructure state."
+    }
+  },
+  "evidence_semantics": {
+    "OBSERVED": "Directly present in supplied evidence.",
+    "INFERRED": "Logically suggested by observations but not directly established.",
+    "UNKNOWN": "Not established.",
+    "DISPROVED": "Contradicted by supplied evidence.",
+    "CONFIRMED_CAUSE": "Evidence links the mechanism to the observed failure and satisfies the configured confirmation threshold."
+  },
+  "confirmation_policy": {
+    "default_threshold": [
+      "relevant_failure_is_reproduced_or_otherwise_directly_observed",
+      "a_discriminating_check_supports_the_mechanism",
+      "fix_or_rollback_behavior_is_mechanism_consistent",
+      "verification_confirms_symptom_resolution_and_relevant_mechanism"
+    ],
+    "timing_or_correlation_alone_confirms_cause": false,
+    "one_apparently_successful_fix_confirms_cause": false
+  },
+  "safety_policy": {
+    "default_allowed_without_escalation": [
+      "read_only_log_or_metric_inspection",
+      "local_or_test_reproduction",
+      "non_destructive_configuration_check"
+    ],
+    "requires_explicit_human_approval": [
+      "production_configuration_change",
+      "rollback",
+      "data_repair",
+      "traffic_shift",
+      "cache_or_queue_reset",
+      "security_control_change"
+    ],
+    "forbidden_shortcuts": [
+      "destructive_action_when_reversible_observation_can_answer_the_question",
+      "delete_or_rewrite_production_data_solely_to_test_a_hypothesis",
+      "disable_security_controls_as_default_diagnostic_step",
+      "treat_restart_or_redeploy_success_as_root_cause_proof",
+      "destroy_evidence_with_broad_changes_before_capture"
+    ]
+  },
+  "hypothesis_policy": {
+    "maximum_active_hypotheses": 5,
+    "required_fields": [
+      "mechanism",
+      "observations_explained",
+      "evidence_against",
+      "unresolved_facts",
+      "confidence",
+      "cheapest_discriminating_check"
+    ],
+    "ranking_basis": [
+      "explanatory_coverage",
+      "direct_evidence_strength",
+      "unsupported_assumption_count",
+      "consistency_with_failure_boundary",
+      "availability_of_discriminating_test"
+    ]
+  },
+  "diagnostic_process": [
+    "build_observation_ledger",
+    "normalize_expected_vs_observed_failure",
+    "define_failure_boundary",
+    "generate_bounded_hypotheses",
+    "challenge_and_rank_hypotheses",
+    "choose_low_risk_discriminating_checks",
+    "update_diagnosis_from_results",
+    "separate_diagnostic_containment_mitigation_and_durable_fix",
+    "verify_symptom_resolution_and_mechanism"
+  ],
+  "diagnostic_states": [
+    "DIAGNOSE_FIRST",
+    "MITIGATE_NOW",
+    "FIX_SUPPORTED",
+    "CAUSE_CONFIRMED",
+    "INSUFFICIENT_EVIDENCE"
+  ],
+  "default_transitions": {
+    "insufficient_material_evidence": "INSUFFICIENT_EVIDENCE",
+    "multiple_viable_hypotheses_remain": "DIAGNOSE_FIRST",
+    "impact_requires_safe_containment_before_certainty": "MITIGATE_NOW",
+    "one_fix_is_supported_but_confirmation_incomplete": "FIX_SUPPORTED",
+    "confirmation_threshold_satisfied": "CAUSE_CONFIRMED"
+  },
+  "output_contract": [
+    "diagnostic_state",
+    "current_diagnosis",
+    "observation_ledger",
+    "failure_boundary",
+    "ranked_hypotheses",
+    "next_diagnostic_checks",
+    "action_recommendation",
+    "verification_plan",
+    "remaining_material_unknowns"
+  ],
+  "action_classes": [
+    "DIAGNOSTIC",
+    "CONTAINMENT",
+    "MITIGATION",
+    "DURABLE_FIX"
+  ],
+  "verification_contract": [
+    "observation_ledger_contains_no_unlabeled_assumptions",
+    "hypotheses_are_mechanically_distinct",
+    "confidence_follows_evidence_not_familiarity",
+    "root_cause_is_not_confirmed_before_threshold",
+    "diagnostic_checks_discriminate_between_hypotheses",
+    "risky_actions_show_approval_requirements",
+    "mitigation_is_not_described_as_causal_proof",
+    "verification_tests_symptom_resolution_and_relevant_mechanism",
+    "remaining_uncertainty_is_visible"
+  ],
+  "non_goals": [
+    "invent_logs_or_runtime_state",
+    "jump_from_first_symptom_to_first_plausible_fix",
+    "treat_correlation_as_causation",
+    "recommend_destructive_changes_before_lower_risk_discriminating_checks",
+    "autonomously_execute_production_changes",
+    "claim_certification_or_universal_model_portability"
+  ],
+  "fallback": {
+    "state": "INSUFFICIENT_EVIDENCE",
+    "behavior": "Return the smallest evidence request that most reduces uncertainty; do not guess a root cause."
+  },
+  "known_limitations": [
+    "No Starter-SKU runtime observation exists yet for this contract.",
+    "No workflow-level Trust Card is publication-eligible yet.",
+    "Cross-model/provider portability is not established.",
+    "Skill trigger, forward execution, and prompt-skill parity are not established.",
+    "Production-changing actions require a human decision outside the workflow."
+  ],
+  "normalization_decisions": [
+    {
+      "issue": "The finished Free prompt exposes DIAGNOSE_FIRST, MITIGATE_NOW, and FIX_SUPPORTED, while the reusable system template additionally defines CAUSE_CONFIRMED and INSUFFICIENT_EVIDENCE.",
+      "decision": "Starter canonical states include the full five-state system-template vocabulary so confirmed cause and insufficient evidence cannot be compressed into weaker states.",
+      "compatibility_note": "The older Free output contract remains historical and is not retroactively rewritten.",
+      "behavioral_consequence": "The final Starter prompt surface must be aligned to the five-state contract before runtime evaluation."
+    },
+    {
+      "issue": "The Free prompt asks for evidence but does not formalize a distinct input-state label.",
+      "decision": "Starter explicitly uses DIAGNOSABLE, DIAGNOSABLE_WITH_UNKNOWNS, and INSUFFICIENT_EVIDENCE from the reusable system template.",
+      "behavioral_consequence": "Minimum-input blocking becomes testable in the Starter-specific campaign."
+    }
+  ],
+  "evidence_boundary": {
+    "static_contract_freeze_is_runtime_evidence": false,
+    "architecture_campaign_is_starter_sku_evidence": false,
+    "runtime_pass_is_certification": false,
+    "skill_candidate_is_supported_skill": false,
+    "ready_to_sell": false
+  }
+}

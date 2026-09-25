@@ -1,0 +1,29 @@
+{
+  "schema": "prompt-quarry-certification-receipt-v1",
+  "receipt_id": "PQ-PCP-03-RECEIPT-0001",
+  "milestone": "PCP-03",
+  "observed_at": "2026-09-02T13:40:00Z",
+  "status": "PASS",
+  "evidence": [
+    "certification/fixtures/pcp-03-test-matrix.v1.json",
+    "certification/audits/pcp-02-static-audit.v1.json"
+  ],
+  "assertions": {
+    "all_inventory_prompts_covered": true,
+    "normal_and_failure_cases_defined": true,
+    "adversarial_cases_defined": true,
+    "static_warnings_routed_to_behavioral_testing": true,
+    "pq_prompt_0005_blocker_has_explicit_fixture_assertions": true,
+    "execution_completed": false
+  },
+  "claims": {
+    "PROMPT_TEST_MATRIX": "PASS",
+    "F4_TESTED": "NO",
+    "F5_IMPROVED": "NO",
+    "F6_CERTIFIED": "NO",
+    "F7_PORTABLE": "NO",
+    "PRODUCT_READY": "NO",
+    "READY_TO_SELL": "NO"
+  },
+  "next_gate": "PCP-04_BASELINE_EXECUTION"
+}

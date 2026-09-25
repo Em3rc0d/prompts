@@ -90,7 +90,11 @@
         "mk0_inputs": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
         "patterns": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
         "fixtures": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
-        "source_families": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+        "source_families": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "knowledge_fingerprints": {
+          "type": "object",
+          "additionalProperties": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+        }
       }
     },
     "evaluation": {

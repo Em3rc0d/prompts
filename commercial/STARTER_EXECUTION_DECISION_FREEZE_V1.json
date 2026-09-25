@@ -1,0 +1,64 @@
+{
+  "schema": "prompt-machine-starter-execution-decision-freeze-v1",
+  "version": "1.0.0",
+  "receipt_id": "PM-STARTER-EXECUTION-DECISION-FREEZE-V1-0001",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_EXECUTION_DECISION_GOVERNANCE_PASS_REAL_EXECUTION_UNAUTHORIZED",
+  "validated_by": {
+    "workflow": "Validate Starter Execution Decisions v1",
+    "run_id": 33811089084,
+    "conclusion": "success"
+  },
+  "frozen_decisions": {
+    "provider_integration_pass": {
+      "contract": "commercial/STARTER_PROVIDER_INTEGRATION_DECISION_V1.json",
+      "requires": [
+        "observed provider provisioning",
+        "exact provider custody",
+        "accepted signed provider_test order for canonical Starter release"
+      ],
+      "implies_delivery": false,
+      "implies_revenue": false,
+      "implies_product_ready": false
+    },
+    "provider_failure_history": {
+      "schema": "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json",
+      "append_only": true,
+      "automatic_retry": false,
+      "human_review_required": true
+    },
+    "runtime_to_trust_history": {
+      "protocol": "commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json",
+      "first_case": "PM-STARTER-CR-NORMAL-0001",
+      "first_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+      "sequence": "RAW_OBSERVATION_THEN_HUMAN_REVIEW_THEN_APPEND",
+      "automatic_publication": false
+    }
+  },
+  "current_truth": {
+    "starter_runtime_observations": 0,
+    "provider_provisioning_receipts": 0,
+    "provider_custody_receipts": 0,
+    "accepted_signed_provider_test_orders": 0,
+    "provider_integration_pass": false,
+    "delivery_observations": 0,
+    "real_purchases": 0,
+    "public_checkout": false,
+    "ready_to_sell": false
+  },
+  "authorization": {
+    "model_execution_authorized_now": false,
+    "provider_execution_authorized_now": false,
+    "automatic_retries": 0,
+    "automatic_promotion": false
+  },
+  "evidence_boundary": {
+    "static_decision_freeze_is_runtime_evidence": false,
+    "static_decision_freeze_is_provider_evidence": false,
+    "static_decision_freeze_is_customer_value_evidence": false,
+    "static_decision_freeze_is_revenue_evidence": false
+  },
+  "model_calls_created_by_freeze": 0,
+  "provider_calls_created_by_freeze": 0,
+  "master_rule": "DECIDE WHAT SUCCESS AND FAILURE MEAN BEFORE BUYING THE OBSERVATION"
+}

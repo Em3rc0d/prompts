@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-quarry-commercial-campaign-v1",
+  "campaign_id": "pq-launch-0",
+  "status": "HOLD_FOR_C5",
+  "channel": "linkedin",
+  "product": "Prompt Quarry",
+  "primary_cta": {
+    "product_id": "pq-developer-starter",
+    "name": "Developer Starter Pack v1",
+    "price": "$0",
+    "destination_path": "/free/developer-starter-pack"
+  },
+  "paid_offer": {
+    "product_id": "pq-developer-pack",
+    "name": "Developer Pack v1",
+    "version": "1.0.0",
+    "launch_price": "$19",
+    "commercial_state": "READY",
+    "asset_maturity": "VALID",
+    "destination_path": "/developer-pack"
+  },
+  "allowed_claims": [
+    "structured",
+    "versioned",
+    "commercially READY with explanation",
+    "statically VALID with explanation",
+    "21 governed customer-visible assets",
+    "3 free developer prompts",
+    "use and adapt; resale and redistribution prohibited"
+  ],
+  "forbidden_claims": [
+    "tested",
+    "improved",
+    "certified",
+    "portable",
+    "battle-tested",
+    "proven superior",
+    "best",
+    "guaranteed",
+    "works with every model",
+    "outperforms generic prompts"
+  ],
+  "truth_boundary": "READY is commercial packaging readiness. VALID is static acceptance. Neither establishes F4-F7 behavioral evidence.",
+  "launch_gate": "Do not publish until PQ-LAUNCH-0 passes C5 public-surface smoke plus a real provider test checkout and delivery observation.",
+  "attribution": {
+    "source": "linkedin",
+    "medium": "organic",
+    "campaign": "pq-launch-0"
+  }
+}

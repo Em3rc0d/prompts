@@ -1,0 +1,18 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-batch-preflight-failure-v1",
+  "recorded_on": "2026-09-07",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0001",
+  "phase": "ZERO_MODEL_PREFLIGHT",
+  "error_type": "KeyError",
+  "error": "case_path",
+  "root_cause": "The first batch runner incorrectly assumed frozen_cases entries contained case_path and evaluation_path. The canonical freeze receipt instead contains case_id plus case/evaluation SHA-256 fields; repository paths are deterministic from case_id.",
+  "provider_requests_attempted": 0,
+  "model_inference_requests_attempted": 0,
+  "runtime_executions_attempted": 0,
+  "authorization_consumed": false,
+  "output_root_created": false,
+  "semantic_result": "NONE",
+  "g08_claim": "NONE",
+  "remediation": "Derive canonical case and evaluation paths from case_id, verify both file SHA-256 values against the freeze receipt, and fail closed with a structured zero-provider preflight result.",
+  "truth_boundary": "INFRASTRUCTURE_PREFLIGHT_FAILURE_ONLY; ZERO_PROVIDER_REQUESTS; BATCH_AUTHORIZATION_REMAINS_UNCONSUMED"
+}

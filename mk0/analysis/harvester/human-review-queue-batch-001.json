@@ -1,0 +1,30 @@
+{
+  "schema": "prompt-quarry-human-review-queue-summary-v1",
+  "batch_id": "mk0-human-review-001",
+  "status": "PASS",
+  "records": 79,
+  "priority_buckets": {
+    "P1_CONFIDENCE_BAND": 44,
+    "P2_CLASSIFIER_CONFLICT": 32,
+    "P2_AMBIGUOUS_MAPPING": 3
+  },
+  "domains": {
+    "software": 36,
+    "agentic": 36,
+    "content": 4,
+    "data": 3
+  },
+  "first_review_set": [
+    "cand-61e53221416caccd66fa",
+    "cand-67734072c2a7688dd7e7",
+    "cand-a01b7f50cea4059a4233",
+    "cand-7bbbd0836afe2dc7e4c1",
+    "cand-df96034935dbb7dfad80",
+    "cand-320851b94da0e3a405a2",
+    "cand-6a8de1cc9c66789ecd9d",
+    "cand-6eed2282a45f3fb3e06e",
+    "cand-984024c933c1c54a95c0",
+    "cand-e9d28cc712123711c46e"
+  ],
+  "claim_boundary": "Queue prioritization only. Human review may approve dataset candidacy but does not establish redistribution rights or behavioral certification."
+}

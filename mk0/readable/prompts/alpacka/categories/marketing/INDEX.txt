@@ -1,0 +1,194 @@
+PROMPTS — Marketing
+========================================================================================
+Total: 95
+
+[FREE   ] Análisis de Cliente Ideal (Avatar 2.0)
+          analisis-de-cliente-ideal-avatar-2-0--96c8e2f7.txt
+[PREMIUM] Arquitecto de Newsletters de Pago
+          arquitecto-de-newsletters-de-pago--b61d2295.txt
+[PREMIUM] Arquitecto de Posicionamiento de Ofertas Digitales
+          arquitecto-de-posicionamiento-de-ofertas-digitales--6f249ab8.txt
+[PREMIUM] Ataca el mercado corporativo usando "Partnerships" e Integraciones B2B
+          ataca-el-mercado-corporativo-usando-partnerships-e-integraciones-b2b--998c042b.txt
+[PREMIUM] Aumenta la interacción en redes sociales
+          aumenta-la-interaccion-en-redes-sociales--9edb7533.txt
+[PREMIUM] Automatiza tu Atención al Cliente y Ventas con Chatbots de IA
+          automatiza-tu-atencion-al-cliente-y-ventas-con-chatbots-de-ia--04494a2e.txt
+[PREMIUM] Automatiza tu marketing y escala sin trabajar más horas
+          automatiza-tu-marketing-y-escala-sin-trabajar-mas-horas--7bf10b8e.txt
+[PREMIUM] Campañas de Temporada: exprime Black Friday, Navidad y fechas clave
+          campanas-de-temporada-exprime-black-friday-navidad-y-fechas-clave--7b75d8f4.txt
+[PREMIUM] Cierra ventas High Ticket con una tasa de conversión extrema
+          cierra-ventas-high-ticket-con-una-tasa-de-conversion-extrema--54c5f027.txt
+[PREMIUM] Conquista nuevos nichos usando Marketing de Valores y Cultura
+          conquista-nuevos-nichos-usando-marketing-de-valores-y-cultura--2ac80f71.txt
+[PREMIUM] Constructor de embudos de marketing de alto rendimiento
+          constructor-de-embudos-de-marketing-de-alto-rendimiento--244263dd.txt
+[PREMIUM] Construye la "Biblia de Objeciones" y derriba dudas en automático
+          construye-la-biblia-de-objeciones-y-derriba-dudas-en-automatico--38a8d841.txt
+[PREMIUM] Construye tu Máquina de Prueba Social: testimonios que venden por ti
+          construye-tu-maquina-de-prueba-social-testimonios-que-venden-por-ti--da608f01.txt
+[PREMIUM] Construye un ejército de vendedores pasivos con Marketing de Afiliados
+          construye-un-ejercito-de-vendedores-pasivos-con-marketing-de-afiliados--6e8e91f7.txt
+[PREMIUM] Construye y monetiza una comunidad online altamente rentable
+          construye-y-monetiza-una-comunidad-online-altamente-rentable--9f5db947.txt
+[PREMIUM] Construye y posiciona tu marca personal irresistible
+          construye-y-posiciona-tu-marca-personal-irresistible--481f228a.txt
+[PREMIUM] Consultor de SEO Local Domination
+          consultor-de-seo-local-domination--e0b83aae.txt
+[PREMIUM] Content Creator Empire Builder
+          content-creator-empire-builder--2d66f93b.txt
+[PREMIUM] Convierte Haters en Fans: Gestión de Crisis y Reseñas
+          convierte-haters-en-fans-gestion-de-crisis-y-resenas--f69b244b.txt
+[PREMIUM] Crea un ejército de Embajadores de Marca y automatiza tu UGC
+          crea-un-ejercito-de-embajadores-de-marca-y-automatiza-tu-ugc--f73b7796.txt
+[PREMIUM] Crea una estrategia de contenido SEO que domina Google
+          crea-una-estrategia-de-contenido-seo-que-domina-google--9e2e0af0.txt
+[PREMIUM] Crea una estrategia de email marketing de alto impacto
+          crea-una-estrategia-de-email-marketing-de-alto-impacto--7466ac18.txt
+[PREMIUM] Crea una estrategia de marketing de contenidos que genera clientes
+          crea-una-estrategia-de-marketing-de-contenidos-que-genera-clientes--0df63676.txt
+[PREMIUM] Crea una estrategia de marketing de influencers rentable
+          crea-una-estrategia-de-marketing-de-influencers-rentable--dd29d25d.txt
+[PREMIUM] Crea una estrategia de video marketing que domina YouTube y TikTok
+          crea-una-estrategia-de-video-marketing-que-domina-youtube-y-tiktok--87c20b13.txt
+[PREMIUM] Crea una máquina de lealtad y retención de clientes
+          crea-una-maquina-de-lealtad-y-retencion-de-clientes--e1fe83d9.txt
+[PREMIUM] Crea y monetiza un podcast que construye autoridad y audiencia
+          crea-y-monetiza-un-podcast-que-construye-autoridad-y-audiencia--37f8b7cd.txt
+[FREE   ] Creador de Ofertas Irresistibles (The Grand Slam)
+          creador-de-ofertas-irresistibles-the-grand-slam--9cbcf1cf.txt
+[PREMIUM] Desarrollar un plan de contenido para una campaña de marketing.
+          desarrollar-un-plan-de-contenido-para-una-campana-de-marketing--6559a4fa.txt
+[PREMIUM] Diseña Webinars de Alta Conversión para vender High-Ticket
+          disena-webinars-de-alta-conversion-para-vender-high-ticket--fd98c80c.txt
+[PREMIUM] Diseña estrategias de Retargeting avanzado para recuperar ventas
+          disena-estrategias-de-retargeting-avanzado-para-recuperar-ventas--beca8b65.txt
+[PREMIUM] Diseña la Ficha de Producto (PDP) Perfecta que obligue a comprar
+          disena-la-ficha-de-producto-pdp-perfecta-que-obligue-a-comprar--c7bf3765.txt
+[PREMIUM] Diseña un Programa de Fidelización Inquebrantable para disparar tu LTV
+          disena-un-programa-de-fidelizacion-inquebrantable-para-disparar-tu-ltv--e7f7cf71.txt
+[PREMIUM] Diseña un embudo de ventas de alto impacto
+          disena-un-embudo-de-ventas-de-alto-impacto--d0dbb8fc.txt
+[PREMIUM] Diseña un motor de Growth Hacking y bucles virales
+          disena-un-motor-de-growth-hacking-y-bucles-virales--4cc09aee.txt
+[PREMIUM] Diseña un programa de afiliados que multiplica tus ventas
+          disena-un-programa-de-afiliados-que-multiplica-tus-ventas--8c6b3434.txt
+[PREMIUM] Diseña una estrategia de crecimiento explosivo para E-commerce
+          disena-una-estrategia-de-crecimiento-explosivo-para-e-commerce--08de2ba9.txt
+[PREMIUM] Distínguete del ruido visual: Crea el Marketing Sensorial de tu marca
+          distinguete-del-ruido-visual-crea-el-marketing-sensorial-de-tu-marca--9cf06add.txt
+[PREMIUM] Domina Google Ads y atrae clientes que ya buscan lo que vendes
+          domina-google-ads-y-atrae-clientes-que-ya-buscan-lo-que-vendes--54574f15.txt
+[PREMIUM] Domina Meta Ads y escala tu negocio con publicidad pagada
+          domina-meta-ads-y-escala-tu-negocio-con-publicidad-pagada--48f80b7d.txt
+[PREMIUM] Domina el B2B Inbound Marketing y atrae clientes corporativos
+          domina-el-b2b-inbound-marketing-y-atrae-clientes-corporativos--3642c4dd.txt
+[PREMIUM] Domina el Cold Email B2B y agenda reuniones con prospectos inalcanzables
+          domina-el-cold-email-b2b-y-agenda-reuniones-con-prospectos-inalcanzables--435cc284.txt
+[PREMIUM] Domina el Marketing Experiencial con Pop-Up Stores y Eventos
+          domina-el-marketing-experiencial-con-pop-up-stores-y-eventos--0254168a.txt
+[PREMIUM] Domina el Social Selling en LinkedIn y convierte conexiones B2B
+          domina-el-social-selling-en-linkedin-y-convierte-conexiones-b2b--fd9a2fd0.txt
+[PREMIUM] Domina las ventas por WhatsApp y el marketing conversacional
+          domina-las-ventas-por-whatsapp-y-el-marketing-conversacional--38533e14.txt
+[PREMIUM] El Panel de Control del CMO: mide CAC, LTV y ROAS sin ahogarte en datos
+          el-panel-de-control-del-cmo-mide-cac-ltv-y-roas-sin-ahogarte-en-datos--c4e55c91.txt
+[PREMIUM] Escala orgánicamente usando Growth Loops y Viralidad (Product-Led Growth)
+          escala-organicamente-usando-growth-loops-y-viralidad-product-led-growth--5ab8b511.txt
+[PREMIUM] Escala tu negocio local con Local SEO y Marketing Omnicanal
+          escala-tu-negocio-local-con-local-seo-y-marketing-omnicanal--3b4f62c1.txt
+[PREMIUM] Escala tu tráfico orgánico y ventas con SEO Visual en Pinterest
+          escala-tu-trafico-organico-y-ventas-con-seo-visual-en-pinterest--794ef91b.txt
+[PREMIUM] Escala tus ventas con TikTok Ads y Contenido UGC
+          escala-tus-ventas-con-tiktok-ads-y-contenido-ugc--6eb73bda.txt
+[PREMIUM] Escribe copy persuasivo que vende sin esfuerzo
+          escribe-copy-persuasivo-que-vende-sin-esfuerzo--b60c305a.txt
+[FREE   ] Escritor de Emails que sí se comparten
+          escritor-de-emails-que-si-se-comparten--600128ca.txt
+[PREMIUM] Estratega de Ventas por WhatsApp
+          estratega-de-ventas-por-whatsapp--55f2c7f0.txt
+[PREMIUM] Estratega de YouTube Cash Cow
+          estratega-de-youtube-cash-cow--46fec96d.txt
+[FREE   ] Estratega de contenido viral 
+          estratega-de-contenido-viral--8c21c2e7.txt
+[PREMIUM] Estrategia de Dropshipping de Alto Ticket
+          estrategia-de-dropshipping-de-alto-ticket--b86ed18c.txt
+[PREMIUM] Estrategia de Email Marketing
+          estrategia-de-email-marketing--6adaf855.txt
+[PREMIUM] Estrategia de Marketing (Nivel Profesional)
+          estrategia-de-marketing-nivel-profesional--27cc07cd.txt
+[PREMIUM] Estrategia de pricing  estratégico
+          estrategia-de-pricing-estrategico--a03a93bb.txt
+[FREE   ] Ganchos Irresistibles para Vídeos Cortos (Hooks)
+          ganchos-irresistibles-para-videos-cortos-hooks--6df5708b.txt
+[PREMIUM] Genera leads B2B de alto valor en LinkedIn
+          genera-leads-b2b-de-alto-valor-en-linkedin--a2d41f92.txt
+[PREMIUM] Hackea la Percepción de Valor con Neuromarketing y Pricing
+          hackea-la-percepcion-de-valor-con-neuromarketing-y-pricing--f1d856da.txt
+[PREMIUM] Haz que tu marca destaque en un mercado saturado
+          haz-que-tu-marca-destaque-en-un-mercado-saturado--8f7a471c.txt
+[PREMIUM] Implementa la Gamificación en tu Web para disparar la Retención
+          implementa-la-gamificacion-en-tu-web-para-disparar-la-retencion--6af12aec.txt
+[PREMIUM] Incuba una Comunidad de Superfans Leales en Discord o Telegram
+          incuba-una-comunidad-de-superfans-leales-en-discord-o-telegram--27ecd94a.txt
+[PREMIUM] Lanza tu producto digital con una campaña irresistible
+          lanza-tu-producto-digital-con-una-campana-irresistible--68f9f7ee.txt
+[PREMIUM] Lanza tu producto físico al estrellato con una campaña de Crowdfunding
+          lanza-tu-producto-fisico-al-estrellato-con-una-campana-de-crowdfunding--03ef8d32.txt
+[PREMIUM] Lanza un Reto de 5 días que convierte desconocidos en compradores
+          lanza-un-reto-de-5-dias-que-convierte-desconocidos-en-compradores--fc028b0c.txt
+[PREMIUM] Lanza y vende de forma masiva a través de Webinars
+          lanza-y-vende-de-forma-masiva-a-traves-de-webinars--6809b7c4.txt
+[PREMIUM] Llena la agenda de tu Clínica: Marketing de Salud e Intención Local
+          llena-la-agenda-de-tu-clinica-marketing-de-salud-e-intencion-local--4fec4069.txt
+[PREMIUM] Maestro de Infoproductos y Lanzamientos
+          maestro-de-infoproductos-y-lanzamientos--95ea52ef.txt
+[PREMIUM] Marketing Growth Blueprint – Estrategia de Crecimiento Rentable
+          marketing-growth-blueprint-estrategia-de-crecimiento-rentable--499e9f8e.txt
+[FREE   ] Marketing en Reddit y comunidades: vende donde odian la publicidad
+          marketing-en-reddit-y-comunidades-vende-donde-odian-la-publicidad--5f8d7e2e.txt
+[PREMIUM] Maximiza el valor de cada carro: Estrategias de "Downsell" y AOV
+          maximiza-el-valor-de-cada-carro-estrategias-de-downsell-y-aov--e0fd7528.txt
+[PREMIUM] Megaprompt: Director de Marketing Viral (TikTok/IG)
+          megaprompt-director-de-marketing-viral-tiktok-ig--c2665e9e.txt
+[PREMIUM] Minería de Reseñas: roba el lenguaje exacto de tus clientes para tu copy
+          mineria-de-resenas-roba-el-lenguaje-exacto-de-tus-clientes-para-tu-copy--e5c3c0c4.txt
+[PREMIUM] Monetiza tu Audiencia: Construye y escala una Newsletter de alto impacto
+          monetiza-tu-audiencia-construye-y-escala-una-newsletter-de-alto-impacto--7fa9672c.txt
+[PREMIUM] Multiplica tu alcance con Alianzas Estratégicas y Co-Branding
+          multiplica-tu-alcance-con-alianzas-estrategicas-y-co-branding--125b9b1d.txt
+[PREMIUM] Multiplica tus ventas sin más tráfico: Optimización de Tasa de Conversión (CRO)
+          multiplica-tus-ventas-sin-mas-trafico-optimizacion-de-tasa-de-conversion-cro--5b4737e2.txt
+[PREMIUM] Plan de crecimiento orgánico estratégico
+          plan-de-crecimiento-organico-estrategico--83ad3b5d.txt
+[FREE   ] Planificador de Contenido Infinito (30 días)
+          planificador-de-contenido-infinito-30-dias--e6ab8a10.txt
+[PREMIUM] Posiciona tu marca en las respuestas de ChatGPT (SEO para IAs)
+          posiciona-tu-marca-en-las-respuestas-de-chatgpt-seo-para-ias--b7ec3476.txt
+[PREMIUM] Posiciona tu marca en medios masivos con PR Digital
+          posiciona-tu-marca-en-medios-masivos-con-pr-digital--f008ec65.txt
+[PREMIUM] Posiciona tu oferta y precio para vender más con menos esfuerzo
+          posiciona-tu-oferta-y-precio-para-vender-mas-con-menos-esfuerzo--507f1c64.txt
+[PREMIUM] Posicionamiento "Challenger": Cómo robar mercado a los gigantes intocables
+          posicionamiento-challenger-como-robar-mercado-a-los-gigantes-intocables--168f84cb.txt
+[PREMIUM] Prompt de Estrategia de Publicidad Digital (Ads Rentables)
+          prompt-de-estrategia-de-publicidad-digital-ads-rentables--f90528a8.txt
+[PREMIUM] Prompt de Marketing Estratégico (Crecimiento y Ventas)
+          prompt-de-marketing-estrategico-crecimiento-y-ventas--918487a8.txt
+[FREE   ] Prompt de Redacción SEO
+          prompt-de-redaccion-seo--9ef90c3d.txt
+[PREMIUM] Prompt para espiar a la competencia y tomar ventaja.
+          prompt-para-espiar-a-la-competencia-y-tomar-ventaja--cfb040c3.txt
+[PREMIUM] Redactor de Ads Virales
+          redactor-de-ads-virales--d5ee8aa3.txt
+[PREMIUM] Resucita tu lista de emails muerta y conviértela en ventas esta semana
+          resucita-tu-lista-de-emails-muerta-y-conviertela-en-ventas-esta-semana--bbe663a4.txt
+[PREMIUM] Rompe el internet con Marketing de Guerrilla de ultra-bajo presupuesto
+          rompe-el-internet-con-marketing-de-guerrilla-de-ultra-bajo-presupuesto--66c81698.txt
+[PREMIUM] Sistema de posicionamiento
+          sistema-de-posicionamiento--2edeb30a.txt
+[PREMIUM] Sistema para crecer en redes sin pagar anuncios
+          sistema-para-crecer-en-redes-sin-pagar-anuncios--2a0abfb7.txt
+[PREMIUM] 🧠 Estrategia de branding estratégico
+          estrategia-de-branding-estrategico--ceb5622f.txt

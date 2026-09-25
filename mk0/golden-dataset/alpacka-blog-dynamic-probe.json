@@ -1,0 +1,148 @@
+{
+  "probe_version": 1,
+  "policy": "No page body or long JSON strings are stored. Long strings are replaced by length and SHA-256 prefix; headers and credentials are not stored.",
+  "results": [
+    {
+      "requested_url": "https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia",
+      "final_url": "https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia",
+      "navigation_status": 200,
+      "title": "Cómo ganar dinero con ayuda de la IA: 6 ideas reales y los prompts para empezar | Blog de Alpacka",
+      "canonical": "https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia",
+      "headings": {
+        "h1": [
+          "Cómo ganar dinero con ayuda de la IA: 6 ideas reales y los prompts para empezar"
+        ],
+        "h2": [
+          "1. Servicios freelance potenciados con IA",
+          "2. Gestión de contenido para negocios locales",
+          "3. Productos digitales: plantillas, guías y ebooks",
+          "4. Consultoría de IA para pymes",
+          "5. E-commerce: fichas, anuncios y atención al cliente",
+          "6. Micro-herramientas y automatizaciones",
+          "Los tres errores que matan estos proyectos",
+          "Cómo empezar esta semana",
+          "El multiplicador: saber pedirle bien las cosas a la IA",
+          "¿Quieres resultados así con tu IA?"
+        ],
+        "h3": []
+      },
+      "buttons": [
+        "Acceder"
+      ],
+      "visible_text_length": 8038,
+      "visible_text_sha256": "b27568e9e9d46cc2",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/blog/como-ganar-dinero-con-ia",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/blog_posts?select=*&slug=eq.como-ganar-dinero-con-ia",
+          "status": 200,
+          "resource_type": "fetch",
+          "method": "GET",
+          "content_type": "application/json; charset=utf-8",
+          "json_shape": [
+            {
+              "id": "93c59867-74a7-42ef-a1ff-69a4a7d6e7d4",
+              "title": "Cómo ganar dinero con ayuda de la IA: 6 ideas reales y los prompts para empezar",
+              "slug": "como-ganar-dinero-con-ia",
+              "excerpt": "<string:197 chars sha256:93a3dd1db4534677>",
+              "content": "<string:8016 chars sha256:dd718a0de2637639>",
+              "cover_image_url": null,
+              "category": "Negocios",
+              "published": true,
+              "created_at": "2026-07-16T14:50:30.360515+00:00",
+              "updated_at": "2026-07-16T14:50:30.360515+00:00"
+            }
+          ]
+        }
+      ],
+      "body_stored": false
+    },
+    {
+      "requested_url": "https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude",
+      "final_url": "https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude",
+      "navigation_status": 200,
+      "title": "¿Qué es una Skill en Claude? Guía completa para entenderlas y usarlas | Blog de Alpacka",
+      "canonical": "https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude",
+      "headings": {
+        "h1": [
+          "¿Qué es una Skill en Claude? Guía completa para entenderlas y usarlas"
+        ],
+        "h2": [
+          "Qué es exactamente una Skill",
+          "Cómo funciona por dentro",
+          "Skill, prompt y MCP: en qué se diferencian",
+          "Dónde puedes usar Skills",
+          "Ejemplos prácticos",
+          "Cómo crear tu primera Skill",
+          "Una nota sobre seguridad",
+          "En resumen",
+          "¿Quieres resultados así con tu IA?"
+        ],
+        "h3": []
+      },
+      "buttons": [
+        "Acceder"
+      ],
+      "visible_text_length": 7727,
+      "visible_text_sha256": "07cd0eb60a19f9d5",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/blog/que-es-una-skill-en-claude",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum?",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/blog_posts?select=*&slug=eq.que-es-una-skill-en-claude",
+          "status": 200,
+          "resource_type": "fetch",
+          "method": "GET",
+          "content_type": "application/json; charset=utf-8",
+          "json_shape": [
+            {
+              "id": "9e7fc30f-3051-4a4e-89b6-72e45e627334",
+              "title": "¿Qué es una Skill en Claude? Guía completa para entenderlas y usarlas",
+              "slug": "que-es-una-skill-en-claude",
+              "excerpt": "<string:213 chars sha256:6b8ec30e30c37f85>",
+              "content": "<string:8122 chars sha256:9983306738dd9aef>",
+              "cover_image_url": null,
+              "category": "Claude",
+              "published": true,
+              "created_at": "2026-07-16T14:38:11.428816+00:00",
+              "updated_at": "2026-07-16T14:38:11.428816+00:00"
+            }
+          ]
+        }
+      ],
+      "body_stored": false
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "prompt-machine-starter-clean-runtime-surface-requirements-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-04",
+  "state": "FROZEN_AFTER_PROTOCOL_CONTAMINATION_DISARMED",
+  "applies_to": [
+    "PM-STARTER-CR-NORMAL-0001"
+  ],
+  "purpose": "Prevent evaluation leakage from being counted as Starter workflow behavioral evidence.",
+  "requirement": "CLEAN_INDEPENDENT_EXECUTION_SURFACE",
+  "not_a_requirement": "CHATGPT_DOT_COM_SPECIFICALLY",
+  "pre_execution_invariants": [
+    "The runtime conversation/session must not have previously contained the evaluation contract, expected result, answer key, or human review.",
+    "The runtime receives the exact frozen envelope and no additional task-relevant instruction that changes workflow authority or expected state.",
+    "The frozen envelope SHA-256 must match d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207.",
+    "Fresh explicit authorization must name the exact case, one execution, and zero retries.",
+    "Maximum submissions before human review is one; automatic retries and automatic second-case execution are zero."
+  ],
+  "surface_evidence_to_record": [
+    "execution_surface",
+    "fresh_session_or_context_identity_when_observable",
+    "statement_that_evaluation_expectations_were_not_present_before_runtime",
+    "runtime_envelope_sha256",
+    "model_identity_when_observable"
+  ],
+  "fail_closed_rule": "If clean-context independence cannot be established with reasonable confidence before execution, block before model use. If contamination is discovered only afterward, preserve the output but classify the workflow result INCONCLUSIVE_PROTOCOL_CONTAMINATION.",
+  "same_candidate_retest_allowed": true,
+  "successor_required_before_clean_retest": false,
+  "automatic_execution": false,
+  "automatic_retries": 0,
+  "provider_calls_created": 0,
+  "model_calls_created": 0
+}

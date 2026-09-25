@@ -1,0 +1,17 @@
+{
+  "schema": "prompt-machine-starter-n09-runtime-provenance-label-defect-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "defect": "EXECUTION_ID_EMBEDDED_STALE_BATCH_LABEL",
+  "observed": "Each BATCH-0002 case receipt carries the correct batch_id field PM-STARTER-CR-V2-G08-BATCH-0002, but the inherited execution_id string contains G08-BATCH-0001.",
+  "semantic_observations_ambiguous": false,
+  "reason_not_ambiguous": [
+    "Each case receipt contains an explicit correct batch_id field.",
+    "Each case has a unique execution_id suffix.",
+    "Each case has independent runtime-envelope, request-body, provider-response, and raw-output hashes.",
+    "The BATCH-0002 aggregate summary binds all four receipts to the correct batch."
+  ],
+  "effect_on_human_review": "NONE_SEMANTIC; PROVENANCE_LABEL_DEFECT_RECORDED",
+  "fix": "tools/pm_g08_batch_0003.py generates execution_id values with G08-BATCH-0003 explicitly and no inherited stale literal.",
+  "provider_requests_attempted_during_diagnosis": 0,
+  "model_inference_requests_attempted_during_diagnosis": 0
+}

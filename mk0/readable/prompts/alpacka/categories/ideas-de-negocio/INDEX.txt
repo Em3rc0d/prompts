@@ -1,0 +1,94 @@
+PROMPTS — Ideas de Negocio
+========================================================================================
+Total: 45
+
+[PREMIUM] Agencia de "Shorts" y Reels para Marcas Personales
+          agencia-de-shorts-y-reels-para-marcas-personales--5c83f010.txt
+[PREMIUM] Agencia de Doblaje Automático para YouTubers Locales
+          agencia-de-doblaje-automatico-para-youtubers-locales--ac463683.txt
+[PREMIUM] Analista de Tendencias del Mercado Real
+          analista-de-tendencias-del-mercado-real--25e7a513.txt
+[PREMIUM] Arquitecto de Chatbots de Atención al Cliente (No-Code)
+          arquitecto-de-chatbots-de-atencion-al-cliente-no-code--d98b50f5.txt
+[PREMIUM] Arquitecto de Ecosistemas de Ingresos Pasivos
+          arquitecto-de-ecosistemas-de-ingresos-pasivos--f6e4da81.txt
+[PREMIUM] Arquitecto de Marketplace de Nicho
+          arquitecto-de-marketplace-de-nicho--9548a94a.txt
+[PREMIUM] Asistente Personal de Compras para Gente Ocupada
+          asistente-personal-de-compras-para-gente-ocupada--0f24151c.txt
+[PREMIUM] Asistente Virtual para Micro-Influencers y Creadores
+          asistente-virtual-para-micro-influencers-y-creadores--a9fc72b1.txt
+[PREMIUM] Auditor de Contenido para la Nueva Búsqueda IA (SGE)
+          auditor-de-contenido-para-la-nueva-busqueda-ia-sge--f5b600c2.txt
+[PREMIUM] Concierge de Viajes Hiper-Específicos y "Secretos"
+          concierge-de-viajes-hiper-especificos-y-secretos--e315bad2.txt
+[PREMIUM] Consultor de Economía Circular y Sostenible
+          consultor-de-economia-circular-y-sostenible--46a59528.txt
+[PREMIUM] Consultor de Franquicias de Bajo Coste (DIY)
+          consultor-de-franquicias-de-bajo-coste-diy--131016e8.txt
+[PREMIUM] Consultor de Innovación en Servicios de Proximidad
+          consultor-de-innovacion-en-servicios-de-proximidad--a193c168.txt
+[PREMIUM] Consultor de Regalos Inteligentes (Asistente en WhatsApp)
+          consultor-de-regalos-inteligentes-asistente-en-whatsapp--facdfbc3.txt
+[PREMIUM] Consultor de Validación Lean Startup (0 Metodología)
+          consultor-de-validacion-lean-startup-0-metodologia--05ebf63c.txt
+[PREMIUM] Creador de Contenido UGC (Contenido Generado por el Usuario)
+          creador-de-contenido-ugc-contenido-generado-por-el-usuario--550a6a0f.txt
+[PREMIUM] Cuidado de Mascotas a Domicilio (Servicio VIP)
+          cuidado-de-mascotas-a-domicilio-servicio-vip--bae4bad0.txt
+[PREMIUM] Curador de Newsletters Autónomas con Agentes IA
+          curador-de-newsletters-autonomas-con-agentes-ia--b619f341.txt
+[PREMIUM] Diseñador de Interiores con IA Generativa
+          disenador-de-interiores-con-ia-generativa--37767add.txt
+[PREMIUM] Editorial de Libros de Nicho con IA (Amazon KDP)
+          editorial-de-libros-de-nicho-con-ia-amazon-kdp--b94d8402.txt
+[PREMIUM] Especialista en Reutilización de Contenido (Omnicanalidad)
+          especialista-en-reutilizacion-de-contenido-omnicanalidad--cad78c90.txt
+[PREMIUM] Estratega de Micro-Nicho Rentable
+          estratega-de-micro-nicho-rentable--87f30862.txt
+[PREMIUM] Estratega de Negocios Basados en Habilidades IA
+          estratega-de-negocios-basados-en-habilidades-ia--8efd9daa.txt
+[PREMIUM] Estratega de Negocios de Suscripción (Recurrencia)
+          estratega-de-negocios-de-suscripcion-recurrencia--c521da47.txt
+[PREMIUM] Estudio de Marca Personal: Retratos y CV con IA
+          estudio-de-marca-personal-retratos-y-cv-con-ia--f48c741f.txt
+[PREMIUM] Fábrica de Contenido Inmobiliario con IA
+          fabrica-de-contenido-inmobiliario-con-ia--5dd6b342.txt
+[PREMIUM] Generador de Ideas de Productos Digitales Éticos
+          generador-de-ideas-de-productos-digitales-eticos--e9221239.txt
+[PREMIUM] Generador de Modelos de Negocio Blue Ocean
+          generador-de-modelos-de-negocio-blue-ocean--beeed7f8.txt
+[PREMIUM] Gestor de Redes para Pequeños Negocios Locales
+          gestor-de-redes-para-pequenos-negocios-locales--8e78dc86.txt
+[PREMIUM] Guía Turístico de Experiencias de Nicho
+          guia-turistico-de-experiencias-de-nicho--6ea9d6c6.txt
+[PREMIUM] Maestro de "The Great Unbundling" (Desglose)
+          maestro-de-the-great-unbundling-desglose--8999edf3.txt
+[PREMIUM] Maestro de Arbitraje de Servicios Locales
+          maestro-de-arbitraje-de-servicios-locales--261fbcd9.txt
+[PREMIUM] Maestro de Pivotaje de Negocios (Rescate)
+          maestro-de-pivotaje-de-negocios-rescate--40b045db.txt
+[PREMIUM] Mantenimiento de Jardines y Terrazas Urbanas
+          mantenimiento-de-jardines-y-terrazas-urbanas--dd3d10e7.txt
+[PREMIUM] Organizador Profesional de Hogares (Método Simplificado)
+          organizador-profesional-de-hogares-metodo-simplificado--4d3025c7.txt
+[PREMIUM] Planificador de Dietas y Comidas Bio-Individuales
+          planificador-de-dietas-y-comidas-bio-individuales--6c6296a1.txt
+[PREMIUM] Planificador de Pequeños Eventos y Fiestas de Bajo Coste
+          planificador-de-pequenos-eventos-y-fiestas-de-bajo-coste--8bcf971b.txt
+[PREMIUM] Preparación de Comidas Caseras (Meal Prep) a Domicilio
+          preparacion-de-comidas-caseras-meal-prep-a-domicilio--8b4229ee.txt
+[PREMIUM] Revendedor de Artículos Curados de Segunda Mano
+          revendedor-de-articulos-curados-de-segunda-mano--bbe5d3ee.txt
+[PREMIUM] Servicio de Detallado de Vehículos a Domicilio
+          servicio-de-detallado-de-vehiculos-a-domicilio--4033ed5c.txt
+[PREMIUM] Servicio de Limpieza Especializado para Airbnbs
+          servicio-de-limpieza-especializado-para-airbnbs--c33891f7.txt
+[PREMIUM] Servicio de Transcripción y Subtitulado para Creativos Locales
+          servicio-de-transcripcion-y-subtitulado-para-creativos-locales--83183cc7.txt
+[PREMIUM] Traductor de Documentos Legales a "Lenguaje Humano"
+          traductor-de-documentos-legales-a-lenguaje-humano--1db34b07.txt
+[PREMIUM] Tutor de Habilidades Prácticas para Principiantes
+          tutor-de-habilidades-practicas-para-principiantes--b5bc3fc9.txt
+[PREMIUM] Técnico de Acompañamiento Tecnológico IA para Mayores
+          tecnico-de-acompanamiento-tecnologico-ia-para-mayores--48fcee94.txt

@@ -1,0 +1,49 @@
+{
+  "schema": "prompt-machine-starter-n09-gemini-wsl-fallback-plan-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-05",
+  "attempt_id": "G05-FALLBACK-004",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "gate": "G05_BASELINE_EXECUTION",
+  "state": "PREPARED_FRESH_AUTH_REQUIRED",
+  "experiment_class": "SEPARATELY_SCOPED_MODEL_FALLBACK",
+  "candidate_prompt_mutated": false,
+  "runtime_configuration_changed": true,
+  "change": {
+    "field": "model",
+    "from": "gemini-3.8-flash",
+    "to": "gemini-3.5-flash",
+    "reason": "Three consecutive 503 UNAVAILABLE responses from gemini-3.8-flash on the exact same frozen request."
+  },
+  "comparability": {
+    "same_prompt_candidate": true,
+    "same_runtime_envelope": true,
+    "same_provider": true,
+    "same_api_family": true,
+    "same_model": false,
+    "aggregate_as_same_model_evidence": false,
+    "certification_scope_must_record_model": true
+  },
+  "execution_location": "USER_WSL",
+  "execution_surface": "WSL_LOCAL_GEMINI_GENERATE_CONTENT_API",
+  "provider": "GOOGLE_GEMINI_API",
+  "model": "gemini-3.5-flash",
+  "credential_environment_variable": "GEMINI_API_KEY",
+  "runtime_envelope_bytes": 8100,
+  "runtime_envelope_sha256": "d8572fb1731242224cf76520ebfd1fdcbe496964205837613c02a24af7d9c207",
+  "maximum_surface_submissions": 1,
+  "maximum_provider_requests": 1,
+  "automatic_retries": 0,
+  "automatic_second_case": false,
+  "human_review_required": true,
+  "output_directory": "$HOME/.local/share/prompt-machine/n09/g05-fallback-004",
+  "previous_model_availability_signal": {
+    "model": "gemini-3.8-flash",
+    "consecutive_503_unavailable": 3,
+    "behavioral_observations_created": 0
+  },
+  "fresh_explicit_authorization_required": true,
+  "authorization_format": "AUTORIZO PM-STARTER-CR-NORMAL-0001: 1 ejecución, 0 reintentos.",
+  "success_boundary": "A successful provider response creates model-scoped G05 evidence requiring human review. It does not certify, promote, rebuild packs, open checkout, or advance G06 automatically.",
+  "truth_boundary": "FALLBACK_PLAN_ONLY_NO_PROVIDER_REQUEST_NO_BEHAVIORAL_EVIDENCE"
+}

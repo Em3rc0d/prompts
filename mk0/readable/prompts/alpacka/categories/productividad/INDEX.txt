@@ -1,0 +1,28 @@
+PROMPTS — Productividad
+========================================================================================
+Total: 12
+
+[PREMIUM] Automatiza tu vida: detecta tareas repetitivas y móntales un sistema
+          automatiza-tu-vida-detecta-tareas-repetitivas-y-montales-un-sistema--5928728f.txt
+[PREMIUM] Construye tu Segundo Cerebro: organiza notas e ideas con el método PARA
+          construye-tu-segundo-cerebro-organiza-notas-e-ideas-con-el-metodo-para--dd637b89.txt
+[PREMIUM] Delegación Quirúrgica: qué soltar, a quién y con qué instrucciones
+          delegacion-quirurgica-que-soltar-a-quien-y-con-que-instrucciones--8f02bdbf.txt
+[PREMIUM] El Auditor de Tiempo: descubre dónde se fuga tu semana
+          el-auditor-de-tiempo-descubre-donde-se-fuga-tu-semana--021783ab.txt
+[PREMIUM] El Ritual de Cierre Semanal: llega cada lunes con ventaja
+          el-ritual-de-cierre-semanal-llega-cada-lunes-con-ventaja--ad173bd6.txt
+[PREMIUM] El Sistema Anti-Procrastinación: del bloqueo a la acción en 10 minutos
+          el-sistema-anti-procrastinacion-del-bloqueo-a-la-accion-en-10-minutos--725c89f6.txt
+[PREMIUM] Inbox Cero: doma tu correo con reglas, plantillas y un método diario
+          inbox-cero-doma-tu-correo-con-reglas-plantillas-y-un-metodo-diario--04811881.txt
+[PREMIUM] OKRs Personales: convierte tus metas anuales en un sistema trimestral
+          okrs-personales-convierte-tus-metas-anuales-en-un-sistema-trimestral--9969dc2a.txt
+[PREMIUM] Reuniones que valen oro: agendas, actas y seguimiento sin esfuerzo
+          reuniones-que-valen-oro-agendas-actas-y-seguimiento-sin-esfuerzo--3de1d98d.txt
+[PREMIUM] Rutina de Deep Work: diseña tus bloques de concentración extrema
+          rutina-de-deep-work-disena-tus-bloques-de-concentracion-extrema--f1b2de0b.txt
+[PREMIUM] Tu Asistente de Decisiones: frameworks para decidir rápido y bien
+          tu-asistente-de-decisiones-frameworks-para-decidir-rapido-y-bien--83b89785.txt
+[PREMIUM] Tu Semana en 30 minutos: Planificador Maestro con Time-Blocking
+          tu-semana-en-30-minutos-planificador-maestro-con-time-blocking--d9d137d7.txt

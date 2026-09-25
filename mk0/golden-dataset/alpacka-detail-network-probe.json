@@ -1,0 +1,132 @@
+{
+  "probe_version": 1,
+  "policy": "Long strings are replaced by length + SHA-256 prefix; request/response headers and credentials are not stored.",
+  "results": [
+    {
+      "requested_url": "https://www.alpackaai.xyz/prompts/9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "final_url": "https://www.alpackaai.xyz/prompts/9a1ca7e1-1693-419b-a64c-589d48b65a10",
+      "navigation_status": 200,
+      "rendered": {
+        "h1": [
+          "Aprende cualquier tema en tiempo récord (Método 80/20)"
+        ],
+        "h3": [
+          "DETALLES DEL PROMPT"
+        ],
+        "button": [
+          "Acceder",
+          "Volver al directorio",
+          "PDF",
+          "Copiar",
+          "Guardar prompt"
+        ]
+      },
+      "visible_markers": {
+        "Gratis": false,
+        "Premium": true,
+        "Cualquier modelo": true,
+        "Suscríbete": false,
+        "Iniciar sesión": false,
+        "Copiar prompt": false
+      },
+      "body_length": 2461,
+      "body_sha256": "69e8bd567d5cf7ef",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/prompts/9a1ca7e1-1693-419b-a64c-589d48b65a10",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompt_detail",
+          "status": 200,
+          "resource_type": "fetch",
+          "method": "POST",
+          "content_type": "application/vnd.pgrst.object+json; charset=utf-8",
+          "json_shape": {
+            "id": "9a1ca7e1-1693-419b-a64c-589d48b65a10",
+            "title": "Aprende cualquier tema en tiempo récord (Método 80/20)",
+            "description": "Convierte a la IA en tu tutor personal: domina cualquier tema en días, no meses, con el 20% de conceptos que genera el 80% de los resultados.",
+            "content": "<string:1763 chars sha256:168d3ef2b4539ec5>",
+            "category": "Educación",
+            "is_premium": false,
+            "image_url": null,
+            "created_at": "2026-07-30T05:07:34.070949+00:00",
+            "ai_tool": "cualquier-modelo"
+          }
+        }
+      ]
+    },
+    {
+      "requested_url": "https://www.alpackaai.xyz/prompts/26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+      "final_url": "https://www.alpackaai.xyz/prompts/26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+      "navigation_status": 200,
+      "rendered": {
+        "h1": [
+          "Pitch Deck Perfecto: las 12 diapositivas que piden los inversores"
+        ],
+        "h3": [
+          "DETALLES DEL PROMPT"
+        ],
+        "button": [
+          "Acceder",
+          "Volver al directorio",
+          "Guardar prompt"
+        ]
+      },
+      "visible_markers": {
+        "Gratis": false,
+        "Premium": true,
+        "Cualquier modelo": true,
+        "Suscríbete": true,
+        "Iniciar sesión": false,
+        "Copiar prompt": false
+      },
+      "body_length": 1238,
+      "body_sha256": "d45cfcaccf97e4e7",
+      "network": [
+        {
+          "url": "https://www.alpackaai.xyz/prompts/26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+          "status": 200,
+          "resource_type": "document",
+          "method": "GET",
+          "content_type": "text/html; charset=utf-8"
+        },
+        {
+          "url": "https://www.alpackaai.xyz/cdn-cgi/rum",
+          "status": 204,
+          "resource_type": "xhr",
+          "method": "POST",
+          "content_type": "text/plain"
+        },
+        {
+          "url": "https://ovwufkzgxrhmtspnnfou.supabase.co/rest/v1/rpc/get_prompt_detail",
+          "status": 200,
+          "resource_type": "fetch",
+          "method": "POST",
+          "content_type": "application/vnd.pgrst.object+json; charset=utf-8",
+          "json_shape": {
+            "id": "26a97f02-f44a-4af2-bf8b-9bcc5770d115",
+            "title": "Pitch Deck Perfecto: las 12 diapositivas que piden los inversores",
+            "description": "Estructura tu presentación de inversión con la narrativa y los datos que los fondos esperan ver, diapositiva por diapositiva.",
+            "content": null,
+            "category": "Negocios",
+            "is_premium": true,
+            "image_url": null,
+            "created_at": "2026-07-17T03:12:15.228947+00:00",
+            "ai_tool": "cualquier-modelo"
+          }
+        }
+      ]
+    }
+  ]
+}

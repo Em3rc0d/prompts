@@ -1,0 +1,17 @@
+{
+  "schema": "prompt-machine-starter-v2-regression-failure-v1",
+  "failure_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-FAIL-0001",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-GEMINI-WSL-54994A901604",
+  "human_review": "product/starter-collection-v2/evaluation/human-reviews/PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001.G08-001.human-review.json",
+  "observed": "The visible response correctly used REVIEWABLE_WITH_UNKNOWNS, LIKELY and REVIEW_REQUIRED, preserved upstream authorization as invalidating context, and labeled account takeover as conditional; however the provider returned MAX_TOKENS and the output ended inside section 3 before completing the six-part output contract.",
+  "why_it_matters": "The semantic successor fix appears effective on the observed portion, but a workflow that cannot reliably finish its required output contract under the frozen runtime configuration cannot pass regression.",
+  "root_cause_hypothesis": "The 4096 maxOutputTokens budget is consumed heavily by model thinking plus a verbose six-part review format, leaving insufficient visible-output budget for completion on gemini-3.5-flash.",
+  "next_change_class": "RUNTIME_CONFIGURATION_OR_OUTPUT_BUDGET_REWORK_BEFORE_RETEST",
+  "candidate_prompt_semantic_mutation_required": false,
+  "blind_retry_allowed": false,
+  "automatic_retry_allowed": false,
+  "automatic_next_case_allowed": false,
+  "case_2_authorized": false,
+  "recorded_on": "2026-09-07"
+}

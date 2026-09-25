@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-machine-architecture-pilot-static-audit-v2",
+  "audit_version": "2.0.0",
+  "basis": "Static semantic review of the nine v2 architecture blueprints; no model calls.",
+  "overall_disposition": "REWORK_REQUIRED",
+  "findings": [
+    {
+      "id": "ARCH-V2-SIM-001",
+      "mode": "simulation",
+      "severity": "HIGH",
+      "finding": "STATE POLICY defines READY for configured interactive simulations, but the OUTPUT CONTRACT status line omits READY.",
+      "impact": "The same execution can be compliant with state policy and non-compliant with the output contract.",
+      "required_change": "Add READY to the simulation output state set."
+    },
+    {
+      "id": "ARCH-V2-AUDIT-001",
+      "mode": "audit",
+      "severity": "HIGH",
+      "finding": "The audit blueprint has minimum required target/scope/rubric inputs but no BLOCKED state when those minimum inputs are unavailable.",
+      "impact": "INSUFFICIENT_EVIDENCE conflates missing audit definition with insufficient evidence after a valid audit target/scope has been established.",
+      "required_change": "Add BLOCKED for missing/contradictory target, scope or rubric; reserve INSUFFICIENT_EVIDENCE for a defined audit whose evidence cannot support responsible findings/disposition."
+    },
+    {
+      "id": "ARCH-V2-GEN-001",
+      "mode": "general",
+      "severity": "MEDIUM",
+      "finding": "UNSUPPORTED is semantically distinct from BLOCKED, but the Result output line says Not executed only for BLOCKED.",
+      "impact": "The output contract can be read as requiring a domain result even when the request is explicitly UNSUPPORTED.",
+      "required_change": "State that the requested domain result is Not executed under BLOCKED or UNSUPPORTED, while safe partial evidence may remain clearly non-final."
+    }
+  ],
+  "verified_improvements_from_v1": [
+    "explicit state policies now exist for all nine modes",
+    "input classes are separated into minimum required, conditionally required and optional",
+    "generation defines HOLD and NO_VALID_CANDIDATE and does not force a winner",
+    "writing defines factual blockers and explicit placeholders",
+    "simulation declares INTERACTIVE and BATCH_DEBRIEF invocation modes",
+    "learning requires observable assessment evidence before OBJECTIVE_MET",
+    "optimization defines DIAGNOSE_FIRST around baseline/metric insufficiency",
+    "checklist PASS semantics are evidence-complete and scope-bounded",
+    "generic high-stakes adaptation is explicitly blocked behind a separate domain binding"
+  ],
+  "truth_boundary": {
+    "external_model_calls": 0,
+    "behavioral_evidence": false,
+    "product_promotions": 0,
+    "ready_to_sell": false
+  },
+  "next_gate": "Create a corrected successor, add regression tests for all three findings, then conduct another static semantic audit before any bulk regeneration."
+}

@@ -1,0 +1,45 @@
+{
+  "request_id": "devpack-research-decision-001",
+  "request": "Design a prompt that compares two technical options using supplied evidence, explicit decision criteria, uncertainty reporting, and a structured recommendation.",
+  "title": "Technical research decision prompt",
+  "intent": "research",
+  "domain": "software",
+  "risk": "normal",
+  "complexity": "moderate",
+  "interaction": "intake-allowed",
+  "language": "en",
+  "inputs": {
+    "required": [
+      "decision",
+      "options",
+      "decision_criteria",
+      "evidence"
+    ],
+    "optional": [
+      "hard_constraints",
+      "known_unknowns"
+    ]
+  },
+  "constraints": [
+    "Do not treat missing evidence as fact",
+    "Use the same criteria for each viable option",
+    "State conditions that would change the recommendation"
+  ],
+  "success_criteria": [
+    "Recommendation follows from stated criteria and evidence",
+    "Unknowns and trade-offs are visible",
+    "Output distinguishes evidence from inference"
+  ],
+  "output_needs": {
+    "structured": true,
+    "alternatives": 1,
+    "evidence": true,
+    "citations": false
+  },
+  "model_targets": [
+    "model-agnostic"
+  ],
+  "notes": [
+    "Example request for static prompt generation; not runtime evidence."
+  ]
+}

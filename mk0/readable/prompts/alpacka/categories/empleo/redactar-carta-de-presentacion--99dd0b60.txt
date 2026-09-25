@@ -1,0 +1,96 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Redactar carta de presentación
+TYPE               : Prompt
+CATEGORY           : Empleo
+SOURCE ACCESS      : FREE
+SOURCE BODY STATUS : PUBLICLY AVAILABLE AT SOURCE, BUT NOT DUPLICATED IN THIS READER LAYER
+READABLE CONTENT   : REPOSITORY-AUTHORED READER VERSION
+FIDELITY           : metadata-and-corpus-pattern-derived-not-source-reproduction
+SOURCE UUID        : 99dd0b60-b3bc-4388-b8eb-511793217a5b
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/99dd0b60-b3bc-4388-b8eb-511793217a5b
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : (not applicable; generated for human reading from the source metadata record)
+CONTENT HASH       : sha256:8b24f58342e87639ce4eea3160f1f3b3b49ef4f2f7fd960d3f8b50f996a7c26e
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- rol objetivo
+- experiencia real
+- vacante o contexto
+- restricciones
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un consultor de carrera y selección.
+
+OBJETIVO
+Redactar carta de presentación.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {rol objetivo}
+- {experiencia real}
+- {vacante o contexto}
+- {restricciones}
+
+PROCESO
+1. Define audiencia, propósito y tono.
+2. Construye una estructura antes de redactar.
+3. Redacta una versión principal clara y específica.
+4. Revisa precisión, redundancia y llamada a la acción cuando aplique.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+SOURCE-OBSERVED STRUCTURAL SIGNALS
+----------------------------------------------------------------------------------------
+role_assignment: True
+stepwise_procedure: False
+output_contract: False
+question_first: False
+explicit_constraints: False
+numbered_steps: 0
+bullet_lines: 0
+line_count: 9
+paragraph_count: 5
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/99dd0b60-b3bc-4388-b8eb-511793217a5b
+Source record ID: alpacka_prompt_99dd0b60-b3bc-4388-b8eb-511793217a5b
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

@@ -1,0 +1,102 @@
+{
+  "schema": "prompt-machine-learning-loop-policy-v1",
+  "version": "1.0.0",
+  "state": "STATIC_POLICY_DEFINED_BEHAVIOR_UNEXECUTED",
+  "automatic_promotion": false,
+  "automatic_wave_execution": false,
+  "overwrite_observed_versions": false,
+  "evidence_classes": [
+    "UNTRUSTED_CLIENT_INTENT",
+    "USER_REPORTED_OUTCOME",
+    "RUNTIME_OBSERVATION",
+    "HUMAN_REVIEW",
+    "REGRESSION_EVIDENCE",
+    "PROVIDER_SIGNED_PURCHASE_EVIDENCE",
+    "DELIVERY_EVIDENCE",
+    "RETURN_USE_EVIDENCE"
+  ],
+  "workflow_states": [
+    "CANDIDATE",
+    "STATIC_CHECKED",
+    "INVOCATION_FROZEN",
+    "RUNTIME_OBSERVED",
+    "REVIEWED",
+    "REWORK",
+    "SUCCESSOR_BUILT",
+    "REGRESSION_REQUIRED",
+    "REGRESSION_PASS",
+    "EVIDENCE_ELIGIBLE",
+    "PRODUCT_ELIGIBLE"
+  ],
+  "review_decisions": [
+    "RETAIN",
+    "REWORK",
+    "RETIRE",
+    "EXPAND_EVIDENCE"
+  ],
+  "failure_taxonomy": [
+    "INSTRUCTION_DATA_BOUNDARY_FAILURE",
+    "UNSUPPORTED_MATERIAL_CLAIM",
+    "MISSING_REQUIRED_INPUT_NOT_BLOCKED",
+    "WRONG_STATE",
+    "OUTPUT_CONTRACT_FAILURE",
+    "AUTHORITY_ESCALATION",
+    "UNCERTAINTY_COLLAPSE",
+    "CONTRADICTION_MISHANDLED",
+    "VERIFICATION_GAP",
+    "TASK_FAILURE",
+    "UX_FRICTION",
+    "NO_FAILURE_OBSERVED"
+  ],
+  "successor_rules": {
+    "predecessor_must_remain_immutable": true,
+    "must_record_change_hypothesis": true,
+    "must_record_changed_semantics": true,
+    "must_record_target_failure": true,
+    "must_record_possible_regressions": true,
+    "must_define_regression_set": true
+  },
+  "regression_rules": {
+    "predecessor_evidence_inheritance": false,
+    "required_case_classes": [
+      "TRIGGERING_FAILURE",
+      "NORMAL"
+    ],
+    "conditional_case_classes": [
+      "EMBEDDED_OVERRIDE_OR_INSTRUCTION_DATA",
+      "STATE_OR_OUTPUT_CONTRACT"
+    ],
+    "allowed_results": [
+      "PASS",
+      "FAIL",
+      "INCONCLUSIVE"
+    ],
+    "evidence_eligibility_requires": "PASS"
+  },
+  "promotion_boundaries": {
+    "runtime_observation_implies_certification": false,
+    "regression_pass_implies_ready_to_sell": false,
+    "product_eligible_implies_ready_to_sell": false,
+    "client_intent_implies_customer_value": false,
+    "user_report_implies_runtime_reliability": false,
+    "purchase_implies_retention": false
+  },
+  "current_canary": {
+    "invocation_id": "PM-INV-CHECKLIST-NORMAL-0003",
+    "state": "PREPARED_NOT_EXECUTED",
+    "maximum_calls_before_review": 1,
+    "next_step_after_observation": "HUMAN_REVIEW",
+    "allowed_post_review_decisions": [
+      "RETAIN",
+      "REWORK",
+      "RETIRE",
+      "EXPAND_EVIDENCE"
+    ]
+  },
+  "truth": {
+    "behavioral_observations": 0,
+    "real_customer_outcomes": 0,
+    "real_purchases": 0,
+    "ready_to_sell": false
+  }
+}

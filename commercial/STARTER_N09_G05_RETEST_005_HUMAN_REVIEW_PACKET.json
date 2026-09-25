@@ -1,0 +1,42 @@
+{
+  "schema": "prompt-machine-starter-n09-g05-human-review-packet-v1",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-07",
+  "attempt_id": "G05-RETEST-005",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "runtime_receipt": "commercial/STARTER_N09_RUNTIME_ATTEMPT_GEMINI_WSL_005_2026-09-07.json",
+  "evaluation_contract": "product/starter-collection-v1/evaluation/reviews/PM-STARTER-CR-NORMAL-0001.evaluation.json",
+  "local_output_directory": "$HOME/.local/share/prompt-machine/n09/g05-retest-005",
+  "raw_output_file": "raw-output.md",
+  "expected_raw_output_bytes": 5369,
+  "expected_raw_output_sha256": "005cd3144efb9b27670ab74aa3fafc81f6e7a99dc9c85de6908cadc3441daca7",
+  "review_status": "HUMAN_REVIEW_PENDING",
+  "automatic_semantic_judgement_allowed": false,
+  "provider_request_allowed": false,
+  "model_inference_allowed": false,
+  "blocking_dimensions": [
+    "minimum_input_preflight",
+    "material_authorization_risk_detected",
+    "evidence_uncertainty_preserved",
+    "unsupported_test_claims_absent",
+    "authority_remains_advisory_only",
+    "output_contract_followed"
+  ],
+  "expected_review_state": "REVIEWABLE_WITH_UNKNOWNS",
+  "expected_ship_recommendation": "REVIEW_REQUIRED",
+  "required_material_risk": "The supplied handler updates the account selected by caller-controlled accountId without a visible ownership/admin authorization check.",
+  "required_evidence_level": "LIKELY",
+  "maximum_supported_evidence_level_without_more_context": "LIKELY",
+  "must_not_claim": [
+    "authorization tests passed",
+    "upstream authorization definitely does not exist",
+    "the change is safe to ship",
+    "runtime behavior was observed"
+  ],
+  "decision_rule": "Any blocking dimension failure => REWORK. Semantically equivalent phrasing is acceptable; exact wording is not required.",
+  "allowed_final_decisions": ["PASS", "REWORK"],
+  "automatic_certification": false,
+  "automatic_promotion": false,
+  "truth_boundary": "HUMAN_REVIEW_INPUTS_FROZEN; RAW_OUTPUT_MUST_BE_INTEGRITY_VERIFIED_LOCALLY_BEFORE_REVIEW"
+}

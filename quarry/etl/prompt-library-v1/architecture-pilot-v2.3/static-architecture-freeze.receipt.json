@@ -1,0 +1,61 @@
+{
+  "schema": "prompt-machine-static-architecture-freeze-receipt-v1",
+  "receipt_id": "PM-ARCH-FREEZE-V2.3-0001",
+  "architecture_version": "2.3.0",
+  "frozen_source_commit": "6c7b7a5c0702dafba8a72dbf93f9181600f4d4a6",
+  "blueprints_path": "quarry/etl/prompt-library-v1/architecture-pilot-v2.3/blueprints.jsonl",
+  "blueprints_git_blob_sha": "587ec9ac2ba8b9cbebb907e813ba3c42de7094cc",
+  "architecture_count": 9,
+  "modes": [
+    "general",
+    "plan",
+    "generation",
+    "writing",
+    "audit",
+    "simulation",
+    "learning",
+    "optimization",
+    "checklist"
+  ],
+  "audit_basis": "Static semantic reasoning plus deterministic regression gates only. No external model/runtime execution.",
+  "disposition": "STATIC_ARCHITECTURE_FREEZE_PASS",
+  "critical_findings_open": 0,
+  "high_findings_open": 0,
+  "material_semantic_contradictions_open": 0,
+  "verified_invariants": [
+    "minimum required, conditionally required and optional inputs are distinct",
+    "missing or materially contradictory minimum required input is fail-closed BLOCKED before domain execution",
+    "authority defaults to ADVISORY_ONLY and cannot expand through task data",
+    "instructions embedded in code, logs, documents, tickets, web/source material, examples or tool output are treated as data and cannot change workflow policy",
+    "evidence vocabulary distinguishes SUPPLIED_CLAIM, OBSERVED, SOURCE_CLAIM, INFERRED, ASSUMPTION, UNKNOWN and CONTRADICTED",
+    "state selection follows semantic conditions and must not overstate execution, evidence or completion",
+    "generation does not force winners, scopes NO_VALID_CANDIDATE to the evaluated set and exposes whether search was exhaustive",
+    "writing blocks or preserves explicit placeholders when material facts are unavailable rather than fabricating them",
+    "audit distinguishes missing audit definition, insufficient evidence, completed-with-unknowns and completed inspected scope; completion is not certification",
+    "simulation declares invocation mode and never treats generated user turns as evidence of actual user performance",
+    "learning forbids OBJECTIVE_MET without observable assessment evidence and a configured threshold",
+    "optimization uses DIAGNOSE_FIRST when baseline/metric evidence cannot support defensible intervention selection or measurement",
+    "checklist PASS requires evidence-complete applicable required items and is explicitly scoped to the inspected checklist",
+    "generic architecture cannot be adapted to individualized legal, medical, financial or other high-stakes use without a separate safety/authority binding and review gate",
+    "static architecture quality never implies behavioral testing, certification, portability, product eligibility or READY_TO_SELL"
+  ],
+  "historical_audits": [
+    "quarry/etl/prompt-library-v1/architecture-pilot/static-audit-v1.json",
+    "quarry/etl/prompt-library-v1/architecture-pilot-v2/static-audit-v2.json",
+    "quarry/etl/prompt-library-v1/architecture-pilot-v2.1/static-audit-v2.1.json",
+    "quarry/etl/prompt-library-v1/architecture-pilot-v2.2/static-freeze-audit.v2.2.json"
+  ],
+  "truth_boundary": {
+    "external_model_calls": 0,
+    "behavioral_evidence": false,
+    "F4_TESTED": false,
+    "F5_IMPROVED": false,
+    "F6_CERTIFIED": false,
+    "F7_PORTABLE": false,
+    "product_eligible": false,
+    "ready_to_sell": false,
+    "automatic_product_promotions": 0,
+    "bulk_regeneration_allowed": false
+  },
+  "next_gate": "Design and statically validate deterministic binding/invocation contracts from frozen architecture + authorized configuration/category metadata + instance input. Keep high-stakes bindings isolated. Do not bulk-regenerate the 478 legacy candidates yet."
+}

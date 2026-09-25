@@ -1,0 +1,62 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE           : Human Editor Skill
+TYPE            : skill
+ID              : pq_derived_human_editor_skill
+AUTHOR          : Prompt Quarry
+SOURCE          : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+OFFICIAL POST   : https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+RAW URL         : None
+VERIFICATION    : secondary-source-observed
+CAPTURE MODE    : derived-analysis
+LANGUAGE        : en
+MACHINE RECORD  : catalog/catalog.jsonl
+
+SUMMARY
+----------------------------------------------------------------------------------------
+Reusable editorial capability that preserves facts, detects mechanical writing patterns, repairs rhythm, aligns voice and performs a final integrity check.
+
+CATEGORIES
+----------------------------------------------------------------------------------------
+- content/editing
+- content/writing
+
+TAGS
+----------------------------------------------------------------------------------------
+- derived
+- humanization
+- editing
+- reader-experience
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- tone-definition
+- audience-definition
+- critique-revision
+- iterative-refinement
+- self-check
+
+VARIABLES
+----------------------------------------------------------------------------------------
+- draft
+- audience
+- intent
+- voice
+- constraints
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+-
+  url: https://www.threads.com/@alpacka.ai/post/DURUbidDrA5
+  relation: derived-from
+  note: Technique family source.
+-
+  url: https://www.infobae.com/tecno/2026/02/03/como-humanizar-textos-de-ia-los-mejores-prompts-para-que-no-sepan-que-usaste-chatgpt-o-gemini/
+  relation: secondary
+  note: Secondary evidence describing the source prompt family.
+
+ADDITIONAL METADATA
+----------------------------------------------------------------------------------------
+library_path: library/skills/content/human-editor.md
+derived_body_original: True

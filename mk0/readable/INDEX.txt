@@ -1,0 +1,22 @@
+READABLE ARTIFACT INDEX
+========================================================================================
+Prompts: 530
+Skills: 12
+Generator previews: 3
+Blog references: 2
+Canonical catalog records: 21
+Repository Markdown copies: 20
+Documentation/source-map copies: 8
+
+See README.txt for how to navigate this directory.
+
+STAGES
+----------------------------------------------------------------------------------------
+MK0 documents: 1
+MK1 documents: 17
+MK1 candidate prompt copies: 3
+MK1 critic receipt copies: 3
+MK2 documents: 1
+Start with stages/ROOT_OVERVIEW.txt or stages/ROADMAP.txt.
+Current MK1 prompt candidates and receipts are under stages/mk1/candidates/.
+

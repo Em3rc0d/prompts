@@ -1,0 +1,111 @@
+import Link from "next/link";
+import { CommerceLink } from "@/components/commerce-link";
+import { QuarryEngine } from "@/components/quarry-engine";
+
+const outcomes = [
+  ["01", "BUILD & SHIP", "Make technical work easier to repeat", "Review changes, diagnose problems, compare implementation options, and turn recurring technical tasks into explicit workflows."],
+  ["02", "RESEARCH & DECIDE", "Move from information to a decision", "Structure evidence, preserve hard constraints, compare options consistently, and make uncertainty visible before committing."],
+  ["03", "LEARN & CREATE", "Turn knowledge into useful work", "Use repeatable workflows to understand material, organize projects, transform information, and create deliverables without starting from zero."],
+  ["04", "OPERATE & AUTOMATE", "Reduce repetitive operational work", "Identify routine tasks that can become explicit AI-assisted workflows with clear inputs, outputs, boundaries, and verification."],
+];
+
+const howItWorks = [
+  ["01", "Choose the outcome", "Start with what you need to get done, not with a prompt format or a profession."],
+  ["02", "Run the workflow", "Follow a reusable input, process, output, fallback, and verification contract instead of improvising every session."],
+  ["03", "Inspect the boundaries", "See what is versioned, what has been checked, what remains unknown, and what the workflow must not claim."],
+  ["04", "Reuse what earns trust", "Keep the workflows that save real work. Upgrade only when a paid workflow earns a place in your process."],
+];
+
+export default function HomePage() {
+  return (
+    <main>
+      <section className="hero heroPremium">
+        <div className="heroGridBackdrop" aria-hidden="true" />
+        <div className="heroGlow heroGlowOne" aria-hidden="true" />
+        <div className="wrap heroPremiumGrid">
+          <div className="heroCopy">
+            <div className="heroKicker"><span className="signalDot" />VERLUNE / REUSABLE AI WORKFLOWS</div>
+            <h1>Stop starting from a blank chat.</h1>
+            <p className="heroStatement">Verlune turns recurring work into reusable AI workflows with explicit inputs, visible evidence, clear boundaries, and a result you can verify.</p>
+            <div className="actions heroActions">
+              <CommerceLink kind="free" className="btn btnPrimary btnHero">Start with 3 free workflows <span>→</span></CommerceLink>
+              <Link className="btn btnGhost btnHero" href="/collections">Explore Verlune</Link>
+            </div>
+            <div className="heroProof">
+              <div><strong>$0</strong><span>useful free entry</span></div>
+              <div><strong>$9</strong><span>Code Review hypothesis</span></div>
+              <div><strong>77/77</strong><span>package QA</span></div>
+              <div><strong>TRACE</strong><span>version + evidence</span></div>
+            </div>
+            <p className="trust heroTrust"><span>◆</span> Stronger claims require stronger evidence. Every release keeps its scope and unknowns visible.</p>
+          </div>
+          <QuarryEngine />
+        </div>
+      </section>
+
+      <section className="section methodSection" id="workflows">
+        <div className="wrap">
+          <div className="sectionHeader splitHeader">
+            <div><div className="eyebrow">01 / FIND YOUR JOB</div><h2>What are you trying to get done?</h2></div>
+            <p className="sectionIntro">Verlune is organized around outcomes. The task comes first; the workflow is the reusable operating layer.</p>
+          </div>
+          <div className="pipeline">
+            {outcomes.map(([n, code, title, copy]) => <article className="pipelineStep" key={n}><div className="pipelineTop"><span>{n}</span><code>{code}</code></div><h3>{title}</h3><p>{copy}</p></article>)}
+          </div>
+          <div className="methodManifest"><div className="manifestLabel">VERLUNE PRINCIPLE</div><p>goal <span>→</span> workflow <span>→</span> result <span>→</span> verify <span>→</span> reuse</p></div>
+        </div>
+      </section>
+
+      <section className="section freeSection" id="free">
+        <div className="wrap freeLayout">
+          <div className="freeCopy">
+            <div className="eyebrow">02 / FREE LIBRARY</div>
+            <h2>Trust starts before a purchase.</h2>
+            <p className="sectionIntro">Start with three structured developer workflows at $0. They are useful standalone workflows with explicit inputs, evidence rules, process, output contracts, fallbacks, and verification guidance.</p>
+            <div className="actions"><CommerceLink kind="free" className="btn btnPrimary btnHero">Get the free workflows <span>→</span></CommerceLink></div>
+            <p className="micro">Free delivery integrity is verified independently from behavioral certification.</p>
+          </div>
+          <div className="promptStack">
+            <article className="promptFile"><div className="promptFileTop"><span>FREE / 01</span><code>build & ship</code></div><h3>Code Review</h3><p>Evidence-ranked findings, severity, verification guidance, and an explicit ship recommendation.</p></article>
+            <article className="promptFile"><div className="promptFileTop"><span>FREE / 02</span><code>build & ship</code></div><h3>Bug Diagnosis</h3><p>Observation ledger, ranked hypotheses, discriminating checks, and a clear boundary between symptom, mitigation, and cause.</p></article>
+            <article className="promptFile"><div className="promptFileTop"><span>FREE / 03</span><code>research & decide</code></div><h3>Technical Decision</h3><p>Hard constraints, evidence quality, tradeoffs, reversibility, and a next validation action.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section productSection" id="collections">
+        <div className="wrap"><div className="productFrame">
+          <div className="productFrameTop"><span className="productEdition">VERLUNE / FIRST PAID PRODUCT</span><span className="releaseBadge"><i /> PROVIDER VALIDATION PENDING · CHECKOUT OFF</span></div>
+          <div className="productFrameGrid">
+            <div className="productMain">
+              <div className="eyebrow">03 / CODE REVIEW</div>
+              <h2>Verlune Code Review</h2>
+              <p>One focused evidence-first workflow for reviewing software changes without turning unknowns into confident findings.</p>
+              <p className="sectionIntro">The exact workflow has scoped certification on <strong>Gemini 3.5 Flash</strong>. The Verlune customer package is deterministic, its license and terms are frozen, and independent Pack QA passes <strong>77/77</strong>. Provider validation of the new Verlune archive is still pending, so checkout remains off.</p>
+              <div className="identity"><div><strong>01</strong><span>certified-scope workflow</span></div><div><strong>$9</strong><span>price hypothesis</span></div><div><strong>77/77</strong><span>Pack QA</span></div><div><strong>OFF</strong><span>checkout</span></div></div>
+            </div>
+            <aside className="purchasePanel"><span className="purchaseLabel">FIRST PAID OFFER</span><h3>Would evidence-first Code Review earn $9?</h3><p>Inspect the exact scope, evidence boundary, package identity, and current release state before any purchase is enabled.</p><CommerceLink kind="starter" className="btn btnSecondary">Inspect Verlune Code Review →</CommerceLink><Link className="btn btnGhost" href="/collections">See the product ladder →</Link></aside>
+          </div>
+        </div></div>
+      </section>
+
+      <section className="section methodSection" id="how-it-works">
+        <div className="wrap">
+          <div className="sectionHeader splitHeader">
+            <div><div className="eyebrow">04 / HOW IT WORKS</div><h2>The product is the workflow experience.</h2></div>
+            <p className="sectionIntro">Downloads, ZIPs, and prompt surfaces are delivery mechanisms. The customer experience is finding the right workflow, applying it correctly, and knowing what to trust.</p>
+          </div>
+          <div className="pipeline">
+            {howItWorks.map(([n, title, copy]) => <article className="pipelineStep" key={n}><div className="pipelineTop"><span>{n}</span><code>STEP {n}</code></div><h3>{title}</h3><p>{copy}</p></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="section evidenceSection" id="evidence">
+        <div className="wrap evidenceLayout"><div className="evidenceCopy"><div className="eyebrow">05 / TRUST</div><h2>Useful first. Claims second.</h2><p className="sectionIntro">Verlune keeps evidence states visible. A polished workflow does not become tested, certified, portable, or ready to sell simply because it looks professional.</p><p className="evidenceRule">marketing claim <span>≤</span> observed evidence</p></div><div className="evidenceLadder"><div className="evidenceRow active"><span>VERSIONED</span><strong>Exact customer artifact</strong><em>VISIBLE</em></div><div className="evidenceRow active"><span>STRUCTURE</span><strong>Contract and integrity checks</strong><em>VISIBLE</em></div><div className="evidenceRow active"><span>RUNTIME</span><strong>Named model evidence</strong><em>SCOPED</em></div><div className="evidenceRow active"><span>CERTIFIED</span><strong>Exact declared scope</strong><em>SCOPED</em></div></div></div>
+      </section>
+
+      <section className="cta premiumCta"><div className="ctaGridBackdrop" aria-hidden="true" /><div className="wrap premiumCtaInner"><div className="eyebrow">START WITH VALUE</div><h2>Try a workflow on a real task.<br /><span>Keep it only if it earns a place in your work.</span></h2><div className="actions ctaActions"><CommerceLink kind="free" className="btn btnPrimary btnHero">Start Free <span>→</span></CommerceLink><Link className="btn btnGhost btnHero" href="/collections">Explore Verlune</Link></div></div></section>
+    </main>
+  );
+}

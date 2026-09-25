@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "prompt-machine-starter-provider-failure-receipt-v1",
+  "title": "Prompt Machine Starter Provider Failure Receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "receipt_id",
+    "recorded_at",
+    "provider",
+    "product_id",
+    "stage",
+    "attempt",
+    "failure",
+    "evidence_boundary",
+    "next_decision"
+  ],
+  "properties": {
+    "schema": { "const": "prompt-machine-starter-provider-failure-receipt-v1" },
+    "receipt_id": { "type": "string", "minLength": 1 },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "provider": { "const": "LEMON_SQUEEZY" },
+    "product_id": { "const": "prompt-machine-starter-collection" },
+    "stage": {
+      "enum": [
+        "PROVISIONING",
+        "CUSTODY",
+        "SIGNED_PROVIDER_TEST_EVENT",
+        "LIVE_DELIVERY_CANARY"
+      ]
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_number", "automatic_retry", "provider_call_count"],
+      "properties": {
+        "attempt_number": { "type": "integer", "minimum": 1 },
+        "automatic_retry": { "const": false },
+        "provider_call_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "observed_fact", "why_it_matters", "hypothesis", "proposed_change"],
+      "properties": {
+        "state": {
+          "enum": [
+            "PROVISIONING_IDENTITY_MISMATCH",
+            "PROVIDER_CONFIGURATION_MISSING",
+            "PROVIDER_API_UNAVAILABLE",
+            "PROVIDER_FILE_MISSING_OR_DUPLICATED",
+            "CUSTODY_NOT_ESTABLISHED",
+            "CUSTODY_ARTIFACT_MISMATCH",
+            "WEBHOOK_SIGNATURE_REJECTED",
+            "PROVIDER_TEST_ORDER_NOT_ACCEPTED",
+            "RELEASE_IDENTITY_MISMATCH",
+            "DELIVERY_SURFACE_UNAVAILABLE",
+            "DELIVERY_ARTIFACT_MISMATCH",
+            "RECEIPT_INVALID",
+            "PUBLIC_SURFACE_LEAK",
+            "EVIDENCE_PERSISTENCE_FAILURE",
+            "INCONCLUSIVE"
+          ]
+        },
+        "observed_fact": { "type": "string", "minLength": 1 },
+        "why_it_matters": { "type": "string", "minLength": 1 },
+        "hypothesis": { "type": "string", "minLength": 1 },
+        "proposed_change": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counts_as_external_failure_observation",
+        "counts_as_provider_integration_pass",
+        "counts_as_custody_pass",
+        "counts_as_delivery_pass",
+        "counts_as_purchase",
+        "counts_as_revenue",
+        "contains_customer_pii",
+        "contains_provider_secrets"
+      ],
+      "properties": {
+        "counts_as_external_failure_observation": { "const": true },
+        "counts_as_provider_integration_pass": { "const": false },
+        "counts_as_custody_pass": { "const": false },
+        "counts_as_delivery_pass": { "const": false },
+        "counts_as_purchase": { "const": false },
+        "counts_as_revenue": { "const": false },
+        "contains_customer_pii": { "const": false },
+        "contains_provider_secrets": { "const": false }
+      }
+    },
+    "next_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_review_required", "automatic_retry_allowed", "repeat_requires_documented_change"],
+      "properties": {
+        "human_review_required": { "const": true },
+        "automatic_retry_allowed": { "const": false },
+        "repeat_requires_documented_change": { "const": true }
+      }
+    }
+  }
+}

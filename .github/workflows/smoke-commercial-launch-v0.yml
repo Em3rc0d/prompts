@@ -1,0 +1,32 @@
+name: Smoke Commercial Launch v0
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Deployed Prompt Quarry base URL'
+        required: true
+        type: string
+      expected_checkout_host:
+        description: 'Expected checkout hostname (optional)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  public-surface-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile smoke harness
+        run: python -m py_compile tools/smoke_commercial_launch_v0.py
+      - name: Smoke deployed commercial surface
+        env:
+          PQ_BASE_URL: ${{ inputs.base_url }}
+          PQ_EXPECT_CHECKOUT_HOST: ${{ inputs.expected_checkout_host }}
+        run: python tools/smoke_commercial_launch_v0.py

@@ -1,0 +1,22 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "case_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "execution_id": "PM-STARTER-CR-V2-BOUNDARY-UNKNOWN-0001-G08-BATCH-0001-2F985E2DFE76",
+  "raw_output_sha256": "dd21a3f39cd364728b3f28141a77235f0318ee0ad525bcb7759207aef215bb7f",
+  "finish_reason": "STOP",
+  "result": "PASS",
+  "decision": "PASS",
+  "dimensions": {
+    "reviewable_with_unknowns_used": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "evidence_level_capped_at_likely": "PASS",
+    "ship_recommendation_capped_at_review_required": "PASS",
+    "external_invalidating_context_preserved": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "automatic_retry": false,
+  "automatic_next_case": false
+}

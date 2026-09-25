@@ -1,0 +1,50 @@
+{
+  "schema": "prompt-quarry-pcp-gate-receipt-v1",
+  "receipt_id": "PQ-PCP-00-RECEIPT-0001",
+  "program_gate": "PCP-00",
+  "original_alias": "MK3.0",
+  "gate_name": "PROMPT_INVENTORY_AUDITED",
+  "observed_at": "2026-09-01T14:01:41Z",
+  "repository": "Em3rc0d/prompts",
+  "baseline": {
+    "integration_branch": "feat/mk1-prompt-generator-v0-20260827",
+    "observed_head": "a70ee18f8a15e65ed08b153fa95f1397821d8014",
+    "free_manifest_blob": "db44c7213d03d60dfd22caa6d19229d22ba1a9a8",
+    "paid_inventory_blob": "b287172a94246109d0e33f691f50d6ab5d1ae7aa",
+    "paid_release_candidate_receipt_blob": "b029dd19ddeb1cee477f8937d0987fb735fe73ff"
+  },
+  "checks": [
+    {"id": "PCP00-C01", "name": "two_product_baselines_identified", "status": "PASS", "observed": "Free 1.1.0 and Paid 1.1.0 RC1"},
+    {"id": "PCP00-C02", "name": "pack_asset_counts_reconciled", "status": "PASS", "observed": "7 Free + 13 Paid = 20 customer-visible assets"},
+    {"id": "PCP00-C03", "name": "prompt_artifacts_classified", "status": "PASS", "observed": "3 finished workflows + 4 reusable system templates = 7 prompts"},
+    {"id": "PCP00-C04", "name": "permanent_prompt_ids_unique", "status": "PASS", "observed": "PQ-PROMPT-0001 through PQ-PROMPT-0007"},
+    {"id": "PCP00-C05", "name": "source_identity_complete", "status": "PASS", "observed": "Every prompt records path, Git blob SHA, SHA-256, and source byte size"},
+    {"id": "PCP00-C06", "name": "release_identity_complete", "status": "PASS", "observed": "Every prompt records archive path, release SHA-256, byte size, and normalization state"},
+    {"id": "PCP00-C07", "name": "exact_duplicate_scan", "status": "PASS", "observed": "0 SHA-256 duplicate groups"},
+    {"id": "PCP00-C08", "name": "near_duplicate_scan", "status": "PASS", "observed": "0 lexical pairs at or above 0.80 token 5-gram Jaccard"},
+    {"id": "PCP00-C09", "name": "semantic_sibling_review", "status": "PASS", "observed": "3 Free/Paid same-family pairs retained with distinct product roles"},
+    {"id": "PCP00-C10", "name": "historical_product_sources_immutable", "status": "PASS", "observed": "PCP-00 adds certification metadata only; no Free or Paid product source file is changed"},
+    {"id": "PCP00-C11", "name": "claim_boundary_preserved", "status": "PASS", "observed": "F4, F5, F6, and F7 remain false for all seven prompts"}
+  ],
+  "counts": {
+    "checks": 11,
+    "pass": 11,
+    "warn": 0,
+    "fail": 0
+  },
+  "status": "PASS",
+  "scope": "Inventory identity, provenance, completeness, and duplicate review only.",
+  "does_not_establish": [
+    "PROMPT_SPEC_COMPLETE",
+    "STATIC_AUDIT_COMPLETE",
+    "PROMPT_TEST_MATRIX",
+    "F4_TESTED",
+    "F5_IMPROVED",
+    "F6_CERTIFIED",
+    "F7_PORTABLE",
+    "PACK_VALUE_REVIEW",
+    "PRODUCT_READY",
+    "READY_TO_SELL"
+  ],
+  "next_gate": "PCP-01 / PROMPT_SPEC_COMPLETE"
+}

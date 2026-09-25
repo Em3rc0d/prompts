@@ -1,0 +1,64 @@
+{
+  "records": 12,
+  "structure_presence": {
+    "has_role": {
+      "count": 12,
+      "percent": 100.0
+    },
+    "has_intake_questions": {
+      "count": 12,
+      "percent": 100.0
+    },
+    "has_rules": {
+      "count": 12,
+      "percent": 100.0
+    },
+    "has_output_contract": {
+      "count": 9,
+      "percent": 75.0
+    },
+    "has_process": {
+      "count": 4,
+      "percent": 33.33
+    }
+  },
+  "top_variables": [
+    {
+      "variable": "0-2s",
+      "count": 1
+    },
+    {
+      "variable": "2-20s",
+      "count": 1
+    },
+    {
+      "variable": "20-30s",
+      "count": 1
+    },
+    {
+      "variable": "SEVERIDAD",
+      "count": 1
+    },
+    {
+      "variable": "cliente",
+      "count": 1
+    },
+    {
+      "variable": "resultado",
+      "count": 1
+    },
+    {
+      "variable": "cómo",
+      "count": 1
+    }
+  ],
+  "categories": {
+    "MARKETING": 3,
+    "PRODUCTIVIDAD": 2,
+    "ESCRITURA": 2,
+    "NEGOCIOS": 2,
+    "DATOS": 1,
+    "DESARROLLO": 1,
+    "ESTUDIO": 1
+  }
+}

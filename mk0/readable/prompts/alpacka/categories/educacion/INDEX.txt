@@ -1,0 +1,76 @@
+PROMPTS — Educación
+========================================================================================
+Total: 36
+
+[PREMIUM] Adaptador de Nivel de Lectura (Simplifier)
+          adaptador-de-nivel-de-lectura-simplifier--a2758d2a.txt
+[PREMIUM] Adaptador de Tareas para Inclusión
+          adaptador-de-tareas-para-inclusion--334d5c8b.txt
+[PREMIUM] Analista de Papers Científicos (ELI5)
+          analista-de-papers-cientificos-eli5--24639c2b.txt
+[FREE   ] Aprende cualquier tema en tiempo récord (Método 80/20)
+          aprende-cualquier-tema-en-tiempo-record-metodo-80-20--9a1ca7e1.txt
+[PREMIUM] Asesor de Neurodiversidad en Aula
+          asesor-de-neurodiversidad-en-aula--491ed35c.txt
+[PREMIUM] Compañero de Conversación y Corrección
+          companero-de-conversacion-y-correccion--112b8432.txt
+[PREMIUM] Crea un plan de estudios desde cero
+          crea-un-plan-de-estudios-desde-cero--1550853c.txt
+[PREMIUM] Creador de Casos de Estudio (HBS)
+          creador-de-casos-de-estudio-hbs--81087dd5.txt
+[PREMIUM] Creador de Escape Rooms de Aula
+          creador-de-escape-rooms-de-aula--df54263e.txt
+[PREMIUM] Creador de Guías de Estudio
+          creador-de-guias-de-estudio--32890b69.txt
+[PREMIUM] Creador de Rúbricas Analíticas
+          creador-de-rubricas-analiticas--880e6c0d.txt
+[PREMIUM] Diseñador de Actividades STEM Prácticas
+          disenador-de-actividades-stem-practicas--7c330bb6.txt
+[PREMIUM] Diseñador de Gamificación para Aulas
+          disenador-de-gamificacion-para-aulas--4fb6484c.txt
+[PREMIUM] Diseñador de Proyectos ABP
+          disenador-de-proyectos-abp--717f4f12.txt
+[PREMIUM] Entrenador de Oratoria (Public Speaking)
+          entrenador-de-oratoria-public-speaking--1f4ea0f8.txt
+[PREMIUM] Estructurador de Tesis de Grado
+          estructurador-de-tesis-de-grado--c7be2463.txt
+[PREMIUM] Evaluador de Fuentes y Fake News
+          evaluador-de-fuentes-y-fake-news--0859f751.txt
+[FREE   ] Explicación de temas difíciles 
+          explicacion-de-temas-dificiles--b16abe08.txt
+[PREMIUM] Explicador Analógico "AHA Moment"
+          explicador-analogico-aha-moment--116a2f0f.txt
+[PREMIUM] Generador de Exámenes Mutiple Choice
+          generador-de-examenes-mutiple-choice--5d92523d.txt
+[PREMIUM] Generador de Mapas Mentales Complejos
+          generador-de-mapas-mentales-complejos--f47e226d.txt
+[PREMIUM] Generador de Word-Problems Contextualizados
+          generador-de-word-problems-contextualizados--e1ad3614.txt
+[PREMIUM] Generador de ejercicios y casos de estudio
+          generador-de-ejercicios-y-casos-de-estudio--f5445c0a.txt
+[PREMIUM] Guía de análisis y comprensión de textos
+          guia-de-analisis-y-comprension-de-textos--fb3b0407.txt
+[PREMIUM] Moderador de Debates Parlamentarios
+          moderador-de-debates-parlamentarios--ae4d7031.txt
+[PREMIUM] Planificador de Clases Detallado
+          planificador-de-clases-detallado--692c649c.txt
+[PREMIUM] Redactor de Reportes de Progreso Empáticos
+          redactor-de-reportes-de-progreso-empaticos--eef4967a.txt
+[PREMIUM] Revisor Crítico de Ensayos
+          revisor-critico-de-ensayos--9906da8b.txt
+[PREMIUM] Rompehielos (Icebreakers) Pedagógicos
+          rompehielos-icebreakers-pedagogicos--3f7d5bf1.txt
+[PREMIUM] Simulador de Entrevista Universitaria
+          simulador-de-entrevista-universitaria--0bd60af3.txt
+[PREMIUM] Simulador de Interrogación Histórica
+          simulador-de-interrogacion-historica--84d41b31.txt
+[PREMIUM] Simulador de Sustentación de Tesis
+          simulador-de-sustentacion-de-tesis--0dd9d3ca.txt
+[PREMIUM] Tallerista de Escritura Creativa
+          tallerista-de-escritura-creativa--2a8ccba0.txt
+[PREMIUM] Traductor de Jerga a Académico
+          traductor-de-jerga-a-academico--74a38693.txt
+[PREMIUM] Transformador de apuntes en guías de estudio
+          transformador-de-apuntes-en-guias-de-estudio--3574561b.txt
+[PREMIUM] Tutor Socrático
+          tutor-socratico--2257f7eb.txt

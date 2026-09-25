@@ -1,0 +1,342 @@
+{
+  "schema": "prompt-machine-starter-release-gate-v1",
+  "version": "1.0.10",
+  "checkpoint_revision": "runtime-protocol-contamination-copy-reaudit-20260904",
+  "recorded_on": "2026-09-04",
+  "product": {
+    "product_id": "prompt-machine-starter-collection",
+    "price_hypothesis_usd": 9,
+    "billing_model": "ONE_TIME",
+    "scope_state": "FROZEN",
+    "sale_state": "NOT_FOR_SALE"
+  },
+  "truth": {
+    "architecture_behavioral_observations": 7,
+    "architecture_expected_state_matches": 7,
+    "architecture_blocking_review_failures": 0,
+    "starter_workflow_contracts_frozen": 2,
+    "starter_executable_prompt_surfaces_frozen": 2,
+    "starter_required_customer_assets_present": 9,
+    "starter_required_customer_assets_total": 9,
+    "starter_reproducible_archive_builds_observed": 1,
+    "starter_canary_cases_prepared": 4,
+    "starter_evaluation_contracts_frozen": 4,
+    "starter_exact_runtime_envelopes_frozen": 4,
+    "starter_canary_cases_armed": 0,
+    "starter_sku_workflow_runtime_observations": 1,
+    "starter_skill_behavioral_observations": 0,
+    "starter_supported_skills": 0,
+    "starter_structural_skill_candidates": 2,
+    "starter_skills_in_current_archive": 0,
+    "public_copy_audit_passes": 1,
+    "public_copy_material_failures_found_before_fix": 3,
+    "public_copy_material_failures_open": 0,
+    "public_copy_additional_scope_ambiguities_found_and_fixed": 3,
+    "public_copy_reaudits_after_scope_change": 1,
+    "public_copy_reaudits_after_evidence_change": 1,
+    "public_copy_total_successful_retests": 3,
+    "provider_integration_static_preparation_passes": 1,
+    "starter_signed_webhook_adapters_present": 1,
+    "provider_preflight_static_passes": 1,
+    "provider_receipt_schema_static_passes": 1,
+    "execution_decision_governance_static_passes": 1,
+    "release_dag_static_passes": 1,
+    "provider_provisioning_receipts_observed": 0,
+    "provider_custody_observations": 0,
+    "delivery_receipts_observed": 0,
+    "real_customer_outcomes": 0,
+    "real_purchases": 0,
+    "public_checkout_enabled": false,
+    "ready_to_sell": false,
+    "starter_sku_workflow_runtime_passes": 0,
+    "starter_sku_workflow_runtime_fails": 0,
+    "starter_sku_workflow_runtime_inconclusive": 1
+  },
+  "scope": {
+    "workflows": [
+      "evidence-first-code-review",
+      "evidence-first-bug-diagnosis"
+    ],
+    "skill_candidates": [
+      "review-code-with-evidence",
+      "diagnose-bugs-with-evidence"
+    ],
+    "supported_skills_in_v1": [],
+    "required_customer_assets": 9,
+    "conditional_assets": [
+      "code-review workflow Trust Card",
+      "bug-diagnosis workflow Trust Card"
+    ],
+    "deferred_non_launch_candidates": [
+      "review-code-with-evidence skill",
+      "diagnose-bugs-with-evidence skill"
+    ]
+  },
+  "skill_launch_scope": {
+    "contract": "commercial/STARTER_SKILL_LAUNCH_SCOPE_V1.json",
+    "state": "SKILLS_DEFERRED_FROM_V1_LAUNCH_PAYLOAD_EVIDENCE_OPEN",
+    "starter_v1_launch_value_is_workflow_led": true,
+    "supported_skills": 0,
+    "structural_candidates": 2,
+    "skills_in_current_archive": 0,
+    "skills_are_launch_blocking": false,
+    "material_semantic_drift_observed": 2,
+    "workflow_runtime_evidence_counts_as_skill_evidence": false,
+    "future_skill_addition_requires_new_governed_artifact_version": true
+  },
+  "contract_freeze": {
+    "receipt": "product/starter-collection-v1/CONTRACT_FREEZE_V1.json",
+    "state": "STATIC_CONTRACT_FREEZE_PASS",
+    "runtime_evidence_created": 0
+  },
+  "surface_freeze": {
+    "receipt": "product/starter-collection-v1/SURFACE_FREEZE_V1.json",
+    "state": "STATIC_SURFACE_CONTRACT_PARITY_PASS",
+    "runtime_evidence_created": 0
+  },
+  "payload_freeze": {
+    "receipt": "product/starter-collection-v1/PAYLOAD_FREEZE_V1.json",
+    "state": "CUSTOMER_PAYLOAD_STATIC_COMPLETE_ARCHIVE_NOT_BUILT",
+    "historical_snapshot": true,
+    "required_assets": "9/9"
+  },
+  "archive_build": {
+    "receipt": "product/starter-collection-v1/ARCHIVE_BUILD_RECEIPT_V1.json",
+    "state": "DETERMINISTIC_ARCHIVE_BUILD_PASS",
+    "filename": "prompt-machine-starter-collection-v1.zip",
+    "size_bytes": 50918,
+    "sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+    "canonical_build_source_commit": "167faad0758b3e746b48ac7c898f876525d30ee3",
+    "provider_custody_created": false,
+    "delivery_evidence_created": false
+  },
+  "starter_behavioral_canary_freeze": {
+    "plan": "product/starter-collection-v1/evaluation/STARTER_CANARY_PLAN_V1.json",
+    "receipt": "product/starter-collection-v1/evaluation/STARTER_CANARY_FREEZE_V1.json",
+    "state": "ONE_RUNTIME_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED",
+    "prepared_cases": 4,
+    "out_of_band_evaluation_contracts": 4,
+    "exact_runtime_envelopes": 4,
+    "armed_cases": 0,
+    "runtime_observations": 1,
+    "first_case_when_reopened": "RETEST_SAME_FROZEN_PM-STARTER-CR-NORMAL-0001_ON_CLEAN_INDEPENDENT_SURFACE_AFTER_FRESH_AUTHORIZATION",
+    "runtime_passes": 0,
+    "runtime_fails": 0,
+    "runtime_inconclusive": 1
+  },
+  "public_copy_audit": {
+    "contract": "commercial/STARTER_PUBLIC_COPY_EVIDENCE_AUDIT_V1.md",
+    "receipt": "commercial/STARTER_PUBLIC_COPY_AUDIT_RECEIPT_V1.json",
+    "state": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "initial_material_findings": 3,
+    "additional_skill_scope_findings": 3,
+    "runtime_evidence_staleness_findings": 3,
+    "open_material_findings": 0,
+    "historical_initial_retest_run_id": 33799072926,
+    "historical_skill_scope_retest_run_id": 33805620505,
+    "current_retest_run_id": 33834092608,
+    "current_retest_job_id": 100902919487,
+    "current_audited_commit": "bd086c2e7fd76bc3852eea7d2e048341dce25ed4",
+    "stale_on_material_copy_or_evidence_change": true,
+    "current_evidence_boundary": "1 runtime observation / 0 PASS / 0 FAIL / 1 INCONCLUSIVE_PROTOCOL_CONTAMINATION / 0 clean independent observations"
+  },
+  "provider_integration_preparation": {
+    "receipt": "commercial/STARTER_PROVIDER_INTEGRATION_PREP_V1.json",
+    "state": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
+    "provider_candidate": "LEMON_SQUEEZY",
+    "signed_starter_webhook_adapter_present": true,
+    "starter_checkout_route_exists": false,
+    "offline_regression_run_id": 33804410377,
+    "offline_regression_conclusion": "success",
+    "provider_calls_created": 0,
+    "model_calls_created": 0,
+    "provider_integration_pass": false
+  },
+  "provider_preflight_freeze": {
+    "receipt": "commercial/STARTER_PROVIDER_PREFLIGHT_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-PROVIDER-PREFLIGHT-FREEZE-V1-0001",
+    "state": "STATIC_PROVIDER_EXECUTION_PRECONDITIONS_PASS_DISARMED",
+    "validation_run_id": 33804846142,
+    "validation_conclusion": "success",
+    "custody_packet_armed": false,
+    "delivery_canary_armed": false,
+    "maximum_live_transactions": 1,
+    "automatic_retries": 0,
+    "provider_calls_created": 0,
+    "model_calls_created": 0
+  },
+  "provider_receipt_schema_freeze": {
+    "receipt": "commercial/STARTER_PROVIDER_RECEIPT_SCHEMA_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-PROVIDER-RECEIPT-SCHEMA-FREEZE-V1-0001",
+    "state": "STATIC_PROVIDER_RECEIPT_SCHEMAS_PASS_EXTERNAL_EVIDENCE_UNOBSERVED",
+    "validation_run_id": 33810663527,
+    "validation_conclusion": "success",
+    "provisioning_receipt_schema": "commercial/STARTER_PROVIDER_PROVISIONING_RECEIPT_V1.schema.json",
+    "custody_receipt_schema": "commercial/STARTER_PROVIDER_CUSTODY_RECEIPT_V1.schema.json",
+    "delivery_receipt_schema": "commercial/STARTER_DELIVERY_RECEIPT_V1.schema.json",
+    "failure_receipt_schema": "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json",
+    "actual_provisioning_receipts": 0,
+    "actual_custody_receipts": 0,
+    "actual_delivery_receipts": 0,
+    "actual_failure_receipts": 0,
+    "provider_calls_created": 0,
+    "model_calls_created": 0
+  },
+  "execution_decision_freeze": {
+    "receipt": "commercial/STARTER_EXECUTION_DECISION_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-EXECUTION-DECISION-FREEZE-V1-0001",
+    "state": "STATIC_EXECUTION_DECISION_GOVERNANCE_PASS_REAL_EXECUTION_UNAUTHORIZED",
+    "validation_run_id": 33811089084,
+    "validation_conclusion": "success",
+    "provider_integration_decision": "commercial/STARTER_PROVIDER_INTEGRATION_DECISION_V1.json",
+    "runtime_trust_update_protocol": "commercial/STARTER_RUNTIME_TRUST_UPDATE_PROTOCOL_V1.json",
+    "provider_failure_receipt_schema": "commercial/STARTER_PROVIDER_FAILURE_RECEIPT_V1.schema.json",
+    "model_execution_authorized_now": false,
+    "provider_execution_authorized_now": false
+  },
+  "release_dag_freeze": {
+    "receipt": "commercial/STARTER_RELEASE_DAG_FREEZE_V1.json",
+    "receipt_id": "PM-STARTER-RELEASE-DAG-FREEZE-V1-0001",
+    "state": "STATIC_RELEASE_DAG_PASS_TWO_REAL_EVIDENCE_FRONTIERS",
+    "validation_run_id": 33811290994,
+    "validation_conclusion": "success",
+    "nodes": 20,
+    "cycles": 0,
+    "closed_or_intentionally_deferred_nodes": 12,
+    "open_real_evidence_frontiers": 2,
+    "continue_zero_evidence_architecture_by_default": false
+  },
+  "provider_custody": {
+    "contract": "commercial/STARTER_PROVIDER_CUSTODY_V1.json",
+    "state": "CONTRACT_DEFINED_PROVIDER_NOT_PROVISIONED",
+    "canonical_artifact_in_provider_custody": false,
+    "provider_retrieval_hash_verified": false
+  },
+  "activation": {
+    "contract": "commercial/STARTER_ACTIVATION_EVIDENCE_V1.json",
+    "state": "DESIGNED_NOT_LIVE",
+    "activated_users": 0
+  },
+  "workflow_trust_history": {
+    "code_review_context": "product/starter-collection-v1/trust/code-review.trust-context.json",
+    "bug_diagnosis_context": "product/starter-collection-v1/trust/bug-diagnosis.trust-context.json",
+    "contexts_seeded": 2,
+    "runtime_events": 1,
+    "public_cards": 0,
+    "reviewed_passes": 0,
+    "reviewed_fails": 0,
+    "reviewed_inconclusive": 1
+  },
+  "gates": {
+    "current_product_truth": "PASS",
+    "final_starter_workflow_contracts": "PASS_STATIC_ONLY",
+    "final_executable_starter_prompt_surfaces": "PASS_STATIC_ONLY",
+    "required_customer_payload": "PASS_STATIC_9_OF_9",
+    "deterministic_starter_artifact": "PASS_PACKAGING_ONLY",
+    "starter_specific_behavioral_canary_readiness": "PASS_STATIC_PREPARED_DISARMED",
+    "starter_specific_behavioral_evidence": "OBSERVED_ONE_INCONCLUSIVE_PROTOCOL_CONTAMINATION_CLEAN_RETEST_REQUIRED",
+    "starter_skill_evidence": "OPEN_ZERO_OBSERVATIONS",
+    "starter_skill_launch_scope": "DEFERRED_NON_BLOCKING_ZERO_SUPPORTED_SKILLS",
+    "customer_activation_instrumentation": "DESIGNED_NOT_LIVE",
+    "workflow_level_trust_cards": "CONTEXTS_SEEDED_PUBLICATION_BLOCKED",
+    "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+    "provider_preflight": "PASS_STATIC_DISARMED",
+    "provider_receipt_schemas": "PASS_STATIC_EXTERNAL_EVIDENCE_UNOBSERVED",
+    "execution_decision_governance": "PASS_STATIC_REAL_EXECUTION_UNAUTHORIZED",
+    "release_evidence_dag": "PASS_STATIC_TWO_REAL_EVIDENCE_FRONTIERS",
+    "provider_test_custody": "CONTRACT_DEFINED_NOT_PROVISIONED",
+    "provider_integration": "STATIC_PREPARED_PROVIDER_NOT_PROVISIONED",
+    "live_delivery_preflight": "PASS_STATIC_PREPARED_DISARMED",
+    "live_delivery_canary": "NOT_STARTED",
+    "public_checkout": "BLOCKED",
+    "pq_dollar_one": "NOT_OBSERVED"
+  },
+  "launch_requirements": {
+    "STARTER_PRODUCT_READY": false,
+    "DETERMINISTIC_STARTER_ARCHIVE": true,
+    "PROVIDER_CUSTODY": false,
+    "PROVIDER_INTEGRATION": false,
+    "LIVE_DELIVERY_CANARY": false,
+    "PUBLIC_COPY_EVIDENCE_AUDIT": true
+  },
+  "boundaries": {
+    "contract_freeze_implies_runtime_evidence": false,
+    "surface_freeze_implies_runtime_evidence": false,
+    "payload_complete_implies_product_ready": false,
+    "archive_build_implies_provider_custody": false,
+    "archive_build_implies_delivery": false,
+    "static_canary_freeze_implies_runtime_evidence": false,
+    "generated_envelope_implies_behavioral_pass": false,
+    "public_copy_audit_pass_implies_product_ready": false,
+    "public_copy_audit_pass_implies_public_sale_authorized": false,
+    "signed_webhook_adapter_present_implies_provider_event_observed": false,
+    "static_provider_integration_prep_implies_provider_integration_pass": false,
+    "provider_preflight_pass_implies_side_effect_authorization": false,
+    "provider_receipt_schema_pass_implies_external_provider_evidence": false,
+    "execution_decision_freeze_implies_runtime_or_provider_evidence": false,
+    "release_dag_pass_implies_downstream_evidence": false,
+    "offline_provider_simulation_implies_provider_custody": false,
+    "provider_custody_contract_implies_provider_custody": false,
+    "architecture_observations_imply_starter_sku_evidence": false,
+    "scope_frozen_implies_product_ready": false,
+    "skill_candidate_implies_supported_skill": false,
+    "workflow_evidence_implies_skill_evidence": false,
+    "provider_test_implies_revenue": false,
+    "live_canary_implies_public_revenue": false,
+    "runtime_pass_implies_certification": false,
+    "public_checkout_may_bypass_requirements": false,
+    "automatic_sale_enablement": false,
+    "protocol_contaminated_execution_implies_workflow_fail": false,
+    "protocol_contaminated_execution_implies_successor_required": false
+  },
+  "current_checkout_surface": {
+    "starter_public_checkout_route_expected": false,
+    "historical_developer_pack_checkout_code_may_exist": true,
+    "developer_pack_checkout_is_not_starter_provider_evidence": true
+  },
+  "launch_critical_static_stop_line": {
+    "state": "RUNTIME_FRONTIER_OBSERVED_INCONCLUSIVE_CLEAN_RETEST_REQUIRED",
+    "additional_zero_evidence_architecture_required_before_frontier": false,
+    "model_frontier": {
+      "node": "N09_STARTER_RUNTIME_EVIDENCE",
+      "authorized_now": false,
+      "current_result": "ONE_OBSERVATION_INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+      "next_step": "RETEST_SAME_FROZEN_CASE_ON_CLEAN_INDEPENDENT_SURFACE_ONLY_AFTER_FRESH_AUTHORIZATION"
+    },
+    "provider_frontier": {
+      "node": "N14_PROVIDER_PROVISIONING_AND_CUSTODY",
+      "authorized_now": false,
+      "smallest_experiment": "ONE CONTROLLED PROVIDER CUSTODY ATTEMPT THEN HUMAN REVIEW"
+    },
+    "automatic_frontier_selection": false
+  },
+  "next_zero_model_work": [],
+  "next_model_spend_gate": {
+    "authorized_now": false,
+    "reason": "The only Starter runtime observation is protocol-contaminated and supports neither PASS nor FAIL. A clean retest of the same frozen candidate requires fresh explicit authorization.",
+    "preferred_first_case_when_reopened": "PM-STARTER-CR-NORMAL-0001",
+    "maximum_submissions_before_human_review": 1,
+    "automatic_wave": false,
+    "automatic_retries": 0,
+    "automatic_second_case": false,
+    "same_frozen_candidate": true,
+    "successor_required_before_retest": false,
+    "clean_independent_surface_required": true,
+    "fresh_explicit_authorization_required": true
+  },
+  "master_rule": "MARKETING CLAIM <= OBSERVED EVIDENCE",
+  "runtime_protocol_correction": {
+    "correction": "product/starter-collection-v1/evaluation/corrections/PM-STARTER-CR-NORMAL-0001.protocol-contamination.json",
+    "clean_surface_requirements": "commercial/STARTER_CLEAN_RUNTIME_SURFACE_REQUIREMENTS_V1.json",
+    "historical_fail_review_preserved": true,
+    "effective_result": "INCONCLUSIVE_PROTOCOL_CONTAMINATION",
+    "effective_decision": "EXPAND_EVIDENCE",
+    "successor_required_before_clean_retest": false,
+    "same_frozen_candidate_retest_required": true,
+    "armed": false
+  },
+  "next_external_evidence_options": [
+    "freshly authorize one clean independent retest of the same frozen PM-STARTER-CR-NORMAL-0001 candidate",
+    "separately authorize one controlled provider provisioning/custody attempt"
+  ]
+}

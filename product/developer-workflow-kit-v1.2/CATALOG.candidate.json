@@ -1,0 +1,202 @@
+{
+  "schema": "prompt-quarry-workflow-kit-catalog-v1",
+  "catalog_id": "PQ-WORKFLOW-KIT-1.2-CANDIDATE-0001",
+  "created_at": "2026-09-02T12:45:01Z",
+  "state": "STRUCTURE_VALID_CUSTOMER_EXPERIENCE_DESIGNED_HOST_TESTING_REQUIRED",
+  "sale_status": "NOT_FOR_SALE",
+  "brand": {
+    "customer_facing": "Prompt Machine",
+    "internal_factory": "Prompt Quarry"
+  },
+  "commercial_ladder": {
+    "evidence_state": "LAUNCH_HYPOTHESIS",
+    "free_usd": 0,
+    "starter_usd": 9,
+    "full_developer_usd": 19,
+    "primary_first_paid_offer": "STARTER_COLLECTION",
+    "subscription": "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED",
+    "starter_scope_state": "FROZEN",
+    "principle": "EACH_TIER_MUST_SOLVE_COMPLETE_TASKS_AND_EARN_THE_NEXT_UPGRADE"
+  },
+  "products": [
+    {
+      "product_id": "pq-developer-starter",
+      "display_name": "Prompt Machine Free Developer Workflows",
+      "version": "1.2.0-candidate",
+      "tier": "FREE",
+      "price_usd": 0,
+      "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003"],
+      "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003"],
+      "skill_ids": ["PQ-SKILL-0001"],
+      "acquisition_contract": "NO_ACCOUNT_NO_CARD_NO_CHECKOUT"
+    },
+    {
+      "product_id": "pq-developer-pack",
+      "display_name": "Prompt Machine Developer Workflow Collection",
+      "version": "1.2.0-candidate",
+      "tier": "PAID_FULL",
+      "price": {
+        "type": "ONE_TIME",
+        "launch_usd": 19,
+        "evidence_state": "PRICE_HYPOTHESIS"
+      },
+      "workflows": ["PQ-WF-0001", "PQ-WF-0002", "PQ-WF-0003", "PQ-WF-0004"],
+      "prompt_ids": ["PQ-PROMPT-0001", "PQ-PROMPT-0002", "PQ-PROMPT-0003", "PQ-PROMPT-0004", "PQ-PROMPT-0005", "PQ-PROMPT-0006", "PQ-PROMPT-0007"],
+      "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002", "PQ-SKILL-0003", "PQ-SKILL-0004"],
+      "subscription": "DEFERRED_UNTIL_RECURRING_VALUE_OBSERVED"
+    }
+  ],
+  "planned_products": [
+    {
+      "product_id": "prompt-machine-starter-collection",
+      "legacy_product_ids": ["pq-developer-starter-collection"],
+      "identity_contract": "product/starter-collection-v1/PRODUCT_IDENTITY_V1.json",
+      "display_name": "Prompt Machine Starter Collection",
+      "version": "1.0.0-candidate",
+      "tier": "PAID_STARTER",
+      "price": {
+        "type": "ONE_TIME",
+        "launch_usd": 9,
+        "evidence_state": "PRICE_HYPOTHESIS"
+      },
+      "scope_state": "FROZEN",
+      "workflows": ["PQ-WF-0001", "PQ-WF-0002"],
+      "skill_ids": ["PQ-SKILL-0001", "PQ-SKILL-0002"],
+      "skill_state": "CANDIDATES_CONDITIONAL_ON_SKILL_EVIDENCE",
+      "customer_experience_contract": [
+        "START_HERE",
+        "TASK_CHOOSER",
+        "WORKED_EXAMPLES",
+        "VERIFICATION_GUIDANCE",
+        "ADAPTATION_CHEATSHEET",
+        "EVIDENCE_AND_LIMITATIONS",
+        "LICENSE"
+      ],
+      "sale_status": "NOT_FOR_SALE",
+      "release_rule": "MUST_SOLVE_COMPLETE_TASKS_AND_MUST_NOT_BE_AN_ARTIFICIALLY_CRIPPLED_FULL_COLLECTION",
+      "current_release_snapshot": {
+        "workflow_contracts_static_pass": 2,
+        "executable_prompt_surfaces_static_pass": 2,
+        "required_customer_assets_present": 9,
+        "required_customer_assets_total": 9,
+        "deterministic_archive_pass": true,
+        "archive_size_bytes": 50918,
+        "archive_sha256": "4eceb1ee567b43760902da2787139ea897165ff97bb69ecbe56f35432f220b97",
+        "starter_runtime_observations": 0,
+        "starter_skill_behavioral_observations": 0,
+        "public_copy_evidence_audit": "PASS_CURRENT_EVIDENCE_BOUNDARY",
+        "provider_custody": false,
+        "live_delivery": false,
+        "real_customer_outcomes": 0,
+        "real_purchases": 0,
+        "ready_to_sell": false
+      }
+    }
+  ],
+  "workflows": [
+    {
+      "workflow_id": "PQ-WF-0001",
+      "name": "Evidence-first Code Review",
+      "customer_task": "Review a software change",
+      "outcome": "Review a software change with explicit evidence, severity, verification, and ship-state semantics.",
+      "finished_prompt_id": "PQ-PROMPT-0002",
+      "system_prompt_id": "PQ-PROMPT-0006",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0001", "name": "review-code-with-evidence", "free_preview": true},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0002",
+      "name": "Evidence-first Bug Diagnosis",
+      "customer_task": "Diagnose a bug or regression",
+      "outcome": "Diagnose defects with observation, hypothesis, safety, mitigation, and confirmation boundaries.",
+      "finished_prompt_id": "PQ-PROMPT-0001",
+      "system_prompt_id": "PQ-PROMPT-0004",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0002", "name": "diagnose-bugs-with-evidence", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0003",
+      "name": "Technical Research and Decision",
+      "customer_task": "Make a technical decision",
+      "outcome": "Compare technical options under hard constraints, evidence quality, uncertainty, and reversibility.",
+      "finished_prompt_id": "PQ-PROMPT-0003",
+      "system_prompt_id": "PQ-PROMPT-0007",
+      "customer_prompt_surface": null,
+      "customer_prompt_state": "PENDING_PCP04_05_06_DECISION",
+      "skill": {"skill_id": "PQ-SKILL-0003", "name": "make-technical-decisions", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    },
+    {
+      "workflow_id": "PQ-WF-0004",
+      "name": "AI Workflow Contract Designer",
+      "customer_task": "Design a reusable AI workflow",
+      "outcome": "Turn a recurring AI-assisted task into an explicit, inspectable operating contract.",
+      "finished_prompt_id": null,
+      "system_prompt_id": "PQ-PROMPT-0005",
+      "successor_prompt_path": "product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md",
+      "customer_prompt_surface": "product/developer-workflow-kit-v1.2/prompts/general-operating-contract-v1.2.md",
+      "customer_prompt_state": "VERSIONED_CANDIDATE_TESTING_REQUIRED",
+      "skill": {"skill_id": "PQ-SKILL-0004", "name": "design-ai-workflows", "free_preview": false},
+      "state": "STRUCTURALLY_VALID_HOST_TESTING_REQUIRED"
+    }
+  ],
+  "customer_experience": {
+    "entrypoint_design": "product/developer-workflow-kit-v1.2/START_HERE.candidate.md",
+    "release_entrypoint": "START_HERE.md",
+    "primary_discovery_axis": "CUSTOMER_TASK",
+    "ten_minute_activation_target": true,
+    "ten_minute_activation_observed": false,
+    "release_layout_frozen": false,
+    "pending_customer_prompt_surfaces": 3,
+    "note": "These fields describe the broader developer-workflow-kit v1.2 candidate. The Starter Collection has its own governed release snapshot under planned_products and product/starter-collection-v1/."
+  },
+  "delivery": {
+    "proposed_paid_archive_root": "prompt-machine-developer-workflow-collection-v1.2.0",
+    "archive_root_authoritative": false,
+    "skill_format": "AGENT_SKILLS_DIRECTORY_WITH_SKILL_MD",
+    "prompt_fallback": true,
+    "individual_skill_archives": true,
+    "deterministic_build_required": true
+  },
+  "compatibility_claims": {
+    "structural_target": ["OPENAI_CODEX_SKILLS", "OPENAI_API_SKILLS", "AGENT_SKILLS_STRUCTURE"],
+    "behaviorally_tested_hosts": [],
+    "portable_hosts": [],
+    "blanket_llm_compatibility": false
+  },
+  "gates": {
+    "product_model_frozen": true,
+    "PCP_03_PROMPT_TEST_MATRIX": true,
+    "versioned_prompt_blocker_resolution": true,
+    "skill_candidates_implemented": true,
+    "skill_specs_complete": true,
+    "skill_structure_pass": true,
+    "skill_structure_receipt": "certification/receipts/skill-structure.v1.json",
+    "skill_trigger_fixture_design": true,
+    "customer_experience_entrypoint_design": true,
+    "starter_collection_scope_frozen": true,
+    "customer_prompt_surfaces_complete": false,
+    "customer_examples_complete": false,
+    "customer_evidence_cards_complete": false,
+    "skill_trigger_eval_pass": false,
+    "skill_forward_test_pass": false,
+    "prompt_skill_parity_pass": false,
+    "pack_value_review_pass": false,
+    "deterministic_archive_pass": false,
+    "provider_custody_pass": false,
+    "provider_integration_pass": false,
+    "live_delivery_canary_pass": false,
+    "PRODUCT_READY": false,
+    "READY_TO_SELL": false
+  },
+  "historical_boundary": {
+    "developer_pack_v1_1_mutated": false,
+    "existing_checkout_changed": false,
+    "public_sale_enabled": false,
+    "production_deployed": false
+  }
+}

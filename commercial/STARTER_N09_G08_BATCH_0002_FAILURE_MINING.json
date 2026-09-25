@@ -1,0 +1,44 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-batch-failure-mining-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0002",
+  "workflow_contract_version": "2.1.0",
+  "result": "ROOT_CAUSE_LOCALIZED_SUCCESSOR_2_2_JUSTIFIED",
+  "provider_requests_attempted_during_failure_mining": 0,
+  "model_inference_requests_attempted_during_failure_mining": 0,
+  "failed_case": "PM-STARTER-CR-V2-UPSTREAM-GUARD-0001",
+  "repeated_failure": true,
+  "evidence": {
+    "batch_0001_signature": "SUPPLIED_GUARD_RECOGNIZED_BUT_SPECULATIVE_SECONDARY_FINDINGS_PROMOTED_TO_LIKELY_REVIEW_REQUIRED",
+    "batch_0002_signature": "SATISFIED_INVARIANT_RECOGNIZED_BUT_HYPOTHETICAL_ADJACENT_PREREQUISITES_STILL_PROMOTED_TO_MATERIAL_FINDINGS"
+  },
+  "root_causes": [
+    {
+      "id": "RC1_ADJACENT_FINDING_ADMISSION_TOO_SOFT",
+      "description": "The workflow says speculative prerequisites should be dismissed, but it does not impose a mechanical admission test before a secondary candidate can enter Material findings."
+    },
+    {
+      "id": "RC2_SUPPLIED_CONTRACT_FAILURE_TREATED_AS_PLAUSIBLE_PREREQUISITE",
+      "description": "The workflow does not explicitly prohibit using hypothetical failure of a supplied upstream contract, such as requireAuth, as evidence for a downstream finding."
+    },
+    {
+      "id": "RC3_ONE_SIDED_TYPE_FACT_PROMOTED_TO_TYPE_MISMATCH",
+      "description": "Knowing one operand type while the other operand type is unobserved was still treated as affirmative evidence for a mismatch."
+    },
+    {
+      "id": "RC4_NO_HARD_EARLY_EXIT_AFTER_TARGET_INVARIANT_PASS",
+      "description": "Satisfied-invariant language remains advisory enough that the model continues broad defect hunting and can override the intended no-finding stop."
+    }
+  ],
+  "successor_requirements": [
+    "Introduce a mandatory evidence-admission gate before Material findings.",
+    "Every essential prerequisite of a LIKELY or CONFIRMED finding must have an explicit supplied/observed evidence anchor; unknown is not affirmative evidence.",
+    "A supplied upstream contract is presumed operative within the supplied scope unless contradictory supplied/observed evidence establishes bypass or failure; hypothetical failure of that contract cannot support a finding.",
+    "A type mismatch requires evidence for the actual types of both relevant values, not a framework fact for one operand plus speculation about the other.",
+    "When the target invariant is directly satisfied and no contradictory evidence exists, enter SATISFIED_INVARIANT_MODE: no adjacent material finding may be emitted unless it passes the stricter evidence-admission gate independently.",
+    "If no candidate passes, Material findings must be empty and ship recommendation must be NO_MATERIAL_ISSUE_FOUND for the reviewed scope.",
+    "Preserve BOUNDARY-UNKNOWN LIKELY/REVIEW_REQUIRED behavior and FULL-CHAIN CONFIRMED/BLOCK behavior."
+  ],
+  "decision": "BUILD_V2_2_SUCCESSOR_AND_RETEST_ALL_FOUR_FROZEN_CASES",
+  "automatic_model_retest": false,
+  "fresh_batch_authorization_required": true
+}

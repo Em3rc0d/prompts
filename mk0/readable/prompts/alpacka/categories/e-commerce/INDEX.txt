@@ -1,0 +1,24 @@
+PROMPTS — E-commerce
+========================================================================================
+Total: 10
+
+[PREMIUM] Atención al Cliente que convierte quejas en reseñas de 5 estrellas
+          atencion-al-cliente-que-convierte-quejas-en-resenas-de-5-estrellas--42adbb29.txt
+[PREMIUM] Calcula tus Números Reales: precios, márgenes y punto de equilibrio
+          calcula-tus-numeros-reales-precios-margenes-y-punto-de-equilibrio--f9d137cc.txt
+[PREMIUM] Descripciones de Producto que venden solas: la plantilla maestra
+          descripciones-de-producto-que-venden-solas-la-plantilla-maestra--c8c745f8.txt
+[PREMIUM] El Doctor de la Tienda: auditoría CRO de tu e-commerce
+          el-doctor-de-la-tienda-auditoria-cro-de-tu-e-commerce--7bdf14f8.txt
+[PREMIUM] Emails Post-Compra que generan la segunda venta
+          emails-post-compra-que-generan-la-segunda-venta--ce147b46.txt
+[PREMIUM] Encuentra tu Producto Ganador: validación antes de invertir un peso
+          encuentra-tu-producto-ganador-validacion-antes-de-invertir-un-peso--262e64f4.txt
+[PREMIUM] Optimiza tu ficha en Amazon y Mercado Libre para el algoritmo
+          optimiza-tu-ficha-en-amazon-y-mercado-libre-para-el-algoritmo--9764af06.txt
+[PREMIUM] Packs y Bundles Irresistibles: sube tu ticket promedio 25%
+          packs-y-bundles-irresistibles-sube-tu-ticket-promedio-25--00544aa7.txt
+[PREMIUM] Prepara tu Tienda para Temporada Alta: el checklist operativo completo
+          prepara-tu-tienda-para-temporada-alta-el-checklist-operativo-completo--8132c37f.txt
+[PREMIUM] Recupera Carritos Abandonados: la secuencia completa de rescate
+          recupera-carritos-abandonados-la-secuencia-completa-de-rescate--ab0c9cd9.txt

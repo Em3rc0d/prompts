@@ -1,0 +1,29 @@
+{
+  "schema": "prompt-machine-starter-n09-g08-v2-2-correction-checkpoint-v1",
+  "workflow_id": "pm-starter-evidence-first-code-review-v2",
+  "candidate_contract_version": "2.2.0",
+  "trigger": "G08 BATCH-0002 repeated UPSTREAM-GUARD speculative-adjacent-finding failure",
+  "batch_0002_human_review": "FAIL_REWORK_3_PASS_1_FAIL",
+  "failure_mining": "ROOT_CAUSE_LOCALIZED_SUCCESSOR_2_2_JUSTIFIED",
+  "v2_2_surface_mode": "COMPOSITE_V2_1_PLUS_NORMATIVE_V2_2_HARDENING_ADDENDUM",
+  "static_reaudit": "PASS_STATIC_ONLY",
+  "batch_0003": {
+    "state": "PREPARED_NOT_AUTHORIZED",
+    "cases": 4,
+    "maximum_provider_requests": 4,
+    "automatic_retries_per_case": 0,
+    "human_review_after_batch": true,
+    "evaluation_contract_is_runtime_input": false,
+    "expected_result_is_runtime_input": false,
+    "runner": "tools/pm_g08_batch_0003.py",
+    "execution_id_labeling_fixed": true
+  },
+  "provider_requests_attempted_during_correction": 0,
+  "model_inference_requests_attempted_during_correction": 0,
+  "runtime_executions_attempted_during_correction": 0,
+  "g08_pass": false,
+  "automatic_next_gate": false,
+  "fresh_batch_authorization_required": true,
+  "next_gate": "BATCH_0003_ZERO_MODEL_PREFLIGHT_THEN_RUNTIME_ONLY_IF_FRESH_EXPLICIT_AUTHORIZATION",
+  "truth_boundary": "V2_2_CORRECTION_AND_STATIC_PREPARATION_ONLY_NO_NEW_BEHAVIORAL_EVIDENCE"
+}

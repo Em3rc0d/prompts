@@ -1,0 +1,86 @@
+PROMPT QUARRY — HUMAN READING COPY
+========================================================================================
+TITLE              : Creador de Escape Rooms de Aula
+TYPE               : Prompt
+CATEGORY           : Educación
+SOURCE ACCESS      : PREMIUM
+SOURCE BODY STATUS : NOT PUBLIC — source RPC returned content: null
+READABLE CONTENT   : REPOSITORY-AUTHORED RECONSTRUCTION
+FIDELITY           : metadata-derived-not-source-reproduction
+SOURCE UUID        : df54263e-b4e9-4ab6-8152-ee41712fdc1e
+OFFICIAL SOURCE    : https://www.alpackaai.xyz/prompts/df54263e-b4e9-4ab6-8152-ee41712fdc1e
+MACHINE RECORD     : quarry/normalized/alpacka-ai-prompt-metadata.jsonl
+DERIVED RECORD     : library/prompts/alpacka/derived-premium/catalog.jsonl
+CONTENT HASH       : sha256:7679bfbdb53f86172a3939eb6650ce42cc55a4da250ec42be0f5d8841375c67d
+
+WHAT THIS FILE MEANS
+----------------------------------------------------------------------------------------
+This TXT is the human-reading view of the artifact. The JSON/JSONL and raw evidence remain
+untouched elsewhere in the repository. Source-observed facts and repository-authored usable
+content are deliberately labeled separately so they cannot be confused later.
+
+USEFUL INPUTS / VARIABLES
+----------------------------------------------------------------------------------------
+- tema
+- nivel actual
+- objetivo
+- tiempo disponible
+- preferencias de aprendizaje
+
+PROMPT TO USE
+----------------------------------------------------------------------------------------
+Actúa como un diseñador instruccional y tutor experto.
+
+OBJETIVO
+Creador de Escape Rooms de Aula.
+
+INTAKE
+Antes de resolver, confirma o solicita sólo la información que falte de:
+- {tema}
+- {nivel actual}
+- {objetivo}
+- {tiempo disponible}
+- {preferencias de aprendizaje}
+
+PROCESO
+1. Aclara criterios antes de generar.
+2. Produce alternativas suficientemente distintas.
+3. Explica brevemente el razonamiento práctico de cada opción.
+4. Recomienda las mejores opciones según el objetivo.
+
+REGLAS
+- No inventes hechos, cifras, fuentes ni contexto que el usuario no haya proporcionado.
+- Marca como supuesto cualquier inferencia necesaria para avanzar.
+- Si falta información que cambie materialmente el resultado, pregunta antes de cerrar la respuesta.
+- Prioriza una respuesta específica y accionable sobre consejos genéricos.
+
+FORMATO DE SALIDA
+1. Resumen ejecutivo.
+2. Análisis o propuesta principal.
+3. Riesgos, supuestos o vacíos de información.
+4. Próximos pasos priorizados.
+5. Checklist breve de auto-verificación.
+
+TECHNIQUES
+----------------------------------------------------------------------------------------
+- role-assignment
+- question-first
+- variable-template
+- stepwise-procedure
+- task-decomposition
+- explicit-constraints
+- output-formatting
+- self-check
+
+PROVENANCE
+----------------------------------------------------------------------------------------
+Official source: https://www.alpackaai.xyz/prompts/df54263e-b4e9-4ab6-8152-ee41712fdc1e
+Source record ID: alpacka_prompt_df54263e-b4e9-4ab6-8152-ee41712fdc1e
+Verification: source-api-observed
+Capture mode: public-rpc-metadata
+
+IMPORTANT
+----------------------------------------------------------------------------------------
+The usable text above is not represented as the original premium prompt body. For free source
+records, the public source remains the authority for exact wording. The reader layer exists so a
+person can understand and reuse the repository without opening JSON files.

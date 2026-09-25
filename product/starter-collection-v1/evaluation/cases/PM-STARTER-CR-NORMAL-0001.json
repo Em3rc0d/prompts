@@ -1,0 +1,17 @@
+{
+  "schema": "prompt-machine-starter-canary-case-v1",
+  "case_id": "PM-STARTER-CR-NORMAL-0001",
+  "workflow_id": "pm-starter-evidence-first-code-review",
+  "workflow_surface_path": "product/starter-collection-v1/workflows/evidence-first-code-review.md",
+  "variant": "NORMAL",
+  "risk": "LOW",
+  "authority": "ADVISORY_ONLY",
+  "runtime_executed": false,
+  "evaluation_contract_is_runtime_input": false,
+  "instance_data_markdown": "## CUSTOMER TASK DATA\n\n### Code / change\n\n```ts\nexport async function updateEmail(req, res) {\n  const account = await db.account.findUnique({\n    where: { id: req.params.accountId },\n  });\n\n  if (!account) {\n    return res.status(404).json({ error: \"not_found\" });\n  }\n\n  await db.account.update({\n    where: { id: account.id },\n    data: { email: req.body.email },\n  });\n\n  return res.json({ ok: true });\n}\n```\n\n### Change intent / acceptance criteria\n\nAdd an authenticated endpoint that lets a signed-in user update their own account email. Administrators may update any account.\n\n### Runtime / language context\n\n- TypeScript\n- Express-style request handler\n- authentication middleware supplies `req.user.id` and `req.user.role`\n- `req.params.accountId` is controlled by the caller\n\n### Expected behavior / invariants\n\nA non-admin user must not modify another user's account.\n\n### Relevant contracts / constraints\n\nNo upstream ownership authorization contract was supplied.\n\n### Observed test or reproduction evidence\n\nNo authorization test result was supplied.\n",
+  "non_runtime_metadata": {
+    "fixture_origin": "REPOSITORY_AUTHORED_SYNTHETIC_LOW_RISK",
+    "customer_evidence": false,
+    "expected_result_not_present_in_runtime_input": true
+  }
+}

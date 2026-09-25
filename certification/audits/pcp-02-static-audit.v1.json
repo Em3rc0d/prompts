@@ -1,0 +1,190 @@
+{
+  "schema": "prompt-quarry-pcp-static-audit-v1",
+  "audit_id": "PQ-PCP-02-AUDIT-0001",
+  "observed_at": "2026-09-01T14:12:38Z",
+  "inventory_id": "PQ-PCP-00-INV-0001",
+  "specification_set_id": "PQ-PCP-01-SPECSET-0001",
+  "rubric": {"path": "certification/rubrics/PCP_STATIC_QUALITY_RUBRIC_V1.md", "version": "1.0.0", "criteria": 15, "statuses": ["PASS", "WARN", "FAIL", "NOT_APPLICABLE"]},
+  "evaluation_rule": "Frozen source only; no prompt edits and no behavioral inference.",
+  "evaluations": [
+    {
+      "prompt_id": "PQ-PROMPT-0001",
+      "source_blob": "5e3fdcdcaafc7d5d7dc5986bbc048d814cfe821e",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Diagnosis job and evidence-led outcome are explicit."},
+        "P2": {"status": "PASS", "basis": "Terms, labels, and task steps are directly defined."},
+        "P3": {"status": "PASS", "basis": "Intake, task, process, rules, output, and fallback are coherent."},
+        "P4": {"status": "PASS", "basis": "Expected, observed, reproduction, environment, evidence, change, and impact inputs exist."},
+        "P5": {"status": "PASS", "basis": "Evidence labels and observation-source ledger preserve provenance."},
+        "P6": {"status": "PASS", "basis": "Seven output sections and three recommendation states are explicit."},
+        "P7": {"status": "PASS", "basis": "Reversible checks and production-risk flags bound unsafe actions."},
+        "P8": {"status": "PASS", "basis": "Observed, inferred, unknown, and disproved states cannot be laundered."},
+        "P9": {"status": "PASS", "basis": "Insufficient evidence degrades to DIAGNOSE_FIRST with a minimal request."},
+        "P10": {"status": "PASS", "basis": "Length is proportionate to a direct field workflow."},
+        "P11": {"status": "PASS", "basis": "Discriminating checks and evidence states create a distinct diagnosis workflow."},
+        "P12": {"status": "PASS", "basis": "Usage cue, field labels, rules, and fallback are self-documenting."},
+        "P13": {"status": "WARN", "basis": "Useful across defects, but core thresholds remain fixed rather than configurable."},
+        "P14": {"status": "PASS", "basis": "Clear finished-workflow role in the Free Starter Pack."},
+        "P15": {"status": "PASS", "basis": "Delivers immediate free utility without claiming behavioral proof."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0002",
+      "source_blob": "4a3e29c9b9ce27aa750ebe763a9ad02a18e854c5",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Material defect and risk review purpose is explicit."},
+        "P2": {"status": "PASS", "basis": "Evidence, severity, finding, and ship terms are defined."},
+        "P3": {"status": "PASS", "basis": "Review phases and rules lead coherently to the output."},
+        "P4": {"status": "PASS", "basis": "Change, intent, runtime, invariants, constraints, and test evidence are requested."},
+        "P5": {"status": "PASS", "basis": "Finding evidence levels and material-context rules are explicit."},
+        "P6": {"status": "PASS", "basis": "Finding fields, ordering, verification, and ship states are consumable."},
+        "P7": {"status": "PASS", "basis": "Security claims and behavior-changing fixes require concrete support."},
+        "P8": {"status": "PASS", "basis": "Likely and question findings cannot be promoted to confirmed."},
+        "P9": {"status": "PASS", "basis": "Incomplete context returns REVIEW instead of fabricated defects."},
+        "P10": {"status": "PASS", "basis": "Direct-use workflow avoids decorative persona and filler."},
+        "P11": {"status": "PASS", "basis": "Evidence-to-mechanism review differs from generic style review."},
+        "P12": {"status": "PASS", "basis": "Use case, rubric, process, and output are documented in place."},
+        "P13": {"status": "WARN", "basis": "Broadly reusable, but review lenses and thresholds are fixed."},
+        "P14": {"status": "PASS", "basis": "Clear finished-workflow role and upgrade path to configurable Paid policy."},
+        "P15": {"status": "PASS", "basis": "Immediate free review value is visible without unsupported claims."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0003",
+      "source_blob": "1ec734dc6fcd7c77426412ad649eb261e40dd386",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Shared-frame technical decision purpose is explicit."},
+        "P2": {"status": "PASS", "basis": "Constraints, evidence states, and decision statuses are clear."},
+        "P3": {"status": "PASS", "basis": "Normalize, frame, ledger, compare, stress-test, decide, validate is coherent."},
+        "P4": {"status": "PASS", "basis": "Decision, options, horizon, context, constraints, criteria, evidence, and unknowns are requested."},
+        "P5": {"status": "PASS", "basis": "Fact, source claim, inference, assumption, and unknown are separated."},
+        "P6": {"status": "PASS", "basis": "Eight ordered sections and decision statuses are explicit."},
+        "P7": {"status": "PASS", "basis": "Decision support does not claim accountable execution authority."},
+        "P8": {"status": "PASS", "basis": "Invented benchmarks, prices, capabilities, incidents, and effort are forbidden."},
+        "P9": {"status": "PASS", "basis": "Ties and missing evidence degrade to HOLD plus a discriminating action."},
+        "P10": {"status": "PASS", "basis": "Direct-use length is proportionate to decision complexity."},
+        "P11": {"status": "PASS", "basis": "Hard-constraint and reversibility discipline differentiates it from preference lists."},
+        "P12": {"status": "PASS", "basis": "Usage, intake, process, outputs, and fallback are documented."},
+        "P13": {"status": "WARN", "basis": "Reusable across decisions, but source and threshold policy remain fixed."},
+        "P14": {"status": "PASS", "basis": "Clear finished-workflow role in the Free Pack."},
+        "P15": {"status": "PASS", "basis": "Provides immediate free decision leverage without proof inflation."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0004",
+      "source_blob": "7a320cf8bbf5587024f201b8a02fa5421979f396",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Configurable repeated diagnosis-system purpose is explicit."},
+        "P2": {"status": "WARN", "basis": "CONFIRMED_CAUSE evidence label and CAUSE_CONFIRMED state use reversed tokens."},
+        "P3": {"status": "PASS", "basis": "Policy, inputs, evidence, safety, hypotheses, process, state, output, and verification align."},
+        "P4": {"status": "PASS", "basis": "Required, optional, and insufficient-evidence states are configurable."},
+        "P5": {"status": "PASS", "basis": "Evidence semantics and root-cause threshold are explicit."},
+        "P6": {"status": "WARN", "basis": "The confirmation token mismatch can cause state-output drift."},
+        "P7": {"status": "PASS", "basis": "Allowed, approval-required, and forbidden diagnostic actions are separated."},
+        "P8": {"status": "PASS", "basis": "Causation, logging absence, hypotheses, and fix proof boundaries are strong."},
+        "P9": {"status": "PASS", "basis": "Insufficient evidence and risky actions have coherent fallback states."},
+        "P10": {"status": "WARN", "basis": "The 9.7 KB system is purposeful but creates material setup cost."},
+        "P11": {"status": "PASS", "basis": "Exposes configurable policy rather than cloning the Free diagnosis prompt."},
+        "P12": {"status": "PASS", "basis": "Adaptation map and integration shapes document operational use."},
+        "P13": {"status": "PASS", "basis": "Thresholds, authority, states, inputs, and safety policy are configurable."},
+        "P14": {"status": "PASS", "basis": "Distinct Paid construction-system role is explicit."},
+        "P15": {"status": "PASS", "basis": "Static commercial gate records clear reuse and governance value."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0005",
+      "source_blob": "6774cead6da72a2f845889429dc2af60fc0d15d5",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Domain-neutral recurring-workflow contract purpose is explicit."},
+        "P2": {"status": "PASS", "basis": "Configuration fields, states, and rules are clearly defined."},
+        "P3": {"status": "PASS", "basis": "Identity through integration forms a coherent operating architecture."},
+        "P4": {"status": "PASS", "basis": "Required, optional, contradictory, ambiguous, and blocked inputs are governed."},
+        "P5": {"status": "PASS", "basis": "Allowed context, source classes, freshness, citations, and evidence labels are configurable."},
+        "P6": {"status": "PASS", "basis": "Consumer-defined output contract and default fields are explicit."},
+        "P7": {"status": "PASS", "basis": "Decision authority and unsupported states are bounded."},
+        "P8": {"status": "PASS", "basis": "Evidence promotion and unsupported certainty are forbidden."},
+        "P9": {"status": "FAIL", "basis": "BLOCKED requires only unblocking information, while fallback also mandates preserving a safe partial result."},
+        "P10": {"status": "WARN", "basis": "The 7.2 KB general template may overfit simple recurring tasks."},
+        "P11": {"status": "PASS", "basis": "Provides a configurable cross-domain contract absent from Free."},
+        "P12": {"status": "PASS", "basis": "Adaptation and representation-preservation guidance is embedded."},
+        "P13": {"status": "PASS", "basis": "Inputs, context, evidence, constraints, decisions, outputs, and verification are configurable."},
+        "P14": {"status": "PASS", "basis": "Acts as the domain-neutral foundation of the Paid Pack."},
+        "P15": {"status": "PASS", "basis": "Creates reusable governance capability rather than extra prompt wording."}
+      },
+      "disposition": "BLOCKED_BY_STATIC_FAIL"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0006",
+      "source_blob": "387804cf3dd5aaf22b56aafbeb6b17380942a59e",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Configurable cross-repository review-system purpose is explicit."},
+        "P2": {"status": "PASS", "basis": "Policy, lens, evidence, severity, and authority terms are clear."},
+        "P3": {"status": "PASS", "basis": "Policy to review to challenge to ship decision is coherent."},
+        "P4": {"status": "PASS", "basis": "Required and conditional context plus input states are explicit."},
+        "P5": {"status": "PASS", "basis": "Evidence levels, thresholds, lenses, and invalidating context are governed."},
+        "P6": {"status": "WARN", "basis": "SHIP is allowed but has no suggested transition rule."},
+        "P7": {"status": "PASS", "basis": "Ship authority and security-claim boundaries are explicit."},
+        "P8": {"status": "PASS", "basis": "Runtime, tests, vulnerabilities, and missing context cannot be fabricated."},
+        "P9": {"status": "PASS", "basis": "Insufficient context maps coherently to REVIEW_REQUIRED."},
+        "P10": {"status": "WARN", "basis": "The 7.7 KB policy system requires nontrivial configuration."},
+        "P11": {"status": "PASS", "basis": "Configurable lenses, thresholds, and ship policy distinguish it from Free."},
+        "P12": {"status": "PASS", "basis": "Team adaptation and integration shapes are documented."},
+        "P13": {"status": "PASS", "basis": "Review semantics are deliberately parameterized for teams and tools."},
+        "P14": {"status": "PASS", "basis": "Clear Paid operating-system role and worked transformation support."},
+        "P15": {"status": "PASS", "basis": "Provides defensible team and integration value beyond Free."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    },
+    {
+      "prompt_id": "PQ-PROMPT-0007",
+      "source_blob": "60a76e56f669c875ffd98a6713846f4e4530cb44",
+      "ratings": {
+        "P1": {"status": "PASS", "basis": "Configurable technical decision-system purpose is explicit."},
+        "P2": {"status": "PASS", "basis": "Constraint, evidence-quality, viability, and state terms are defined."},
+        "P3": {"status": "PASS", "basis": "Policy, viability, comparison, stress test, decision, experiment, and verification align."},
+        "P4": {"status": "PASS", "basis": "Decision identity, context, criteria, source policy, and state policy are configurable."},
+        "P5": {"status": "PASS", "basis": "Source classes, freshness, citations, quality, and falsifiability are governed."},
+        "P6": {"status": "PASS", "basis": "Ten output sections and four decision states are explicit."},
+        "P7": {"status": "PASS", "basis": "Decision owner and accountable authority remain external."},
+        "P8": {"status": "PASS", "basis": "Weak evidence, assumptions, scores, and vendor claims remain labeled."},
+        "P9": {"status": "PASS", "basis": "HOLD and REJECT_ALL provide coherent unsupported-input behavior."},
+        "P10": {"status": "WARN", "basis": "The 8.7 KB system is justified but materially costly to configure."},
+        "P11": {"status": "PASS", "basis": "Freshness, quality, reversibility, and experiment policy differentiate it from Free."},
+        "P12": {"status": "PASS", "basis": "Adaptation and integration guidance is explicit."},
+        "P13": {"status": "PASS", "basis": "Criteria, sources, thresholds, states, and triggers are configurable."},
+        "P14": {"status": "PASS", "basis": "Clear Paid decision-governance role with example support."},
+        "P15": {"status": "PASS", "basis": "Creates repeatable ADR, vendor, migration, and platform value."}
+      },
+      "disposition": "PASS_WITH_WARNINGS"
+    }
+  ],
+  "blocking_findings": [
+    {
+      "finding_id": "PCP02-F001",
+      "prompt_id": "PQ-PROMPT-0005",
+      "criterion": "P9",
+      "severity": "BLOCKING",
+      "source_locations": ["1. INPUT CONTRACT / Input validation", "9. FALLBACK CONTRACT"],
+      "failure_mechanism": "The same blocked execution can require both an unblocking-only response and a safe partial result, leaving two incompatible mandatory output behaviors.",
+      "required_follow_up": "Create a PCP-03 conflicting-instructions fixture and preserve the issue for a later versioned improvement pass."
+    }
+  ],
+  "warnings_to_fixture": [
+    {"prompt_id": "PQ-PROMPT-0001", "criteria": ["P13"], "theme": "fixed_policy_adaptability"},
+    {"prompt_id": "PQ-PROMPT-0002", "criteria": ["P13"], "theme": "fixed_policy_adaptability"},
+    {"prompt_id": "PQ-PROMPT-0003", "criteria": ["P13"], "theme": "fixed_policy_adaptability"},
+    {"prompt_id": "PQ-PROMPT-0004", "criteria": ["P2", "P6"], "theme": "confirmation_state_token_consistency"},
+    {"prompt_id": "PQ-PROMPT-0004", "criteria": ["P10"], "theme": "configuration_efficiency"},
+    {"prompt_id": "PQ-PROMPT-0005", "criteria": ["P10"], "theme": "simple_task_overconfiguration"},
+    {"prompt_id": "PQ-PROMPT-0006", "criteria": ["P6"], "theme": "ship_state_transition_completeness"},
+    {"prompt_id": "PQ-PROMPT-0006", "criteria": ["P10"], "theme": "configuration_efficiency"},
+    {"prompt_id": "PQ-PROMPT-0007", "criteria": ["P10"], "theme": "configuration_efficiency"}
+  ],
+  "summary": {"prompts": 7, "criteria_per_prompt": 15, "ratings": 105, "pass": 94, "warn": 10, "fail": 1, "not_applicable": 0, "blocked_prompts": 1},
+  "gate": {"name": "STATIC_AUDIT_COMPLETE", "status": "PASS", "static_certification_eligible": false, "next_gate": "PCP-03 / PROMPT_TEST_MATRIX"},
+  "evidence_boundary": {"prompts_modified": false, "F4_TESTED": false, "F5_IMPROVED": false, "F6_CERTIFIED": false, "F7_PORTABLE": false}
+}

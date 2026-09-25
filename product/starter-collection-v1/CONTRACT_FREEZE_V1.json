@@ -1,0 +1,45 @@
+{
+  "schema": "prompt-machine-starter-contract-freeze-v1",
+  "receipt_id": "PM-STARTER-CONTRACT-FREEZE-V1-0001",
+  "version": "1.0.0",
+  "recorded_on": "2026-09-03",
+  "state": "STATIC_CONTRACT_FREEZE_PASS",
+  "collection": "starter-collection-v1",
+  "contracts": [
+    {
+      "workflow_id": "pm-starter-evidence-first-code-review",
+      "path": "product/starter-collection-v1/contracts/code-review.workflow-contract.json",
+      "state": "CONTRACT_FROZEN_STATIC_ONLY_BEHAVIORAL_EVIDENCE_OPEN",
+      "authority": "ADVISORY_ONLY",
+      "runtime_observations": 0
+    },
+    {
+      "workflow_id": "pm-starter-evidence-first-bug-diagnosis",
+      "path": "product/starter-collection-v1/contracts/bug-diagnosis.workflow-contract.json",
+      "state": "CONTRACT_FROZEN_STATIC_ONLY_BEHAVIORAL_EVIDENCE_OPEN",
+      "authority": "ADVISORY_ONLY",
+      "runtime_observations": 0
+    }
+  ],
+  "normalization_decisions_recorded": true,
+  "source_provenance_recorded": true,
+  "minimum_input_preflight_defined": true,
+  "output_contract_defined": true,
+  "verification_contract_defined": true,
+  "known_limitations_defined": true,
+  "truth": {
+    "contract_count": 2,
+    "contract_freeze_pass": true,
+    "external_model_calls": 0,
+    "starter_sku_runtime_observations": 0,
+    "starter_skill_behavioral_observations": 0,
+    "certification_claim": false,
+    "portability_claim": false,
+    "product_ready": false,
+    "ready_to_sell": false
+  },
+  "next_gate": "STARTER_SPECIFIC_BEHAVIORAL_EVIDENCE",
+  "next_gate_armed": false,
+  "reason_not_armed": "Inference remains governed by the shared-plan usage reserve policy; final executable Starter prompt surfaces must also be aligned to these frozen contracts before observation.",
+  "master_rule": "CONTRACT_FROZEN != BEHAVIOR_PROVEN"
+}

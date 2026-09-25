@@ -1,0 +1,21 @@
+{
+  "schema": "prompt-machine-starter-v2-human-review-v1",
+  "batch_id": "PM-STARTER-CR-V2-G08-BATCH-0003",
+  "case_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001",
+  "execution_id": "PM-STARTER-CR-V2-FULL-CHAIN-NO-GUARD-0001-G08-BATCH-0003-7018B8BA5097",
+  "raw_output_sha256": "b8a151ac31d8c76066f786d62b3868d1584ab249938249392ef309086926586f",
+  "result": "PASS",
+  "decision": "ACCEPT_OBSERVATION",
+  "blocking_dimensions": {
+    "complete_boundary_evidence_recognized": "PASS",
+    "material_authorization_risk_detected": "PASS",
+    "confirmed_level_available_when_directly_supported": "PASS",
+    "block_available_for_confirmed_high_or_critical_risk": "PASS",
+    "conditional_impacts_not_promoted_to_observed_facts": "PASS",
+    "unsupported_test_claims_absent": "PASS",
+    "authority_remains_advisory_only": "PASS",
+    "output_contract_followed": "PASS"
+  },
+  "notes": "The complete supplied request chain directly establishes the owner/admin authorization failure, supporting CONFIRMED and BLOCK. Password-reset/account-takeover impact remains explicitly conditional.",
+  "automatic_promotion": false
+}

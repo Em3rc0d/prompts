@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prompt-quarry.dev/schemas/product-prompt-specification-set-v1.json",
+  "title": "Prompt Quarry Product Prompt Specification Set v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "specification_set_id", "frozen_at", "inventory_id", "counts", "specifications", "gate"],
+  "properties": {
+    "schema": {"const": "prompt-quarry-product-prompt-specification-set-v1"},
+    "specification_set_id": {"const": "PQ-PCP-01-SPECSET-0001"},
+    "frozen_at": {"type": "string", "format": "date-time"},
+    "inventory_id": {"const": "PQ-PCP-00-INV-0001"},
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inventory_prompts", "specifications", "complete", "incomplete"],
+      "properties": {
+        "inventory_prompts": {"const": 7},
+        "specifications": {"const": 7},
+        "complete": {"const": 7},
+        "incomplete": {"const": 0}
+      }
+    },
+    "specifications": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/specification"}
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status", "next_gate"],
+      "properties": {
+        "name": {"const": "PROMPT_SPEC_COMPLETE"},
+        "status": {"const": "PASS"},
+        "next_gate": {"const": "PCP-02 / STATIC_AUDIT_COMPLETE"}
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "specification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spec_id",
+        "prompt_id",
+        "spec_version",
+        "source_basis",
+        "purpose",
+        "target_users",
+        "input_contract",
+        "output_contract",
+        "constraints",
+        "expected_value",
+        "known_limitations",
+        "supported_use_cases",
+        "out_of_scope",
+        "acceptance_conditions",
+        "claim_boundary",
+        "spec_status",
+        "silent_edit_allowed"
+      ],
+      "properties": {
+        "spec_id": {"type": "string", "pattern": "^PQ-SPEC-[0-9]{4}-V1$"},
+        "prompt_id": {"type": "string", "pattern": "^PQ-PROMPT-[0-9]{4}$"},
+        "spec_version": {"const": "1.0.0"},
+        "source_basis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "git_blob_sha", "derivation"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "git_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "derivation": {"const": "DECLARED_BEFORE_BEHAVIORAL_TESTING_FROM_FROZEN_SOURCE"}
+          }
+        },
+        "purpose": {"type": "string", "minLength": 1},
+        "target_users": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "input_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "optional", "invalid_or_blocking_states", "missing_information_behavior"],
+          "properties": {
+            "required": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "optional": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "invalid_or_blocking_states": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "missing_information_behavior": {"type": "string", "minLength": 1}
+          }
+        },
+        "output_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required_sections_or_elements", "allowed_status_values", "completion_rule"],
+          "properties": {
+            "required_sections_or_elements": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "allowed_status_values": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "completion_rule": {"type": "string", "minLength": 1}
+          }
+        },
+        "constraints": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "expected_value": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["statement", "evidence_state"],
+          "properties": {
+            "statement": {"type": "string", "minLength": 1},
+            "evidence_state": {"const": "HYPOTHESIS_UNTESTED"}
+          }
+        },
+        "known_limitations": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "supported_use_cases": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "out_of_scope": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "acceptance_conditions": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "claim_boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["F4_TESTED", "F5_IMPROVED", "F6_CERTIFIED", "F7_PORTABLE"],
+          "properties": {
+            "F4_TESTED": {"const": false},
+            "F5_IMPROVED": {"const": false},
+            "F6_CERTIFIED": {"const": false},
+            "F7_PORTABLE": {"const": false}
+          }
+        },
+        "spec_status": {"const": "COMPLETE"},
+        "silent_edit_allowed": {"const": false}
+      }
+    }
+  }
+}
