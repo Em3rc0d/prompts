@@ -42,10 +42,10 @@ for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing 
 for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"]) {
   if (!checkout.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout missing ${marker}`);
 }
-for (const marker of ["X-Idempotency-Key","premiumTestSessionMatches","newMercadoPagoPremiumSession","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
+for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newMercadoPagoPremiumSession","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
 }
-for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","VERLUNE_PREMIUM_PRICE_USD = 5"]) {
+for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key"]) {
   if (!provider.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider contract missing ${marker}`);
 }
 
