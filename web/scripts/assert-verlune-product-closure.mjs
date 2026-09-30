@@ -5,6 +5,7 @@ const root = process.cwd();
 const files = {
   premium: "app/premium/page.tsx",
   checkout: "app/checkout/page.tsx",
+  checkoutComponent: "components/mercado-pago-checkout.tsx",
   payment: "app/api/commerce/verlune-premium/payment/route.ts",
   provider: "lib/verlune-mercado-pago.ts",
   layout: "app/layout.tsx",
@@ -25,6 +26,7 @@ function read(rel) {
 
 const premium = read(files.premium);
 const checkout = read(files.checkout);
+const checkoutComponent = read(files.checkoutComponent);
 const payment = read(files.payment);
 const provider = read(files.provider);
 const layout = read(files.layout);
@@ -42,21 +44,25 @@ for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing 
 for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"]) {
   if (!checkout.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout missing ${marker}`);
 }
+for (const marker of ["sdk.mercadopago.com/js/v2","minInstallments: 1","maxInstallments: 1"]) {
+  if (!checkoutComponent.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout component missing ${marker}`);
+}
 for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newMercadoPagoPremiumSession","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
 }
-for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key"]) {
+for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4"]) {
   if (!provider.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider contract missing ${marker}`);
 }
 
 if (!env.includes("VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE")) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium sale must default fail-closed");
 if (env.includes("VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=LIVE")) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: example config must not enable public Premium sale");
-for (const marker of ["VERLUNE_PREMIUM_PRICE_PEN_MINOR=1700","MP_ENVIRONMENT=test","MP_ALLOW_LIVE=false","MP_ACCESS_TOKEN=","MP_PUBLIC_KEY=","MP_COLLECTOR_ID="]) {
+for (const marker of ["VERLUNE_PREMIUM_PRICE_PEN_MINOR=1700","MP_ENVIRONMENT=test","MP_ALLOW_LIVE=false","MP_ACCESS_TOKEN=","MP_PUBLIC_KEY=","MP_COLLECTOR_ID=","VERLUNE_SESSION_REVALIDATE_SECONDS=900"]) {
   if (!env.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: env missing ${marker}`);
 }
 
 if (!layout.includes('href="/premium">Premium</')) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: primary navigation does not expose Premium discovery");
 if (!layout.includes('href="/unlock">Unlock access')) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: unlock is not separated as existing-purchase access");
+if (layout.includes("app.lemonsqueezy.com/js/lemon.js")) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: legacy Lemon script leaked into global layout");
 for (const [surface, source] of [["home", home], ["free", free]]) if (!source.includes('href="/premium"')) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: ${surface} does not route Premium intent through /premium`);
 if (!unlock.includes('href="/premium">← Explore Premium')) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: unlock cannot return prospective buyers to Premium");
 
