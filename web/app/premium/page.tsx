@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LemonCheckoutLink } from "@/components/lemon-checkout-link";
 
 import { ArtifactMiniObject } from "@/components/verlune-visuals";
 import {
@@ -35,13 +34,13 @@ export default function PremiumPage() {
           <div className="actions">
             <Link className="btn btnSecondary" href="/library">Browse the Library</Link>
             {commerce.purchaseAvailable
-              ? <LemonCheckoutLink href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD <span aria-hidden="true">→</span></LemonCheckoutLink>
+              ? <Link className="btn btnPrimary" href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD <span aria-hidden="true">→</span></Link>
               : <span className="btn btnPrimary vDisabledCta" aria-disabled="true">Purchasing not open yet</span>}
             <Link className="textLink" href="/unlock">Already purchased? Unlock →</Link>
           </div>
           <p className="micro">{commerce.purchaseAvailable
-            ? "One-time purchase · License-based private access · AI-provider access and fees are separate."
-            : "The Premium customer surface is available for review, but public purchasing remains closed until the remaining release gates are complete."}</p>
+            ? `One-time purchase · Mercado Pago · charged as S/ ${(commerce.pricePenMinor / 100).toFixed(2)} · cards and Yape · AI-provider access and fees are separate.`
+            : "The Premium customer surface is available for review, but public purchasing remains closed until Mercado Pago LIVE is explicitly enabled."}</p>
         </div>
         <aside className="reviewPromise vPremiumSummary">
           <span className="eyebrow">CURRENT PREMIUM LIBRARY</span>
@@ -55,57 +54,28 @@ export default function PremiumPage() {
         </aside>
       </div>
     </section>
-
     <section className="section">
       <div className="wrap">
-        <div className="splitHeader">
-          <div><div className="eyebrow">WHY PREMIUM EXISTS</div><h2>Use Verlune.<br />Then extend it.</h2></div>
-          <p className="sectionIntro">Free demonstrates the method on complete standalone tasks. Premium adds deeper task contracts, multi-stage processes, creation tools, adaptation, and evaluation—not an artificially crippled Free tier.</p>
-        </div>
+        <div className="splitHeader"><div><div className="eyebrow">WHY PREMIUM EXISTS</div><h2>Use Verlune.<br />Then extend it.</h2></div><p className="sectionIntro">Free demonstrates the method on complete standalone tasks. Premium adds deeper task contracts, multi-stage processes, creation tools, adaptation, and evaluation—not an artificially crippled Free tier.</p></div>
         <div className="grid2">
-          <article className="vCapabilityCard">
-            <div className="vCapabilityIcon"><ArtifactMiniObject type="Builder" /></div>
-            <div className="eyebrow">BUILD YOURS</div>
-            <h3>Prompt Builder + Workflow Builder</h3>
-            <p>Start from an ordinary-language recurring need. The Builders guide you toward a reusable artifact with explicit inputs, boundaries, fallback behavior, and verification.</p>
-          </article>
-          <article className="vCapabilityCard">
-            <div className="vCapabilityIcon"><ArtifactMiniObject type="Workflow" /></div>
-            <div className="eyebrow">GO DEEPER</div>
-            <h3>Five Premium Workflows</h3>
-            <p>Use more structured processes for code review, deep research, decision analysis, learning, and content strategy where stages and verification materially matter.</p>
-          </article>
-          <article className="vCapabilityCard">
-            <div className="vCapabilityIcon"><ArtifactMiniObject type="Prompt" /></div>
-            <div className="eyebrow">EIGHT CATEGORIES</div>
-            <h3>Four prompts per public category</h3>
-            <p>Thirty-two structured Premium prompts span engineering, learning, research, operations, writing, content, planning, and career work.</p>
-          </article>
-          <article className="vCapabilityCard">
-            <div className="vCapabilityIcon"><ArtifactMiniObject type="Toolkit" /></div>
-            <div className="eyebrow">ADAPT & EVALUATE</div>
-            <h3>Keep the boundary visible</h3>
-            <p>Adaptation and evaluation tools help you change an asset for your context and inspect generated artifacts without treating polished output as proof.</p>
-          </article>
+          <article className="vCapabilityCard"><div className="vCapabilityIcon"><ArtifactMiniObject type="Builder" /></div><div className="eyebrow">BUILD YOURS</div><h3>Prompt Builder + Workflow Builder</h3><p>Start from an ordinary-language recurring need. The Builders guide you toward a reusable artifact with explicit inputs, boundaries, fallback behavior, and verification.</p></article>
+          <article className="vCapabilityCard"><div className="vCapabilityIcon"><ArtifactMiniObject type="Workflow" /></div><div className="eyebrow">GO DEEPER</div><h3>Five Premium Workflows</h3><p>Use more structured processes for code review, deep research, decision analysis, learning, and content strategy where stages and verification materially matter.</p></article>
+          <article className="vCapabilityCard"><div className="vCapabilityIcon"><ArtifactMiniObject type="Prompt" /></div><div className="eyebrow">EIGHT CATEGORIES</div><h3>Four prompts per public category</h3><p>Thirty-two structured Premium prompts span engineering, learning, research, operations, writing, content, planning, and career work.</p></article>
+          <article className="vCapabilityCard"><div className="vCapabilityIcon"><ArtifactMiniObject type="Toolkit" /></div><div className="eyebrow">ADAPT & EVALUATE</div><h3>Keep the boundary visible</h3><p>Adaptation and evaluation tools help you change an asset for your context and inspect generated artifacts without treating polished output as proof.</p></article>
         </div>
       </div>
     </section>
-
     <section className="section">
       <div className="wrap">
-        <div className="splitHeader">
-          <div><div className="eyebrow">PRIVATE ACCESS</div><h2>Purchase entitlement.<br />No new account password.</h2></div>
-          <p className="sectionIntro">The v1 access model uses the purchase entitlement as the proof of access. Premium content stays behind server-side validation and a private browser session.</p>
-        </div>
+        <div className="splitHeader"><div><div className="eyebrow">PRIVATE ACCESS</div><h2>Pay once.<br />Unlock immediately.</h2></div><p className="sectionIntro">The v1 access model uses the approved Mercado Pago payment as the entitlement. Premium content stays behind server-side payment verification and a signed private browser session.</p></div>
         <ol className="workflowRail fourSteps">
-          <li><span className="stepNumber">01</span><h3>Purchase</h3><p>When public purchasing opens, complete checkout with the authorized Premium product.</p></li>
-          <li><span className="stepNumber">02</span><h3>Receive license</h3><p>Your Lemon Squeezy receipt supplies the checkout email and license key.</p></li>
-          <li><span className="stepNumber">03</span><h3>Unlock</h3><p>Verlune validates the entitlement server-side and activates the browser when allowed.</p></li>
+          <li><span className="stepNumber">01</span><h3>Purchase</h3><p>Pay the one-time Premium price with card or Yape through Mercado Pago.</p></li>
+          <li><span className="stepNumber">02</span><h3>Approval</h3><p>Verlune reads the canonical payment back from Mercado Pago before granting access.</p></li>
+          <li><span className="stepNumber">03</span><h3>Unlock</h3><p>An approved payment creates the Premium session automatically. Email + payment ID recover access later.</p></li>
           <li><span className="stepNumber">04</span><h3>Use Premium</h3><p>Open protected assets, copy the structure, run it in your AI assistant, and verify the result.</p></li>
         </ol>
       </div>
     </section>
-
     <section className="section vTrustSection">
       <div className="wrap vTrustGrid">
         <div><div className="eyebrow">WHAT PREMIUM DOES NOT CLAIM</div><h2>Capability without<br />the magic act.</h2></div>
@@ -117,17 +87,12 @@ export default function PremiumPage() {
         </div>
       </div>
     </section>
-
     <section className="v2Closing">
       <div className="wrap v2ClosingInner">
-        <div>
-          <div className="eyebrow">VERLUNE PREMIUM</div>
-          <h2>Use ours. Build yours.</h2>
-          <p>Explore the value now. Purchase only when the public sale gate is actually open.</p>
-        </div>
+        <div><div className="eyebrow">VERLUNE PREMIUM</div><h2>Use ours. Build yours.</h2><p>One payment. No subscription.</p></div>
         <div className="actions">
           {commerce.purchaseAvailable
-            ? <LemonCheckoutLink href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD →</LemonCheckoutLink>
+            ? <Link className="btn btnPrimary" href="/api/commerce/verlune-premium/checkout">Get Premium — {VERLUNE_PREMIUM_CANDIDATE_PRICE_USD} USD →</Link>
             : <Link className="btn btnPrimary" href="/free">Use Free first →</Link>}
           <Link className="btn btnSecondary" href="/unlock">Unlock existing purchase</Link>
         </div>

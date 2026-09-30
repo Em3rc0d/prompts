@@ -3,7 +3,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 export const VERLUNE_SESSION_COOKIE = "verlune_premium_session";
 export const VERLUNE_DEVICE_COOKIE = "verlune_premium_device";
 
-export type PremiumSession = {
+export type LegacyPremiumSession = {
   v: 1;
   licenseKeyId: string;
   instanceId: string;
@@ -13,6 +13,18 @@ export type PremiumSession = {
   validatedAt: number;
   expiresAt: number;
 };
+
+export type MercadoPagoPremiumSession = {
+  v: 2;
+  provider: "mercado_pago";
+  paymentId: string;
+  emailHash: string;
+  issuedAt: number;
+  validatedAt: number;
+  expiresAt: number;
+};
+
+export type PremiumSession = LegacyPremiumSession | MercadoPagoPremiumSession;
 
 function secret(name: "VERLUNE_SESSION_SECRET" | "VERLUNE_LICENSE_FINGERPRINT_SECRET"): string {
   const value = process.env[name]?.trim() ?? "";
@@ -85,20 +97,39 @@ function verifiedBody(token: string | undefined): unknown | null {
 }
 
 export function parsePremiumSession(token: string | undefined): PremiumSession | null {
-  const payload = verifiedBody(token) as PremiumSession | null;
+  const payload = verifiedBody(token) as Partial<PremiumSession> | null;
   if (!payload) return null;
-  if (
-    payload.v !== 1 ||
-    !/^\d+$/.test(payload.licenseKeyId) ||
-    !payload.instanceId ||
-    !payload.licenseFingerprint ||
-    !payload.emailHash ||
-    !Number.isFinite(payload.issuedAt) ||
-    !Number.isFinite(payload.validatedAt) ||
-    !Number.isFinite(payload.expiresAt)
-  ) return null;
-  if (payload.expiresAt <= Math.floor(Date.now() / 1000)) return null;
-  return payload;
+
+  if (payload.v === 2) {
+    const session = payload as MercadoPagoPremiumSession;
+    if (
+      session.provider !== "mercado_pago" ||
+      !/^[1-9][0-9]{0,29}$/.test(session.paymentId) ||
+      !session.emailHash ||
+      !Number.isFinite(session.issuedAt) ||
+      !Number.isFinite(session.validatedAt) ||
+      !Number.isFinite(session.expiresAt)
+    ) return null;
+    if (session.expiresAt <= Math.floor(Date.now() / 1000)) return null;
+    return session;
+  }
+
+  if (payload.v === 1) {
+    const session = payload as LegacyPremiumSession;
+    if (
+      !/^\d+$/.test(session.licenseKeyId) ||
+      !session.instanceId ||
+      !session.licenseFingerprint ||
+      !session.emailHash ||
+      !Number.isFinite(session.issuedAt) ||
+      !Number.isFinite(session.validatedAt) ||
+      !Number.isFinite(session.expiresAt)
+    ) return null;
+    if (session.expiresAt <= Math.floor(Date.now() / 1000)) return null;
+    return session;
+  }
+
+  return null;
 }
 
 export function parsePremiumDeviceRef(token: string | undefined): PremiumDeviceRef | null {
@@ -143,7 +174,7 @@ export function newPremiumSession(input: {
   instanceId: string;
   licenseKey: string;
   customerEmail: string;
-}): PremiumSession {
+}): LegacyPremiumSession {
   const now = Math.floor(Date.now() / 1000);
   return {
     v: 1,
@@ -157,8 +188,24 @@ export function newPremiumSession(input: {
   };
 }
 
-export function refreshedPremiumSession(session: PremiumSession): PremiumSession {
-  return { ...session, validatedAt: Math.floor(Date.now() / 1000) };
+export function newMercadoPagoPremiumSession(input: {
+  paymentId: string;
+  customerEmail: string;
+}): MercadoPagoPremiumSession {
+  const now = Math.floor(Date.now() / 1000);
+  return {
+    v: 2,
+    provider: "mercado_pago",
+    paymentId: input.paymentId,
+    emailHash: hashCustomerEmail(input.customerEmail),
+    issuedAt: now,
+    validatedAt: now,
+    expiresAt: now + sessionMaxAgeSeconds()
+  };
+}
+
+export function refreshedPremiumSession<T extends PremiumSession>(session: T): T {
+  return { ...session, validatedAt: Math.floor(Date.now() / 1000) } as T;
 }
 
 export function sessionNeedsRevalidation(session: PremiumSession): boolean {

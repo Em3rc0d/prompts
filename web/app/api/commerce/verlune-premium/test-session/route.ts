@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
+import { getVerluneMercadoPagoConfigState } from "@/lib/verlune-mercado-pago";
 import {
   premiumTestSessionValue,
   providerTestTokenMatches,
   VERLUNE_PREMIUM_TEST_SESSION_COOKIE,
-  VERLUNE_PREMIUM_TEST_SESSION_MAX_AGE_SECONDS,
+  VERLUNE_PREMIUM_TEST_SESSION_MAX_AGE_SECONDS
 } from "@/lib/verlune-premium-test-session";
 
 function redirectTo(request: Request, suffix: string) {
@@ -15,10 +16,10 @@ function redirectTo(request: Request, suffix: string) {
 export async function POST(request: Request) {
   const mode = currentCommerceMode("VERLUNE_PREMIUM_COMMERCE_MODE");
   const publicSaleLive = process.env.VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE";
-  const checkoutConfigured = Boolean(process.env.LEMONSQUEEZY_VERLUNE_PREMIUM_TEST_CHECKOUT_URL?.trim());
+  const provider = getVerluneMercadoPagoConfigState();
   const signature = premiumTestSessionValue();
 
-  if (mode !== "test" || publicSaleLive || !checkoutConfigured || !signature) {
+  if (mode !== "test" || publicSaleLive || !provider.ready || provider.environment !== "test" || !signature) {
     return redirectTo(request, "?error=not-ready");
   }
 
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
     secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: VERLUNE_PREMIUM_TEST_SESSION_MAX_AGE_SECONDS,
+    maxAge: VERLUNE_PREMIUM_TEST_SESSION_MAX_AGE_SECONDS
   });
   return response;
 }
