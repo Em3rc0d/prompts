@@ -202,6 +202,6 @@ export function MercadoPagoCheckout({
         </form>}
 
     {message ? <p className="notice" role="status">{message}</p> : null}
-    {paymentId ? <p className="micro">Mercado Pago payment ID: <code>{paymentId}</code>. Keep it with your checkout email for access recovery.</p> : null}
+    {paymentId ? <p className="micro">Mercado Pago payment reference: <code>{paymentId}</code>. Keep it for support; Premium access uses the Verlune Access Key emailed to your checkout address.</p> : null}
   </div>;
 }

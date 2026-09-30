@@ -2,13 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
 import {
+  getVerluneAccessConfigState,
+  provisionVerlunePremiumAccess,
+  VerluneAccessError
+} from "@/lib/verlune-access";
+import {
   createVerlunePremiumPayment,
   getVerluneMercadoPagoConfigState,
   MercadoPagoApiError
 } from "@/lib/verlune-mercado-pago";
 import {
   clearPremiumCookieOptions,
-  newMercadoPagoPremiumSession,
+  newAccessKeyPremiumSession,
   premiumCookieOptions,
   signPremiumSession,
   VERLUNE_DEVICE_COOKIE,
@@ -35,12 +40,16 @@ export async function POST(request: NextRequest) {
   const mode = currentCommerceMode("VERLUNE_PREMIUM_COMMERCE_MODE");
   const publicSaleLive = process.env.VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE";
   const provider = getVerluneMercadoPagoConfigState();
+  const access = getVerluneAccessConfigState();
 
   if (mode === "off") {
     return NextResponse.json({ ok: false, error: "commerce_disabled" }, { status: 503 });
   }
   if (!provider.ready) {
     return NextResponse.json({ ok: false, error: "mercado_pago_not_configured", missing: provider.missing }, { status: 503 });
+  }
+  if (!access.ready) {
+    return NextResponse.json({ ok: false, error: "verlune_access_not_configured", missing: access.missing }, { status: 503 });
   }
   if (mode === "test") {
     if (publicSaleLive || provider.environment !== "test") {
@@ -75,18 +84,27 @@ export async function POST(request: NextRequest) {
 
   try {
     const payment = await createVerlunePremiumPayment({ formData, idempotencyKey, notificationUrl });
+    const provisioned = payment.entitled
+      ? await provisionVerlunePremiumAccess(payment)
+      : { entitlement: null, accessKey: null, emailSent: false };
+
+    if (payment.entitled && !provisioned.entitlement) {
+      throw new VerluneAccessError(503, "entitlement_not_created");
+    }
+
     const response = NextResponse.json({
       ok: true,
       paymentId: payment.paymentId,
       status: payment.status,
       paymentMethodId: payment.paymentMethodId,
       entitled: payment.entitled,
+      accessEmail: provisioned.emailSent ? "sent" : payment.entitled ? "deferred" : undefined,
       redirect: payment.entitled ? "/app" : undefined
     });
 
-    if (payment.entitled) {
-      const session = newMercadoPagoPremiumSession({
-        paymentId: payment.paymentId,
+    if (payment.entitled && provisioned.entitlement) {
+      const session = newAccessKeyPremiumSession({
+        entitlementId: provisioned.entitlement.entitlementId,
         customerEmail: payment.customerEmail
       });
       response.cookies.set(VERLUNE_SESSION_COOKIE, signPremiumSession(session), premiumCookieOptions(session));
@@ -104,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
-    if (error instanceof MercadoPagoApiError) {
+    if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {
       return NextResponse.json({ ok: false, error: error.code }, { status: error.status });
     }
     return NextResponse.json({ ok: false, error: "payment_unavailable" }, { status: 502 });

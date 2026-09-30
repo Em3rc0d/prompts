@@ -24,7 +24,17 @@ export type MercadoPagoPremiumSession = {
   expiresAt: number;
 };
 
-export type PremiumSession = LegacyPremiumSession | MercadoPagoPremiumSession;
+export type VerluneAccessPremiumSession = {
+  v: 3;
+  provider: "verlune";
+  entitlementId: string;
+  emailHash: string;
+  issuedAt: number;
+  validatedAt: number;
+  expiresAt: number;
+};
+
+export type PremiumSession = LegacyPremiumSession | MercadoPagoPremiumSession | VerluneAccessPremiumSession;
 
 function secret(name: "VERLUNE_SESSION_SECRET" | "VERLUNE_LICENSE_FINGERPRINT_SECRET"): string {
   const value = process.env[name]?.trim() ?? "";
@@ -99,6 +109,20 @@ function verifiedBody(token: string | undefined): unknown | null {
 export function parsePremiumSession(token: string | undefined): PremiumSession | null {
   const payload = verifiedBody(token) as Partial<PremiumSession> | null;
   if (!payload) return null;
+
+  if (payload.v === 3) {
+    const session = payload as VerluneAccessPremiumSession;
+    if (
+      session.provider !== "verlune" ||
+      !/^vpe1_[A-Za-z0-9_-]{20,32}$/.test(session.entitlementId) ||
+      !session.emailHash ||
+      !Number.isFinite(session.issuedAt) ||
+      !Number.isFinite(session.validatedAt) ||
+      !Number.isFinite(session.expiresAt)
+    ) return null;
+    if (session.expiresAt <= Math.floor(Date.now() / 1000)) return null;
+    return session;
+  }
 
   if (payload.v === 2) {
     const session = payload as MercadoPagoPremiumSession;
@@ -197,6 +221,22 @@ export function newMercadoPagoPremiumSession(input: {
     v: 2,
     provider: "mercado_pago",
     paymentId: input.paymentId,
+    emailHash: hashCustomerEmail(input.customerEmail),
+    issuedAt: now,
+    validatedAt: now,
+    expiresAt: now + sessionMaxAgeSeconds()
+  };
+}
+
+export function newAccessKeyPremiumSession(input: {
+  entitlementId: string;
+  customerEmail: string;
+}): VerluneAccessPremiumSession {
+  const now = Math.floor(Date.now() / 1000);
+  return {
+    v: 3,
+    provider: "verlune",
+    entitlementId: input.entitlementId,
     emailHash: hashCustomerEmail(input.customerEmail),
     issuedAt: now,
     validatedAt: now,

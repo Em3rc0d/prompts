@@ -1,4 +1,9 @@
 import {
+  provisionVerlunePremiumAccess,
+  syncVerlunePremiumEntitlement,
+  VerluneAccessError
+} from "@/lib/verlune-access";
+import {
   MercadoPagoApiError,
   readMercadoPagoPayment,
   verifyMercadoPagoWebhook,
@@ -26,6 +31,13 @@ export async function POST(request: Request) {
 
     const payment = await readMercadoPagoPayment(signed.dataId);
     const verification = verifyVerlunePremiumPayment(payment);
+    const provisioned = verification.entitled
+      ? await provisionVerlunePremiumAccess(verification)
+      : {
+          entitlement: await syncVerlunePremiumEntitlement(verification),
+          accessKey: null,
+          emailSent: false
+        };
 
     console.info("VERLUNE_MP_EVENT", JSON.stringify({
       event: "mercado_pago_payment_webhook",
@@ -33,6 +45,8 @@ export async function POST(request: Request) {
       matched: !verification.reason || verification.reason.startsWith("payment_"),
       status: verification.status,
       entitled: verification.entitled,
+      entitlement_id: provisioned.entitlement?.entitlementId ?? null,
+      access_email: provisioned.emailSent ? "sent" : verification.entitled ? "deferred" : "not_applicable",
       timestamp: new Date().toISOString()
     }));
 
@@ -41,10 +55,11 @@ export async function POST(request: Request) {
       received: true,
       paymentId: verification.paymentId,
       status: verification.status,
-      entitled: verification.entitled
+      entitled: verification.entitled,
+      entitlementId: provisioned.entitlement?.entitlementId ?? null
     });
   } catch (error) {
-    if (error instanceof MercadoPagoApiError) {
+    if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {
       return Response.json({ ok: false, error: error.code }, { status: error.status });
     }
     return Response.json({ ok: false, error: "webhook_failed" }, { status: 502 });

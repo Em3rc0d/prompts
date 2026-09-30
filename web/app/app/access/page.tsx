@@ -27,13 +27,13 @@ export default async function PremiumAccessPage() {
         <dl className="sessionFacts">
           <div><dt>Last entitlement check</dt><dd>{formatEpoch(session.validatedAt)}</dd></div>
           <div><dt>Session expires</dt><dd>{formatEpoch(session.expiresAt)}</dd></div>
-          <div><dt>Provider reference</dt><dd><code>{session.v === 2 ? `MP ${session.paymentId}` : session.instanceId}</code></dd></div>
+          <div><dt>Access reference</dt><dd><code>{session.v === 3 ? session.entitlementId : session.v === 2 ? `MP ${session.paymentId}` : session.instanceId}</code></dd></div>
         </dl>
         <div className="accessActions">
           <form action="/api/verlune/logout" method="post"><button className="btn btnSecondary" type="submit">Log out this browser</button></form>
           <form action="/api/verlune/deactivate" method="post"><button className="btn btnSecondary" type="submit">Forget access on this browser</button></form>
         </div>
-        <p className="micro">Recovery uses the checkout email plus the Mercado Pago payment ID. A refunded, reversed, mismatched or non-approved payment fails closed on the next provider check.</p>
+        <p className="micro">Recovery sends the same canonical Verlune Access Key back to the checkout email. A refunded, reversed, mismatched or non-approved payment still fails closed on the next provider check.</p>
       </div>
     </section>
   </main>;
