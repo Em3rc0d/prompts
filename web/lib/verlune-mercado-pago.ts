@@ -93,6 +93,7 @@ export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
   const missing: string[] = [];
 
   if (!process.env.MP_ACCESS_TOKEN?.trim()) missing.push("MP_ACCESS_TOKEN");
+  if ((process.env.MP_WEBHOOK_SECRET?.trim().length ?? 0) < 16) missing.push("MP_WEBHOOK_SECRET");
   if (!publicKey) missing.push("MP_PUBLIC_KEY");
   if (!/^[1-9][0-9]{0,29}$/.test(collectorId)) missing.push("MP_COLLECTOR_ID");
   if (!env) missing.push("MP_ENVIRONMENT");
