@@ -2,17 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
 import {
+  acquireVerlunePurchaseGuard,
   getVerluneAccessConfigState,
   getVerlunePremiumEntitlementByEmail,
   isValidVerluneEmail,
   normalizeVerluneEmail,
   provisionVerlunePremiumAccess,
+  releaseVerlunePurchaseGuard,
   syncVerlunePremiumEntitlement,
   VerluneAccessError
 } from "@/lib/verlune-access";
 import {
   createVerlunePremiumPayment,
   getVerluneMercadoPagoConfigState,
+  isMercadoPagoIdempotencyKey,
   MercadoPagoApiError,
   readMercadoPagoPayment,
   verifyVerlunePremiumPayment
@@ -37,6 +40,14 @@ function checkoutEmail(formData: unknown): string {
   const payer = (formData as Record<string, unknown>).payer;
   if (!payer || typeof payer !== "object") return "";
   return normalizeVerluneEmail((payer as Record<string, unknown>).email);
+}
+
+async function releasePurchaseGuardBestEffort(email: string, attemptId: string) {
+  try {
+    await releaseVerlunePurchaseGuard(email, attemptId);
+  } catch {
+    console.warn("VERLUNE_PURCHASE_GUARD_RELEASE_DEFERRED", JSON.stringify({ attempt_id: attemptId }));
+  }
 }
 
 function cookieValue(request: Request, name: string): string | null {
@@ -77,6 +88,10 @@ export async function POST(request: NextRequest) {
   }
 
   const idempotencyKey = request.headers.get("x-idempotency-key") ?? "";
+  if (!isMercadoPagoIdempotencyKey(idempotencyKey)) {
+    return NextResponse.json({ ok: false, error: "invalid_idempotency_key" }, { status: 400 });
+  }
+
   const rawBody = await request.text();
   if (Buffer.byteLength(rawBody, "utf8") > 16_384) {
     return NextResponse.json({ ok: false, error: "payment_payload_too_large" }, { status: 413 });
@@ -95,21 +110,34 @@ export async function POST(request: NextRequest) {
       ? inferredWebhook
       : undefined;
 
+  const payerEmail = checkoutEmail(formData);
+  if (!isValidVerluneEmail(payerEmail)) {
+    return NextResponse.json({ ok: false, error: "invalid_payer_email" }, { status: 400 });
+  }
+
+  let purchaseGuardHeld = false;
   try {
-    const payerEmail = checkoutEmail(formData);
-    if (isValidVerluneEmail(payerEmail)) {
-      const existing = await getVerlunePremiumEntitlementByEmail(payerEmail);
-      if (existing?.status === "active") {
-        const previousPayment = await readMercadoPagoPayment(existing.paymentId);
-        const previousVerification = verifyVerlunePremiumPayment(previousPayment, payerEmail);
-        const refreshedExisting = await syncVerlunePremiumEntitlement(previousVerification);
-        if (previousVerification.entitled && refreshedExisting?.status === "active") {
-          return NextResponse.json({
-            ok: false,
-            error: "premium_already_owned",
-            recover: "/unlock"
-          }, { status: 409 });
-        }
+    purchaseGuardHeld = await acquireVerlunePurchaseGuard(payerEmail, idempotencyKey);
+    if (!purchaseGuardHeld) {
+      return NextResponse.json({
+        ok: false,
+        error: "premium_purchase_in_progress"
+      }, { status: 409 });
+    }
+
+    const existing = await getVerlunePremiumEntitlementByEmail(payerEmail);
+    if (existing?.status === "active") {
+      const previousPayment = await readMercadoPagoPayment(existing.paymentId);
+      const previousVerification = verifyVerlunePremiumPayment(previousPayment, payerEmail);
+      const refreshedExisting = await syncVerlunePremiumEntitlement(previousVerification);
+      if (previousVerification.entitled && refreshedExisting?.status === "active") {
+        await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+        purchaseGuardHeld = false;
+        return NextResponse.json({
+          ok: false,
+          error: "premium_already_owned",
+          recover: "/unlock"
+        }, { status: 409 });
       }
     }
 
@@ -141,6 +169,11 @@ export async function POST(request: NextRequest) {
       response.cookies.set(VERLUNE_DEVICE_COOKIE, "", clearPremiumCookieOptions);
     }
 
+    if (payment.entitled || (payment.status !== "pending" && payment.status !== "in_process")) {
+      await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+      purchaseGuardHeld = false;
+    }
+
     console.info("VERLUNE_FUNNEL_EVENT", JSON.stringify({
       event: payment.entitled ? "premium_purchase_completed" : "premium_payment_updated",
       provider: "mercado_pago",
@@ -152,6 +185,10 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
+    if (purchaseGuardHeld && error instanceof MercadoPagoApiError && error.status < 500) {
+      await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+      purchaseGuardHeld = false;
+    }
     if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {
       return NextResponse.json({ ok: false, error: error.code }, { status: error.status });
     }

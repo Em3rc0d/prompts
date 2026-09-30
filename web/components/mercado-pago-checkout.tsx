@@ -83,7 +83,11 @@ export function MercadoPagoCheckout({
       if (response.status < 500) attemptKey.current = null;
       setMessage(payload.error === "provider_test_not_authorized"
         ? "This browser is not authorized for the private TEST checkout."
-        : "Mercado Pago could not complete this attempt. No Premium access was granted.");
+        : payload.error === "premium_already_owned"
+          ? "This email already owns Verlune Premium. Use Unlock access or request the same Access Key again."
+          : payload.error === "premium_purchase_in_progress"
+            ? "A payment attempt for this email is already in progress. Do not submit another charge; retry shortly."
+            : "Mercado Pago could not complete this attempt. No Premium access was granted.");
       throw new Error(payload.error ?? "payment_failed");
     }
 

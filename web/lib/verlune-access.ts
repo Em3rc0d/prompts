@@ -1,16 +1,26 @@
 import "server-only";
 
-import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
+import { randomUUID, timingSafeEqual } from "node:crypto";
+
+import {
+  createVerluneAccessKeyWithSecret,
+  deriveVerluneEntitlementIdWithSecret,
+  isValidVerluneEmail,
+  normalizeVerluneEmail,
+  signVerluneAccessValue,
+  verifyVerluneAccessKeyWithSecret,
+  VERLUNE_VERLUNE_ACCESS_KEY_PATTERN,
+  VERLUNE_ACCESS_KEY_VERSION,
+  VERLUNE_VERLUNE_ENTITLEMENT_ID_PATTERN
+} from "./verlune-access-key";
 
 import {
   VERLUNE_PREMIUM_PRODUCT_TAG,
   type VerifiedVerlunePayment
 } from "./verlune-mercado-pago";
 
-export const VERLUNE_ACCESS_KEY_VERSION = "VLK1";
+export { isValidVerluneEmail, normalizeVerluneEmail, VERLUNE_ACCESS_KEY_VERSION };
 const ENTITLEMENT_VERSION = "1";
-const ENTITLEMENT_ID_PATTERN = /^vpe1_[A-Za-z0-9_-]{20,32}$/;
-const ACCESS_KEY_PATTERN = /^VLK1_[A-Za-z0-9_-]{20,32}_[A-Za-z0-9_-]{32}$/;
 
 export type VerlunePremiumEntitlement = {
   v: 1;
@@ -43,50 +53,51 @@ function secretV1(): string {
   return value;
 }
 
-function hmac(label: string): string {
-  return createHmac("sha256", secretV1()).update(label).digest("base64url");
-}
-
 function safeEqual(leftValue: string, rightValue: string): boolean {
   const left = Buffer.from(leftValue, "utf8");
   const right = Buffer.from(rightValue, "utf8");
   return left.length === right.length && timingSafeEqual(left, right);
 }
 
-export function normalizeVerluneEmail(value: unknown): string {
-  return typeof value === "string" ? value.trim().toLowerCase() : "";
-}
-
-export function isValidVerluneEmail(value: string): boolean {
-  return Boolean(value) && value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
 export function deriveVerluneEntitlementId(emailInput: string): string {
-  const email = normalizeVerluneEmail(emailInput);
-  if (!isValidVerluneEmail(email)) throw new VerluneAccessError(400, "invalid_access_email");
-  return `vpe1_${hmac(`entitlement:v1:${VERLUNE_PREMIUM_PRODUCT_TAG}:${email}`).slice(0, 24)}`;
+  try {
+    return deriveVerluneEntitlementIdWithSecret(
+      emailInput,
+      secretV1(),
+      VERLUNE_PREMIUM_PRODUCT_TAG
+    );
+  } catch {
+    throw new VerluneAccessError(400, "invalid_access_email");
+  }
 }
 
 function entitlementEmailHash(emailInput: string): string {
   const email = normalizeVerluneEmail(emailInput);
-  return hmac(`email:v1:${VERLUNE_PREMIUM_PRODUCT_TAG}:${email}`);
+  return signVerluneAccessValue(
+    `email:v1:${VERLUNE_PREMIUM_PRODUCT_TAG}:${email}`,
+    secretV1()
+  );
 }
 
 export function createVerluneAccessKey(emailInput: string): string {
-  const email = normalizeVerluneEmail(emailInput);
-  const entitlementId = deriveVerluneEntitlementId(email);
-  const signature = hmac(`access:v1:${VERLUNE_PREMIUM_PRODUCT_TAG}:${entitlementId}:${email}`).slice(0, 32);
-  return `${VERLUNE_ACCESS_KEY_VERSION}_${entitlementId.slice(5)}_${signature}`;
+  try {
+    return createVerluneAccessKeyWithSecret(
+      emailInput,
+      secretV1(),
+      VERLUNE_PREMIUM_PRODUCT_TAG
+    );
+  } catch {
+    throw new VerluneAccessError(400, "invalid_access_email");
+  }
 }
 
 export function verifyVerluneAccessKey(emailInput: string, observed: string): boolean {
-  const email = normalizeVerluneEmail(emailInput);
-  if (!isValidVerluneEmail(email) || !ACCESS_KEY_PATTERN.test(observed)) return false;
-  try {
-    return safeEqual(createVerluneAccessKey(email), observed);
-  } catch {
-    return false;
-  }
+  return verifyVerluneAccessKeyWithSecret(
+    emailInput,
+    observed,
+    secretV1(),
+    VERLUNE_PREMIUM_PRODUCT_TAG
+  );
 }
 
 export function getVerluneEntitlementConfigState(): VerluneConfigState {
@@ -156,8 +167,59 @@ async function kvCommand<T = unknown>(command: Array<string | number>): Promise<
 }
 
 function entitlementRedisKey(entitlementId: string): string {
-  if (!ENTITLEMENT_ID_PATTERN.test(entitlementId)) throw new VerluneAccessError(400, "invalid_entitlement_id");
+  if (!VERLUNE_ENTITLEMENT_ID_PATTERN.test(entitlementId)) throw new VerluneAccessError(400, "invalid_entitlement_id");
   return `verlune:premium:entitlement:v1:${entitlementId}`;
+}
+
+function purchaseGuardSeconds(): number {
+  const parsed = Number(process.env.VERLUNE_PURCHASE_GUARD_SECONDS ?? "900");
+  return Number.isFinite(parsed) && parsed >= 60 && parsed <= 3600 ? Math.floor(parsed) : 900;
+}
+
+function purchaseGuardKey(emailInput: string): string {
+  return `verlune:premium:purchase-guard:v1:${deriveVerluneEntitlementId(emailInput)}`;
+}
+
+const ACQUIRE_PURCHASE_GUARD_SCRIPT = `
+local current = redis.call("GET", KEYS[1])
+if not current then
+  redis.call("SET", KEYS[1], ARGV[1], "EX", ARGV[2])
+  return 1
+end
+if current == ARGV[1] then
+  redis.call("EXPIRE", KEYS[1], ARGV[2])
+  return 1
+end
+return 0
+`;
+
+const RELEASE_PURCHASE_GUARD_SCRIPT = `
+if redis.call("GET", KEYS[1]) == ARGV[1] then
+  return redis.call("DEL", KEYS[1])
+end
+return 0
+`;
+
+export async function acquireVerlunePurchaseGuard(emailInput: string, attemptId: string): Promise<boolean> {
+  const result = await kvCommand<number>([
+    "EVAL",
+    ACQUIRE_PURCHASE_GUARD_SCRIPT,
+    1,
+    purchaseGuardKey(emailInput),
+    attemptId,
+    purchaseGuardSeconds()
+  ]);
+  return result === 1;
+}
+
+export async function releaseVerlunePurchaseGuard(emailInput: string, attemptId: string): Promise<void> {
+  await kvCommand<number>([
+    "EVAL",
+    RELEASE_PURCHASE_GUARD_SCRIPT,
+    1,
+    purchaseGuardKey(emailInput),
+    attemptId
+  ]);
 }
 
 function hashPairs(input: unknown): Record<string, string> {
@@ -179,7 +241,7 @@ function parseEntitlement(input: unknown): VerlunePremiumEntitlement | null {
   if (
     value.v !== ENTITLEMENT_VERSION ||
     value.product !== VERLUNE_PREMIUM_PRODUCT_TAG ||
-    !ENTITLEMENT_ID_PATTERN.test(value.entitlementId ?? "") ||
+    !VERLUNE_ENTITLEMENT_ID_PATTERN.test(value.entitlementId ?? "") ||
     !value.emailHash ||
     value.provider !== "mercado_pago" ||
     !/^[1-9][0-9]{0,29}$/.test(value.paymentId ?? "") ||
@@ -323,7 +385,7 @@ export async function sendVerluneAccessEmail(input: {
 }): Promise<void> {
   const config = requireEmailConfig();
   const email = normalizeVerluneEmail(input.email);
-  if (!isValidVerluneEmail(email) || !ACCESS_KEY_PATTERN.test(input.accessKey)) {
+  if (!isValidVerluneEmail(email) || !VERLUNE_ACCESS_KEY_PATTERN.test(input.accessKey)) {
     throw new VerluneAccessError(400, "invalid_access_delivery");
   }
 
@@ -404,7 +466,8 @@ export async function provisionVerlunePremiumAccess(
       email: verification.customerEmail,
       accessKey,
       entitlementId: entitlement.entitlementId,
-      reason: "purchase"
+      reason: "purchase",
+      idempotencyKey: `verlune-access-grant/${entitlement.entitlementId}/${verification.paymentId}/v1`
     });
     emailSent = true;
   } catch (error) {

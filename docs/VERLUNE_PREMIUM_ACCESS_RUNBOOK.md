@@ -27,6 +27,7 @@ Premium session
 - One entitlement maps to one deterministic `VLK1` Access Key.
 - Recovery re-sends the same key; it does not mint another.
 - A second checkout for an email with a still-valid Premium payment is rejected with `premium_already_owned` before creating a new Mercado Pago payment.
+- Concurrent checkout attempts for the same email are serialized by an atomic KV purchase guard. A retry with the same Mercado Pago idempotency key is allowed; a different simultaneous attempt receives `premium_purchase_in_progress`.
 - Refunds, reversals, amount/account/environment mismatches fail closed.
 - `VERLUNE_ACCESS_KEY_SECRET_V1` is a versioned root secret. Do not rotate or delete V1 after customers exist. Introduce a V2 scheme instead.
 - Public sale remains `NOT_FOR_SALE` until TEST and LIVE canaries pass.
@@ -40,6 +41,7 @@ Set:
 ```text
 VERLUNE_ENTITLEMENT_KV_REST_URL=https://...
 VERLUNE_ENTITLEMENT_KV_REST_TOKEN=...
+VERLUNE_PURCHASE_GUARD_SECONDS=900
 ```
 
 The implementation sends Redis commands as JSON arrays over HTTPS and authenticates with `Authorization: Bearer <token>`.
@@ -83,7 +85,7 @@ VERLUNE_ACCESS_FROM_EMAIL=Verlune <access@your-domain>
 NEXT_PUBLIC_SITE_URL=https://your-production-domain
 ```
 
-Initial purchase delivery uses a stable idempotency key per entitlement/version so checkout + webhook retries do not intentionally create duplicate grant emails.
+Initial purchase delivery uses a stable idempotency key per entitlement + Mercado Pago payment + key version, so retries for the same payment do not intentionally create duplicate grant emails while a later legitimate repurchase can deliver the same canonical key again.
 
 Recovery is rate-limited per entitlement in Redis and sends the same canonical Access Key.
 
@@ -117,6 +119,8 @@ payment created
 → email + VLK1 key unlocks
 → same email recovery returns same key
 → second purchase attempt is rejected before a new charge
+→ two concurrent attempts for the same email produce at most one provider charge path
+→ same idempotency-key retry remains retryable
 → refund/reversal blocks entitlement
 ```
 
@@ -174,6 +178,7 @@ MP_NOTIFICATION_URL
 VERLUNE_ACCESS_KEY_SECRET_V1
 VERLUNE_ENTITLEMENT_KV_REST_URL
 VERLUNE_ENTITLEMENT_KV_REST_TOKEN
+VERLUNE_PURCHASE_GUARD_SECONDS
 
 RESEND_API_KEY
 VERLUNE_ACCESS_FROM_EMAIL
@@ -187,3 +192,17 @@ VERLUNE_SESSION_REVALIDATE_SECONDS
 ## Release boundary
 
 Code/build readiness does not claim provider E2E evidence. The sale switch is intentionally separate from configuration so credentials alone cannot silently open public sales.
+
+
+## Pre-credential build proof
+
+The production build executes `node scripts/test-verlune-access-key.ts` before the remaining postbuild audits. This fixture proves the actual shared key core preserves:
+
+```text
+trim + lowercase email normalization → same entitlement ID
+same normalized email              → same VLK1 key
+different email                    → different VLK1 key
+mutated key                        → verification fails
+```
+
+This is a code-level invariant test only. Provider, KV and Resend behavior still require the TEST E2E described above.

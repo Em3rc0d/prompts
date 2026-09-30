@@ -8,6 +8,8 @@ const files = {
   checkoutComponent: "components/mercado-pago-checkout.tsx",
   payment: "app/api/commerce/verlune-premium/payment/route.ts",
   access: "lib/verlune-access.ts",
+  accessKeyCore: "lib/verlune-access-key.ts",
+  accessKeyTest: "scripts/test-verlune-access-key.ts",
   unlockForm: "components/verlune-unlock-form.tsx",
   recovery: "app/api/verlune/access-key/recover/route.ts",
   provider: "lib/verlune-mercado-pago.ts",
@@ -32,6 +34,8 @@ const checkout = read(files.checkout);
 const checkoutComponent = read(files.checkoutComponent);
 const payment = read(files.payment);
 const access = read(files.access);
+const accessKeyCore = read(files.accessKeyCore);
+const accessKeyTest = read(files.accessKeyTest);
 const unlockForm = read(files.unlockForm);
 const recovery = read(files.recovery);
 const provider = read(files.provider);
@@ -53,15 +57,21 @@ for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"])
 for (const marker of ["sdk.mercadopago.com/js/v2","minInstallments: 1","maxInstallments: 1"]) {
   if (!checkoutComponent.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout component missing ${marker}`);
 }
-for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newAccessKeyPremiumSession","provisionVerlunePremiumAccess","premium_already_owned","getVerlunePremiumEntitlementByEmail","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
+for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newAccessKeyPremiumSession","provisionVerlunePremiumAccess","premium_already_owned","premium_purchase_in_progress","acquireVerlunePurchaseGuard","getVerlunePremiumEntitlementByEmail","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
 }
 for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4","MP_WEBHOOK_SECRET"]) {
   if (!provider.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider contract missing ${marker}`);
 }
 
-for (const marker of ["VERLUNE_ACCESS_KEY_VERSION = \"VLK1\"","deriveVerluneEntitlementId","createVerluneAccessKey","verifyVerluneAccessKey","SYNC_ENTITLEMENT_SCRIPT","https://api.resend.com/emails","Idempotency-Key","VERLUNE_ENTITLEMENT_KV_REST_URL"]) {
+for (const marker of ["deriveVerluneEntitlementId","createVerluneAccessKey","verifyVerluneAccessKey","SYNC_ENTITLEMENT_SCRIPT","ACQUIRE_PURCHASE_GUARD_SCRIPT","RELEASE_PURCHASE_GUARD_SCRIPT","https://api.resend.com/emails","Idempotency-Key","VERLUNE_ENTITLEMENT_KV_REST_URL"]) {
   if (!access.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: canonical access layer missing ${marker}`);
+}
+for (const marker of ["VERLUNE_ACCESS_KEY_VERSION","deriveVerluneEntitlementIdWithSecret","createVerluneAccessKeyWithSecret","verifyVerluneAccessKeyWithSecret"]) {
+  if (!accessKeyCore.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: Access Key core missing ${marker}`);
+}
+for (const marker of ["same_email_same_key=true","different_email_different_key=true","mutated key must fail verification"]) {
+  if (!accessKeyTest.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: Access Key executable test missing ${marker}`);
 }
 for (const marker of ["Verlune Access Key","Email me my Access Key again","does not create a new one"]) {
   if (!unlockForm.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: unlock form missing ${marker}`);
@@ -72,7 +82,7 @@ for (const marker of ["createVerluneAccessKey","sendVerluneAccessEmail","allowVe
 
 if (!env.includes("VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE")) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium sale must default fail-closed");
 if (env.includes("VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=LIVE")) throw new Error("VERLUNE PRODUCT CLOSURE AUDIT FAIL: example config must not enable public Premium sale");
-for (const marker of ["VERLUNE_PREMIUM_PRICE_PEN_MINOR=1700","MP_ENVIRONMENT=test","MP_ALLOW_LIVE=false","MP_ACCESS_TOKEN=","MP_PUBLIC_KEY=","MP_COLLECTOR_ID=","MP_WEBHOOK_SECRET=","VERLUNE_ACCESS_KEY_SECRET_V1=","VERLUNE_ENTITLEMENT_KV_REST_URL=","VERLUNE_ENTITLEMENT_KV_REST_TOKEN=","RESEND_API_KEY=","VERLUNE_ACCESS_FROM_EMAIL=","VERLUNE_SESSION_REVALIDATE_SECONDS=900"]) {
+for (const marker of ["VERLUNE_PREMIUM_PRICE_PEN_MINOR=1700","MP_ENVIRONMENT=test","MP_ALLOW_LIVE=false","MP_ACCESS_TOKEN=","MP_PUBLIC_KEY=","MP_COLLECTOR_ID=","MP_WEBHOOK_SECRET=","VERLUNE_ACCESS_KEY_SECRET_V1=","VERLUNE_ENTITLEMENT_KV_REST_URL=","VERLUNE_ENTITLEMENT_KV_REST_TOKEN=","VERLUNE_PURCHASE_GUARD_SECONDS=900","RESEND_API_KEY=","VERLUNE_ACCESS_FROM_EMAIL=","VERLUNE_SESSION_REVALIDATE_SECONDS=900"]) {
   if (!env.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: env missing ${marker}`);
 }
 
@@ -102,6 +112,7 @@ console.log("premium_local_price_pen=17.00");
 console.log("premium_public_sale_default=NOT_FOR_SALE");
 console.log("unlock=email+canonical_access_key+provider_readback");
 console.log("access_key_uniqueness=product+normalized_email deterministic V1");
-console.log("access_delivery=resend idempotent grant + same-key recovery");
+console.log("access_delivery=resend idempotent per-payment grant + same-key recovery");
+console.log("duplicate_charge_guard=atomic email-scoped KV lock");
 console.log("premium_launch_core=41_assets");
 console.log("boundary=source/build contract only; real TEST/LIVE provider execution still required");
