@@ -151,8 +151,8 @@ export function sessionMaxAgeSeconds(): number {
 }
 
 export function revalidateAfterSeconds(): number {
-  const parsed = Number(process.env.VERLUNE_SESSION_REVALIDATE_SECONDS ?? "86400");
-  return Number.isFinite(parsed) && parsed >= 900 && parsed <= 604800 ? Math.floor(parsed) : 86400;
+  const parsed = Number(process.env.VERLUNE_SESSION_REVALIDATE_SECONDS ?? "900");
+  return Number.isFinite(parsed) && parsed >= 900 && parsed <= 604800 ? Math.floor(parsed) : 900;
 }
 
 export function newPremiumDeviceRef(input: {
