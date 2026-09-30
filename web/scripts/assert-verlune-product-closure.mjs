@@ -39,7 +39,7 @@ const catalog = read(files.catalog);
 for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing not open yet","getVerlunePremiumCommerceState",'href="/checkout"',"VERLUNE_PREMIUM_CANDIDATE_PRICE_USD"]) {
   if (!premium.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium missing ${marker}`);
 }
-for (const marker of ["MercadoPagoCheckout","cards and Yape","purchaseAvailable"]) {
+for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"]) {
   if (!checkout.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout missing ${marker}`);
 }
 for (const marker of ["X-Idempotency-Key","premiumTestSessionMatches","newMercadoPagoPremiumSession","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
