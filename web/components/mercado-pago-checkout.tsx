@@ -112,6 +112,12 @@ export function MercadoPagoCheckout({
         const bricks = mp.bricks();
         const controller = await bricks.create("cardPayment", "verlune-card-payment-brick", {
           initialization: { amount: pricePen },
+          customization: {
+            paymentMethods: {
+              minInstallments: 1,
+              maxInstallments: 1
+            }
+          },
           callbacks: {
             onReady: () => setMessage(""),
             onSubmit: async (formData: Record<string, unknown>) => {
