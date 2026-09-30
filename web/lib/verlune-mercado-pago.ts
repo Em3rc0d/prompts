@@ -1,5 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
+const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const VERLUNE_REFERENCE = /^verlune-premium:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 export const VERLUNE_PREMIUM_PRICE_USD = 5;
 export const VERLUNE_PREMIUM_PRODUCT_TAG = "verlune-premium-v1";
 export const VERLUNE_PREMIUM_DESCRIPTION = "Verlune Premium";
@@ -182,14 +185,9 @@ function cleanInstrument(input: unknown) {
 
   if (token.length < 8 || token.length > 512 || /\s/.test(token)) throw new MercadoPagoApiError(400, "invalid_payment_token");
   if (!/^[a-z0-9_-]{2,80}$/.test(paymentMethodId)) throw new MercadoPagoApiError(400, "invalid_payment_method");
-  if (!Number.isInteger(installments) || installments < 1 || installments > 48) {
-    throw new MercadoPagoApiError(400, "invalid_installments");
-  }
+  if (installments !== 1) throw new MercadoPagoApiError(400, "installments_must_be_one");
   if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new MercadoPagoApiError(400, "invalid_payer_email");
-  }
-  if (paymentMethodId === "yape" && installments !== 1) {
-    throw new MercadoPagoApiError(400, "yape_installments_must_be_one");
   }
   if (paymentMethodId === "yape" && issuerId) throw new MercadoPagoApiError(400, "yape_issuer_not_supported");
 
@@ -217,7 +215,7 @@ export async function createVerlunePremiumPayment(input: {
   notificationUrl?: string;
 }): Promise<VerifiedVerlunePayment> {
   const config = requireProviderConfig();
-  if (!/^[0-9a-fA-F-]{36}$/.test(input.idempotencyKey)) {
+  if (!UUID_V4.test(input.idempotencyKey)) {
     throw new MercadoPagoApiError(400, "invalid_idempotency_key");
   }
 
@@ -268,17 +266,20 @@ export function verifyVerlunePremiumPayment(
   const metadataTag = typeof payment.metadata?.verlune_product === "string"
     ? payment.metadata.verlune_product
     : "";
+  const metadataPriceUsd = Number(payment.metadata?.canonical_price_usd);
   const refundedMinor = amountToMinor(payment.transaction_amount_refunded ?? 0);
 
   const checks: Array<[boolean, string]> = [
     [Boolean(id), "provider_id_mismatch"],
-    [payment.external_reference?.startsWith("verlune-premium:") === true, "reference_mismatch"],
+    [typeof payment.external_reference === "string" && VERLUNE_REFERENCE.test(payment.external_reference), "reference_mismatch"],
     [payment.description === VERLUNE_PREMIUM_DESCRIPTION, "description_mismatch"],
     [metadataTag === VERLUNE_PREMIUM_PRODUCT_TAG, "product_mismatch"],
+    [metadataPriceUsd === VERLUNE_PREMIUM_PRICE_USD, "metadata_price_mismatch"],
     [amountToMinor(payment.transaction_amount) === config.pricePenMinor, "amount_mismatch"],
     [payment.currency_id === "PEN", "currency_mismatch"],
     [providerId(payment.collector_id) === config.collectorId, "collector_mismatch"],
     [payment.live_mode === config.liveMode, "environment_mismatch"],
+    [Boolean(method), "payment_method_missing"],
     [Boolean(email), "payer_email_missing"],
     [!expectedEmail || email === normalizeEmail(expectedEmail), "payer_email_mismatch"],
     [refundedMinor === 0, "payment_refunded"]
