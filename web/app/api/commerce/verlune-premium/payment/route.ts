@@ -55,7 +55,16 @@ export async function POST(request: NextRequest) {
   }
 
   const idempotencyKey = request.headers.get("x-idempotency-key") ?? "";
-  const formData = await request.json().catch(() => null);
+  const rawBody = await request.text();
+  if (Buffer.byteLength(rawBody, "utf8") > 16_384) {
+    return NextResponse.json({ ok: false, error: "payment_payload_too_large" }, { status: 413 });
+  }
+  let formData: unknown = null;
+  try {
+    formData = JSON.parse(rawBody);
+  } catch {
+    return NextResponse.json({ ok: false, error: "invalid_payment_payload" }, { status: 400 });
+  }
   const configuredWebhook = process.env.MP_NOTIFICATION_URL?.trim();
   const inferredWebhook = new URL("/api/commerce/mercado-pago/webhook", request.url).toString();
   const notificationUrl = configuredWebhook?.startsWith("https://")
