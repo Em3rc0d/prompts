@@ -5,6 +5,7 @@ const root = process.cwd();
 const files = {
   premium: "app/premium/page.tsx",
   checkout: "app/checkout/page.tsx",
+  checkoutComponent: "components/mercado-pago-checkout.tsx",
   payment: "app/api/commerce/verlune-premium/payment/route.ts",
   provider: "lib/verlune-mercado-pago.ts",
   layout: "app/layout.tsx",
@@ -25,6 +26,7 @@ function read(rel) {
 
 const premium = read(files.premium);
 const checkout = read(files.checkout);
+const checkoutComponent = read(files.checkoutComponent);
 const payment = read(files.payment);
 const provider = read(files.provider);
 const layout = read(files.layout);
@@ -39,8 +41,11 @@ const catalog = read(files.catalog);
 for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing not open yet","getVerlunePremiumCommerceState",'/api/commerce/verlune-premium/checkout',"VERLUNE_PREMIUM_CANDIDATE_PRICE_USD"]) {
   if (!premium.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium missing ${marker}`);
 }
-for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable","maxInstallments: 1"]) {
+for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"]) {
   if (!checkout.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout missing ${marker}`);
+}
+for (const marker of ["sdk.mercadopago.com/js/v2","minInstallments: 1","maxInstallments: 1"]) {
+  if (!checkoutComponent.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: checkout component missing ${marker}`);
 }
 for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newMercadoPagoPremiumSession","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
