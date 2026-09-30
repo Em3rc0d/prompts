@@ -2,13 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
 import {
+  acquireVerlunePurchaseGuard,
+  getVerluneAccessConfigState,
+  getVerlunePremiumEntitlementByEmail,
+  isValidVerluneEmail,
+  normalizeVerluneEmail,
+  provisionVerlunePremiumAccess,
+  releaseVerlunePurchaseGuard,
+  syncVerlunePremiumEntitlement,
+  VerluneAccessError
+} from "@/lib/verlune-access";
+import {
   createVerlunePremiumPayment,
   getVerluneMercadoPagoConfigState,
-  MercadoPagoApiError
+  isMercadoPagoIdempotencyKey,
+  MercadoPagoApiError,
+  readMercadoPagoPayment,
+  verifyVerlunePremiumPayment
 } from "@/lib/verlune-mercado-pago";
 import {
   clearPremiumCookieOptions,
-  newMercadoPagoPremiumSession,
+  newAccessKeyPremiumSession,
   premiumCookieOptions,
   signPremiumSession,
   VERLUNE_DEVICE_COOKIE,
@@ -20,6 +34,21 @@ import {
 } from "@/lib/verlune-premium-test-session";
 
 export const runtime = "nodejs";
+
+function checkoutEmail(formData: unknown): string {
+  if (!formData || typeof formData !== "object") return "";
+  const payer = (formData as Record<string, unknown>).payer;
+  if (!payer || typeof payer !== "object") return "";
+  return normalizeVerluneEmail((payer as Record<string, unknown>).email);
+}
+
+async function releasePurchaseGuardBestEffort(email: string, attemptId: string) {
+  try {
+    await releaseVerlunePurchaseGuard(email, attemptId);
+  } catch {
+    console.warn("VERLUNE_PURCHASE_GUARD_RELEASE_DEFERRED", JSON.stringify({ attempt_id: attemptId }));
+  }
+}
 
 function cookieValue(request: Request, name: string): string | null {
   const cookie = request.headers.get("cookie");
@@ -35,12 +64,16 @@ export async function POST(request: NextRequest) {
   const mode = currentCommerceMode("VERLUNE_PREMIUM_COMMERCE_MODE");
   const publicSaleLive = process.env.VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE";
   const provider = getVerluneMercadoPagoConfigState();
+  const access = getVerluneAccessConfigState();
 
   if (mode === "off") {
     return NextResponse.json({ ok: false, error: "commerce_disabled" }, { status: 503 });
   }
   if (!provider.ready) {
     return NextResponse.json({ ok: false, error: "mercado_pago_not_configured", missing: provider.missing }, { status: 503 });
+  }
+  if (!access.ready) {
+    return NextResponse.json({ ok: false, error: "verlune_access_not_configured", missing: access.missing }, { status: 503 });
   }
   if (mode === "test") {
     if (publicSaleLive || provider.environment !== "test") {
@@ -55,6 +88,10 @@ export async function POST(request: NextRequest) {
   }
 
   const idempotencyKey = request.headers.get("x-idempotency-key") ?? "";
+  if (!isMercadoPagoIdempotencyKey(idempotencyKey)) {
+    return NextResponse.json({ ok: false, error: "invalid_idempotency_key" }, { status: 400 });
+  }
+
   const rawBody = await request.text();
   if (Buffer.byteLength(rawBody, "utf8") > 16_384) {
     return NextResponse.json({ ok: false, error: "payment_payload_too_large" }, { status: 413 });
@@ -73,24 +110,68 @@ export async function POST(request: NextRequest) {
       ? inferredWebhook
       : undefined;
 
+  const payerEmail = checkoutEmail(formData);
+  if (!isValidVerluneEmail(payerEmail)) {
+    return NextResponse.json({ ok: false, error: "invalid_payer_email" }, { status: 400 });
+  }
+
+  let purchaseGuardHeld = false;
   try {
+    purchaseGuardHeld = await acquireVerlunePurchaseGuard(payerEmail, idempotencyKey);
+    if (!purchaseGuardHeld) {
+      return NextResponse.json({
+        ok: false,
+        error: "premium_purchase_in_progress"
+      }, { status: 409 });
+    }
+
+    const existing = await getVerlunePremiumEntitlementByEmail(payerEmail);
+    if (existing?.status === "active") {
+      const previousPayment = await readMercadoPagoPayment(existing.paymentId);
+      const previousVerification = verifyVerlunePremiumPayment(previousPayment, payerEmail);
+      const refreshedExisting = await syncVerlunePremiumEntitlement(previousVerification);
+      if (previousVerification.entitled && refreshedExisting?.status === "active") {
+        await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+        purchaseGuardHeld = false;
+        return NextResponse.json({
+          ok: false,
+          error: "premium_already_owned",
+          recover: "/unlock"
+        }, { status: 409 });
+      }
+    }
+
     const payment = await createVerlunePremiumPayment({ formData, idempotencyKey, notificationUrl });
+    const provisioned = payment.entitled
+      ? await provisionVerlunePremiumAccess(payment)
+      : { entitlement: null, accessKey: null, emailSent: false };
+
+    if (payment.entitled && !provisioned.entitlement) {
+      throw new VerluneAccessError(503, "entitlement_not_created");
+    }
+
     const response = NextResponse.json({
       ok: true,
       paymentId: payment.paymentId,
       status: payment.status,
       paymentMethodId: payment.paymentMethodId,
       entitled: payment.entitled,
+      accessEmail: provisioned.emailSent ? "sent" : payment.entitled ? "deferred" : undefined,
       redirect: payment.entitled ? "/app" : undefined
     });
 
-    if (payment.entitled) {
-      const session = newMercadoPagoPremiumSession({
-        paymentId: payment.paymentId,
+    if (payment.entitled && provisioned.entitlement) {
+      const session = newAccessKeyPremiumSession({
+        entitlementId: provisioned.entitlement.entitlementId,
         customerEmail: payment.customerEmail
       });
       response.cookies.set(VERLUNE_SESSION_COOKIE, signPremiumSession(session), premiumCookieOptions(session));
       response.cookies.set(VERLUNE_DEVICE_COOKIE, "", clearPremiumCookieOptions);
+    }
+
+    if (payment.entitled || (payment.status !== "pending" && payment.status !== "in_process")) {
+      await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+      purchaseGuardHeld = false;
     }
 
     console.info("VERLUNE_FUNNEL_EVENT", JSON.stringify({
@@ -104,7 +185,11 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (error) {
-    if (error instanceof MercadoPagoApiError) {
+    if (purchaseGuardHeld && error instanceof MercadoPagoApiError && error.status < 500) {
+      await releasePurchaseGuardBestEffort(payerEmail, idempotencyKey);
+      purchaseGuardHeld = false;
+    }
+    if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {
       return NextResponse.json({ ok: false, error: error.code }, { status: error.status });
     }
     return NextResponse.json({ ok: false, error: "payment_unavailable" }, { status: 502 });

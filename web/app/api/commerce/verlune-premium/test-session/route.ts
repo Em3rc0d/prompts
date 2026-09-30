@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { currentCommerceMode } from "@/lib/commerce-mode";
+import { getVerluneAccessConfigState } from "@/lib/verlune-access";
 import { getVerluneMercadoPagoConfigState } from "@/lib/verlune-mercado-pago";
 import {
   premiumTestSessionValue,
@@ -17,9 +18,10 @@ export async function POST(request: Request) {
   const mode = currentCommerceMode("VERLUNE_PREMIUM_COMMERCE_MODE");
   const publicSaleLive = process.env.VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE";
   const provider = getVerluneMercadoPagoConfigState();
+  const access = getVerluneAccessConfigState();
   const signature = premiumTestSessionValue();
 
-  if (mode !== "test" || publicSaleLive || !provider.ready || provider.environment !== "test" || !signature) {
+  if (mode !== "test" || publicSaleLive || !provider.ready || provider.environment !== "test" || !access.ready || !signature) {
     return redirectTo(request, "?error=not-ready");
   }
 

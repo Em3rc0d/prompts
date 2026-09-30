@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 
 import { MercadoPagoCheckout } from "@/components/mercado-pago-checkout";
 import { currentCommerceMode } from "@/lib/commerce-mode";
+import { getVerluneAccessConfigState } from "@/lib/verlune-access";
 import { getVerluneMercadoPagoConfigState } from "@/lib/verlune-mercado-pago";
 import {
   premiumTestSessionMatches,
@@ -28,6 +29,7 @@ export default async function PremiumCheckoutTestPage({
   const mode = currentCommerceMode("VERLUNE_PREMIUM_COMMERCE_MODE");
   const publicSaleLive = process.env.VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE";
   const provider = getVerluneMercadoPagoConfigState();
+  const access = getVerluneAccessConfigState();
   const tokenConfigured = Boolean(process.env.VERLUNE_PREMIUM_PROVIDER_TEST_TOKEN?.trim());
   const sessionSigningConfigured = Boolean(premiumTestSessionValue());
   const authorized = premiumTestSessionMatches(cookieStore.get(VERLUNE_PREMIUM_TEST_SESSION_COOKIE)?.value);
@@ -35,6 +37,7 @@ export default async function PremiumCheckoutTestPage({
     && !publicSaleLive
     && provider.ready
     && provider.environment === "test"
+    && access.ready
     && tokenConfigured
     && sessionSigningConfigured;
 
@@ -50,6 +53,7 @@ export default async function PremiumCheckoutTestPage({
             <p><strong>Provider environment:</strong> {provider.environment ?? "missing"}</p>
             <p><strong>Public sale:</strong> {publicSaleLive ? "LIVE — invalid for provider test" : "NOT_FOR_SALE"}</p>
             <p><strong>Mercado Pago config:</strong> {provider.ready ? "ready" : `missing: ${provider.missing.join(", ")}`}</p>
+            <p><strong>Access + Resend config:</strong> {access.ready ? "ready" : `missing: ${access.missing.join(", ")}`}</p>
           </div>
           <div className="accessActions"><Link className="textLink" href="/premium">← Premium</Link><Link className="textLink" href="/unlock">Unlock</Link></div>
         </div>
@@ -59,7 +63,7 @@ export default async function PremiumCheckoutTestPage({
           {params.error === "unauthorized" ? <p className="notice">The provider test token did not match.</p> : null}
           {params.error === "not-ready" ? <p className="notice">Provider test mode is not fully configured on this deployment.</p> : null}
           {!ready
-            ? <div className="notice"><strong>Provider test is fail-closed.</strong><p>Set VERLUNE_PREMIUM_COMMERCE_MODE=test, MP_ENVIRONMENT=test and keep VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE.</p></div>
+            ? <div className="notice"><strong>Provider test is fail-closed.</strong><p>Set TEST Mercado Pago credentials plus the entitlement store, Access Key secret and Resend configuration; keep VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE.</p></div>
             : authorized
               ? <MercadoPagoCheckout publicKey={provider.publicKey} pricePenMinor={provider.pricePenMinor} testMode />
               : <form action="/api/commerce/verlune-premium/test-session" method="post">

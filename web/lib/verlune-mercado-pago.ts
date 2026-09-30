@@ -10,6 +10,10 @@ export const DEFAULT_VERLUNE_PREMIUM_PRICE_PEN_MINOR = 1700;
 
 export type MercadoPagoEnvironment = "test" | "live";
 
+export function isMercadoPagoIdempotencyKey(value: string): boolean {
+  return UUID_V4.test(value);
+}
+
 export type MercadoPagoConfigState = {
   ready: boolean;
   missing: string[];
@@ -216,7 +220,7 @@ export async function createVerlunePremiumPayment(input: {
   notificationUrl?: string;
 }): Promise<VerifiedVerlunePayment> {
   const config = requireProviderConfig();
-  if (!UUID_V4.test(input.idempotencyKey)) {
+  if (!isMercadoPagoIdempotencyKey(input.idempotencyKey)) {
     throw new MercadoPagoApiError(400, "invalid_idempotency_key");
   }
 

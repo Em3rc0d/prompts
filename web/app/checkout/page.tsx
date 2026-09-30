@@ -31,6 +31,7 @@ export default async function CheckoutPage() {
             <p><strong>No subscription.</strong> This is a one-time Verlune Premium purchase.</p>
             <p><strong>Cards + Yape.</strong> Payment details are tokenized by Mercado Pago.</p>
             <p><strong>Server-verified access.</strong> Verlune re-reads the Mercado Pago payment before granting Premium.</p>
+            <p><strong>One reusable Access Key.</strong> After approval, Verlune emails one canonical key to your checkout email for future unlocks.</p>
           </div>
           <div className="accessActions"><Link className="textLink" href="/premium">← Premium</Link><Link className="textLink" href="/library">Browse Library</Link></div>
         </div>

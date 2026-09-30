@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { VerluneUnlockForm } from "@/components/verlune-unlock-form";
+import { getVerluneEntitlementConfigState } from "@/lib/verlune-access";
 import { getVerluneMercadoPagoConfigState } from "@/lib/verlune-mercado-pago";
 import { readPremiumSession, safePremiumNextPath } from "@/lib/verlune-auth.server";
 
@@ -30,7 +31,9 @@ export default async function UnlockPage({
   if (existing && !revalidationBlocked) redirect("/app");
 
   const nextPath = safePremiumNextPath(params.next);
-  const config = getVerluneMercadoPagoConfigState();
+  const provider = getVerluneMercadoPagoConfigState();
+  const access = getVerluneEntitlementConfigState();
+  const accessReady = provider.ready && access.ready;
   const reason = params.reason ? reasonCopy[params.reason] : undefined;
 
   return <main className="accessPage">
@@ -39,9 +42,9 @@ export default async function UnlockPage({
         <div>
           <div className="eyebrow">VERLUNE PREMIUM / PRIVATE ACCESS</div>
           <h1>Unlock the library you purchased.</h1>
-          <p className="lead">Use the email from checkout and your Mercado Pago payment ID. Verlune verifies the payment directly with Mercado Pago and creates a private browser session.</p>
+          <p className="lead">Use the email from checkout and the single Verlune Access Key sent to that address. Verlune verifies the entitlement and re-checks its Mercado Pago payment before creating a private browser session.</p>
           <div className="accessTrust">
-            <p><strong>No account password.</strong> The approved payment is the entitlement.</p>
+            <p><strong>One key per email.</strong> The same canonical Access Key works whenever you need to unlock Premium.</p>
             <p><strong>No hosted AI credits.</strong> Prompts, workflows and Builders run in your compatible AI assistant.</p>
             <p><strong>Fail closed.</strong> Wrong amount, wrong merchant, wrong environment, refunds or non-approved payments do not unlock Premium.</p>
           </div>
@@ -49,7 +52,7 @@ export default async function UnlockPage({
         </div>
         <div className="accessPanel">
           <div className="eyebrow">PURCHASE ACCESS</div>
-          <h2>Mercado Pago payment + email</h2>
+          <h2>Email + Verlune Access Key</h2>
           {reason ? <p className="notice">{reason}</p> : null}
           {existing && revalidationBlocked
             ? <div>
@@ -59,9 +62,9 @@ export default async function UnlockPage({
                   <form action="/api/verlune/logout" method="post"><button className="btn btnSecondary" type="submit">Log out</button></form>
                 </div>
               </div>
-            : config.ready
+            : accessReady
               ? <VerluneUnlockForm nextPath={nextPath} />
-              : <div className="notice"><strong>Mercado Pago access is not connected on this deployment yet.</strong><p>Configure the server-side Mercado Pago credentials and Verlune session secrets before unlock can run.</p></div>}
+              : <div className="notice"><strong>Premium access is not connected on this deployment yet.</strong><p>Configure the server-side entitlement store, Access Key secret, Mercado Pago credentials and Verlune session secrets before unlock can run.</p></div>}
         </div>
       </div>
     </section>

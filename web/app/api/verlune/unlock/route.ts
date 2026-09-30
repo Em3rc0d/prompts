@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { safePremiumNextPath } from "@/lib/verlune-auth.server";
 import {
+  entitlementMatchesEmail,
+  getVerluneEntitlementConfigState,
+  getVerlunePremiumEntitlementByEmail,
+  isValidVerluneEmail,
+  normalizeVerluneEmail,
+  syncVerlunePremiumEntitlement,
+  verifyVerluneAccessKey,
+  VerluneAccessError
+} from "@/lib/verlune-access";
+import {
   getVerluneMercadoPagoConfigState,
   MercadoPagoApiError,
   readMercadoPagoPayment,
@@ -9,7 +19,7 @@ import {
 } from "@/lib/verlune-mercado-pago";
 import {
   clearPremiumCookieOptions,
-  newMercadoPagoPremiumSession,
+  newAccessKeyPremiumSession,
   premiumCookieOptions,
   signPremiumSession,
   VERLUNE_DEVICE_COOKIE,
@@ -19,32 +29,39 @@ import {
 export const runtime = "nodejs";
 
 export async function POST(request: NextRequest) {
-  const config = getVerluneMercadoPagoConfigState();
-  if (!config.ready) {
+  const access = getVerluneEntitlementConfigState();
+  const provider = getVerluneMercadoPagoConfigState();
+  if (!access.ready || !provider.ready) {
     return NextResponse.json({ ok: false, message: "Premium access is not configured on this deployment." }, { status: 503 });
   }
 
   const body = await request.json().catch(() => null) as
-    | { paymentId?: unknown; email?: unknown; next?: unknown }
+    | { accessKey?: unknown; email?: unknown; next?: unknown }
     | null;
 
-  const paymentId = typeof body?.paymentId === "string" ? body.paymentId.trim() : "";
-  const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
+  const email = normalizeVerluneEmail(body?.email);
+  const accessKey = typeof body?.accessKey === "string" ? body.accessKey.trim() : "";
   const nextPath = safePremiumNextPath(typeof body?.next === "string" ? body.next : "/app");
 
-  if (!/^[1-9][0-9]{0,29}$/.test(paymentId) || !email || email.length > 254) {
-    return NextResponse.json({ ok: false, message: "Enter the Mercado Pago payment ID and the email used at checkout." }, { status: 400 });
+  if (!isValidVerluneEmail(email) || !verifyVerluneAccessKey(email, accessKey)) {
+    return NextResponse.json({ ok: false, message: "That email and Verlune Access Key do not match an active Premium purchase." }, { status: 401 });
   }
 
   try {
-    const payment = await readMercadoPagoPayment(paymentId);
-    const verification = verifyVerlunePremiumPayment(payment, email);
-    if (!verification.entitled) {
-      return NextResponse.json({ ok: false, message: "That Mercado Pago payment does not match an active Verlune Premium purchase." }, { status: 401 });
+    const entitlement = await getVerlunePremiumEntitlementByEmail(email);
+    if (!entitlement || entitlement.status !== "active" || !entitlementMatchesEmail(entitlement, email)) {
+      return NextResponse.json({ ok: false, message: "That email and Verlune Access Key do not match an active Premium purchase." }, { status: 401 });
     }
 
-    const session = newMercadoPagoPremiumSession({
-      paymentId: verification.paymentId,
+    const payment = await readMercadoPagoPayment(entitlement.paymentId);
+    const verification = verifyVerlunePremiumPayment(payment, email);
+    const refreshedEntitlement = await syncVerlunePremiumEntitlement(verification);
+    if (!verification.entitled || !refreshedEntitlement || refreshedEntitlement.status !== "active") {
+      return NextResponse.json({ ok: false, message: "That Premium purchase is not currently active." }, { status: 401 });
+    }
+
+    const session = newAccessKeyPremiumSession({
+      entitlementId: refreshedEntitlement.entitlementId,
       customerEmail: verification.customerEmail
     });
     const response = NextResponse.json({ ok: true, redirect: nextPath });
@@ -53,7 +70,10 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     if (error instanceof MercadoPagoApiError && (error.status === 400 || error.status === 404)) {
-      return NextResponse.json({ ok: false, message: "That Mercado Pago payment could not be verified." }, { status: 401 });
+      return NextResponse.json({ ok: false, message: "That Premium purchase could not be verified." }, { status: 401 });
+    }
+    if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {
+      return NextResponse.json({ ok: false, message: "Premium access could not be verified right now. Please try again." }, { status: 502 });
     }
     return NextResponse.json({ ok: false, message: "Premium access could not be verified right now. Please try again." }, { status: 502 });
   }
