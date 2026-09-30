@@ -31,6 +31,10 @@ PREMIUM_COMMERCE = WEB / "lib/verlune-premium-commerce.ts"
 PREMIUM_CHECKOUT = WEB / "app/api/commerce/verlune-premium/checkout/route.ts"
 PREMIUM_PAYMENT = WEB / "app/api/commerce/verlune-premium/payment/route.ts"
 PREMIUM_PROVIDER = WEB / "lib/verlune-mercado-pago.ts"
+PREMIUM_ACCESS = WEB / "lib/verlune-access.ts"
+PREMIUM_ACCESS_KEY = WEB / "lib/verlune-access-key.ts"
+PREMIUM_UNLOCK_FORM = WEB / "components/verlune-unlock-form.tsx"
+PREMIUM_RECOVERY = WEB / "app/api/verlune/access-key/recover/route.ts"
 PREMIUM_WEBHOOK = WEB / "app/api/commerce/mercado-pago/webhook/route.ts"
 CHECKOUT_PAGE = WEB / "app/checkout/page.tsx"
 ENV = WEB / ".env.example"
@@ -91,6 +95,10 @@ def main() -> None:
     premium_checkout = text(PREMIUM_CHECKOUT)
     premium_payment = text(PREMIUM_PAYMENT)
     premium_provider = text(PREMIUM_PROVIDER)
+    premium_access = text(PREMIUM_ACCESS)
+    premium_access_key = text(PREMIUM_ACCESS_KEY)
+    premium_unlock_form = text(PREMIUM_UNLOCK_FORM)
+    premium_recovery = text(PREMIUM_RECOVERY)
     premium_webhook = text(PREMIUM_WEBHOOK)
     checkout_page = text(CHECKOUT_PAGE)
     env = text(ENV)
@@ -193,7 +201,10 @@ def main() -> None:
         "premiumTestSessionMatches",
         "provider_test_not_authorized",
         "public_sale_not_ready",
-        "newMercadoPagoPremiumSession",
+        "newAccessKeyPremiumSession",
+        "acquireVerlunePurchaseGuard",
+        "premium_already_owned",
+        "premium_purchase_in_progress",
         "x-idempotency-key",
     )
     require(
@@ -204,6 +215,7 @@ def main() -> None:
         "https://api.mercadopago.com",
         '"/v1/payments"',
         '"X-Idempotency-Key"',
+        "isMercadoPagoIdempotencyKey",
         "collector_mismatch",
         "environment_mismatch",
         "amount_mismatch",
@@ -216,6 +228,41 @@ def main() -> None:
         "verifyMercadoPagoWebhook",
         "readMercadoPagoPayment",
         "verifyVerlunePremiumPayment",
+        "provisionVerlunePremiumAccess",
+        "syncVerlunePremiumEntitlement",
+    )
+    require(
+        "Premium canonical access",
+        premium_access,
+        "deriveVerluneEntitlementId",
+        "createVerluneAccessKey",
+        "verifyVerluneAccessKey",
+        "ACQUIRE_PURCHASE_GUARD_SCRIPT",
+        "RELEASE_PURCHASE_GUARD_SCRIPT",
+        "https://api.resend.com/emails",
+    )
+    require(
+        "Premium Access Key core",
+        premium_access_key,
+        'VERLUNE_ACCESS_KEY_VERSION = "VLK1"',
+        "deriveVerluneEntitlementIdWithSecret",
+        "createVerluneAccessKeyWithSecret",
+        "verifyVerluneAccessKeyWithSecret",
+    )
+    require(
+        "Premium unlock form",
+        premium_unlock_form,
+        "Verlune Access Key",
+        "Email me my Access Key again",
+        "does not create a new one",
+    )
+    require(
+        "Premium key recovery",
+        premium_recovery,
+        "createVerluneAccessKey",
+        "sendVerluneAccessEmail",
+        "allowVerluneRecoveryEmail",
+        "existing Access Key",
     )
     require(
         "Premium checkout page",
@@ -283,7 +330,7 @@ def main() -> None:
         unlock,
         "VERLUNE PREMIUM / PRIVATE ACCESS",
         "Unlock the library you purchased.",
-        "Mercado Pago payment + email",
+        "Email + Verlune Access Key",
         'href="/premium">← Explore Premium',
     )
 
@@ -308,6 +355,12 @@ def main() -> None:
         "MP_PUBLIC_KEY=",
         "MP_COLLECTOR_ID=",
         "MP_WEBHOOK_SECRET=",
+        "VERLUNE_ACCESS_KEY_SECRET_V1=",
+        "VERLUNE_ENTITLEMENT_KV_REST_URL=",
+        "VERLUNE_ENTITLEMENT_KV_REST_TOKEN=",
+        "VERLUNE_PURCHASE_GUARD_SECONDS=900",
+        "RESEND_API_KEY=",
+        "VERLUNE_ACCESS_FROM_EMAIL=",
     )
     if "VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=LIVE" in env:
         fail("Premium public sale is enabled in example/default configuration")
@@ -346,7 +399,10 @@ def main() -> None:
     print("premium_payment_provider=mercado_pago")
     print("premium_launch_price_usd=5")
     print("premium_local_price_pen=17.00")
-    print("unlock_role=provider_readback_existing_purchase")
+    print("unlock_role=email+canonical_access_key+provider_readback")
+    print("access_key_uniqueness=one_per_normalized_email")
+    print("duplicate_charge_guard=atomic_kv")
+    print("access_delivery=resend")
     print("code_review_release=1.0.0")
     print(f"code_review_archive={VERLUNE_ARCHIVE}")
     print("ready_to_sell=false")
