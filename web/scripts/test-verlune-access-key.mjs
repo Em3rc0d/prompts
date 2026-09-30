@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 
-import {
+const {
   createVerluneAccessKeyWithSecret,
   deriveVerluneEntitlementIdWithSecret,
   verifyVerluneAccessKeyWithSecret,
   VERLUNE_ACCESS_KEY_PATTERN
-} from "../lib/verlune-access-key.ts";
+} = await import("../lib/verlune-access-key.ts");
 
 const secret = "test-only-secret-1234567890-abcdefghijklmnopqrstuvwxyz";
 const product = "verlune-premium-v1";
@@ -24,7 +24,12 @@ assert.match(keyA, VERLUNE_ACCESS_KEY_PATTERN, "Access Key must match the VLK1 f
 assert.equal(verifyVerluneAccessKeyWithSecret(canonicalEmail, keyA, secret, product), true);
 assert.equal(verifyVerluneAccessKeyWithSecret("other@example.com", keyA, secret, product), false);
 assert.equal(
-  verifyVerluneAccessKeyWithSecret(canonicalEmail, keyA.slice(0, -1) + (keyA.endsWith("A") ? "B" : "A"), secret, product),
+  verifyVerluneAccessKeyWithSecret(
+    canonicalEmail,
+    keyA.slice(0, -1) + (keyA.endsWith("A") ? "B" : "A"),
+    secret,
+    product
+  ),
   false,
   "mutated key must fail verification"
 );

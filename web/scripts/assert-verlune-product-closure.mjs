@@ -9,7 +9,7 @@ const files = {
   payment: "app/api/commerce/verlune-premium/payment/route.ts",
   access: "lib/verlune-access.ts",
   accessKeyCore: "lib/verlune-access-key.ts",
-  accessKeyTest: "scripts/test-verlune-access-key.ts",
+  accessKeyTest: "scripts/test-verlune-access-key.mjs",
   unlockForm: "components/verlune-unlock-form.tsx",
   recovery: "app/api/verlune/access-key/recover/route.ts",
   provider: "lib/verlune-mercado-pago.ts",

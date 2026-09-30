@@ -9,9 +9,9 @@ import {
   normalizeVerluneEmail,
   signVerluneAccessValue,
   verifyVerluneAccessKeyWithSecret,
-  VERLUNE_VERLUNE_ACCESS_KEY_PATTERN,
+  VERLUNE_ACCESS_KEY_PATTERN,
   VERLUNE_ACCESS_KEY_VERSION,
-  VERLUNE_VERLUNE_ENTITLEMENT_ID_PATTERN
+  VERLUNE_ENTITLEMENT_ID_PATTERN
 } from "./verlune-access-key";
 
 import {
