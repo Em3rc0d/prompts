@@ -103,11 +103,12 @@ export function MercadoPagoCheckout({
   useEffect(() => {
     const MercadoPagoCtor = window.MercadoPago;
     if (!sdkReady || method !== "card" || !MercadoPagoCtor || locked) return;
+    const MercadoPagoReady: MercadoPagoConstructor = MercadoPagoCtor;
     let cancelled = false;
 
     async function mount() {
       try {
-        const mp = new MercadoPagoCtor(publicKey, { locale: "es-PE" });
+        const mp = new MercadoPagoReady(publicKey, { locale: "es-PE" });
         const bricks = mp.bricks();
         const controller = await bricks.create("cardPayment", "verlune-card-payment-brick", {
           initialization: { amount: pricePen },
