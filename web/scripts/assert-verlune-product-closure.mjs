@@ -36,7 +36,7 @@ const freeLicense = read(files.freeLicense);
 const env = read(files.env);
 const catalog = read(files.catalog);
 
-for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing not open yet","getVerlunePremiumCommerceState",'href="/checkout"',"VERLUNE_PREMIUM_CANDIDATE_PRICE_USD"]) {
+for (const marker of ["VERLUNE PREMIUM","Already purchased? Unlock","Purchasing not open yet","getVerlunePremiumCommerceState",'/api/commerce/verlune-premium/checkout',"VERLUNE_PREMIUM_CANDIDATE_PRICE_USD"]) {
   if (!premium.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: Premium missing ${marker}`);
 }
 for (const marker of ["MercadoPagoCheckout","Cards + Yape","purchaseAvailable"]) {

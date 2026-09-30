@@ -29,6 +29,10 @@ CODE_REVIEW_RELEASE = WEB / "lib/starter-code-review-release.ts"
 PUBLIC_PRODUCTS = WEB / "lib/public-products.ts"
 PREMIUM_COMMERCE = WEB / "lib/verlune-premium-commerce.ts"
 PREMIUM_CHECKOUT = WEB / "app/api/commerce/verlune-premium/checkout/route.ts"
+PREMIUM_PAYMENT = WEB / "app/api/commerce/verlune-premium/payment/route.ts"
+PREMIUM_PROVIDER = WEB / "lib/verlune-mercado-pago.ts"
+PREMIUM_WEBHOOK = WEB / "app/api/commerce/mercado-pago/webhook/route.ts"
+CHECKOUT_PAGE = WEB / "app/checkout/page.tsx"
 ENV = WEB / ".env.example"
 BRAND = COMMERCIAL / "VERLUNE_BRAND_ARCHITECTURE_V1.md"
 
@@ -85,6 +89,10 @@ def main() -> None:
     public_products = text(PUBLIC_PRODUCTS)
     premium_commerce = text(PREMIUM_COMMERCE)
     premium_checkout = text(PREMIUM_CHECKOUT)
+    premium_payment = text(PREMIUM_PAYMENT)
+    premium_provider = text(PREMIUM_PROVIDER)
+    premium_webhook = text(PREMIUM_WEBHOOK)
+    checkout_page = text(CHECKOUT_PAGE)
     env = text(ENV)
     brand = text(BRAND)
 
@@ -165,19 +173,57 @@ def main() -> None:
     require(
         "Premium commerce state",
         premium_commerce,
-        'VERLUNE_PREMIUM_CANDIDATE_PRICE_USD = 9',
+        "VERLUNE_PREMIUM_CANDIDATE_PRICE_USD = VERLUNE_PREMIUM_PRICE_USD",
         'VERLUNE_PREMIUM_PUBLIC_SALE_STATUS === "LIVE"',
         'VERLUNE_PREMIUM_COMMERCE_MODE',
-        'purchaseAvailable: mode === "live"',
+        'provider: "mercado_pago"',
+        'purchaseAvailable: mode === "live" && publicSaleLive && checkoutConfigured',
     )
     require(
         "Premium checkout boundary",
         premium_checkout,
         "commerce_disabled",
-        "premium_access_not_configured",
+        'provider: "mercado_pago"',
+        'new URL("/checkout"',
+    )
+    require(
+        "Premium Mercado Pago payment",
+        premium_payment,
+        "createVerlunePremiumPayment",
+        "premiumTestSessionMatches",
         "provider_test_not_authorized",
-        "live_canary_not_authorized",
-        "checkout_url_not_allowed",
+        "public_sale_not_ready",
+        "newMercadoPagoPremiumSession",
+        "x-idempotency-key",
+    )
+    require(
+        "Premium Mercado Pago provider",
+        premium_provider,
+        "VERLUNE_PREMIUM_PRICE_USD = 5",
+        "DEFAULT_VERLUNE_PREMIUM_PRICE_PEN_MINOR = 1700",
+        "https://api.mercadopago.com",
+        '"/v1/payments"',
+        '"X-Idempotency-Key"',
+        "collector_mismatch",
+        "environment_mismatch",
+        "amount_mismatch",
+        "product_mismatch",
+        "payment_refunded",
+    )
+    require(
+        "Premium Mercado Pago webhook",
+        premium_webhook,
+        "verifyMercadoPagoWebhook",
+        "readMercadoPagoPayment",
+        "verifyVerlunePremiumPayment",
+    )
+    require(
+        "Premium checkout page",
+        checkout_page,
+        "MercadoPagoCheckout",
+        "Cards + Yape.",
+        "one-time Verlune Premium purchase",
+        "Server-verified access.",
     )
 
     require(
@@ -237,7 +283,7 @@ def main() -> None:
         unlock,
         "VERLUNE PREMIUM / PRIVATE ACCESS",
         "Unlock the library you purchased.",
-        "License + checkout email",
+        "Mercado Pago payment + email",
         'href="/premium">← Explore Premium',
     )
 
@@ -255,11 +301,20 @@ def main() -> None:
         "STARTER_CODE_REVIEW_COMMERCE_MODE=off",
         "VERLUNE_PREMIUM_COMMERCE_MODE=off",
         "VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=NOT_FOR_SALE",
-        "LEMONSQUEEZY_VERLUNE_PREMIUM_TEST_CHECKOUT_URL=",
-        "LEMONSQUEEZY_VERLUNE_PREMIUM_LIVE_CHECKOUT_URL=",
+        "VERLUNE_PREMIUM_PRICE_PEN_MINOR=1700",
+        "MP_ENVIRONMENT=test",
+        "MP_ALLOW_LIVE=false",
+        "MP_ACCESS_TOKEN=",
+        "MP_PUBLIC_KEY=",
+        "MP_COLLECTOR_ID=",
+        "MP_WEBHOOK_SECRET=",
     )
     if "VERLUNE_PREMIUM_PUBLIC_SALE_STATUS=LIVE" in env:
         fail("Premium public sale is enabled in example/default configuration")
+    if "LEMONSQUEEZY_VERLUNE_PREMIUM" in env:
+        fail("Lemon Squeezy leaked back into the Verlune Premium environment contract")
+    if "LEMONSQUEEZY_VERLUNE_PREMIUM" in "\n".join((premium, premium_commerce, premium_checkout)):
+        fail("Lemon Squeezy leaked back into the Verlune Premium customer path")
 
     require(
         "commerce link",
@@ -288,7 +343,10 @@ def main() -> None:
     print("premium_library_assets=41")
     print("premium_discovery=/premium")
     print("premium_public_sale=OFF")
-    print("unlock_role=existing_purchase")
+    print("premium_payment_provider=mercado_pago")
+    print("premium_launch_price_usd=5")
+    print("premium_local_price_pen=17.00")
+    print("unlock_role=provider_readback_existing_purchase")
     print("code_review_release=1.0.0")
     print(f"code_review_archive={VERLUNE_ARCHIVE}")
     print("ready_to_sell=false")
