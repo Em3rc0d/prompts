@@ -3,13 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { currentCommerceMode } from "@/lib/commerce-mode";
 import {
   getVerluneAccessConfigState,
+  getVerlunePremiumEntitlementByEmail,
+  isValidVerluneEmail,
+  normalizeVerluneEmail,
   provisionVerlunePremiumAccess,
+  syncVerlunePremiumEntitlement,
   VerluneAccessError
 } from "@/lib/verlune-access";
 import {
   createVerlunePremiumPayment,
   getVerluneMercadoPagoConfigState,
-  MercadoPagoApiError
+  MercadoPagoApiError,
+  readMercadoPagoPayment,
+  verifyVerlunePremiumPayment
 } from "@/lib/verlune-mercado-pago";
 import {
   clearPremiumCookieOptions,
@@ -25,6 +31,13 @@ import {
 } from "@/lib/verlune-premium-test-session";
 
 export const runtime = "nodejs";
+
+function checkoutEmail(formData: unknown): string {
+  if (!formData || typeof formData !== "object") return "";
+  const payer = (formData as Record<string, unknown>).payer;
+  if (!payer || typeof payer !== "object") return "";
+  return normalizeVerluneEmail((payer as Record<string, unknown>).email);
+}
 
 function cookieValue(request: Request, name: string): string | null {
   const cookie = request.headers.get("cookie");
@@ -83,6 +96,23 @@ export async function POST(request: NextRequest) {
       : undefined;
 
   try {
+    const payerEmail = checkoutEmail(formData);
+    if (isValidVerluneEmail(payerEmail)) {
+      const existing = await getVerlunePremiumEntitlementByEmail(payerEmail);
+      if (existing?.status === "active") {
+        const previousPayment = await readMercadoPagoPayment(existing.paymentId);
+        const previousVerification = verifyVerlunePremiumPayment(previousPayment, payerEmail);
+        const refreshedExisting = await syncVerlunePremiumEntitlement(previousVerification);
+        if (previousVerification.entitled && refreshedExisting?.status === "active") {
+          return NextResponse.json({
+            ok: false,
+            error: "premium_already_owned",
+            recover: "/unlock"
+          }, { status: 409 });
+        }
+      }
+    }
+
     const payment = await createVerlunePremiumPayment({ formData, idempotencyKey, notificationUrl });
     const provisioned = payment.entitled
       ? await provisionVerlunePremiumAccess(payment)
