@@ -24,6 +24,19 @@ export type MercadoPagoConfigState = {
   pricePenMinor: number;
 };
 
+export type MercadoPagoTestDiagnostics = {
+  testMode: true;
+  publicKeyLooksTest: boolean;
+  accessTokenLooksTest: boolean;
+  accountLookupSucceeded: boolean;
+  collectorMatches: boolean | null;
+  siteIsPeru: boolean | null;
+  paymentMethodsLookupSucceeded: boolean;
+  yapeListed: boolean | null;
+  yapeActive: boolean | null;
+  sameApplicationVerified: false;
+};
+
 export type MercadoPagoPayment = {
   id?: string | number;
   live_mode?: boolean;
@@ -89,7 +102,7 @@ function environment(): MercadoPagoEnvironment | null {
   return value === "test" || value === "live" ? value : null;
 }
 
-export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
+export function getVerluneMercadoPagoCoreConfigState(): MercadoPagoConfigState {
   const publicKey = process.env.MP_PUBLIC_KEY?.trim() ?? "";
   const collectorId = process.env.MP_COLLECTOR_ID?.trim() ?? "";
   const env = environment();
@@ -97,15 +110,10 @@ export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
   const missing: string[] = [];
 
   if (!process.env.MP_ACCESS_TOKEN?.trim()) missing.push("MP_ACCESS_TOKEN");
-  if ((process.env.MP_WEBHOOK_SECRET?.trim().length ?? 0) < 16) missing.push("MP_WEBHOOK_SECRET");
   if (!publicKey) missing.push("MP_PUBLIC_KEY");
   if (!/^[1-9][0-9]{0,29}$/.test(collectorId)) missing.push("MP_COLLECTOR_ID");
   if (!env) missing.push("MP_ENVIRONMENT");
   if (env === "live" && !liveAllowed) missing.push("MP_ALLOW_LIVE");
-  if ((process.env.VERLUNE_SESSION_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_SESSION_SECRET");
-  if ((process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET?.trim().length ?? 0) < 32) {
-    missing.push("VERLUNE_LICENSE_FINGERPRINT_SECRET");
-  }
 
   return {
     ready: missing.length === 0,
@@ -115,6 +123,69 @@ export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
     publicKey,
     collectorId,
     pricePenMinor: configuredPriceMinor()
+  };
+}
+
+export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
+  const core = getVerluneMercadoPagoCoreConfigState();
+  const missing = [...core.missing];
+
+  if ((process.env.MP_WEBHOOK_SECRET?.trim().length ?? 0) < 16) missing.push("MP_WEBHOOK_SECRET");
+  if ((process.env.VERLUNE_SESSION_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_SESSION_SECRET");
+  if ((process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET?.trim().length ?? 0) < 32) {
+    missing.push("VERLUNE_LICENSE_FINGERPRINT_SECRET");
+  }
+
+  return { ...core, ready: missing.length === 0, missing };
+}
+
+export async function diagnoseVerluneMercadoPagoTestCredentials(): Promise<MercadoPagoTestDiagnostics> {
+  const state = getVerluneMercadoPagoCoreConfigState();
+  if (!state.ready || state.environment !== "test") {
+    throw new MercadoPagoApiError(503, `mercado_pago_test_diagnostics_not_configured:${state.missing.join(",")}`);
+  }
+
+  const accessToken = process.env.MP_ACCESS_TOKEN!.trim();
+
+  async function diagnosticFetch(path: string): Promise<unknown> {
+    const response = await fetch(`https://api.mercadopago.com${path}`, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "error",
+      signal: AbortSignal.timeout(8000),
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    if (!response.ok) throw new Error("diagnostic_provider_error");
+    return response.json();
+  }
+
+  const [account, methods] = await Promise.allSettled([
+    diagnosticFetch("/users/me"),
+    diagnosticFetch("/v1/payment_methods")
+  ]);
+
+  const user = account.status === "fulfilled" && account.value && typeof account.value === "object"
+    ? account.value as { id?: string | number; site_id?: string }
+    : null;
+  const list = methods.status === "fulfilled" && Array.isArray(methods.value)
+    ? methods.value as Array<{ id?: string; status?: string; payment_type_id?: string }>
+    : null;
+  const yape = list?.find((item) => item.id === "yape");
+
+  return {
+    testMode: true,
+    publicKeyLooksTest: state.publicKey.startsWith("TEST-"),
+    accessTokenLooksTest: accessToken.startsWith("TEST-"),
+    accountLookupSucceeded: user !== null,
+    collectorMatches: user ? providerId(user.id) === state.collectorId : null,
+    siteIsPeru: user ? user.site_id === "MPE" : null,
+    paymentMethodsLookupSucceeded: list !== null,
+    yapeListed: list ? Boolean(yape) : null,
+    yapeActive: yape ? yape.status === "active" : null,
+    sameApplicationVerified: false
   };
 }
 
