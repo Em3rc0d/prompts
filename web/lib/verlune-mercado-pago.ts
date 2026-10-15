@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const VERLUNE_REFERENCE = /^verlune-premium:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MERCADO_PAGO_TEST_PAYER_EMAIL = /^test_user_[a-z0-9]+@testuser\.com$/i;
 
 export const VERLUNE_PREMIUM_PRICE_USD = 5;
 export const VERLUNE_PREMIUM_PRODUCT_TAG = "verlune-premium-v1";
@@ -9,6 +10,10 @@ export const VERLUNE_PREMIUM_DESCRIPTION = "Verlune Premium";
 export const DEFAULT_VERLUNE_PREMIUM_PRICE_PEN_MINOR = 1700;
 
 export type MercadoPagoEnvironment = "test" | "live";
+
+export function isMercadoPagoIdempotencyKey(value: string): boolean {
+  return UUID_V4.test(value);
+}
 
 export type MercadoPagoConfigState = {
   ready: boolean;
@@ -18,6 +23,19 @@ export type MercadoPagoConfigState = {
   publicKey: string;
   collectorId: string;
   pricePenMinor: number;
+};
+
+export type MercadoPagoTestDiagnostics = {
+  testMode: true;
+  publicKeyLooksTest: boolean;
+  accessTokenLooksTest: boolean;
+  accountLookupSucceeded: boolean;
+  collectorMatches: boolean | null;
+  siteIsPeru: boolean | null;
+  paymentMethodsLookupSucceeded: boolean;
+  yapeListed: boolean | null;
+  yapeActive: boolean | null;
+  sameApplicationVerified: false;
 };
 
 export type MercadoPagoPayment = {
@@ -85,23 +103,25 @@ function environment(): MercadoPagoEnvironment | null {
   return value === "test" || value === "live" ? value : null;
 }
 
-export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
+export function getVerluneMercadoPagoCoreConfigState(): MercadoPagoConfigState {
+  const accessToken = process.env.MP_ACCESS_TOKEN?.trim() ?? "";
   const publicKey = process.env.MP_PUBLIC_KEY?.trim() ?? "";
   const collectorId = process.env.MP_COLLECTOR_ID?.trim() ?? "";
   const env = environment();
   const liveAllowed = process.env.MP_ALLOW_LIVE === "true";
   const missing: string[] = [];
 
-  if (!process.env.MP_ACCESS_TOKEN?.trim()) missing.push("MP_ACCESS_TOKEN");
-  if ((process.env.MP_WEBHOOK_SECRET?.trim().length ?? 0) < 16) missing.push("MP_WEBHOOK_SECRET");
+  if (!accessToken) missing.push("MP_ACCESS_TOKEN");
   if (!publicKey) missing.push("MP_PUBLIC_KEY");
   if (!/^[1-9][0-9]{0,29}$/.test(collectorId)) missing.push("MP_COLLECTOR_ID");
   if (!env) missing.push("MP_ENVIRONMENT");
-  if (env === "live" && !liveAllowed) missing.push("MP_ALLOW_LIVE");
-  if ((process.env.VERLUNE_SESSION_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_SESSION_SECRET");
-  if ((process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET?.trim().length ?? 0) < 32) {
-    missing.push("VERLUNE_LICENSE_FINGERPRINT_SECRET");
+  if (env === "test" && (!accessToken.startsWith("TEST-") || !publicKey.startsWith("TEST-"))) {
+    missing.push("MP_TEST_CREDENTIAL_REQUIRED");
   }
+  if (env === "live" && (accessToken.startsWith("TEST-") || publicKey.startsWith("TEST-"))) {
+    missing.push("MP_LIVE_CREDENTIAL_REQUIRED");
+  }
+  if (env === "live" && !liveAllowed) missing.push("MP_ALLOW_LIVE");
 
   return {
     ready: missing.length === 0,
@@ -111,6 +131,69 @@ export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
     publicKey,
     collectorId,
     pricePenMinor: configuredPriceMinor()
+  };
+}
+
+export function getVerluneMercadoPagoConfigState(): MercadoPagoConfigState {
+  const core = getVerluneMercadoPagoCoreConfigState();
+  const missing = [...core.missing];
+
+  if ((process.env.MP_WEBHOOK_SECRET?.trim().length ?? 0) < 16) missing.push("MP_WEBHOOK_SECRET");
+  if ((process.env.VERLUNE_SESSION_SECRET?.trim().length ?? 0) < 32) missing.push("VERLUNE_SESSION_SECRET");
+  if ((process.env.VERLUNE_LICENSE_FINGERPRINT_SECRET?.trim().length ?? 0) < 32) {
+    missing.push("VERLUNE_LICENSE_FINGERPRINT_SECRET");
+  }
+
+  return { ...core, ready: missing.length === 0, missing };
+}
+
+export async function diagnoseVerluneMercadoPagoTestCredentials(): Promise<MercadoPagoTestDiagnostics> {
+  const state = getVerluneMercadoPagoCoreConfigState();
+  if (!state.ready || state.environment !== "test") {
+    throw new MercadoPagoApiError(503, `mercado_pago_test_diagnostics_not_configured:${state.missing.join(",")}`);
+  }
+
+  const accessToken = process.env.MP_ACCESS_TOKEN!.trim();
+
+  async function diagnosticFetch(path: string): Promise<unknown> {
+    const response = await fetch(`https://api.mercadopago.com${path}`, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "error",
+      signal: AbortSignal.timeout(8000),
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+    if (!response.ok) throw new Error("diagnostic_provider_error");
+    return response.json();
+  }
+
+  const [account, methods] = await Promise.allSettled([
+    diagnosticFetch("/users/me"),
+    diagnosticFetch("/v1/payment_methods")
+  ]);
+
+  const user = account.status === "fulfilled" && account.value && typeof account.value === "object"
+    ? account.value as { id?: string | number; site_id?: string }
+    : null;
+  const list = methods.status === "fulfilled" && Array.isArray(methods.value)
+    ? methods.value as Array<{ id?: string; status?: string; payment_type_id?: string }>
+    : null;
+  const yape = list?.find((item) => item.id === "yape");
+
+  return {
+    testMode: true,
+    publicKeyLooksTest: state.publicKey.startsWith("TEST-"),
+    accessTokenLooksTest: accessToken.startsWith("TEST-"),
+    accountLookupSucceeded: user !== null,
+    collectorMatches: user ? providerId(user.id) === state.collectorId : null,
+    siteIsPeru: user ? user.site_id === "MPE" : null,
+    paymentMethodsLookupSucceeded: list !== null,
+    yapeListed: list ? Boolean(yape) : null,
+    yapeActive: yape ? yape.status === "active" : null,
+    sameApplicationVerified: false
   };
 }
 
@@ -216,7 +299,7 @@ export async function createVerlunePremiumPayment(input: {
   notificationUrl?: string;
 }): Promise<VerifiedVerlunePayment> {
   const config = requireProviderConfig();
-  if (!UUID_V4.test(input.idempotencyKey)) {
+  if (!isMercadoPagoIdempotencyKey(input.idempotencyKey)) {
     throw new MercadoPagoApiError(400, "invalid_idempotency_key");
   }
 
@@ -238,6 +321,9 @@ export async function createVerlunePremiumPayment(input: {
   };
   if (input.notificationUrl?.startsWith("https://")) body.notification_url = input.notificationUrl;
 
+  const recovered = await findMercadoPagoPaymentByExternalReference(externalReference);
+  if (recovered) return verifyVerlunePremiumPayment(recovered, instrument.email);
+
   const created = await mpFetch("/v1/payments", {
     method: "POST",
     headers: { "X-Idempotency-Key": input.idempotencyKey.toLowerCase() },
@@ -248,6 +334,59 @@ export async function createVerlunePremiumPayment(input: {
 
   const canonical = await readMercadoPagoPayment(id);
   return verifyVerlunePremiumPayment(canonical, instrument.email);
+}
+
+async function findMercadoPagoPaymentByExternalReference(
+  externalReference: string
+): Promise<MercadoPagoPayment | null> {
+  if (!VERLUNE_REFERENCE.test(externalReference)) {
+    throw new MercadoPagoApiError(400, "invalid_external_reference");
+  }
+
+  const config = requireProviderConfig();
+  const params = new URLSearchParams({
+    external_reference: externalReference,
+    limit: "2",
+    offset: "0"
+  });
+
+  let response: Response;
+  try {
+    response = await fetch(`https://api.mercadopago.com/v1/payments/search?${params.toString()}`, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "error",
+      signal: AbortSignal.timeout(10000),
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${config.accessToken}`
+      }
+    });
+  } catch {
+    throw new MercadoPagoApiError(503, "mercado_pago_unavailable");
+  }
+
+  if (!response.ok) {
+    throw new MercadoPagoApiError(response.status, "mercado_pago_unavailable");
+  }
+
+  const payload = await response.json().catch(() => null) as {
+    paging?: { total?: number };
+    results?: MercadoPagoPayment[];
+  } | null;
+
+  if (!payload || !Array.isArray(payload.results) || !Number.isSafeInteger(payload.paging?.total)) {
+    throw new MercadoPagoApiError(502, "mercado_pago_invalid_search_response");
+  }
+  if ((payload.paging?.total ?? 0) > 1 || payload.results.length > 1) {
+    throw new MercadoPagoApiError(409, "mercado_pago_ambiguous_reference");
+  }
+
+  const recovered = payload.results[0];
+  if (!recovered) return null;
+  const recoveredId = providerId(recovered.id);
+  if (!recoveredId) throw new MercadoPagoApiError(502, "mercado_pago_invalid_payment_id");
+  return readMercadoPagoPayment(recoveredId);
 }
 
 export async function readMercadoPagoPayment(paymentId: string): Promise<MercadoPagoPayment> {
@@ -261,7 +400,8 @@ export function verifyVerlunePremiumPayment(
 ): VerifiedVerlunePayment {
   const config = requireProviderConfig();
   const id = providerId(payment.id);
-  const email = normalizeEmail(payment.payer?.email);
+  const providerEmail = normalizeEmail(payment.payer?.email);
+  const requestedEmail = normalizeEmail(expectedEmail);
   const status = typeof payment.status === "string" ? payment.status : "";
   const method = typeof payment.payment_method_id === "string" ? payment.payment_method_id : "";
   const metadataTag = typeof payment.metadata?.verlune_product === "string"
@@ -269,6 +409,15 @@ export function verifyVerlunePremiumPayment(
     : "";
   const metadataPriceUsd = Number(payment.metadata?.canonical_price_usd);
   const refundedMinor = amountToMinor(payment.transaction_amount_refunded ?? 0);
+  const providerUsesTestIdentity = config.environment === "test"
+    && payment.live_mode === false
+    && MERCADO_PAGO_TEST_PAYER_EMAIL.test(providerEmail);
+  const emailMatchesExpected = !requestedEmail
+    || providerEmail === requestedEmail
+    || providerUsesTestIdentity;
+  const customerEmail = requestedEmail && providerUsesTestIdentity
+    ? requestedEmail
+    : providerEmail;
 
   const checks: Array<[boolean, string]> = [
     [Boolean(id), "provider_id_mismatch"],
@@ -281,8 +430,8 @@ export function verifyVerlunePremiumPayment(
     [providerId(payment.collector_id) === config.collectorId, "collector_mismatch"],
     [payment.live_mode === config.liveMode, "environment_mismatch"],
     [Boolean(method), "payment_method_missing"],
-    [Boolean(email), "payer_email_missing"],
-    [!expectedEmail || email === normalizeEmail(expectedEmail), "payer_email_mismatch"],
+    [Boolean(providerEmail), "payer_email_missing"],
+    [emailMatchesExpected, "payer_email_mismatch"],
     [refundedMinor === 0, "payment_refunded"]
   ];
   const failed = checks.find(([ok]) => !ok);
@@ -291,7 +440,7 @@ export function verifyVerlunePremiumPayment(
     paymentId: id ?? "",
     status: status || "unknown",
     paymentMethodId: method || "unknown",
-    customerEmail: email,
+    customerEmail,
     entitled: !failed && status === "approved",
     reason: failed?.[1] ?? (status === "approved" ? undefined : `payment_${status || "unknown"}`)
   };

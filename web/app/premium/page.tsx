@@ -39,7 +39,7 @@ export default function PremiumPage() {
             <Link className="textLink" href="/unlock">Already purchased? Unlock →</Link>
           </div>
           <p className="micro">{commerce.purchaseAvailable
-            ? `One-time purchase · Mercado Pago · charged as S/ ${(commerce.pricePenMinor / 100).toFixed(2)} · cards and Yape · AI-provider access and fees are separate.`
+            ? `One-time purchase · Mercado Pago · charged as S/ ${(commerce.pricePenMinor / 100).toFixed(2)} · cards and Yape · one reusable Access Key is emailed to the checkout address.`
             : "The Premium customer surface is available for review, but public purchasing remains closed until Mercado Pago LIVE is explicitly enabled."}</p>
         </div>
         <aside className="reviewPromise vPremiumSummary">
@@ -67,11 +67,11 @@ export default function PremiumPage() {
     </section>
     <section className="section">
       <div className="wrap">
-        <div className="splitHeader"><div><div className="eyebrow">PRIVATE ACCESS</div><h2>Pay once.<br />Unlock immediately.</h2></div><p className="sectionIntro">The v1 access model uses the approved Mercado Pago payment as the entitlement. Premium content stays behind server-side payment verification and a signed private browser session.</p></div>
+        <div className="splitHeader"><div><div className="eyebrow">PRIVATE ACCESS</div><h2>Pay once.<br />Unlock immediately.</h2></div><p className="sectionIntro">An approved Mercado Pago payment activates one durable Verlune entitlement for the checkout email. Verlune issues one reusable Access Key for that email and keeps Premium behind provider re-checks plus a signed private browser session.</p></div>
         <ol className="workflowRail fourSteps">
           <li><span className="stepNumber">01</span><h3>Purchase</h3><p>Pay the one-time Premium price with card or Yape through Mercado Pago.</p></li>
           <li><span className="stepNumber">02</span><h3>Approval</h3><p>Verlune reads the canonical payment back from Mercado Pago before granting access.</p></li>
-          <li><span className="stepNumber">03</span><h3>Unlock</h3><p>An approved payment creates the Premium session automatically. Email + payment ID recover access later.</p></li>
+          <li><span className="stepNumber">03</span><h3>Unlock</h3><p>An approved payment creates the Premium session automatically and Resend delivers the email's canonical Access Key. Recovery sends that same key again.</p></li>
           <li><span className="stepNumber">04</span><h3>Use Premium</h3><p>Open protected assets, copy the structure, run it in your AI assistant, and verify the result.</p></li>
         </ol>
       </div>
