@@ -238,3 +238,19 @@ Verlune therefore applies a deliberately narrow TEST-only rule: when `MP_ENVIRON
 The private diagnostics endpoint also accepts a TEST-only reconciliation POST with a provider test bearer token, payment ID and checkout email. It performs canonical provider read-back and provisions the deterministic entitlement without creating another payment.
 
 For TEST webhooks, Mercado Pago read-back and signature verification remain real, but entitlement mutation is skipped because the provider notification contains only the synthetic test payer identity. Production webhooks retain the normal provisioning/synchronization behavior.
+
+
+## PlacaClara production-pattern carryover
+
+Per product decision, Verlune does not require a second paid LIVE canary solely to re-prove the generic Mercado Pago Payments API mechanics already used operationally in PlacaClara. That precedent is treated as user-supplied operational evidence, not as proof that Verlune-specific LIVE credentials are valid.
+
+The reusable production safeguards carried over from `Em3rc0d/plate` are:
+
+- TEST mode rejects non-TEST Mercado Pago credentials.
+- LIVE mode rejects TEST-prefixed credentials.
+- LIVE still requires the explicit `MP_ALLOW_LIVE=true` kill switch.
+- Provider read-back remains authoritative for amount, currency, collector, environment, method, product metadata and refund state.
+- Before posting a payment for an idempotency key, Verlune queries Mercado Pago by the deterministic `external_reference`; an existing provider payment is reconciled instead of creating another logical charge.
+- Multiple provider results for one reference fail closed as ambiguous.
+
+This does not copy PlacaClara credentials, database schema, orders, vehicle-provider fulfillment or product-specific business logic.

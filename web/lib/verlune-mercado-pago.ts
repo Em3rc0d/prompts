@@ -104,16 +104,23 @@ function environment(): MercadoPagoEnvironment | null {
 }
 
 export function getVerluneMercadoPagoCoreConfigState(): MercadoPagoConfigState {
+  const accessToken = process.env.MP_ACCESS_TOKEN?.trim() ?? "";
   const publicKey = process.env.MP_PUBLIC_KEY?.trim() ?? "";
   const collectorId = process.env.MP_COLLECTOR_ID?.trim() ?? "";
   const env = environment();
   const liveAllowed = process.env.MP_ALLOW_LIVE === "true";
   const missing: string[] = [];
 
-  if (!process.env.MP_ACCESS_TOKEN?.trim()) missing.push("MP_ACCESS_TOKEN");
+  if (!accessToken) missing.push("MP_ACCESS_TOKEN");
   if (!publicKey) missing.push("MP_PUBLIC_KEY");
   if (!/^[1-9][0-9]{0,29}$/.test(collectorId)) missing.push("MP_COLLECTOR_ID");
   if (!env) missing.push("MP_ENVIRONMENT");
+  if (env === "test" && (!accessToken.startsWith("TEST-") || !publicKey.startsWith("TEST-"))) {
+    missing.push("MP_TEST_CREDENTIAL_REQUIRED");
+  }
+  if (env === "live" && (accessToken.startsWith("TEST-") || publicKey.startsWith("TEST-"))) {
+    missing.push("MP_LIVE_CREDENTIAL_REQUIRED");
+  }
   if (env === "live" && !liveAllowed) missing.push("MP_ALLOW_LIVE");
 
   return {
@@ -314,6 +321,9 @@ export async function createVerlunePremiumPayment(input: {
   };
   if (input.notificationUrl?.startsWith("https://")) body.notification_url = input.notificationUrl;
 
+  const recovered = await findMercadoPagoPaymentByExternalReference(externalReference);
+  if (recovered) return verifyVerlunePremiumPayment(recovered, instrument.email);
+
   const created = await mpFetch("/v1/payments", {
     method: "POST",
     headers: { "X-Idempotency-Key": input.idempotencyKey.toLowerCase() },
@@ -324,6 +334,59 @@ export async function createVerlunePremiumPayment(input: {
 
   const canonical = await readMercadoPagoPayment(id);
   return verifyVerlunePremiumPayment(canonical, instrument.email);
+}
+
+async function findMercadoPagoPaymentByExternalReference(
+  externalReference: string
+): Promise<MercadoPagoPayment | null> {
+  if (!VERLUNE_REFERENCE.test(externalReference)) {
+    throw new MercadoPagoApiError(400, "invalid_external_reference");
+  }
+
+  const config = requireProviderConfig();
+  const params = new URLSearchParams({
+    external_reference: externalReference,
+    limit: "2",
+    offset: "0"
+  });
+
+  let response: Response;
+  try {
+    response = await fetch(`https://api.mercadopago.com/v1/payments/search?${params.toString()}`, {
+      method: "GET",
+      cache: "no-store",
+      redirect: "error",
+      signal: AbortSignal.timeout(10000),
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${config.accessToken}`
+      }
+    });
+  } catch {
+    throw new MercadoPagoApiError(503, "mercado_pago_unavailable");
+  }
+
+  if (!response.ok) {
+    throw new MercadoPagoApiError(response.status, "mercado_pago_unavailable");
+  }
+
+  const payload = await response.json().catch(() => null) as {
+    paging?: { total?: number };
+    results?: MercadoPagoPayment[];
+  } | null;
+
+  if (!payload || !Array.isArray(payload.results) || !Number.isSafeInteger(payload.paging?.total)) {
+    throw new MercadoPagoApiError(502, "mercado_pago_invalid_search_response");
+  }
+  if ((payload.paging?.total ?? 0) > 1 || payload.results.length > 1) {
+    throw new MercadoPagoApiError(409, "mercado_pago_ambiguous_reference");
+  }
+
+  const recovered = payload.results[0];
+  if (!recovered) return null;
+  const recoveredId = providerId(recovered.id);
+  if (!recoveredId) throw new MercadoPagoApiError(502, "mercado_pago_invalid_payment_id");
+  return readMercadoPagoPayment(recoveredId);
 }
 
 export async function readMercadoPagoPayment(paymentId: string): Promise<MercadoPagoPayment> {

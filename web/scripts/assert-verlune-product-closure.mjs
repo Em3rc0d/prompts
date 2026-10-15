@@ -62,7 +62,7 @@ for (const marker of ["sdk.mercadopago.com/js/v2","minInstallments: 1","maxInsta
 for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newAccessKeyPremiumSession","provisionVerlunePremiumAccess","premium_already_owned","premium_purchase_in_progress","acquireVerlunePurchaseGuard","getVerlunePremiumEntitlementByEmail","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
 }
-for (const marker of ["https://api.mercadopago.com","/users/me","/v1/payment_methods","diagnoseVerluneMercadoPagoTestCredentials","MERCADO_PAGO_TEST_PAYER_EMAIL","providerUsesTestIdentity","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4","MP_WEBHOOK_SECRET"]) {
+for (const marker of ["https://api.mercadopago.com","/users/me","/v1/payment_methods","diagnoseVerluneMercadoPagoTestCredentials","MERCADO_PAGO_TEST_PAYER_EMAIL","providerUsesTestIdentity","MP_TEST_CREDENTIAL_REQUIRED","MP_LIVE_CREDENTIAL_REQUIRED","findMercadoPagoPaymentByExternalReference","/v1/payments/search","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4","MP_WEBHOOK_SECRET"]) {
   if (!provider.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider contract missing ${marker}`);
 }
 
