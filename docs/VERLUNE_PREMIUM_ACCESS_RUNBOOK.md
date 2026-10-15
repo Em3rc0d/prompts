@@ -227,3 +227,14 @@ SALE-001 cross-checks the implementation against:
 - `em3rc0dTh/m-pago`: reusable Payments API reference with idempotency, reconciliation guidance, signed webhooks and Yape browser tokenization.
 
 These repositories are engineering references, not provider certification. Their repository evidence does not establish a completed real Yape TEST certification for Verlune. The Verlune application must close its own provider evidence.
+
+
+## Observed Mercado Pago TEST payer identity behavior
+
+SALE-001 real Yape TEST payment `1353744165` was approved with the expected Verlune product, amount, currency, collector, environment, payment method, reference and metadata. Mercado Pago TEST replaced the checkout email supplied by the browser with a synthetic `test_user_*@testuser.com` payer identity in the authoritative payment read-back.
+
+Verlune therefore applies a deliberately narrow TEST-only rule: when `MP_ENVIRONMENT=test`, `live_mode=false` and the provider payer matches Mercado Pago's synthetic `test_user_*@testuser.com` pattern, the already validated checkout email supplied to the payment attempt remains the entitlement identity. LIVE continues to require an exact payer-email match.
+
+The private diagnostics endpoint also accepts a TEST-only reconciliation POST with a provider test bearer token, payment ID and checkout email. It performs canonical provider read-back and provisions the deterministic entitlement without creating another payment.
+
+For TEST webhooks, Mercado Pago read-back and signature verification remain real, but entitlement mutation is skipped because the provider notification contains only the synthetic test payer identity. Production webhooks retain the normal provisioning/synchronization behavior.

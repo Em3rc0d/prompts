@@ -4,6 +4,7 @@ import {
   VerluneAccessError
 } from "@/lib/verlune-access";
 import {
+  getVerluneMercadoPagoConfigState,
   MercadoPagoApiError,
   readMercadoPagoPayment,
   verifyMercadoPagoWebhook,
@@ -31,13 +32,17 @@ export async function POST(request: Request) {
 
     const payment = await readMercadoPagoPayment(signed.dataId);
     const verification = verifyVerlunePremiumPayment(payment);
-    const provisioned = verification.entitled
-      ? await provisionVerlunePremiumAccess(verification)
-      : {
-          entitlement: await syncVerlunePremiumEntitlement(verification),
-          accessKey: null,
-          emailSent: false
-        };
+    const provider = getVerluneMercadoPagoConfigState();
+    const testReadbackOnly = provider.environment === "test";
+    const provisioned = testReadbackOnly
+      ? { entitlement: null, accessKey: null, emailSent: false }
+      : verification.entitled
+        ? await provisionVerlunePremiumAccess(verification)
+        : {
+            entitlement: await syncVerlunePremiumEntitlement(verification),
+            accessKey: null,
+            emailSent: false
+          };
 
     console.info("VERLUNE_MP_EVENT", JSON.stringify({
       event: "mercado_pago_payment_webhook",
@@ -47,6 +52,7 @@ export async function POST(request: Request) {
       entitled: verification.entitled,
       entitlement_id: provisioned.entitlement?.entitlementId ?? null,
       access_email: provisioned.emailSent ? "sent" : verification.entitled ? "deferred" : "not_applicable",
+      test_mutation_skipped: testReadbackOnly,
       timestamp: new Date().toISOString()
     }));
 
@@ -56,7 +62,8 @@ export async function POST(request: Request) {
       paymentId: verification.paymentId,
       status: verification.status,
       entitled: verification.entitled,
-      entitlementId: provisioned.entitlement?.entitlementId ?? null
+      entitlementId: provisioned.entitlement?.entitlementId ?? null,
+      testMutationSkipped: testReadbackOnly
     });
   } catch (error) {
     if (error instanceof MercadoPagoApiError || error instanceof VerluneAccessError) {

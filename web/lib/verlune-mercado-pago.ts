@@ -2,6 +2,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 const UUID_V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const VERLUNE_REFERENCE = /^verlune-premium:[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MERCADO_PAGO_TEST_PAYER_EMAIL = /^test_user_[a-z0-9]+@testuser\.com$/i;
 
 export const VERLUNE_PREMIUM_PRICE_USD = 5;
 export const VERLUNE_PREMIUM_PRODUCT_TAG = "verlune-premium-v1";
@@ -336,7 +337,8 @@ export function verifyVerlunePremiumPayment(
 ): VerifiedVerlunePayment {
   const config = requireProviderConfig();
   const id = providerId(payment.id);
-  const email = normalizeEmail(payment.payer?.email);
+  const providerEmail = normalizeEmail(payment.payer?.email);
+  const requestedEmail = normalizeEmail(expectedEmail);
   const status = typeof payment.status === "string" ? payment.status : "";
   const method = typeof payment.payment_method_id === "string" ? payment.payment_method_id : "";
   const metadataTag = typeof payment.metadata?.verlune_product === "string"
@@ -344,6 +346,15 @@ export function verifyVerlunePremiumPayment(
     : "";
   const metadataPriceUsd = Number(payment.metadata?.canonical_price_usd);
   const refundedMinor = amountToMinor(payment.transaction_amount_refunded ?? 0);
+  const providerUsesTestIdentity = config.environment === "test"
+    && payment.live_mode === false
+    && MERCADO_PAGO_TEST_PAYER_EMAIL.test(providerEmail);
+  const emailMatchesExpected = !requestedEmail
+    || providerEmail === requestedEmail
+    || providerUsesTestIdentity;
+  const customerEmail = requestedEmail && providerUsesTestIdentity
+    ? requestedEmail
+    : providerEmail;
 
   const checks: Array<[boolean, string]> = [
     [Boolean(id), "provider_id_mismatch"],
@@ -356,8 +367,8 @@ export function verifyVerlunePremiumPayment(
     [providerId(payment.collector_id) === config.collectorId, "collector_mismatch"],
     [payment.live_mode === config.liveMode, "environment_mismatch"],
     [Boolean(method), "payment_method_missing"],
-    [Boolean(email), "payer_email_missing"],
-    [!expectedEmail || email === normalizeEmail(expectedEmail), "payer_email_mismatch"],
+    [Boolean(providerEmail), "payer_email_missing"],
+    [emailMatchesExpected, "payer_email_mismatch"],
     [refundedMinor === 0, "payment_refunded"]
   ];
   const failed = checks.find(([ok]) => !ok);
@@ -366,7 +377,7 @@ export function verifyVerlunePremiumPayment(
     paymentId: id ?? "",
     status: status || "unknown",
     paymentMethodId: method || "unknown",
-    customerEmail: email,
+    customerEmail,
     entitled: !failed && status === "approved",
     reason: failed?.[1] ?? (status === "approved" ? undefined : `payment_${status || "unknown"}`)
   };
