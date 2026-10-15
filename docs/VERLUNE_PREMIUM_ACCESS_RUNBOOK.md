@@ -196,7 +196,7 @@ Code/build readiness does not claim provider E2E evidence. The sale switch is in
 
 ## Pre-credential build proof
 
-The production build executes `node scripts/test-verlune-access-key.ts` before the remaining postbuild audits. This fixture proves the actual shared key core preserves:
+The production build executes `node scripts/test-verlune-access-key.mjs` before the remaining postbuild audits. This fixture proves the actual shared key core preserves:
 
 ```text
 trim + lowercase email normalization → same entitlement ID
@@ -206,3 +206,24 @@ mutated key                        → verification fails
 ```
 
 This is a code-level invariant test only. Provider, KV and Resend behavior still require the TEST E2E described above.
+
+
+## Mercado Pago TEST diagnostics
+
+Before creating any TEST payment, the private diagnostic endpoint can validate the account-side read-only surface:
+
+```text
+GET /api/commerce/mercado-pago/diagnostics
+Authorization: Bearer <VERLUNE_PREMIUM_PROVIDER_TEST_TOKEN>
+```
+
+It performs only `GET /users/me` and `GET /v1/payment_methods`. It returns booleans for account lookup, collector match, Peru site, payment-method lookup and Yape availability. It never returns credentials and never creates a payment.
+
+## Mercado Pago reference provenance
+
+SALE-001 cross-checks the implementation against:
+
+- `Em3rc0d/plate`: Checkout API / Payments API, server-side read-back, collector/environment validation, signed webhook verification, card + Yape tokenization, and read-only TEST diagnostics.
+- `em3rc0dTh/m-pago`: reusable Payments API reference with idempotency, reconciliation guidance, signed webhooks and Yape browser tokenization.
+
+These repositories are engineering references, not provider certification. Their repository evidence does not establish a completed real Yape TEST certification for Verlune. The Verlune application must close its own provider evidence.

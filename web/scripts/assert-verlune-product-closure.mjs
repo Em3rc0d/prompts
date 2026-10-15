@@ -13,6 +13,7 @@ const files = {
   unlockForm: "components/verlune-unlock-form.tsx",
   recovery: "app/api/verlune/access-key/recover/route.ts",
   provider: "lib/verlune-mercado-pago.ts",
+  providerDiagnostics: "app/api/commerce/mercado-pago/diagnostics/route.ts",
   layout: "app/layout.tsx",
   home: "app/page.tsx",
   free: "app/free/page.tsx",
@@ -39,6 +40,7 @@ const accessKeyTest = read(files.accessKeyTest);
 const unlockForm = read(files.unlockForm);
 const recovery = read(files.recovery);
 const provider = read(files.provider);
+const providerDiagnostics = read(files.providerDiagnostics);
 const layout = read(files.layout);
 const home = read(files.home);
 const free = read(files.free);
@@ -60,8 +62,12 @@ for (const marker of ["sdk.mercadopago.com/js/v2","minInstallments: 1","maxInsta
 for (const marker of ["x-idempotency-key","premiumTestSessionMatches","newAccessKeyPremiumSession","provisionVerlunePremiumAccess","premium_already_owned","premium_purchase_in_progress","acquireVerlunePurchaseGuard","getVerlunePremiumEntitlementByEmail","VERLUNE_PREMIUM_PUBLIC_SALE_STATUS"]) {
   if (!payment.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: payment route missing ${marker}`);
 }
-for (const marker of ["https://api.mercadopago.com","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4","MP_WEBHOOK_SECRET"]) {
+for (const marker of ["https://api.mercadopago.com","/users/me","/v1/payment_methods","diagnoseVerluneMercadoPagoTestCredentials","/v1/payments","external_reference","collector_mismatch","environment_mismatch","amount_mismatch","product_mismatch","metadata_price_mismatch","payment_method_missing","VERLUNE_PREMIUM_PRICE_USD = 5","X-Idempotency-Key","installments_must_be_one","UUID_V4","MP_WEBHOOK_SECRET"]) {
   if (!provider.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider contract missing ${marker}`);
+}
+
+for (const marker of ["providerTestTokenMatches","diagnoseVerluneMercadoPagoTestCredentials","diagnostics_unauthorized","Cache-Control"]) {
+  if (!providerDiagnostics.includes(marker)) throw new Error(`VERLUNE PRODUCT CLOSURE AUDIT FAIL: provider diagnostics missing ${marker}`);
 }
 
 for (const marker of ["deriveVerluneEntitlementId","createVerluneAccessKey","verifyVerluneAccessKey","SYNC_ENTITLEMENT_SCRIPT","ACQUIRE_PURCHASE_GUARD_SCRIPT","RELEASE_PURCHASE_GUARD_SCRIPT","https://api.resend.com/emails","Idempotency-Key","VERLUNE_ENTITLEMENT_KV_REST_URL"]) {
